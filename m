@@ -1,211 +1,187 @@
-Return-Path: <linux-leds+bounces-5806-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5807-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5901BE9C45
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Oct 2025 17:24:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2FDBEB0E8
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Oct 2025 19:21:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 7334A35E09D
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Oct 2025 15:24:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3122540198A
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Oct 2025 17:20:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 147963328FF;
-	Fri, 17 Oct 2025 15:23:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44CED2FC02A;
+	Fri, 17 Oct 2025 17:20:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GcAOPA6T"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="Zj0wxQXN"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270C832E156
-	for <linux-leds@vger.kernel.org>; Fri, 17 Oct 2025 15:23:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECE02F12C5;
+	Fri, 17 Oct 2025 17:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760714632; cv=none; b=YHirHx3onpEG7wpGsaLBxcRDbAv7q0MlXCH/1OOHKPQHUEummzeemmMILhtyE3WTtp7VxzVFUQGqDrcpWSlPsIa8o5rUQIs8LENu2wXSTvYqnMxTqEtWA8t1e0+W3DtiOu2iCO1pbOWVMAkciGHiXHFKfplioj1t9G8Sep/yJi0=
+	t=1760721605; cv=none; b=tuK+ZlCA09ZKucKvd+pImJl7jA01TBqTQT6nH/RW5utjZ39clIeoNwK78TvFKKfIoP2USCAvnvqDHYIJ5kmfnlBID+SjfEpjttRW/cjotPcbC8Cgem5wkWZz/+EPiUQ2jC0UQNtmASTq6SDYs4AWgglvmWHaGssfwxnJHJVU1WY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760714632; c=relaxed/simple;
-	bh=IlC1uoM6hGZDFnPynvz/oLrdeH24f/eZIlnDf3u2N1E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k3PSP03sQdPM+oASbGBApFZnkv+kwEnAYHQXWsxPVrlRrxIPl0EcxE+xSX6DP9QUv/6VklRYs4bzKhCEKy3gI4BIsN5NlAszxN7PcxAxMXxFdhypEGYbkMpxRg4QSp+WpBZVGVlHVVBGueTM9OcWJiwA40Xka8z0CdFlD7RZK18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GcAOPA6T; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3ecdf2b1751so1194739f8f.0
-        for <linux-leds@vger.kernel.org>; Fri, 17 Oct 2025 08:23:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760714628; x=1761319428; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2WuCukqGv8l97mP78xfZnvYpfA8a4jrxFt2laMKgkVQ=;
-        b=GcAOPA6TOAwFTtQIu24rrn8pLPIhVs7RA3tkw9DAytyK1c6MdFmJRN2upGtHgaLUY5
-         0iZ6FYg2zKKLLQqyLqe1SJT//cpGJaO9JlVkzOV8PLE3immiTi3AGJY0Fl8Z/jJX8GYY
-         qFBg8thwE0igMLc+LTSpp4HmtyQWVoPkLgHCemMdZ4TO+R4PzNDkM7RF1liJuvnDbe71
-         fdItBhFutAdIkGAh5ju2XYl6ni9FB0WWK4Ov35tEuEKSJDb0HJ6s/7dHUPGJhntZbrvf
-         R6pJWciXcxP5LxXH9GkrI3qbSOLOE7nTGtPlL12RRPRj3YrzPSuTgI5m4muvtRdJ67R0
-         Z7hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760714628; x=1761319428;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2WuCukqGv8l97mP78xfZnvYpfA8a4jrxFt2laMKgkVQ=;
-        b=iYujBQb6guRWmkbBxYUdeYKHwcSs01mPiIu6h+8tCrsqBdREXyLFZDsynGILyA3HDV
-         Tth4/WnyZU6zlc5A5tyo18vej7d9xoMzReq2/VXB2RejSldH842kmGtP2s138dssHtYE
-         lIwDsZKvm3Un9TZJ8J1SHRp3lcosbTVUbg86psdv00IQ1muZ9mhuIIpUc9az3r3adCQ5
-         GEquTOLL6gFrNKB5ASn2aPDT+GTrHi+26K8Ad4lfRpcO2wwa3WYYq19lMo/Oq3msqQKn
-         WqZfuVWMyYUiJZTgxfCyLO/Qbmk0VBvymwCR9OefdepbwASMu+biFYnYGe7DkF5dRGxa
-         Zpsg==
-X-Forwarded-Encrypted: i=1; AJvYcCXZowroPytC/w3zXoUjMigTE/gDVE4XrkaG/es9fb/toaqsfQXH8JCDR6wo6T5BvMLvrEK4DpsS00Mi@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMao7kCYY8GT01nuuXR3unZ+IFdJe3uDa0UmOemZCUk1l5/szM
-	oqXfQO1yN5UrbdrL0gHizDK1QvRWqOTQZ6dBhJ/CyAIy1TwrCo3mZfkN5IdvOZidjv99uyDAULO
-	WdiDCGQLjawhDNAvMB5Vk0RjlXa8Hu9M=
-X-Gm-Gg: ASbGncvNHTuNbhfAcCPhASn9GlYRQG7loawhPO4j9eNpB7X87wMZzgfaPGWmEVCste/
-	PgJhMyhcKS3YBkY6iPx7hErJdQljQo3HOjurnhTvd72YdJ3BuKBNjv7zIsVypKzTjyXi3zPXZ/3
-	9K9RWfdpOVlKh/S7mMMLHno0yHZiJr8EQ0JqBw4f6KPAv3ZROY6xhXS9ZAgB0hEMuX3feJNqcT7
-	lANFOEKo2m2NNpRGvHOcrIRrqrDcm9xPdnE564LG19+PSkyhCd3jIY4yuWM1RBlkNk/v01d
-X-Google-Smtp-Source: AGHT+IG9xiadhmJD4lUsclg2Axex3bGa//JnAU5c3h9ptGoH+u70ankmo/AMuooeTQWR4PTCr5WDdAqvMTGtgOVMeWk=
-X-Received: by 2002:a05:6000:2f83:b0:427:4b0:b3e5 with SMTP id
- ffacd0b85a97d-42704d99d9cmr3022352f8f.47.1760714628111; Fri, 17 Oct 2025
- 08:23:48 -0700 (PDT)
+	s=arc-20240116; t=1760721605; c=relaxed/simple;
+	bh=7eU7v/gSC0RzDIzvKfvaFqAYhZNli1o2i++9MEqwsx8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rdmFokb00R83Mzdpt06ZXaQiP8qo7Q3i61H7RgVYr9wNtzRiKaQSOJV9GrqG7CUbjdzlWHR6vQM4bcNZ04BYynk7TZiU/VY7gpAYvA4JhrWRJbyFR+pfffrkGCInk/g+K0vn+rOOt5Z1PF1juFohPrNw4qPuhwAqMmp0+Ks0V68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=Zj0wxQXN; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1760721594; x=1761326394; i=w_armin@gmx.de;
+	bh=7eU7v/gSC0RzDIzvKfvaFqAYhZNli1o2i++9MEqwsx8=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=Zj0wxQXNNdqjZCTpsdow9yVms4KFeFOAGc50xiaYuByALRsj6Colh7iOhLH3XMU5
+	 LEA0St2OybTBBpNvvtqbb3IqKgXJP+G7q5j0PQDu8eZ+UtO6eG88wrhf5LLYXcOvm
+	 vjzphkV6J3HD4TsEZtpCpdzdlEsqMpCowa1ZP664xu5IBkQIrq+Awv0ykotGcrv05
+	 JlB2qyVtKad2CnrrX1cYgwZ43H35iM8SNVlBaHDBPHsVG23xUA72KgI75Ad8LcPk5
+	 sic7kAw6cOwrhSCMgpO0BcIBv1VyTtfs1B74zv+XYSFOCw/1htAYg7jc8BnPcN0MT
+	 weNsKeq3IGue4Dmiug==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.69] ([93.202.247.91]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MvK0X-1uJM5b1Z57-00s3Qg; Fri, 17
+ Oct 2025 19:19:54 +0200
+Message-ID: <9e63e9de-b9af-478d-90ad-d7fca59aaea8@gmx.de>
+Date: Fri, 17 Oct 2025 19:19:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20210601005155.27997-1-kabel@kernel.org> <CA+V-a8tW9tWw=-fFHXSvYPeipd8+ADUuQj7DGuKP-xwDrdAbyQ@mail.gmail.com>
- <7d510f5f-959c-49b7-afca-c02009898ef2@lunn.ch> <CA+V-a8ve0eKmBWuxGgVd_8uzy0mkBm=qDq2U8V7DpXhvHTFFww@mail.gmail.com>
- <87875554-1747-4b0e-9805-aed1a4c69a82@lunn.ch> <CA+V-a8vv=5yRDD-fRMohTiJ=8j-1Nq-Q7iU16Opoe0PywFb6Zg@mail.gmail.com>
- <bd95b778-a062-47b1-a386-e4561ef0c8cd@lunn.ch>
-In-Reply-To: <bd95b778-a062-47b1-a386-e4561ef0c8cd@lunn.ch>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 17 Oct 2025 16:23:20 +0100
-X-Gm-Features: AS18NWB1QRPamrGSSJSqAaecntg_6BMvM434savRI_Ze2iw7DBFqjzS-Onxj_5k
-Message-ID: <CA+V-a8uB2WxU74mhkZ3SCpcty4T10Y3MOAf-SkodLCkp-_-AGA@mail.gmail.com>
-Subject: Re: [PATCH leds v2 00/10] Add support for offloading netdev trigger
- to HW + example implementation for Turris Omnia
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>, 
-	linux-leds@vger.kernel.org, netdev@vger.kernel.org, 
-	Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>, Russell King <linux@armlinux.org.uk>, 
-	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>, 
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] platform/x86: Add Uniwill laptop driver
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, ilpo.jarvinen@linux.intel.com,
+ hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de,
+ wse@tuxedocomputers.com, ggo@tuxedocomputers.com, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ rdunlap@infradead.org, alok.a.tiwari@oracle.com, linux-leds@vger.kernel.org,
+ lee@kernel.org, pobrn@protonmail.com
+References: <20250928013253.10869-2-W_Armin@gmx.de>
+ <202509290415.uez00SgW-lkp@intel.com>
+ <6146d57b-f855-40b1-a644-3af6b28ceea4@gmx.de>
+ <20251002233627.GA3978676@ax162>
+ <402f254d-7217-43e8-867f-66daab3ead86@gmx.de>
+ <20251006190819.GA2406882@ax162>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20251006190819.GA2406882@ax162>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:jCSIiP7A6/WJzpkIJUGLnWIYZcVxQ9zb8ydRgCPk+KAJhj21Bv2
+ EAmRmKRWIhyIjuXJO1lK+h874W8vKgW86aa1+da4H/uROVBGO64TQ87XW2oT9D7PgV5EXub
+ 3NmbZlA7Xamb6zV6a+CaAYQmdWS7m2D8tyN+3/oZdx04tAs90l0NHzJOYMfLoDvmpeB4hJ/
+ 3xfRDB0ekigEWsB7Ps5tg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:7yuLrp7jHU4=;htu/TOWIHCm/XbqooOOdUQU0HS3
+ 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
+ ybqGNhTrDQNBfLiyib/JoIaDALit7rKmPU4=
 
-Hi Andrew,
+Am 06.10.25 um 21:08 schrieb Nathan Chancellor:
 
-On Thu, Oct 16, 2025 at 8:44=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wrote:
+> On Sun, Oct 05, 2025 at 08:06:57PM +0200, Armin Wolf wrote:
+>> Am 03.10.25 um 01:36 schrieb Nathan Chancellor:
+>>
+>>> Hi Armin,
+>>>
+>>> On Thu, Oct 02, 2025 at 08:41:19PM +0200, Armin Wolf wrote:
+>>>> i think this is a problem inside the clang compiler. I did not encounter this warning when
+>>>> build for x86-64 using gcc.
+>>> Clang is actually saving you from yourself, it is a bug in GCC that it
+>>> does not warn for this:
+>>>
+>>> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91951
+>> Oh my, i didn't expect that. Thank you for explaining this issue to to me,
+>> it seems that i still have much to learn.
+> In your defense, it is quite a subtle interaction. It is probably worth
+> throwing something in the documentation that explicitly calls this out,
+> though I am not immediately sure of where...
 >
-> > I haven't explored the current leds code tbh. Can you please point me
-> > to any PHY which uses leds if any.
+> Cheers,
+> Nathan
 >
-> ~/linux/drivers/net/phy$ grep .led_brightness_set *
-> air_en8811h.c:static int air_led_brightness_set(struct phy_device *phydev=
-, u8 index,
-> air_en8811h.c:  .led_brightness_set     =3D air_led_brightness_set,
-> as21xxx.c:static int as21xxx_led_brightness_set(struct phy_device *phydev=
-,
-> as21xxx.c:              .led_brightness_set =3D as21xxx_led_brightness_se=
-t,
-> as21xxx.c:              .led_brightness_set =3D as21xxx_led_brightness_se=
-t,
-> as21xxx.c:              .led_brightness_set =3D as21xxx_led_brightness_se=
-t,
-> as21xxx.c:              .led_brightness_set =3D as21xxx_led_brightness_se=
-t,
-> as21xxx.c:              .led_brightness_set =3D as21xxx_led_brightness_se=
-t,
-> as21xxx.c:              .led_brightness_set =3D as21xxx_led_brightness_se=
-t,
-> as21xxx.c:              .led_brightness_set =3D as21xxx_led_brightness_se=
-t,
-> as21xxx.c:              .led_brightness_set =3D as21xxx_led_brightness_se=
-t,
-> as21xxx.c:              .led_brightness_set =3D as21xxx_led_brightness_se=
-t,
-> as21xxx.c:              .led_brightness_set =3D as21xxx_led_brightness_se=
-t,
-> bcm-phy-lib.c:int bcm_phy_led_brightness_set(struct phy_device *phydev,
-> bcm-phy-lib.c:EXPORT_SYMBOL_GPL(bcm_phy_led_brightness_set);
-> bcm-phy-lib.h:int bcm_phy_led_brightness_set(struct phy_device *phydev,
-> broadcom.c:     .led_brightness_set     =3D bcm_phy_led_brightness_set,
-> broadcom.c:     .led_brightness_set     =3D bcm_phy_led_brightness_set,
-> broadcom.c:     .led_brightness_set     =3D bcm_phy_led_brightness_set,
-> broadcom.c:     .led_brightness_set     =3D bcm_phy_led_brightness_set,
-> broadcom.c:     .led_brightness_set     =3D bcm_phy_led_brightness_set,
-> broadcom.c:     .led_brightness_set     =3D bcm_phy_led_brightness_set,
-> broadcom.c:     .led_brightness_set     =3D bcm_phy_led_brightness_set,
-> broadcom.c:     .led_brightness_set     =3D bcm_phy_led_brightness_set,
-> broadcom.c:     .led_brightness_set     =3D bcm_phy_led_brightness_set,
-> broadcom.c:     .led_brightness_set     =3D bcm_phy_led_brightness_set,
-> broadcom.c:     .led_brightness_set     =3D bcm_phy_led_brightness_set,
-> broadcom.c:     .led_brightness_set     =3D bcm_phy_led_brightness_set,
-> broadcom.c:     .led_brightness_set     =3D bcm_phy_led_brightness_set,
-> broadcom.c:     .led_brightness_set     =3D bcm_phy_led_brightness_set,
-> broadcom.c:     .led_brightness_set     =3D bcm_phy_led_brightness_set,
-> dp83867.c:dp83867_led_brightness_set(struct phy_device *phydev,
-> dp83867.c:              .led_brightness_set =3D dp83867_led_brightness_se=
-t,
-> dp83td510.c:static int dp83td510_led_brightness_set(struct phy_device *ph=
-ydev, u8 index,
-> dp83td510.c:    .led_brightness_set =3D dp83td510_led_brightness_set,
-> intel-xway.c:static int xway_gphy_led_brightness_set(struct phy_device *p=
-hydev,
-> intel-xway.c:           .led_brightness_set =3D xway_gphy_led_brightness_=
-set,
-> intel-xway.c:           .led_brightness_set =3D xway_gphy_led_brightness_=
-set,
-> intel-xway.c:           .led_brightness_set =3D xway_gphy_led_brightness_=
-set,
-> intel-xway.c:           .led_brightness_set =3D xway_gphy_led_brightness_=
-set,
-> intel-xway.c:           .led_brightness_set =3D xway_gphy_led_brightness_=
-set,
-> intel-xway.c:           .led_brightness_set =3D xway_gphy_led_brightness_=
-set,
-> intel-xway.c:           .led_brightness_set =3D xway_gphy_led_brightness_=
-set,
-> intel-xway.c:           .led_brightness_set =3D xway_gphy_led_brightness_=
-set,
-> intel-xway.c:           .led_brightness_set =3D xway_gphy_led_brightness_=
-set,
-> intel-xway.c:           .led_brightness_set =3D xway_gphy_led_brightness_=
-set,
-> marvell.c:static int m88e1318_led_brightness_set(struct phy_device *phyde=
-v,
-> marvell.c:              .led_brightness_set =3D m88e1318_led_brightness_s=
-et,
-> marvell.c:              .led_brightness_set =3D m88e1318_led_brightness_s=
-et,
-> marvell.c:              .led_brightness_set =3D m88e1318_led_brightness_s=
-et,
-> marvell.c:              .led_brightness_set =3D m88e1318_led_brightness_s=
-et,
-> marvell.c:              .led_brightness_set =3D m88e1318_led_brightness_s=
-et,
-> mxl-86110.c:static int mxl86110_led_brightness_set(struct phy_device *phy=
-dev,
-> mxl-86110.c:            .led_brightness_set     =3D mxl86110_led_brightne=
-ss_set,
-> mxl-86110.c:            .led_brightness_set     =3D mxl86110_led_brightne=
-ss_set,
-> mxl-gpy.c:static int gpy_led_brightness_set(struct phy_device *phydev,
-> mxl-gpy.c:              .led_brightness_set =3D gpy_led_brightness_set,
-> mxl-gpy.c:              .led_brightness_set =3D gpy_led_brightness_set,
-> mxl-gpy.c:              .led_brightness_set =3D gpy_led_brightness_set,
-> mxl-gpy.c:              .led_brightness_set =3D gpy_led_brightness_set,
-> mxl-gpy.c:              .led_brightness_set =3D gpy_led_brightness_set,
-> mxl-gpy.c:              .led_brightness_set =3D gpy_led_brightness_set,
-> mxl-gpy.c:              .led_brightness_set =3D gpy_led_brightness_set,
-> mxl-gpy.c:              .led_brightness_set =3D gpy_led_brightness_set,
-> mxl-gpy.c:              .led_brightness_set =3D gpy_led_brightness_set,
->
-Thank you for the pointers.
+Maybe Documentation/core-api/cleanup.rst would be a suitable place for warning
+people about this.
 
-Cheers,
-Prabhakar
+Thanks,
+Armin Wolf
+
 
