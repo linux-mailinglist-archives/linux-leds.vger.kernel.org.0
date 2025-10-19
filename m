@@ -1,48 +1,81 @@
-Return-Path: <linux-leds+bounces-5818-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5819-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DEABEE344
-	for <lists+linux-leds@lfdr.de>; Sun, 19 Oct 2025 12:43:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59200BEE6FE
+	for <lists+linux-leds@lfdr.de>; Sun, 19 Oct 2025 16:24:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B6F664E666F
-	for <lists+linux-leds@lfdr.de>; Sun, 19 Oct 2025 10:43:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79F46420E34
+	for <lists+linux-leds@lfdr.de>; Sun, 19 Oct 2025 14:24:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B8592DFA3E;
-	Sun, 19 Oct 2025 10:43:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C0A42EACFF;
+	Sun, 19 Oct 2025 14:24:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QHTuC4WQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dkzaMCYJ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB3F1096F;
-	Sun, 19 Oct 2025 10:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598422EACE9
+	for <linux-leds@vger.kernel.org>; Sun, 19 Oct 2025 14:24:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760870599; cv=none; b=qcfqbNTSx8Y29QB8KvUzZvrbjPP6mx4YWEOfJmUhODICcAXIXzy6MbkDKfRUJaegv3YOYUkDbAHrzgpmtGS1FWUQun8zNAFRilY7gcbsW0WvZKprLq60/VIbzyYlHk5RnIRnjqYM9lLIV5iVU3WkMdfIKoLUx5FLJEd/Y7JEwjw=
+	t=1760883884; cv=none; b=DIBDcTPAobxyRiJ2wCcQKNsil9x1rF4odLHAdFmBsGwSV+QGplMLotEvfoDVLIvBOkdBlgxeFC986Isn3YOJk3Lt8xAKgE43kr100Fkrym2YBv6Xo8zYNpAwd4ACzJLzoDaEiEez+wQ9DBpO3+YJb5iEHH9CYBCsDLjPvwRHMmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760870599; c=relaxed/simple;
-	bh=ReKXrr9r7h2qgLlV4rBFc1pz80CDKazOX1YmPfRP0zE=;
+	s=arc-20240116; t=1760883884; c=relaxed/simple;
+	bh=UBQ3CI2i/Vqkyp+P3nK/BsPqKNSMijENxAcB6e9vYzk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SDCLwO/RKP4WEgbEyZAjU44da38tSb9nftNoss3/nTR3XwSJsNEvEQbwr1h7FLG0U1fX5mQITDtrNui01GZujnpRh1omsDEcJzg2/Ccfi0JmAhDn+4+dRTyqPiEC+TfeFU289X38EJNipfXrZPfwYsgKzu3w8gVslzKB8a3pJJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QHTuC4WQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D019C113D0;
-	Sun, 19 Oct 2025 10:43:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760870598;
-	bh=ReKXrr9r7h2qgLlV4rBFc1pz80CDKazOX1YmPfRP0zE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QHTuC4WQ3nPIs/LNeUSwFm9aRw9QREE0Qe0wXKlZ42vh6SPIK1UchgmsfbU7ULiD4
-	 mV4P1E0Gap7xCqBzsKMLsp/vPiSvCdnfkPIDHKVrmyc4Ka59FGWR48ykkKc3KXg5/K
-	 BBhTV/pp06WuHh7+d4bW/hTi+WcYTA7Ite66cvBhM+Yowrnyut7WDQmnbJvK8GeVT2
-	 17BOcaTcwXSgeV17UXnCBvb6sIWw/fG+pcrCg0i7DdEQjSoZ1iBybqEwiGJcKEuIyv
-	 1x7XKvZKO2wOuEaIR1HV31bM28km0KthurKyKQkr7bjs1Imm4p8LXl6AzWJGoYPWyq
-	 fsm9yttz+by1w==
-Message-ID: <4aae2f80-3b05-4583-a1c0-6b711fe3b879@kernel.org>
-Date: Sun, 19 Oct 2025 12:43:14 +0200
+	 In-Reply-To:Content-Type; b=n8WVMlCxRZ00MgVpghwFK2Ydb/QI2q4XaHcUTJhqAL3MswuqOCRFkKUROc4i2KVtbLUyiPXaZb1VUu2inv/RAW19thNeogkwpdXgwR9AGJ3zxvxh+2B5iS3lGRfXmGOkcqdS3Z467tjynsoN27z/Qv99FckLOhpcI5o0AYI0e2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dkzaMCYJ; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-57da66e0dc9so3546408e87.0
+        for <linux-leds@vger.kernel.org>; Sun, 19 Oct 2025 07:24:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760883880; x=1761488680; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7Rk93k1ljwyghSN33Atl9hvNPZmj6zeAwyQjoSPxOYU=;
+        b=dkzaMCYJ7ykWAh7f5a0/7HfC1AWJ55LZAq99M1IqhKOY2u+OI2tN+Op0w99GNPhC2b
+         ky6PjFGrMTHI8sDYu7egnFgOX9VRWCjJix7L47Q0F/YaGZvo/drHryjsuR3QLMk6Uf+g
+         iud7kC8UatVGjq43T6G6EMZUwhS5JJdB8oFp6tcyqNxTqBjv1mvd4uYVKCQmbeOwJNUE
+         K3pZpA1hDdwL5W630R9Qe1fos2Z6QcyQE59xzWLfgpkNRvYsC9DZzXzE7Cbybj827o6/
+         LYA9GOUTxdMgtLHIjFFXP2y87e61M0+AdTEBm9eaV3n/2gEsCExcT6kyrzCddiPQpR12
+         qpTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760883880; x=1761488680;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7Rk93k1ljwyghSN33Atl9hvNPZmj6zeAwyQjoSPxOYU=;
+        b=fVwc10IITJDkRWZ+d5FQReZuQnePBeVqq9DgCjBh7Vw2ZKtT8eqJ/zpXGOaAEVGxB/
+         UNRssup+BsktlvPrMPVTN0Z7oYCc78ZTHp6/N3km0jU3K2zi3rAlzQGmGU4mgA6h5FWM
+         iD1bcCBEbZaC4bx1l/7futV+rFOkS0EFlfLRH16gps1csig5YedKmSXSnzBIC/kPSWjO
+         qf3eqVsd6CTPVsxfIbEt8MvgqKIXuZn5ro3sAgCqnUO/5oy619zT3os7lKmCWUACJ6Y3
+         IWrdqHmcEzy+oHHQg9uWrGePUUq95P9TmZ0PopvUFw3RlsL6HzjiEULcDiB98akIDUME
+         apJg==
+X-Forwarded-Encrypted: i=1; AJvYcCUJPil4pQZqTv2zRoQCFHcI+Hs99HxTQ+j5hUuhKFb0PE2ssft/KoCWt46qvaNQZsCSHSeJ6xtCjkOA@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjQ21R3Yi/qbcL+Yfu/EvurSX9YmP5FATq4LWoWGrOZ7TXajyX
+	mKKmuEs+9m2IuY/dpl2XBER996VIsbpLN8TB10NSTQWbwWgpS8RVuJg5
+X-Gm-Gg: ASbGncvnCsAVbG9dTRJhyi7sUn54HhotS2EeqmWPjiLhZJD7ZpJ99iV0g+ra7BEbxIB
+	o7HfQgdWvMoTmMXLJc5H+ooPQxPs5BcLXUC6gj4pXp093O2F140pVEtnD5FlKtKwHbXeIhrczGL
+	sflAXL3UB8bbomOzN7LY7Lg3Jp/1ldwzOcB7STZ27ya6gVCakJAK1qSTFYsd3tiU18qGl/2gc25
+	hOIr3XK9GNMDWQPhx044STj1TcDONDIl7EcRuEL0UQGIAS+SwdqBvw/itPYEOUArIfs+qxdc98S
+	XZvyjtTdft+YVK4Ek7mTpRRqnuAH/PS2b97qsSQAHHlcVUQAsOBT+ilCHZzg04QZCNFgOmzlv0Y
+	asBKvWpT1mSWSUQaGVbzx/IXxFaihlQvwkGnCeFPCVKN1drB37V3WaiFRwISfWx2ocpZR0PpRfp
+	dIexx3js273Ux5
+X-Google-Smtp-Source: AGHT+IH2ftzTuRheyla/6S9FsuGwyDIul5Lq8UOJqEvJlweJ2mNm9Rk7iuIHqgSTe76z8e1m61a0kA==
+X-Received: by 2002:a05:6512:1188:b0:580:dda2:5318 with SMTP id 2adb3069b0e04-591d8533db7mr3421013e87.8.1760883880143;
+        Sun, 19 Oct 2025 07:24:40 -0700 (PDT)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-591deec0944sm1591331e87.36.2025.10.19.07.24.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 19 Oct 2025 07:24:39 -0700 (PDT)
+Message-ID: <3df51774-9774-40e6-ae65-7621bdce0f91@gmail.com>
+Date: Sun, 19 Oct 2025 16:24:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,8 +83,7 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] dt-bindings: leds: Add virtualcolor group dt
- bindings documentation.
+Subject: Re: [PATCH v3 0/4] leds: Add a virtual LED driver for groups of
 To: Jonathan Brophy <professorjonny98@gmail.com>, lee Jones <lee@kernel.org>,
  Pavel Machek <pavel@kernel.org>,
  Jonathan Brophy <professor_jonny@hotmail.com>, Rob Herring
@@ -61,197 +93,25 @@ To: Jonathan Brophy <professorjonny98@gmail.com>, lee Jones <lee@kernel.org>,
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-leds@vger.kernel.org
 References: <20251019092331.49531-1-professorjonny98@gmail.com>
- <20251019092331.49531-3-professorjonny98@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251019092331.49531-3-professorjonny98@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+In-Reply-To: <20251019092331.49531-1-professorjonny98@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 19/10/2025 11:23, Jonathan Brophy wrote:
+Hi Jonathan,
+
+On 10/19/25 11:23, Jonathan Brophy wrote:
 > From: Jonathan Brophy <professor_jonny@hotmail.com>
 > 
-> Add device tree binding documentation for the virtual LED group driver
-> that implements virtual LED groups by aggregating multiple monochromatic
-> LEDs
-> 
-> Bindings for the virtual driver are not describing hardware LEDs they
-> describe virtual devices made from groups of hardware LEDs created from an array
-> of LED phandles.
+> Introduce a new driver that implements virtual LED groups,
+> aggregating multiple monochromatic LEDs into virtual groups and providing
+> priority-based control for concurrent state management.
 
+Aren't you trying to reinvent LED trigger mechanism?
 
-Don't describe DT syntax, but hardware. Phandles are not important here.
-How the board, system looks like? What are you achieving here?
-
-> 
-> Normally the device tree is used to describe hardware not virtual hardware
-> but it is particularly useful in situations where you require an LED to be a
-> specific color by mixing primary colors, such as multi element multi color LEDs
-> to be operated from a device tree binding.
-
-
-Please describe the hardware and usecase, and then say how existing
-bindings cannot cover it so binding solves that use case. Write concise,
-yet informative statements. We all now how DT works, this you do not
-have to explain to us.
-
-But we need to know WHY we want this code.
-
-> 
-> It also becomes useful with multiple LEDs operating the same indicator such as
-> ring of light indicators where the LEDs are driven From different GPIO outputs
-> unifying the control that can give basic indication during system startup,
-> shutdown upgrade etc...
-> 
-> co-developed-by: Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-> Signed-off-by: Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-> Signed-off-by: Jonathan Brophy <professor_jonny@hotmail.com>
-> ---
->  .../leds/leds-group-virtualcolor.yaml         | 110 ++++++++++++++++++
->  1 file changed, 110 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml b/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml
-> new file mode 100644
-> index 000000000000..f638bdd4d65e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml
-> @@ -0,0 +1,110 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-group-virtualcolor.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +title: virtualcolor LED group driver
-> +maintainers:
-> +  - Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-> +description: |
-> +  Implements virtual LED groups by aggregating multiple monochromatic LEDs.
-> +  Provides priority-based control for managing concurrent LED activation requests,
-> +  ensuring only the highest-priority LED state is active at any given time.
-> +properties:
-> +  compatible:
-> +    const: leds-group-virtualcolor
-> +  '#address-cells':
-> +    const: 1
-> +  '#size-cells':
-> +    const: 0
-> +patternProperties:
-> +  "^virtual":
-> +    $ref: leds-class-virtualcolor.yaml#
-> +required:
-> +  - compatible
-> +additionalProperties: false
-> +examples:
-> +  - |
-
-
-Totally corrupted patch.
-
-I don't understand the changes. Please start from scratch from latest
-reviewed binding or example schema.
-
-
-
-> +    #include <dt-bindings/leds/common.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    led-controller {
-> +        compatible = "gpio-leds";
-> +        led_red: led_red {
-> +            gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
-> +            default-state = "off";
-> +        };
-> +        led_green: led_green {
-> +            gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>;
-> +            default-state = "off";
-> +        };
-> +        led_blue: led_blue {
-> +            gpios = <&gpio0 12 GPIO_ACTIVE_HIGH>;
-> +            default-state = "off";
-> +        };
-> +    };
-> +
-> +    pwm-led-controller {
-> +        compatible = "pwm-leds";
-> +
-> +        led_1: led-1 {
-> +            color = <LED_COLOR_ID_RED>;
-> +            pwms = <&twl_pwm 0 7812500>;
-> +        };
-> +
-> +        led_2: led-2 {
-> +            color = <LED_COLOR_ID_GREEN>;
-> +            pwms = <&twl_pwmled 0 7812500>;
-> +        };
-> +
-> +        led_3: led-3 {
-> +            color = <LED_COLOR_ID_RED>;
-> +            pwms = <&twl_pwm 0 7812500>;
-> +        };
-> +
-> +        led_4: led-4 {
-> +            color = <LED_COLOR_ID_GREEN>;
-> +            pwms = <&twl_pwmled 0 7812500>;
-> +        };
-> +
-> +    };
-> +
-> +    virtual-led-controller {
-> +        compatible = "leds-group-virtualcolor";
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        virtual_red@0 {
-
-
-Follow DTS coding style.
-
-
-
+-- 
 Best regards,
-Krzysztof
+Jacek Anaszewski
+
 
