@@ -1,117 +1,203 @@
-Return-Path: <linux-leds+bounces-5819-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5820-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59200BEE6FE
-	for <lists+linux-leds@lfdr.de>; Sun, 19 Oct 2025 16:24:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C5B9BEE70D
+	for <lists+linux-leds@lfdr.de>; Sun, 19 Oct 2025 16:28:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79F46420E34
-	for <lists+linux-leds@lfdr.de>; Sun, 19 Oct 2025 14:24:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E6B661898B39
+	for <lists+linux-leds@lfdr.de>; Sun, 19 Oct 2025 14:29:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C0A42EACFF;
-	Sun, 19 Oct 2025 14:24:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 477802EAB7A;
+	Sun, 19 Oct 2025 14:28:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dkzaMCYJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MP03uqEj"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598422EACE9
-	for <linux-leds@vger.kernel.org>; Sun, 19 Oct 2025 14:24:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162CF2459EA;
+	Sun, 19 Oct 2025 14:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760883884; cv=none; b=DIBDcTPAobxyRiJ2wCcQKNsil9x1rF4odLHAdFmBsGwSV+QGplMLotEvfoDVLIvBOkdBlgxeFC986Isn3YOJk3Lt8xAKgE43kr100Fkrym2YBv6Xo8zYNpAwd4ACzJLzoDaEiEez+wQ9DBpO3+YJb5iEHH9CYBCsDLjPvwRHMmg=
+	t=1760884128; cv=none; b=uuje19fGo6gsunfKZX4qwT2ZefmT1Gm1QG4pq/JBY5Vb0j1uV2UrFAscFe+76adm4d3gXEbY5aL4Z8fzjTH90sIzKY2oLTORdNAohwciWEGbATr+OciaD6NGllazg0PSNypZ9/N1loTh4+1TdUYq3r3IRSNjD1vPneXmf2YPZig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760883884; c=relaxed/simple;
-	bh=UBQ3CI2i/Vqkyp+P3nK/BsPqKNSMijENxAcB6e9vYzk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n8WVMlCxRZ00MgVpghwFK2Ydb/QI2q4XaHcUTJhqAL3MswuqOCRFkKUROc4i2KVtbLUyiPXaZb1VUu2inv/RAW19thNeogkwpdXgwR9AGJ3zxvxh+2B5iS3lGRfXmGOkcqdS3Z467tjynsoN27z/Qv99FckLOhpcI5o0AYI0e2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dkzaMCYJ; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-57da66e0dc9so3546408e87.0
-        for <linux-leds@vger.kernel.org>; Sun, 19 Oct 2025 07:24:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760883880; x=1761488680; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7Rk93k1ljwyghSN33Atl9hvNPZmj6zeAwyQjoSPxOYU=;
-        b=dkzaMCYJ7ykWAh7f5a0/7HfC1AWJ55LZAq99M1IqhKOY2u+OI2tN+Op0w99GNPhC2b
-         ky6PjFGrMTHI8sDYu7egnFgOX9VRWCjJix7L47Q0F/YaGZvo/drHryjsuR3QLMk6Uf+g
-         iud7kC8UatVGjq43T6G6EMZUwhS5JJdB8oFp6tcyqNxTqBjv1mvd4uYVKCQmbeOwJNUE
-         K3pZpA1hDdwL5W630R9Qe1fos2Z6QcyQE59xzWLfgpkNRvYsC9DZzXzE7Cbybj827o6/
-         LYA9GOUTxdMgtLHIjFFXP2y87e61M0+AdTEBm9eaV3n/2gEsCExcT6kyrzCddiPQpR12
-         qpTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760883880; x=1761488680;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7Rk93k1ljwyghSN33Atl9hvNPZmj6zeAwyQjoSPxOYU=;
-        b=fVwc10IITJDkRWZ+d5FQReZuQnePBeVqq9DgCjBh7Vw2ZKtT8eqJ/zpXGOaAEVGxB/
-         UNRssup+BsktlvPrMPVTN0Z7oYCc78ZTHp6/N3km0jU3K2zi3rAlzQGmGU4mgA6h5FWM
-         iD1bcCBEbZaC4bx1l/7futV+rFOkS0EFlfLRH16gps1csig5YedKmSXSnzBIC/kPSWjO
-         qf3eqVsd6CTPVsxfIbEt8MvgqKIXuZn5ro3sAgCqnUO/5oy619zT3os7lKmCWUACJ6Y3
-         IWrdqHmcEzy+oHHQg9uWrGePUUq95P9TmZ0PopvUFw3RlsL6HzjiEULcDiB98akIDUME
-         apJg==
-X-Forwarded-Encrypted: i=1; AJvYcCUJPil4pQZqTv2zRoQCFHcI+Hs99HxTQ+j5hUuhKFb0PE2ssft/KoCWt46qvaNQZsCSHSeJ6xtCjkOA@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjQ21R3Yi/qbcL+Yfu/EvurSX9YmP5FATq4LWoWGrOZ7TXajyX
-	mKKmuEs+9m2IuY/dpl2XBER996VIsbpLN8TB10NSTQWbwWgpS8RVuJg5
-X-Gm-Gg: ASbGncvnCsAVbG9dTRJhyi7sUn54HhotS2EeqmWPjiLhZJD7ZpJ99iV0g+ra7BEbxIB
-	o7HfQgdWvMoTmMXLJc5H+ooPQxPs5BcLXUC6gj4pXp093O2F140pVEtnD5FlKtKwHbXeIhrczGL
-	sflAXL3UB8bbomOzN7LY7Lg3Jp/1ldwzOcB7STZ27ya6gVCakJAK1qSTFYsd3tiU18qGl/2gc25
-	hOIr3XK9GNMDWQPhx044STj1TcDONDIl7EcRuEL0UQGIAS+SwdqBvw/itPYEOUArIfs+qxdc98S
-	XZvyjtTdft+YVK4Ek7mTpRRqnuAH/PS2b97qsSQAHHlcVUQAsOBT+ilCHZzg04QZCNFgOmzlv0Y
-	asBKvWpT1mSWSUQaGVbzx/IXxFaihlQvwkGnCeFPCVKN1drB37V3WaiFRwISfWx2ocpZR0PpRfp
-	dIexx3js273Ux5
-X-Google-Smtp-Source: AGHT+IH2ftzTuRheyla/6S9FsuGwyDIul5Lq8UOJqEvJlweJ2mNm9Rk7iuIHqgSTe76z8e1m61a0kA==
-X-Received: by 2002:a05:6512:1188:b0:580:dda2:5318 with SMTP id 2adb3069b0e04-591d8533db7mr3421013e87.8.1760883880143;
-        Sun, 19 Oct 2025 07:24:40 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-591deec0944sm1591331e87.36.2025.10.19.07.24.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Oct 2025 07:24:39 -0700 (PDT)
-Message-ID: <3df51774-9774-40e6-ae65-7621bdce0f91@gmail.com>
-Date: Sun, 19 Oct 2025 16:24:38 +0200
+	s=arc-20240116; t=1760884128; c=relaxed/simple;
+	bh=2Lk3VteT5ZUYtGV3L7w6wKgSGuoqrZ/lGhL+exIXDm8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=Cc8IFpNXVqlSEP9dMgyjZwMJehP0YGanSKe0P+61FC3S4dpZqPLzi+CsytLqjvp0UZ9dwbzEjxc+CtZ4rBPECe2y0bmT4m/RjJrVLiUP95ctmTM+jnJKAMmVY9p2jpEeC5o1w2Ks2cvTDzafhx/H34NuoGb3GdqQM2N3tlIFxI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MP03uqEj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4830C4CEE7;
+	Sun, 19 Oct 2025 14:28:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760884127;
+	bh=2Lk3VteT5ZUYtGV3L7w6wKgSGuoqrZ/lGhL+exIXDm8=;
+	h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
+	b=MP03uqEjX3dT3tNfORhl0l847PRKqtZ5CKZZ6jtJVg/gObj2g3axOfyuXJAOL/CCd
+	 6et/er0QZsqeHeYSpFjj4gs7GCC/aN27fEpcA19izrrOOWBG6ctcuB4LNj6bo/64A+
+	 sLqp8CaLTIL7U1AU7IiuLT2oy/5MyqMyseRFgC1e54qOl27t6crh33k2F03oekgIWB
+	 SqylejnRdM1buwwgRTLQxtvicZHCu+9a2mLXT0EUTFLlyOuOYnn2gMZJsSK0+q8HLQ
+	 +bHhisezI8jZ+1eNnQnFqoNFtxSfVA2NgUUI9onNLltSFLTzrn+lhexkX0rX3mrp8x
+	 bDxQ2guleBZ2g==
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/4] leds: Add a virtual LED driver for groups of
-To: Jonathan Brophy <professorjonny98@gmail.com>, lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>,
- Jonathan Brophy <professor_jonny@hotmail.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org
-References: <20251019092331.49531-1-professorjonny98@gmail.com>
-Content-Language: en-US
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <20251019092331.49531-1-professorjonny98@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 19 Oct 2025 16:28:40 +0200
+Message-Id: <DDMDBPDZHN6G.KI90E7ZWWX39@kernel.org>
+To: "Markus Probst" <markus.probst@posteo.de>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v5 1/2] rust: Add trait to convert a device reference to
+ a bus device reference
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, "Igor Korotin"
+ <igor.korotin.linux@gmail.com>, "Lee Jones" <lee@kernel.org>, "Pavel
+ Machek" <pavel@kernel.org>, "Dave Ertman" <david.m.ertman@intel.com>, "Ira
+ Weiny" <ira.weiny@intel.com>, "Leon Romanovsky" <leon@kernel.org>, "Boqun
+ Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Bjorn Helgaas" <bhelgaas@google.com>,
+ <kwilczynski@kernel.org>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <linux-leds@vger.kernel.org>
+References: <20251018205912.1528811-1-markus.probst@posteo.de>
+ <20251018205912.1528811-2-markus.probst@posteo.de>
+In-Reply-To: <20251018205912.1528811-2-markus.probst@posteo.de>
 
-Hi Jonathan,
+On Sat Oct 18, 2025 at 10:59 PM CEST, Markus Probst wrote:
+> Implement the `IntoBusDevice` trait for converting a `Device` reference t=
+o a
+> bus device reference for all bus devices. `Device` implements this trait =
+as a
+> fallback.
+>
+> The `IntoBusDevice` trait allows abstractions to provide the bus device i=
+n
+> class device callbacks.
+>
+> Signed-off-by: Markus Probst <markus.probst@posteo.de>
+> ---
+>  rust/kernel/auxiliary.rs |  7 +++++++
+>  rust/kernel/device.rs    | 41 ++++++++++++++++++++++++++++++++++++++++
+>  rust/kernel/i2c.rs       |  7 +++++++
 
-On 10/19/25 11:23, Jonathan Brophy wrote:
-> From: Jonathan Brophy <professor_jonny@hotmail.com>
-> 
-> Introduce a new driver that implements virtual LED groups,
-> aggregating multiple monochromatic LEDs into virtual groups and providing
-> priority-based control for concurrent state management.
+i2c is not upstream yet, hence it should not be part of this patch. Instead=
+ you
+should include the platform bus though.
 
-Aren't you trying to reinvent LED trigger mechanism?
+>  rust/kernel/pci.rs       |  7 +++++++
+>  rust/kernel/usb.rs       |  6 ++++++
+>  5 files changed, 68 insertions(+)
+>
+> diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
+> index e11848bbf206..dea24265f549 100644
+> --- a/rust/kernel/auxiliary.rs
+> +++ b/rust/kernel/auxiliary.rs
+> @@ -15,6 +15,7 @@
+>  };
+>  use core::{
+>      marker::PhantomData,
+> +    mem::offset_of,
+>      ptr::{addr_of_mut, NonNull},
+>  };
+> =20
+> @@ -239,6 +240,12 @@ extern "C" fn release(dev: *mut bindings::device) {
+>      }
+>  }
+> =20
+> +// SAFETY: `auxilary::Device` is a transparent wrapper of `struct auxili=
+ary_device`.
+> +// The offset is guaranteed to point to a valid device field inside `aux=
+ilary::Device`.
+> +unsafe impl<Ctx: device::DeviceContext> device::IntoBusDevice<Ctx> for D=
+evice<Ctx> {
+> +    const OFFSET: usize =3D offset_of!(bindings::auxiliary_device, dev);
+> +}
+> +
+>  // SAFETY: `Device` is a transparent wrapper of a type that doesn't depe=
+nd on `Device`'s generic
+>  // argument.
+>  kernel::impl_device_context_deref!(unsafe { Device });
+> diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
+> index 1321e6f0b53c..5527854a195f 100644
+> --- a/rust/kernel/device.rs
+> +++ b/rust/kernel/device.rs
+> @@ -511,6 +511,47 @@ impl DeviceContext for Core {}
+>  impl DeviceContext for CoreInternal {}
+>  impl DeviceContext for Normal {}
+> =20
+> +/// Bus devices can implement this trait to allow abstractions to provid=
+e the bus device in
+> +/// class device callbacks.
+> +///
+> +/// # Safety
+> +///
+> +/// `IntoBusDevice::OFFSET` must be a offset to a device field in the im=
+plemented struct.
 
--- 
-Best regards,
-Jacek Anaszewski
+I think we should also require that this must only be implemented by bus de=
+vice
+types.
 
+> +pub(crate) unsafe trait IntoBusDevice<Ctx: DeviceContext>:
+> +    AsRef<Device<Ctx>>
+
+We should probably name this AsBusDevice.
+
+> +{
+> +    /// The relative offset to the device field.
+> +    ///
+> +    /// Use `offset_of!(bindings, field)` macro to avoid breakage.
+> +    const OFFSET: usize;
+> +
+> +    /// Convert a reference to [`Device`] into `Self`.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// `dev` must be contained in `Self`.
+> +    unsafe fn from_device(dev: &Device<Ctx>) -> &Self
+
+As mentioned in the other thread, my concern remains that this could be abu=
+sed
+by drivers.
+
+For now the trait is pub(crate), but with the new build system coming soon,
+we're able to split things out of the kernel crate, and hence bus abstracti=
+ons
+and driver-core code may end up in different crates requiring this to becom=
+e
+public.
+
+We should at least document that this must not be used by drivers and is
+intended for bus and class device abstractions only.
+
+> +    where
+> +        Self: Sized,
+> +    {
+> +        let raw =3D dev.as_raw();
+> +        // SAFETY: `raw - Self::OFFSET` is guaranteed by the safety requ=
+irements
+> +        // to be a valid pointer to `Self`.
+> +        unsafe { &*raw.byte_sub(Self::OFFSET).cast::<Self>() }
+> +    }
+> +}
+> +
+> +// SAFETY: `Device` is a transparent wrapper of `device`.
+> +unsafe impl<Ctx: DeviceContext> IntoBusDevice<Ctx> for Device<Ctx> {
+> +    const OFFSET: usize =3D 0;
+> +}
+
+A generic device is not guaranteed to be a bus device. Also, I don't see a
+reason why class device abstractions would want to work with a generic devi=
+ce
+rather than the actual bus device parent. Hence, let's drop this impl.
 
