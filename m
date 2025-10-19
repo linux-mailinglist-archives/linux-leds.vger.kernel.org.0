@@ -1,48 +1,48 @@
-Return-Path: <linux-leds+bounces-5817-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5818-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D183BEE332
-	for <lists+linux-leds@lfdr.de>; Sun, 19 Oct 2025 12:39:28 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31DEABEE344
+	for <lists+linux-leds@lfdr.de>; Sun, 19 Oct 2025 12:43:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7F4E189E933
-	for <lists+linux-leds@lfdr.de>; Sun, 19 Oct 2025 10:39:51 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B6F664E666F
+	for <lists+linux-leds@lfdr.de>; Sun, 19 Oct 2025 10:43:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD6E02D3A96;
-	Sun, 19 Oct 2025 10:39:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B8592DFA3E;
+	Sun, 19 Oct 2025 10:43:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tFTXEv/1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QHTuC4WQ"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E891354AC1;
-	Sun, 19 Oct 2025 10:39:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB3F1096F;
+	Sun, 19 Oct 2025 10:43:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760870363; cv=none; b=omGvOG/yWQ1WA2nF1nqZakoi4ItQLObVkUwUWw1Y8rmQP092G8my0zcowKrAjuGUDJg/KqGOqFEiKipfOevbCE2/JXdEMOnRY6+s8cZ9kB5svEOylfNlRtpxhjfrrwHfoSdkIvnoRCG5i1WkImf9scX/sGBmfOB80PxggW0aVAQ=
+	t=1760870599; cv=none; b=qcfqbNTSx8Y29QB8KvUzZvrbjPP6mx4YWEOfJmUhODICcAXIXzy6MbkDKfRUJaegv3YOYUkDbAHrzgpmtGS1FWUQun8zNAFRilY7gcbsW0WvZKprLq60/VIbzyYlHk5RnIRnjqYM9lLIV5iVU3WkMdfIKoLUx5FLJEd/Y7JEwjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760870363; c=relaxed/simple;
-	bh=ds76u8Jx8MbIVK+kKt1bsmI7ARd9Ph/NuaUu2MqFFck=;
+	s=arc-20240116; t=1760870599; c=relaxed/simple;
+	bh=ReKXrr9r7h2qgLlV4rBFc1pz80CDKazOX1YmPfRP0zE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=blt1m34Tz4clDJq6Y/qoJrOMvu/ct7RbVXqkcD8sFOHxuALytR6wf6Id4vHw9G5pdDEPFBwO1aE/+HXfQPAZ2jVBglM/f3gZYxnvD3WU1eeL+Wz4K+SeJM8eRgqsLbyq5dhrANA8B0917qlToGfwfXYVOgdL0ZpQPS8COMguRDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tFTXEv/1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78CABC4CEE7;
-	Sun, 19 Oct 2025 10:39:20 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=SDCLwO/RKP4WEgbEyZAjU44da38tSb9nftNoss3/nTR3XwSJsNEvEQbwr1h7FLG0U1fX5mQITDtrNui01GZujnpRh1omsDEcJzg2/Ccfi0JmAhDn+4+dRTyqPiEC+TfeFU289X38EJNipfXrZPfwYsgKzu3w8gVslzKB8a3pJJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QHTuC4WQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D019C113D0;
+	Sun, 19 Oct 2025 10:43:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760870363;
-	bh=ds76u8Jx8MbIVK+kKt1bsmI7ARd9Ph/NuaUu2MqFFck=;
+	s=k20201202; t=1760870598;
+	bh=ReKXrr9r7h2qgLlV4rBFc1pz80CDKazOX1YmPfRP0zE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tFTXEv/1x/W4GwmEMzrGNJ4iTicgUdG8ruSDH0i8WibK8O6gbSRHUvSHD4hsv1aAK
-	 857/GxPc+9GsShiKb+lTm7JJIIDKKWoy7Zx9G/uDwkgz2qx+HJLEXN9DQ13GznzI5t
-	 Stjh7HlizqRqBe7Mu+/Suh+S8HjQvIVAKWO7Cipn25gIfg8aPvh2yVIWXAcv9midro
-	 tYbZoyho7h86viKLJKMp7wzWFvzAou5y7LZmOlEWh9CSoXR56dRd247BlrR5n8zDqQ
-	 eHrQaXiUiLN3PoWqMsUPCu6VGdatm5wUF5vOWC5ji3q+VgGGs7J2NpPfXEYFUjsPHK
-	 Idle4PBXhi9Qw==
-Message-ID: <e45be5e9-c347-4ec7-b9e7-2920e9a279bd@kernel.org>
-Date: Sun, 19 Oct 2025 12:39:18 +0200
+	b=QHTuC4WQ3nPIs/LNeUSwFm9aRw9QREE0Qe0wXKlZ42vh6SPIK1UchgmsfbU7ULiD4
+	 mV4P1E0Gap7xCqBzsKMLsp/vPiSvCdnfkPIDHKVrmyc4Ka59FGWR48ykkKc3KXg5/K
+	 BBhTV/pp06WuHh7+d4bW/hTi+WcYTA7Ite66cvBhM+Yowrnyut7WDQmnbJvK8GeVT2
+	 17BOcaTcwXSgeV17UXnCBvb6sIWw/fG+pcrCg0i7DdEQjSoZ1iBybqEwiGJcKEuIyv
+	 1x7XKvZKO2wOuEaIR1HV31bM28km0KthurKyKQkr7bjs1Imm4p8LXl6AzWJGoYPWyq
+	 fsm9yttz+by1w==
+Message-ID: <4aae2f80-3b05-4583-a1c0-6b711fe3b879@kernel.org>
+Date: Sun, 19 Oct 2025 12:43:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] dt: bindings: Add virtualcolor class dt bindings
- documentation.
+Subject: Re: [PATCH v3 2/4] dt-bindings: leds: Add virtualcolor group dt
+ bindings documentation.
 To: Jonathan Brophy <professorjonny98@gmail.com>, lee Jones <lee@kernel.org>,
  Pavel Machek <pavel@kernel.org>,
  Jonathan Brophy <professor_jonny@hotmail.com>, Rob Herring
@@ -61,7 +61,7 @@ To: Jonathan Brophy <professorjonny98@gmail.com>, lee Jones <lee@kernel.org>,
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-leds@vger.kernel.org
 References: <20251019092331.49531-1-professorjonny98@gmail.com>
- <20251019092331.49531-2-professorjonny98@gmail.com>
+ <20251019092331.49531-3-professorjonny98@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,71 +107,149 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251019092331.49531-2-professorjonny98@gmail.com>
+In-Reply-To: <20251019092331.49531-3-professorjonny98@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 19/10/2025 11:23, Jonathan Brophy wrote:
 > From: Jonathan Brophy <professor_jonny@hotmail.com>
 > 
-> Add DT bindings for the LEDs virtualcolor class framework. Add
+> Add device tree binding documentation for the virtual LED group driver
+> that implements virtual LED groups by aggregating multiple monochromatic
+> LEDs
+> 
+> Bindings for the virtual driver are not describing hardware LEDs they
+> describe virtual devices made from groups of hardware LEDs created from an array
+> of LED phandles.
 
-Why? What part of hardware or real system use case is being solved here?
 
-> LED-FUNCTION-VIRTUAL-STATUS ID to the FUNCTION ID list for device tree
-> bindings.
+Don't describe DT syntax, but hardware. Phandles are not important here.
+How the board, system looks like? What are you achieving here?
+
+> 
+> Normally the device tree is used to describe hardware not virtual hardware
+> but it is particularly useful in situations where you require an LED to be a
+> specific color by mixing primary colors, such as multi element multi color LEDs
+> to be operated from a device tree binding.
+
+
+Please describe the hardware and usecase, and then say how existing
+bindings cannot cover it so binding solves that use case. Write concise,
+yet informative statements. We all now how DT works, this you do not
+have to explain to us.
+
+But we need to know WHY we want this code.
+
+> 
+> It also becomes useful with multiple LEDs operating the same indicator such as
+> ring of light indicators where the LEDs are driven From different GPIO outputs
+> unifying the control that can give basic indication during system startup,
+> shutdown upgrade etc...
 > 
 > co-developed-by: Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-
-That's not a proper tag. See submitting patches.
-
-Please use subject prefixes matching the subsystem. You can get them for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching. For bindings, the preferred subjects are
-explained here:
-https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
-
-I don't understand what is happening with your patchset. It is being
-changed in unexpected way, like something previously correct - like
-subject - now is changed for some unexplained reason.
-
-
 > Signed-off-by: Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
 > Signed-off-by: Jonathan Brophy <professor_jonny@hotmail.com>
 > ---
->  .../leds/leds-class-virtualcolor.yaml         | 90 +++++++++++++++++++
->  include/dt-bindings/leds/common.h             |  4 +
->  2 files changed, 94 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-class-virtualcolor.yaml
+>  .../leds/leds-group-virtualcolor.yaml         | 110 ++++++++++++++++++
+>  1 file changed, 110 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-class-virtualcolor.yaml b/Documentation/devicetree/bindings/leds/leds-class-virtualcolor.yaml
+> diff --git a/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml b/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml
 > new file mode 100644
-> index 000000000000..8cbbbf0d746c
+> index 000000000000..f638bdd4d65e
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-class-virtualcolor.yaml
-> @@ -0,0 +1,90 @@
+> +++ b/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml
+> @@ -0,0 +1,110 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/leds/leds-class-virtualcolor.yaml#
+> +$id: http://devicetree.org/schemas/leds/leds-group-virtualcolor.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: virtualcolor LED class
-
-I don't understand what is "virtualcolor"
-
-> +
+> +title: virtualcolor LED group driver
 > +maintainers:
 > +  - Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-> +
 > +description: |
+> +  Implements virtual LED groups by aggregating multiple monochromatic LEDs.
+> +  Provides priority-based control for managing concurrent LED activation requests,
+> +  ensuring only the highest-priority LED state is active at any given time.
+> +properties:
+> +  compatible:
+> +    const: leds-group-virtualcolor
+> +  '#address-cells':
+> +    const: 1
+> +  '#size-cells':
+> +    const: 0
+> +patternProperties:
+> +  "^virtual":
+> +    $ref: leds-class-virtualcolor.yaml#
+> +required:
+> +  - compatible
+> +additionalProperties: false
+> +examples:
+> +  - |
 
-Do not need '|' unless you need to preserve formatting.
 
-> +  Validates individual virtual LED nodes that aggregate multiple monochromatic
+Totally corrupted patch.
 
-This sentence makes no sense. You describe here hardware in full
-sentence. How hardware can "validates"?
+I don't understand the changes. Please start from scratch from latest
+reviewed binding or example schema.
+
+
+
+> +    #include <dt-bindings/leds/common.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    led-controller {
+> +        compatible = "gpio-leds";
+> +        led_red: led_red {
+> +            gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
+> +            default-state = "off";
+> +        };
+> +        led_green: led_green {
+> +            gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>;
+> +            default-state = "off";
+> +        };
+> +        led_blue: led_blue {
+> +            gpios = <&gpio0 12 GPIO_ACTIVE_HIGH>;
+> +            default-state = "off";
+> +        };
+> +    };
+> +
+> +    pwm-led-controller {
+> +        compatible = "pwm-leds";
+> +
+> +        led_1: led-1 {
+> +            color = <LED_COLOR_ID_RED>;
+> +            pwms = <&twl_pwm 0 7812500>;
+> +        };
+> +
+> +        led_2: led-2 {
+> +            color = <LED_COLOR_ID_GREEN>;
+> +            pwms = <&twl_pwmled 0 7812500>;
+> +        };
+> +
+> +        led_3: led-3 {
+> +            color = <LED_COLOR_ID_RED>;
+> +            pwms = <&twl_pwm 0 7812500>;
+> +        };
+> +
+> +        led_4: led-4 {
+> +            color = <LED_COLOR_ID_GREEN>;
+> +            pwms = <&twl_pwmled 0 7812500>;
+> +        };
+> +
+> +    };
+> +
+> +    virtual-led-controller {
+> +        compatible = "leds-group-virtualcolor";
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        virtual_red@0 {
+
+
+Follow DTS coding style.
+
 
 
 Best regards,
