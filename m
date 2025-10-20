@@ -1,82 +1,92 @@
-Return-Path: <linux-leds+bounces-5821-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5822-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB98CBEF304
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Oct 2025 05:30:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6035DBEF9FD
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Oct 2025 09:14:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9FE653E1FFA
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Oct 2025 03:30:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BBEBE189CC17
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Oct 2025 07:15:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83B291EA7EC;
-	Mon, 20 Oct 2025 03:30:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F048E2DC35F;
+	Mon, 20 Oct 2025 07:13:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PigfzLYU"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Dr4M8hUh"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8AB72602;
-	Mon, 20 Oct 2025 03:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6C52DC765
+	for <linux-leds@vger.kernel.org>; Mon, 20 Oct 2025 07:13:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760931019; cv=none; b=cVIlBpNhZYzh5gZULbGg6iO9g2nzv8xH6qdiqF8k+iBXlRHNRVf50gZed81tfxtKjCQ+G1aIXwrHj7Z5IYUBfRCZ4VYY7ps6Cz4IaMyDJQQaPGk+fF1sSgRRjbUsJ50XrUxsnNRWuaHEZhuuPj+M6ZUhJG1ME0+r1jyZCeOHEFA=
+	t=1760944409; cv=none; b=tg6dA+HEO2Bq5sqeYbq5g3wqzcA+vezlODgGZS5XeZOgfrXhNQg51fRbwgeB+2mFVOzS1LSMmk15ArzHy5ePpLxJIN2nGuz5+txQkDBWR2d7lRfPaXbBhPd5PjOOmeiS4Y8uJ8LsT1S34RLamOoah0vrp2Zq8DufHhKWGoNX9vQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760931019; c=relaxed/simple;
-	bh=V+FRGoMiN1MCwZCSWOtz2tWGmAj7seyi2taSQOonM+k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SiDDkq1kVN1AIzGpNIbvEfQnXhqkGSXhhaWU/MMlZ7X6412i82+g34Ib5r7LKfzJm3movTmiv62GkHcPBCJVCmWCWJmHdBHNE8qfFCEm8Vd29fpdMJAzd9aatagttFJpqsWTnbwZzBARxPmZosXAuyFsjEi9wXJWPL7eea6TjtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PigfzLYU; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760931018; x=1792467018;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=V+FRGoMiN1MCwZCSWOtz2tWGmAj7seyi2taSQOonM+k=;
-  b=PigfzLYUTWGLi1sYsVZATT2YEnH0Ergyqiwg6nJNoLexpy+IsioD7GJM
-   9i0bowj8la3pJH2iSPJk/n2i4Z/oa5nusk9wnUHV/utc/KG+2KmQ//1sh
-   F3cXGm7eScxNbmYx4p4vcoU+QvwRRV+UE0OrSVUIHrX0RGin+GmE8dvIc
-   arPDe3vRlqgzloT2G9vVSTqwvsyGLMVkENjfCv66OwlY7ei3ZAXxTxrQK
-   KChO8FV3zLbr/3BO4RXpTrsRrv23VxeCluQkJbFtG6y5RZANBURTztNta
-   Y/1esS5+5QMq8C/x7vJwWJQ4+NoC/vHg46kKf+50ARrpYUYW/J4GfEKpv
-   Q==;
-X-CSE-ConnectionGUID: Cr6AR3V2RKqZxO/dBpNbGg==
-X-CSE-MsgGUID: bqsVmdJwS4mAXw6uaDyoWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="66882796"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="66882796"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2025 20:30:17 -0700
-X-CSE-ConnectionGUID: HtalkC0URWq1a8nM4TjSFw==
-X-CSE-MsgGUID: PtddhK7GRaOL3WdK0nanWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,241,1754982000"; 
-   d="scan'208";a="187648530"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Oct 2025 20:30:13 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vAgb5-0009Sj-2G;
-	Mon, 20 Oct 2025 03:30:11 +0000
-Date: Mon, 20 Oct 2025 11:29:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Brophy <professorjonny98@gmail.com>,
+	s=arc-20240116; t=1760944409; c=relaxed/simple;
+	bh=PeGTn3iFxDHG7Zzquzk+8Eb8iZsO1eg0YMwOWsI8x/Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=ps4FnuTxEvQ5TV6tbLapRv/INV+Pmq0/SA9tK3FdtkFc+u9dFUGHax7ZmWn0Q6+TGSFoHeXiL73awghMl1ifwSz25t2ujDEOAGAOHfSTpNg7CjJV2uAgFpoYZggSJy7/6BHhU3YKQ1K8f+o8tW8wV6lnQB4grIx0bjh6Udnrj0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Dr4M8hUh; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-421851bca51so3260026f8f.1
+        for <linux-leds@vger.kernel.org>; Mon, 20 Oct 2025 00:13:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760944406; x=1761549206; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=v29GrQR+ncc3DZUAcuhlbn2tQqEiegD397LZB82cRuo=;
+        b=Dr4M8hUhE+/cBGZLTsBkQyyIzNFDW+rmb/Dxy7sgROQE8OhRNw5grubqMfjp+Ex6v/
+         Ll6ADkHS2z/2ZvABzPxP7kb4Hm9NRwrPZayLIfFAYRsXkejSVtZl5vmuK1jOi88O/yuI
+         4/4sZrjNVOo5KxgCD2Rf3Psqy2KjHYvivDDIFStEF8gzVFXnif/eSTQQMe/lOMq10f2j
+         odhRfjzS6LqWs2fD2h/x55gLv80Wp7cjIKzQA0qAXz2bTP/PBaxZCAz5sE7BfITdKCV8
+         WxnBhMY0vTgtQmPGav8ySENXn0MGBjvvpIaEBJi83FtymZUEx16IJnBSQ4D2auG9DSlM
+         Nm1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760944406; x=1761549206;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v29GrQR+ncc3DZUAcuhlbn2tQqEiegD397LZB82cRuo=;
+        b=jGwyOw6Juwg0q7EXYuKL8naxDKLmt6XUllnBdb0VFcxaYk1Frx4DqLEqw+IGyGwKO+
+         xF2fyfxiouclYcyyJFi3xnK6TK4x8hMAOJoHPIJDDOOWQs90KS/0aLouKfOYEZn5ZwZt
+         +6dy2KyudC5GgFSqUPfMAnD8VcqT5e5cJDJFgG4V0XYFA52bWRVUZKQXLIfaqn8UlIZ8
+         bEmfupyYBEaP87FVjI5ERF2o4YfMRcVgJqiVj5dUZdYmtggYYqa0iz9gyq2Ccz0sKg6v
+         P5djG1kONxM9TYRLABP0dB3sF364bm1YVSiDXNFDWuaQyghV6RizaHB+k3ovwTlNJSOm
+         iq3A==
+X-Forwarded-Encrypted: i=1; AJvYcCU3is0FX24UTsdkyP6Ojd/TP2czj3Q2x1C01vgPy7m0qfNNqh7YT4uJGuaRtVFAdw1vVEvyEEG5fhm2@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHFCETPerflCuZy/KTaArGpqtK5HaMCC/tRZ8/bYZqE5+MTZbG
+	vH701zFjQ6O3o7Ezx1HHymFANkcoAvUxOembqWVQUFxrUfanX/Ouril4bLW7jUQAqAc=
+X-Gm-Gg: ASbGncs+CqPwlEuZGgOGCViKS9dto2u7bXds4k3BNhZu4r6iOAl4gwmmO809d8W9PjS
+	gs1oLCZ9xTgprEMppSOYdLENMiCHNT3ddZFTZ+rmMKRGCr8rAGE/FC05izPYCKwW0eBotvHjhsX
+	3ytQ33yPJoIfecHq/K8RWMsijS3gpO64n4AWD0jtd43wDxkNC3TG/4BoPz5Ix4XWHtbWRA+MeKr
+	n0yl2rI19qB+C99osjLU192ass8vgp/xJUwM+HhEIvLuDpdzx/oY7rJmcvMRrCHsVwVc4+K5lqa
+	9NR5Dc8V5Rbiw92HetJpa/tV2HPFCHGSV71mYA3fNJByf4sEilY3eW4Od26AUjVZda/12wVayzw
+	ZiGjXEFJIuO+eBynKJr1ZRDTn70e9CI0++Adt8T1p3yUZNcSLRimiT0icDLPSAq8saQzXOSwyeV
+	iRCAkjCiRxjDQoM7/S
+X-Google-Smtp-Source: AGHT+IGCWcj+ZeSsBGtAZjJoabbi0svPUJxfv7bQF2wz0Kk+abDltn5J9+7dAFKFJ6moPAKqLR/Rtg==
+X-Received: by 2002:a05:6000:25fd:b0:427:587:d9ae with SMTP id ffacd0b85a97d-4270587d9c1mr6413104f8f.9.1760944406004;
+        Mon, 20 Oct 2025 00:13:26 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-427f00b9f71sm13715262f8f.37.2025.10.20.00.13.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Oct 2025 00:13:25 -0700 (PDT)
+Date: Mon, 20 Oct 2025 10:13:22 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jonathan Brophy <professorjonny98@gmail.com>,
 	lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
 	Jonathan Brophy <professor_jonny@hotmail.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-leds@vger.kernel.org
 Subject: Re: [PATCH v3 4/4] leds: Add virtualcolor LED group driver
-Message-ID: <202510201144.TwTDnjSJ-lkp@intel.com>
-References: <20251019092331.49531-5-professorjonny98@gmail.com>
+Message-ID: <202510201457.uOrhkKly-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -91,86 +101,68 @@ Hi Jonathan,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on lee-leds/for-leds-next]
-[also build test WARNING on robh/for-next linus/master v6.18-rc2 next-20251017]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Brophy/dt-bindings-Add-virtualcolor-class-dt-bindings-documentation/20251019-172647
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
 patch link:    https://lore.kernel.org/r/20251019092331.49531-5-professorjonny98%40gmail.com
 patch subject: [PATCH v3 4/4] leds: Add virtualcolor LED group driver
-config: i386-randconfig-001-20251020 (https://download.01.org/0day-ci/archive/20251020/202510201144.TwTDnjSJ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251020/202510201144.TwTDnjSJ-lkp@intel.com/reproduce)
+config: parisc-randconfig-r072-20251020 (https://download.01.org/0day-ci/archive/20251020/202510201457.uOrhkKly-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510201144.TwTDnjSJ-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202510201457.uOrhkKly-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/leds/rgb/leds-group-virtualcolor.c:303 parse_monochromatic_leds() warn: 'mono_count' unsigned <= 0
+drivers/leds/rgb/leds-group-virtualcolor.c:303 parse_monochromatic_leds() warn: error code type promoted to positive: 'mono_count'
 
->> drivers/leds/rgb/leds-group-virtualcolor.c:463:38: warning: cast from 'void (*)(struct mutex *)' to 'void (*)(void *)' converts to incompatible function type [-Wcast-function-type-strict]
-     463 |         ret = devm_add_action_or_reset(dev, (void (*)(void *))mutex_destroy,
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device/devres.h:166:34: note: expanded from macro 'devm_add_action_or_reset'
-     166 |         __devm_add_action_or_reset(dev, action, data, #action)
-         |                                         ^~~~~~
-   1 warning generated.
+vim +/mono_count +303 drivers/leds/rgb/leds-group-virtualcolor.c
 
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  296  static int parse_monochromatic_leds(struct device *dev, struct device_node *child,
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  297  				    struct virtual_led *vled)
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  298  {
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  299  	u32 mono_count;
 
-vim +463 drivers/leds/rgb/leds-group-virtualcolor.c
+This needs to be an int.
 
-   449	
-   450	static int leds_virtualcolor_probe(struct platform_device *pdev)
-   451	{
-   452		struct leds_virtualcolor *vc_data;
-   453		struct device *dev = &pdev->dev;
-   454		int count = 0;
-   455		int ret;
-   456	
-   457		vc_data = devm_kzalloc(dev, sizeof(*vc_data), GFP_KERNEL);
-   458		if (!vc_data)
-   459			return -ENOMEM;
-   460	
-   461		mutex_init(&vc_data->lock);
-   462	
- > 463		ret = devm_add_action_or_reset(dev, (void (*)(void *))mutex_destroy,
-   464					       &vc_data->lock);
-   465		if (ret)
-   466			return ret;
-   467	
-   468		INIT_LIST_HEAD(&vc_data->active_leds);
-   469	
-   470		vc_data->num_vleds = of_get_child_count(dev->of_node);
-   471		if (vc_data->num_vleds == 0) {
-   472			dev_err(dev, "No virtual LEDs defined\n");
-   473			return -EINVAL;
-   474		}
-   475	
-   476		vc_data->vleds = devm_kcalloc(dev, vc_data->num_vleds, sizeof(*vc_data->vleds), GFP_KERNEL);
-   477		if (!vc_data->vleds)
-   478			return -ENOMEM;
-   479	
-   480		for_each_available_child_of_node_scoped(dev->of_node, child) {
-   481			struct virtual_led *vled = &vc_data->vleds[count];
-   482	
-   483			ret = leds_virtualcolor_init_vled(dev, child, vled, vc_data);
-   484			if (ret)
-   485				return ret;
-   486	
-   487			count++;
-   488		}
-   489	
-   490		platform_set_drvdata(pdev, vc_data);
-   491	
-   492		return 0;
-   493	}
-   494	
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  300  	int ret, i;
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  301  
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  302  	mono_count = of_property_count_elems_of_size(child, "leds", sizeof(u32));
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19 @303  	if (mono_count <= 0) {
+                                                            ^^^^^^^^^^^^^^^
+
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  304  		vled->num_monochromatics = 0;
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  305  		return 0;
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  306  	}
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  307  
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  308  	vled->num_monochromatics = mono_count;
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  309  	vled->monochromatics = devm_kcalloc(dev, vled->num_monochromatics,
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  310  					    sizeof(*vled->monochromatics), GFP_KERNEL);
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  311  	if (!vled->monochromatics)
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  312  		return -ENOMEM;
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  313  
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  314  	for (i = 0; i < vled->num_monochromatics; i++) {
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  315  		struct led_classdev *led_cdev;
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  316  
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  317  		led_cdev = devm_of_led_get(dev, i);
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  318  		if (IS_ERR(led_cdev)) {
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  319  			ret = PTR_ERR(led_cdev);
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  320  			return dev_err_probe(dev, ret,
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  321  					     "Failed to get monochromatic LED %d\n", i);
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  322  		}
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  323  
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  324  		vled->monochromatics[i] = led_cdev;
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  325  	}
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  326  
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  327  	return 0;
+bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  328  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
 
