@@ -1,144 +1,107 @@
-Return-Path: <linux-leds+bounces-5826-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5827-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B230BF2032
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Oct 2025 17:10:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 769F7BF222E
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Oct 2025 17:37:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9006A18A7DDC
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Oct 2025 15:10:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA6444273F7
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Oct 2025 15:36:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2CC922D7B5;
-	Mon, 20 Oct 2025 15:10:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C576626D4DE;
+	Mon, 20 Oct 2025 15:36:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XSrsZn8h"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nAjWvSLL"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72FAB218AB9;
-	Mon, 20 Oct 2025 15:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6F9264A97
+	for <linux-leds@vger.kernel.org>; Mon, 20 Oct 2025 15:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760973004; cv=none; b=kbkAEziHSH+PJRh1meES3TlSTmHcq/m3tRzOIqb6pgpyGJVIogPkMHgxsTHxI3ZSEsSd3Vj6URt2rqwNMyC47dM1ZvVsZfBal53qdGO/c91Vl2vAEA0TJpD2sUZ9SGUDJFbi26iJJ8R1V70bXupdgDDw480p5M174MuGYR//AWw=
+	t=1760974601; cv=none; b=bsCwy3owQwx/XwZn9FJ3A8/+p5aCTfc8CQ3sm3L/noJ51MdgoSESbBtjJ8cu/IdtqfQFNUokwn5EjsXwNMU4N2UlfkK4X/dse2NF0W6dLhr00U5MGAuQlrSeL+ZnCDnHb1exC5hRMPotNSilkMr+94lruW0H3c3kaVIa8jcEi1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760973004; c=relaxed/simple;
-	bh=Pz7q0IVj+MSA9wS893WkT7eP26sj3QjMI8T0btQdAeo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=URoAdDh583Z+y29G7hpU/zJN+oOe76zNjyf3GK/h2TzP0ZQJhaVxK4o4nkgvQhWNZn84Upz42lBY3MGc09YqPVHbQVYI6xdMPZJJ0WaKiuMXERLQoaikkqiySR2lvBY++WpH6dZBlr20GzawFniByT85HzMb+54+6cQT+k0B9AE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XSrsZn8h; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5127BC4CEF9;
-	Mon, 20 Oct 2025 15:09:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760973001;
-	bh=Pz7q0IVj+MSA9wS893WkT7eP26sj3QjMI8T0btQdAeo=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=XSrsZn8hHcIHVt+2FQH6WU1OFrah+ptbtLJMDCVOYRYH+wADYhuPHrkO2woNdzIcl
-	 FAHUg3ZCi4J8cOiy2kMq1WOTAI/ZeGhvEgMQKy+k3312uRSwJ1yuBuHWx95qyKAO/n
-	 qmcHUU0f7ALfnMhAchl0L2NbcT6rpUDJi+TRR7+meLOHmZrV7K+gsKEM/tL9vZrrHg
-	 aaerwJlOvoajESQRs2lMxMRR1QBP5zMNsJpb/fs+sREiayraddJjmVU/laojyUEkKP
-	 9VeYSHOYVwlLXauNDtlJqeEv8EAPkN5NbzrHAv4wcUaWM7VWBLKD+mpyXtE1EoLeib
-	 K5MtKCIpc9mtQ==
-Message-ID: <29572a54-4c3e-49c3-9462-fddb10be94ed@kernel.org>
-Date: Mon, 20 Oct 2025 17:09:56 +0200
+	s=arc-20240116; t=1760974601; c=relaxed/simple;
+	bh=q0l8FMV3yHRblEqttYClg2yHvbtiCqW4OLZlw6MUL8Y=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=RU7jE1ATGmh1+lW9QHOVTr2T8Iws/7DToTZVLPUUyc3x1nSPZPj4T94ocY3erhCEfrvKx1pW9kjK0IIUzG3corM9hHFPK3B191BCZPdOFOdxAprppgviyfWjXDXLOnRFyz/e5kt7AJyNqqS2W9Gh2QhQw1ef1+BS4/Na4lXTB9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nAjWvSLL; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id A7296C0AFDC;
+	Mon, 20 Oct 2025 15:36:15 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3343C606D5;
+	Mon, 20 Oct 2025 15:36:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 71170102F23CC;
+	Mon, 20 Oct 2025 17:36:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1760974594; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=H9TQlGr15WosUCH7JUUA0NvOnJ7vpWN/w5BNTsNS/RY=;
+	b=nAjWvSLLovujjVcGqB3cS6UsjyPmJMt53gImw2O5oXo96PGiDnqiwP8WBCHeSfSF7F8p6c
+	c1d76NedsHPQXowws58Sl71AQdrE6ymh9UUBaWOsfF+5sxxElaVOlIotCTCjkIqJbkmon6
+	vA4Dgear7b16odOpOsbm0s38zPAIuIgL/SqJuATm8AhbNYT8+SMxnyhx2KpvbZhVrQYr4I
+	KNBQaPmqptJyIUsjtEaubP9eReGD0ys31ncQAL4P6bRjFrzvyFF2oKNDmpkzcCyZ1XLCJQ
+	TwomVjOrSK26OWTsiOSZAnkJ/7ZxvqTRc5w7Y22fS+vTVagYZltIBnc23tzINw==
+From: Thomas Richard <thomas.richard@bootlin.com>
+Date: Mon, 20 Oct 2025 17:36:25 +0200
+Subject: [PATCH v2] leds: upboard: fix module alias
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: leds: Add TI LM36274 backlight driver schema
-To: Erick Setubal Bacurau <erick.setubal@gmx.de>, lee@kernel.org,
- pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org, david.hunter.linux@gmail.com
-References: <20251020140428.246460-1-erick.setubal@gmx.de>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251020140428.246460-1-erick.setubal@gmx.de>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20251020-leds-upboard-fix-module-alias-v2-1-84ac5c3a1a81@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAPhW9mgC/42NQQ6CMBBFr0K6dkynCFFX3sOwaOlUJimUtNBoC
+ He3cgKX7+Xn/U0kikxJ3KtNRMqcOEwF1KkS/aCnFwHbwkJJ1aDEFjzZBOtsgo4WHL9hDHb1BNq
+ zToC3SyOv2tWIKEpjjlQ2R//ZFR44LSF+jruMP/tvOSMgGGpro13vVCMfJoTF83Tuwyi6fd+/c
+ 15LWswAAAA=
+X-Change-ID: 20251016-leds-upboard-fix-module-alias-194508af3111
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ DanieleCleri@aaeon.eu, GaryWang@aaeon.com.tw, 
+ Thomas Richard <thomas.richard@bootlin.com>
+X-Mailer: b4 0.14.2
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 20/10/2025 16:04, Erick Setubal Bacurau wrote:
-> Add the DeviceTree binding schema for the Texas Instruments LM36274.
-> 
-> Signed-off-by: Erick Setubal Bacurau <erick.setubal@gmx.de>
-> ---
->  .../bindings/leds/leds-lm36274.yaml           | 81 +++++++++++++++++++
+The module alias does not match the cell name defined in the MFD driver,
+preventing automatic loading when the driver is built as a module. So fix
+the module alias to ensure proper module auto-loading.
 
-Why do you add this without any users?
+Fixes: 0ef2929a0181 ("leds: Add AAEON UP board LED driver")
+Signed-off-by: Thomas Richard <thomas.richard@bootlin.com>
+---
+Changes in v2:
+- Improve commit message.
+- Link to v1: https://lore.kernel.org/r/20251016-leds-upboard-fix-module-alias-v1-1-be63bafcf250@bootlin.com
+---
+ drivers/leds/leds-upboard.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->  1 file changed, 81 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-lm36274.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-lm36274.yaml b/Documentation/devicetree/bindings/leds/leds-lm36274.yaml
-> new file mode 100644
-> index 000000000000..390ca660c0be
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-lm36274.yaml
-> @@ -0,0 +1,81 @@
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-lm36274.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +title: Texas Instruments LM36274 4-Channel LCD Backlight Driver w/Integrated Bias
-> +maintainers: [Erick Setubal Bacurau <erick.setubal@gmx.de>]
+diff --git a/drivers/leds/leds-upboard.c b/drivers/leds/leds-upboard.c
+index b350eb294280fd68535c47843417f4282f97b423..12989b2f195309cc930095ecc5f855065e88d9aa 100644
+--- a/drivers/leds/leds-upboard.c
++++ b/drivers/leds/leds-upboard.c
+@@ -123,4 +123,4 @@ MODULE_AUTHOR("Gary Wang <garywang@aaeon.com.tw>");
+ MODULE_AUTHOR("Thomas Richard <thomas.richard@bootlin.com>");
+ MODULE_DESCRIPTION("UP Board LED driver");
+ MODULE_LICENSE("GPL");
+-MODULE_ALIAS("platform:upboard-led");
++MODULE_ALIAS("platform:upboard-leds");
 
-Don't code with AI. This looks like nothing in existing code, 100%
-different, so I do not see how you could come with this.
-
-Any AI slop is waste of our time. Please start from scratch from latest
-approved bindings (including correct file naming) and provide users.
-
-NAK.
+---
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+change-id: 20251016-leds-upboard-fix-module-alias-194508af3111
 
 Best regards,
-Krzysztof
+-- 
+Thomas Richard <thomas.richard@bootlin.com>
+
 
