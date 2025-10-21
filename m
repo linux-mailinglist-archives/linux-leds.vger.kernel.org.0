@@ -1,114 +1,99 @@
-Return-Path: <linux-leds+bounces-5843-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5845-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53394BF70F6
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Oct 2025 16:26:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D9F9BF7417
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Oct 2025 17:08:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B69B23B94A5
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Oct 2025 14:25:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 660C23A2CE1
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Oct 2025 15:06:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2BB333F8AB;
-	Tue, 21 Oct 2025 14:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC757342C93;
+	Tue, 21 Oct 2025 15:06:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="RR2SygYh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AY5TKxio"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768B833DEE1
-	for <linux-leds@vger.kernel.org>; Tue, 21 Oct 2025 14:24:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD1C340299;
+	Tue, 21 Oct 2025 15:06:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761056680; cv=none; b=UX3sXADzoMPJuQyFmliN4kvhcHOjsqaLZAt/PAt2sWE9VqJMm+DoiY0xC9x3a2/IewtGg7lyR2rNP4m3TqIQE/czkpLWkqlBdPrEqcs0VCbEuPnqXJWjmmnsPZRureuiwiler23up4O7GOVE/JIXTGn3tlFZECb31RBCzouCW5Q=
+	t=1761059206; cv=none; b=FVjmC/0I9Q0P2fQ3DWUYBm/1Kl+nohk+7KwwaTuMD9Vue3vnzi14L0vCzwOWQK3EfRZy9cdRC0Esg34ZzVZzSz2RrC7zInjE5MUaxnSFCEmXuWY3Mo7+JmT1VKZR5peYMpMqdeZvzu+T2UV0yfZfL/KmZ/ZuGr95C6E/cziLRyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761056680; c=relaxed/simple;
-	bh=Fez7uS8AbScs89gfdW78iX7P7jEs/X0KZa5sFOKAbRo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Odnq88VBR2Vz9wYE1DQQsFzCCqkfmDZn2TGKZReo3pb4MkONo2/p8K0hQSFiRL+upKQu6+7zJqbxntSn/oMuk7hyIZq4if+s0fCFWQSCNs2y+lsbBBmcOWT4EWc03muUsyXIRkAvD3Eg57CNze/eU0bsWNy0p9oPVta8kED0og8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=RR2SygYh; arc=none smtp.client-ip=84.16.241.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
-Received: from terra.vega.svanheule.net (2a02-1812-162c-8f00-1e2d-b404-3319-eba8.ip6.access.telenet.be [IPv6:2a02:1812:162c:8f00:1e2d:b404:3319:eba8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sander@svanheule.net)
-	by polaris.svanheule.net (Postfix) with ESMTPSA id 888CD68A1D3;
-	Tue, 21 Oct 2025 16:24:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-	s=mail1707; t=1761056674;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hi27ZSmrR6t0dm+4AwHvX71F/u/ISlzchGx+6AIwVJI=;
-	b=RR2SygYhLgA7AsiICg78fI1XTrOUI9zPfQMoIGqRW5Ex0wbXQgF28cq/dyK8xNeE/Vnp1x
-	Qnqpr3R1rXuykdB0cvpkVO6Y3zyKRj+3o8sIH2O+TvmTUFz5YdNpFi20xcBw03obsoM2Kl
-	Gx24igIctmBhXDveVXSZKpBDGHPqtNdkq48SLS3zxKkY7Xd1hHzgfQo0TQcpTkpMjRdH22
-	mK89xXHgdwkiyRXm2sdoUqybLjGpcT6gA6MN7qBP2/38Kr/wFnGfQPGKTG/SxCG+MS1C11
-	bDCRNcWE5kAzgGRdf7xsdlLsveU2y/OZaBG5BzII8vOFRI1VJ9YQsgih+QHXaQ==
-From: Sander Vanheule <sander@svanheule.net>
-To: Michael Walle <mwalle@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	linux-gpio@vger.kernel.org,
-	Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Sander Vanheule <sander@svanheule.net>
-Subject: [PATCH v6 8/8] MAINTAINERS: Add RTL8231 MFD driver
-Date: Tue, 21 Oct 2025 16:24:03 +0200
-Message-ID: <20251021142407.307753-9-sander@svanheule.net>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251021142407.307753-1-sander@svanheule.net>
-References: <20251021142407.307753-1-sander@svanheule.net>
+	s=arc-20240116; t=1761059206; c=relaxed/simple;
+	bh=GbKOuiXZBtxsAWSv9rFIVwfWTojJtnRVB3sTM7YwbPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Go2XxtHEonsILUyBiZjASs78vk6m9oW3pyM7wo/H4rrplFgWERhAXPBTRkkPkDSoXfgqTJn4Wf82NMTCRXwD4brMVPbJakc4GYfylPBUwbl8oltaM+rcXTf9EeJz3ysupHBRHhzW37e9WtAksAopJGM6O8guMnzYXljAiYH6nhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AY5TKxio; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0937C4CEF5;
+	Tue, 21 Oct 2025 15:06:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761059206;
+	bh=GbKOuiXZBtxsAWSv9rFIVwfWTojJtnRVB3sTM7YwbPc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AY5TKxioba5QvWwSvsvhkB1ZkjjKEaSKHHQ+Hj8ieaibQAssbMUiPcu8ylPDXYn4G
+	 ANJoGSN3MXVXXP0yM7a6iPISzqEWtg+6JNcFXBCyO5Dse20NjJjNYnNvjWMyn3L+v1
+	 LZ5HqPCRU8M/nNOREr+8P0kJnhp38e12+LcqmkVzXBQ+iIydCirk2cLT2GFVRa7PKk
+	 X65d+MysAxMI8B3JYVvn4ZXYJUL+Nj+HjmsrtvsKBQ3CdrBDisjDEUx5mSVIuYyPHQ
+	 +OOQWGqYs92xw6THmp5PlyOhWGBSsMkQLYsTxg0JFdzbojQkws0HW8yrl4s2G+pstm
+	 OO95NhE5UT1ww==
+Date: Tue, 21 Oct 2025 16:06:42 +0100
+From: Lee Jones <lee@kernel.org>
+To: Christian Hitz <christian@klarinett.li>
+Cc: Pavel Machek <pavel@kernel.org>, Christian Hitz <christian.hitz@bbv.ch>,
+	stable@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: leds-lp50xx: LP5009 supports 3 modules for a total
+ of 9 LEDs
+Message-ID: <20251021150642.GJ475031@google.com>
+References: <20251008125031.1174886-1-christian@klarinett.li>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251008125031.1174886-1-christian@klarinett.li>
 
-Add the files associated with the RTL8231 support, and list Sander
-Vanheule (myself) as maintainer.
+On Wed, 08 Oct 2025, Christian Hitz wrote:
 
-Signed-off-by: Sander Vanheule <sander@svanheule.net>
----
- MAINTAINERS | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> From: Christian Hitz <christian.hitz@bbv.ch>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 46126ce2f968..a83c57091a9d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21630,6 +21630,16 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/watchdog/realtek,otto-wdt.yaml
- F:	drivers/watchdog/realtek_otto_wdt.c
- 
-+REALTEK RTL8231 MFD DRIVER
-+M:	Sander Vanheule <sander@svanheule.net>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/leds/realtek,rtl8231-leds.yaml
-+F:	Documentation/devicetree/bindings/mfd/realtek,rtl8231.yaml
-+F:	drivers/leds/leds-rtl8231.c
-+F:	drivers/mfd/rtl8231.c
-+F:	drivers/pinctrl/pinctrl-rtl8231.c
-+F:	include/linux/mfd/rtl8231.h
-+
- REALTEK RTL83xx SMI DSA ROUTER CHIPS
- M:	Linus Walleij <linus.walleij@linaro.org>
- M:	Alvin Šipraga <alsi@bang-olufsen.dk>
+You need forthcoming and insightful commit message.
+
+> Signed-off-by: Christian Hitz <christian.hitz@bbv.ch>
+> Cc: stable@vger.kernel.org
+
+Fine, but place this above your SoB.
+
+> ---
+>  drivers/leds/leds-lp50xx.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+> index 94f8ef6b482c..05229e2f2e7e 100644
+> --- a/drivers/leds/leds-lp50xx.c
+> +++ b/drivers/leds/leds-lp50xx.c
+> @@ -54,7 +54,7 @@
+>  /* There are 3 LED outputs per bank */
+>  #define LP50XX_LEDS_PER_MODULE	3
+>  
+> -#define LP5009_MAX_LED_MODULES	2
+> +#define LP5009_MAX_LED_MODULES	3
+>  #define LP5012_MAX_LED_MODULES	4
+>  #define LP5018_MAX_LED_MODULES	6
+>  #define LP5024_MAX_LED_MODULES	8
+> -- 
+> 2.51.0
+> 
+
 -- 
-2.51.0
-
+Lee Jones [李琼斯]
 
