@@ -1,167 +1,106 @@
-Return-Path: <linux-leds+bounces-5851-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5852-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id C708DBFA05D
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Oct 2025 07:05:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A823BFA3E2
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Oct 2025 08:33:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B5C2B4EC729
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Oct 2025 05:05:14 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 21C344E5D5F
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Oct 2025 06:33:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7F7E2E172B;
-	Wed, 22 Oct 2025 05:04:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 388BF2EC55C;
+	Wed, 22 Oct 2025 06:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PzDIUEzF"
+	dkim=pass (1024-bit key) header.d=klarinett.li header.i=@klarinett.li header.b="z0DZXkro"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mail.hostpark.net (mail.hostpark.net [212.243.197.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38DA2E0930;
-	Wed, 22 Oct 2025 05:04:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CB025784B;
+	Wed, 22 Oct 2025 06:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.243.197.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761109494; cv=none; b=cgsam/n9tdqETLd4jP/nZpDBVs4tWvvEVvgnQ/TUa8J7snUx9iPDdh3BMilK3SqeZRJiYu9ZNy8jSWOLNNghM0wv7bAfftJRgT4SeI1ERr1GBwetlYElypnSYLpjftDDWmcoikhKOG7U7b130412lMYHUDntqSBLzmuO3Xlnbp0=
+	t=1761114825; cv=none; b=py+h/ZHEM+MY2/OUrpRjxam4Rw3E6eASBIIPa54k7wkhCl1s/nqS/eLiu6zBqMDnm+hYMwc9KMRLJfgnNoTrD/ZNTJKjfc0PAAZnd4y6VNwRHC4v81cCW/8zYbgj2BprOTX+AnkJn6aw3N712ZF7esdN0XdKbL2i5ugXEqO18bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761109494; c=relaxed/simple;
-	bh=t4fVfuI1HdHc+jpCjhLSlAa3pfyB6tpSdTYZs5svI1M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XpVn6YeJ45cLIa0kKVnMvbGdPslRlsJfs1bxjuESpRiCKm3GumUFoFgyNsBwd6lRGOgXIYNPsVj+vXjvAxR84Rw08zyps0R/LRGNKkT5+mNZ9BffMtZ+d2gDO7yJEdtNvbuiO3n5OTFrp+z0QZIlvxSs0/cevMVw+ec/x9lFKVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PzDIUEzF; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761109493; x=1792645493;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=t4fVfuI1HdHc+jpCjhLSlAa3pfyB6tpSdTYZs5svI1M=;
-  b=PzDIUEzFc0POfPBSlzvOA4NHX7HUQZim14uTZ4OAqzEDp+HTf/kap/2q
-   hvlmgDETJZkZqWW5kj9ZPZXFcHQhOxCi7tZuxl4Q5vZSjpnJ7XbXImEVy
-   y9+ylw0HWS4mwGD2lTy3t24yD5RE3nwKBZVC9u++L/h2gA4ceH3LkAWWb
-   R//zGEVz1Syn4aKIhibIQJWW32IxbYVJtIjhfuxCL6+Icml5nJK5kmlRY
-   tSL7LYmlQOsoy9strntVgQU7970PYKlbPKLbJq5M37is9lPo74tej4ATa
-   Ve/yTA1JmDP/ccW2PPfbBVneB7tjJuXexgXmc9D1JDF13vkrCUzToTLHf
-   w==;
-X-CSE-ConnectionGUID: NXkZFk5zROaPpbTL7EWE6w==
-X-CSE-MsgGUID: CSxFDOoIS4iHK2TF7JWHNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63143445"
-X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
-   d="scan'208";a="63143445"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 22:04:52 -0700
-X-CSE-ConnectionGUID: uqZlMfscTbGXlOyP80R4jg==
-X-CSE-MsgGUID: yTCBgEp6Ts6RrnrU7T3ySw==
-X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 21 Oct 2025 22:04:44 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vBR0f-000C0l-2a;
-	Wed, 22 Oct 2025 05:03:55 +0000
-Date: Wed, 22 Oct 2025 13:01:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sander Vanheule <sander@svanheule.net>,
-	Michael Walle <mwalle@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-gpio@vger.kernel.org,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Sander Vanheule <sander@svanheule.net>
-Subject: Re: [PATCH v6 6/8] pinctrl: Add RTL8231 pin control and GPIO support
-Message-ID: <202510221215.irTQwvxA-lkp@intel.com>
-References: <20251021142407.307753-7-sander@svanheule.net>
+	s=arc-20240116; t=1761114825; c=relaxed/simple;
+	bh=flOl1xCGuCOPWGoBMyaOBP2p4GmZpiLATLs+rbLLmEM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WevDtihfaczjyjpNoXlZ8md39UZQK93rfP5fd/ugAaw1a8PDCWJue773vm7DbeUlVC9tpqi/ktNQ+LIKPuFr86xKl3DqU9SKloxavi3PzVxKDmAD8c9JT3MN8owx3qtT7xJjEijzAdrZuEhF8LXthmxeLRyQ8TfMODiRCkDv+4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=klarinett.li; spf=pass smtp.mailfrom=klarinett.li; dkim=pass (1024-bit key) header.d=klarinett.li header.i=@klarinett.li header.b=z0DZXkro; arc=none smtp.client-ip=212.243.197.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=klarinett.li
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=klarinett.li
+Received: from localhost (localhost [127.0.0.1])
+	by mail.hostpark.net (Postfix) with ESMTP id 733D9166D7;
+	Wed, 22 Oct 2025 08:33:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=klarinett.li; h=
+	content-transfer-encoding:mime-version:x-mailer:message-id:date
+	:date:subject:subject:from:from; s=sel2011a; t=1761114813; bh=fl
+	Ol1xCGuCOPWGoBMyaOBP2p4GmZpiLATLs+rbLLmEM=; b=z0DZXkroMiSV9rsxQy
+	fSpwWOIum+QbeW7pU9OrGzgSI+Jlwjutj85VZwek+6E0aG8Lqft+totSlKL5/jfT
+	YHhCEFQsHeU+E+Rho3uAGzVnRkrcxu2SoUjVGI5Hsj7HHpZEFSq+m3bS5aFjtrr/
+	BVb8DAzmONqOFcarRFvFBPpQE=
+X-Virus-Scanned: by Hostpark/NetZone Mailprotection at hostpark.net
+Received: from mail.hostpark.net ([127.0.0.1])
+ by localhost (mail1.hostpark.net [127.0.0.1]) (amavis, port 10224) with ESMTP
+ id DYbDTf5dOueE; Wed, 22 Oct 2025 08:33:33 +0200 (CEST)
+Received: from customer (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.hostpark.net (Postfix) with ESMTPSA id 410A5166D6;
+	Wed, 22 Oct 2025 08:33:32 +0200 (CEST)
+From: Christian Hitz <christian@klarinett.li>
+To: Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Dan Murphy <dmurphy@ti.com>
+Cc: Christian Hitz <christian.hitz@bbv.ch>,
+	stable@vger.kernel.org,
+	Pavel Machek <pavel@ucw.cz>,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] leds: leds-lp50xx: LP5009 supports 3 modules for a total of 9 LEDs
+Date: Wed, 22 Oct 2025 08:33:04 +0200
+Message-ID: <20251022063305.972190-1-christian@klarinett.li>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251021142407.307753-7-sander@svanheule.net>
+Content-Transfer-Encoding: 8bit
 
-Hi Sander,
+From: Christian Hitz <christian.hitz@bbv.ch>
 
-kernel test robot noticed the following build warnings:
+LP5009 supports 9 LED outputs that are grouped into 3 modules.
 
-[auto build test WARNING on lee-mfd/for-mfd-next]
-[also build test WARNING on lee-mfd/for-mfd-fixes linusw-pinctrl/devel linusw-pinctrl/for-next lee-leds/for-leds-next linus/master v6.18-rc2 next-20251021]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Fixes: 242b81170fb8 ("leds: lp50xx: Add the LP50XX family of the RGB LED driver")
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sander-Vanheule/gpio-regmap-Force-writes-for-aliased-data-regs/20251021-222846
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20251021142407.307753-7-sander%40svanheule.net
-patch subject: [PATCH v6 6/8] pinctrl: Add RTL8231 pin control and GPIO support
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20251022/202510221215.irTQwvxA-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510221215.irTQwvxA-lkp@intel.com/reproduce)
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Hitz <christian.hitz@bbv.ch>
+---
+Changes in v2:
+ - Improve log message
+---
+ drivers/leds/leds-lp50xx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510221215.irTQwvxA-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/pinctrl/pinctrl-rtl8231.c: In function 'rtl8231_pinctrl_init_functions':
->> drivers/pinctrl/pinctrl-rtl8231.c:354:67: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     354 |                 err = pinmux_generic_add_pinfunction(pctl, &func, (void *) flag);
-         |                                                                   ^
-
-
-vim +354 drivers/pinctrl/pinctrl-rtl8231.c
-
-   321	
-   322	static int rtl8231_pinctrl_init_functions(struct pinctrl_dev *pctl,
-   323		const struct pinctrl_desc *pctl_desc)
-   324	{
-   325		struct pinfunction func;
-   326		const char **groups;
-   327		unsigned int f_idx;
-   328		unsigned int flag;
-   329		const char *name;
-   330		unsigned int pin;
-   331		int num_groups;
-   332		int err;
-   333	
-   334		for (f_idx = 0; f_idx < ARRAY_SIZE(rtl8231_pin_functions); f_idx++) {
-   335			name = rtl8231_pin_functions[f_idx].name;
-   336			flag = rtl8231_pin_functions[f_idx].flag;
-   337	
-   338			for (pin = 0, num_groups = 0; pin < pctl_desc->npins; pin++)
-   339				if (rtl8231_pin_data[pin].functions & flag)
-   340					num_groups++;
-   341	
-   342			groups = devm_kcalloc(pctl->dev, num_groups, sizeof(*groups), GFP_KERNEL);
-   343			if (!groups)
-   344				return -ENOMEM;
-   345	
-   346			for (pin = 0, num_groups = 0; pin < pctl_desc->npins; pin++)
-   347				if (rtl8231_pin_data[pin].functions & flag)
-   348					groups[num_groups++] = rtl8231_pins[pin].name;
-   349	
-   350			func = PINCTRL_PINFUNCTION(name, groups, num_groups);
-   351			if (flag == RTL8231_PIN_FUNCTION_GPIO)
-   352				func.flags |= PINFUNCTION_FLAG_GPIO;
-   353	
- > 354			err = pinmux_generic_add_pinfunction(pctl, &func, (void *) flag);
-   355			if (err < 0)
-   356				return err;
-   357		}
-   358	
-   359		return 0;
-   360	}
-   361	
-
+diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+index 94f8ef6b482c..05229e2f2e7e 100644
+--- a/drivers/leds/leds-lp50xx.c
++++ b/drivers/leds/leds-lp50xx.c
+@@ -54,7 +54,7 @@
+ /* There are 3 LED outputs per bank */
+ #define LP50XX_LEDS_PER_MODULE	3
+ 
+-#define LP5009_MAX_LED_MODULES	2
++#define LP5009_MAX_LED_MODULES	3
+ #define LP5012_MAX_LED_MODULES	4
+ #define LP5018_MAX_LED_MODULES	6
+ #define LP5024_MAX_LED_MODULES	8
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.1
+
 
