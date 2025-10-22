@@ -1,115 +1,126 @@
-Return-Path: <linux-leds+bounces-5854-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5855-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C6A8BFAB26
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Oct 2025 09:53:10 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B399BFADF0
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Oct 2025 10:24:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 50C0819C3DE0
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Oct 2025 07:53:23 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8CCF45009C8
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Oct 2025 08:24:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 662002FDC47;
-	Wed, 22 Oct 2025 07:52:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90B942F6188;
+	Wed, 22 Oct 2025 08:24:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ABypplDr"
+	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="ZW4uF3y5"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45162FD7AC
-	for <linux-leds@vger.kernel.org>; Wed, 22 Oct 2025 07:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BADF279355
+	for <linux-leds@vger.kernel.org>; Wed, 22 Oct 2025 08:24:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761119560; cv=none; b=LFX77jHBYqVljqnCckikhdGyso8ziczUh5cfaR5bnOQv8vDPZq/wzDrJvOs+68yW83AtQefw0sVMaqqiiCscc6ftBjbEAVqmw2FWuy4KgR/vQXuztTsvWrnb0zG5zSyVDHHf4wynTzQFFvRbum2KITqgdpkHR6qVoN87SnQhL7Y=
+	t=1761121451; cv=none; b=ShhOw+s3HD2VItOY5G023KCUBApYDtmy2X6tmXkO2OVZ8wS0VAkhWEEd95Pgwjcmwkz9b36OOXj7p9SYmwp6p6Wbd6k1ZvuXVq0AT1HOUbHx49QxORQxvk7xSyPxBaWz1WWwn5BVIpiYL84p6YqDoB7rybRgbWjaA6gk/5VgITQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761119560; c=relaxed/simple;
-	bh=A854G8Q+az7SMF928a56CKf41JBBm3BPM7QWQ64soKM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OcAD/5CTtc/S8ZUaSlJ2QH99NZhp/c1iTkf6/gg1COpog7eZos+wCHSNxOtnSx1NuiShAi1baor5gMXTAAZJbN3nD+zk+GqAzupZ4cWbx6+jaipIrNoOHPbQImxVHgFDIjWr9TD7c9UZtgfVOSUBW77CuWCRVibavGFy10A3OAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ABypplDr; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-71d6014810fso64390847b3.0
-        for <linux-leds@vger.kernel.org>; Wed, 22 Oct 2025 00:52:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761119558; x=1761724358; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5SQfEz/e2hOwh+iWueKx4wWRyZ4LmWDiG7JhS1t4UW0=;
-        b=ABypplDrXNLD4T/kKJ8lfRsP5bAAtauYUpcOOjCU4U3BaAiZ48Ob/t0wWVC7nYxEqn
-         iO3duOiuHQEF319w8UeJEZq1xDYgqXT9br+tNIMGrE8Tga8g472DY7QJxLbRD7B4v1SU
-         oQIaIAtfPyzCkFpqqg2iUvqNk/H8ul9rN8XyMG/C68CxTwiwpLnXxIsayJidKNrtEonr
-         Zcgd6d8LiJGfXl4kcyDR6bup4+G2WIfhnOUaKzewBr2XXA+isVqLHN6aXbFtEaipwaGS
-         fswA7EXWHRQm4e0MWaLN8oivQjea9CRMHOdz/AqyIxgEBpDj0gkQ2T11DjxEI3jGsm8O
-         bqsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761119558; x=1761724358;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5SQfEz/e2hOwh+iWueKx4wWRyZ4LmWDiG7JhS1t4UW0=;
-        b=Klek9hfcx5/piWAqRUFVzMkq1dM3b4ME4Q4T4Bt18Bj0cisD/6eEpixM0WrrHILZxJ
-         yIAsrzNf44EHwsbsvdGr5Cfp9uQeHkNkCHeWy32Il1X4p2m8VYKyYKvw5TiwmtZvnZgI
-         /YDGKHGZq5RjNs0gSi/wgzHr8sTE0WdcMlZAfcjzA2qw+rpVlJ11in/EHghlfClwBzU/
-         U9B97wioPAIuMURQ/Q7Fxvl8eCDNYpE0Z0UzArzZu9or4KLby6+cJxwFZHiKhKOCqLLY
-         hMi4sqre1pVDZF8M0bplFuoWyEnmPphB9lmcmL3EEsmFsA8+aSdybpotjPMWQ6F+nR+x
-         1OXg==
-X-Forwarded-Encrypted: i=1; AJvYcCVtWZokkSMndaD+H9rmeIob35w2Oiektp1vqKafWMXAbFbsElu4mobhUvPSjaYcZGaROX73Guv6nz65@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTqTyNiIdUva6LYHQ5gp9xd87mt3httmsTyxJ10A2JMP7PMzvd
-	jj1Aw8r4WrYZrkj6OI8NJCz6BCoC5TIt7rQXqFcyNurZF55BNpj+soGIdYIn8LcCYfbDHJjMp/Z
-	gk0fDf2/sUmkZBR/+/LDKjK+tZDURjfzX/014dRIcxg==
-X-Gm-Gg: ASbGncs5BBnZN6U2n65mzqUyiGVY4WXafxa65J43ZOViEOKi+SaoCSc9R1IjG5qauKH
-	wqTIJ+Su2nnc8V6vnK2IMZEgOyEPbK+g11/X7aLJnZnmBFaYxxLuKQq5tMyvea9U6d1nVpQzkma
-	J4H4VVXjJqNM267buil8rkaevx+q5Vf9r3P3PF3JteEf1lWfD/8udAmWvmVENjK0CVxeX5lKcno
-	ydz0L862/+cLz0VPeGWP1hMBsq6HVBIQGYBbWgALOXIyDNDxKjLgm6PkoL2Hm1M0LPjpkI=
-X-Google-Smtp-Source: AGHT+IGOnPQWJDBN6sjrOxFjPZZTij/Niq/8Rg21Q+EknYQnuJrFX6ATSFspu4lRM1YW7AwwhMSNREKhsGRl4TKmTgw=
-X-Received: by 2002:a05:690e:4008:b0:63e:1ee2:eb0a with SMTP id
- 956f58d0204a3-63e1ee2ecb5mr12241395d50.26.1761119557691; Wed, 22 Oct 2025
- 00:52:37 -0700 (PDT)
+	s=arc-20240116; t=1761121451; c=relaxed/simple;
+	bh=cVLAI8TidoafTBGuNFYDV/STwV4in9pD95DRKnSWSMk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MX9aUdDrf8ZI9ada9BruvCI4NV8fn+zL8Fd2yfYwSCIsQHz1QuSVNqdbRR52TeOYRNNBiWMLnJRAbch7UR86aiW6tWdhucISY5+OxL3mNhdMx6NssmIC34JNf8FYg4BoHhcF01ZRxvELqVsLQ0/7VFZAKBaHhlZtHFRWXfQUcq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=ZW4uF3y5; arc=none smtp.client-ip=84.16.241.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
+Received: from [172.28.172.2] (ptr-94-109-117-102.dyn.orange.be [94.109.117.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sander@svanheule.net)
+	by polaris.svanheule.net (Postfix) with ESMTPSA id D88AA68B189;
+	Wed, 22 Oct 2025 10:24:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+	s=mail1707; t=1761121447;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cVLAI8TidoafTBGuNFYDV/STwV4in9pD95DRKnSWSMk=;
+	b=ZW4uF3y5R7fcDgf9PaMVfeZt4x0p/ZgPa0U+r6M87BR8FT7cpWGQ/EaZz1WWU3GokV37HE
+	cURMdW0WJniFNpUlbSgmAbhZPiJc6n1II7TPE3Kt1hCIAxYNLYSxYxboPmQPKi4UFPi7Kl
+	42oxNcoq0BQGaq2MNWu/X8bQZYC2wpc5Yjamjfp+ptfaSDucrIQTxE6tNvSIsb1ZUu/bBo
+	cK2l3HTFdODeNW1l4C6logie0WdX/J4GKYuu7cC3jhMtp+5x2j4u37D4XY/OU0lXkUL290
+	YjFlv751+dTC0Sii866FsiXjs/hHWEWMUQG+ZEtSLOzYucUKC07uN5Ciq2Wi4g==
+Message-ID: <e6d95d91b68a86b748008f69dcc495796b61843e.camel@svanheule.net>
+Subject: Re: [PATCH v6 6/8] pinctrl: Add RTL8231 pin control and GPIO support
+From: Sander Vanheule <sander@svanheule.net>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Michael Walle <mwalle@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	linux-gpio@vger.kernel.org, Lee Jones <lee@kernel.org>, Pavel Machek
+	 <pavel@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Wed, 22 Oct 2025 10:24:04 +0200
+In-Reply-To: <CACRpkdYde+=85f6Zfz40bMwOxSE-bszHzvBhQwC+G-E2CZr3Lg@mail.gmail.com>
+References: <20251021142407.307753-1-sander@svanheule.net>
+	 <20251021142407.307753-7-sander@svanheule.net>
+	 <CACRpkdYde+=85f6Zfz40bMwOxSE-bszHzvBhQwC+G-E2CZr3Lg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251021142407.307753-1-sander@svanheule.net> <20251021142407.307753-7-sander@svanheule.net>
- <CACRpkdYde+=85f6Zfz40bMwOxSE-bszHzvBhQwC+G-E2CZr3Lg@mail.gmail.com>
-In-Reply-To: <CACRpkdYde+=85f6Zfz40bMwOxSE-bszHzvBhQwC+G-E2CZr3Lg@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 22 Oct 2025 09:52:25 +0200
-X-Gm-Features: AS18NWChHJVKsQEprXAlHgw_Y74ygS-pAN-Cj80aJrWmlHy4f-JX2hUVSzNGAmI
-Message-ID: <CACRpkdazC7KC7HUZTkN-QqjuWXaJKLQrXfC30=GKUOymfpVJTQ@mail.gmail.com>
-Subject: Re: [PATCH v6 6/8] pinctrl: Add RTL8231 pin control and GPIO support
-To: Sander Vanheule <sander@svanheule.net>
-Cc: Michael Walle <mwalle@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, linux-gpio@vger.kernel.org, 
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Replying to self:
+Hi Linus,
 
-On Wed, Oct 22, 2025 at 9:42=E2=80=AFAM Linus Walleij <linus.walleij@linaro=
-.org> wrote:
+On Wed, 2025-10-22 at 09:42 +0200, Linus Walleij wrote:
+> Hi Sander,
+>=20
+> thanks for your patch!
+>=20
+> Overall this driver looks very good and well designed, using the
+> right abstractions and everything.
 
-> >  drivers/pinctrl/pinctrl-rtl8231.c | 538 ++++++++++++++++++++++++++++++
->
+Thanks!
+
+> The build bots are complaining but I think you will have fixed that
+> in no time.
+
+Indeed, I reproduced it on a UM build and resolved it by changing the under=
+lying type for
+enum rtl8231_pin_function to uintptr_t.
+
+Additionally, this showed that I was missing CONFIG_GPIOLIB, so PINCTRL_RTL=
+8231 now
+selects that as well.
+
+>=20
+> Just one minor comment:
+>=20
+> On Tue, Oct 21, 2025 at 4:24=E2=80=AFPM Sander Vanheule <sander@svanheule=
+.net> wrote:
+>=20
+> > This driver implements the GPIO and pin muxing features provided by the
+> > RTL8231. The device should be instantiated as an MFD child, where the
+> > parent device has already configured the regmap used for register
+> > access.
+>=20
+> This is Realtek, right?
+>=20
+> > =C2=A0drivers/pinctrl/pinctrl-rtl8231.c | 538 +++++++++++++++++++++++++=
++++++
+>=20
 > Should we put the driver in
 > drivers/pinctrl/realtek/*?
 
-This is because these are SoC drivers and this is an MFD
-expander, right. Keep it where it is!
+Like you noticed, this is for an external chip, so I also decided to not mo=
+ve it to that
+directory.
 
-Sorry for the noise.
-
-This driver is finished.
-
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-Yours,
-Linus Walleij
+Best,
+Sander
 
