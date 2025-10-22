@@ -1,106 +1,122 @@
-Return-Path: <linux-leds+bounces-5852-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5853-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A823BFA3E2
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Oct 2025 08:33:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D1FBFAA51
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Oct 2025 09:43:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 21C344E5D5F
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Oct 2025 06:33:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C42F18932EC
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Oct 2025 07:44:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 388BF2EC55C;
-	Wed, 22 Oct 2025 06:33:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D2132FBDFB;
+	Wed, 22 Oct 2025 07:43:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=klarinett.li header.i=@klarinett.li header.b="z0DZXkro"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jyNITR6I"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.hostpark.net (mail.hostpark.net [212.243.197.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CB025784B;
-	Wed, 22 Oct 2025 06:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.243.197.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D6A2FB630
+	for <linux-leds@vger.kernel.org>; Wed, 22 Oct 2025 07:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761114825; cv=none; b=py+h/ZHEM+MY2/OUrpRjxam4Rw3E6eASBIIPa54k7wkhCl1s/nqS/eLiu6zBqMDnm+hYMwc9KMRLJfgnNoTrD/ZNTJKjfc0PAAZnd4y6VNwRHC4v81cCW/8zYbgj2BprOTX+AnkJn6aw3N712ZF7esdN0XdKbL2i5ugXEqO18bk=
+	t=1761118982; cv=none; b=JDPFP07dIijIiHxqe7j9YsFCct/9y/spMYOg/9GgvbUhwOR+tlK71GdlRBwQLuMtdmQIJkYBZ0mnJhgyeo+bYLqqMn0qrj990uy0kQmeFnPVMmTFAF96iJtBAhpcyRpExMraY7CI0Y6LtRawkiSLnB3EKxQ5MBhaSpR55GXXHpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761114825; c=relaxed/simple;
-	bh=flOl1xCGuCOPWGoBMyaOBP2p4GmZpiLATLs+rbLLmEM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WevDtihfaczjyjpNoXlZ8md39UZQK93rfP5fd/ugAaw1a8PDCWJue773vm7DbeUlVC9tpqi/ktNQ+LIKPuFr86xKl3DqU9SKloxavi3PzVxKDmAD8c9JT3MN8owx3qtT7xJjEijzAdrZuEhF8LXthmxeLRyQ8TfMODiRCkDv+4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=klarinett.li; spf=pass smtp.mailfrom=klarinett.li; dkim=pass (1024-bit key) header.d=klarinett.li header.i=@klarinett.li header.b=z0DZXkro; arc=none smtp.client-ip=212.243.197.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=klarinett.li
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=klarinett.li
-Received: from localhost (localhost [127.0.0.1])
-	by mail.hostpark.net (Postfix) with ESMTP id 733D9166D7;
-	Wed, 22 Oct 2025 08:33:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=klarinett.li; h=
-	content-transfer-encoding:mime-version:x-mailer:message-id:date
-	:date:subject:subject:from:from; s=sel2011a; t=1761114813; bh=fl
-	Ol1xCGuCOPWGoBMyaOBP2p4GmZpiLATLs+rbLLmEM=; b=z0DZXkroMiSV9rsxQy
-	fSpwWOIum+QbeW7pU9OrGzgSI+Jlwjutj85VZwek+6E0aG8Lqft+totSlKL5/jfT
-	YHhCEFQsHeU+E+Rho3uAGzVnRkrcxu2SoUjVGI5Hsj7HHpZEFSq+m3bS5aFjtrr/
-	BVb8DAzmONqOFcarRFvFBPpQE=
-X-Virus-Scanned: by Hostpark/NetZone Mailprotection at hostpark.net
-Received: from mail.hostpark.net ([127.0.0.1])
- by localhost (mail1.hostpark.net [127.0.0.1]) (amavis, port 10224) with ESMTP
- id DYbDTf5dOueE; Wed, 22 Oct 2025 08:33:33 +0200 (CEST)
-Received: from customer (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.hostpark.net (Postfix) with ESMTPSA id 410A5166D6;
-	Wed, 22 Oct 2025 08:33:32 +0200 (CEST)
-From: Christian Hitz <christian@klarinett.li>
-To: Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Dan Murphy <dmurphy@ti.com>
-Cc: Christian Hitz <christian.hitz@bbv.ch>,
-	stable@vger.kernel.org,
-	Pavel Machek <pavel@ucw.cz>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] leds: leds-lp50xx: LP5009 supports 3 modules for a total of 9 LEDs
-Date: Wed, 22 Oct 2025 08:33:04 +0200
-Message-ID: <20251022063305.972190-1-christian@klarinett.li>
-X-Mailer: git-send-email 2.51.1
+	s=arc-20240116; t=1761118982; c=relaxed/simple;
+	bh=8srG042WcIwfpUeZ+HvXXN7keM9XIjBlEUNmAlUKTog=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W1eyvxrVX5w9gECfQHmEJnTC6vrarxPu7e4ZESyF7/nPHxLVjrc667HNKNuhFDcM/ZG9URjmnmxVSVXPqPT8vMdUXqL2+dj/2hDmAO+K9zvq8X1CKqJZdupJw0/hGPEOaS+K6soO2ZcAroKHyghBzi7W0Tx1Ju4a79TP27ZViLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jyNITR6I; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-375ff2b3ba4so71296261fa.0
+        for <linux-leds@vger.kernel.org>; Wed, 22 Oct 2025 00:42:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761118978; x=1761723778; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3TNLAjhkgqHZPN7SHKf/AirJr2ThqMNuItE7JWwCB04=;
+        b=jyNITR6IoN/oGFbwQIDE4I9PAX6Q2bIUpqgrGEqgxZ5n0b4x+ViuKJErmcZnXiUmVn
+         qURxHNiMHydDJtPeduU6PBdNCpJRzLVTE+FUO5iG1IHA/waCoZQvHmztpqLWDKGRjCxv
+         hpFzOezYlQCWrkLnHURNtGAFFYlpSQE/q1ZsdGCSTm5jMzTq92Qh3RM6tcBwepdff65N
+         TFE6DjzpaVpr6PN1jAIdCppadu1rz6//gm0FOQT450i2sgrKT2ot95UcEzEcCfTvZ7Dt
+         HRPN3yBWZavKJglIfwn5NT57Km8freFxbVc9bFp5xlncwDC763W5soCtAN/c0FSCCFFX
+         gT1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761118978; x=1761723778;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3TNLAjhkgqHZPN7SHKf/AirJr2ThqMNuItE7JWwCB04=;
+        b=Uh4+2IUxGHgfGvH9dwerRhmhtFW3RthCGwBx30PEyLAlrsnURQfAKU3qNUpYbA4FKV
+         MRCASCsFFNRC8/36r4yH7WEAZi3Y4nwfEnXtgybRv6sUpAhAZdH2fBmtvsIuxae6hvL/
+         6BvrdOYA1goEwX+u428w8tRyVx5100kwjFg0a7HArL+JdlmQQaQZ3GA36cV1/7XQGSyq
+         PYnJfaLkssUhHPCjaKInaGL5NyMoztfL2bhNpb4A78XAn7OUdXMeeNcPXnX8oK3CP1xD
+         8p1PMzwAVuCQToaSjHOEJfzmih/+XSTQUv+64hnDCpPlVa9+qvtmNSSQzLy+w1yQNLR0
+         1GhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUU4IbiskY4dKVFpphEhZgoLpdcv70UHNlEJaNzUShkm6YzzatMBsnIgvMgPhZQCxzAtYaj+PQAZvq@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCbLKIb9n5KZyrW6Q5a0Rjw8QBRODiIOJ3rWekoxTi1j7ptncb
+	ltfZdferZmCdN4fCAf8YPrr2TLL4YL7FOe7EaFlfTuMviBL5Bih5WfP7GCaHZoJw9J96RNIBAEz
+	S9YmGuUuLLHK7x0WSuc0c7EBP4vaVno+D5Lbv83OJwg==
+X-Gm-Gg: ASbGncuAIDM/rMDwgkOkby+6DUENzBqq5x2ynGGbP2hUHBwQID+lKf3X9PHxpnk17sm
+	juHxFy5VEOpOEfYNU6vtRz9qJ2gKnk5gSP+cu61L4vWgoIYRL7vPzHedlwnwXcOWB/jZKcdft7n
+	8wP0GFpR7boKkQt9nKNiqsWbi4G1wDBJK3b5K9/+TojMNJjVmfKf3RKLFPEJPPFgTkIwJiC2Our
+	8pn2LRjjVEp0KiMiJD2HnUa6xBoqZFhzLhTEEw7V7iv8lmH75Pz1FSz4/D4ZVyWGxM+NcM=
+X-Google-Smtp-Source: AGHT+IF3wmaO/RAI6AHRa1eUfLujsXfSoyOJjO3vVqO2wvb1ZTN3XsaW5H5jnTeROH/SrLDcnMyHtIhVSJKUnCmfyCM=
+X-Received: by 2002:a2e:be25:0:b0:375:d1e4:21d4 with SMTP id
+ 38308e7fff4ca-37797a9f7cemr64226911fa.44.1761118978065; Wed, 22 Oct 2025
+ 00:42:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251021142407.307753-1-sander@svanheule.net> <20251021142407.307753-7-sander@svanheule.net>
+In-Reply-To: <20251021142407.307753-7-sander@svanheule.net>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 22 Oct 2025 09:42:46 +0200
+X-Gm-Features: AS18NWC4q1xLV5cdKOkaQ3Uw-5JkGYLVSUeBiCU5sYUK8C3AufUKZRqVPVNjL6s
+Message-ID: <CACRpkdYde+=85f6Zfz40bMwOxSE-bszHzvBhQwC+G-E2CZr3Lg@mail.gmail.com>
+Subject: Re: [PATCH v6 6/8] pinctrl: Add RTL8231 pin control and GPIO support
+To: Sander Vanheule <sander@svanheule.net>
+Cc: Michael Walle <mwalle@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, linux-gpio@vger.kernel.org, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Christian Hitz <christian.hitz@bbv.ch>
+Hi Sander,
 
-LP5009 supports 9 LED outputs that are grouped into 3 modules.
+thanks for your patch!
 
-Fixes: 242b81170fb8 ("leds: lp50xx: Add the LP50XX family of the RGB LED driver")
+Overall this driver looks very good and well designed, using the
+right abstractions and everything.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Hitz <christian.hitz@bbv.ch>
----
-Changes in v2:
- - Improve log message
----
- drivers/leds/leds-lp50xx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The build bots are complaining but I think you will have fixed that
+in no time.
 
-diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-index 94f8ef6b482c..05229e2f2e7e 100644
---- a/drivers/leds/leds-lp50xx.c
-+++ b/drivers/leds/leds-lp50xx.c
-@@ -54,7 +54,7 @@
- /* There are 3 LED outputs per bank */
- #define LP50XX_LEDS_PER_MODULE	3
- 
--#define LP5009_MAX_LED_MODULES	2
-+#define LP5009_MAX_LED_MODULES	3
- #define LP5012_MAX_LED_MODULES	4
- #define LP5018_MAX_LED_MODULES	6
- #define LP5024_MAX_LED_MODULES	8
--- 
-2.51.1
+Just one minor comment:
 
+On Tue, Oct 21, 2025 at 4:24=E2=80=AFPM Sander Vanheule <sander@svanheule.n=
+et> wrote:
+
+> This driver implements the GPIO and pin muxing features provided by the
+> RTL8231. The device should be instantiated as an MFD child, where the
+> parent device has already configured the regmap used for register
+> access.
+
+This is Realtek, right?
+
+>  drivers/pinctrl/pinctrl-rtl8231.c | 538 ++++++++++++++++++++++++++++++
+
+Should we put the driver in
+drivers/pinctrl/realtek/*?
+
+Yours,
+Linus Walleij
 
