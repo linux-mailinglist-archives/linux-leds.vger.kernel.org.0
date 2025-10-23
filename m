@@ -1,139 +1,156 @@
-Return-Path: <linux-leds+bounces-5864-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5865-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A46C00FB9
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Oct 2025 14:07:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E7DC00FAA
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Oct 2025 14:07:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4DD2150363A
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Oct 2025 12:06:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C76C21898EEE
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Oct 2025 12:07:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C29F130F800;
-	Thu, 23 Oct 2025 12:05:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F10B130EF7E;
+	Thu, 23 Oct 2025 12:07:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="uyG+8FMJ"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="zudtGHkq"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7035F2C2363
-	for <linux-leds@vger.kernel.org>; Thu, 23 Oct 2025 12:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DA5309DB5
+	for <linux-leds@vger.kernel.org>; Thu, 23 Oct 2025 12:07:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761221154; cv=none; b=in6YouDbt4hLZ74eYMj5/q+Y2uKPPiGZCZ11a8tSSgHks0USNQ4OsEa13n0VyBRntcOQnfFxQ0xdF/zV61e+3431B+dDuUtqZ2VmM7RL2LdOqEmtXAL/qVFVRIp4wDuxPeMA9vCuSY6jzeOdFTzpXWwfn+bdr8FoGfKdZPmk0i4=
+	t=1761221233; cv=none; b=u8Y39pRA49an4XC6RFo0eKApv9WNafyXZpLsFkqkqaFifU4pb2VljRFJcW1FG/nFzA3qNtnbTp3m/vejjWdSHQGrFIPMQPl8tqBV4QmtCOweKqJ8QGCNYwjIjP3qJmUkdaO17RlTGTU3sfP2BhpaYHZu/rJyK77cH72rs+nvaGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761221154; c=relaxed/simple;
-	bh=Iw/i/voACEOEUB0dl8Hwa2eGsgmSTL3oU67E/m1QVYU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=P2RAi1qGxEBthr41I2M6i3l1c4bURbAkYE8+BHVe4xcS6PZrVqoPYCet6XfCoBkFKsXkHaxpMbqDEjVc9/F2gg9dxDglAV4I80uCUb1Ums/YbrFerceUDe+nmXL1ZBsZV9eKvleD23IU2ub6A+R307PRc1P32pn0Nf/eJ2CxvYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=uyG+8FMJ; arc=none smtp.client-ip=209.85.221.47
+	s=arc-20240116; t=1761221233; c=relaxed/simple;
+	bh=qTa5v9/v5NbPlSDL/Vo/i3ec1YqZV/ko+X0VaKXMkmE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JCpTn6BZEpD5XSowsq2Gvv6fagZeSWTPKjIa9l5liaYGFAvF1kp9N3nQxzvJs0TiddxUlAquvQF88uepg5Of63oBc9sftJ0a1jnJyyZHUTqygK6GUttRkPz9G/6OUdR6EwxXIYk1ur6AjxvPwAZiR/6kNEOAbqhf1XJqOCLOJ3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=zudtGHkq; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3ed20bdfdffso714661f8f.2
-        for <linux-leds@vger.kernel.org>; Thu, 23 Oct 2025 05:05:51 -0700 (PDT)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-591ea9ccfc2so970840e87.1
+        for <linux-leds@vger.kernel.org>; Thu, 23 Oct 2025 05:07:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1761221150; x=1761825950; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1761221230; x=1761826030; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=K+knHP+hH8wtFXL9FrX8Adjy6J9Lu8uJnSEg3TGlm3I=;
-        b=uyG+8FMJ0sbkNL3nSa3XQOzVI9s2QM7VyNyk9i5TN/UqebVdXbkmHmklYMIX3eodcS
-         XBSO1VX/OK+f4qVrfG8kWhp1OaiLxPQ3tNtH0Of5rSk97HhQHfI7LUGoXsXr0OOYABxD
-         Y1IePlPMCdWYddBRTEIzxzfyttWk5KNnBeUDrelBeopSGRQ0O29PV+qxrGSgqvRH1rdA
-         Qe4GD8ofcIfS3+7PTbQfNzTnsAuqpKJR60NsgDuBuloKnl+3McuZP52DONiXIBux8Vfj
-         /27dJ9qYsIkS2fxxLtrORNpy7X5iL4CQbYOOxvKZLV0kUTSs2ZSyK9D42ytpjKLHVqU0
-         qrqA==
+        bh=3wSA08yxMybYC5Sv+/SAZaVGIbJoxksVKnqMBUGns0I=;
+        b=zudtGHkqtGDOCft8CWbiG8DWh9t75wzehbch30bcjMPMNYoIyxqyo2Tb1sX2HR41jx
+         bmT3KEjA9wi3hxgY6gfuAAoH83pq0n43edyUk3G6uJzi6bbW16LLde0jFvHPn1HYTFJK
+         jTfK2MPXPJzdN6e5ZZF9dS6vcx9jIo4MXRYYC9bWkM7Y8t4znUMQ5fVsaXiktN5vaeLI
+         DnbVDbMyuDuMpBoRHaQRgvxianI+OaSUpThARg1iszA6Uha6tsO2IupXh0kjnztzdFJB
+         0Uvp+k3zD4QKXHom8EVqJJizQwsjAHVZXpn6Pie0EFNjKk8PGdSyGMUBmSLNu5UlBPsQ
+         b0WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761221150; x=1761825950;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1761221230; x=1761826030;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=K+knHP+hH8wtFXL9FrX8Adjy6J9Lu8uJnSEg3TGlm3I=;
-        b=fywhyNmsi3GsD5bNjDKz07nRahxRDH7jJ/SBORK9EDQFT616xpWREzJ8sR+55fCcXG
-         SRaEA/zbxLmkua9mbJ0awUhLkGyy+9cemsdCnEcMuRKsKOjg4ZVXVqhkJoCMUUcJNpn4
-         EJW8U6ztI2jf2lg/RFxcVh5WYBL+c24z3dn4hi/CplFn21dLpAm+XzCptwgzOya7um9x
-         bk0oq02sadmRpCWDYNZK8Yff/2SrtlkBvI9UhK+FxTXLI5krNAruNPKSUQ2JmY8FHBJS
-         EGL6uLIUOfAMKD967KkqvkpFO7fnPYlMPukdtzemVVb55OAkIw7SRjQsjUZ9K7/MSlPi
-         HNaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWCCO7xsvRAnV3ai1+2bsglN0+FM1Hdz4rQs0d10aXiyAhdmwZJ8gmRNZGzoZ3+wojhOQeq2Q5r9sr4@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzoj4bl/q709gv/n/WsBGzslJHbE8EIqDwVcDy/G5c6IZLtmnUx
-	Cc/Aro9X28SGEqEvfTyg9ZNwk11Gyd0tZ77PzRFyFiDS1blYQ84MLobzqCKSh6VniaE=
-X-Gm-Gg: ASbGncveuL7kOV7AEkzMiFwhN9sAhIII3f2s60+u3mpCxmjgIToLxwlBqxloXBdkgFq
-	eSsIWa8y8Z2robYLv31hLjazp+vwz1P8eYBpaj5LQXYVTyHMHRslwrctqYTbvaXsAd1tuGtpgNH
-	i1Tytok1fid5jrvGmQMuAIcm95aVtEQ9Ycq7WZY/Xk9dPEklJdB05f4LYcil5x39KANz7NgCFWc
-	k9hHGLBKtLAbWNsY9XnF9q/DnhAvnngstCnlU23z+exgAnWicVWeUtxYAxLsRgwNBN1ncpgpvlB
-	R/c+rj2fN6eZ3IhcUej2cFM2v725VFpxSmeYFYTZRd37FwRpGj6w+f2PlFvk9sWEgYPdR3l5cHz
-	0CHuF8uhsc8mfWU+xC8+KLkshQcUyAmM8V1H8oOtFBOOvYeslKETf7Z2StIRBZMCvAzEqQUE8Tt
-	d2PJarx+kJFlPUJRXANqdIKw==
-X-Google-Smtp-Source: AGHT+IHwJs8vP+ZphKLVg8Qnj866Tn55HPAEvE8rihx7f3rOB0WHPIdkAlWdTCpxtTyY9j9MwN+iRA==
-X-Received: by 2002:a5d:5d10:0:b0:427:7ac:5287 with SMTP id ffacd0b85a97d-42707ac52e1mr14432699f8f.34.1761221149595;
-        Thu, 23 Oct 2025 05:05:49 -0700 (PDT)
-Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:1b4:e02e:c538:6feb])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429897e763csm3719949f8f.6.2025.10.23.05.05.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 05:05:48 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: Michael Walle <mwalle@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	linux-gpio@vger.kernel.org,
-	Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Sander Vanheule <sander@svanheule.net>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH v6 0/8] RTL8231 GPIO expander support
-Date: Thu, 23 Oct 2025 14:05:47 +0200
-Message-ID: <176122114012.40841.4682534085501812836.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20251021142407.307753-1-sander@svanheule.net>
-References: <20251021142407.307753-1-sander@svanheule.net>
+        bh=3wSA08yxMybYC5Sv+/SAZaVGIbJoxksVKnqMBUGns0I=;
+        b=LWY2pK7Y+hMRHsA1TCZ3n/I+XB/P1E4/ezCony85r/0jIuaWvJ6MiAPSxneJBiLGWx
+         j6k8IbKufq3Hi4VaCkRy+aTkO0BII8ZK7nJ8QxethwvUqJaZgTe2cHe0sVpzlGzMBWdL
+         NQWhwz/h+5vWjHPZ3lYvFfdD5G/jlaBapd4DAkq4qqBAmb8X1wqMjWZFR+HKbXpe4sRF
+         JYbT2OF1Bcq072q1EBh6bDVW4YvMDausHaSqrjbnOMoZ8j0ZOO03VHiZGYiNbLvk0eUa
+         XnjsjSW7qU30s0W09KavZI3LW8NS+ZfwtRrPKRKATiItRC1SGWKIKB00IQ1NgIiqcbz+
+         D76w==
+X-Forwarded-Encrypted: i=1; AJvYcCWoIm5G060LsIBSFfkuSJD5JOgXh7MY1Wms906SAFTmiRJS/uG44wTOiGY4KwzJQILTvvyaF7H8F7oK@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw73F2ch66r4/wH0M88g8J/PhgcpfHrbsgB/Awvqd6lVBPJiHpU
+	lJayT2UjQeVEViM7x4tVNNWqY9BL3RMqlt6Qco9It0MOLVsCZGVTdMFBf7y6p8BkzjY91OOAnen
+	HGsp7ZhuWg1v0livQAOdz6+A3VA7YzaPR69O8NjoQEA==
+X-Gm-Gg: ASbGncvUe4l7Ctm8IC2VF2kydeA0Utn0VIhw/mwGX/NJ797Wv0Ag+u2qtkBgUUnO/V3
+	V9Jlv/pxdFrRQpwqDaiZeaGe6TouyB8hYMuT540V2JGzK38adv7OPS3uZyuXBAU+768OpqjdPnC
+	dK6RepYb7ZCvC/dys1QjFMLi4KkV4fAp93hR5DpHBLbk0h8knwAFaPUcyD02KgeOKXCS9QfJR7L
+	Uj6aiLU+oUg02/jg2Bms/nfYNlb645FHgL84XjxATJZUMRAi3x5DEpoHH9v3mIS2PBG+7mswrTR
+	AwKXiH7bvZ7UKVGR8mtmYAwXV7b3Vnrrq4dg
+X-Google-Smtp-Source: AGHT+IEyVOm5IBklELoMZatdcICtobl7Ib94Uu3o+Ml+3GyBIHju56j9a5TbEHU5whXAfI1PuPwpWcnLKVQT/DRXSys=
+X-Received: by 2002:a05:6512:3d2a:b0:591:d84c:205b with SMTP id
+ 2adb3069b0e04-592dc04d33emr2335180e87.16.1761221230008; Thu, 23 Oct 2025
+ 05:07:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20251021142407.307753-1-sander@svanheule.net> <20251021142407.307753-3-sander@svanheule.net>
+In-Reply-To: <20251021142407.307753-3-sander@svanheule.net>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Thu, 23 Oct 2025 14:06:58 +0200
+X-Gm-Features: AS18NWAEFusL3Hp-4sM_SAS38ZnVOKKGvo81QZWmsgYdmYixwwiWHBeVWLH-c6c
+Message-ID: <CAMRc=Mevt+h-zjU2hmbTOjuTB=xQZN7O=FtdM0v=680VNiAKTg@mail.gmail.com>
+Subject: Re: [PATCH v6 2/8] gpio: regmap: Bypass cache for aliased inputs
+To: Sander Vanheule <sander@svanheule.net>
+Cc: Michael Walle <mwalle@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	linux-gpio@vger.kernel.org, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+On Tue, Oct 21, 2025 at 4:24=E2=80=AFPM Sander Vanheule <sander@svanheule.n=
+et> wrote:
+>
+> GPIO chips often have data input and output registers aliased to the
+> same offset. The output register is non-valitile and could in theory be
+> cached. The input register however is volatile by nature and hence
+> should not be cached, resulting in different requirements for reads and
+> writes.
+>
+> The generic gpio chip implementation stores a shadow value of the pin
+> output data, which is updated and written to hardware on output data
+> changes in bgpio_set(), bgpio_set_set(). Pin input values are always
+> obtained by reading the aliased data register from hardware.
+>
+> For gpio-regmap the situation is more complex as the output data could
+> be in multiple registers, but we can use the regmap cache to shadow the
+> output values when marking the data registers as non-volatile. By using
+> regmap_read_bypassed() we can still treat the input values as volatile,
+> irrespective of the regmap config. This ensures proper functioning of
+> writing the output register with regmap_write_bits(), which will then
+> use and update the cache only on data writes, gaining some performance
+> from the cached output values.
+>
+> Signed-off-by: Sander Vanheule <sander@svanheule.net>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Reviewed-by: Michael Walle <mwalle@kernel.org>
+> --
+> Changes since RFC:
+>   - Add review tags
+>   - Slightly reworded the commit message
 
+Nit: changelog should not be part of the commit message, I dropped it.
 
-On Tue, 21 Oct 2025 16:23:55 +0200, Sander Vanheule wrote:
-> The RTL8231 GPIO and LED expander can be configured for use as an MDIO
-> or SMI bus device. Currently only the MDIO mode is supported, although
-> SMI mode support should be fairly straightforward, once an SMI bus
-> driver is available.
-> 
-> Provided features by the RTL8231:
->   - Up to 37 GPIOs
->     - Configurable drive strength: 8mA or 4mA (currently unsupported)
->     - Input debouncing on GPIOs 31-36
->   - Up to 88 LEDs in multiple scan matrix groups
->     - On, off, or one of six toggling intervals
->     - "single-color mode": 2×36 single color LEDs + 8 bi-color LEDs
->     - "bi-color mode": (12 + 2×6) bi-color LEDs + 24 single color LEDs
->   - Up to one PWM output (currently unsupported)
->     - Fixed duty cycle, 8 selectable frequencies (1.2kHz - 4.8kHz)
-> 
-> [...]
+Bart
 
-Applied, thanks!
-
-[1/8] gpio: regmap: Force writes for aliased data regs
-      https://git.kernel.org/brgl/linux/c/ed2bd02d24947e36c9438bee1449d9bf87671b16
-[2/8] gpio: regmap: Bypass cache for aliased inputs
-      https://git.kernel.org/brgl/linux/c/3233741c0be59dd224e797deb2dd1621695ac95c
-
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> ---
+>  drivers/gpio/gpio-regmap.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpio/gpio-regmap.c b/drivers/gpio/gpio-regmap.c
+> index ba3c19206ccf..afecacf7607f 100644
+> --- a/drivers/gpio/gpio-regmap.c
+> +++ b/drivers/gpio/gpio-regmap.c
+> @@ -81,7 +81,11 @@ static int gpio_regmap_get(struct gpio_chip *chip, uns=
+igned int offset)
+>         if (ret)
+>                 return ret;
+>
+> -       ret =3D regmap_read(gpio->regmap, reg, &val);
+> +       /* ensure we don't spoil any register cache with pin input values=
+ */
+> +       if (gpio->reg_dat_base =3D=3D gpio->reg_set_base)
+> +               ret =3D regmap_read_bypassed(gpio->regmap, reg, &val);
+> +       else
+> +               ret =3D regmap_read(gpio->regmap, reg, &val);
+>         if (ret)
+>                 return ret;
+>
+> --
+> 2.51.0
+>
 
