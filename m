@@ -1,51 +1,52 @@
-Return-Path: <linux-leds+bounces-5870-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5872-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68990C02BA3
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Oct 2025 19:28:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A58CC02BB8
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Oct 2025 19:28:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE4D41AA44A4
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Oct 2025 17:28:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A46911AA44BB
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Oct 2025 17:29:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1135634678A;
-	Thu, 23 Oct 2025 17:28:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27923347FEB;
+	Thu, 23 Oct 2025 17:28:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="UU00TY7L"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="L6PeSDu4"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C881EA7FF
-	for <linux-leds@vger.kernel.org>; Thu, 23 Oct 2025 17:28:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C51D347BC1
+	for <linux-leds@vger.kernel.org>; Thu, 23 Oct 2025 17:28:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761240501; cv=none; b=A6VfvSZyWcNhhRF2F+lS3m3/m9/K3Bjo/p7gyiQ0EFdcrf4YoVEBzP/ly3VnMmmp6VVi7GVWGd/Q/o5is5Q5hy64z85xrbGeXMSddh2pQcPneFSCBou19S5qzKj4Kwk1D68a+rXpwF1uivGByjKPk0662CdPCFWZcblvbJ12NpY=
+	t=1761240520; cv=none; b=GZJECc9FoLzGfAnEsil9yf/PNsyLVM6ll3sNXaPUCBP1HA3moJAkh2JVtcx8MtB7YTjpbQJEUjMEvkj9C+njyIWjdrlKs98PLQUTHeNG4XOX27PZHie8uNHPEFJozcPXpXVajirKT5toRMo4lKK4GfeEot3Cmd8sHEhpMEdifc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761240501; c=relaxed/simple;
-	bh=+boXjJBPWRynfBk+lRnrSB2xWOoEAPkmnAQ85xZ7MwE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=p7yg55UpaW39dYwMCgWcuUhcxd/DLT9e/HHug9CE3cyQ0KzDufv9LwmwxrvwnKVpWfrRct+Xq4k0m3GNeNST9PBzu024q8AcDMfzYBFamMwgEjq5oZMrFlcJWEJT8a2EENjaK/Dxk1+I3/4vUtRxHwx9RuAT2ZzC3ir4hGt2Dy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=UU00TY7L; arc=none smtp.client-ip=185.67.36.65
+	s=arc-20240116; t=1761240520; c=relaxed/simple;
+	bh=AHFDoYfjon/4tGZlpCp8TVU857N1RhEo3OW1MemkxkA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dYDQnW0fDn4yU88zbq8S7zBbACLX4fgpveu8KB4EWBhbPQlOQ8Gzy4ybkjsPWhHmcsuL58UL01EG05pf4OeMdMMjOezW54BE42745PejSW4S1cI0eEgUAjRP0MZ5gXS7HpOeYes2FHkYUW4s3UQ/Yh7LjelJJlsxtVQ4NAVqj+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=L6PeSDu4; arc=none smtp.client-ip=185.67.36.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 790AD240027
-	for <linux-leds@vger.kernel.org>; Thu, 23 Oct 2025 19:28:17 +0200 (CEST)
+	by mout01.posteo.de (Postfix) with ESMTPS id B7825240029
+	for <linux-leds@vger.kernel.org>; Thu, 23 Oct 2025 19:28:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1761240497; bh=9gzmJ2ZtdhgAdFd762KIuH7eitOFI5aNo7ccb3xqZcQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	t=1761240515; bh=RrvubjSJi3MqTyvAC8OUUj/Q0ANkEdPC8q50Ec7fUD4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
 	 Content-Transfer-Encoding:Autocrypt:OpenPGP:From;
-	b=UU00TY7LeIQ0EVhtt6rI2+yrC4QXmyjVHyA1LzA+ijsrRkuuZ08KzzPOJM4EVChol
-	 Vj76UbGr2Id8r9UCC84P7tgrywxl7cRpAXVHCEPu7qpbEKDfIDG+UH0N7BZbQ5ppnz
-	 OSqVeAdvJJLvgvgGgljsaF5g6Z215zGJIro7oTw8BNlYYoHlNPm9bo62uvTF2n9Eb7
-	 1maUfx6w3gHRg1KaPJnPIsVIY2JJQwihRHGsk07KW9MhRAgDssybaU/gUZFlqZoJTk
-	 rO0Q9/x/DKwDz6M4+d0BPca4F2GTgYObbYM4gnJQgoq0yoqxmvaiXlG4O+xG/jrpas
-	 WI25RvZSbpQnw==
+	b=L6PeSDu498cLmxgdZH3Tw4zBgIQ2BIKdhRVVAWUObtWfbyzHgvYacCyI+ybelf/Eg
+	 TNx73NckZBw20Bzp8pTagYuPrgJLL3u7tMWFzptFObfpaIbtFPdS2+bD0xzSpnziyp
+	 jh/aDKPEvcgz0lJLtxyILfI44pq3y3AvK5m6EbysPt0reNC2IOv8F+YbWKKF0CxFPD
+	 CNVYmHHoP0pxUJc5ASpof6mTEw/WFubTVBd54lKjpPeAn9mnGUdb003YYHtXwZm9mj
+	 0dC6282DRpfydHkeqRGhtBZwD4tE5tcXlRO2S197kCaqvE2nMikEKwIg6ThoXdF+zi
+	 Gru+t6w6W29RQ==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4cstKT0DQ3z6v2F;
-	Thu, 23 Oct 2025 19:28:12 +0200 (CEST)
+	by submission (posteo.de) with ESMTPSA id 4cstKW5tSHz6v2J;
+	Thu, 23 Oct 2025 19:28:15 +0200 (CEST)
 From: Markus Probst <markus.probst@posteo.de>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Miguel Ojeda <ojeda@kernel.org>,
@@ -71,19 +72,20 @@ Cc: Dave Ertman <david.m.ertman@intel.com>,
 	linux-leds@vger.kernel.org,
 	linux-pci@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 0/2] rust: leds: add led classdev abstractions
-Date: Thu, 23 Oct 2025 17:28:15 +0000
-Message-ID: <20251023172803.730677-1-markus.probst@posteo.de>
+Subject: [PATCH v6 1/2] rust: Add trait to convert a device reference to a bus device reference
+Date: Thu, 23 Oct 2025 17:28:18 +0000
+Message-ID: <20251023172803.730677-2-markus.probst@posteo.de>
+In-Reply-To: <20251023172803.730677-1-markus.probst@posteo.de>
+References: <20251023172803.730677-1-markus.probst@posteo.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2666; i=markus.probst@posteo.de; h=from:subject; bh=+boXjJBPWRynfBk+lRnrSB2xWOoEAPkmnAQ85xZ7MwE=; b=owEBbQKS/ZANAwAIATR2H/jnrUPSAcsmYgBo+mWbtNfzpe43PLHqMwmOrNoN7SEF/RxBOzwE5 NHZCg53VSqJAjMEAAEIAB0WIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaPplmwAKCRA0dh/4561D 0oA3D/9UHsnjWFXS+NMPcP+gGqp/2/n8K9toV9IlxtJtOX23pWtGYRefLQbGfPYW2rE/wGy7rhx QVGH0IXa4zaMb29S0x+ZUys2RTQAWteyS0XfUVsePAmNUJH9n6VRNQBWU3tzTx1oewrZZ4HbhZq HE00Qb+2iJCG28OP6SvVg0QO02ccw/6hOpRsnDJh87TyjOCZ8CsuQPppgooqozsdn4GIaZOfaqP JSh3EfhBQ7DgOAV7GEiUctc5Qt6CPR4hlLgEf6dvj6oMYRxyZdVH1NrwjkyMwbCBmgPOf+IzWjI dPG6Y8hrPqOy7UibxC9THkbWS0GmHc9Ucd1q4tZ6zWWkFzoj9tDL+lwF/TjXijG1tOsgH/R0+Po TdKA6lzucDaeeBmU6SZX1RQvg+WwfUkWHwmkeHNxIHuABZXZor7unk3xWP6zcSRNhL9su6qWwa+ ujbEl9QVmDS9fLbaZswOAIeLQO3uA57YD+D770Kno9GZz/1H16CCw5MH8fk/qu5Owm5arpUJ6uP 6Ob+W8BvonwT19oz2Uih0yiu6KCYFVj3rYNIuB/V2ys6cjXYcY2utBUIB4hpTM+UEQdEjQ0nldX 9Gfjq0pAqXNz+nccTUavRIKWox3myxBUhHDP3+rUFLhgiY0goXG+Fl5GmBZVXh/gCtpVDs9nh+b u6jbNcUbA1Qekag=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5467; i=markus.probst@posteo.de; h=from:subject; bh=AHFDoYfjon/4tGZlpCp8TVU857N1RhEo3OW1MemkxkA=; b=owEBbQKS/ZANAwAIATR2H/jnrUPSAcsmYgBo+mQk7ds/yPGUoEze9yaiY7baeuYuxgf9yNmUC g0US3spVCqJAjMEAAEIAB0WIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaPpkJAAKCRA0dh/4561D 0oo4D/9wbqvRM1QMq4Bwjg9o8KhrhZOjTqksjwkfS93pUsyfugqgkEFh1HIl1ksiikdNlexNb5E VtehOU0vOL3akZTLamwLS5nm5won8MOL8s1Iy+yQsPEGxzwM1kP0u8xBQ6n/0cocR3VImK8LNRG ycnwcHZpj2dfxEjcA+T+dTBPBERZ9XLQdBzSVKX5bfnNsQpaqdoGhAlVrxSv5BsFFY4ou7cbLys zUdoRXjZBHVQe6CVoksy0xJLG2JFYvKyWgKm1rM/N0Mo/juBU2BzO5BKZK6jWLxb6DOjnHAMimo 5aV4E0ybOw0ceGYc7Wzoa1iUoc2L1oS1TQaSNPMn7Z9LcKxn3ZL3xs040Hn8QCF52hj/8fJWi65 ZQ8pl/Waz7NLBlrS88q1PXFNyidycdBhdld0ZxHO22kom7KriwsH7cLbmfstnYw7NmaoSOrTGV5 GzxTSTQ2rorR3rswNsQzeTCWs0aLBLtFO6y5HwxBMfZ0y3/RVogHL4hr6tGryD4GpMXsOa7S4By btPz+fQDWsrRk3VMvY/wlqREjn3TYHIz3vlYSxNMPMYjx/lP4WJCjTLGdWIWP+c7uqpZ+ULu9/S BKjk7knCeDz5XRPEuKfC35WKJtJMdt9L4/8is7bOROV7RDXM8ZD4jJHVJsooeMDXNtlREcH+2li dxqRb9n2I/YLHxA=
  =
 X-Developer-Key: i=markus.probst@posteo.de; a=openpgp; fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
   keydata=xsFNBGiDvXgBEADAXUceKafpl46S35UmDh2wRvvx+UfZbcTjeQOlSwKP7YVJ4JOZrVs93qReNLkO
@@ -128,75 +130,155 @@ Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
   aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
 OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-This patch series has previously been contained in
-https://lore.kernel.org/rust-for-linux/20251008181027.662616-1-markus.probst@posteo.de/T/#t
-which added a rust written led driver for a microcontroller via i2c.
+Implement the `AsBusDevice` trait for converting a `Device` reference to a
+bus device reference for all bus devices.
 
-As the reading and writing to the i2c client via the register!
-macro has not been implemented yet [1], the patch series will only
-contain the additional abstractions required.
+The `AsBusDevice` trait allows abstractions to provide the bus device in
+class device callbacks. It must not be used by drivers and is intended for
+bus and class device abstractions only.
 
-[1] https://lore.kernel.org/rust-for-linux/DDDS2V0V2NVJ.16ZKXCKUA1HUV@kernel.org/
+Signed-off-by: Markus Probst <markus.probst@posteo.de>
+---
+ rust/kernel/auxiliary.rs |  7 +++++++
+ rust/kernel/device.rs    | 30 ++++++++++++++++++++++++++++++
+ rust/kernel/pci.rs       |  7 +++++++
+ rust/kernel/platform.rs  |  7 +++++++
+ rust/kernel/usb.rs       |  6 ++++++
+ 5 files changed, 57 insertions(+)
 
-The following changes were made:
-* add abstraction to convert a device reference to a bus device
-  reference for use in class device callbacks
-
-* add basic led classdev abstractions to register and unregister leds
-
-Changes since v5:
-* rename `IntoBusDevice` trait into `AsBusDevice`
-* fix documentation about `LedOps::BLOCKING`
-* removed dependency on i2c bindings
-* added `AsBusDevice` implementation for `platform::Device`
-* removed `device::Device` fallback implementation
-* document that `AsBusDevice` must not be used by drivers and is
-  intended for bus and class device abstractions only.
-
-Changes since v4:
-* add abstraction to convert a device reference to a bus device
-  reference
-* require the bus device as parent device and provide it in class device
-  callbacks
-* remove Pin<Vec<_>> abstraction (as not relevant for the led
-  abstractions)
-* fixed formatting in `led::Device::new`
-* fixed `LedOps::BLOCKING` did the inverse effect
-
-Changes since v3:
-* fixed kunit tests failing because of example in documentation
-
-Changes since v2:
-* return `Devres` on `led::Device` creation
-* replace KBox<T> with T in struct definition
-* increment and decrement reference-count of fwnode
-* make a device parent mandatory for led classdev creation
-* rename `led::Handler` to `led::LedOps`
-* add optional `brightness_get` function to `led::LedOps`
-* use `#[vtable]` instead of `const BLINK: bool`
-* use `Opaque::cast_from` instead of casting a pointer
-* improve documentation
-* improve support for older rust versions
-* use `&Device<Bound>` for parent
-
-Changes since v1:
-* fixed typos noticed by Onur Özkan
-
-Markus Probst (2):
-  rust: Add trait to convert a device reference to a bus device
-    reference
-  rust: leds: add basic led classdev abstractions
-
- rust/kernel/auxiliary.rs |   7 +
- rust/kernel/device.rs    |  30 ++++
- rust/kernel/led.rs       | 375 +++++++++++++++++++++++++++++++++++++++
- rust/kernel/lib.rs       |   1 +
- rust/kernel/pci.rs       |   7 +
- rust/kernel/platform.rs  |   7 +
- rust/kernel/usb.rs       |   6 +
- 7 files changed, 433 insertions(+)
- create mode 100644 rust/kernel/led.rs
-
+diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
+index e11848bbf206..cd1121191137 100644
+--- a/rust/kernel/auxiliary.rs
++++ b/rust/kernel/auxiliary.rs
+@@ -15,6 +15,7 @@
+ };
+ use core::{
+     marker::PhantomData,
++    mem::offset_of,
+     ptr::{addr_of_mut, NonNull},
+ };
+ 
+@@ -239,6 +240,12 @@ extern "C" fn release(dev: *mut bindings::device) {
+     }
+ }
+ 
++// SAFETY: `auxilary::Device` is a transparent wrapper of `struct auxiliary_device`.
++// The offset is guaranteed to point to a valid device field inside `auxilary::Device`.
++unsafe impl<Ctx: device::DeviceContext> device::AsBusDevice<Ctx> for Device<Ctx> {
++    const OFFSET: usize = offset_of!(bindings::auxiliary_device, dev);
++}
++
+ // SAFETY: `Device` is a transparent wrapper of a type that doesn't depend on `Device`'s generic
+ // argument.
+ kernel::impl_device_context_deref!(unsafe { Device });
+diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
+index 1321e6f0b53c..d7024c2bb90f 100644
+--- a/rust/kernel/device.rs
++++ b/rust/kernel/device.rs
+@@ -511,6 +511,36 @@ impl DeviceContext for Core {}
+ impl DeviceContext for CoreInternal {}
+ impl DeviceContext for Normal {}
+ 
++/// Bus devices can implement this trait to allow abstractions to provide the bus device in
++/// class device callbacks.
++///
++/// This must not be used by drivers and is intended for bus and class device abstractions only.
++///
++/// # Safety
++///
++/// `AsBusDevice::OFFSET` must be a offset to a device field in the implemented struct.
++pub(crate) unsafe trait AsBusDevice<Ctx: DeviceContext>: AsRef<Device<Ctx>> {
++    /// The relative offset to the device field.
++    ///
++    /// Use `offset_of!(bindings, field)` macro to avoid breakage.
++    const OFFSET: usize;
++
++    /// Convert a reference to [`Device`] into `Self`.
++    ///
++    /// # Safety
++    ///
++    /// `dev` must be contained in `Self`.
++    unsafe fn from_device(dev: &Device<Ctx>) -> &Self
++    where
++        Self: Sized,
++    {
++        let raw = dev.as_raw();
++        // SAFETY: `raw - Self::OFFSET` is guaranteed by the safety requirements
++        // to be a valid pointer to `Self`.
++        unsafe { &*raw.byte_sub(Self::OFFSET).cast::<Self>() }
++    }
++}
++
+ /// # Safety
+ ///
+ /// The type given as `$device` must be a transparent wrapper of a type that doesn't depend on the
+diff --git a/rust/kernel/pci.rs b/rust/kernel/pci.rs
+index 7fcc5f6022c1..d78f6feeaae9 100644
+--- a/rust/kernel/pci.rs
++++ b/rust/kernel/pci.rs
+@@ -19,6 +19,7 @@
+ };
+ use core::{
+     marker::PhantomData,
++    mem::offset_of,
+     ops::Deref,
+     ptr::{addr_of_mut, NonNull},
+ };
+@@ -593,6 +594,12 @@ pub fn set_master(&self) {
+     }
+ }
+ 
++// SAFETY: `pci::Device` is a transparent wrapper of `struct pci_dev`.
++// The offset is guaranteed to point to a valid device field inside `pci::Device`.
++unsafe impl<Ctx: device::DeviceContext> device::AsBusDevice<Ctx> for Device<Ctx> {
++    const OFFSET: usize = offset_of!(bindings::pci_dev, dev);
++}
++
+ // SAFETY: `Device` is a transparent wrapper of a type that doesn't depend on `Device`'s generic
+ // argument.
+ kernel::impl_device_context_deref!(unsafe { Device });
+diff --git a/rust/kernel/platform.rs b/rust/kernel/platform.rs
+index 7205fe3416d3..7197264b5a53 100644
+--- a/rust/kernel/platform.rs
++++ b/rust/kernel/platform.rs
+@@ -19,6 +19,7 @@
+ 
+ use core::{
+     marker::PhantomData,
++    mem::offset_of,
+     ptr::{addr_of_mut, NonNull},
+ };
+ 
+@@ -285,6 +286,12 @@ pub fn io_request_by_name(&self, name: &CStr) -> Option<IoRequest<'_>> {
+     }
+ }
+ 
++// SAFETY: `platform::Device` is a transparent wrapper of `struct platform_device`.
++// The offset is guaranteed to point to a valid device field inside `platform::Device`.
++unsafe impl<Ctx: device::DeviceContext> device::AsBusDevice<Ctx> for Device<Ctx> {
++    const OFFSET: usize = offset_of!(bindings::platform_device, dev);
++}
++
+ macro_rules! define_irq_accessor_by_index {
+     (
+         $(#[$meta:meta])* $fn_name:ident,
+diff --git a/rust/kernel/usb.rs b/rust/kernel/usb.rs
+index 14ddb711bab3..ec21261baf6a 100644
+--- a/rust/kernel/usb.rs
++++ b/rust/kernel/usb.rs
+@@ -324,6 +324,12 @@ fn as_raw(&self) -> *mut bindings::usb_interface {
+     }
+ }
+ 
++// SAFETY: `usb::Interface` is a transparent wrapper of `struct usb_interface`.
++// The offset is guaranteed to point to a valid device field inside `usb::Interface`.
++unsafe impl<Ctx: device::DeviceContext> device::AsBusDevice<Ctx> for Interface<Ctx> {
++    const OFFSET: usize = offset_of!(bindings::usb_interface, dev);
++}
++
+ // SAFETY: `Interface` is a transparent wrapper of a type that doesn't depend on
+ // `Interface`'s generic argument.
+ kernel::impl_device_context_deref!(unsafe { Interface });
 -- 
 2.51.0
 
