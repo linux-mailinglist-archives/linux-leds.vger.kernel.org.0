@@ -1,279 +1,226 @@
-Return-Path: <linux-leds+bounces-5876-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5877-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F0BCC09069
-	for <lists+linux-leds@lfdr.de>; Sat, 25 Oct 2025 14:42:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D33AC0A155
+	for <lists+linux-leds@lfdr.de>; Sun, 26 Oct 2025 02:52:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BE9654E02D6
-	for <lists+linux-leds@lfdr.de>; Sat, 25 Oct 2025 12:42:52 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7D1164E05B5
+	for <lists+linux-leds@lfdr.de>; Sun, 26 Oct 2025 00:52:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 575472FBDE9;
-	Sat, 25 Oct 2025 12:42:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 597A121B9D2;
+	Sun, 26 Oct 2025 00:52:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=klarinett.li header.i=@klarinett.li header.b="zpnV/IOQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j8ChoaYI"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.hostpark.net (mail.hostpark.net [212.243.197.30])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2DA250C06;
-	Sat, 25 Oct 2025 12:42:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.243.197.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE201C54A9
+	for <linux-leds@vger.kernel.org>; Sun, 26 Oct 2025 00:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761396168; cv=none; b=FAdHVnF7oy/5nrub0y1vtvhmtl/yuteFjOQi3EkveoS8w7i7v/UJifj1cYce9Suju6ILVX3t+Wf/+aLVNdWp01+cJbkPEYd/BrXs9J4MUdvqsKjADv3t+X/x4DEGiRiMuhKlEb+GMlrIl8p05RcvoieRnBrUSy77s6gjMcGEId0=
+	t=1761439970; cv=none; b=bIif044I7kVU8B5ic5v9/OiY9iGrCMijGoKG0rhydFNy82Q9yShmKcu+f1vkLRENc05hfA1XcL2bxBx99mP1y8IlcbYWAIrFvTp0H30p8P78bBrUFrJsPckEHPmSvYXxW6whhQ7W2AqTWQ2FOeP0GsAVrWyUVKjpUmoOEAfyRag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761396168; c=relaxed/simple;
-	bh=zjsOv7gJgjzpeM6gwPXZvXT1zgKeR0+kDKb77Gc7lwM=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=qea75t+r2Rb8r7uebDYifRUrTsuLDpDa4BHRBfaUj29/QiCsM2HX6TFGH/SvsMt40WFUWW8twW4cYHLmsTTiNyjZsBDnPSklcjO3eVWhZcXHg2x50WX447kCuTNwJnqzu5EddLVf9uDmyk6dqpDYBk+jsIJTflSaivvbn1Airls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=klarinett.li; spf=pass smtp.mailfrom=klarinett.li; dkim=pass (1024-bit key) header.d=klarinett.li header.i=@klarinett.li header.b=zpnV/IOQ; arc=none smtp.client-ip=212.243.197.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=klarinett.li
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=klarinett.li
-Received: from localhost (localhost [127.0.0.1])
-	by mail.hostpark.net (Postfix) with ESMTP id B015D162CA;
-	Sat, 25 Oct 2025 14:42:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=klarinett.li; h=
-	x-mailer:references:message-id:content-transfer-encoding:date
-	:date:in-reply-to:from:from:subject:subject:mime-version
-	:content-type:content-type; s=sel2011a; t=1761396156; bh=zjsOv7g
-	JgjzpeM6gwPXZvXT1zgKeR0+kDKb77Gc7lwM=; b=zpnV/IOQ8aFYB+rBHNBYLDF
-	X0mYieaeDwQDucfJYgEzL5oEsai1XybD/T/q/6pvtplAYhYmea2iRAqdLeSUVL+z
-	ctvuWTQ9OkycPsYriubSXqHwUvIE1WtrKYfKjx6kfjQeO9WkBS7QP5wa56hiorSM
-	4PWJsrgrfoKx/ZoCR/CY=
-X-Virus-Scanned: by Hostpark/NetZone Mailprotection at hostpark.net
-Received: from mail.hostpark.net ([127.0.0.1])
- by localhost (mail0.hostpark.net [127.0.0.1]) (amavis, port 10224) with ESMTP
- id Vrj6O67yuTfg; Sat, 25 Oct 2025 14:42:36 +0200 (CEST)
-Received: from customer (localhost [127.0.0.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.hostpark.net (Postfix) with ESMTPSA id A3F2A162C2;
-	Sat, 25 Oct 2025 14:42:34 +0200 (CEST)
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1761439970; c=relaxed/simple;
+	bh=e+QRRPFHGX9NxawtDLLDHahNaiV0SY+GDdJWJsZ13u4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GG+LBvlpJ9rJPa4CnGjvpZ1fml5SIMj3mHROdxHcz2GoU+pzSY/IQQC2aiDOpCwmiJKuPxgLHXEC+M31w5MWS2sZ1be4qIO6/lT6YXKLl2Re2j3toGmiGlLkQA8uEpwc3ItwoIBDZrRn4Epe0CB3euYwzcrzTqfoAVKepWV5RGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j8ChoaYI; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761439968; x=1792975968;
+  h=date:from:to:cc:subject:message-id;
+  bh=e+QRRPFHGX9NxawtDLLDHahNaiV0SY+GDdJWJsZ13u4=;
+  b=j8ChoaYITPeaHWFOGYw+LrvCgyHlVXvDn395TN25SuoAIAFmXeHpgsil
+   UsxrDPF3NkddSHolNReeel6fXNoc+bdaqH8h4glBQgcjRDKYL6OfsrAjE
+   MvTcFf5wayCZFYsP2vr4RBJksl4i4wNwUexLw7pT/ih+52e/9bi0xQKX7
+   Sd8piLHVXeKK7PPpEQwbsLm3CAbaNmqu6qxKKh1BGD1hmNBfma5O56kEW
+   m9qzIiUEfI3m8TI6Rnx0h03JfQZFCQ+f3a+VGsDqkLXgduFWEK9S6ybEK
+   cyQpqsO56DlEH1uBwMZvlN6fBeDv9G3lqnwHwOgrJnspesocJ083bquXT
+   Q==;
+X-CSE-ConnectionGUID: dxUxkU2MQy2Di0PMwsy4QA==
+X-CSE-MsgGUID: JV9SOV1pQhCULCT5GgCZgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62776381"
+X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
+   d="scan'208";a="62776381"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 17:52:47 -0700
+X-CSE-ConnectionGUID: jL4baM8gTha5OAjsyAXUzg==
+X-CSE-MsgGUID: To8+DarbRgGcvCM5YnvO2Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
+   d="scan'208";a="185489378"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 25 Oct 2025 17:52:47 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vCozu-000FkL-1B;
+	Sun, 26 Oct 2025 00:52:41 +0000
+Date: Sun, 26 Oct 2025 08:52:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next] BUILD SUCCESS
+ c06a017439110debd335b6864bc2d69835624235
+Message-ID: <202510260807.Jz4gRHxW-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.100.1.1.5\))
-Subject: Re: [PATCH] leds: leds-lp50xx: enable chip before any communication
-From: Christian Hitz <christian@klarinett.li>
-In-Reply-To: <20251025113758.GA29337@google.com>
-Date: Sat, 25 Oct 2025 14:42:24 +0200
-Cc: Pavel Machek <pavel@kernel.org>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Dan Murphy <dmurphy@ti.com>,
- Christian Hitz <christian.hitz@bbv.ch>,
- stable@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>,
- linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <D09EA9A0-6EC5-45D5-B75C-FF79C8A201E0@klarinett.li>
-References: <20251016145623.2863553-1-christian@klarinett.li>
- <20251025113758.GA29337@google.com>
-To: Lee Jones <lee@kernel.org>
-X-Mailer: Apple Mail (2.3864.100.1.1.5)
 
-Hi Lee
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+branch HEAD: c06a017439110debd335b6864bc2d69835624235  leds: upboard: Fix module alias
 
-> Am 25.10.2025 um 13:37 schrieb Lee Jones <lee@kernel.org>:
->=20
-> On Thu, 16 Oct 2025, Christian Hitz wrote:
->=20
->> From: Christian Hitz <christian.hitz@bbv.ch>
->>=20
->> If a GPIO is used to control the chip's enable pin, it needs to be =
-pulled
->> high before any SPI communication is attempted.
->> Split lp50xx_enable_disable() into two distinct functions to enforce
->> correct ordering.
->> Observe correct timing after manipulating the enable GPIO and SPI
->> communication.
->=20
-> Is this currently broken?  How did it test okay before?
+elapsed time: 724m
 
-Yes, the driver ist currently broken when used with an enable GPIO.
+configs tested: 133
+configs skipped: 4
 
-Assume the used enable GPIO is low when the probe function is entered. =
-In this case
-the device is in SHUTDOWN mode and does not react to i2c commands.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-- The call to lp50xx_reset() on line 548 has therefore no effect as i2c =
-is not possible yet.
-- Then - on line 552 - lp50xx_enable_disable() is called. As =
-"priv->enable_gpio=E2=80=9C has not
-yet been initialized, setting the GPIO has no effect. Also the i2c =
-enable command is not
-executed as the device is still in SHUTDOWN.
-- On line 556 lp50xx_probe_dt() finally the rest of the DT is parsed and =
-the configured=20
-priv->enable_gpio is set up.
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+alpha                               defconfig    gcc-15.1.0
+arc                              alldefconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                                 defconfig    gcc-15.1.0
+arc                   randconfig-001-20251025    gcc-10.5.0
+arc                   randconfig-002-20251025    gcc-8.5.0
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.1.0
+arm                                 defconfig    clang-22
+arm                          ep93xx_defconfig    clang-22
+arm                   randconfig-001-20251025    clang-22
+arm                   randconfig-002-20251025    gcc-10.5.0
+arm                   randconfig-003-20251025    clang-22
+arm                   randconfig-004-20251025    clang-22
+arm                    vt8500_v6_v7_defconfig    gcc-15.1.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                               defconfig    gcc-15.1.0
+arm64                 randconfig-001-20251025    gcc-14.3.0
+arm64                 randconfig-002-20251025    gcc-11.5.0
+arm64                 randconfig-003-20251025    gcc-9.5.0
+arm64                 randconfig-004-20251025    clang-22
+csky                              allnoconfig    gcc-15.1.0
+csky                                defconfig    gcc-15.1.0
+csky                  randconfig-001-20251025    gcc-11.5.0
+csky                  randconfig-002-20251025    gcc-13.4.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-22
+hexagon                             defconfig    clang-22
+hexagon               randconfig-001-20251025    clang-18
+hexagon               randconfig-002-20251025    clang-20
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386                             allyesconfig    gcc-14
+i386        buildonly-randconfig-001-20251025    gcc-14
+i386        buildonly-randconfig-002-20251025    gcc-14
+i386        buildonly-randconfig-003-20251025    clang-20
+i386        buildonly-randconfig-004-20251025    clang-20
+i386        buildonly-randconfig-005-20251025    clang-20
+i386        buildonly-randconfig-006-20251025    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20251025    clang-22
+loongarch             randconfig-002-20251025    clang-18
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+m68k                       m5275evb_defconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20251025    gcc-11.5.0
+nios2                 randconfig-002-20251025    gcc-11.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+openrisc                       virt_defconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                generic-32bit_defconfig    gcc-15.1.0
+parisc                randconfig-001-20251025    gcc-14.3.0
+parisc                randconfig-002-20251025    gcc-8.5.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    clang-22
+powerpc               randconfig-001-20251025    gcc-11.5.0
+powerpc               randconfig-002-20251025    clang-16
+powerpc               randconfig-003-20251025    clang-22
+powerpc                         wii_defconfig    gcc-15.1.0
+powerpc64             randconfig-001-20251025    clang-17
+powerpc64             randconfig-002-20251025    clang-16
+powerpc64             randconfig-003-20251025    gcc-10.5.0
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-22
+riscv                 randconfig-001-20251025    clang-22
+riscv                 randconfig-002-20251025    clang-22
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                                defconfig    clang-22
+s390                  randconfig-001-20251025    gcc-11.5.0
+s390                  randconfig-002-20251025    gcc-8.5.0
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                    randconfig-001-20251025    gcc-11.5.0
+sh                    randconfig-002-20251025    gcc-15.1.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20251025    gcc-11.5.0
+sparc                 randconfig-002-20251025    gcc-15.1.0
+sparc64                             defconfig    clang-20
+sparc64               randconfig-001-20251025    clang-22
+sparc64               randconfig-002-20251025    gcc-15.1.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-14
+um                                  defconfig    clang-22
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20251025    clang-22
+um                    randconfig-002-20251025    gcc-14
+um                           x86_64_defconfig    clang-22
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20251025    gcc-14
+x86_64      buildonly-randconfig-002-20251025    gcc-14
+x86_64      buildonly-randconfig-003-20251025    gcc-14
+x86_64      buildonly-randconfig-004-20251025    clang-20
+x86_64      buildonly-randconfig-005-20251025    clang-20
+x86_64      buildonly-randconfig-006-20251025    clang-20
+x86_64                              defconfig    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20251025    gcc-15.1.0
+xtensa                randconfig-002-20251025    gcc-14.3.0
 
-As a result the device is still in SHUTDOWN mode and not ready for =
-operation.
-
->=20
-> You need to explain more about why you are changing the semantics.
->=20
-> See below.
->=20
->> Fixes: 242b81170fb8 ("leds: lp50xx: Add the LP50XX family of the RGB =
-LED driver")
->>=20
->> Signed-off-by: Christian Hitz <christian.hitz@bbv.ch>
->> Cc: stable@vger.kernel.org
->> ---
->> drivers/leds/leds-lp50xx.c | 51 =
-+++++++++++++++++++++++++++-----------
->> 1 file changed, 36 insertions(+), 15 deletions(-)
->>=20
->> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
->> index d19b6a459151..f23e9ae434e4 100644
->> --- a/drivers/leds/leds-lp50xx.c
->> +++ b/drivers/leds/leds-lp50xx.c
->> @@ -52,6 +52,8 @@
->>=20
->> #define LP50XX_SW_RESET 0xff
->> #define LP50XX_CHIP_EN BIT(6)
->> +#define LP50XX_START_TIME_US 500
->> +#define LP50XX_RESET_TIME_US 3
->>=20
->> /* There are 3 LED outputs per bank */
->> #define LP50XX_LEDS_PER_MODULE 3
->> @@ -374,19 +376,42 @@ static int lp50xx_reset(struct lp50xx *priv)
->> return regmap_write(priv->regmap, priv->chip_info->reset_reg, =
-LP50XX_SW_RESET);
->> }
->>=20
->> -static int lp50xx_enable_disable(struct lp50xx *priv, int =
-enable_disable)
->> +static int lp50xx_enable(struct lp50xx *priv)
->> {
->> int ret;
->>=20
->> - ret =3D gpiod_direction_output(priv->enable_gpio, enable_disable);
->> + if (priv->enable_gpio) {
->=20
-> Why have you added this check back in?
->=20
-> See: 5d2bfb3fb95b ("leds: lp50xx: Get rid of redundant check in =
-lp50xx_enable_disable()")
-
-I have re-added the check because of the =E2=80=9Eudelay()=E2=80=9C call =
-below. This delay is not necessary=20
-when there is no enable_gpio. I assumed that it is better to do a double =
-check here than to wait
-500us in cases where no enable_gpio is used.
-
->=20
->> + ret =3D gpiod_direction_output(priv->enable_gpio, 1);
->=20
-> Take the opportunity to define the magic numbers '0' and '1'.
-
-Will do.
-
->=20
->> + if (ret)
->> + return ret;
->> +
->> + udelay(LP50XX_START_TIME_US);
->> + } else {
->=20
-> In this old code we did both.  Why are we now choosing?
-
-Coming out of SHUTDOWN state the device is already reset and =
-lp50xx_reset() is a no-op.
-To ensure a clean reset in all cases (also when enable GPIO was already =
-high before) I will
-make the reset unconditional again.
-
-Thanks for the review and comments. I will prepare a v2 to include the =
-comments and expand
-the commit message.
-
-Regards
-Christian=20
-
->=20
->> + ret =3D lp50xx_reset(priv);
->> + if (ret)
->> + return ret;
->> + }
->> +
->> + return regmap_write(priv->regmap, LP50XX_DEV_CFG0, LP50XX_CHIP_EN);
->> +}
->> +
->> +static int lp50xx_disable(struct lp50xx *priv)
->> +{
->> + int ret;
->> +
->> + ret =3D regmap_write(priv->regmap, LP50XX_DEV_CFG0, 0);
->> if (ret)
->> return ret;
->>=20
->> - if (enable_disable)
->> - return regmap_write(priv->regmap, LP50XX_DEV_CFG0, LP50XX_CHIP_EN);
->> - else
->> - return regmap_write(priv->regmap, LP50XX_DEV_CFG0, 0);
->> + if (priv->enable_gpio) {
->> + ret =3D gpiod_direction_output(priv->enable_gpio, 0);
->> + if (ret)
->> + return ret;
->> +
->> + udelay(LP50XX_RESET_TIME_US);
->> + }
->>=20
->> + return 0;
->> }
->>=20
->> static int lp50xx_probe_leds(struct fwnode_handle *child, struct =
-lp50xx *priv,
->> @@ -453,6 +478,10 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
->> return dev_err_probe(priv->dev, PTR_ERR(priv->enable_gpio),
->>     "Failed to get enable GPIO\n");
->>=20
->> + ret =3D lp50xx_enable(priv);
->> + if (ret)
->> + return ret;
->> +
->> priv->regulator =3D devm_regulator_get(priv->dev, "vled");
->> if (IS_ERR(priv->regulator))
->> priv->regulator =3D NULL;
->> @@ -550,14 +579,6 @@ static int lp50xx_probe(struct i2c_client =
-*client)
->> return ret;
->> }
->>=20
->> - ret =3D lp50xx_reset(led);
->> - if (ret)
->> - return ret;
->> -
->> - ret =3D lp50xx_enable_disable(led, 1);
->> - if (ret)
->> - return ret;
->> -
->> return lp50xx_probe_dt(led);
->> }
->>=20
->> @@ -566,7 +587,7 @@ static void lp50xx_remove(struct i2c_client =
-*client)
->> struct lp50xx *led =3D i2c_get_clientdata(client);
->> int ret;
->>=20
->> - ret =3D lp50xx_enable_disable(led, 0);
->> + ret =3D lp50xx_disable(led);
->> if (ret)
->> dev_err(led->dev, "Failed to disable chip\n");
->>=20
->> --=20
->> 2.51.0
->>=20
->=20
-> --=20
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
