@@ -1,201 +1,212 @@
-Return-Path: <linux-leds+bounces-5909-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5910-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC821C109E1
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Oct 2025 20:13:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 979B0C114FE
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Oct 2025 21:08:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3E425641DE
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Oct 2025 19:07:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9701418802BF
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Oct 2025 20:06:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 174C832D0EB;
-	Mon, 27 Oct 2025 19:03:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0F9C302162;
+	Mon, 27 Oct 2025 20:06:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FPEjbRDI"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="eJ/3B5AE"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF6532BF21;
-	Mon, 27 Oct 2025 19:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8146D31D740
+	for <linux-leds@vger.kernel.org>; Mon, 27 Oct 2025 20:06:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761591814; cv=none; b=vGFXRsXebbGJnYY1+0AyBKnexYr339yxayZc0QWN78/BDLq3KPiQYiGyLp2mkoz0ML7tv9LuUtz4GaocuI9r2cAGAs13Dbra7r03fZx0cijNmgu0736aSIPc6LFky47iu1CtQI0IL0q7K4RDz/znsRLSmhieFNNjEPHYyg4EiTY=
+	t=1761595572; cv=none; b=kwM7w7+eo8CmHiqVEIA8wOT+AVs0BuNrKyc71nP8c/lodoFA5XUrLmzrnfkE+5yB+V745lJMfhVRcnQt91gek5R894tgbktEm/Et8LKZwLW7r/5UNQ0+9OuoT+GeRcK1Uu9QEmyl51CpcjOluLVx4qzWjILD9s1D99hI4EcQ+QQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761591814; c=relaxed/simple;
-	bh=QGCu0V3w0s4HySzwBgsSxoWTxrzLr5KD4kIlTtEAspU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Itu4tsTgp8ncgMKXEU51K3l1Fjar76xd8Au6w5bC9+3nByPfWwqYHmi9+0ma4uQ4z3vGQTuFRPFyAnZqsQJQnEB6+He61/3GRT43fRYnwjqxj2RaCWe6523y5fC3y2cO/V2GFCJ21jCFg4S2sv8F7rIeOhPpr8164ite3SRfi9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FPEjbRDI; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761591813; x=1793127813;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QGCu0V3w0s4HySzwBgsSxoWTxrzLr5KD4kIlTtEAspU=;
-  b=FPEjbRDIgQOkE5x1AMeQCfO584NNbT0njwykbuCpVGePhHRKbWZDjNF8
-   FCK3hIurSW2hwi/QRSwVQ6k1e2MEwsM0gpgjXqJ1nkE4IkQkNR+Ir8I5i
-   UhnZMz2hD6SryWEo2C9eXWKCZX5Mm0XpWon8WyZD5Jfk9mvCLFPFlZGBN
-   I7luXEWEaC6nxkziF++zXaxQSzTztQFLlx1ErhruYmgWxRJJnqGstI/RB
-   LJvO9olpNkn+5QKn0+zCtuErGMpCRFnO773R/2VU2z4/H9RKdWyxAQfe5
-   WYqDdiZw8JGERpg3H9GvgMzeDiXhTIbBixkvPIekjO+Cnd+UW3LB/JQUM
-   A==;
-X-CSE-ConnectionGUID: QuuCvH/HS7mp6dNWMATcDA==
-X-CSE-MsgGUID: z82CFTcaSui7ihWxZE2bKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67325771"
-X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
-   d="scan'208";a="67325771"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 12:03:32 -0700
-X-CSE-ConnectionGUID: 4BOOzhGIRR+lgDMlxxjyQQ==
-X-CSE-MsgGUID: ig4GyY7LSYqacFU0E1Ymew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
-   d="scan'208";a="184751958"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 27 Oct 2025 12:03:28 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vDSUk-000HRp-0C;
-	Mon, 27 Oct 2025 19:03:20 +0000
-Date: Tue, 28 Oct 2025 02:59:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Junjie Cao <caojunjie650@gmail.com>, Lee Jones <lee@kernel.org>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	Junjie Cao <caojunjie650@gmail.com>,
-	Pengyu Luo <mitltlatltl@gmail.com>
-Subject: Re: [PATCH 2/2] backlight: aw99706: Add support for Awinic AW99706
- backlight
-Message-ID: <202510280208.NhQyE0y1-lkp@intel.com>
-References: <20251026123923.1531727-3-caojunjie650@gmail.com>
+	s=arc-20240116; t=1761595572; c=relaxed/simple;
+	bh=wSBf5Xy4Aslo7SOGQU/mF5ZHvq4mmV3sP1znVcDJV8o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Rbf9OmNt4qRYyux4kIW0aIb+eDXknFxAe/TiDwFRtFvJZ3zuAzdU2wuXuE3fnI99NrrSmNNTl0LwVnpfM3R2tIfchZE3LEtEVFcrW0PWaWNQvfoEXkP6791CjAzvsJH3s65wcV4y/QQDzrz33ggWWoP9Z3xb5VbVL8QT50lWoB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=eJ/3B5AE; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 38399240028
+	for <linux-leds@vger.kernel.org>; Mon, 27 Oct 2025 21:06:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
+	t=1761595562; bh=O37ZSH19ALLogD4cYR4ZnjINIQhJoZZcAsSu5q2wlf8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Autocrypt:OpenPGP:From;
+	b=eJ/3B5AEFrWv6iu5CE+FzcpVWc0yiGU9nnGMOwKEcX0iKXc9nvA+tQsK83fVPh3nT
+	 7fhtibKsReArXIq8oExS0dJAZrbMm39ASUvlIgTCjCx/Wy8H+ZJ9jj6OpyoUQvFoHe
+	 NurvvnaA6fervtroqgVmDIMpHp8EmfRodKH9FLuwGOIDreildB4q+iCkLj/jy+Ug7G
+	 dnMQrHGg8vIYPkBLIl2s/9RoGpqYt4YpQnVujzlM1+0RmqckGSNIXRXhwo2OgjQNy6
+	 xFONqbwQT8mk6pOBL+5Al9BaGN/mqSvr1qBLZdBRScCG0d8Qt9C2hEQode/3woqF6f
+	 T9srXx1dgkrfQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4cwPdf42dxz9rxB;
+	Mon, 27 Oct 2025 21:05:58 +0100 (CET)
+From: Markus Probst <markus.probst@posteo.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>
+Cc: Dave Ertman <david.m.ertman@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	bjorn3_gh@protonmail.com,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Markus Probst <markus.probst@posteo.de>,
+	rust-for-linux@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v7 0/2] rust: leds: add led classdev abstractions
+Date: Mon, 27 Oct 2025 20:06:01 +0000
+Message-ID: <20251027200547.1038967-1-markus.probst@posteo.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251026123923.1531727-3-caojunjie650@gmail.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2881; i=markus.probst@posteo.de; h=from:subject; bh=wSBf5Xy4Aslo7SOGQU/mF5ZHvq4mmV3sP1znVcDJV8o=; b=owEBbQKS/ZANAwAIATR2H/jnrUPSAcsmYgBo/9B4JsuuiA0OKSWEXg+sojaOajOX0n2M15kxE tnRYnT9YaSJAjMEAAEIAB0WIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaP/QeAAKCRA0dh/4561D 0tSpD/9Iagsy9UUpit6BzNhdkBEz0eYFQjCT3IUhC/LWIKycXyHU8ym65yBb2slilc2lLiZir8h BSJ/9308hnZ1u+D6wMGlZqihcxzYJrCzJdxmyDAhJnRhuC16wY+uytbBSj05CBp5Hx0FPWbLs/8 0TVmtmF8zT6VTQjCs0eNtMG9rkLIdZaso8rkp3Fl6P76ncE4CYgMe4qCx0UpcKQa+yR59pU8wxN f2L6IaB3KK68NONPrH5Gxts4Q69d+USYxuxdDeI2JEUgHL9IQInzpAP/hr1WI7d8QBhzIgp5xcQ o5eWDKVpyZz6lSv1O9tUfwqL8IqYLIH6YAL/it6VDsRwMwOhU3lWPLBk+E1WzkYW+eYAFmdxrkL jLNCpa6OB9jJcjzUY/p7INoH9edPpwcQoSh6Jv6twSkbm88a66unNJYNfrr6Uj5z1GAKVMfxzkY viLVsHVzhEwxluARsz3eNaXvMtw9pDAZ8v1tHsRSjhprJAubUlbj2/8lX5iojVQyaEXrW6IEPdY X34aaQINLSlVOVNqbHYccc9Ii5jUoEuTHaxZnfWarqAgVQUXbPLwyE27YvduqYAQe9MntNcWR0D CmIjDJmwrUAcj+MHS5ZWlfcQGEXl3KsaMVRQ3HQzOErdBdNc78rBHAYLk1exAawuWTsJE43q4yz Q05ey4gbWQ+iTEQ=
+ =
+X-Developer-Key: i=markus.probst@posteo.de; a=openpgp; fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+  keydata=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
+  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-Hi Junjie,
+This patch series has previously been contained in
+https://lore.kernel.org/rust-for-linux/20251008181027.662616-1-markus.probst@posteo.de/T/#t
+which added a rust written led driver for a microcontroller via i2c.
 
-kernel test robot noticed the following build warnings:
+As the reading and writing to the i2c client via the register!
+macro has not been implemented yet [1], the patch series will only
+contain the additional abstractions required.
 
-[auto build test WARNING on lee-backlight/for-backlight-next]
-[also build test WARNING on lee-leds/for-leds-next linus/master v6.18-rc3 next-20251027]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[1] https://lore.kernel.org/rust-for-linux/DDDS2V0V2NVJ.16ZKXCKUA1HUV@kernel.org/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Junjie-Cao/backlight-aw99706-Add-support-for-Awinic-AW99706-backlight/20251026-214135
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
-patch link:    https://lore.kernel.org/r/20251026123923.1531727-3-caojunjie650%40gmail.com
-patch subject: [PATCH 2/2] backlight: aw99706: Add support for Awinic AW99706 backlight
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20251028/202510280208.NhQyE0y1-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510280208.NhQyE0y1-lkp@intel.com/reproduce)
+The following changes were made:
+* add abstraction to convert a device reference to a bus device
+  reference for use in class device callbacks
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510280208.NhQyE0y1-lkp@intel.com/
+* add basic led classdev abstractions to register and unregister leds
 
-All warnings (new ones prefixed by >>):
+Changes since v6:
+* fixed typos
+* improved documentation
 
-   In file included from include/linux/fortify-string.h:5,
-                    from include/linux/string.h:382,
-                    from arch/powerpc/include/asm/paca.h:16,
-                    from arch/powerpc/include/asm/current.h:13,
-                    from include/linux/sched.h:12,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/backlight.h:12,
-                    from drivers/video/backlight/aw99706.c:12:
-   drivers/video/backlight/aw99706.c: In function 'aw99706_bl_enable':
->> include/linux/bitfield.h:172:27: warning: 'val' is used uninitialized [-Wuninitialized]
-     172 |                 *(_reg_p) &= ~(_mask);                                                  \
-         |                           ^~
-   drivers/video/backlight/aw99706.c:325:9: note: in expansion of macro 'FIELD_MODIFY'
-     325 |         FIELD_MODIFY(AW99706_BACKLIGHT_EN_MASK, &val, en);
-         |         ^~~~~~~~~~~~
-   drivers/video/backlight/aw99706.c:323:12: note: 'val' was declared here
-     323 |         u8 val;
-         |            ^~~
+Changes since v5:
+* rename `IntoBusDevice` trait into `AsBusDevice`
+* fix documentation about `LedOps::BLOCKING`
+* removed dependency on i2c bindings
+* added `AsBusDevice` implementation for `platform::Device`
+* removed `device::Device` fallback implementation
+* document that `AsBusDevice` must not be used by drivers and is
+  intended for bus and class device abstractions only.
 
+Changes since v4:
+* add abstraction to convert a device reference to a bus device
+  reference
+* require the bus device as parent device and provide it in class device
+  callbacks
+* remove Pin<Vec<_>> abstraction (as not relevant for the led
+  abstractions)
+* fixed formatting in `led::Device::new`
+* fixed `LedOps::BLOCKING` did the inverse effect
 
-vim +/val +172 include/linux/bitfield.h
+Changes since v3:
+* fixed kunit tests failing because of example in documentation
 
-e2192de59e457a Johannes Berg   2023-01-18  120  
-e2192de59e457a Johannes Berg   2023-01-18  121  /**
-e2192de59e457a Johannes Berg   2023-01-18  122   * FIELD_PREP_CONST() - prepare a constant bitfield element
-e2192de59e457a Johannes Berg   2023-01-18  123   * @_mask: shifted mask defining the field's length and position
-e2192de59e457a Johannes Berg   2023-01-18  124   * @_val:  value to put in the field
-e2192de59e457a Johannes Berg   2023-01-18  125   *
-e2192de59e457a Johannes Berg   2023-01-18  126   * FIELD_PREP_CONST() masks and shifts up the value.  The result should
-e2192de59e457a Johannes Berg   2023-01-18  127   * be combined with other fields of the bitfield using logical OR.
-e2192de59e457a Johannes Berg   2023-01-18  128   *
-e2192de59e457a Johannes Berg   2023-01-18  129   * Unlike FIELD_PREP() this is a constant expression and can therefore
-e2192de59e457a Johannes Berg   2023-01-18  130   * be used in initializers. Error checking is less comfortable for this
-e2192de59e457a Johannes Berg   2023-01-18  131   * version, and non-constant masks cannot be used.
-e2192de59e457a Johannes Berg   2023-01-18  132   */
-e2192de59e457a Johannes Berg   2023-01-18  133  #define FIELD_PREP_CONST(_mask, _val)					\
-e2192de59e457a Johannes Berg   2023-01-18  134  	(								\
-e2192de59e457a Johannes Berg   2023-01-18  135  		/* mask must be non-zero */				\
-e2192de59e457a Johannes Berg   2023-01-18  136  		BUILD_BUG_ON_ZERO((_mask) == 0) +			\
-e2192de59e457a Johannes Berg   2023-01-18  137  		/* check if value fits */				\
-e2192de59e457a Johannes Berg   2023-01-18  138  		BUILD_BUG_ON_ZERO(~((_mask) >> __bf_shf(_mask)) & (_val)) + \
-e2192de59e457a Johannes Berg   2023-01-18  139  		/* check if mask is contiguous */			\
-e2192de59e457a Johannes Berg   2023-01-18  140  		__BF_CHECK_POW2((_mask) + (1ULL << __bf_shf(_mask))) +	\
-e2192de59e457a Johannes Berg   2023-01-18  141  		/* and create the value */				\
-e2192de59e457a Johannes Berg   2023-01-18  142  		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask))	\
-e2192de59e457a Johannes Berg   2023-01-18  143  	)
-e2192de59e457a Johannes Berg   2023-01-18  144  
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  145  /**
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  146   * FIELD_GET() - extract a bitfield element
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  147   * @_mask: shifted mask defining the field's length and position
-7240767450d6d8 Masahiro Yamada 2017-10-03  148   * @_reg:  value of entire bitfield
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  149   *
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  150   * FIELD_GET() extracts the field specified by @_mask from the
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  151   * bitfield passed in as @_reg by masking and shifting it down.
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  152   */
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  153  #define FIELD_GET(_mask, _reg)						\
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  154  	({								\
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  155  		__BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");	\
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  156  		(typeof(_mask))(((_reg) & (_mask)) >> __bf_shf(_mask));	\
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  157  	})
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  158  
-a256ae22570ee4 Luo Jie         2025-04-17  159  /**
-a256ae22570ee4 Luo Jie         2025-04-17  160   * FIELD_MODIFY() - modify a bitfield element
-a256ae22570ee4 Luo Jie         2025-04-17  161   * @_mask: shifted mask defining the field's length and position
-a256ae22570ee4 Luo Jie         2025-04-17  162   * @_reg_p: pointer to the memory that should be updated
-a256ae22570ee4 Luo Jie         2025-04-17  163   * @_val: value to store in the bitfield
-a256ae22570ee4 Luo Jie         2025-04-17  164   *
-a256ae22570ee4 Luo Jie         2025-04-17  165   * FIELD_MODIFY() modifies the set of bits in @_reg_p specified by @_mask,
-a256ae22570ee4 Luo Jie         2025-04-17  166   * by replacing them with the bitfield value passed in as @_val.
-a256ae22570ee4 Luo Jie         2025-04-17  167   */
-a256ae22570ee4 Luo Jie         2025-04-17  168  #define FIELD_MODIFY(_mask, _reg_p, _val)						\
-a256ae22570ee4 Luo Jie         2025-04-17  169  	({										\
-a256ae22570ee4 Luo Jie         2025-04-17  170  		typecheck_pointer(_reg_p);						\
-a256ae22570ee4 Luo Jie         2025-04-17  171  		__BF_FIELD_CHECK(_mask, *(_reg_p), _val, "FIELD_MODIFY: ");		\
-a256ae22570ee4 Luo Jie         2025-04-17 @172  		*(_reg_p) &= ~(_mask);							\
-a256ae22570ee4 Luo Jie         2025-04-17  173  		*(_reg_p) |= (((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask));	\
-a256ae22570ee4 Luo Jie         2025-04-17  174  	})
-a256ae22570ee4 Luo Jie         2025-04-17  175  
+Changes since v2:
+* return `Devres` on `led::Device` creation
+* replace KBox<T> with T in struct definition
+* increment and decrement reference-count of fwnode
+* make a device parent mandatory for led classdev creation
+* rename `led::Handler` to `led::LedOps`
+* add optional `brightness_get` function to `led::LedOps`
+* use `#[vtable]` instead of `const BLINK: bool`
+* use `Opaque::cast_from` instead of casting a pointer
+* improve documentation
+* improve support for older rust versions
+* use `&Device<Bound>` for parent
+
+Changes since v1:
+* fixed typos noticed by Onur Özkan
+
+Markus Probst (2):
+  rust: Add trait to convert a device reference to a bus device
+    reference
+  rust: leds: add basic led classdev abstractions
+
+Markus Probst (2):
+  rust: Add trait to convert a device reference to a bus device
+    reference
+  rust: leds: add basic led classdev abstractions
+
+ rust/kernel/auxiliary.rs |   7 +
+ rust/kernel/device.rs    |  33 ++++
+ rust/kernel/led.rs       | 375 +++++++++++++++++++++++++++++++++++++++
+ rust/kernel/lib.rs       |   1 +
+ rust/kernel/pci.rs       |   7 +
+ rust/kernel/platform.rs  |   7 +
+ rust/kernel/usb.rs       |   6 +
+ 7 files changed, 436 insertions(+)
+ create mode 100644 rust/kernel/led.rs
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.0
+
 
