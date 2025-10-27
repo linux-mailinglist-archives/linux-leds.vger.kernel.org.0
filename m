@@ -1,300 +1,206 @@
-Return-Path: <linux-leds+bounces-5887-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5888-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id B38E5C0CF6F
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Oct 2025 11:30:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E749C0D3A2
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Oct 2025 12:47:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9611A4E619F
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Oct 2025 10:30:46 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CF15C4F6431
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Oct 2025 11:44:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D29926B777;
-	Mon, 27 Oct 2025 10:30:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 718EA2FD690;
+	Mon, 27 Oct 2025 11:44:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hd33ZkFi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jAD0JZyI"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BAAA1DFF0
-	for <linux-leds@vger.kernel.org>; Mon, 27 Oct 2025 10:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9152FD1B0
+	for <linux-leds@vger.kernel.org>; Mon, 27 Oct 2025 11:44:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761561042; cv=none; b=mgULNLGltF+qkhZGTtDdS2DQodFLxG6FtX/xmbdwBYmYh1jWHl+aumCckaXRTJOOKawoMkzOSQCdrcbyfyEsdORzCKeSAJLjo9WkOYAkCLDgRqo6U6STWmTefwy2yJk2REc5qcrnfW0pHLT1wD2X+RW8DOlPSzcz4cxkiMKlv+Y=
+	t=1761565483; cv=none; b=aelEz1lnWYFiQXHZeUdNNW4hPUG8xGy8FIqLmslF8OpnAjt8gztpBUhTLhHzWsA64xWVwJEWDariGZPAF9SSU1pDkPZe6KUGwqfcBKx1IFpEh5jA09LhBXR5OX/+RJNZHS8RidAGiY0+u5XbcVQ3haLNMVBUY0CG73fEsW0eDA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761561042; c=relaxed/simple;
-	bh=SqZ0Ub745WWb3ZeyhwmiHZeS8d01xTOY/Qojh9ScUdc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JeZmO17WxS4eEFB8Af3/o07y9HVLUdp4aqyB5eQ++aq+mBe5G+ICSKPouImTeeMj/+UilsZRCMiIFminyHdmqGS9p1t/Wl+mDSeyKxrfK+5Auw0KTGG0AZdpntZsPRsS5GLAM0UesHJP9+T4VstdomEd4DOAS82gJbR7eyovDgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hd33ZkFi; arc=none smtp.client-ip=209.85.218.67
+	s=arc-20240116; t=1761565483; c=relaxed/simple;
+	bh=27WmFaJFqU7LyYoE8bTWqdiikSQj++r4V6WkI00nrdo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uSA9VHB+/N1HWEjy6bo0zvnarmdN5/v6NLvRPr4oqC2WfKzqU/xnnWfcf/ne8ghXfNk312SOsXm2ZIKgLzCut5uDeYy0YD/IbMzIQHjfPVxtBXIcjlbb+fSWbFkImMlLaRpHquHUOrxpd4ERLVm4vrHdKo51451Q8WZqctnDW9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jAD0JZyI; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f67.google.com with SMTP id a640c23a62f3a-b6d5c59f2b6so652603566b.2
-        for <linux-leds@vger.kernel.org>; Mon, 27 Oct 2025 03:30:40 -0700 (PDT)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-378d65d8184so71795201fa.0
+        for <linux-leds@vger.kernel.org>; Mon, 27 Oct 2025 04:44:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761561039; x=1762165839; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r+t/oTmZjxhzW3SWsg5D/3k7ryEIEHaxHipwLWpbI60=;
-        b=hd33ZkFiXaYLiNJgs5vod1PJuWbeOcQHlPTdmM9XNSHMiGobxPQbFR1WJoaclcbOH6
-         LmAq06mazq8ByagF6BVAoUodPtdWAiglBKxE67DFh6Jn5ecbZLUbeXabQgbWMRDk7ChE
-         IfPqbChGH2kSAI0LKrU0kwfM9uodJp8DRQvP18IGFwwZe4WP0N/bhhg0MSif8t0CiY4W
-         0Rw7R41AXT+f3TXhN3OGcvdlCHh07poD4DylE2vKLRAq1FLIFbkKHE6ZjoD3/+yED1sq
-         +Oky2aKwK2QFgzJ7SAnAZGB7DJ/jbhni56Q7hvoLpeU/8SENae4PdNw6t9hG9Vyn//kG
-         yXNQ==
+        d=gmail.com; s=20230601; t=1761565479; x=1762170279; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7nvb3ts879/Sg+IsM557dqRglkyZpqRyMDTmCJcWpIY=;
+        b=jAD0JZyIoYE5hc1F1fIimR0tAOeskqgQW9ojFmcxblgioJPpkJqYoTih4CoZhxrIO9
+         ek1jmCbL8/GfoneCFS/+O9uDeggevrvnWuzQN+3TBu5X92Y/2yjtcLjKb08Y98K8CZmg
+         QiuTK0R5dRdd4mISVIuey0dwBfmuf+K2dFaK5uElD0BtvuK6jdeQNvgo+GjkyWKSNuYl
+         rNg+Hkql5bjv9UqRssJEXn3rcJKY30qXuTZegMVPenaLhE91tFjb9eOMecVBlBo0lrA8
+         4/rs/bFzOA05/ORKLD06qdnSJ7b2UgD9TUydxel5+oVAYiFpa/Jzc+rXZn+s8ujXN71/
+         bYCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761561039; x=1762165839;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r+t/oTmZjxhzW3SWsg5D/3k7ryEIEHaxHipwLWpbI60=;
-        b=px76Pb+wPkxNiyqvw3CamDPRejYvHBEQWreV4LQv9bNMRZZKsUS/wxjCjMQjPJgcyI
-         /yk1+OS8KMFD2+9uItA9vFgfWaZK0SkKHkq6YwEt6DxHAyctjQU98rmfOESt991kpfp4
-         XpTgvef2DHnS5VEbp/yZX60ijGrVYD6mBRieiOP2oXcSmPQHNz/CUmYwP1ErOJDkXe2G
-         Dj18QSpYA5bdwQa96gYlULvr9k4I4tE3wjU1mIwvw/T8kZJGhqwB6EPdmn9ntmt0Dg/8
-         h1Ve22tMUBhEG5tq25WX8BYZsOezSynLzB7q2DNnbcDlnl0jCh74COnemZBfAY72Jh8U
-         x0mg==
-X-Forwarded-Encrypted: i=1; AJvYcCWVB8Qk49SPMOo20i4siJ4J78+fiSQNMmW7FIQr2nvzYjRUsVs7SebTHhrJL1aKdaQ2IhVb5+c+gVsp@vger.kernel.org
-X-Gm-Message-State: AOJu0YwevZNQsGbGGeqANAF17LFJe4Xwy4mdReb9I5qETIwVCTbKLXDR
-	KvL4r6qLVTIyLzd6sxpT8VfYaOwXcfAK1C/8KdgnnPKImqmCd8CZapsBd5/tyltbSNTpDOiqC4z
-	Ws9sLdhNfXdTCRsw9chvI5A0JGwtq6Mk=
-X-Gm-Gg: ASbGnctS9pIOEGDCUHkOjWNKPAE9sMWhg8vCxnGdttZt27Lka5mhLD1sN0qFBXPcZDa
-	kEw4SixCg5WkegLxKep93PsageeaMKtGDxm4DzrHel/HTE9Q/44q1EsBzHZ1XSz8+9VQqdIqfHQ
-	XK93ut4Fei1rfNBmyL8fj38nDTjXxM/l+cXjGIrWarox6nYgeEZGMB3gWEv2HAAle32i1kezh/0
-	+1kimWGZL7tBMErOaa8+Wb9DaWmLjx8/z/8Tc2Srw+S1sM5n24uyd1R1YpixKm/MPhwYA8=
-X-Google-Smtp-Source: AGHT+IHLxFJ3SPEDNoyMay98zhNlSRUKkyfFmuSirmfTIVuYNM52PHBBa3Zie8g2ZOnRY/ZMCMowauQRHmA5eHcm2CY=
-X-Received: by 2002:a17:907:9448:b0:b04:626e:f43d with SMTP id
- a640c23a62f3a-b64751284f6mr3751346266b.47.1761561038573; Mon, 27 Oct 2025
- 03:30:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761565479; x=1762170279;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7nvb3ts879/Sg+IsM557dqRglkyZpqRyMDTmCJcWpIY=;
+        b=EWzYUL8iFOzZKuyaMWDZZAuxzfvFbJoRLEU4SDIt2+Gv+VQQ4oUGUKRYd4LNnsGjIm
+         5B9gIIWsU9JxwpZWMFfVeEVWxiSzwGhVsQfLHpx1ZX6AKcp5NiJVexlTZ0H2RL6pRTko
+         xXSxOzBlD6y5YyNi6ifaSn+v3Wby+D/Qm5Tx4gtamA/o3Dli5nksykYDl6O16vmq0AUN
+         BcchUMa6aeQ+r7QsDWTMDQ55VD6QwnOMSnTNE4RjvsUrC2NfhqikKpUsakRD4f0eAV0Q
+         ZPe0iSbggFmAqrr/1imxgCCe7yUSeoqIbeIfxZF0PyFO1SLJ4VxBBDD9UCptVRPpEWKS
+         pXKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVniJYkCIiM0bRa7LvTOkoAwef7vOE9YyY6UJF35sutcza5rup7xK6b5lx8UKt4Dve6KlTJLhNx7WWp@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKPiHW3q8kLGeNXZoxGYgfA2GTbdgqQt3r2X06Yv4l0HEYIceR
+	myPPXW60ZzJn70j3iYH/ZLCmLNqHvdP7JzDmHhKOI4I0QkfFsYcw81RtjSqCt/qu
+X-Gm-Gg: ASbGncudg4DoxlbhczxElFPyzUVu2l0qq1aAsXl2OY5B1lymX5maync7zhtTRKfLNoQ
+	Criips9Aoxb2Rp5dK+vN1+aXKERtsLg6GGaGgap07del/W3cyinaO5prGjYULSdyNv45ZEJGIYz
+	dYfoBGZIoq44WWw1x/xRU6LSYibQ79iOeTA4+YgV5YMtyQHT+hvBuu8wzkyjFY/cPaCrdB/9jHx
+	uhsYLS9DsjmL6JxOGHC6xK8sfimtb4PWtZgUk8rIH3Va68vBlVqFaZTPXD4wgOtwKs4ruRjzsoJ
+	swCpHWHUPoEFf2jOvy/SAyFXPTOGwmh/zgs8GUwL3ID7NBXkqOPhc8bIE6n2M9Ee3PpcruQBQ5D
+	HDZjFR4ULZfGTUjF2khAZT7k33Kl+pOKIaLIGPE0A96vUmfYoMJkiGddfkbEuQb1civJagwTLV0
+	IMOUeGvNquYlOlY/7y/A==
+X-Google-Smtp-Source: AGHT+IFQSAqJl/qnApKxsx/9mKdWT/yO1J9O9fi4cpKuevGmaCJvnLNifaY3IeqxE+HyUnJOcQhvMg==
+X-Received: by 2002:a05:651c:505:b0:378:f0f3:66b4 with SMTP id 38308e7fff4ca-378f0f36bb1mr16079661fa.41.1761565479128;
+        Mon, 27 Oct 2025 04:44:39 -0700 (PDT)
+Received: from mva-rohm ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-378ee0e505bsm19542081fa.52.2025.10.27.04.44.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Oct 2025 04:44:38 -0700 (PDT)
+Date: Mon, 27 Oct 2025 13:44:32 +0200
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-rtc@vger.kernel.org
+Subject: [PATCH v2 00/15] Support ROHM BD72720 PMIC
+Message-ID: <cover.1761564043.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251026123923.1531727-1-caojunjie650@gmail.com>
- <20251026123923.1531727-2-caojunjie650@gmail.com> <c17c10d4-cc1f-46fd-8719-e7bb9ffa91ba@kernel.org>
- <CAK6c68gqHMR-FpH3MY9E_9R+V0J75V9zOii=x81e+bRcnBYOig@mail.gmail.com> <c32970a8-c1d1-4130-839b-981bca5373f3@kernel.org>
-In-Reply-To: <c32970a8-c1d1-4130-839b-981bca5373f3@kernel.org>
-From: Junjie Cao <caojunjie650@gmail.com>
-Date: Mon, 27 Oct 2025 18:29:01 +0800
-X-Gm-Features: AWmQ_bmSyDTyEE0NzC1P6-5KqVAikLVF9X2J_Ed-gcKZn6A6nKVOVFcs4LVP9Cc
-Message-ID: <CAK6c68iV2qUFEp_ujWwKYFmgt261rvQNK8Jo5Wjt-dCRbG_BVw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: leds: backlight: Add Awinic AW99706 backlight
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="DzHhZA1J1wxDlr51"
+Content-Disposition: inline
+
+
+--DzHhZA1J1wxDlr51
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 27, 2025 at 4:38=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On 27/10/2025 07:58, Junjie Cao wrote:
-> > On Sun, Oct 26, 2025 at 9:48=E2=80=AFPM Krzysztof Kozlowski <krzk@kerne=
-l.org> wrote:
-> >>
-> >> On 26/10/2025 13:39, Junjie Cao wrote:
-> >>> +
-> >>> +  reg:
-> >>> +    maxItems: 1
-> >>> +
-> >>> +  enable-gpios:
-> >>> +    description: GPIO to use to enable/disable the backlight (HWEN p=
-in).
-> >>> +    maxItems: 1
-> >>> +
-> >>> +  awinic,dim-mode:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description: >
-> >>> +      Select dimming mode of the device.
-> >>> +        0 =3D Bypass mode.
-> >>> +        1 =3D DC mode.
-> >>> +        2 =3D MIX mode.
-> >>> +        3 =3D MIX-26k.
-> >>> +    enum: [0, 1, 2, 3]
-> >>> +    default: 1
-> >>> +
-> >>> +  awinic,sw-freq:
-> >>
-> >> Please use proper units, see:
-> >> https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas=
-/property-units.yaml
-> >> and other examples
-> >>
-> >> Same everywhere else.
-> >>
-> >
-> > ACK
-> >
-> >>
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description: Boost switching frequency in kHz.
-> >>> +    enum: [300, 400, 500, 600, 660, 750, 850, 1000, 1200, 1330, 1500=
-, 1700]
-> >>> +    default: 750
-> >>> +
-> >>> +  awinic,sw-ilmt:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description: Switching current limitation in mA.
-> >>> +    enum: [1500, 2000, 2500, 3000]
-> >>> +    default: 3000
-> >>> +
-> >>> +  awinic,iled-max:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description: Maximum LED current setting in uA.
-> >>> +    minimum: 5000
-> >>> +    maximum: 50000
-> >>> +    multipleOf: 500
-> >>> +    default: 20000
-> >>> +
-> >>> +  awinic,uvlo-thres:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description: UVLO(Under Voltage Lock Out) in mV.
-> >>> +    enum: [2200, 5000]
-> >>> +    default: 2200
-> >>> +
-> >>> +  awinic,fade-time:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description: Fade In/Out Time(per step) in us.
-> >>> +    enum: [8, 16, 32, 64, 128, 256, 512, 1024]
-> >>
-> >> Why would this be fixed setting? This really looks like runtime, drop.
-> >>
-> >
-> > Yes, it is fixed. I am quoting this from the datasheet.
->
-> Fixed per board.
->
->
-> > AW99706B provides Fade in/out mode to transform backlight from one brig=
-htness
-> > to another or turn on/off backlight with a fixed slope. Writing 0b00 in=
-to
-> > RAMP_CTR (CFG 0x06) to enter Fade in/out mode, and the the slope of cur=
-rent
-> > transition can be set in FADE_TIME (CFG 0x06).
-> >
-> >>> +    default: 16
-> >>> +
-> >>> +  awinic,slope-time:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description: Slope time in ms.
-> >>
-> >> Slope of what?
-> >>
-> >
-> > Ramp time in slope mode, it is retained from downstream drivers, it wil=
-l
-> > be more clear in the next version.
-> >
-> >>> +    enum: [8, 24, 48, 96, 200, 300, 400, 500]
-> >>> +    default: 300
-> >>> +
-> >>> +  awinic,ramp-ctl:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description: >
-> >>> +      Select ramp control and filter of the device.
-> >>> +        0 =3D Fade in/fade out.
-> >>> +        1 =3D Light filter.
-> >>> +        2 =3D Medium filter.
-> >>> +        3 =3D Heavy filter.
-> >>> +    enum: [0, 1, 2, 3]
-> >>> +    default: 2
-> >>> +
-> >>> +  awinic,brt-mode:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description: >
-> >>> +      Select brightness control of the device.
-> >>> +        0 =3D PWM.
-> >>> +        1 =3D IIC.
-> >>> +        2 =3D IIC x PWM.
-> >>> +        3 =3D IIC x PWM(P-ramp).
-> >>> +    enum: [0, 1, 2, 3]
-> >>> +    default: 1
-> >>> +
-> >>> +  awinic,onoff-time:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description: Turn on/off time(per step) in ns.
-> >>> +    enum: [250, 500, 1000, 2000, 4000, 8000, 16000]
-> >>
-> >> Not a DT property.
-> >>
-> >
-> > It is mandatory in the downstream driver, I keep it.
->
-> Huh? I don't care about downstream driver. Again, not a DT property. You
-> cannot add here runtime properties and when, we tell you that, you just
-> ignore our review.
->
-> NAK
->
+The ROHM BD72720 is a new power management IC for portable, battery
+powered devices. It integrates 10 BUCKs and 11 LDOs, RTC, charger, LEDs,
+GPIOs and a clock gate. To me the BD72720 seems like a successor to the
+BD71828 and BD71815 PMICs.
 
-My apologies for the misunderstanding and my poorly worded previous
-comment. I absolutely did not intend to ignore your review.
+This series depends on the series: "[PATCH v5 0/3] power: supply: add
+charger for BD71828":
+https://lore.kernel.org/all/20250918-bd71828-charger-v5-0-851164839c28@kemn=
+ade.info/
+sent by Andreas. The power-supplly and MAINTAINERs patches (2/3 and 3/3)
+=66rom that serties aren't merged yet.
 
-I mentioned the "downstream driver" only to explain why I had originally
-included the property.
+Revision history:
+  RFCv1 =3D> v2:
+  - Drop RFC status
+  - Use stacked regmaps to hide secondary map from the sub-drivers
+  - Quite a few styling fixes and improvements as suggested by
+    reviewers. More accurate changelog in individual patches.
+  - Link to v1:
+    https://lore.kernel.org/all/cover.1759824376.git.mazziesaccount@gmail.c=
+om/
 
-I now understand your point clearly. I will remove them in the next
-version.
+---
 
-Thanks for your fast reviews and for clarifying this principle for me.
+Matti Vaittinen (15):
+  dt-bindings: regulator: ROHM BD72720
+  dt-bindings: Add trickle-charge upper limit
+  dt-bindings: power: supply: BD72720 managed battery
+  dt-bindings: mfd: ROHM BD72720
+  dt-bindings: leds: bd72720: Add BD72720
+  mfd: rohm-bd71828: Use regmap_reg_range()
+  mfd: bd71828: Support ROHM BD72720
+  regulator: bd71828: rename IC specific entities
+  regulator: bd71828: Support ROHM BD72720
+  gpio: Support ROHM BD72720 gpios
+  clk: clk-bd718x7: Support BD72720 clk gate
+  rtc: bd70528: Support BD72720 rtc
+  power: supply: bd71828: Support wider register addresses
+  power: supply: bd71828-power: Support ROHM BD72720
+  MAINTAINERS: Add ROHM BD72720 PMIC
 
->
-> >
-> > The following is the description about it,
-> >
-> > If the value in ONOFF_CTR(CFG 0x08 [4:3]) is 0b00, the turning on/off r=
-amp of
-> > AW99706B is soft start and fast end. In this mode, the ramp time can be
-> > programmed by ONOFF_TIME (CFG 0x08 [2:0]).
-> >
-> >>> +    default: 2000
-> >>> +
-> >>> +required:
-> >>> +  - compatible
-> >>> +  - reg
-> >>> +  - enable-gpios
-> >>> +
-> >>> +unevaluatedProperties: false
-> >>> +
-> >>> +examples:
-> >>> +  - |
-> >>> +    #include <dt-bindings/gpio/gpio.h>
-> >>> +
-> >>> +    i2c {
-> >>> +        #address-cells =3D <1>;
-> >>> +        #size-cells =3D <0>;
-> >>> +
-> >>> +        aw99706@76 {
-> >>> +            compatible =3D "awinic,aw99706";
-> >>> +            reg =3D <0x76>;
-> >>> +            enable-gpios =3D <&tlmm 88 GPIO_ACTIVE_HIGH>;
-> >>
-> >> Where are other properties from common.yaml? Looks like you re-invente=
-d
-> >> some parts.
-> >>
-> >
-> > Sorry, I forgot it, when writing the bindings, I used ktz8866.yaml as a
-> > template. I  should have dropped the common.yaml. This driver does
-> > not require other properties in common.yaml.
->
->
-> I don't care about driver much, but anyway it should use common.yaml.
-> Please read the feedback very carefully.
->
+ .../bindings/leds/rohm,bd71828-leds.yaml      |    7 +-
+ .../bindings/mfd/rohm,bd72720-pmic.yaml       |  269 +++++
+ .../bindings/power/supply/battery.yaml        |    3 +
+ .../power/supply/rohm,vdr-battery.yaml        |   80 ++
+ .../regulator/rohm,bd72720-regulator.yaml     |  153 +++
+ MAINTAINERS                                   |    2 +
+ drivers/clk/Kconfig                           |    4 +-
+ drivers/clk/clk-bd718x7.c                     |   10 +-
+ drivers/gpio/Kconfig                          |    9 +
+ drivers/gpio/Makefile                         |    1 +
+ drivers/gpio/gpio-bd72720.c                   |  281 +++++
+ drivers/mfd/Kconfig                           |   18 +-
+ drivers/mfd/rohm-bd71828.c                    |  546 ++++++++-
+ drivers/power/supply/bd71828-power.c          |  160 ++-
+ drivers/regulator/Kconfig                     |    8 +-
+ drivers/regulator/bd71828-regulator.c         | 1025 ++++++++++++++++-
+ drivers/rtc/Kconfig                           |    3 +-
+ drivers/rtc/rtc-bd70528.c                     |   21 +-
+ include/linux/mfd/rohm-bd72720.h              |  634 ++++++++++
+ include/linux/mfd/rohm-generic.h              |    1 +
+ 20 files changed, 3106 insertions(+), 129 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/rohm,bd72720-pmic=
+=2Eyaml
+ create mode 100644 Documentation/devicetree/bindings/power/supply/rohm,vdr=
+-battery.yaml
+ create mode 100644 Documentation/devicetree/bindings/regulator/rohm,bd7272=
+0-regulator.yaml
+ create mode 100644 drivers/gpio/gpio-bd72720.c
+ create mode 100644 include/linux/mfd/rohm-bd72720.h
 
-ACK
+--=20
+2.51.0
 
-Regards,
-Junjie
+
+--DzHhZA1J1wxDlr51
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmj/WxsACgkQeFA3/03a
+ocUMJwf9HbRd5I2iJ6QYeIW2lWVnqqAKf4gYNQ0UHW3eQKS0Dpc+IP40tUlyxyQm
+1U9Mu5cq7IIPgcUW1N6SWlSa8NI2IxrxL/XbwXAp1cwd9HpmmbkaaBhpboC61xag
+ih+1uGfVEOYyHDR/PGtKhMIOyVLyhCeJpKbh5NU5VUcBGIK6RvsPuv7WxKe25xN9
+0RlvsF/8gUNeC/AErsgvcb5Y6VO4KGtxkZNER15jcKzU/ZZh7IgCYhlYqJ7np4PM
+Q8994iIOsdE1hMrveHn+AX3mRgjDbYZ47fvTabViMYagGTr77MV4/cPSps1CmAXc
+65X58e1Zup8oIZ8TnfiwD0YdF1Zd0Q==
+=n5aj
+-----END PGP SIGNATURE-----
+
+--DzHhZA1J1wxDlr51--
 
