@@ -1,231 +1,566 @@
-Return-Path: <linux-leds+bounces-5931-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5932-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF59C195B6
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Oct 2025 10:25:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2458BC1A1D1
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Oct 2025 12:51:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A8D63B87D9
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Oct 2025 09:23:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9515B18848BC
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Oct 2025 11:51:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A98A322A04;
-	Wed, 29 Oct 2025 09:23:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDBEF3385A0;
+	Wed, 29 Oct 2025 11:51:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b="CnysY0t4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O80e/tCm"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.thorsis.com (mail.thorsis.com [217.92.40.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7684231D742;
-	Wed, 29 Oct 2025 09:23:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.92.40.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B80F337B9D
+	for <linux-leds@vger.kernel.org>; Wed, 29 Oct 2025 11:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761729821; cv=none; b=C94uGvQPdckUC4qcQnyZAriKRsWCDVeewFGvMAhmOZyaiYPDoQtP94s8xpE+1t2xYlVpxOMqFNv6cEx021lLM6l/mPdtt77RFdSjzWItDHkD0j6+GkUpIZ/za+VCbw0ngUV55f8/ynBtT3xh7XybAhXGrniXmucbV6fuUT89KNA=
+	t=1761738676; cv=none; b=PJA8S7m16Az/A7PCH6XoNgom1Dp5PTnJsjbtuOSbYU9BT1cz9dxaYh3Bt+QxYlfthckm9tXK7bd9O7xjM+7K67EtaxHGKUghBnK2nxDtLOCoL14kGQwUsPi5qlCMhjHyfcYAPTrtiI/pzsUss2ZfpGtOhyV7Ggo+cA5tbMqSVAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761729821; c=relaxed/simple;
-	bh=J7iqhTzrlj86EMcGRA7xb60awDEhM6qHMzLGoaUVXis=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tZqRILK72kdQFBQoPqy9o74y9EAbKanYfZ2ymQtXivvJBBH/uHXR3xxqSUGroVOcG8R+uYDn6tJ69eXb5kbM4gycZD3g1SSY3CAJs59vbQRGMFePSAVg2xgs67pb5O8es7UqxTMPcmYcqWulR0k3835OvHBWe12zgkRJFmbKEKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com; spf=pass smtp.mailfrom=thorsis.com; dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b=CnysY0t4; arc=none smtp.client-ip=217.92.40.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thorsis.com
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 43E2C1489CE9;
-	Wed, 29 Oct 2025 10:23:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thorsis.com; s=dkim;
-	t=1761729808; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=1zLIEoaFBP4q/5p+hEtogKcFyzuImMfXPa+ST2olz9A=;
-	b=CnysY0t4pIjp6NlKEvBZFdi3Y3jdok7H4tpzujTzN0+P3Q4HSFSE0Wy8kEvWBNQQAx2qzi
-	Gz3vIodzUSWZfOwJXyKky1we/qFyzFFEECLnoANMVqvPJRrKhTjCVil567ApPhoHanQpkX
-	d6WjXx0eVDVzAI39NDFWAwabMtuDYWfgqfvELfVSfoBwFG/xN5OX1IYttnilLTIzf6iD1w
-	dt73CsRp67KCmTUmoVHsktfeOy90b5Sn1RurTuKEQ4t43brVGNuOXQRROd0137G/iQvl01
-	o+Pi0TWAVaSDNh5XtJTlA1X/yk5R/ZkpKnWplOnynXthsEoMxhutw1MmJgrXfw==
-Date: Wed, 29 Oct 2025 10:23:17 +0100
-From: Alexander Dahl <ada@thorsis.com>
-To: Josua Mayer <josua@solid-run.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jon Nettleton <jon@solid-run.com>,
-	Mikhail Anikin <mikhail.anikin@solid-run.com>,
-	Yazan Shhady <yazan.shhady@solid-run.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH 08/10] arm64: dts: add description for solidrun imx8mp
- hummingboard-iiot
-Message-ID: <20251029-jittery-ambiguity-14e03ad2f0df@thorsis.com>
-Mail-Followup-To: Josua Mayer <josua@solid-run.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jon Nettleton <jon@solid-run.com>,
-	Mikhail Anikin <mikhail.anikin@solid-run.com>,
-	Yazan Shhady <yazan.shhady@solid-run.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	linux-leds@vger.kernel.org
-References: <20251027-imx8mp-hb-iiot-v1-0-683f86357818@solid-run.com>
- <20251027-imx8mp-hb-iiot-v1-8-683f86357818@solid-run.com>
- <2c54b7b7-4eb4-44a0-8025-8da16a28efd4@solid-run.com>
+	s=arc-20240116; t=1761738676; c=relaxed/simple;
+	bh=sQSvCc+stRawyQCe28tVgqjb9XQM8BEV450CLz359gM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YsnEkRaKxkwSKThHXzfmvQupDqDaVWs3M65QTuZztlqkR/a0ipgpgx7A6lrcAFfDHOMxErKH8xRqezgg7TKvJY6CuTrcCStx1YzFCcl1bz5V+65DqbccD755S3KwF6V/C4LlezG1HQ01aORo7IRnKALfAz4r+o328f/KduWQmig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O80e/tCm; arc=none smtp.client-ip=209.85.208.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f66.google.com with SMTP id 4fb4d7f45d1cf-63c4b5a1b70so13716349a12.1
+        for <linux-leds@vger.kernel.org>; Wed, 29 Oct 2025 04:51:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761738671; x=1762343471; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6PmxXZLeWMcLI527g8jLuWPGtFvEcXvUEe7TnxQd8UI=;
+        b=O80e/tCm6+Iat8kAqUO18bZedek439vALlI22gIe+yJlliP+ULIePafq5C+cICvVHI
+         i3J141tK2p5XqA/zUYmGU1xd65djsLQVkF/T2Y9olvkuVemCnCMgmPPC5HZ8qNEj9mnm
+         8v7By0MDj3KVPZunHBgtSYNcg21xZO/Gbg+R4YdOIv0Aimoc9OfwLLZSp+NrJk005s86
+         ivGR/04m+ReFF3chCNv9Oj0+Mn7ABXbCJf21OoIKIoXQiWiULihs4dyBVmyjozPiPHZX
+         y9Wt8T83MDWuEO/p8XgL0nNVp5iqI8gnHX7rGbAdMfqCuVx/t9g0OTs8H21w8wXbRfci
+         /fhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761738671; x=1762343471;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6PmxXZLeWMcLI527g8jLuWPGtFvEcXvUEe7TnxQd8UI=;
+        b=IkJN5l4WZB/icwcMvQ0ROwgIosTB7WfWpo+doKd3jl5vchFN7+CoY/uySrU5XE88y3
+         5a23qFJ1EdGlXFjHjWY3eHs+XSiBDjtmsY4TOc1z7S5VT74kmYF192B1NzxiRNCHe2uk
+         n6i3w5WuW53JkfV/QhtFpS0/xNyE6kbLeuM55dpDLpZ5muYsyC65SpTOpnvwknTpMBot
+         +FFRv5NnUs4h3TtK4ZNWreZN9n99h9B+EWPDrCqB6bduryq0Ozz8/K5t/RJc9CrrDAAZ
+         1qwzZQk0gHrzeUny14cUSvd6NT1N7jK3fKqapwSJlar5d9mEZwuIGTUYWGzcPxQ9Ta0L
+         XZSg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+SbUmgvY4PDCeptxK2cNTEnLmAgjCKi3NOjjZTFTBGZO7ds7WFjZbPKHCCMK7C+UVIo76rytiBbTI@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFBO12Jc5s3a4EcLO226HNw0sfCldLIMSoEc4l/p2iBwwxzojr
+	TL5aI6w/oASlFLaCNCixOrouVftxilcXDYik9fhQJzLRI4ISb8WM8fXcM6E2bLzjDugDboyMnLf
+	yrZCPzUwIuPFnQ/8yXqksU776n25kCdxmt3KmbJePsA0qYzM=
+X-Gm-Gg: ASbGncuhKlAEkDiroGv49c8lhGUWerLf2p4eF/T7NCuKGsk7IZbb0AVwO9B6ftp2CsD
+	s19X/YoBOh1jK0rK5Q2bvldV6Dh8lLO+MSbSejrz+6U1/m7V9bzAMbeKIWH5iU8TpOKYZLOr11U
+	825XxH6jt2EDIfC+xPulHE46bF7NUyUktXTmQQPxvdax9+zaw6kcDaKkEzsE3KSr89FE4yqvX7v
+	9GjDdzP7ktbK5qtHn27WlK/T5Vx9nJlt2VO1nmc3PsMVuVnHLZCnApdU0nLgWhmH1ROOEo=
+X-Google-Smtp-Source: AGHT+IG9L5a0r/NdoAT1ohIBYjXSvm6NtF9CNaPrbz2JKpE2fMKa/uar54tyDQwfdBSdEpNrfQnRUbFFbJSiFt8W4EQ=
+X-Received: by 2002:a05:6402:1452:b0:63b:f22d:9254 with SMTP id
+ 4fb4d7f45d1cf-64044399015mr2070280a12.23.1761738671158; Wed, 29 Oct 2025
+ 04:51:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2c54b7b7-4eb4-44a0-8025-8da16a28efd4@solid-run.com>
-User-Agent: Mutt/2.2.12 (2023-09-09)
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20251026123923.1531727-1-caojunjie650@gmail.com>
+ <20251026123923.1531727-3-caojunjie650@gmail.com> <aQDDjzl65dMZEnwM@aspen.lan>
+In-Reply-To: <aQDDjzl65dMZEnwM@aspen.lan>
+From: Junjie Cao <caojunjie650@gmail.com>
+Date: Wed, 29 Oct 2025 19:49:35 +0800
+X-Gm-Features: AWmQ_bkmVwrubVSK9QRHrpoai2PlgXID_3JWsZtl1cctLfRNPfV3c2wXTnhUYhg
+Message-ID: <CAK6c68h3Mc0=JbbbVAmo_cYeOR_T-_rRy5EacgYQh7HgQZOPBg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] backlight: aw99706: Add support for Awinic AW99706 backlight
+To: Daniel Thompson <danielt@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
+	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, Pengyu Luo <mitltlatltl@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Josua,
-
-Am Tue, Oct 28, 2025 at 12:24:36PM +0000 schrieb Josua Mayer:
-> Am 27.10.25 um 18:48 schrieb Josua Mayer:
-> 
-> > Add description for the SolidRun i.MX8MP HummingBoard IIoT.
-> > The board is a new design around the i.MX8MP System on Module, not
-> > sharing much with previous HummingBoards.
+On Tue, Oct 28, 2025 at 9:21=E2=80=AFPM Daniel Thompson <danielt@kernel.org=
+> wrote:
+>
+> On Sun, Oct 26, 2025 at 08:39:23PM +0800, Junjie Cao wrote:
+> > Add support for Awinic AW99706 backlight, which can be found in
+> > tablet and notebook backlight, one case is the Lenovo Legion Y700
+> > Gen4. This driver refers to the official datasheets and android
+> > driver, they can be found in [1].
 > >
-> > It comes with some common features:
-> > - 3x USB-3.0 Type A connector
-> > - 2x 1Gbps RJ45 Ethernet
-> > - USB Type-C Console Port
-> > - microSD connector
-> > - RTC with backup battery
-> > - RGB Status LED
-> > - 1x M.2 M-Key connector with PCI-E Gen. 3 x1
-> > - 1x M.2 B-Key connector with USB-2.0/3.0 + SIM card holder
-> > - 1x LVDS Display Connector
-> > - 1x DSI Display Connector
-> > - GPIO header
-> > - 2x RS232/RS485 ports (configurable)
-> > - 2x CAN
+> > [1] https://www.awinic.com/en/productDetail/AW99706QNR
 > >
-> > In addition there is a board-to-board expansion connector to support
-> > custom daughter boards with access to SPI, a range of GPIOs and -
-> > notably - CAN and UART. Both 2x CAN and 2x UART can be muxed either
-> > to this b2b connector, or a termianl block connector on the base board.
-> >
-> > The routing choice for UART and CAN is expressed through gpio
-> > mux-controllers in DT and can be changed by applying dtb addons.
-> >
-> > Four dtb addons are provided:
-> >
-> > - dsi panel Winstar WJ70N3TYJHMNG0
-> > - lvds panel Winstar WF70A8SYJHLNGA
-> > - RS485 on UART port "A" (default rs232)
-> > - RS485 on UART port "B" (default rs232)
-> >
-> > Signed-off-by: Josua Mayer <josua@solid-run.com>
+> > Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+> > Signed-off-by: Junjie Cao <caojunjie650@gmail.com>
 > > ---
-> >  arch/arm64/boot/dts/freescale/Makefile             |   6 +
-> >  ...hummingboard-iiot-panel-dsi-WJ70N3TYJHMNG0.dtso |  70 ++
-> >  ...ummingboard-iiot-panel-lvds-WF70A8SYJHLNGA.dtso | 105 +++
-> >  .../imx8mp-hummingboard-iiot-rs485-a.dtso          |  18 +
-> >  .../imx8mp-hummingboard-iiot-rs485-b.dtso          |  18 +
-> >  .../dts/freescale/imx8mp-hummingboard-iiot.dts     | 710 +++++++++++++++++++++
-> >  6 files changed, 927 insertions(+)
-> cut
-> > diff --git a/arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dts b/arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dts
+> > diff --git a/drivers/video/backlight/aw99706.c b/drivers/video/backligh=
+t/aw99706.c
 > > new file mode 100644
-> > index 0000000000000..2e4cb676bc9da
+> > index 000000000..8dafdea45
 > > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dts
-> cut
-> > +	led-controller@30 {
-> > +		compatible = "ti,lp5562";
-> > +		reg = <0x30>;
-> > +		/* use internal clock, could use external generated by rtc */
-> > +		clock-mode = /bits/ 8 <1>;
-> > +		#address-cells = <1>;
-> > +		#size-cells = <0>;
+> > +++ b/drivers/video/backlight/aw99706.c
+> > @@ -0,0 +1,503 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * aw99706 - Backlight driver for the AWINIC AW99706
+> > + *
+> > + * Copyright (C) 2025 Junjie Cao <caojunjie650@gmail.com>
+> > + * Copyright (C) 2025 Pengyu Luo <mitltlatltl@gmail.com>
+> > + *
+> > + * Based on vendor driver:
+> > + * Copyright (c) 2023 AWINIC Technology CO., LTD
+> > + */
 > > +
-> > +		multi-led@0 {
-> > +			reg = <0x0>;
-> > +			color = <LED_COLOR_ID_RGB>;
-> > +			#address-cells = <1>;
-> > +			#size-cells = <0>;
+> > +#include <linux/backlight.h>
+> > +#include <linux/bitfield.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/gpio.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/regmap.h>
 > > +
-> > +			led@0 {
-> > +				reg = <0x0>;
-> > +				color = <LED_COLOR_ID_RED>;
-> > +				led-cur = /bits/ 8 <0x32>;
-> > +				max-cur = /bits/ 8 <0x64>;
-> > +			};
+> > +#define AW99706_MAX_BRT_LVL          4095
+> > +#define AW99706_REG_MAX                      0x1F
+> > +#define AW99706_ID                   0x07
 > > +
-> > +			led@1 {
-> > +				reg = <0x1>;
-> > +				color = <LED_COLOR_ID_GREEN>;
-> > +				led-cur = /bits/ 8 <0x19>;
-> > +				max-cur = /bits/ 8 <0x32>;
-> > +			};
+> > +/* registers list */
+> > +#define AW99706_CFG0_REG                     0x00
+> > +#define AW99706_DIM_MODE_MASK                        GENMASK(1, 0)
 > > +
-> > +			led@2 {
-> > +				reg = <0x2>;
-> > +				color = <LED_COLOR_ID_BLUE>;
-> > +				led-cur = /bits/ 8 <0x19>;
-> > +				max-cur = /bits/ 8 <0x32>;
-> > +			};
-> > +		};
+> > +#define AW99706_CFG1_REG                     0x01
+> > +#define AW99706_SW_FREQ_MASK                 GENMASK(3, 0)
+> > +#define AW99706_SW_ILMT_MASK                 GENMASK(5, 4)
 > > +
-> > +		led@3 {
-> > +			reg = <3>;
-> > +			chan-name = "D8";
-> 
-> chan-name gives the led the name D6 in sysfs.
-> 
-> The bindings do not allow however setting chan-name on
-> the multi-led, and it has an auto-generated name in sysfs.
-> 
-> Am I missing something? Can multi-leds have a custom name?
+> > +#define AW99706_CFG2_REG                     0x02
+> > +#define AW99706_ILED_MAX_MASK                        GENMASK(6, 0)
+> > +#define AW99706_UVLOSEL_MASK                 BIT(7)
+> > +
+> > +#define AW99706_CFG3_REG                     0x03
+> > +#define AW99706_CFG4_REG                     0x04
+> > +#define AW99706_BRT_MSB_MASK                 GENMASK(3, 0)
+> > +
+> > +#define AW99706_CFG5_REG                     0x05
+> > +#define AW99706_BRT_LSB_MASK                 GENMASK(7, 0)
+> > +
+> > +#define AW99706_CFG6_REG                     0x06
+> > +#define AW99706_FADE_TIME_MASK                       GENMASK(2, 0)
+> > +#define AW99706_SLOPE_TIME_MASK                      GENMASK(5, 3)
+> > +#define AW99706_RAMP_CTL_MASK                        GENMASK(7, 6)
+> > +
+> > +#define AW99706_CFG7_REG                     0x07
+> > +#define AW99706_BRT_MODE_MASK                        GENMASK(1, 0)
+> > +
+> > +#define AW99706_CFG8_REG                     0x08
+> > +#define AW99706_ONOFF_TIME_MASK                      GENMASK(2, 0)
+> > +
+> > +#define AW99706_CFG9_REG                     0x09
+> > +#define AW99706_CFGA_REG                     0x0A
+> > +#define AW99706_CFGB_REG                     0x0B
+> > +#define AW99706_CFGC_REG                     0x0C
+> > +#define AW99706_CFGD_REG                     0x0D
+> > +#define AW99706_FLAG_REG                     0x10
+> > +#define AW99706_BACKLIGHT_EN_MASK            BIT(7)
+> > +
+> > +#define AW99706_CHIPID_REG                   0x11
+> > +#define AW99706_LED_OPEN_FLAG_REG            0x12
+> > +#define AW99706_LED_SHORT_FLAG_REG           0x13
+> > +#define AW99706_MTPLDOSEL_REG                        0x1E
+> > +#define AW99706_MTPRUN_REG                   0x1F
+> > +
+> > +#define RESV 0
+> > +
+> > +/* Boost switching frequency table, in kHz */
+> > +static const u32 aw99706_sw_freq_tbl[] =3D {
+> > +     RESV, RESV, RESV, RESV, 300, 400, 500, 600,
+> > +     660, 750, 850, 1000, 1200, 1330, 1500, 1700
+> > +};
+> > +
+> > +/* Switching current limitation table, in mA */
+> > +static const u32 aw99706_sw_ilmt_tbl[] =3D {
+> > +     1500, 2000, 2500, 3000
+> > +};
+> > +
+> > +/* ULVO threshold table, in mV */
+> > +static const u32 aw99706_ulvo_thres_tbl[] =3D {
+> > +     2200, 5000
+> > +};
+> > +
+> > +/* Fade In/Out time table, in us */
+> > +static const u32 aw99706_fade_time_tbl[] =3D {
+> > +     8, 16, 32, 64, 128, 256, 512, 1024
+> > +};
+> > +
+> > +/* Slope time table, in ms */
+> > +static const u32 aw99706_slopetime_tbl[] =3D {
+> > +     8, 24, 48, 96, 200, 300, 400, 500
+> > +};
+> > +
+> > +/* Turn on/off time table, in ns */
+> > +static const u32 aw99706_onoff_time_tbl[] =3D {
+> > +     RESV, 250, 500, 1000, 2000, 4000, 8000, 16000
+> > +};
+> > +
+> > +struct aw99706_device {
+> > +     struct i2c_client *client;
+> > +     struct device *dev;
+> > +     struct regmap *regmap;
+> > +     struct backlight_device *bl_dev;
+> > +     struct gpio_desc *hwen_gpio;
+> > +     bool bl_enable;
+> > +};
+> > +
+> > +enum reg_access {
+> > +     REG_NONE_ACCESS =3D 0,
+> > +     REG_RD_ACCESS   =3D 1,
+> > +     REG_WR_ACCESS   =3D 2,
+> > +};
+> > +
+> > +struct aw99706_reg {
+> > +     u8 defval;
+> > +     u8 access;
+> > +};
+> > +
+> > +const struct aw99706_reg aw99706_regs[AW99706_REG_MAX + 1] =3D {
+> > +     [AW99706_CFG0_REG]              =3D {0x65, REG_RD_ACCESS | REG_WR=
+_ACCESS},
+> > +     [AW99706_CFG1_REG]              =3D {0x39, REG_RD_ACCESS | REG_WR=
+_ACCESS},
+> > +     [AW99706_CFG2_REG]              =3D {0x1e, REG_RD_ACCESS | REG_WR=
+_ACCESS},
+> > +     [AW99706_CFG3_REG]              =3D {0x04, REG_RD_ACCESS | REG_WR=
+_ACCESS},
+> > +     [AW99706_CFG4_REG]              =3D {0x00, REG_RD_ACCESS | REG_WR=
+_ACCESS},
+> > +     [AW99706_CFG5_REG]              =3D {0x00, REG_RD_ACCESS | REG_WR=
+_ACCESS},
+> > +     [AW99706_CFG6_REG]              =3D {0xa9, REG_RD_ACCESS | REG_WR=
+_ACCESS},
+> > +     [AW99706_CFG7_REG]              =3D {0x04, REG_RD_ACCESS | REG_WR=
+_ACCESS},
+> > +     [AW99706_CFG8_REG]              =3D {0x0c, REG_RD_ACCESS | REG_WR=
+_ACCESS},
+> > +     [AW99706_CFG9_REG]              =3D {0x4b, REG_RD_ACCESS | REG_WR=
+_ACCESS},
+> > +     [AW99706_CFGA_REG]              =3D {0x72, REG_RD_ACCESS | REG_WR=
+_ACCESS},
+> > +     [AW99706_CFGB_REG]              =3D {0x01, REG_RD_ACCESS | REG_WR=
+_ACCESS},
+> > +     [AW99706_CFGC_REG]              =3D {0x6c, REG_RD_ACCESS | REG_WR=
+_ACCESS},
+> > +     [AW99706_CFGD_REG]              =3D {0xfe, REG_RD_ACCESS | REG_WR=
+_ACCESS},
+> > +     [AW99706_FLAG_REG]              =3D {0x00, REG_RD_ACCESS},
+> > +     [AW99706_CHIPID_REG]            =3D {AW99706_ID, REG_RD_ACCESS},
+> > +     [AW99706_LED_OPEN_FLAG_REG]     =3D {0x00, REG_RD_ACCESS},
+> > +     [AW99706_LED_SHORT_FLAG_REG]    =3D {0x00, REG_RD_ACCESS},
+> > +
+> > +     /*
+> > +      * Write bit is dropped here, writing BIT(0) to MTPLDOSEL will un=
+lock
+> > +      * Multi-time Programmable (MTP).
+> > +      */
+> > +     [AW99706_MTPLDOSEL_REG]         =3D {0x00, REG_RD_ACCESS},
+> > +     [AW99706_MTPRUN_REG]            =3D {0x00, REG_NONE_ACCESS},
+> > +};
+> > +
+> > +static bool aw99706_readable_reg(struct device *dev, unsigned int reg)
+> > +{
+> > +     return aw99706_regs[reg].access & REG_RD_ACCESS;
+> > +}
+> > +
+> > +static bool aw99706_writeable_reg(struct device *dev, unsigned int reg=
+)
+> > +{
+> > +     return aw99706_regs[reg].access & REG_WR_ACCESS;
+> > +}
+> > +
+> > +static inline int aw99706_i2c_read(struct aw99706_device *aw, u8 reg,
+> > +                                unsigned int *val)
+> > +{
+> > +     return regmap_read(aw->regmap, reg, val);
+> > +}
+> > +
+> > +static inline int aw99706_i2c_write(struct aw99706_device *aw, u8 reg,=
+ u8 val)
+> > +{
+> > +     return regmap_write(aw->regmap, reg, val);
+> > +}
+> > +
+> > +static inline int aw99706_i2c_update_bits(struct aw99706_device *aw, u=
+8 reg,
+> > +                                       u8 mask, u8 val)
+> > +{
+> > +     return regmap_update_bits(aw->regmap, reg, mask, val);
+> > +}
+> > +
+> > +struct aw99706_dt_prop {
+> > +     const char * const name;
+> > +     const u32 * const lookup_tbl;
+> > +     u8 tbl_size;
+> > +     u8 reg;
+> > +     u8 mask;
+> > +     u8 val;
+> > +     u32 raw_val;
+> > +};
+> > +
+> > +static struct aw99706_dt_prop aw99706_dt_props[] =3D {
+> > +     {
+> > +             "awinic,dim-mode", NULL,
+> > +             0,
+> > +             AW99706_CFG0_REG, AW99706_DIM_MODE_MASK
+> > +     },
+> > +     {
+> > +             "awinic,sw-freq", aw99706_sw_freq_tbl,
+> > +             ARRAY_SIZE(aw99706_sw_freq_tbl),
+> > +             AW99706_CFG1_REG, AW99706_SW_FREQ_MASK
+> > +     },
+> > +     {
+> > +             "awinic,sw-ilmt", aw99706_sw_ilmt_tbl,
+> > +             ARRAY_SIZE(aw99706_sw_ilmt_tbl),
+> > +             AW99706_CFG1_REG, AW99706_SW_ILMT_MASK
+> > +     },
+> > +     {
+> > +             "awinic,iled-max", NULL,
+> > +             0,
+> > +             AW99706_CFG2_REG, AW99706_ILED_MAX_MASK
+> > +
+> > +     },
+> > +     {
+> > +             "awinic,uvlo-thres", aw99706_ulvo_thres_tbl,
+> > +             ARRAY_SIZE(aw99706_ulvo_thres_tbl),
+> > +             AW99706_CFG2_REG, AW99706_UVLOSEL_MASK
+> > +     },
+> > +     {
+> > +             "awinic,fade-time", aw99706_fade_time_tbl,
+> > +             ARRAY_SIZE(aw99706_fade_time_tbl),
+> > +             AW99706_CFG6_REG, AW99706_FADE_TIME_MASK
+> > +     },
+> > +     {
+> > +             "awinic,slope-time", aw99706_slopetime_tbl,
+> > +             ARRAY_SIZE(aw99706_slopetime_tbl),
+> > +             AW99706_CFG6_REG, AW99706_SLOPE_TIME_MASK
+> > +     },
+> > +     {
+> > +             "awinic,ramp-ctl", NULL,
+> > +             0,
+> > +             AW99706_CFG6_REG, AW99706_RAMP_CTL_MASK
+> > +     },
+> > +     {
+> > +             "awinic,brt-mode", NULL,
+> > +             0,
+> > +             AW99706_CFG7_REG, AW99706_BRT_MODE_MASK
+> > +     },
+> > +     {
+> > +             "awinic,onoff-time", aw99706_onoff_time_tbl,
+> > +             ARRAY_SIZE(aw99706_onoff_time_tbl),
+> > +             AW99706_CFG8_REG, AW99706_ONOFF_TIME_MASK
+> > +     },
+> > +};
+> > +
+> > +static int aw99706_lookup(const u32 * const tbl, int size, u32 val)
+> > +{
+> > +     int i;
+> > +
+> > +     for (i =3D 0; i < size; i++)
+> > +             if (tbl[i] =3D=3D val)
+> > +                     return i;
+> > +
+> > +     return -1;
+> > +}
+> > +
+> > +static inline void aw99706_prop_set_default(struct aw99706_dt_prop *pr=
+op)
+> > +{
+> > +     prop->val =3D prop->mask & aw99706_regs[prop->reg].defval;
+>
+> Why included the default value in the register descriptions?
+>
+> defval is only used to provide values for missing DT properties so using
+> the raw register values is cryptic and hard to read.
+>
+> Including a default value in the aw99706_dt_props table instead would be
+> much more readable (because the defaults could use the same units at the
+> device tree).
+>
 
-The sysfs names are auto-generated based on the attributes "color",
-"function", and "label" with the last being discouraged for new
-designs.  If the "ti,lp5562" driver does nothing special, you could
-add "function" to the multi-led node and see if that fits your needs.
+Agree, I will include the default values in the aw99706_dt_props table.
 
-Adding linux-leds to Cc, because this is a LED related question.
+>
+> > +}
+> > +
+> > +static void aw99706_dt_property_convert(struct aw99706_dt_prop *prop)
+> > +{
+> > +     unsigned int val, shift;
+> > +
+> > +     if (prop->lookup_tbl) {
+> > +             val =3D aw99706_lookup(prop->lookup_tbl, prop->tbl_size,
+> > +                                  prop->raw_val);
+> > +             if (val < 0) {
+> > +                     aw99706_prop_set_default(prop);
+>
+> This should not happen silently.
+>
+> If the DT has provided an invalid value then we be issuing *at minimum*
+> a message at warning level or above. Many drivers will simply refuse to
+> probe when the DT is broken.
+>
 
-Greets
-Alex
+Indeed, I missed it.
 
-> In v6.6 leds-lp5562 driver if I set in each multi-led led@[0-2] sub-node
-> chan-name to the same string "D7" - then the sysfs name becomes D7.
-> 
-> > +			color = <LED_COLOR_ID_GREEN>;
-> > +			led-cur = /bits/ 8 <0x19>;
-> > +			max-cur = /bits/ 8 <0x64>;
-> > +		};
-> > +	};
+>
+> > +                     return;
+> > +             }
+> > +
+> > +     } else {
+> > +             val =3D prop->raw_val;
+> > +     }
+> > +
+> > +     shift =3D ffs(prop->mask) - 1;
+> > +     val <<=3D shift;
+> > +     prop->val =3D prop->mask & val;
+> > +}
+> > +
+> > +static void aw99706_dt_parse(struct aw99706_device *aw)
+> > +{
+> > +     struct aw99706_dt_prop *prop;
+> > +     int ret, i;
+> > +
+> > +     for (i =3D 0; i < ARRAY_SIZE(aw99706_dt_props); i++) {
+> > +             prop =3D &aw99706_dt_props[i];
+> > +             ret =3D device_property_read_u32(aw->dev, prop->name,
+> > +                                            &prop->raw_val);
+> > +             if (ret < 0) {
+> > +                     dev_warn(aw->dev, "Missing property %s: %d\n",
+> > +                              prop->name, ret);
+>
+> Why is there a warning when an optional property is not present. A DT
+> not including an optional property needs no message at all.
+>
+
+They are mandatory in the downstream, and providing all properties is
+difficult sometimes, so I set a default value if one is missing. But
+one device may use a configuration different from the component
+vendor's. These default values may be not optimal, so I issue a
+warning for property missing. (I forgot to address it)
+
+>
+> > +
+> > +                     aw99706_prop_set_default(prop);
+> > +             } else {
+> > +                     aw99706_dt_property_convert(prop);
+> > +             }
+> > +     }
+> > +
+> > +     /* This property requires a long linear array, using formula for =
+now */
+> > +     aw99706_dt_props[3].val =3D (aw99706_dt_props[3].raw_val - 5000) =
+/ 500;
+>
+> Using a formula is fine, but I don't like doing it retrospectively.
+> Hard coding the 3 makes maintenance difficult and we end up making the
+> whole of aw99706_dt_props writeable just so we can store raw_val once!
+>
+> Much better, IMHO, to embed a function pointer into the table and make
+> the whole table const. The function pointer can be
+> aw99706_dt_property_convert() in most cases (although rename it
+> `aw99706_dt_property_lookup_from_table() ) and can implement any
+> formula you need.
+>
+
+Helpful opinion. I will do this in next version.
+
+>
+> > +}
+> > +
+> > +static int aw99706_hw_init(struct aw99706_device *aw)
+> > +{
+> > +     int ret, i;
+> > +
+> > +     gpiod_set_value_cansleep(aw->hwen_gpio, 1);
+> > +
+> > +     for (i =3D 0; i < ARRAY_SIZE(aw99706_dt_props); i++) {
+> > +             ret =3D aw99706_i2c_update_bits(aw, aw99706_dt_props[i].r=
+eg,
+> > +                                           aw99706_dt_props[i].mask,
+> > +                                           aw99706_dt_props[i].val);
+> > +             if (ret < 0) {
+> > +                     dev_err(aw->dev, "Failed to write init data %d\n"=
+, ret);
+> > +                     return ret;
+> > +             }
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int aw99706_bl_enable(struct aw99706_device *aw, bool en)
+> > +{
+> > +     int ret;
+> > +     u8 val;
+> > +
+> > +     FIELD_MODIFY(AW99706_BACKLIGHT_EN_MASK, &val, en);
+> > +     ret =3D aw99706_i2c_update_bits(aw, AW99706_CFGD_REG,
+> > +                                   AW99706_BACKLIGHT_EN_MASK, val);
+> > +     if (ret)
+> > +             dev_err(aw->dev, "Failed to enable backlight!\n");
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int aw99706_backlight_switch(struct aw99706_device *aw, u32 brt=
+_lvl)
+> > +{
+> > +     bool bl_enable_now =3D !!brt_lvl;
+> > +     int ret =3D 0;
+> > +
+> > +     if (aw->bl_enable !=3D bl_enable_now) {
+> > +             aw->bl_enable =3D bl_enable_now;
+> > +             ret =3D aw99706_bl_enable(aw, bl_enable_now);
+> > +     }
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int aw99706_update_brightness(struct aw99706_device *aw, u32 br=
+t_lvl)
+> > +{
+> > +     int ret;
+> > +
+> > +     ret =3D aw99706_i2c_write(aw, AW99706_CFG4_REG,
+> > +                             (brt_lvl >> 8) & AW99706_BRT_MSB_MASK);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     ret =3D aw99706_i2c_write(aw, AW99706_CFG5_REG,
+> > +                             brt_lvl & AW99706_BRT_LSB_MASK);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     return aw99706_backlight_switch(aw, brt_lvl);
+>
+> I'm not sure there is much benefit pushing this out into a seperate
+> function. Merge this inline.
+>
+> > +}
+>
+
+I see.
+
+Regards,
+Junjie
 
