@@ -1,74 +1,74 @@
-Return-Path: <linux-leds+bounces-5937-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5938-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC41C1AA1E
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Oct 2025 14:23:23 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 394F4C1AB23
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Oct 2025 14:31:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 75AEE5049AC
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Oct 2025 13:15:33 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E1CD634E1C1
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Oct 2025 13:31:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D9EF34320D;
-	Wed, 29 Oct 2025 13:09:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D863129E114;
+	Wed, 29 Oct 2025 13:26:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wSayh/xO"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iUmnKqAV"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F09A33F385
-	for <linux-leds@vger.kernel.org>; Wed, 29 Oct 2025 13:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125EB29C343
+	for <linux-leds@vger.kernel.org>; Wed, 29 Oct 2025 13:26:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761743353; cv=none; b=eS01q+j6uWDmLX56v1D9wPCs+Odimgrb8F7pVSwDHqCBS8ZznreNuK6bhf0uacl/30ykcVFZBUDQm242mvH0fDmjVvz4o6FR6rrPYCGSqGsFNRqXSey4EFtrxH2w+WzAzOrvJPUQvnBgQE0j5egUpXyuPtqYrqpCfACZmz7Vj4c=
+	t=1761744383; cv=none; b=X7+tvkWZbNj9k1mKiqsRm5+65xUeTWb0aanLpztWf37iaBbm+B/cSjw0ExCAkcrfIX5HwwsvpZS0WH8+iFPrCvu9Q35k6QIzmUqq0ALshJmljhecy8rabuSW+191zlA/23dqmkDUAtuTuCVQH7GmoqOw5Ci4VqcmTkSrNWMK4mY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761743353; c=relaxed/simple;
-	bh=fyeNQjPbHba2zQACV1XwHgrmcj9u7mbSw/E0lwVQwQM=;
+	s=arc-20240116; t=1761744383; c=relaxed/simple;
+	bh=aSKuU9xIOHp+USY+0olHQZuj/v2CpxFRMmxMh6Q5UbY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RhixaiLcbRq/kde905ffSnem2/KekVyJhlMVJ6QIG7Ic1/1o5ulsU53a6uTLt9bAy4RmHnIPFHUZbA7cRO+ScqBrO6U17+pyRKKu3P1iwGFGNQgYSqudDmySjRcGVuuXbDvwXLHlUvEbRttCQUSihGFxrDNw/oaoKdKsYr+ILNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wSayh/xO; arc=none smtp.client-ip=209.85.167.45
+	 To:Cc:Content-Type; b=qFTusjl9guJttlv5UXyppUhU7IrVuV/+bb/sM/dKpwO67PlZoOxEJLBb0hUkj8Q7+q7spoVJNj5vmDFvElFbJPGPmMWmH+Ty5wmB0mSjNkBaCqUeu812V8Xoxo0JoYdkx2zRyYN7yGXkVgrmi7SXI/wLgOAsjMAWmnjSfatQurw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iUmnKqAV; arc=none smtp.client-ip=209.85.208.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-592f098f7adso9277202e87.0
-        for <linux-leds@vger.kernel.org>; Wed, 29 Oct 2025 06:09:09 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-378e0f355b9so53797921fa.0
+        for <linux-leds@vger.kernel.org>; Wed, 29 Oct 2025 06:26:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761743347; x=1762348147; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1761744380; x=1762349180; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cpAhRZEcISe/L4obGO6K/aBf0H3CSDRAh1WJSbvQ7BI=;
-        b=wSayh/xOnAy3dXi4ntAukqEAHjvP9ucW73ZNIZyHbw2cHQsLL1Szf+DGPNGYsn58u6
-         J0lwB0G/6WXg8TK1O1xAu8Frak99gd/QnbDsG5k9aR5NWpMNTDbuTL7oxRWZPWpRSOFx
-         xVvP+51Ubm/kNNqZYitAOZdba2XhAhmt56BKrWjh3RH4FNJICFR+nON5Pti46FzTT5X3
-         V25xSseaffbJRROIyrMREOd1AAqVkx51lYyblWTF4trc7wR1xEMOfoXA5rLlso0sYxnx
-         sgyo4EO5o2qzKCCrqcLaGoGl+Pw64TwIG1bOSVwYd4/QlwFZqZYmuo7DnuaZmUHhVtZr
-         9GHw==
+        bh=aSKuU9xIOHp+USY+0olHQZuj/v2CpxFRMmxMh6Q5UbY=;
+        b=iUmnKqAV2ZqMdwnarD5Ij79DsuDs8d9nv9eDEmFWWJiu41QA9o1q9vb8Pkbw3xbwmL
+         c6QCK4LsJtvpN8Y7BhbLijAl1jzxLs/rlhWG9ZVtfRggaPEayDKQmSSxpfpjumVUz0H5
+         I8GBQUEMGUmH5HGOvkZB47Y6tPmwj/vITe7gdeYhYEY9X5hUMk4F8RQ/Hv0XqxijV+c+
+         nb6NKK0uARBBlJV1IRx5XEZ8x3KkQqHeyeRmN11znwsMl4mZwxGKDovmKAqV81udKgkq
+         VTaAMZFkD/rpE6QxRLyak22lIf8mIBCRZqn4bUBxHJiRW7plr8/Hq7YjCbztGtpv29yI
+         C6+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761743347; x=1762348147;
+        d=1e100.net; s=20230601; t=1761744380; x=1762349180;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cpAhRZEcISe/L4obGO6K/aBf0H3CSDRAh1WJSbvQ7BI=;
-        b=UoBOtkCQ8X+NO0yKexa0Blp3HkstApUzEgbye/lh52gkyOZcwzNUFdFkZCOEmQCtti
-         gvSqxczxMYVsOL+Tmk5JrGi6E8wMc+pztVE8fEXSRF9AG1CI6vgw887PEKDW9iIM1zXl
-         bIiZ5TPBWfkTWUNhigg6X+0cHNdGLmTCI066yuqO2q9gGJaxmjvbx8NKzfsgfXyMbLnH
-         CL01hDcHOFMzNm7E2TRE4SU8Gudc39w/QmhugKy0GeQW9Na1w8oAowJinc55GPstVWfg
-         +ZhxIlHo42YZ0rL4e77KYE1knh+S6t4SQy29y3JgvlfIEOWPauq7dVakNhsIRNT5QLQC
-         nhJw==
-X-Forwarded-Encrypted: i=1; AJvYcCU39wSrGYB25LCSXcIIVxlMlLUki0avYh+ChTxbuFm/uUDuZwdnHSAHIQ+M4Xuqln3hGAqHcoDFP/Ts@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZv+iBpdPD6oy4/gWv4IyZZsf/aGQtWI///Jj/qCNTG7LSeVzQ
-	gAmaptC7CD5j+W3dn/xOixG9aq2tzlxjgRJue3e4p0Oo4a3fczwJqSbxG3ZDfK5Sxz+aRNZG7qR
-	2u00VZa3nOX01JwLckw7dh71W1M2nn0tOQxTXYfYahQ==
-X-Gm-Gg: ASbGncttjvhejPuctimi2JFcLOpbPvNUZtLVGdhtQRxi84N2veXw3rOpw1L+d52RAn7
-	evf4lHJwYcflAcf56TBXk14zUbni4chKnI4+DAWEI68fYLkX7871bHe8Wil8mKgVZdmgVyzZCOb
-	2fXP4+l7qP39QAWTgPeBQjwP1Zc83r74v9+Fv4/8EF0h9KrPmncM65i+s+z4DPCCYdA0icmhF/R
-	qFOYgjeu4Gvr8De3do4r6fDG17SzG5sGf6LhREjJrITxzvbxMSt+o5hMfUv
-X-Google-Smtp-Source: AGHT+IHoNXhvs7nAEQT1Pr7YoG6bCNTomzDjqEik5GRK5GTNnbmdXX4kn01zdcQcoosBSkAxyYQ6vANHvlPp3vj1L2g=
-X-Received: by 2002:a05:6512:3a8a:b0:592:f449:cbae with SMTP id
- 2adb3069b0e04-594128617a3mr1173473e87.11.1761743347041; Wed, 29 Oct 2025
- 06:09:07 -0700 (PDT)
+        bh=aSKuU9xIOHp+USY+0olHQZuj/v2CpxFRMmxMh6Q5UbY=;
+        b=Tbkprt6Z1wVt5Yua96gMIfpr/HonaEvtWnXrNJhcx6r0dXFI7SHW6lU3PDk7ZLit5a
+         boeo+lc7GRHUfY4e4Hl53OnU+ypHqQs6p9pSZm2sYb6nISistPn3QAuaD6QGZ9bO6jze
+         VHGcRakFx8vPESdef2mVMMt/HWWPvnOOnfjS82TXBTa6Dr0JyEOfvEeLu1wrU3IqaKTH
+         qzjGgoYt58ojSnenhzK8+N4zdjofJCe9JLPKzvw/7gQroyZMD2NSy/04d1bhIKJjnMW/
+         /Yq1oS8Xdf5QzxpckKTdv04xLoWorPc41Ewue7yIiqVn5TY7T5o2EN/aytUi4ksZD7G2
+         s9BA==
+X-Forwarded-Encrypted: i=1; AJvYcCV/ASyx1XRIYhzlpO05WtoLl8jRl+THpDyqpBTZvtkrbU/wpeWb7d4xwjJFu3JLdhHnm+77+dniG7+R@vger.kernel.org
+X-Gm-Message-State: AOJu0YySPksTxbB6mfTun8jYnCUNCL2Wbxy83SQhcJn2ObZIdZdNWGJX
+	nX1IYNTJvzzDhCxVWni5Oj1crS0eHwMYzOgWU+OcAqlK5013Dp2ABjphrVsid0sT9TOCyN7ZnI6
+	AH3yUqma/rOkuHGKl4RfPwWEeRZSiPyhuSOZKEJnLGg==
+X-Gm-Gg: ASbGncsv5ysjVBVZaQHgT0vukYvBCYBsrU7MP7WgyAb/w47q+bitX2Ayd4+T41Mpbhb
+	HXWeYArr2ojrQfL8XRSha2ANNeS8hBGt9uzPoNDmrt4vpSW1uc3ZhZw2q423FwIXg+je5uo7HGu
+	8831pZ4UDa64dwjDNrEqkDW5cQ4BLEkDjY298VhuCbl0kRFIQj9WQQ2fOK6IR82/GlAfZMeQDCk
+	ltSMS/1LPrmEgMxYKFA6BYPyUkAxDCYElk3Cpd0cAYjGeZA2J4yh2K5cVoj
+X-Google-Smtp-Source: AGHT+IFc/hCvDE1Zso/0IxQN+geIgWUqlAHmVbZSzAYj2L1gPzKHQM2rtOb3cVJ3wqFIdmrbO8L60WWStqgI5NAbuCE=
+X-Received: by 2002:a2e:9a12:0:b0:36a:f4d3:82e9 with SMTP id
+ 38308e7fff4ca-37a023ba912mr9579411fa.6.1761744380200; Wed, 29 Oct 2025
+ 06:26:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -76,17 +76,17 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <cover.1761564043.git.mazziesaccount@gmail.com>
- <a5957c4f83724d4f32527fb892fc340af4eeddde.1761564043.git.mazziesaccount@gmail.com>
- <CACRpkdYEUdJRvNPKhxx7orYHH3OE6BXXjrG9JVJo5MDHGKE88A@mail.gmail.com> <8b5dbbf6-bbde-4015-b0d1-12d6ec770ceb@gmail.com>
-In-Reply-To: <8b5dbbf6-bbde-4015-b0d1-12d6ec770ceb@gmail.com>
+ <b13b733e7e0fba05652f49f727412fed9e0ceb02.1761564043.git.mazziesaccount@gmail.com>
+ <20251029-adamant-mamba-of-patience-cddb65@kuoka> <a81fba66-adf0-440f-96e1-bf3a83d504d8@gmail.com>
+In-Reply-To: <a81fba66-adf0-440f-96e1-bf3a83d504d8@gmail.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 29 Oct 2025 14:08:55 +0100
-X-Gm-Features: AWmQ_bmctKf4r03BFEQZEB7--T8kdCIHNsOEFNutvbq6JrwVjRi4Ptn1KMtyXrQ
-Message-ID: <CACRpkdaK52wY7MYhnqCqzOAFVu2V=NejDTjAAhkxhf9rmrV8iA@mail.gmail.com>
-Subject: Re: [PATCH v2 04/15] dt-bindings: mfd: ROHM BD72720
+Date: Wed, 29 Oct 2025 14:26:08 +0100
+X-Gm-Features: AWmQ_bkO8UFcogwNBcRXNNMdmHiXiiZyPgTHaU5THyaD5CILTj16yxOphtBr7r4
+Message-ID: <CACRpkdZcszMZEU2Wzx8kaoR46ytziqtedmCrsjEL3QOrDtDgzg@mail.gmail.com>
+Subject: Re: [PATCH v2 02/15] dt-bindings: Add trickle-charge upper limit
 To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Lee Jones <lee@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Sebastian Reichel <sre@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
 	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
@@ -98,57 +98,32 @@ Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Lee Jones <lee@kernel.o
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 29, 2025 at 1:30=E2=80=AFPM Matti Vaittinen
+On Wed, Oct 29, 2025 at 7:22=E2=80=AFAM Matti Vaittinen
 <mazziesaccount@gmail.com> wrote:
-> On 28/10/2025 00:42, Linus Walleij wrote:
-> > Hi Matti,
-> >
-> > thanks for your patch!
-> >
-> > On Mon, Oct 27, 2025 at 12:45=E2=80=AFPM Matti Vaittinen
-> > <mazziesaccount@gmail.com> wrote:
-> >
-> >> +  rohm,clkout-open-drain:
-> >> +    description: clk32kout mode. Set to 1 for "open-drain" or 0 for "=
-cmos".
-> >> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >> +    minimum: 0
-> >> +    maximum: 1
-> >
-> > I think CMOS is the same as "push-pull" ( I could be wrong, but I think=
- I've
-> > seen that before) so I would probably try to use the pin config standar=
-d
-> > names as strings here but I'm not sure.
-> >
-> > rohm,clkout-bias-open-drain;
-> > rohm,clkout-bias-push-pull;
-> >
-> > Mutually exclusive.
-> >
-> > Or maybe use the pattern from rohm,pin-dvs0
-> > with string enumerators?
-> >
-> > rohm,clkout-bias =3D "open-drain";
-> > rohm,clkout-bias =3D "push-pull";
-> >
->
-> Hmm. I kind of agree with you. Still, the way it was done in this patch
-> is used by the other existing ROHM PMICs (bd71815, bd71828, bd71879). I
-> am kind of reluctant to support another way in the same driver - and I
-> am also reluctant to change the existing bindings as that sounds a bit
-> like asking for a nose-bleed :) (I've in the past worked with some
-> devices which didn't update the device-trees when kernel was updated...)
->
-> Do you think you could live with using this existing convention? :)
 
-Yeah if there are precedents, either we can reuse that or we need to
-change them all, and that invariably involves deprecation and re-implementi=
-ng
-the parsing in several drivers in that case, which is annoying and
-takes time.
+> > But I believe this is wrong. Trickle charging does not switch to
+> > anything more, there is no fast charging after trickle. You have some
+> > sort of pre-pre-charging, which is just pre-charging.
+>
+> There is trickle, pre and fast-charge phases. Furthermore, the
+> fast-charge is further divided to CC and CV. Finally, if my memory
+> serves me well, Linus W did explain me that some chargers use
+> 'trickle-charging' as a _last_ charging phase for a full battery. Thus
+> the term 'trickle-charging' is slightly confusing - but it is already
+> used by the existing bindings...
+>
+> https://lore.kernel.org/all/20211116001755.2132036-1-linus.walleij@linaro=
+.org/
 
-It's fine with me to keep like this.
+I think we need to refer to a textbook or IEEE articles to get this
+terminology right.
+
+As you say it appears "trickle-charging" is ambiguous.
+
+Maybe what Krzysztof suggest to use: "pre-pre-charging" or
+"empty-battery-charging" or something like this is needed.
+
+But we really need a trustworthy academic source here.
 
 Yours,
 Linus Walleij
