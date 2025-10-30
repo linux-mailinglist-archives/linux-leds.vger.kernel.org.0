@@ -1,124 +1,184 @@
-Return-Path: <linux-leds+bounces-5940-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5941-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBAFC1C9EE
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Oct 2025 18:56:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C603FC1E2A9
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Oct 2025 03:54:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 197504E6F51
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Oct 2025 17:52:38 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C60E24E04DA
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Oct 2025 02:54:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DF8D3446B5;
-	Wed, 29 Oct 2025 17:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tr8RjkwN"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66D982F361C;
+	Thu, 30 Oct 2025 02:54:40 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD882D8DA4;
-	Wed, 29 Oct 2025 17:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C1F2BDC14;
+	Thu, 30 Oct 2025 02:54:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761760356; cv=none; b=DwDrOO8kS1FWdqnzRRIHJ/S/gBK6z2KDVKG4H9g0rJ+dGqf+rtMZi2FT4I0gbHWJ3VLQGIsG63QyxEmlt03fbnpQmX79QFcMEydohoyM7+euZKWYAsaN4Td1oIZDZDUr21EvldUQqZ4Hl/qP5xOmZpa7+KxEL3v2eFv0qrJJ+s8=
+	t=1761792880; cv=none; b=NKmNrrhdqvDlv5xo6qlvZISoTmBCpkBiqFlGGMlK9nkaM9hBChhwq/J8/N8msZmTr/22ZXoH4GT1HXCxS2aE2YFtA1JsMpkOsBEdXnveAfAtjthpKTO+czXGSJqdTEQVGr2/seIYIus5afCFd/Qa6exbFKLaPVyZp4KZLMogHbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761760356; c=relaxed/simple;
-	bh=0YBScoJ8j4SEyGyzFWW4kdvZXQlp+HgJ7s1KzaPXNDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bn/Ac/DCcmFMiHFrpVOqRK17qssEHt2ONWTV32Wq6gh8nohSEg7rdhdS7J8W8sGbKt7qqo71y/5mN5WK9jXZJUoz7o3SPsTgVazJ1lSHEsDQ9Vak/a6UtOcoUSkuQ4BerZ1t9Wr+/XAdSkkuZiMm6BkIGZTh1n8O7alIbsQG1vk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tr8RjkwN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EBE6C4CEF7;
-	Wed, 29 Oct 2025 17:52:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761760355;
-	bh=0YBScoJ8j4SEyGyzFWW4kdvZXQlp+HgJ7s1KzaPXNDA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tr8RjkwNuP9TI9R6Dv4328MqMFROy/G1RzcO3D+YUqrzInGDBmSUn6dWtqJl4ViHD
-	 RwWjAcNHTuYjNFImMaLZE7bHMtLXm+2kE+086j9yN/NONlyNv8JHtglIkMWnZIsvXf
-	 FalyX9cBXS4k8sNIlnmP0ADnY+1FeeIECSsC9cBHU2OQvxRs1n47fq4Aw5G/1L3/mk
-	 tOweAgQRN+NTuyN2RWGuAyvQ1ujoSuPFwZRXNjuISPfWGGRGS+lo+DIcswLY7fy9u1
-	 4HxpKFB38E/VhrBd9r1GMZiiVY4DtPSzzpBeG4xRujhI9bX9uKWVgVyO3cFABWRley
-	 WU+A6rf3lbhTg==
-Date: Wed, 29 Oct 2025 17:53:31 +0000
-From: Daniel Thompson <danielt@kernel.org>
-To: Junjie Cao <caojunjie650@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
-	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, Pengyu Luo <mitltlatltl@gmail.com>
-Subject: Re: [PATCH 2/2] backlight: aw99706: Add support for Awinic AW99706
- backlight
-Message-ID: <aQJUmx5elYOW2TvO@aspen.lan>
-References: <20251026123923.1531727-1-caojunjie650@gmail.com>
- <20251026123923.1531727-3-caojunjie650@gmail.com>
- <aQDDjzl65dMZEnwM@aspen.lan>
- <CAK6c68h3Mc0=JbbbVAmo_cYeOR_T-_rRy5EacgYQh7HgQZOPBg@mail.gmail.com>
+	s=arc-20240116; t=1761792880; c=relaxed/simple;
+	bh=2nou3+sYzr5FFBks/6IKQLsdlovVhPpCAxuxUPstnEs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HfUsobp92diKwx8Yu0zfyhR6vfbTdGYWUGHCe4kVn201wiL7Bm2hLOambB5YYc4VqHWnpc0m+xC+ASufNJUyPUHxBPWl4mBywUZE1zIr57b/8NZjXu8zqipCkT8eceGIz1dP/ZRmkRHC02MV4FOMpDcEkauAvfqKFpu1dhZV+ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from DESKTOP-L0HPE2S (unknown [124.16.141.245])
+	by APP-05 (Coremail) with SMTP id zQCowACHqVhh0wJpy4RVBg--.33188S2;
+	Thu, 30 Oct 2025 10:54:27 +0800 (CST)
+From: Haotian Zhang <vulab@iscas.ac.cn>
+To: Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Markus.Elfring@web.de
+Cc: linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haotian Zhang <vulab@iscas.ac.cn>
+Subject: [PATCH v2] leds: netxbig: fix GPIO descriptor leak in error paths
+Date: Thu, 30 Oct 2025 10:53:12 +0800
+Message-ID: <20251030025312.1623-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1.windows.1
+In-Reply-To: <20251028082117.276-1-vulab@iscas.ac.cn>
+References: <20251028082117.276-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK6c68h3Mc0=JbbbVAmo_cYeOR_T-_rRy5EacgYQh7HgQZOPBg@mail.gmail.com>
+X-CM-TRANSID:zQCowACHqVhh0wJpy4RVBg--.33188S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxur13Cr13GrWxtw17tr1fZwb_yoW5ZFyxpr
+	W8A3ZYkFy5GFyxJr4jqF4kAFyfuw4ktr4xGa1xKas09F1Iqr1rXa4rJF45Z3WDKrykJrWY
+	qF4rWay7uF4DC3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkE14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
+	WxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
+	Yx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
+	WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AF
+	wI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1D
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUSNt
+	xUUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgsLA2kC0GAMlQAAsH
 
-On Wed, Oct 29, 2025 at 07:49:35PM +0800, Junjie Cao wrote:
-> On Tue, Oct 28, 2025 at 9:21 PM Daniel Thompson <danielt@kernel.org> wrote:
-> >
-> > On Sun, Oct 26, 2025 at 08:39:23PM +0800, Junjie Cao wrote:
-> > > Add support for Awinic AW99706 backlight, which can be found in
-> > > tablet and notebook backlight, one case is the Lenovo Legion Y700
-> > > Gen4. This driver refers to the official datasheets and android
-> > > driver, they can be found in [1].
-> > >
-> > > [1] https://www.awinic.com/en/productDetail/AW99706QNR
-> > >
-> > > Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
-> > > Signed-off-by: Junjie Cao <caojunjie650@gmail.com>
-> > > ---
-> > > diff --git a/drivers/video/backlight/aw99706.c b/drivers/video/backlight/aw99706.c
-> > > <snip>
-> > > +static void aw99706_dt_parse(struct aw99706_device *aw)
-> > > +{
-> > > +     struct aw99706_dt_prop *prop;
-> > > +     int ret, i;
-> > > +
-> > > +     for (i = 0; i < ARRAY_SIZE(aw99706_dt_props); i++) {
-> > > +             prop = &aw99706_dt_props[i];
-> > > +             ret = device_property_read_u32(aw->dev, prop->name,
-> > > +                                            &prop->raw_val);
-> > > +             if (ret < 0) {
-> > > +                     dev_warn(aw->dev, "Missing property %s: %d\n",
-> > > +                              prop->name, ret);
-> >
-> > Why is there a warning when an optional property is not present. A DT
-> > not including an optional property needs no message at all.
-> >
->
-> They are mandatory in the downstream, and providing all properties is
-> difficult sometimes, so I set a default value if one is missing. But
-> one device may use a configuration different from the component
-> vendor's. These default values may be not optimal, so I issue a
-> warning for property missing. (I forgot to address it)
+The function netxbig_gpio_ext_get() acquires GPIO descriptors but
+fails to release them when errors occur mid-way through initialization.
+The cleanup callback registered by devm_add_action_or_reset() only
+runs on success, leaving acquired GPIOs leaked on error paths.
 
-All sensible but to be clear...
+Add goto-based error handling to release all acquired GPIOs before
+returning errors.
 
-From my point-of-view the driver should match the upstream bindings.
-Either the properties are required (in which case missing them can be
-dev_err() and/or fail to probe) or they are optional (in which case
-there should be no warnings).
+Fixes: 9af512e81964 ("leds: netxbig: Convert to use GPIO descriptors")
+Suggested-by: Markus Elfring <Markus.Elfring@web.de>
+Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
 
-Similarly if missing values is likely to lead to very sub-optimal
-behavior (or something that has a risk of over-current or component
-failure) then consider making the options mandatory.
+---
+Changes in v2:
+- Consolidate PTR_ERR(gpiod) extraction into err_gpiod_put label
+  (suggested by Markus Elfring)
+---
+ drivers/leds/leds-netxbig.c | 40 +++++++++++++++++++++++++++----------
+ 1 file changed, 29 insertions(+), 11 deletions(-)
 
+diff --git a/drivers/leds/leds-netxbig.c b/drivers/leds/leds-netxbig.c
+index e95287416ef8..55afb03ee933 100644
+--- a/drivers/leds/leds-netxbig.c
++++ b/drivers/leds/leds-netxbig.c
+@@ -364,6 +364,9 @@ static int netxbig_gpio_ext_get(struct device *dev,
+ 	if (!addr)
+ 		return -ENOMEM;
+ 
++	gpio_ext->addr = addr;
++	gpio_ext->num_addr = 0;
++
+ 	/*
+ 	 * We cannot use devm_ managed resources with these GPIO descriptors
+ 	 * since they are associated with the "GPIO extension device" which
+@@ -374,46 +377,61 @@ static int netxbig_gpio_ext_get(struct device *dev,
+ 	for (i = 0; i < num_addr; i++) {
+ 		gpiod = gpiod_get_index(gpio_ext_dev, "addr", i,
+ 					GPIOD_OUT_LOW);
+-		if (IS_ERR(gpiod))
+-			return PTR_ERR(gpiod);
++		if (IS_ERR(gpiod)) {
++			ret = PTR_ERR(gpiod);
++			goto err_free_addr;
++		}
+ 		gpiod_set_consumer_name(gpiod, "GPIO extension addr");
+ 		addr[i] = gpiod;
++		gpio_ext->num_addr++;
+ 	}
+-	gpio_ext->addr = addr;
+-	gpio_ext->num_addr = num_addr;
+ 
+ 	ret = gpiod_count(gpio_ext_dev, "data");
+ 	if (ret < 0) {
+ 		dev_err(dev,
+ 			"Failed to count GPIOs in DT property data-gpios\n");
+-		return ret;
++		goto err_free_addr;
+ 	}
+ 	num_data = ret;
+ 	data = devm_kcalloc(dev, num_data, sizeof(*data), GFP_KERNEL);
+-	if (!data)
+-		return -ENOMEM;
++	if (!data) {
++		ret = -ENOMEM;
++		goto err_free_addr;
++	}
++
++	gpio_ext->data = data;
++	gpio_ext->num_data = 0;
+ 
+ 	for (i = 0; i < num_data; i++) {
+ 		gpiod = gpiod_get_index(gpio_ext_dev, "data", i,
+ 					GPIOD_OUT_LOW);
+ 		if (IS_ERR(gpiod))
+-			return PTR_ERR(gpiod);
++			goto err_gpiod_put;
+ 		gpiod_set_consumer_name(gpiod, "GPIO extension data");
+ 		data[i] = gpiod;
++		gpio_ext->num_data++;
+ 	}
+-	gpio_ext->data = data;
+-	gpio_ext->num_data = num_data;
+ 
+ 	gpiod = gpiod_get(gpio_ext_dev, "enable", GPIOD_OUT_LOW);
+ 	if (IS_ERR(gpiod)) {
+ 		dev_err(dev,
+ 			"Failed to get GPIO from DT property enable-gpio\n");
+-		return PTR_ERR(gpiod);
++		goto err_gpiod_put;
+ 	}
+ 	gpiod_set_consumer_name(gpiod, "GPIO extension enable");
+ 	gpio_ext->enable = gpiod;
+ 
+ 	return devm_add_action_or_reset(dev, netxbig_gpio_ext_remove, gpio_ext);
++
++err_gpiod_put:
++	ret = PTR_ERR(gpiod);
++err_free_data:
++	for (i = 0; i < gpio_ext->num_data; i++)
++		gpiod_put(gpio_ext->data[i]);
++err_free_addr:
++	for (i = 0; i < gpio_ext->num_addr; i++)
++		gpiod_put(gpio_ext->addr[i]);
++	return ret;
+ }
+ 
+ static int netxbig_leds_get_of_pdata(struct device *dev,
+-- 
+2.50.1.windows.1
 
-Daniel.
 
