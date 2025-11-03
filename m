@@ -1,97 +1,145 @@
-Return-Path: <linux-leds+bounces-5964-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5965-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3343C293F4
-	for <lists+linux-leds@lfdr.de>; Sun, 02 Nov 2025 18:33:35 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E75C2B3EC
+	for <lists+linux-leds@lfdr.de>; Mon, 03 Nov 2025 12:07:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E2C6A4E3E95
-	for <lists+linux-leds@lfdr.de>; Sun,  2 Nov 2025 17:33:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 862234EE5DA
+	for <lists+linux-leds@lfdr.de>; Mon,  3 Nov 2025 11:07:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A3892DEA72;
-	Sun,  2 Nov 2025 17:33:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E501301468;
+	Mon,  3 Nov 2025 11:07:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PDkY6Tm1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="acI4HVvX"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EA32DCBF4;
-	Sun,  2 Nov 2025 17:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B153002A6
+	for <linux-leds@vger.kernel.org>; Mon,  3 Nov 2025 11:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762104812; cv=none; b=Xn46mRLhnFXSO7OxvLSQ+rAzqPpcNjzx/KLQv6PBtj7wYYuGGiItFGAXiExxfP0ExZIqulgJgjjNJv22Ztj3bgZJ1OfRjx1MOn7f/RyNCwuhfKlA7Jzqoj/9useis24sYnwEae1jZ2i+hZ1DQWZs7uiO8RNIE/IMIdTWOBEi6/I=
+	t=1762168020; cv=none; b=jOsPlTsdpKiKaT8nAtC2cbZ7t/zG8VRt1gq2zwURuE9OTwGG9aMYQIwpfw9qcs9t/q1e2j4/1WJEhyLF5n5TyEEsphl6Yt4UrCk80LVRtVPjeqIJsdj79pwDIZVABUtkhiN+RBNzrLbxt07nLbGJ9WWg+2xI9OoTqHoPRrN0fHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762104812; c=relaxed/simple;
-	bh=rNZEtonEvsnwG9knkIy44hyOEBhCUx41mMf+yHH/MxM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qwi162Y0oMYbevbHrapsik2xGRamjj05ZOw9aWm8Kb7Cs15Y55Ns3eLtY3kP3usiwgNYPBdHXST2YQaSmYhYZjqaZhOnpRI71eagmehQ6n8stVCg9OBoddGINH7bnkYhcs5O9HdnKldiM+ND383qVr6QmGSf4PmkjpaiDDtIpcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PDkY6Tm1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91496C4CEF7;
-	Sun,  2 Nov 2025 17:33:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762104811;
-	bh=rNZEtonEvsnwG9knkIy44hyOEBhCUx41mMf+yHH/MxM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PDkY6Tm1Q6aSFi2vy/wLX6Q7v1bsKgjjxwe8mnBOdm6ItooU5NdPjDJIix2hcMBMI
-	 ZtqjmWicOZiZTb/iYS7NUBv0povn3FLfn29dDpiq2aPknvQoHRhzfGFgpJ2d7U3E6X
-	 kWQd7w4zW8zVNzblgxDmFubZwoUEsimyyU79oNBrY+494+CO7jx0VQNlEo9iTEvdh3
-	 CcsgmDGjeQz8oiCJq021Mjuitg4q/zM+SuO80vA/PgHsstiluTc8aIYll0XJvghmwc
-	 gRs8ZCmsf5OR3a9SWQfJuCfuRY04GXyNhaZq6vBgugwnbisnfY+RGUM5/+5KQBNyBe
-	 6Ap0sg6cyT0gA==
-Date: Sun, 2 Nov 2025 11:36:56 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Luca Weiss <luca.weiss@fairphone.com>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Fenglin Wu <quic_fenglinw@quicinc.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, ~postmarketos/upstreaming@lists.sr.ht, 
-	phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] dt-bindings: mfd: qcom-spmi-pmic: Document PM7550
- PMIC
-Message-ID: <mvqkwezj7nbcvmlhamgukbr5ofddyoyvsbfy2kywylojaqgijz@7uqxm7ajicdd>
-References: <20251023-sm7635-pmxr2230-v3-0-f70466c030fe@fairphone.com>
- <20251023-sm7635-pmxr2230-v3-2-f70466c030fe@fairphone.com>
+	s=arc-20240116; t=1762168020; c=relaxed/simple;
+	bh=4K8ff7naWva5QP5+rWneFBDK+QFz923xCqhRcHl62d0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mg6DAiHBAxJmPKoI9zOACbEp7sVk3JnSCMNVFrvMU9o3IfGOCDKijc3bcRaMJGSGukMKym3T3aIonF3A/GhtRg0bWNuUk781PIuFmCWxaAWPy1ZWXw1Cv4cgcYNevMDlkBWOuKtzrMHIo9+KexJNEbQiHs8sRkNWTR7tF9ULSiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=acI4HVvX; arc=none smtp.client-ip=209.85.214.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-29555415c5fso24231875ad.1
+        for <linux-leds@vger.kernel.org>; Mon, 03 Nov 2025 03:06:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762168018; x=1762772818; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=msKPrbmLk4Pe+fn3QzDxAI35yUJEjQv+lopXWiS4lts=;
+        b=acI4HVvXpDlipCGu3tF4pNA8mEaYI1wS8/ybxO6sMKNln0/f7Gj3M5kUfhyGVu8102
+         ABa0zey2hWthYSAA3OcCg7wcrTtW29eQqb/9dZae2Dp5KPdsn3G27R4MTbud2uCbhzgR
+         L0OqhTVA9v2QyG7/eVIekBPQDPMzgvApbmjEJGMW/MI2VGxZzSJBaAwpZq90S5eCjxLH
+         vJymWCOpwDc2FP8R7KKRDQ9fV5oYimwMkNNDJTgNvswhTJNz2lDrozvvzDlnEVn2K6Dg
+         JE1bN1jgtdF/mMnj5Omq440UNL4tT+1BFzmxb155G1QgizwJ7V3BuecGAE84hKKTrCrd
+         8ahQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762168018; x=1762772818;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=msKPrbmLk4Pe+fn3QzDxAI35yUJEjQv+lopXWiS4lts=;
+        b=lnH2LA/s51u13+QuUSkO91U8dC5dk12muwVnftPYsI8qWu5nUrIiE3HV2JW6Km5UuQ
+         UZVXS6pmr4LEln2smkYKnf2hy9wI4d5Be5Xb/EjvugOzt7DqMnR0ojP3lBvwkkAwkNan
+         r348pIJUDOLfdzwaHfYq6f3sb92DUQt9WqBjST8Qw2l2si4ztOBDEHiGeFASD3w0sX5O
+         vlYiw+/epMd/5HoOBUerWAfXMCsiB4qkpW0iEryq2co/RFWskcXvx0ZxMuQH6PWgzM+E
+         i2ORFSTUu+BObX4jZtvmKtPUBcIhOCbqOsDem/wFFZWMGdkrqwgLtoHCTGEJ5mJqpv4n
+         Ypyw==
+X-Forwarded-Encrypted: i=1; AJvYcCXzcjj5Liq2oqZwH82cSk79uNrZHMcruqmW3J9Cvt7PhaXG/8BTFKnlPnhlxIk/CGcVOwkG6aXkkQha@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywgora84Q5jjXWaalxUx4DBxNOuv5D8g3+YJHgxNS3RzS0Tw5Wb
+	u8CfgXiWpTZxD1x0/SGubQM1JM+bO67yBMRmWQJHjfJeEPdkmLg8mJPc
+X-Gm-Gg: ASbGncvABELaGeZxXMdvHdT0UgL1LWp6kBh+ytu/MXibFAisInp72OHkhkE1KDkq6PK
+	SdNtARfCVygKva0i8tDAPu/q3uKX3TY5Iy5KffjMYratJD0pmQhP55FrVbPU4AN5QkbkWqqukei
+	DLVK3TwEa6icoavjUMCgZcPa2HR8y7tvJ0G9fj2URrAX2+3/K1vI1orzIWc970aoH6ZYKPuOUU+
+	mUd7bzlizxig9jl4I6rxnOytFHdCFDkgWrleE4JBZvxB940MS1dsn6aGK8QOmjOJLH4jdnelb1d
+	lXz3zBkP/KEBplYNlVq1ZpK/u/DhQQt1wzNY19wIg/7/NBH2L2iabK2HPzkXG14wQaQRzZD0Gdo
+	G4j7OdyOnIbAnz24Dw5rWQsRHMt6I4anrHkLDcPQgrJZTZvVV+sNcZZDc3fmL2CPNivrIuwWuFI
+	rDXxzJY/z/zRpIKxUphA==
+X-Google-Smtp-Source: AGHT+IG3q2ScRjcYVlSQKEOGzfSShOd+VCm6j/zTtP/syrwGIinOh8u7Pw68B0XoVDTjaFHiUhDd5Q==
+X-Received: by 2002:a17:902:e74b:b0:269:b30c:c9b8 with SMTP id d9443c01a7336-2951a55923fmr150821025ad.56.1762168018110;
+        Mon, 03 Nov 2025 03:06:58 -0800 (PST)
+Received: from VM-0-14-ubuntu.. ([43.134.26.72])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2955615d720sm84025575ad.65.2025.11.03.03.06.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Nov 2025 03:06:57 -0800 (PST)
+From: Junjie Cao <caojunjie650@gmail.com>
+To: Lee Jones <lee@kernel.org>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Helge Deller <deller@gmx.de>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	Pengyu Luo <mitltlatltl@gmail.com>,
+	Junjie Cao <caojunjie650@gmail.com>
+Subject: [PATCH v2 0/2] backlight: aw99706: Add support for Awinic AW99706 backlight
+Date: Mon,  3 Nov 2025 19:06:46 +0800
+Message-ID: <20251103110648.878325-1-caojunjie650@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251023-sm7635-pmxr2230-v3-2-f70466c030fe@fairphone.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 23, 2025 at 01:32:26PM +0200, Luca Weiss wrote:
-> Document the compatible string for the PM7550 PMIC.
-> 
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
-> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+From: Pengyu Luo <mitltlatltl@gmail.com>
 
-Reviewed-by: Bjorn Andersson <andersson@kernel.org>
+Add support for Awinic AW99706 backlight, which can be found in
+tablet and notebook backlight, one case is the Lenovo Legion Y700
+Gen4. This driver refers to the official datasheets and android
+driver, they can be found in [1].
 
-> ---
->  Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml b/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
-> index 078a6886f8b1..d0c54ed6df38 100644
-> --- a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
-> @@ -43,6 +43,7 @@ properties:
->            - qcom,pm7250b
->            - qcom,pm7550ba
->            - qcom,pm7325
-> +          - qcom,pm7550
->            - qcom,pm8004
->            - qcom,pm8005
->            - qcom,pm8009
-> 
-> -- 
-> 2.51.1
-> 
+[1] https://www.awinic.com/en/productDetail/AW99706QNR
+
+Signed-off-by: Junjie Cao <caojunjie650@gmail.com>
+---
+base-commit: 72fb0170ef1f45addf726319c52a0562b6913707
+---
+Changes in v2:
+- add handler for max-brightness and default-brightness
+- add properties(max-brightness, default-brightness) (Krzysztof)
+- use proper units for properties (Krzysztof)
+- drop non-fixed properties (Krzysztof)
+- include default values in the aw99706_dt_props table (Daniel)
+- warn when a property value from DT is invalid (Daniel)
+- drop warning when optional properties are missing (Daniel)
+- add a function pointer into the aw99706_dt_props table to handle lookup (Daniel)
+- use a lookup function instead of hardcoding the formula for the iLED max (Daniel)
+- move BL enalbe handler into aw99706_update_brightness (Daniel)
+- Link to v1: https://lore.kernel.org/linux-leds/20251026123923.1531727-3-caojunjie650@gmail.com
+
+Junjie Cao (2):
+  dt-bindings: leds: backlight: Add Awinic AW99706 backlight
+  backlight: aw99706: Add support for Awinic AW99706 backlight
+
+ .../leds/backlight/awinic,aw99706.yaml        | 100 ++++
+ MAINTAINERS                                   |   6 +
+ drivers/video/backlight/Kconfig               |   8 +
+ drivers/video/backlight/Makefile              |   1 +
+ drivers/video/backlight/aw99706.c             | 492 ++++++++++++++++++
+ 5 files changed, 607 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/awinic,aw99706.yaml
+ create mode 100644 drivers/video/backlight/aw99706.c
+
+-- 
+2.51.1.dirty
+
 
