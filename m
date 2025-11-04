@@ -1,291 +1,217 @@
-Return-Path: <linux-leds+bounces-5974-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5975-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3BDC307FA
-	for <lists+linux-leds@lfdr.de>; Tue, 04 Nov 2025 11:27:26 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1226C30E71
+	for <lists+linux-leds@lfdr.de>; Tue, 04 Nov 2025 13:11:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 729553BC567
-	for <lists+linux-leds@lfdr.de>; Tue,  4 Nov 2025 10:24:33 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 228AD34D8E2
+	for <lists+linux-leds@lfdr.de>; Tue,  4 Nov 2025 12:11:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45E11314D13;
-	Tue,  4 Nov 2025 10:24:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9055A2F0C46;
+	Tue,  4 Nov 2025 12:10:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b="gRF93W3l"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kllIFGal"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.thorsis.com (mail.thorsis.com [217.92.40.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F6152F88;
-	Tue,  4 Nov 2025 10:24:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.92.40.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90502EFDA0
+	for <linux-leds@vger.kernel.org>; Tue,  4 Nov 2025 12:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762251869; cv=none; b=OcRRzaRXCjeK8nt/giMS7dxAmDy2AV1x6O2kkp4JFBd0JlXFEQ/BTewy3J1tU944AOnswYKq8Gu6JS73yij8miRrMKOImz6rwjRbhYAS/uGej9e+N2tR9hkm2iHD2+P5uqXXJC7nvgnC3r8Xcur/4A0C7OlbP8XVZw17CAYIiGc=
+	t=1762258248; cv=none; b=mKMFNb5uIAG6RWMnbjmMk0HgToCjNoZSHQS8xE0+8VepSRaM6g7CP7FT0JOItLCv25NtFcoSkG7143ZG7eQLxROVm4IG7lYJ9CmeqnKCI9k4V+xgEPY8/0xxLfDp/n8ZOCWIIC1QvJ6LGcNt/LmqX7xoEDLFUp9c7jc2zM4AQys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762251869; c=relaxed/simple;
-	bh=lRdGiHbw4UD0ciFa8bbOF/H+kh0F6+4HpI8oB1t7WBI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tlg6Sm3ww1zzhlGh1qqnImF1kCEENzF5ybqm1M0kwoO3YIo6C1dFsZTDocdre5vjsW/FonOaIfz//9iWgnOkuJiofHvsIHpoQSUkAOUn1XD0bPQZT2uSsyaKF3WlBEuD8ebVWYyLscXviodDVCeb9xqNBKW2SuIRRCsiSyWxlOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com; spf=pass smtp.mailfrom=thorsis.com; dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b=gRF93W3l; arc=none smtp.client-ip=217.92.40.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thorsis.com
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3228B14839C7;
-	Tue,  4 Nov 2025 11:24:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thorsis.com; s=dkim;
-	t=1762251856; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=dBPVZv8ZAjPrctbt7IeOOktebaSybrHF8X5GDqBvhPw=;
-	b=gRF93W3lpRdwy25l5NWJ3tEGdnnvKife1be96721Lgu80iB8DwHlcXqZpFoeRsIh8V1Qrr
-	gfzismOMmeOhcydzxRLlUHHDSpRRyv1+2MvyDTQaDp4Pw5tQPBIAsaNeLpKbFvkRFi2sKE
-	zKdY+NgcIduDDOWphmLh+mFvo3RXLVSsa3yKbQd9eBExN622o+NyzK4ytb9rLp6L/ByE9Q
-	0I7hnZCZyU5oAOXb0uixzeS90BP36vcb30lb/cLcj61DyIQT7cZd7h6fp9GRD87+Eoqdgc
-	RMtkAMEgsy8igmm2iiUDNHjIK9z3EgtyR9lLhqwl/QaDxo6bJRuC0pQ8tKGa6w==
-Date: Tue, 4 Nov 2025 11:24:05 +0100
-From: Alexander Dahl <ada@thorsis.com>
-To: Josua Mayer <josua@solid-run.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jon Nettleton <jon@solid-run.com>,
-	Mikhail Anikin <mikhail.anikin@solid-run.com>,
-	Yazan Shhady <yazan.shhady@solid-run.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH 08/10] arm64: dts: add description for solidrun imx8mp
- hummingboard-iiot
-Message-ID: <20251104-sandal-playset-6f4ad0665c7b@thorsis.com>
-Mail-Followup-To: Josua Mayer <josua@solid-run.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jon Nettleton <jon@solid-run.com>,
-	Mikhail Anikin <mikhail.anikin@solid-run.com>,
-	Yazan Shhady <yazan.shhady@solid-run.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-References: <20251027-imx8mp-hb-iiot-v1-0-683f86357818@solid-run.com>
- <20251027-imx8mp-hb-iiot-v1-8-683f86357818@solid-run.com>
- <2c54b7b7-4eb4-44a0-8025-8da16a28efd4@solid-run.com>
- <20251029-jittery-ambiguity-14e03ad2f0df@thorsis.com>
- <054eecb5-1296-4c41-ae86-1779abe0360c@solid-run.com>
+	s=arc-20240116; t=1762258248; c=relaxed/simple;
+	bh=Dzj77OltBvkgDDn8952TkOFzMhRy0pNivm62rHqrknk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ri2KGLmI4UA8WlUf8KR3JH38QN01CSdjlawH8kWtUyRstJCqHsbTg8c8WFH2wa2eVLn0oQG4vXdhO6tUeBkxA7ipeTy5190eIvUjK9mMP2BVvdldzCAVj720FTN6Dw6ShjGIlnUs/d9phz0lsOB15ZJG8ILWVBTwT9CERlp6AEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kllIFGal; arc=none smtp.client-ip=209.85.218.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f67.google.com with SMTP id a640c23a62f3a-b7200568b13so180437066b.1
+        for <linux-leds@vger.kernel.org>; Tue, 04 Nov 2025 04:10:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762258245; x=1762863045; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KzUjjBieESWl/eKHRRME8VO1FyP4Xh2Gr78dnGWZR3M=;
+        b=kllIFGal8Q4VzaPhV62Wo8vb1RCA1Tlz17GOkGw/P9pAOwOlZQehgqE9fvwNGIf1Gz
+         kj3G7ArTvZwlclxlcAMAs+WOBDyZodPmB9YbunvvcRYOb9/4QOLVY3FyvoECCAH29zf8
+         QiqH9r9ac0H39gb5SS37rXRQ8RJmokz3j7DsrZPazKXmk1IzhHJ1D+yJTvo/hcr69+cF
+         KTWJnkNPdEpfBkozGuhC77XXGM/NQ5jEuj0ie7QtRvhfAxvtNw2VOfPz1/JA2yrDvU5K
+         MOUpHFab+UOlg5Nwfcm7GYaGBNqGlELLSkwvk0ru3Kov/ndutsqZEAcDyim3QdEi/Agr
+         iB8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762258245; x=1762863045;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KzUjjBieESWl/eKHRRME8VO1FyP4Xh2Gr78dnGWZR3M=;
+        b=moyV7ujAUQ4bMZ2bDrgwuoWHGdpUZctXGhQyL+drZvdXbc7ADHDwgj0k2BO+u8rPgF
+         daJjg3v2LhG1AIdhh77QQ+druidAv+1t8dh+2/HPx5Ol0nu2y63pf9I6IONXMlnrrthu
+         Zkhu1bUvi+mBOWtZ0GJ9aKRuWk/NoeMdCwO3GU9HUx15a7KfoHrxAfB25Dwmm7APdJHE
+         CtB9l5zMzYX8aIgOiwLFlt9eMUPp80sJ+qX8xUNT+BKw88iMt5iLG5M5cteht/7HIDFr
+         nVQAtSM4RkNFvLf+9jdvk91ejQY9kcYRWzFv5MltPMXyeXfdG4tbuWHGFRT1aHEoa5oQ
+         0ufg==
+X-Forwarded-Encrypted: i=1; AJvYcCWYt++uVCazdqVLCd3HzIpsPruGar3+3gww+zCz1ZKN6ztwbXt+PxFXD/wd+usUCqMF+cvQkXvWRRaN@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7K1d1li5nuWi7PJ94skgR2cypjn4pS6AEdcdGvZeTkh8sTZka
+	cyp10Wu9X7fMeuPCIBtA6eZ8/7hXfRJNnZEFd+7eoMs0/tuNAvzt0+n+JgtDGdVXWSKL+gQq2C2
+	xltjGOS4eJWojm1Z86kCdyM/jTt/4MFo=
+X-Gm-Gg: ASbGncukSmbMQEUZAE9F7iOfCOaqFjXb9BWpII2yo+l5pALLfbNvDYrap4+S/zsGizq
+	uBdN2hgtCyHcUyLMCJgHFhMsfDeLDxgGpQokSPAmWtdYpaNsAMswYnGqvhEDNwFQ0DSF43j2Drl
+	8KaYQjlCVcEAHcwTxbiUDCm+Rh1IDTrAEGY4Dai/WFZCAhuioBEo22BVs4NED/Lx3Lc3+tDA0yW
+	MXiLiHQpXXOPCx1X2wmUGDh0KwHJIdl+lKYz5UUj68+pbU8nx6Bcc8ltJg0
+X-Google-Smtp-Source: AGHT+IFYNmK4p8ZzQreCCOl4PXO/MkzLrFaWoACxm/O8s2bicL/zOLsbm8jPi41+2YZ1Lhpc6tL1AcArgolgsFl++YU=
+X-Received: by 2002:a17:907:3faa:b0:b72:5983:db09 with SMTP id
+ a640c23a62f3a-b725983e06amr109317066b.32.1762258244771; Tue, 04 Nov 2025
+ 04:10:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <054eecb5-1296-4c41-ae86-1779abe0360c@solid-run.com>
-User-Agent: Mutt/2.2.12 (2023-09-09)
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20251103110648.878325-1-caojunjie650@gmail.com>
+ <20251103110648.878325-2-caojunjie650@gmail.com> <20251104-dancing-panda-of-patience-49bcc7@kuoka>
+In-Reply-To: <20251104-dancing-panda-of-patience-49bcc7@kuoka>
+From: Junjie Cao <caojunjie650@gmail.com>
+Date: Tue, 4 Nov 2025 20:09:05 +0800
+X-Gm-Features: AWmQ_bkkyexGfBD5XHzrBd-xICWXFb2FCbbahEGY3fitC4E7OLdD5Bwvl1yJFfQ
+Message-ID: <CAK6c68iy0vwgKJTgXr=YptyENTWC1MJrsJWsbsyp9KQkAtOYVg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: leds: backlight: Add Awinic AW99706 backlight
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, Pengyu Luo <mitltlatltl@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Josua,
-
-Am Thu, Oct 30, 2025 at 04:44:40PM +0000 schrieb Josua Mayer:
-> Hi Alex,
-> 
-> Am 29.10.25 um 10:23 schrieb Alexander Dahl:
-> > Hello Josua,
+On Tue, Nov 4, 2025 at 3:30=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.org=
+> wrote:
+>
+> On Mon, Nov 03, 2025 at 07:06:47PM +0800, Junjie Cao wrote:
+> > From: Pengyu Luo <mitltlatltl@gmail.com>
 > >
-> > Am Tue, Oct 28, 2025 at 12:24:36PM +0000 schrieb Josua Mayer:
-> >> Am 27.10.25 um 18:48 schrieb Josua Mayer:
-> >>
-> >>> Add description for the SolidRun i.MX8MP HummingBoard IIoT.
-> >>> The board is a new design around the i.MX8MP System on Module, not
-> >>> sharing much with previous HummingBoards.
-> >>>
-> >>> It comes with some common features:
-> >>> - 3x USB-3.0 Type A connector
-> >>> - 2x 1Gbps RJ45 Ethernet
-> >>> - USB Type-C Console Port
-> >>> - microSD connector
-> >>> - RTC with backup battery
-> >>> - RGB Status LED
-> >>> - 1x M.2 M-Key connector with PCI-E Gen. 3 x1
-> >>> - 1x M.2 B-Key connector with USB-2.0/3.0 + SIM card holder
-> >>> - 1x LVDS Display Connector
-> >>> - 1x DSI Display Connector
-> >>> - GPIO header
-> >>> - 2x RS232/RS485 ports (configurable)
-> >>> - 2x CAN
-> >>>
-> >>> In addition there is a board-to-board expansion connector to support
-> >>> custom daughter boards with access to SPI, a range of GPIOs and -
-> >>> notably - CAN and UART. Both 2x CAN and 2x UART can be muxed either
-> >>> to this b2b connector, or a termianl block connector on the base board.
-> >>>
-> >>> The routing choice for UART and CAN is expressed through gpio
-> >>> mux-controllers in DT and can be changed by applying dtb addons.
-> >>>
-> >>> Four dtb addons are provided:
-> >>>
-> >>> - dsi panel Winstar WJ70N3TYJHMNG0
-> >>> - lvds panel Winstar WF70A8SYJHLNGA
-> >>> - RS485 on UART port "A" (default rs232)
-> >>> - RS485 on UART port "B" (default rs232)
-> >>>
-> >>> Signed-off-by: Josua Mayer <josua@solid-run.com>
-> >>> ---
-> >>>  arch/arm64/boot/dts/freescale/Makefile             |   6 +
-> >>>  ...hummingboard-iiot-panel-dsi-WJ70N3TYJHMNG0.dtso |  70 ++
-> >>>  ...ummingboard-iiot-panel-lvds-WF70A8SYJHLNGA.dtso | 105 +++
-> >>>  .../imx8mp-hummingboard-iiot-rs485-a.dtso          |  18 +
-> >>>  .../imx8mp-hummingboard-iiot-rs485-b.dtso          |  18 +
-> >>>  .../dts/freescale/imx8mp-hummingboard-iiot.dts     | 710 +++++++++++++++++++++
-> >>>  6 files changed, 927 insertions(+)
-> >> cut
-> >>> diff --git a/arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dts b/arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dts
-> >>> new file mode 100644
-> >>> index 0000000000000..2e4cb676bc9da
-> >>> --- /dev/null
-> >>> +++ b/arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dts
-> >> cut
-> >>> +	led-controller@30 {
-> >>> +		compatible = "ti,lp5562";
-> >>> +		reg = <0x30>;
-> >>> +		/* use internal clock, could use external generated by rtc */
-> >>> +		clock-mode = /bits/ 8 <1>;
-> >>> +		#address-cells = <1>;
-> >>> +		#size-cells = <0>;
-> >>> +
-> >>> +		multi-led@0 {
-> >>> +			reg = <0x0>;
-> >>> +			color = <LED_COLOR_ID_RGB>;
-> >>> +			#address-cells = <1>;
-> >>> +			#size-cells = <0>;
-> >>> +
-> >>> +			led@0 {
-> >>> +				reg = <0x0>;
-> >>> +				color = <LED_COLOR_ID_RED>;
-> >>> +				led-cur = /bits/ 8 <0x32>;
-> >>> +				max-cur = /bits/ 8 <0x64>;
-> >>> +			};
-> >>> +
-> >>> +			led@1 {
-> >>> +				reg = <0x1>;
-> >>> +				color = <LED_COLOR_ID_GREEN>;
-> >>> +				led-cur = /bits/ 8 <0x19>;
-> >>> +				max-cur = /bits/ 8 <0x32>;
-> >>> +			};
-> >>> +
-> >>> +			led@2 {
-> >>> +				reg = <0x2>;
-> >>> +				color = <LED_COLOR_ID_BLUE>;
-> >>> +				led-cur = /bits/ 8 <0x19>;
-> >>> +				max-cur = /bits/ 8 <0x32>;
-> >>> +			};
-> >>> +		};
-> >>> +
-> >>> +		led@3 {
-> >>> +			reg = <3>;
-> >>> +			chan-name = "D8";
-> >> chan-name gives the led the name D6 in sysfs.
-> >>
-> >> The bindings do not allow however setting chan-name on
-> >> the multi-led, and it has an auto-generated name in sysfs.
-> >>
-> >> Am I missing something? Can multi-leds have a custom name?
-> > The sysfs names are auto-generated based on the attributes "color",
-> > "function", and "label" with the last being discouraged for new
-> > designs.
-> Thank you for reminding me of this one!
-> > If the "ti,lp5562" driver does nothing special,you could
-> > add "function" to the multi-led node and see if that fits your needs.
-> The board is not a complete product by itself so we have not chosen
-> a specific function for each led.
-> Therefore only color and label are actually applicable.
-
-In such cases I use a generic function and the enumerator,
-something like this (in this case for a different led driver):
-
-    led_11_red: led-0 {
-            function = LED_FUNCTION_INDICATOR;
-            function-enumerator = <0>;
-            color = <LED_COLOR_ID_RED>;
-            gpios = <&pioC 18 GPIO_ACTIVE_HIGH>;
-    };
-
-…
-
-    led_13_red: led-2 {
-            function = LED_FUNCTION_INDICATOR;
-            function-enumerator = <1>;
-            color = <LED_COLOR_ID_RED>;
-            gpios = <&pioC 20 GPIO_ACTIVE_HIGH>;
-    };
-
-This gives stable sysfs paths like this:
-
-  /sys/class/leds/red:indicator-0
-  /sys/class/leds/red:indicator-1
-
-Of course only with a LED driver supporting that automatic naming
-scheme.
-
-> After testing on v6.18-rc1 I can state that leds-lp5562 driver does
-> something special - function and label properties do not have any
-> impact on the names in sysfs.
-> 
-> However I could set label on both LEDs regardless?
-
-When using the 'label' attribute, color and function attributes are
-more or less informational only, because label determines the sysfs
-path.  Someone could change the leds-lp5562 driver to behave like the
-other drivers, but then I would advise to explicitly set label in this
-case, so you won't end up with changed sysfs paths after the driver is
-changed.
-
-Not sure if this helps you.  Sorry.
-
-Greets
-Alex
-
-> 
+> > Add Awinic AW99706 backlight binding documentation.
 > >
-> > Adding linux-leds to Cc, because this is a LED related question.
-> >
-> > Greets
-> > Alex
-> >
-> >> In v6.6 leds-lp5562 driver if I set in each multi-led led@[0-2] sub-node
-> >> chan-name to the same string "D7" - then the sysfs name becomes D7.
-> >>
-> >>> +			color = <LED_COLOR_ID_GREEN>;
-> >>> +			led-cur = /bits/ 8 <0x19>;
-> >>> +			max-cur = /bits/ 8 <0x64>;
-> >>> +		};
-> >>> +	};
+> > Signed-off-by: Junjie Cao <caojunjie650@gmail.com>
+>
+> Messed DCO chain. This wasn't here, so you must have altered v1 to add
+> some weird change.
+>
+> This is a blocker, please read carefully submitting patches and DCO.
+>
+
+Apologies for the DCO mess.
+
+The tablet device is currently with Pengyu. He helped with testing and
+tweaked the .c driver file (patch 2/2) after my change. The entire
+series was then re-formatted on his machine, which caused his git
+configuration to be incorrectly applied to the From: line of this
+dt-binding patch (patch 1/2).
+
+I am the actual author of this dt-binding file. I will correct the
+authorship and DCO chain in v2.
+
+> > ---
+> > Changes in v2:
+> > - use proper units for properties (Krzysztof)
+> > - drop non-fixed properties (Krzysztof)
+> > - add properties(max-brightness, default-brightness) (Krzysztof)
+> > - Link to v1: https://lore.kernel.org/linux-leds/20251026123923.1531727=
+-2-caojunjie650@gmail.com
+>
+> ...
+>
+> > +  awinic,dim-mode:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description: >
+> > +      Select dimming mode of the device.
+> > +        0 =3D Bypass mode.
+> > +        1 =3D DC mode.
+> > +        2 =3D MIX mode(PWM at low brightness and DC at high brightness=
+).
+> > +        3 =3D MIX-26k mode(MIX mode with different PWM frequency).
+> > +    enum: [ 0, 1, 2, 3 ]
+> > +    default: 1
+> > +
+> > +  awinic,sw-freq-hz:
+> > +    description: Boost switching frequency in Hz.
+> > +    enum: [ 300000, 400000, 500000, 600000, 660000, 750000, 850000, 10=
+00000, 1200000, 1330000, 1500000, 1700000 ]
+>
+> Please wrap code according to the preferred limit expressed in Kernel
+> coding style (checkpatch is not a coding style description, but only a
+> tool).
+>
+
+ACK.
+
+> > +    default: 750000
+> > +
+> > +  awinic,sw-ilmt-microamp:
+> > +    description: Switching current limitation in uA.
+> > +    enum: [ 1500000, 2000000, 2500000, 3000000 ]
+> > +    default: 3000000
+> > +
+> > +  awinic,iled-max-microamp:
+> > +    description: Maximum LED current setting in uA.
+> > +    minimum: 5000
+> > +    maximum: 50000
+> > +    multipleOf: 500
+> > +    default: 20000
+> > +
+> > +  awinic,uvlo-thres-microvolt:
+> > +    description: UVLO(Under Voltage Lock Out) in uV.
+> > +    enum: [ 2200000, 5000000 ]
+> > +    default: 2200000
+> > +
+> > +  awinic,ramp-ctl:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description: >
+> > +      Select ramp control and filter of the device.
+> > +        0 =3D Fade in/fade out.
+> > +        1 =3D Light filter.
+> > +        2 =3D Medium filter.
+> > +        3 =3D Heavy filter.
+> > +    enum: [ 0, 1, 2, 3 ]
+> > +    default: 2
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - enable-gpios
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    i2c {
+> > +        #address-cells =3D <1>;
+> > +        #size-cells =3D <0>;
+> > +
+> > +        aw99706@76 {
+>
+> Node names should be generic. See also an explanation and list of
+> examples (not exhaustive) in DT specification:
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-device=
+tree-basics.html#generic-names-recommendation
+> If you cannot find a name matching your device, please check in kernel
+> sources for similar cases or you can grow the spec (via pull request to
+> DT spec repo).
+>
+
+I see. backlight@76, thanks for your detailed explanation.
+
+Regards,
+Junjie
 
