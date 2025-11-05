@@ -1,139 +1,183 @@
-Return-Path: <linux-leds+bounces-6011-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6012-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25545C3555A
-	for <lists+linux-leds@lfdr.de>; Wed, 05 Nov 2025 12:23:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D940C355A0
+	for <lists+linux-leds@lfdr.de>; Wed, 05 Nov 2025 12:28:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7BF0A42486B
-	for <lists+linux-leds@lfdr.de>; Wed,  5 Nov 2025 11:19:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F63E3ACFAB
+	for <lists+linux-leds@lfdr.de>; Wed,  5 Nov 2025 11:22:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8FA72C17A1;
-	Wed,  5 Nov 2025 11:19:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ECEC30FC1F;
+	Wed,  5 Nov 2025 11:22:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="gxcZwYrT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ugo+/H9y"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69212E5B2A
-	for <linux-leds@vger.kernel.org>; Wed,  5 Nov 2025 11:19:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6079D30F7F8
+	for <linux-leds@vger.kernel.org>; Wed,  5 Nov 2025 11:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762341575; cv=none; b=FHqnBOA2AC62yEyk7ZNdTNHhnNtKdeVBCWqAGtY00M6b7vW9f9OmOswJKZqkMJ3GtFCfXEgK/coicjBdE8ofs+c77zuekuCMKq7qBlJK/OQGMPKX01mLKow+DY0hc5FOKdxrutUO1LmVGiKOrENV55begIsEtsKrJgp38j5gJpQ=
+	t=1762341766; cv=none; b=RG/SLn9AG++nmdGB/gIxMfaOUIQAlf9GdUAGIeN6nfmV4WHsoeiFUxyZyIAExTcDAwH+owTC7Qy0jZnfmMJv588thbUs86smeO3SWlS7Zv2IX7rJ6hTvM1SXKjIs0pwITqaouUq4+qlwiO6zcTssOT9g6caItbXIsX5v+4ZGMyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762341575; c=relaxed/simple;
-	bh=aabsKPFWol3OJ7wY7wf6TtpPtGBpyhyhY9TUbSJJLII=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BAYtVZWjVIaOyPwf5fHu+OQzW+l5l3/zfq664/pHcr7tAkZ2YWl/Skpm6zZErqVsCAde4KO6l4ttRyxkWxXdFu0lfFH1o89JrHiIpO1CkStyQU2ZoLZRbqWo3orDwRRpTGSrZWFVgXLkZGk04wR/XQk5fAfImm7XoLXu3a3uxZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=gxcZwYrT; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-477563bcbbcso8816065e9.0
-        for <linux-leds@vger.kernel.org>; Wed, 05 Nov 2025 03:19:33 -0800 (PST)
+	s=arc-20240116; t=1762341766; c=relaxed/simple;
+	bh=Ii9b2rpzXiRDukDeUtY2WS5XvNAk5U97MkCbAXQdp7s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JxjfYkKHGgZWhzgtpA0pbquSYuQD/H9QDtjn6JPiPYyc5+EAj42x9arVIGFFvZhsDyhx9yz+6O5SkIQTn7hunq0oAAVKVBpozX+ibC+XNNMkovkAn3zedWSRBG/MpfLrvturt5pW4YNdEuxUKn5VzlPBIWDpViifUW2TGSNZFOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ugo+/H9y; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-375eff817a3so64466981fa.1
+        for <linux-leds@vger.kernel.org>; Wed, 05 Nov 2025 03:22:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1762341572; x=1762946372; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=M9ZoeKzZOBJ8O1X8YsczWn8JrsyIoqb3TF8bG5VlZ6s=;
-        b=gxcZwYrThlYwvVzeZKCV6YCiFl68AYnDBcZ/ON+/fTmenZ7dGwzLy099V96we8AUq8
-         0fMYfLrEOb0AIZRXI1IBSYoQo42fhB8uDl13F7N6C782Hi/KR5TQowGLwohaqiBBvr6y
-         ybH02b8cSHt5hCuYf90GTUVaYlrfGlY1QQ7jOihb3LmjcqgRNdlBVVRXJGJt7Qxfcnx3
-         4bw02aRP+HEfI9csdmjJ3aBzZRQV7Hk7y2rAbtAkOexbhXEV3t5xv0ni/ZrLwbdltd99
-         eY9X/WerPHbL7XPr4I8RpC0P+gX3fnRbKmb0hncDEijsv3bgd9UUVK/LIQsZDRfTtC5p
-         GL6w==
+        d=gmail.com; s=20230601; t=1762341762; x=1762946562; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Lgjq5frjKtchDAt0hCN8TCDb53mEX1KChcG+cIgj+As=;
+        b=Ugo+/H9y30ONhr7fDfdxbpsqWR3tRjLh+BuyplYG+qinlo2qxVVE4FuU4lqg9t8UmP
+         fVDVTXoFX4dBwApTOCOGf3JNHagxzSd5IcYye46YRifeue4oQvK+rCDY6250s2aOUHg5
+         fWNdaQqGIKnqGL+6iwoCI4B1KwMjvSghMySRVbLo/w8XC1vtrbeE+e8rvaXdbSppm6Pu
+         jwzcMBE7OMaVCmpZm+PQVU/4EMvbFWk7ZoQe404b7k5sOktFJtHcSqzL3FIgWmRkzwO0
+         dAicFKMGSMh+zzlQdFh553R+WyaxAPatOLu++DAI9JeRl9GL5PnvoTJduTUCYgVMQAlm
+         q8Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762341572; x=1762946372;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=M9ZoeKzZOBJ8O1X8YsczWn8JrsyIoqb3TF8bG5VlZ6s=;
-        b=DHvK+yuhsASZ71paJcsUque8RjVPcQkUTX/KIMoGCfetY2fG9uZufaUVtF3oBKxgdH
-         6vn6M78iRks7quyWztr6bmR/0Luzz4TclPzNgVxXU7MbyP9HoKarnztHAz+K7EH/+IdF
-         OiP0aQJg847Mgdscswf4mkuM4MiPFfg5eRVV4/wKk9zPkgU26r8jgOFw3hW6KGLAQFFO
-         JqsWtXRh0N7rCtgrG/f/eCy9Ki+4PTJUn2LirLCBwgp6bELJE/2K0vImt3RrrjvM2ZHq
-         hmbhdKBJDEP1WzKLYRMVwXjboQ2NAzaJ5TVuwtPUmsXkludQdfy/BVKpRR03jbArsGRR
-         SgYg==
-X-Forwarded-Encrypted: i=1; AJvYcCUpaes05jwxfWKeNwgSROLaw20p79fv1pUWk4Z/RHlS/hjTH5p9wCQZCJ4jZw5aCY1xhoOexIFaGXfD@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRvkvCYLPXcawLYoZjgP8s3zM1L9wS4EvjIO3UouS4gqhYXP6u
-	TkiP1FAmPBvz2zdYxKj02DzHAKBPC3ueRul5tanFg+jaeIEHFxX+XkFYPn/oCLXMZJc=
-X-Gm-Gg: ASbGncuX1F7wIoXf70Z7YyQInSr+oMZq63UVG29sj3k9p3vmO8oK5otGwP8YsBCxFiJ
-	HqFiPZ+Ie0JIjcizxr/5d8a33v68mjkOoTdozsWRWZCCGBUN1UTueIwx4p1MptfUDHryL+GW26R
-	jaUuRd9TiJPcOkwTvmzHeD9bf2n989Q12YYDFO15nYKVA8ZRStjcrPwf4EySVton1tohH17o6fn
-	J8pB553z3GfAbSeefm3KZ4kwXy/Oi9OWAcVqsOG4idMqVjweEe0vcATzlmtfbGbFKzdgQj97Fps
-	fkbr/KF5CWXDkCdjYOMpYKR8g0ZxkV14eKQaoMh+jjcZO8H4NSYax4lcMNgRNNfyNizO0Cy8ffl
-	NCJfusNtOiRFvGyBhiKZqathBjFa4CZ9kaXQAMhYUr1bPOq9G72iD8JqDIKE8xyBKy+/vZr5C8P
-	YKghiI04nyhW1QcoPE/wBbQspgu4+G7Mb4fJk=
-X-Google-Smtp-Source: AGHT+IFvzesjCO25PoLrWQtVvB99hETRDXusyKHlx8TTYHHN77FB5rlYFu4DB6U/Ofm98Y0XnPco6g==
-X-Received: by 2002:a05:600c:5304:b0:46e:4883:27d with SMTP id 5b1f17b1804b1-4775ce15c6cmr26611165e9.30.1762341571929;
-        Wed, 05 Nov 2025 03:19:31 -0800 (PST)
-Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47755930592sm39499405e9.12.2025.11.05.03.19.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Nov 2025 03:19:31 -0800 (PST)
-From: Marco Crivellari <marco.crivellari@suse.com>
-To: linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Cc: Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Pavel Machek <pavel@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Subject: [PATCH] leds: trigger: replace use of system_wq with system_percpu_wq
-Date: Wed,  5 Nov 2025 12:19:24 +0100
-Message-ID: <20251105111924.141555-1-marco.crivellari@suse.com>
-X-Mailer: git-send-email 2.51.1
+        d=1e100.net; s=20230601; t=1762341762; x=1762946562;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lgjq5frjKtchDAt0hCN8TCDb53mEX1KChcG+cIgj+As=;
+        b=J+Tb8jpJxfnqUYcI+dOVpuCda4/7k/8bUnAIQdSX6X0MHDBsORjFBDCEQjEYarCLpS
+         zko+ZSkIBVX7jV6i4ISXxrQCYch1ZwmIwuFOGu+E2FDrn6W7xrws7S1+VlRFQSbYz4rJ
+         fau/f1WhkBSGNL6dPgSS6Spz2g6Tk3kwUhfhe1J3kbT8N6YJgQxAwSIywvcuEHpGl0Bn
+         NikARVdcVlouDD4Hm4PDtfahGQsj/2bw6NE0lkjXuZ9OjJJ2erlxWKNfRtjEUuDnMA+R
+         hfiL4V5KYuLeSD9lMLmLGPL4YaCOxGLpvYo52LZxUUcNusLKt69iG6wh7Hrkn9oFg2eL
+         LvAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWSFdXNZRXvokmdvR3g8F252YaFJcVXplKOgg4Tp7ezncctD+cgJ9FXi9lWwhpKCt16fO2RtKkLz6aU@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoQDocEctwvL3NpMcnn9dR8JoQv1IWZ7FqaAGTvyCEgYw58esy
+	VIGfYwUctNfnhTNimV67OUTi98yL7kOsGtE8v7IYQWA7aqkOVHsEUVFV
+X-Gm-Gg: ASbGncvKU2je7lQdenHbhw+ZVmxykOLvZvqlw5BTEsMS//jXvgief86Q00Bi5OFy2zQ
+	ilhrzYrrec3Png/0qph8SPO2+MbNVC1dDAMLUOv8phmMP31WeMwmyk+Dw3dtbwOJ4PPqo9lLyRD
+	YTwaaNAesh3AqIAr9pBo3INAWhQmMYGcGZgKM877rY7X10M8WTgcP9WBi/+uQGaY9u946lmMa/0
+	FeVifg8lwAAxjrF3vRXF8/EfuAFMO1CVjq3mcf1GivVX1i7FcWA8halAUgj7L4TMtpoEXFTNDJY
+	MP2Pu3ynL2OtAj0vsbEJfPCU2r1SMIeEqarKOIYt0AMHRsN/DS36zDMb+/uKnOP4z4dSZKpGiWT
+	iPE7vgztm9Fmz2Gn0JUybmSWbsGKiZe4htayfMOMzkIc8Z2uU4Az5EoTwreVEqA0X7p3kvREcnv
+	rw/9Mf5nT2M7Cj8/lxxrBJrYxb6ox7XyQoLP4swlIdbLfbFeQF90THvITJ0g==
+X-Google-Smtp-Source: AGHT+IHpvSjuUZgOT3CU6iwhd3QH+qr/blJkYgQLVxgzQhufOUjboKrykT4Eu5lvIJTa8VYLu1Svkg==
+X-Received: by 2002:a05:651c:4006:b0:37a:3b04:1a1b with SMTP id 38308e7fff4ca-37a513e604fmr6509411fa.12.1762341762189;
+        Wed, 05 Nov 2025 03:22:42 -0800 (PST)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37a415c8070sm14290231fa.28.2025.11.05.03.22.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Nov 2025 03:22:41 -0800 (PST)
+Message-ID: <1aedf1a8-ddff-47fd-8afb-dd60dc42e12b@gmail.com>
+Date: Wed, 5 Nov 2025 13:22:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 01/16] dt-bindings: regulator: ROHM BD72720
+To: "Rob Herring (Arm)" <robh@kernel.org>,
+ Matti Vaittinen <matti.vaittinen@linux.dev>
+Cc: Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ Lee Jones <lee@kernel.org>, devicetree@vger.kernel.org,
+ Linus Walleij <linus.walleij@linaro.org>, Sebastian Reichel
+ <sre@kernel.org>, Andreas Kemnade <andreas@kemnade.info>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Stephen Boyd <sboyd@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-gpio@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-leds@vger.kernel.org,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Michael Turquette <mturquette@baylibre.com>, linux-rtc@vger.kernel.org,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+References: <cover.1762327887.git.mazziesaccount@gmail.com>
+ <48fe6e2642db4484640b173cd71be1b245929122.1762327887.git.mazziesaccount@gmail.com>
+ <176233320981.143013.4115240062372455834.robh@kernel.org>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <176233320981.143013.4115240062372455834.robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Currently if a user enqueues a work item using schedule_delayed_work() the
-used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
-WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
-schedule_work() that is using system_wq and queue_work(), that makes use
-again of WORK_CPU_UNBOUND.
+On 05/11/2025 11:00, Rob Herring (Arm) wrote:
+> 
+> On Wed, 05 Nov 2025 09:35:59 +0200, Matti Vaittinen wrote:
+>> From: Matti Vaittinen <mazziesaccount@gmail.com>
+>>
+>> The ROHM BD72720 is a new PMIC with 10 BUCk and 11 LDO regulators.
+>>
+>> The BD72720 is designed to support using the BUCK10 as a supply for
+>> the LDOs 1 to 4. When the BUCK10 is used for this, it can be set to a
+>> LDON_HEAD mode. In this mode, the BUCK10 voltage can't be controlled by
+>> software, but the voltage is adjusted by PMIC to match the LDO1 .. LDO4
+>> voltages with a given offset. Offset can be 50mV .. 300mV and is
+>> changeable at 50mV steps.
+>>
+>> Add 'ldon-head-microvolt' property to denote a board which is designed
+>> to utilize the LDON_HEAD mode.
+>>
+>> All other properties are already existing.
+>>
+>> Add dt-binding doc for ROHM BD72720 regulators to make it usable.
+>>
+>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+>>
+>> ---
+>> Revision history:
+>>   v2 => v3:
+>>   - drop unnecessary descriptions
+>>   - use microvolts for the 'ldon-head' dt-property
+>>
+>>   RFCv1 => v2:
+>>   - No changes
+>> ---
+>>   .../regulator/rohm,bd72720-regulator.yaml     | 149 ++++++++++++++++++
+>>   1 file changed, 149 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/regulator/rohm,bd72720-regulator.yaml
+>>
+> 
+> My bot found errors running 'make dt_binding_check' on your patch:
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/regulator/rohm,bd72720-regulator.yaml: patternProperties:^buck[1-10]$:properties:rohm,ldon-head-microvolt: '$ref' should not be valid under {'const': '$ref'}
+> 	hint: Standard unit suffix properties don't need a type $ref
+> 	from schema $id: http://devicetree.org/meta-schemas/core.yaml
 
-This lack of consistency cannot be addressed without refactoring the API.
+Nice! I'm not sure if anyone has said it but these bots are helpful :) I 
+forgot the type to ldon-head when switching from -millivolt to 
+-microvolt. I'll address this for the next version.
 
-This patch continues the effort to refactor worqueue APIs, which has begun
-with the change introducing new workqueues and a new alloc_workqueue flag:
+> doc reference errors (make refcheckdocs):
 
-commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
-commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+Thanks for including the make -command to the mail! I didn't even know 
+about 'refcheckdocs' target.
 
-system_wq should be the per-cpu workqueue, yet in this name nothing makes
-that clear, so replace system_wq with system_percpu_wq.
+> Warning: Documentation/devicetree/bindings/regulator/rohm,bd72720-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd72720-pmic.yaml
+> Documentation/devicetree/bindings/regulator/rohm,bd72720-regulator.yaml: Documentation/devicetree/bindings/mfd/rohm,bd72720-pmic.yaml
 
-The old wq (system_wq) will be kept for a few release cycles.
+Hmm. I suppose this is because the MFD binding is added only later in 
+the series(?) I suppose we can't help it because the MFD binding 
+references the regulator binding as well. So, this is kind of a chicken 
+and egg problem?
 
-Suggested-by: Tejun Heo <tj@kernel.org>
-Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
----
- drivers/leds/trigger/ledtrig-input-events.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yours,
+	-- Matti
 
-diff --git a/drivers/leds/trigger/ledtrig-input-events.c b/drivers/leds/trigger/ledtrig-input-events.c
-index 1c79731562c2..3c6414259c27 100644
---- a/drivers/leds/trigger/ledtrig-input-events.c
-+++ b/drivers/leds/trigger/ledtrig-input-events.c
-@@ -66,7 +66,7 @@ static void input_events_event(struct input_handle *handle, unsigned int type,
- 
- 	spin_unlock_irqrestore(&data->lock, flags);
- 
--	mod_delayed_work(system_wq, &data->work, led_off_delay);
-+	mod_delayed_work(system_percpu_wq, &data->work, led_off_delay);
- }
- 
- static int input_events_connect(struct input_handler *handler, struct input_dev *dev,
 -- 
-2.51.1
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
 
+~~ When things go utterly wrong vim users can always type :help! ~~
 
