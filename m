@@ -1,43 +1,43 @@
-Return-Path: <linux-leds+bounces-5989-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5990-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9C1C34167
-	for <lists+linux-leds@lfdr.de>; Wed, 05 Nov 2025 07:50:31 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF11C3416A
+	for <lists+linux-leds@lfdr.de>; Wed, 05 Nov 2025 07:50:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 428DD18C1D6E
-	for <lists+linux-leds@lfdr.de>; Wed,  5 Nov 2025 06:50:56 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C4DB04E2E60
+	for <lists+linux-leds@lfdr.de>; Wed,  5 Nov 2025 06:50:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D41D2C235F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF0FA2C3251;
 	Wed,  5 Nov 2025 06:50:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=leica-geosystems.com.cn header.i=@leica-geosystems.com.cn header.b="OZjoEA3T"
+	dkim=pass (1024-bit key) header.d=leica-geosystems.com.cn header.i=@leica-geosystems.com.cn header.b="R2kWOY+C"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011000.outbound.protection.outlook.com [40.107.130.0])
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013016.outbound.protection.outlook.com [40.107.162.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675612BF011;
-	Wed,  5 Nov 2025 06:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C89E2C027A;
+	Wed,  5 Nov 2025 06:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.16
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762325423; cv=fail; b=r2zPE8vjI7Opez+oj6P31TuFbqXDLFfZz58s06JUstOfnX3Vn4ElGj0Tl8pUoIuO1T8hxBAZ4qHG1YZomgFN+i1a8x/Co/HQXx2gDesFiH+j/710Plb30OdpzYAExNezNr7xFfWUeONfbJSFwkqFdfJ/E/vqIv0Q23FZf284paE=
+	t=1762325423; cv=fail; b=t6TmlfqFrus7uyspoxW3uCZXNc2TWh8ScxgUvwxAgXwbFWJqgG498W405ABdgYJi5AubiTNd9dtlCtVfTp3mRtSud20+W5uCs+YSru5lfp8JHoNxIDhuqzP2EselM/XT++rntELVNEVpBp+O6tQWCY4C9jAjeKR6VUoxyynJBa8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762325423; c=relaxed/simple;
-	bh=oYfwm+2edq5AB0/ahRxgKUjwsN89t+6SzS0Ze9i7tkY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eTPODM7fYZ736Lf9/TlNSRVIzdtmEh/bXxmKGuaa9LlSgeFWf58WfXa5WnYPDVkWW4I/XKZJ4DCj/hVG2q7oiBXtLp5fOOyfuQMKlZUUrGvYssUrN9/RdjTJjI6/ITFqLAAq/Slyvpn3r7lEV0EefR0RLGWm0tLbd3JsgMerVx0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com.cn; spf=fail smtp.mailfrom=leica-geosystems.com.cn; dkim=pass (1024-bit key) header.d=leica-geosystems.com.cn header.i=@leica-geosystems.com.cn header.b=OZjoEA3T; arc=fail smtp.client-ip=40.107.130.0
+	bh=GumTw6GVHkU+laOTyC7CJLfMaA2bvFh9fgFPFLSWmXk=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gVkN3kmn8VZK3hZeLAm5y20FCYr6XJosCnh7LqO+xyU+yXA1DIOiTr920GBpTsjJM9ctbDy3/UWBsoyK+WWzCpshVL8r+eqEDBt87RksSaXaAOv1tYnZLtrQ0IJzrbUMsgajsoqhqwIqBQUtw3jGo+olHu4tEyirWLMKncfD47o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com.cn; spf=fail smtp.mailfrom=leica-geosystems.com.cn; dkim=pass (1024-bit key) header.d=leica-geosystems.com.cn header.i=@leica-geosystems.com.cn header.b=R2kWOY+C; arc=fail smtp.client-ip=40.107.162.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=leica-geosystems.com.cn
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YtYek4pBjLJ+PlQEaPqUrpjbaq77c2lSPlBdC16Q+a5oviQNroY27ZLKn+GAZ/WmLqCRnT6jkaq7u+gIWYUk1l2AMijgYQPkJzEHDQhXZK7+EEE3SxOBzFbryBYfhZ/hRbNtpvcViHHmfScZzCQkSTKG0oCzkhR8T6NA9ev24VH7+9dkfo5TjonEKoAwoYjdaoIm76ZGmKUFYXQy39zemnGKz7SeLrbZDA3YMr9sLYfQR1qT18lO8fpc0p6VceOd1tu74dCziugq94nd6d/2NPXGGeX4qCkMBj9DMsZQz1djw9iVlPJbW+vhgvSlWFlQ69FcmSfS8IyHhZglLNygGg==
+ b=CgMmTaEn6ddu/TNncG9q7/nmaFl7wbbkyyiKPyVxrEWmIkw/WXwhlVjZk4K2t2uyV4azA8eC8V7Kxact2cIZ5kH7u4LrzKg4PCaZBQ+w4geFcI289RRt3u9V2Xi8IsZoCTKvH7CUEqsB0HI3vAppVT/iIDfqTBEUbg1WyB+1+JXOZIsWlQOJPwWjM//aLtzG4Fu85E5ZKR9uhLdyPHbp4pB5Qo6jDojzHEDqbsK3jiY1d0b6optgsNKLJjzNCAfUwCRdeTyR+7tf5ekwj5he+A10TA/dEmZmGcHbeO/pKbGN2pLRiF2T06Zxqw1pNhLBmTpi408Vw71vQyLJvdj+Sw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UCGekY62HkyNk88T7V0W61jgRiWU31Dy7Oo8hUV6NYI=;
- b=U48nmkFTcvp4hTuGEQFu+XlL95eQFUaBuKA9p50Akl6ZK1mSvUDkkEY0IAqPz0ATAqSyRiPAV1S9Lc0idhvNppW43GtmTIJkDE5zepCtdXrput8mgFvHlwKhMHJ5Wb97QCHVPLT1pn4Gpe1jGjFlCYWtvPi5Ysu1s5BH6zAkP06TASOrIR62K4zeZmJOfZkYWrtxOCawJsQvIL/ORV8JuJxprLVHqCJCijmS77EPAJ2fCMJDX+DVa66cf20+meMNdpR4NHFA+W3hVNUiv9eo4yrfDVcdg93voK2YqnK32fQ0KI5XPcl+KOo7BT18Mu2vwQcBxxHTMbnEnB/obSgaZw==
+ bh=2SvqE/oYKrcSALO4fP7PqS4qRyp+CRUAVY1R4Gh2mIw=;
+ b=LT8t6+qrbPBoi4zlPKk36Z+qEqn9SomaLJZpqZlAv6fojND2G3qcnmcs2sIT9ENLDFxd1d7fowmCjf14fnXvZU9q+Iyedmf/n5p3mvwwrvFqbdwLBVEuSTXB786lUT8Y39YIayibPJcS0CDvAyiS8zi4AyKD4GjHVHUlgevJP/4hozZIkmLQ0m+L0ukdD6Sz3Nf/QgHwZSVElT9I0E/MfralE37qJ9fjo1vd2p63shFLwiV8ZHl9f/Lb8IUoxtVIBLRUbZeCT/PddfCF65W+wLoAWoJ6MjLoBNIaIbjZWeCw64wBMRXi8xZr/2M7Jh1eWqNJhFGlTiAKsCxg501mkw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  193.8.40.99) smtp.rcpttodomain=vger.kernel.org
  smtp.mailfrom=leica-geosystems.com.cn; dmarc=pass (p=reject sp=reject
@@ -46,18 +46,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=leica-geosystems.com.cn; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UCGekY62HkyNk88T7V0W61jgRiWU31Dy7Oo8hUV6NYI=;
- b=OZjoEA3TfY8f5O/vffReOnhemOtJU2gI72aVHUMdkpPMs+Wrxwb4cUrj9Gh7/IpJ9AWO63aKkBw0UgfOlekebef7nYmGcXiDsaZWY6QCA4VR6Vy3PN8Sg3/OrEENw/PrfNhffdBp7hUSvdSnvDRlZgjR7R9xksKQUS8sRBFHcDk=
-Received: from DUZPR01CA0069.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:3c2::12) by PA1PR06MB10144.eurprd06.prod.outlook.com
- (2603:10a6:102:4e1::18) with Microsoft SMTP Server (version=TLS1_2,
+ bh=2SvqE/oYKrcSALO4fP7PqS4qRyp+CRUAVY1R4Gh2mIw=;
+ b=R2kWOY+COOxw9YkShBiY4wLXuhzRqT6TtDSYtlQ8m5vL8CFiNR6qfcDT6RT2MB0Z+12oKRgseLf/LfVN+5P1BS27lqDUux6nDoraeCxswGOfPizZ3+FTXRtdbOeyW6FdwuL5FRP6VZ1xB0lbqNqa4o2kRBXcPZ9aasZ5D53wVZM=
+Received: from DUZPR01CA0063.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:3c2::13) by DB3PR06MB9922.eurprd06.prod.outlook.com
+ (2603:10a6:10:5c6::9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Wed, 5 Nov
  2025 06:50:16 +0000
 Received: from DU2PEPF00028D0B.eurprd03.prod.outlook.com
- (2603:10a6:10:3c2:cafe::40) by DUZPR01CA0069.outlook.office365.com
- (2603:10a6:10:3c2::12) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10a6:10:3c2:cafe::88) by DUZPR01CA0063.outlook.office365.com
+ (2603:10a6:10:3c2::13) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.8 via Frontend Transport; Wed, 5
- Nov 2025 06:50:26 +0000
+ Nov 2025 06:51:09 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.99)
  smtp.mailfrom=leica-geosystems.com.cn; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=leica-geosystems.com.cn;
@@ -80,10 +80,9 @@ To: lee@kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Qing-wu.Li@leica-geosystems.com.cn
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH V9 1/3] dt-bindings: leds: pwm: Add enable-gpios property
-Date: Wed,  5 Nov 2025 06:50:10 +0000
-Message-ID: <20251105065012.88796-2-Qing-wu.Li@leica-geosystems.com.cn>
+Subject: [PATCH V9 2/3] leds: pwm: Add optional GPIO enable pin support
+Date: Wed,  5 Nov 2025 06:50:11 +0000
+Message-ID: <20251105065012.88796-3-Qing-wu.Li@leica-geosystems.com.cn>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251105065012.88796-1-Qing-wu.Li@leica-geosystems.com.cn>
 References: <20251105065012.88796-1-Qing-wu.Li@leica-geosystems.com.cn>
@@ -94,88 +93,123 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 05 Nov 2025 06:50:15.0062 (UTC) FILETIME=[70ADA360:01DC4E20]
+X-OriginalArrivalTime: 05 Nov 2025 06:50:15.0078 (UTC) FILETIME=[70B01460:01DC4E20]
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF00028D0B:EE_|PA1PR06MB10144:EE_
+X-MS-TrafficTypeDiagnostic: DU2PEPF00028D0B:EE_|DB3PR06MB9922:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 999ef44e-035c-48d1-e022-08de1c3793fa
+X-MS-Office365-Filtering-Correlation-Id: d5880764-bb4b-4d22-60e1-08de1c379442
 X-SET-LOWER-SCL-SCANNER: YES
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|34020700016|36860700013|376014|1800799024|82310400026;
+	BCL:0;ARA:13230040|82310400026|376014|36860700013|1800799024|34020700016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?KFqgLDS/pA0J/eKTzEA4Es17lEdNbTxrTqbYFcG6ob9Hkj3lyiSAyPscE0yU?=
- =?us-ascii?Q?eN+KRSblHpjZuBkuuFVotvOdjNzHltd1k4JZQct7izLvx7YiXRxO+h46oewQ?=
- =?us-ascii?Q?+w9hvMw/khpQ52zVqd7BN21rJyFd3GMoOt7EREhlYHSJUwbMpy9gmGqHFFgd?=
- =?us-ascii?Q?1B5NNZ/Ximpq7M/VVW62zQtk7CVCNRd5THyvzh7wrmF2orQNK9fjONjvf4Kv?=
- =?us-ascii?Q?kIPOQtDY4vwUdVrHnnPmOWweyMWuFBiAY+7aTNmDJJET/rq1hrGj81Di9wwG?=
- =?us-ascii?Q?+kGeNKfaqgi5CCzT/KTqYI8QMThL4KBlFGDbJEZ7JbsM9AchPVQ3Tl8P3VM0?=
- =?us-ascii?Q?u/LjHXQhdZrrNk3kSbV5SMQzTewEsa21MEagT0Cf5PTlk940pWpWmHsqM7iT?=
- =?us-ascii?Q?AG9QEiWYtEaOdM0ju+kmyvqNtSqc/NKvtbWrBGfgiVTUg8vQxZMVDZ+HrKmy?=
- =?us-ascii?Q?8kAb88PdSVBhoRGK1tG8m4ydCmkcraoyRxu/sR8kG7McwNsFT8xde8JLHzP+?=
- =?us-ascii?Q?w0Lu3yWFF9y04rSE5a6XaGQElLQ8IZedt5dhk9BC0bSZEIf/1ETe1Cklf1qU?=
- =?us-ascii?Q?l26LUBzOvoSAi71r+OSV/fosJqY84UmV4jInUAM5AlwX7W1hkg4ivK0je4aU?=
- =?us-ascii?Q?2rbbLoqE8M/vtL6Etg2l/jOkULafZMmlE3X/JxDkuc5NkP0iUWJMqTnwMFuT?=
- =?us-ascii?Q?gRFo0vjs2HF+LalABt+BLy+2/Wdo9ezJ/Rjj9gLMZOyHuHRE+B6S582Lg5iH?=
- =?us-ascii?Q?RFEWG8rxddTfJl4KPpaF/OmcRTAMQgMimp0VxWLzXvv4lsnlxmuWxJf2ZVZo?=
- =?us-ascii?Q?QpnxYDg44B3xhGj9SxRQMNDmiLAGzp65udyL/77IkQ4vTpdF5BLyxgwlOykl?=
- =?us-ascii?Q?a4jNkpeKg71m9r8ytnZWDqLFmCDIxAp/8zPD4fG4Znelby7/UvHExNs1dlWP?=
- =?us-ascii?Q?P/K0kuK98vxa/Gu4g+6ldMJx63xXnRsOiAPfaamOfOtP3vDULslVObNp0FMN?=
- =?us-ascii?Q?sD1ZldDrQpb5TQGJAZOqyoICcThwbV55n5rAIitWlG2jDDR08MSndMjwAThP?=
- =?us-ascii?Q?CA8PfPZNZYF6CY2K/z6N74n/MomJw+ijvNBv4/0S54WUjPWoDXwRxkt57x+o?=
- =?us-ascii?Q?2Jl/PhfmuX+NstKADqVYO9CganbwFt30NFna3XkLUMKojg53tkVYv46+WM54?=
- =?us-ascii?Q?CmIkb9hf2wY99kpyZPm5qC6Bf/AcMfDNYMViVBRxPRhGN2cnOhv70sJc7fPH?=
- =?us-ascii?Q?hIni8essdltouvOPcRYq4KmLIC2jeDO3zV9iJfb8A2ezff18Ih4MJgz+OmT/?=
- =?us-ascii?Q?hWfx9EeeGKByC7T3FfLVBWdGfstsgiVVXC2I5gFiOTl3DSWvA9piP2vXih8L?=
- =?us-ascii?Q?75BWqib+1/SOdGUcA2SJt1lT1QFVgS/iwMr5wCMiH1OEX1AvqgjhjUtZYMCG?=
- =?us-ascii?Q?rflYUDn0m4DDJMWhP74HoY1jm4T1CozP1UQux3Bk74vqYLaNLwM7idyt3Tao?=
- =?us-ascii?Q?HIszOErHnt8W5BbQjQWrbos+JBVvJ3h7L8sfAEJflbmcUzqxIdHCg3SVWUPE?=
- =?us-ascii?Q?JmvuqIH1jyDzRULw02o=3D?=
+	=?us-ascii?Q?6qTli/6Qt5iy682RhDfbpXw+XaVS4F3vzPoxBsRksylw7dSNcw5wLXFQO76D?=
+ =?us-ascii?Q?AERITXQTWh6/0SKDf1vPTsd1tNsGVGRiV6scfEm7rHLyBNmI6Yr8RWloGopc?=
+ =?us-ascii?Q?BX/Fo9KnxmhkJX6yu0dBu17WPR01fwX2tz8cHZJ5I67UrtlYmJYRIzsWxhjd?=
+ =?us-ascii?Q?R2LSB2UurNQNhHDiijCr+X1zMqsed1cXlC+Ju8/IERiGb20C7DsNElbt7CMm?=
+ =?us-ascii?Q?D9slCfn9scgUINwfwQxDVs/BUrUr0qrXa+CjZhsb2EkjrZXx+N+4UyGzkIKk?=
+ =?us-ascii?Q?oF1GzkKqJnGe70dWrLEQscruYbgP/eu2nLa25Npbaqf5UszBTnXKWhWy0kEc?=
+ =?us-ascii?Q?beS2EhYNUkEaaMEZ8QzTZ1lQbG1rSANMbgLK5Beiy1ohaSAQCXbJIfAZUT0c?=
+ =?us-ascii?Q?SEcGfCgSBF5WEMtlUAuVgrp/Y9/R3BjkwKIddxND7Z6cYJzOijav1XcOnMEv?=
+ =?us-ascii?Q?o6dBlV+I452gpKLBfDztfYEDpN5IoT8PWwKhXRTRDJoPTpVuWXxoMWSpRtUt?=
+ =?us-ascii?Q?TzO7udZiut/4ofnLtoTRXYWyPWO5ftWzo29+KI4KSDOUUnMaefqv7eu/i9Al?=
+ =?us-ascii?Q?nIgPen61AwdSUM9JCfTprXgVALHtg3v5m4G7lAglXJWFkbk3f4GR8iIck0vn?=
+ =?us-ascii?Q?8R6GyBpqIek+JNgP9h9fInI9NWTXpLoLe2p/yC3gpNVK1riECxg3U7vAiobn?=
+ =?us-ascii?Q?a4JC0tArYTFSSipkaTnBE+0ktScyUbAGNj913L6lHqOUYkFwd+g8WWuwPouh?=
+ =?us-ascii?Q?Bch2njR5YxJHfWacg79m/rT7OUk4QmJoobyqdKbLeLmQkaYJFVr6tcrEPNMS?=
+ =?us-ascii?Q?CS4Gpj2OkIQCdIKGSg2rP89/H9n3lBhYbVQiwil1JUgV9CxzBuRXAhTA8S3r?=
+ =?us-ascii?Q?C9VDsAGOz8lOnsH/N60Fctgnv5OyRG72sk7PcNPqjjQFpr/hy+z6mmn+Lpfx?=
+ =?us-ascii?Q?1PBSXvDsDuf+x4VCloszlWT3oDjpDUiJEdAQ2IPW9VqalyIllgl71P8CbPaF?=
+ =?us-ascii?Q?KNF0eh5sEW7n6SdwAtHCLKMiAK0yDQgWmimH3XDoy7ASdtcTDW+WgNanUCjV?=
+ =?us-ascii?Q?jDyVTCOVuUb2yJp015sqJCEIQpWvYRv68RQDVFKDmIzk2TSGYXp0rXNDOzX8?=
+ =?us-ascii?Q?MIRLGwZS7Acs1fB3Ldbte33n0muH/sSvHOQ6YgVedPuR6zvVzOWTeTfYWpTN?=
+ =?us-ascii?Q?TB/FVkBpMMMwo/kJlVFRmIo0iBH4vgh+bmfeb7YtmthVS3le35fD4KAEO6eg?=
+ =?us-ascii?Q?r+m2xG4aZkMXhoXWvp8GIB6thYyO8DsAfiZGF2DbuSqGusPcypfFSC0/OIVM?=
+ =?us-ascii?Q?840lKdHuqzopYQH0guiPPnlUqQH0HUsiZ5EdnXy6ugBpxh47hmx1//hG1MMs?=
+ =?us-ascii?Q?Wq8wOSKXAOJVIUJcTi8G24tGVRj356NeCEFenbZEQY/+/5u9VDSm6uTnI1yW?=
+ =?us-ascii?Q?EBfcDRFVYpmmHAkVoyD4jxY6EDRykRbkAp6NzamGxN7eFlGiiDf7pmAzd5YC?=
+ =?us-ascii?Q?vpfuiycrAxZX9pkCGSMq1Xhrq1xcNzskIf8Ej/i5EfmvKgVz8Ql3aUCpGd3a?=
+ =?us-ascii?Q?GzXfwmY1ygDLXvwNAd8=3D?=
 X-Forefront-Antispam-Report:
-	CIP:193.8.40.99;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom51.leica-geosystems.com;CAT:NONE;SFS:(13230040)(34020700016)(36860700013)(376014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
+	CIP:193.8.40.99;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom51.leica-geosystems.com;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024)(34020700016);DIR:OUT;SFP:1101;
 X-OriginatorOrg: leica-geosystems.com.cn
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 06:50:16.3252
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 06:50:16.7942
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 999ef44e-035c-48d1-e022-08de1c3793fa
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5880764-bb4b-4d22-60e1-08de1c379442
 X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.99];Helo=[hexagon.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	DU2PEPF00028D0B.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR06MB10144
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR06MB9922
 
+Add support for optional GPIO-based enable pin control to PWM LED driver.
 Some PWM LED driver chips like TPS92380 and LT3743 require a separate
-enable signal in addition to PWM control. Add this property to allow
-device trees to specify such GPIO, which will be controlled
-automatically by the driver based on the LED brightness state.
+enable signal in addition to PWM control. Implement support for such
+GPIO control through the "enable-gpios" device tree property, activating
+the pin when LED brightness is non-zero and deactivating it when off.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Tested on i.MX8MP EVK with TPS92380 LED driver chip
+
 Signed-off-by: LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>
 ---
- Documentation/devicetree/bindings/leds/leds-pwm.yaml | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/leds/leds-pwm.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-pwm.yaml b/Documentation/devicetree/bindings/leds/leds-pwm.yaml
-index 61b97e8bc36d..6c4fcefbe25f 100644
---- a/Documentation/devicetree/bindings/leds/leds-pwm.yaml
-+++ b/Documentation/devicetree/bindings/leds/leds-pwm.yaml
-@@ -40,6 +40,13 @@ patternProperties:
-           initialization. If the option is not set then max brightness is used.
-         $ref: /schemas/types.yaml#/definitions/uint32
+diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+index c73134e7b951..aa9e14d912bf 100644
+--- a/drivers/leds/leds-pwm.c
++++ b/drivers/leds/leds-pwm.c
+@@ -9,6 +9,7 @@
+  * based on leds-gpio.c by Raphael Assenat <raph@8d.com>
+  */
  
-+      enable-gpios:
-+        description:
-+          GPIO for LED hardware enable control. Set active when brightness is
-+          non-zero and inactive when brightness is zero.
-+          The GPIO default state follows the "default-state" property.
-+        maxItems: 1
++#include <linux/gpio/consumer.h>
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/platform_device.h>
+@@ -26,6 +27,7 @@ struct led_pwm {
+ };
+ 
+ struct led_pwm_data {
++	struct gpio_desc	*enable_gpio;
+ 	struct led_classdev	cdev;
+ 	struct pwm_device	*pwm;
+ 	struct pwm_state	pwmstate;
+@@ -51,6 +53,8 @@ static int led_pwm_set(struct led_classdev *led_cdev,
+ 	if (led_dat->active_low)
+ 		duty = led_dat->pwmstate.period - duty;
+ 
++	gpiod_set_value_cansleep(led_dat->enable_gpio,  !!brightness);
 +
-     required:
-       - pwms
-       - max-brightness
+ 	led_dat->pwmstate.duty_cycle = duty;
+ 	/*
+ 	 * Disabling a PWM doesn't guarantee that it emits the inactive level.
+@@ -132,6 +136,21 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
+ 		break;
+ 	}
+ 
++	/*
++	 * Claim the GPIO as GPIOD_ASIS and set the value
++	 * later on to honor the different default states
++	 */
++	led_data->enable_gpio = devm_fwnode_gpiod_get(dev, fwnode, "enable", GPIOD_ASIS, NULL);
++	if (IS_ERR(led_data->enable_gpio)) {
++		if (PTR_ERR(led_data->enable_gpio) == -ENOENT)
++			/* Enable GPIO is optional */
++			led_data->enable_gpio = NULL;
++		else
++			return PTR_ERR(led_data->enable_gpio);
++	}
++
++	gpiod_direction_output(led_data->enable_gpio, !!led_data->cdev.brightness);
++
+ 	ret = devm_led_classdev_register_ext(dev, &led_data->cdev, &init_data);
+ 	if (ret) {
+ 		dev_err(dev, "failed to register PWM led for %s: %d\n",
 -- 
 2.43.0
 
