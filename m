@@ -1,93 +1,82 @@
-Return-Path: <linux-leds+bounces-6022-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6023-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6E4C397D1
-	for <lists+linux-leds@lfdr.de>; Thu, 06 Nov 2025 09:01:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A02C3B0A4
+	for <lists+linux-leds@lfdr.de>; Thu, 06 Nov 2025 13:59:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 7886A35038B
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Nov 2025 08:01:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0AD3446771A
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Nov 2025 12:51:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 315F82FFF87;
-	Thu,  6 Nov 2025 08:01:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEB26331A69;
+	Thu,  6 Nov 2025 12:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XYq0/d4C"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MltggMR4"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED13D288C25;
-	Thu,  6 Nov 2025 08:01:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF5332B9AF;
+	Thu,  6 Nov 2025 12:49:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762416089; cv=none; b=QfTvOBZ8v2JuoDPysZxskJoJ7vIdbDkwO1XpuZ32kUCmykavXwgxiKb2IRzdqBC1VnzHU7wx/niMQ3i4rIDZ7R1A51Myrzs4n3BjeYU2wE2e9lk3hSLSdmF4ObPr9TYQPxZDFeBGl55CNHf9g/J3gI28NLTiQIdtKzGBwOtdplM=
+	t=1762433352; cv=none; b=Mfay81Y58tOx7nLv+GjcVW3XeAtoDIkbSwt5k2beH0aaZnSu4NVmGCdv9uuCDjQlfZe3+fdHXz2atIDdjqGLmwVU/B1XMo/JjAKb2UC4J7ODgIDdxFpP5mrJ0n4wDraFGSR0GPwVG7jca7RwGsgPlDwBtUzRCrs0CgKRO5t6emc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762416089; c=relaxed/simple;
-	bh=uowgofq6EGyEpedmqAkpKpF/ILvzv603fruxW1Nk0UQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O63TovgdZ0/oBM40FzH2eB49oQlUrwxyZP4mcjqMfLj0C33hHhGy+kNFRRjD4JwNZTIsJAV5rLJXid/p2T0JuQbFTPMSrnDg07+KfFl6nmmXtT2yS5sHj9JwrS6QmUeOs5G+sJGdWhsOpHyx8n2T0T6KdcaZcjNZ09vRIL4akpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XYq0/d4C; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E15BFC116C6;
-	Thu,  6 Nov 2025 08:01:27 +0000 (UTC)
+	s=arc-20240116; t=1762433352; c=relaxed/simple;
+	bh=QDQywIaKu2zH70eH1xnpg06B3uDNQURKWA3m7AA4ORE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=SGZMrGxpw1nML246rUz7CZR8mBg0yfeHHU0Ihy1k2Rsp9eBxEmsssTthVRAZM1U5BSWGzj287EjTBD8xnlGraPHejulJhdnAetlDmUJEAgWD9D7kEs+56SHUYOVgZNgss/8jt8Av4lRgKVtEW+OO3KiZJgJKXL6ZU8HuNZgEgT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MltggMR4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A704C4CEF7;
+	Thu,  6 Nov 2025 12:49:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762416088;
-	bh=uowgofq6EGyEpedmqAkpKpF/ILvzv603fruxW1Nk0UQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XYq0/d4CSKp6QODh9TvYWER3c1cothVgTSjcNsFm6a3395+K0lz16xIHjrsewNagG
-	 h1538HAdqxKUaLBB6ZzCO69ZZzcE1FSQvxmqjlhYm8EqFfGuEIB0wszZygOXl5ohWT
-	 VnTWUtTThUBSgYtUjj9moAwnZqmwGGWeVkxhaldWQGtW4b9uWEuEHGWqKMvLpKl4lj
-	 kL0kpDKW2F4nNdJlJWAEApGWndgwo6NcsvO2fQ9YNZlgeIi0H9NAR8CVaAEiNjyrdg
-	 tYbOrMAIS+4Ssx9V5clbPXP45pQQTCY33GHM9V3NlzFMOknC81HBo5PDIIOxmVoXTY
-	 pyWaJPqtB8zXA==
-Date: Thu, 6 Nov 2025 09:01:25 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, 
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Sebastian Reichel <sre@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-rtc@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH v3 03/16] dt-bindings: battery: Add trickle-charge upper
- limit
-Message-ID: <20251106-aromatic-outgoing-chameleon-dadf02@kuoka>
-References: <cover.1762327887.git.mazziesaccount@gmail.com>
- <1babb4f8e9a1d21daab737e3427005852ec304fb.1762327887.git.mazziesaccount@gmail.com>
+	s=k20201202; t=1762433350;
+	bh=QDQywIaKu2zH70eH1xnpg06B3uDNQURKWA3m7AA4ORE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=MltggMR4vgtGdsLCj/gzb+sebtOBZR1wBC5RNGodC7rZMnaW1LlzNzBlVF0UtlYhw
+	 Hv24uyvt5gq3Vbmxb66vBHEagw27oe/WocgXKDu+VOtEqJdfOdOsJYUsHcIBmN1yVi
+	 69rU+AgyMEIn4r7MFRty35ln9cXRd+TlqApp1o8gjz6TFKzUeI7XMRvCXuAB9rgBCO
+	 zyEYoyK0pa5Fst9R8GH4aaB4jqC7HzCGd/BDdDuCKdGlYoNUPf14lJk1bF05CUFklE
+	 v47JpFVmU4EPxXqNQdt8VPEsNItfl4LzSAEWuj7TVLck/rMK9zyd4XYfsKB8ny8V5S
+	 GQWhAx7BB2v2Q==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>, Dan Murphy <dmurphy@ti.com>, 
+ Christian Hitz <christian@klarinett.li>
+Cc: Christian Hitz <christian.hitz@bbv.ch>, stable@vger.kernel.org, 
+ Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20251022063305.972190-1-christian@klarinett.li>
+References: <20251022063305.972190-1-christian@klarinett.li>
+Subject: Re: (subset) [PATCH v2] leds: leds-lp50xx: LP5009 supports 3
+ modules for a total of 9 LEDs
+Message-Id: <176243334879.1816120.5182924763211452993.b4-ty@kernel.org>
+Date: Thu, 06 Nov 2025 12:49:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1babb4f8e9a1d21daab737e3427005852ec304fb.1762327887.git.mazziesaccount@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-52d38
 
-On Wed, Nov 05, 2025 at 09:36:31AM +0200, Matti Vaittinen wrote:
-> From: Matti Vaittinen <mazziesaccount@gmail.com>
+On Wed, 22 Oct 2025 08:33:04 +0200, Christian Hitz wrote:
+> LP5009 supports 9 LED outputs that are grouped into 3 modules.
 > 
-> Some of the chargers for lithium-ion batteries use a trickle-charging as
-> a first charging phase for very empty batteries, to "wake-up" the battery.
-> Trickle-charging is a low current, constant current phase. After the
-> voltage of the very empty battery has reached an upper limit for
-> trickle charging, the pre-charge phase is started with a higher current.
+> Fixes: 242b81170fb8 ("leds: lp50xx: Add the LP50XX family of the RGB LED driver")
 > 
-> Allow defining the upper limit for trickle charging voltage, after which
-> the charging should be changed to the pre-charging.
-> 
-> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 > 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Applied, thanks!
 
-Best regards,
-Krzysztof
+[1/1] leds: leds-lp50xx: LP5009 supports 3 modules for a total of 9 LEDs
+      commit: 5246e3673eeeccb4f5bf4f42375dd495d465ac15
+
+--
+Lee Jones [李琼斯]
 
 
