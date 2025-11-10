@@ -1,82 +1,124 @@
-Return-Path: <linux-leds+bounces-6049-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6051-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B392C4435E
-	for <lists+linux-leds@lfdr.de>; Sun, 09 Nov 2025 18:08:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E589C45171
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Nov 2025 07:36:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD1A93A1A5A
-	for <lists+linux-leds@lfdr.de>; Sun,  9 Nov 2025 17:08:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DDD0F3A7A8C
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Nov 2025 06:36:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 631F8304BAB;
-	Sun,  9 Nov 2025 17:08:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uk8IVwQh"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E61F2E8B95;
+	Mon, 10 Nov 2025 06:35:48 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3202F2FF147;
-	Sun,  9 Nov 2025 17:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16EE2EB5BD
+	for <linux-leds@vger.kernel.org>; Mon, 10 Nov 2025 06:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762708125; cv=none; b=CGRD8YWDfssZup8bcYJulqLH/LXBdJ8KQraDi9qFn9pmursJbmsa316yv/iGWOjbr1Y4+5BSblWoGo6zMRdEkdSt9KwsNTqgWpjxav50WYbNeiW3wx284sxPTWmdxZXdHC06WUEvvRbI4cy2Nr/4mU8UjaLC59rgUbv8GqLGSt0=
+	t=1762756548; cv=none; b=e4D3xV5KGM5IwMMXtR8q1v/j6JjGoiA+OkDKWmsiG84OYrSAq+IgVAgqqrnXw6yR/+/hNRZKUFf5TC8btmS9Z9vegPmBKXGDzgI4b/z+DmvxJW0hVaa0jEIDkjquJ3CP/CpyBbhv4/4LK9u6Kdp1ZmsiLvzum6zeXbTtYyf3M5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762708125; c=relaxed/simple;
-	bh=ET1zFUZTZRnzMVHdUq9/iGHDQDRbTzMHvG3AIriBGSo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cN+xG58aRJS7Ukz6zTqI9FiQPQXqrO6X0zTPniciKseDal6Le+b6lGRqsCaeqFD0AQMYDmwNFh6iQXua24TIpK8KZOQRFhXa2WTMTyXh8ioiHRjA6PGiSxAwP73w4o7MSXC+FD5kSkeK1pGBZeMKVqmxs/pK7RBFMuv+fZag4Jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uk8IVwQh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22D15C116B1;
-	Sun,  9 Nov 2025 17:08:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762708124;
-	bh=ET1zFUZTZRnzMVHdUq9/iGHDQDRbTzMHvG3AIriBGSo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uk8IVwQh0VOPTSgkhsyAP5awGCF7kD/7XLwTBhztlDI9xfMCkrbomuammpNj/p6j+
-	 VfrdLjqdb7/12MJZTe1VimPRdieQWsTAKhtpvCexwmMeEI45iV9koopEAs34CKn23h
-	 TKW4eT7ycao3l8mqbOUtTkgdtHKHzmKZFW/i/EXuwLthKDEC3fhsJsEh/hUbQ6EGuQ
-	 em7oHrSIjMMStOPtDz/nYXdSCnrCvziFb+kHgde3htv/Hj9gQ9l85I1EO2jRy1wpom
-	 W0Js1ZlsSdzfWOZzPEJxTvBz+t/k34hd96dZd8S8UBThehLlz/Ixjb0dhwISY+tcPF
-	 3IxUxSnYjCxnQ==
-Date: Sun, 9 Nov 2025 18:08:42 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Junjie Cao <caojunjie650@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: leds: backlight: Add Awinic AW99706
- backlight
-Message-ID: <20251109-righteous-dove-from-saturn-9b9bb3@kuoka>
-References: <20251109032240.3422503-1-caojunjie650@gmail.com>
- <20251109032240.3422503-2-caojunjie650@gmail.com>
+	s=arc-20240116; t=1762756548; c=relaxed/simple;
+	bh=ziyBPnwId1hIqYZ/NwS+wAM+3tGvxLV0lkdeFla9Mv8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=sTV4OkQNeEw9TcKSd/qqLSbYhH7ED3bDSXkfgt+1GHq0gnDSmOViPBpApD1Zqj4O2O6tV2T7/lt1u0dGluvj+w3rQetfu/PRAkOQfK9VdmVL/HcB5tcpBaBhhIqZEi14W1zS2eVkiznnHqP352K3caMqb0TptTIjG7Nz6YuHB/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=ratatoskr.trumtrar.info)
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <s.trumtrar@pengutronix.de>)
+	id 1vILV3-0003U0-3z; Mon, 10 Nov 2025 07:35:37 +0100
+From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
+Subject: [PATCH v5 0/2] LED: Add basic LP5860 LED matrix driver
+Date: Mon, 10 Nov 2025 07:35:32 +0100
+Message-Id: <20251110-v6-14-topic-ti-lp5860-v5-0-5b777b99a905@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251109032240.3422503-2-caojunjie650@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALSHEWkC/3XNTWrDMBCG4asErasyGv2MlFXvUbqwJTkZKLaRX
+ ZESfPcqoTSLxsv3g3nmKpZcOC/ieLiKkisvPI0t7MtBxHM3nrLk1FogoAVUQVYnlZHrNHOUK8v
+ P2XoHckDbGd87jBREu51LHvhyd98/Wp95WafyfX9T1W39FRF2xKokSIOeTJ8iWaXf5jyevtYyj
+ Xx5TVnc2IoPyjZkh8JGEeYY/dCZLtFTSj+ooNQepRulA5D2eQiJ1FPK/FEKgPYo06jgiKwHF3o
+ H/6ht234ARt22F6ABAAA=
+X-Change-ID: 20250219-v6-14-topic-ti-lp5860-f25a48b62c79
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Steffen Trumtrar <kernel@pengutronix.de>, Pavel Machek <pavel@kernel.org>, 
+ Mark Brown <broonie@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel@pengutronix.de, Steffen Trumtrar <s.trumtrar@pengutronix.de>
+X-Mailer: b4 0.14.3
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: s.trumtrar@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 
-On Sun, Nov 09, 2025 at 11:22:39AM +0800, Junjie Cao wrote:
-> Add Awinic AW99706 backlight binding documentation.
-> 
-> Signed-off-by: Junjie Cao <caojunjie650@gmail.com>
-> ---
-> Changes in v3:
-> - breaking a long line (Krzysztof)
-> - rename backlight node (Krzysztof)
-> - Link to v2: https://lore.kernel.org/linux-leds/20251103110648.878325-2-caojunjie650@gmail.com
+The lp5860 is a LED matrix driver with 18 constant current sinks and 11
+scan switches which allows controlling up to 196 LED dots.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+This series adds just the basic support for the device on the SPI bus.
+It is also possible to use it on I2C. The interface can be
+switched/selected via an interface select pin.
+
+Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
+---
+Changes in v5:
+- remove global_brightness code and sysfs ABI
+- rebase to v6.18-rc1
+- Link to v4: https://lore.kernel.org/r/20251007-v6-14-topic-ti-lp5860-v4-0-967758069b60@pengutronix.de
+
+Changes in v4:
+- move to drivers/leds/rgb
+- fix some upper/lowercase
+- use ATTRIBUTE_GROUPS macro
+- unwrap some lines
+- Link to v3: https://lore.kernel.org/r/20250911-v6-14-topic-ti-lp5860-v3-0-390738ef9d71@pengutronix.de
+
+Changes in v3:
+- fix c-styling errors
+- rename functions/defines/variables
+- split out ABI documentation
+- rename [rgb]_current* to [rgb]_global_brightness*
+- rework multi-led probing
+- Link to v2: https://lore.kernel.org/r/20250514-v6-14-topic-ti-lp5860-v2-0-72ecc8fa4ad7@pengutronix.de
+
+Changes in v2:
+- add open and short detection
+- add ABI documentation
+- fix devicetree binding (maxItems/minItems)
+- fix commit message to imperative mood
+- minor cleanup
+- Link to v1: https://lore.kernel.org/r/20250220-v6-14-topic-ti-lp5860-v1-0-42874bdc7513@pengutronix.de
+
+---
+Steffen Trumtrar (2):
+      dt-bindings: leds: add lp5860 LED controller
+      leds: add support for TI LP5860 LED driver chip
+
+ .../devicetree/bindings/leds/leds-lp5860.yaml      | 111 ++++++++
+ drivers/leds/rgb/Kconfig                           |  27 ++
+ drivers/leds/rgb/Makefile                          |   2 +
+ drivers/leds/rgb/leds-lp5860-core.c                | 202 ++++++++++++++
+ drivers/leds/rgb/leds-lp5860-spi.c                 |  89 ++++++
+ include/linux/platform_data/leds-lp5860.h          | 305 +++++++++++++++++++++
+ 6 files changed, 736 insertions(+)
+---
+base-commit: 1447d74a2d34d824c5fef5eafc9408f520d4f90f
+change-id: 20250219-v6-14-topic-ti-lp5860-f25a48b62c79
 
 Best regards,
-Krzysztof
+-- 
+Steffen Trumtrar <s.trumtrar@pengutronix.de>
 
 
