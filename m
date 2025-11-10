@@ -1,178 +1,275 @@
-Return-Path: <linux-leds+bounces-6059-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6060-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246D1C45C74
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Nov 2025 10:59:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FCAC45CBC
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Nov 2025 11:03:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C3A8D188EAE4
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Nov 2025 09:59:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3C1B41891025
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Nov 2025 10:04:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BC71301475;
-	Mon, 10 Nov 2025 09:59:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 409DF301477;
+	Mon, 10 Nov 2025 10:03:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="CU4X2lut"
+	dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b="5HLBTpOt"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11023101.outbound.protection.outlook.com [52.101.83.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5680024BBE4
-	for <linux-leds@vger.kernel.org>; Mon, 10 Nov 2025 09:59:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762768744; cv=none; b=a1fyky4wHk8I0RzIoqgPBBs8Hi8Znx/ZFsg7m5aomPHRj+OlGh0n7addPBham2CcEw9jB4jAO59HOL4y2zJAJMwCaEV+0sWZodHaTRyodI15H9Hsh8q24WWJpITIewD043ISxDFW2JBw8Uy/Zubxsf0VJOeWam9ZhxsinMGB8p0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762768744; c=relaxed/simple;
-	bh=Ldxb3xiosslpoOJubQchwtbD2Q0t8Tiz2RiN7Ya71NU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XpV/j4d7qEij7fI406kbmP/wJ0Bdc04dJf4yPqEl8UYaqgjDEArGPzqez4JDcxBD3nwUb4ykWFv3kiUBSW03JnYXQQ3NsdjdFLyLzJ7TFzRgbjYHAXdYJUU8TCukifQ8u4FdVfx+yjYKyo6zWhqSFHbZ7NF/Dcw0CHZM1kUtYvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b=CU4X2lut; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-42b31507ed8so1414175f8f.1
-        for <linux-leds@vger.kernel.org>; Mon, 10 Nov 2025 01:59:02 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBF22FF658;
+	Mon, 10 Nov 2025 10:03:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.101
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762769017; cv=fail; b=Pm2D2Z1vv74GA690PTk8KsmmhXxIu649jIoT8DVq8wbii6Icsam6jrm5eFbWs8y+zaYZA8i8+aGA7KJU/2WU8N3xoikTPfl3WKhrMF0Sf/FoTDR3MrUBWbZtu/2iakQCOzJlzGSAyOuCtE8+AcvJbtHmUd/39Tk8D3NB3DWYXXE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762769017; c=relaxed/simple;
+	bh=Ue+mTrK46xr4aW+Zmnr4KDdhjn7944gXsqLQLw+oic4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=LEfTYNeiAZLMt6xneVEuf3oMTlYA0xZxP67ZPlwL4PSrKtH3arP5IQtwVu8COKO5evAuBub7kcE9U7NfXY+LMYm8pUvxIQFINrLB4YXMJ85uGOcpSh2BLPbHiwiRehyGfi6eD9JHmpnzKwJiP79CnPTlxifkOLWnh6Cv6DuJdKg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com; spf=pass smtp.mailfrom=gocontroll.com; dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b=5HLBTpOt; arc=fail smtp.client-ip=52.101.83.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gocontroll.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ezaa3Dmm7ZgzyCxPTha+gg9/puW1KdCS4oIbUc76AL85hZxvx8fYNIgJPZhAABaobeTybdBgB30ZxqKMYNsh7dWDNx6Q0yMTSEaM8E6sc0QFmeyP+EWh0hK9W9Q8EkLjVbMbLmRZWYw4IsDfPqLTFW4iv7jb7CUVcmU1WVbyWbUrSZLw769BbgVumqRdAsUgMK1Rvf7yCWYxJbH6jAHoG1llT0pjSzMZdOU/yeuS1acOl7lQp3aKuAi42ykeyywzrRPuDMznyvU1bRACCeLosF6/fvi9/JNbtT4ifU7RZyyFjkaPefAg4Ft3G/heBaaD2dxCZbX5UmSseDHW0HlAhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UHIk90k0NZLsfLS2kFuNikfaxGt5MDeIpfx45IdwXWk=;
+ b=aBcVrv3BH6dAFr1JAzETcDolhNy0KDldAhxs9zTGp8FjsM/LoKKbRrOfRDRSxLEqkkzIfGHTQCec267HCXqFHLj63ntTwqTCfOeWxmmB5nLEEljbSEnm4nQl2TkJw2lmjG/thRNB6jy2yh5WQ3sOTTtWb1pe4XGohcUrCOX9vnueBqhW2/NdWreqZGl3Jm3KviDe8rFpdHRQmTV5QjIQbRZlzXRiLJEZAtp9UIFynThddpYVBs9kEH/LmDI8zC0WhHLqcDZEbhhNj6zQJGB0I619Fo+hI8aqiUagYGmyvaekol2pIXD3E5Hf1Swyq0atVSBN0Ct9hUwKiCrTc7wI8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=gocontroll.com; dmarc=pass action=none
+ header.from=gocontroll.com; dkim=pass header.d=gocontroll.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1762768741; x=1763373541; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wKdtCn/XoTBMU0W91zbNyyVRdCbCwPGBIxEuE5k5q+8=;
-        b=CU4X2lutMaoMp7050vNzWAMZ+EMXpJt11Kci27RsnTIl2yDssByHkBj8jMTgXdJ7dc
-         Pi35qWLiOt36vrj4uZGBBRCDvasuLEpJqHQYRoGN+WkhCWagOO2/EvZc/TZy6zBEUOgU
-         dOseGOeC5P200rjflSAm7dyWMNiR3jRjYfiiWLOcLf+KqSiURh+hOB8DP587ztAzqgxp
-         WpJTeth0Ay0n7WnKSLb2/E9qPQYUEwlNgsGqcDlx4kfd5jfN7zcl212Is8Rz2OSvigRG
-         zcAZwSUMNe/W4U8Mj/XLqoLjmUpYRk9LIfSLo9jagpd8NsIexgbap3qnq30iXiB0tUdu
-         ZqIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762768741; x=1763373541;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wKdtCn/XoTBMU0W91zbNyyVRdCbCwPGBIxEuE5k5q+8=;
-        b=AkWjSAADPGPgpTX8UJKXMvAotsMb//VXKOb1Clu5uOQtqWNpuEMDurzuVg3vA/GlBu
-         /NLjtnqQfakwg0hJQcWRboh1GRtOHj15s+0L8OopRsscNOAgOanfT0ss7Mb2neEQCP+z
-         MsjG5rZiRTftBNGd3I3ts1v1XsKvA7xrNV0xdrqwzsE4DSxfxqt6sv1jC0w0brr3JMe5
-         JZLf5J6TyiSoX9QhcVeh7Mmj1quKgIq8O0DTOpnm3IcCJJJKuRlosIZ+M3HYSGFehqrR
-         j2gF4pqJEXBR/7fTAwYSCQSP/tkbiCAtgLOGi/A8WJpTLpqicaNEABMOsIbZyXrMZyw2
-         DHfA==
-X-Forwarded-Encrypted: i=1; AJvYcCUe0eKTUbTVgBsNsxJU2tHfdk1mu5w2UK/+Ku3l9SJDC4ojIGILqQeBoOzWq5BTQ1h96cUrJMZYeP9M@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDDLVZqGuYTO4JPbyiYsjfPYTv9V7EgRBYfgt1TOwiGM8pnYBP
-	qQcJKNKpZODwn7GbTb33LlbU30VwEmFvMI9TW0Y3et01p1kxSnAUcpqdpLN98JWOlHo=
-X-Gm-Gg: ASbGnctRBocHO5oSt0b9W3GZB9MHOrFSKy5yILXxy9swor1tit/H4UExdR4t+9MoiQ2
-	s7KdWoWkLvKJrrEVLaxrfjq2maTPHFEnJWltRgHO88SGOs4YwVfyb/9gOTdYFQ9+sOemnD9PzNq
-	fc/OMv1lUQZTynjoM3KjB7/a4sbJitfsqsfsueaquT9MFaHCzaGep2sKekt/sE7XStU3437MS5t
-	2rF/mwHXke2vFvZYehL31feWt4fV2XhIsF+xSVhp5zZo2Mhu21myIzppalzzA5eiUox7i3kfZJk
-	Ul0Jl9iMrIwRm5bg177Mey7d+18iBLB75+KlbjlX9F0qWKUrg6Yrqjt3FRS2JYsVT9Xs/8a3L5r
-	EqmXishxeVbPKMlJCS3D4yW80QAA8Kzg5Fd/ISMSN3iYkqLPwPb27NTS9Qh3eUTlXFKwT/rLR4L
-	EcfXlN4C0SEQZHCCC5dFw4Up0TZhsqw4BIiVSozJCV3uDIDxvTEIFOGOjXlTU=
-X-Google-Smtp-Source: AGHT+IESDCHlcbXRXRa2TG5aApGtSH2moJB6JVIAkSw02ybwWPI2qmXCnmEZcdOIcRiKJ320ee1qvg==
-X-Received: by 2002:a5d:5885:0:b0:429:d19f:d959 with SMTP id ffacd0b85a97d-42b2dc1ab24mr7071023f8f.15.1762768740534;
-        Mon, 10 Nov 2025 01:59:00 -0800 (PST)
-Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b32ecf522sm9799000f8f.45.2025.11.10.01.58.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 01:58:59 -0800 (PST)
-Date: Mon, 10 Nov 2025 10:01:11 +0000
-From: Daniel Thompson <daniel@riscstar.com>
-To: Maud Spierings <maudspierings@gocontroll.com>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+ d=gocontrollcom.onmicrosoft.com; s=selector1-gocontrollcom-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UHIk90k0NZLsfLS2kFuNikfaxGt5MDeIpfx45IdwXWk=;
+ b=5HLBTpOtFfbSVxYxn+r4TooKH7XR+z7Izf/PKsNTiLM9VbaItd04vmr5N+nZ9Cp2PvZuFcUOkw6kxb3fCkCoObgiDz8lg3CPPkVw5tb/429syz/NdpO1Vfn6w8nFIuSZVjRfslYwlytlEXXuGpnMEINTRIFwj0wykodm1usn36FhIcAjlExiODSvy3qk8p6byfPPX0L8ojULrH1hXAixifyldvDKYGUVjJstbUUIh9NDtiwA3KKS2bKWfp6ktGOFjAOzsPvcYzODYQ1svwl8URILg582IXiMlb1f1VqAAqFfv7LEAxyAnh+HAHpWjsmu8sKfFGV19EjwBHUnImkcrw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=gocontroll.com;
+Received: from AMBPR04MB11741.eurprd04.prod.outlook.com (2603:10a6:20b:6f3::7)
+ by VI0PR04MB10782.eurprd04.prod.outlook.com (2603:10a6:800:25d::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Mon, 10 Nov
+ 2025 10:03:29 +0000
+Received: from AMBPR04MB11741.eurprd04.prod.outlook.com
+ ([fe80::c39b:dab3:ae88:c5ba]) by AMBPR04MB11741.eurprd04.prod.outlook.com
+ ([fe80::c39b:dab3:ae88:c5ba%4]) with mapi id 15.20.9298.015; Mon, 10 Nov 2025
+ 10:03:29 +0000
+Message-ID: <59c36699-ee54-467f-9342-6756a0092a98@gocontroll.com>
+Date: Mon, 10 Nov 2025 11:03:27 +0100
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 2/4] backlight: add max25014atg backlight
-Message-ID: <aRG359gIeP48V2ZZ@aspen.lan>
+To: Daniel Thompson <daniel@riscstar.com>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 References: <20251107-max25014-v5-0-9a6aa57306bf@gocontroll.com>
  <20251107-max25014-v5-2-9a6aa57306bf@gocontroll.com>
  <aQ4a2SBDldYgQb56@aspen.lan>
  <f4e52cc1-9c5f-4069-9079-83be794ab2b3@gocontroll.com>
+ <aRG359gIeP48V2ZZ@aspen.lan>
+Content-Language: en-US
+From: Maud Spierings <maudspierings@gocontroll.com>
+In-Reply-To: <aRG359gIeP48V2ZZ@aspen.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS4P191CA0047.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:20b:657::22) To AMBPR04MB11741.eurprd04.prod.outlook.com
+ (2603:10a6:20b:6f3::7)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f4e52cc1-9c5f-4069-9079-83be794ab2b3@gocontroll.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMBPR04MB11741:EE_|VI0PR04MB10782:EE_
+X-MS-Office365-Filtering-Correlation-Id: 602c95a2-a31d-4baf-e0cc-08de20406605
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|10070799003|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?S2NLTmh2SEJFek50MHNOQytXVlNvRUs1d1JXZGNoM3hXOG5WR0I2NGgxSzFO?=
+ =?utf-8?B?RjVZYUpaUzlMZmdxRUZPL0phY0VtWGd3ZDc1RlgvKzFCK1NBc1Jnb2RmUk5z?=
+ =?utf-8?B?QnNkVnlDT0w4WHAxZlNDTEp3Q0k5YmYrTE9aSSsyZVQwZlk2K2E1alpUYVdB?=
+ =?utf-8?B?QVkySlo4Z1F0THFKSGtCOHdFbXlldjRlbGdJelE4RmM3U2Fyajh3cEc4TGtT?=
+ =?utf-8?B?VzFFY2FqTmFQS2F6NGpsS0tRUy9QV1R0Q1dMeDA1SlREMzYyTzIyRUwvY1Mr?=
+ =?utf-8?B?VFlqNjhuR0xXR3JoWUREVzRRSDFOVXdMT2hiUFJCS2xlR2dsWnpuU3pkYVgx?=
+ =?utf-8?B?TkFoYXdkNVBpd3ZHckpBM0RYWTJqaUt4YUxyNTVqV2lhS0xKcHJ6QlhqNDFv?=
+ =?utf-8?B?WEkvT2M3aTE4eTRXZUlVWlZueXNWTUo3UnhCU0ovaUE4RzV4ZTNXSlk2NC8x?=
+ =?utf-8?B?ei9iTy8zUXFoWG8rODZzZ3JSS3ZLTEh5NEtOWmVBbUM2eVBMTVZTMndOSlhJ?=
+ =?utf-8?B?dm9VK0JUa1ZhSkZPcHNUdkQ1dDk5bURYZmRSd2lidlpEQU9KRlBsdjUwLzdh?=
+ =?utf-8?B?aWVMbWpwWFpVQmNRdjlqYXlwUXVQQVoyOTJFQi9QNXlEYURnb0FLdURJU2d3?=
+ =?utf-8?B?dGpkcE8wZ2VkVzFFMDFGRDlXYzNjZzdoZGZocHVzNUcyL0MveWV1U3FOYnJp?=
+ =?utf-8?B?ZGV0SUViSXkvRTdNWm1aeHpPUHc2L0V2aWxwTkRwNmNNTW92c3VzWFpCYmVi?=
+ =?utf-8?B?ejdMbjA5YTgydXZOcGpVcmJuUzhWcmt5NFZ5K1E1a0gzd1h2R0ZaY2JKUWRW?=
+ =?utf-8?B?THNvZyttNEtnNDl0dlF1T0hEQVVaN041MWlzekxyeEt1TTEwTXdHeUZxRHZJ?=
+ =?utf-8?B?c283Vklsc3N5dzZReHZUSnV4NmdDSUhOY3hjb3JlS3RkZHYvZk1KczhTTkpN?=
+ =?utf-8?B?OHNoMGpOa2hWUEd1dVZHdUpnRFNPdlAxUUdrWDg2N1lZdnRaVjVLazhRdjFB?=
+ =?utf-8?B?VEx6TnQ0UWxDdEJocEJ4K3dZV2dRNC9OTEg4dkY1WDNDN2JOTjhMaFJMK3U5?=
+ =?utf-8?B?cWRvWmhEbkwzZTVlWTdyMGJOdk1OWCtXNDRFV0grRE9RRXNvUG1tNE5vU2Yr?=
+ =?utf-8?B?WlYxWHdkUjA1TWVEYStrc3NTRHkvOU1sWjVycG1pV21TNUpDaU51d0VGbFBR?=
+ =?utf-8?B?UjQ5ODZKOFVTLzhmWE95dlFQdnBEWXk5YVFld01DRDVOdHo5THFocktWdmxy?=
+ =?utf-8?B?NlByVjJJd2tUQk9NTkdWOWVFTlFXRUgxVE1KTXVHYlRHbHFSalVyN2xVWGZ3?=
+ =?utf-8?B?S05TcGxlaWtmM3B2TFV6Vk9qd2tpTW1MbUw0cDhzK0IvNS81WlViYVUxQVU5?=
+ =?utf-8?B?NFpQcjVjN3BUcmNVaEZ2NlRqZnU2RFBmN05nVG5lNzVmOGt6c05JNGpSbFZ1?=
+ =?utf-8?B?cExZK1BFckxmMDFETG9MSUJOZk4zaUVnUlZTdERLY0Nub242YW4wVUhVRklS?=
+ =?utf-8?B?S2xDNEQ0cUtrbjBMV0tTWEFpQmRwbjRsMFpVOUk5QVB4bjFHK05laG5vTXk1?=
+ =?utf-8?B?Tm5OaFNVWWZCTUZVZTRtNGpSTm9FQnlqTEpjTzRXRzJiMkFydVVTeFlBL1lk?=
+ =?utf-8?B?Vll0OE44R0pPb1BHL2NEQ2Q3SnNTc1ozUldIUElud1kzVDZyVDdsWFh4T2xR?=
+ =?utf-8?B?MDFUVm11U1Bya0d3QXlHR01jNXdZOVFIMlRNVCtDNk9ZV3FGMHh5a0Z1YWNB?=
+ =?utf-8?B?VURjTmdBT3QzaWZYUHhNZk1BVVp0SGxkL1VYbG84bk5ldUFTWFhrWHQ5akcy?=
+ =?utf-8?B?MGN4VVpndHV6KzZBemh6eGFaWERKek1JU1VnKzc4RGNQa0MweStUQmV6bDJN?=
+ =?utf-8?B?WXpPenpPay9LZFc2cmRtM2FpWllhZnkrcGw1L2hTSVEreUpNdW1PNjBYU0d6?=
+ =?utf-8?Q?8+6eVy94tzymNDc0NqQSHzJr/GXFKSTA?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AMBPR04MB11741.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(10070799003)(1800799024)(366016);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?eW5SNWd3SnpKQkxCNDNUZE56VXJxYTM0WEExeE1TODExc3ArYmtDNmU3aVRP?=
+ =?utf-8?B?dGEzU3htS0xuQlYrU3JNZnZ3ZmNmWnNvTjZlamMwcVI1TDR4ckc0dnk5bkJ6?=
+ =?utf-8?B?aXRxeDI5R0lvWm4vNzd2UTFTM3JwQjUzV3NVK3ZpTXhlU3ErZXVmVkhLMWZl?=
+ =?utf-8?B?S1RMTWROY2JYaXJKVWtpY1BvWVFCRkMxVTlCd2M3aS94NkZPdStkd2N5S2ow?=
+ =?utf-8?B?dnQ4ZXVTS3FLSnJheDMxK2hjNXdiQjZXRXNyb2VwQ0Mvc1poYVNzUzNaVWFN?=
+ =?utf-8?B?K1VkMGI0NDgvalI5eUE0MU5UVWh2cEhZN2NjQzh4Um9SNGovd0ZmRUVVeitR?=
+ =?utf-8?B?NHBWNzI2dks5UkFibmVQdEY3Q2plZlY5b1YwV01yc0gyOFlGZlo5K0dsWjhZ?=
+ =?utf-8?B?MUxIVThLWmhDeHhFcFU5V1hRL3lNTUlic1lRY1UwbGpIZ1lqTFliWUlnSnF3?=
+ =?utf-8?B?aEluSHJ2TG1NNEIrbUg1dDhrNGJEdS9pajhDUVBMdE15MnlOOGtDWDB5c1cr?=
+ =?utf-8?B?NEg5MkUyMm9NZW5UenhLdU1JaFJ6Y0ZOL0FRaFVodXpKL3ppSWhlc0JCcHhW?=
+ =?utf-8?B?UUJZYXpHeW8vL2E3UW5kT0tSb2ZFTDNJTmxpbXdDMStrdndMVUtFN2NjWDFL?=
+ =?utf-8?B?Q2psM05qc1ZRditlM3g2MlI3Nll3c2ZLUzQ2ck5VNlpEUGlObWV4RTd4bGtr?=
+ =?utf-8?B?Z2hVTXJha2tzOHFsNGZ5RjVlc25lWFIzVHNnSklIZlpKNUdhOWdQOCtaYnlp?=
+ =?utf-8?B?QlNJU3Rld2pBbjQzdHNsME9IbzRSMTVTWEs0QlpxNmF2WkhRV2Ntc3lGM3FT?=
+ =?utf-8?B?Wno2Q1U1dmdkT1plWU9XaFpoVUNoTENxWnEwY3FGdW9HSnhNckRmWlpmQlZQ?=
+ =?utf-8?B?V0hsU3Z5QnZwd3gxTldTZXpNRUZOME5ma0ZtVlJ6WDJDMzZ5RFVVOWY3dFRD?=
+ =?utf-8?B?RjJJK0xuTkVKMGxSTnZibmwvb2I3KzQwVDZ5bm5TbkpNZ1pnczNzVmZ3NGNt?=
+ =?utf-8?B?YTFpVnRFZEFPN3o4SGFjZmZvTUh6SitoVG0rcTdkVkZHTEpPN1lZdENZZVd6?=
+ =?utf-8?B?RFUyNVc2TTZpMjhvTHRTNk4xOWRZK2Y1cEZrL1poc1FycjJKN0JKTUtVQWxY?=
+ =?utf-8?B?TG41ZWtWV2h1UzNvZmtaTXpVNEFLdHcyV3ZnRjVPZWhsOHdUM1FMY29GeEJQ?=
+ =?utf-8?B?bnMvQ0F4dHNqcHBEUmFxMWtPdjh4Uy9xQnl2QmtYcnBqRmNBRUZNdFM0KytN?=
+ =?utf-8?B?Zi9vOVFSSmZsY3dBQmZ3dnI5Z1djRlROM2tPTzNicEtSQytWZ2lsaE1jVWR0?=
+ =?utf-8?B?ei9waGIvUzlJSkNDYWxoZlpjOXZBTkJ4dk90bEpiMG9rOXFQd2xFdzhlUGlh?=
+ =?utf-8?B?djByaXU1dElXK0RSdXh4b1dnNGV3dWxNYXZyRG1TNmg5amp5OEdGVUtGYjh3?=
+ =?utf-8?B?TUZqWHpIcTU0aHk4ZzRPd2diRXJtRkhCTHdNUU14QzZhVlNaSWNrTGVBcjFW?=
+ =?utf-8?B?L0laZFNrVjlCeEMvT1l3b2tEM21ISjlxdVBSY1dVVlRNOTgwU1VhVHhFWEFK?=
+ =?utf-8?B?SjJYOXVKSkYvSFc2cGVTVWdtNVdqbW8veGlUUTRsSU1KcitPd0hKcFFUMzk4?=
+ =?utf-8?B?RlNKUDY3ZzBxcEUxWVFNZmdWUEpBcjdzVmxiWTAvMXZSN0ZBNng3clRBdjZP?=
+ =?utf-8?B?UXZ1c1BHY1FxWSthWVlSaGNvZGhRbWxGcDdVakNLL2lMdVVzSkV0UlpxNDR2?=
+ =?utf-8?B?RndudVd3dVExYVJYcWFWd1Q0aDBQZ2dabHk4V2d1WlNSQTNERkk0dXZZR2x4?=
+ =?utf-8?B?QWF0UkR5R2k3dnJyc1RwOUtPRWI1UVVXcjFTV29qU2JvcFpmSkZlMUwrai92?=
+ =?utf-8?B?TnpkZ1A0azdvMlpOTVpaZ2N6T1l5U0RPbWJrQXVMcXBpQVRud3QzbnNNMW1R?=
+ =?utf-8?B?VnNhcDBWU1JoOUI3cmFvZDFMeSt6Zk14SHZ3RW1Uei83K29EQ0c4M1NzL1cz?=
+ =?utf-8?B?aXZWVGFIODRONmlDSXVwYkpzUUdSRm1KcnM4YW95ODI2WnZvUkJ0WlgyWFEw?=
+ =?utf-8?B?MTkrRFNKRzg2b1RhUHl0UXBhRDV0MkZWWnpEN1JkWStONGdkR3NvTi8vUjFT?=
+ =?utf-8?B?cExFQUNEVFJyc2t0Q2FpRXI3YUp3SHpMbUh2ekJ2TjFaSWljenBydVkwbEV4?=
+ =?utf-8?B?aSt0VmZ5OGpMUjNmMVFFZDRhQ2NiRzVPZmszQUJMK3ZVQ2srZUJMTWlieEhl?=
+ =?utf-8?B?WHlUbnlRZjFJV2F5dXp0OHlFbkl3PT0=?=
+X-OriginatorOrg: gocontroll.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 602c95a2-a31d-4baf-e0cc-08de20406605
+X-MS-Exchange-CrossTenant-AuthSource: AMBPR04MB11741.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2025 10:03:29.6099
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4c8512ff-bac0-4d26-919a-ee6a4cecfc9d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FYfSnpRhNaNVIsdF8ZZqrrrhDY83ZBIhpJXPNC9B8SF/FSd7m2rMMkEBz3Zeg7gIX9aUIylCnJkNQIShUCMxCx2pyPn8NB+7Ha4g9TOzAGg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10782
 
-On Mon, Nov 10, 2025 at 09:40:07AM +0100, Maud Spierings wrote:
-> On 11/7/25 17:14, Daniel Thompson wrote:
-> > On Fri, Nov 07, 2025 at 01:49:59PM +0100, Maud Spierings via B4 Relay wrote:
-> > > +/**
-> > > + * @brief control the brightness with i2c registers
-> > > + *
-> > > + * @param regmap trivial
-> > > + * @param brt brightness
-> > > + * @return int
-> > > + */
-> > > +static int max25014_register_control(struct regmap *regmap, uint32_t brt)
-> >
-> > This isn't a good name for a function. It doesn't really say what it
-> > does. Please find a more descriptive name.
->
-> Having a lot of difficulties find a succinct name that fits better,
-> max25014_register_brightness_control()?
-> max25014_i2c_brightness_control()?
+On 11/10/25 11:01, Daniel Thompson wrote:
+> On Mon, Nov 10, 2025 at 09:40:07AM +0100, Maud Spierings wrote:
+>> On 11/7/25 17:14, Daniel Thompson wrote:
+>>> On Fri, Nov 07, 2025 at 01:49:59PM +0100, Maud Spierings via B4 Relay wrote:
+>>>> +/**
+>>>> + * @brief control the brightness with i2c registers
+>>>> + *
+>>>> + * @param regmap trivial
+>>>> + * @param brt brightness
+>>>> + * @return int
+>>>> + */
+>>>> +static int max25014_register_control(struct regmap *regmap, uint32_t brt)
+>>>
+>>> This isn't a good name for a function. It doesn't really say what it
+>>> does. Please find a more descriptive name.
+>>
+>> Having a lot of difficulties find a succinct name that fits better,
+>> max25014_register_brightness_control()?
+>> max25014_i2c_brightness_control()?
+> 
+> I'd focus on what it does rather than how it does it meaning something
+> like max25014_update_brightness() would work.
+> 
+> However, at present, this code is only called from
+> max25014_update_status() so the simplest thing to do is to move the
+> code into max25014_update_status() and remove this function entirely
+> (then it doesn't matter what it is called ;-) ).
+> 
 
-I'd focus on what it does rather than how it does it meaning something
-like max25014_update_brightness() would work.
+Perhaps this could be seperated out if/when pwm functionality is 
+implemented. I believe the brightness may also be controlled that way in 
+hybrid mode, but I am not entirely sure.
 
-However, at present, this code is only called from
-max25014_update_status() so the simplest thing to do is to move the
-code into max25014_update_status() and remove this function entirely
-(then it doesn't matter what it is called ;-) ).
+> 
+>>>> +/*
+>>>> + * 1. disable unused strings
+>>>> + * 2. set dim mode
+>>>> + * 3. set initial brightness
+>>>
+>>> How does this code set the initial brightness? It doens't set the
+>>> MAX25014_TON* registers.
+>>
+>> Yep forgot to remove that, I discovered the backlight core takes care of the
+>> default brightness, so I removed it from here.
+> 
+> What do you mean by this? Are you sure you aren't relying on another
+> driver to enable the backlight rather than the backlight core?
 
+Not that I know of, there is the systemd backlight service, but I am 
+pretty sure I can see it first turn on, then get switched to the old 
+value by the systemd service. Unless the simple-panel driver controls 
+it? The backlight is linked to that.
 
-> > > +/*
-> > > + * 1. disable unused strings
-> > > + * 2. set dim mode
-> > > + * 3. set initial brightness
-> >
-> > How does this code set the initial brightness? It doens't set the
-> > MAX25014_TON* registers.
->
-> Yep forgot to remove that, I discovered the backlight core takes care of the
-> default brightness, so I removed it from here.
+>>>> + * 4. set setting register
+>>>> + * 5. enable the backlight
+>>>> + */
+>>>> +static int max25014_configure(struct max25014 *maxim)
+> 
+> 
+>>>> +static int max25014_probe(struct i2c_client *cl)
+>>>> <snip>
+>>>> +
+>>>> +	/* Enable can be tied to vin rail wait if either is available */
+>>>> +	if (maxim->enable || maxim->vin) {
+>>>> +		/* Datasheet Electrical Characteristics tSTARTUP 2ms */
+>>>> +		usleep_range(2000, 2500);
+>>>> +	}
+>>>
+>>> If you really want to keep the devm_regulator_get_optional() I guess
+>>> maybe you could persuade me it's need to avoid this sleep... although
+>>> I'd be fairly happy to remove the NULL checks here too!
+>>
+>> Just wait unconditionally?
+> 
+> If you think it will be unusual for the driver to be used without enable
+> or regulator then it's ok to wait unconditionally (all examples you
+> have added so far have an enable pin).
 
-What do you mean by this? Are you sure you aren't relying on another
-driver to enable the backlight rather than the backlight core?
+I think it may actually be a very common implementation to have the 
+enable pin attached to Vin, we don't have it set up that way. But it is 
+displayed that way in an example schematic in the datasheet.
 
-> > > + * 4. set setting register
-> > > + * 5. enable the backlight
-> > > + */
-> > > +static int max25014_configure(struct max25014 *maxim)
+Kind regards,
+Maud
 
-
-> > > +static int max25014_probe(struct i2c_client *cl)
-> > > <snip>
-> > > +
-> > > +	/* Enable can be tied to vin rail wait if either is available */
-> > > +	if (maxim->enable || maxim->vin) {
-> > > +		/* Datasheet Electrical Characteristics tSTARTUP 2ms */
-> > > +		usleep_range(2000, 2500);
-> > > +	}
-> >
-> > If you really want to keep the devm_regulator_get_optional() I guess
-> > maybe you could persuade me it's need to avoid this sleep... although
-> > I'd be fairly happy to remove the NULL checks here too!
->
-> Just wait unconditionally?
-
-If you think it will be unusual for the driver to be used without enable
-or regulator then it's ok to wait unconditionally (all examples you
-have added so far have an enable pin).
-
-
-Daniel.
 
