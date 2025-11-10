@@ -1,66 +1,66 @@
-Return-Path: <linux-leds+bounces-6056-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6057-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87177C45492
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Nov 2025 09:00:23 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2DCC455E9
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Nov 2025 09:26:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id ACFE64E8E58
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Nov 2025 08:00:14 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1D6824E394D
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Nov 2025 08:26:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 911062F5321;
-	Mon, 10 Nov 2025 07:59:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B76F2F83C5;
+	Mon, 10 Nov 2025 08:26:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b="RxnV9ire"
+	dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b="pv8d9WDm"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11023140.outbound.protection.outlook.com [40.107.162.140])
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11021106.outbound.protection.outlook.com [40.107.130.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EFDF2F49ED;
-	Mon, 10 Nov 2025 07:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E782F49E0;
+	Mon, 10 Nov 2025 08:26:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.106
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762761596; cv=fail; b=lf8F7xSHVVwfDkKxScLzQAVPKacRE8ORySFASSws8v2Rzb7hmCE3AakEWQ2FU6CN4nr2f3iPK1etVryvkuw8j2/4HpOL1GTu60k4/HK6kVq5lsoHNlMvnlG8X9Er9sGED8U+XLvlxGineM+90aJRz/QxSUv65UnKmXjqCihpAic=
+	t=1762763188; cv=fail; b=Tx6yP5bzHUQtl/uThnEMhrvqb1ORsaYguKzpHif4zcz0sZYk50WoZX/cWgh69H1r2U7mCxJJZFDvGxZmH/DE+bOMqbrwk7m3KonkDm/rCuhU0/cpTk2cOkPbs2NnKvkno8iLs1r4uptuGFgRuMMPRkFmyb7syrDHNOpgfOnqPg8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762761596; c=relaxed/simple;
-	bh=VdtLS7hGxLhVgBH+ds2Q0NxFBFYKrLn5yfqArtUY6lg=;
+	s=arc-20240116; t=1762763188; c=relaxed/simple;
+	bh=REdZ+D47O/8RUmIE9npXTc+Wam3xMd7xVxQDMxhisSk=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=CE/Vfnlp67O8JeGO8vbJugzhEpDPxbVOyJs3Ul+CQCWZlM7oVFQaAYAVMUo3ys8fW/ecLk+/g+XRpHDurCC03gW7UvQJdiFM1WONbxJ6YXIxfzhOoTjHrdTOioaEUILNZa3ttgXANuEFZVCUg8mZGM0KgrksQ9fTsaJ4a4NrzPk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com; spf=pass smtp.mailfrom=gocontroll.com; dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b=RxnV9ire; arc=fail smtp.client-ip=40.107.162.140
+	 Content-Type:MIME-Version; b=r59hEx9Ci+tis0osx1xbmsqugnZS6s4WxgTvORidO5BycJYUmtN3Y/4WPvwqIeV0tmjJxBsgHaJhR0wjFz+Zr8ip9E+oYaCU4T+MiUGyZNFod3Hx0Cm/6e41EjFjrUCbzh568lxEcIy1645wmWdHeO0O2rvT2oseOGyKzjGoRP0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com; spf=pass smtp.mailfrom=gocontroll.com; dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b=pv8d9WDm; arc=fail smtp.client-ip=40.107.130.106
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gocontroll.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WwtW3pJ0y1NlLWuPfk5HdIfT2g9yGugScIOlxrLMTLf3X+fVY8xK5RzLiADvN2stH8vzQ4FPKiBZee+4vwpcJltAlLGZuEqpoI6qcc9gf/dX3in2ZjRJ/4gErX3aoiyu7uJn7nEcZIUJHr3mE2LBouvzlJxFC0gNgAmtLsijd0RQME7l9v7SQR9ftGzpiwyvCU9EXw5P91XorTszmQP0878iRJyu7peA15+r2NbvUVVj86S2bHK3Az8t+0mrzesBGhUm6Ryjx5Ne+BxU/6TyE3RnNEBM9M9WGgIxZYL4LRrW/hNIU+XPuxJzjJAeD3P0P7B1tFTlmlCPCrk+5qJ0Xg==
+ b=rRDCUr7w1iPjQJWJN2FML4MUm632NKQQ+pz3c411rYHeXqscBTwcwZ8DCT+4IAY7ikOn8u6MRSUUL4f9+/ZWwzieNeo3I5AMPe6zaY8dL1XqUX3qcIRmgrssHniTEg4SwQnosFcR0yQcX9D/E8GH79u6FzlD48uC3bPLOVdxmlHzhjXQ02SY56lajpRjz24YrsjvuJjhFhK0u5os3s1xIgo51KG5LC0RjlTC/axcPEioldwhh6AZOlf1isuB1bM5qJ7n3XUt74/nJkNp1WLPQHcmM9HsKut0FLxwOmOMqMtuDiKojfp6vWZM7jZgqA5n80z/0suIJw10qPyxRKZEZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S3A96plC3jpqKDZ3J5oQI0P3rWZ+1DwIzjkEvrmzFrE=;
- b=eOMxMLhec78ZADQswMU0PTYLimikD3JWBsjpHIeTCmC1XPEaUFiYl09C7Cg90GwX5fSIhKoiZCl1vD97VwUwd28ZQZXHLbc1SVqqxkFVS7HKBQ7tMs0JB2sN5KecjCrnFd0mSBE8Owk/Nse6GZzYa4OEyGWpr8OZc7UIi7ulDCbB7G/uFqVQ9ybcAnggcCiz1y69g9Dh24IBUi/61sq0T14AUvLfbfvGvjovKtLqf5IXlydMxWtebPbwQh0PtzDppwvoJoVcIqUWT5fEClaHJLCWGYzSY5C4mjrov+dDsCmvPDUtm/6pM2ooc6J+fdQNpmFRipnTp4MTMtncy69OmA==
+ bh=vgdjsAetF3A2UDbpwu2v5u8h2cmeGWymq/nnEdV0T6k=;
+ b=vhnyw7pZ8DCUlImkoev7E7o/uMrmQv7lJq/MEjHMTmKVs6XdHZSEPefq7vEt9lo9/gj2SVgA952qSYsglwghVS194otMj8iE+Fgiit/ZqfSLlzmJizQJSTKKg5Q/Vnf6Iw4i/yWb+R+DOJvkOom7pZc/r1NDMvKmtIAL2YZUTF1FE+GZlSBnOn0WgQtB611pclaPg4fedmvCA4Nlh/0/gNvtso3W+lQi4pE8Pi24ZWsAZ/0AucyY3eMsfK9kLwebY8xvH2SGRJ0zByDAJ/AJj14VFkpkUT3QiI4tAyLZLsOGnlcZ/RahBKHofIDQ67q6YDALexelLg3t1wyyfyQowQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=gocontroll.com; dmarc=pass action=none
  header.from=gocontroll.com; dkim=pass header.d=gocontroll.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gocontrollcom.onmicrosoft.com; s=selector1-gocontrollcom-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S3A96plC3jpqKDZ3J5oQI0P3rWZ+1DwIzjkEvrmzFrE=;
- b=RxnV9ireiSZd2EgCf+oMzSjCJTfxzGJ4Cu1yvw6pP0y5mj+xrPurcGqHhKXhGKy38vfy2pRqDY40TQqTW/SHO1iUbox0gK8Qu6yFm5eZZGnTI7SoUoI44/4404L+9sUy7EGtYAMoMyXKCjaqXKQbe237Th6oc/B+9OCkL45Sa5g1+Bus5C6sa6fW5mUl0/ONGGjuXLR+X1aOOGrIB3wynXkRVJUZXHbMT4vkxw1Kh+cVpx+P229cNymvVmYW/pzvagU+l5VgK7a2rgwnxvuEZUmLQNLtjCwgSqgrGm9OnaOZM53UeX5JLd7H2dXRF0bXLl2rGvvsMDKRjEm7Uo2ikA==
+ bh=vgdjsAetF3A2UDbpwu2v5u8h2cmeGWymq/nnEdV0T6k=;
+ b=pv8d9WDmRGDIDQfOlTQTBx1GpEyRwHWKog1Uod6JBwufqWye/FzsE7PpyBJzOqAYsJONrE9Emp26C+6cHT0bZCiB8cfhR6shElkqxFkifB59Ifi30eYttOnbGEPNiYeLfrOY3lJa+0MT48BxATvIcQVx1m7Bo6eJkx1LlHSM14AVIj+X3ZIpT0PUG8q2mqPtn/Bnf/9oV6p9ABlCjKOtfOxd1umojZZw9Lh1DjkRMizi9pPZ5U5ePRBxzH18Red7R2tpa+TtuA4ZHC2sKWVc2DItOutDwgSxU5yDoLDWFIHnIpPAF+Pv8pHHaeIWzTdrsPffzKi83FMQ1ogpI2aW5w==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=gocontroll.com;
 Received: from AMBPR04MB11741.eurprd04.prod.outlook.com (2603:10a6:20b:6f3::7)
- by AM9PR04MB8400.eurprd04.prod.outlook.com (2603:10a6:20b:3e9::14) with
+ by AS1PR04MB9630.eurprd04.prod.outlook.com (2603:10a6:20b:475::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Mon, 10 Nov
- 2025 07:59:50 +0000
+ 2025 08:26:20 +0000
 Received: from AMBPR04MB11741.eurprd04.prod.outlook.com
  ([fe80::c39b:dab3:ae88:c5ba]) by AMBPR04MB11741.eurprd04.prod.outlook.com
  ([fe80::c39b:dab3:ae88:c5ba%4]) with mapi id 15.20.9298.015; Mon, 10 Nov 2025
- 07:59:50 +0000
-Message-ID: <b4e76c88-0981-4b71-bcbc-25332c6e3bf3@gocontroll.com>
-Date: Mon, 10 Nov 2025 08:59:10 +0100
+ 08:26:20 +0000
+Message-ID: <5bb6c1aa-4462-4459-9198-5a85a7b439b0@gocontroll.com>
+Date: Mon, 10 Nov 2025 09:25:57 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/4] dt-bindings: backlight: Add max25014 supporty
+Subject: Re: [PATCH v5 2/4] backlight: add max25014atg backlighty
 To: Frank Li <Frank.li@nxp.com>
 Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
  Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
@@ -74,15 +74,15 @@ Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
  linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 References: <20251107-max25014-v5-0-9a6aa57306bf@gocontroll.com>
- <20251107-max25014-v5-1-9a6aa57306bf@gocontroll.com>
- <aQ4RqNiGsngOWrV5@lizhi-Precision-Tower-5810>
+ <20251107-max25014-v5-2-9a6aa57306bf@gocontroll.com>
+ <aQ4Vb4eUmSX0Nj6+@lizhi-Precision-Tower-5810>
 Content-Language: en-US
 From: Maud Spierings <maudspierings@gocontroll.com>
-In-Reply-To: <aQ4RqNiGsngOWrV5@lizhi-Precision-Tower-5810>
+In-Reply-To: <aQ4Vb4eUmSX0Nj6+@lizhi-Precision-Tower-5810>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM9P250CA0016.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:20b:21c::21) To AMBPR04MB11741.eurprd04.prod.outlook.com
+X-ClientProxiedBy: AS4P195CA0047.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:20b:65a::24) To AMBPR04MB11741.eurprd04.prod.outlook.com
  (2603:10a6:20b:6f3::7)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
@@ -91,263 +91,516 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMBPR04MB11741:EE_|AM9PR04MB8400:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7106a08a-59bc-48df-f51e-08de202f1ff6
+X-MS-TrafficTypeDiagnostic: AMBPR04MB11741:EE_|AS1PR04MB9630:EE_
+X-MS-Office365-Filtering-Correlation-Id: 24a41aaf-daaa-428a-c9a0-08de2032d33a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|10070799003|1800799024;
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|10070799003;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MExDcW85dVo3NkVhR3FLTUVXMHIzS3dwU1BaTWtzSnhNb25EU0ZRMlA4U242?=
- =?utf-8?B?STlPVy9qUGlsVysxM1NseWd5MXFVKzBFSHVRUzk0Vk9qY21zcGQzcXFZR05p?=
- =?utf-8?B?dUptd3FkNkd4NHVGeE5jbXZKQTlDMmtFTWRHdzl6dXJGeEhWSDZRSkQ4dzR3?=
- =?utf-8?B?dmE0U3J3bnRpRDFrbVY2WVNWNGdhaW1EdXhlTjVSM0RPMHl4VkZTVmxCS1A5?=
- =?utf-8?B?cWFPUEJUenkxT215OFhxRHFiRytjWllVcjgxamV5cklrNHp5N1NHK0RWSUc2?=
- =?utf-8?B?eWNhZWtLRFhRbzArbS9DbHYrRUd2VUZwcCsrUUFya2lVdWtQWEpVelk0KzFE?=
- =?utf-8?B?a21pZitMK2hmSXJ3Umc4LzJyb0x1S3FUbUZ4SURBK1Z5ZG5VQmRRZEhraDVR?=
- =?utf-8?B?VHdjZ3lENERQbmJ2NVE2a3pmTUY4cE5GWXhnTEM3d0xGdFN1NTZUU1Z3eVdE?=
- =?utf-8?B?aXYyYlV6Q0U1ZVZSbnJXVElmdWtFN3JJTDExNDUzZ2NMSDFIYnF5TkZaUisr?=
- =?utf-8?B?bnZkcnpHcEVLM0t0aXJIaFdxeGZlNG1udWc5UVpRZkVudFBUcW4vT09Ocndk?=
- =?utf-8?B?QTN6MUNqeGtVYkhuTStVbjh6alZUTnJLQTZNZmI4M24xTjBWSi83aldjc2NN?=
- =?utf-8?B?TG9hcjVIVldhdFNEak0zNTlQT1VZWFVDSG1MdUVPM0RKNERnM1pFZTNOWkxo?=
- =?utf-8?B?dlhXK0NCNWJ1VDVNWCtCM0VBNGJpMmVWMGo0SytzQkxqcXZFNnJBblRodm4v?=
- =?utf-8?B?SEdSVk5ZREkraDJsbjhIU3ZCS1lGazNrNUxNdEIrcHlab1hpYzF0aW9uU085?=
- =?utf-8?B?SEwrVkZqMUVVSmpjREo3aXlDRC9HdzJ1c1gxQ2FuWHRCdkVxYmQ5U0k1MVBX?=
- =?utf-8?B?TFRvRTBMQkQwZzNneWNZdWJEdkJKNnRkd1pDS2VOQndCazN3cVRZVkN4UmFi?=
- =?utf-8?B?Tm5HSXRKRXZxTU5PN3d6dElqMHE5Z0R1VHE1cUlkU1JXd3l5b2pxbzJ4UWcv?=
- =?utf-8?B?OWFWYTBSWVNNUWlvalNMLysvUVEvUVRldVgyNlFTSTU2ZXFXQ0lOVG40b2RJ?=
- =?utf-8?B?V0MzcCs2aFZMK2pOTXhXZys0WjJVam9PcmFxekhjcUNrRjEvSzk4Tk9Tb0pT?=
- =?utf-8?B?cUJDVWc4NFY2UEVlVE05U29kTGQzTEpFWmYrdlJMSTNpU3JyRGVPTnkwZHBY?=
- =?utf-8?B?ajAvcStkVDVOR2lpRkkya2pxY0RvMXVBV29tbFVQOG5VUzR3bjgwY1dJaUxP?=
- =?utf-8?B?ZmJWWjk5RkhPaEFJNVVXK0hJaXNnRnp3azl1VWQ1TXZkVmJrWDJPbXRvbldM?=
- =?utf-8?B?OWgxYklGNVk2WHdjT25ieEpYa1lCZ2NUNjdUenRrcHZBUk16UlBNTldLem03?=
- =?utf-8?B?d2NoYy9mblk5aCtCWDhKMEVxNjhXNk44dCtNenN1eFZVeFVxOUtUV1N2V0I0?=
- =?utf-8?B?bEpFb1Q2M0xZYjh4TUxBY3IzNWZtSVQwUC9INVdWcUdoMEtLMXMyZzg4bHJC?=
- =?utf-8?B?WC95OTJWMXd1dGJDTkZ4NVQvcDZTVnpnRk4wbUd3bHFwY3RJZzFCMnJxSmNR?=
- =?utf-8?B?aisva1VjYk1GaVNScFBTOFdGY0lldVZVZmNBVzN2TjMvajJWRXNBN0ZIZTBO?=
- =?utf-8?B?b3UybHpzRlpId3ZYSVBhOUpwSEJCcFVoR1FCZXVOalZySWx6VTRhREpxc3pI?=
- =?utf-8?B?aGtIZk05RnlLeG1LUjR5bzFrOEI0N1NqTENQVjYvNm1Dekl4VmVMVXhjZ1lE?=
- =?utf-8?B?a3JNZ2hmY2Vjb2FkZnYrdFZwUzlXa1RyNGxUcXI4QXYrSzFvelR3L2JlZjNB?=
- =?utf-8?B?eWR4bmNwZ1BOREVPcXpNNjVnbWtKV3JRMjhCVTNQdzBhNkVsRk5JamgvNFc5?=
- =?utf-8?B?Z0Q4TjdQR0xaV3lxN1Z6Mmp5QS9Rb3IzTWRHanJaR014SEE9PQ==?=
+	=?utf-8?B?WTdsRWRLaFNveUdvQmd4NmFqVXEzTlBJQ2NKdnJEQUh6MU1BT0lYYzdHaUpy?=
+ =?utf-8?B?bTQ1bkVpSUZRYjVEMVlYSEpIUCtDT1pFRktXTVpKU3lJd2QrM0EvYXVQWUlw?=
+ =?utf-8?B?eUtERlBlZCt1R3NOcFRSTytxcWYyOC84YzBQRnB6ZmJVWFkxbmwxWmtGcCsr?=
+ =?utf-8?B?SXU2KzEwMGdCcDA2ZFNhVkI4bUgzU0prUnJuelN1Y09SRUpIVXdLR3NaYVFH?=
+ =?utf-8?B?SHVtUE9namdBWEdZb01nZEdIQlZ2UGJEWjc1Sm9kb0RLb2pZN3lTZGpFZjh5?=
+ =?utf-8?B?cG5xS2c4Tk5jbzF0N0JxWGdPdnBlcDJDYjNyczNQMUtBV0tOTnZyZjJkR25k?=
+ =?utf-8?B?SElWOGhtanF3SnpqeXY4L2JKZnZ1MGE5MkFHRjZncnpKQWNiQVJUeHI4b1lw?=
+ =?utf-8?B?OUNWVGpsaGVlblZka0lsV2FSck5hemN1ZUVzWGp3akM4c002WG1rbWtHck9H?=
+ =?utf-8?B?NGxDYTRDV0FQYVIxUENzNFhvaXRhZUFaNGhrbFIxUDdyS295MzNKRnl2cFo3?=
+ =?utf-8?B?NmNBeklnQlF3RE51YnE0T0lFYjlRUGQraEhCR3hCWGpxMDYrbkZjZGcxVUV6?=
+ =?utf-8?B?QzI3bktVandZTE8rWllQejVkbTBUVWJQWFNLQmdMTmd1MDJSVDNja045Ym0w?=
+ =?utf-8?B?bFB5Mk1KVDNjUmRqQ2NpUXRuaHBqODF1UXR2aDY5TDZIZEw4NEZCMEtuTWNV?=
+ =?utf-8?B?WEgrWUtaUzNqdzR2bXptZW1OVkl1VkQzM25ZN0o3b2Y1aTgvenl5UVdZdG0x?=
+ =?utf-8?B?YktaSUhkazJUYURoMEhVc05QRU1CeUtZMzgrTHBSNjgrR0hWVG5VdU5ia2Yr?=
+ =?utf-8?B?ZldQc1lpSFAwaFNZNWJqSXhkNVFWaDE5V3h0ckVFQU1KWVd1NlJUZjBiTVFS?=
+ =?utf-8?B?TS8xdlRIaThiakkyaXh4dkwxT2hCQU1XUG1PTEs4S3NsTHB4YUtjVmVEakdQ?=
+ =?utf-8?B?dENjK3diTUgrTGl1dGFMcVR4Zm5IaTluWTVVZGpFaDk4Y1RocnB1L2xzeC9j?=
+ =?utf-8?B?UGRiZEV6RkhYd3NMRzkza0lKMTRhUVRVNTdQUUlsUFhWb25nSm8wRnZPZldw?=
+ =?utf-8?B?ak1kS1dQWk5xOUtOdmFXWlRBQ0dYanFZaUtodjdLTjIyZmc3SWw2cFFPSXdR?=
+ =?utf-8?B?WU1qZVEzUXhVVEUvWUZadDZOcjJFNm41WGJuL2VZSUgwSFhqbTNGRHp4OXp0?=
+ =?utf-8?B?dXRNeERicm00VTMwRHYwYlJVMzhKdERXcHlUekUyWlFpcFN3NkhPNFgvTXB1?=
+ =?utf-8?B?ZUNqcGdzQWM5U1pDMlFMNFl4SVBzcmNPWEozaHRhSjA5Z0VhaUNRNVdBZy9D?=
+ =?utf-8?B?WUNIY0ZtbC9RK2NKU0pnM29mYnZFdlJmUFJNWkZ1dzY5eFJuV3JiQjF4ek0z?=
+ =?utf-8?B?eU5iVDdQQ2ZDa1A1bUlkU3pFeUhKRy9qR0s4ZUxIYXRMNTJ6TDA3OXZMWjRO?=
+ =?utf-8?B?RnhKdG5NSXRWN0h6U0xEbmlZSjVlelhDU2UvUjNEdWgwUUJEQnpsK3JKb2RQ?=
+ =?utf-8?B?VXZNb3JidWlDWTRGekFnN3REWnYza0ltQTJscERvbzNtUUFKb0MvYjNkZjE0?=
+ =?utf-8?B?SzdsbThaN2twaXc5cFF6SmRTYzREUFFIV09KOGVFM3NwUGtiek9xakVISFhE?=
+ =?utf-8?B?Zm5rQmJjb2JMaDBGbTVMOUNZc3lIZ0hYZC9na2ROTVhKbXh4YjVTYktHN0Zx?=
+ =?utf-8?B?ZmNoTTJISmhXWjBCbnlwN2Q1eWQrQWowNW1LRUFvSnE5RlEwVFk1Z3YxUFNw?=
+ =?utf-8?B?WFRvM29nVkh2bFBhdnVHdjRGSDkwWHY0V3dqR29NSElkMmZmenViVGtla1ZF?=
+ =?utf-8?B?SWJJcC9EKzc1bEcwTWMxQ0YvTE1PN0F5aUQxUmdVenJEekJDcGxZa29QRnJ2?=
+ =?utf-8?B?N1hTSFI2T2UwcWJHOWJzeG1kdVJpdjZQdnFINVU4U2tIcmNmOUd6MGUrVGZE?=
+ =?utf-8?Q?MWDaT50PQ7l98C7ULNhmTcficdLgEMcA?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AMBPR04MB11741.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(10070799003)(1800799024);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AMBPR04MB11741.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(10070799003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?N1FVUnlkTVd1UHF5RnZ4SEVmU3Y1UWRoZVpndERRTDIvTmRLTFZWdG5KWVdv?=
- =?utf-8?B?dkc3RG9sVlB3SnA2L3Z1NlZBZHJRSExVaUdNSWl1dmU4RkVZdGJRZzFzNkJl?=
- =?utf-8?B?R2tZZURBKzc0dHFrcm0xaHdJMU9qRWFsLzJ4YVpBT3Q5YW9kVXh0akJ3R3Bn?=
- =?utf-8?B?Q2hGcHdZekwwL2lZOEtQTktGb056NlQ2Q2hsV0U5VHJYZEw5UWJrZUtjSXZz?=
- =?utf-8?B?VjZhREJRRThNalBkakV1RjZCTGtPS0NJVWFiZFJWQmU4QTJVTElvOTE1eVgy?=
- =?utf-8?B?S2VYUWZNdHhMVk9ZR1hKbWdZU3J0b3hFVHlTSFlHTkZlTlZ5aklSVmdvTnBK?=
- =?utf-8?B?dmM2RjJyQjlSU3I2ZThEVDQ4UjM1OXIxeGxSMkdrMDFtQ3c0cWFTcGZKejJZ?=
- =?utf-8?B?UFdvZEZ6MkhPbTlmWmprQWdGSDlNY092R0NxZVpxWUlhOGVQL0x6SE5vQlM0?=
- =?utf-8?B?eHUzdjBHSFhob3F6ZDlqQkRpbWpOazVTbDlHMWRlQ1VzNEhvYlQvTkRyM0s2?=
- =?utf-8?B?cGdBclM2V3dsaUZCdldpMWVqMGhpbGFWTXg4V09tbWNDR2dTNUtaNjNjc3lq?=
- =?utf-8?B?VHJZZWo0UmdEZHNXR3NWMFlVMmV1WUQzZThhK3hzVUdiZmU4YldLZjVaZ0Fu?=
- =?utf-8?B?TVJwV2JDb1d3a0Y1M1FFYS9XU1p2T3NCbHE1UTdXY2Njbkx3cnBsd0JaK0Rq?=
- =?utf-8?B?Y2w5UmIwSWFsL3d2cytFc0tJUVZjMm1QK3lUY0kyUm9MZGhNcnYyeTZFNkk4?=
- =?utf-8?B?SkNYNThHT3oyTyt3Y0NHVEFqdXhXVjUrWWkza0R4SWhWdG85K1ZYeXd1cU9u?=
- =?utf-8?B?TkJaa1pRbEtKU0pzVUVzZlJPZ1ovampsNWxrVmFvUDloWXZuZHRnbTd4ZDFI?=
- =?utf-8?B?UmF3MXl3bEZYc0J2cjA4NHN0S2JjR0pqeUp6cXRXR0tiWUNZczZZWnZrV09B?=
- =?utf-8?B?M290YzRSZzVtdXZPYUdtRE0vdnZLNGVjQnFrM3NxS1I5STBjYnlxQUJWSXdN?=
- =?utf-8?B?NENyRS9nNzRTUExvRWNEcEorbllqY09BQUhFSkE2M1ZVcytFRG9JUWlkOC9L?=
- =?utf-8?B?ZjZQS1VNNXJsZnhHYmZYdXdKNUtIb0xvVHpaSnQzd3hydGl3VzdvakVqMUtF?=
- =?utf-8?B?QUxNZGxwWTNRdTdjMDZpTmExSzdtOEZHc0NqYm1iVUlVa0hWNGV2emZta2tN?=
- =?utf-8?B?Uzc4bzhMNjFya2ZuNmdtaHZoMkhoa21ycVdXWXJZYnFoMVVCOUVDd3BBNncv?=
- =?utf-8?B?dHRscThYYjFaUWpDMDdBckFJUnBTSkU5RVU0L1g4Y04rR214TkM5SDdKZFVo?=
- =?utf-8?B?Y0xuZUlCNGRaaWsyNGhNczd4Ni91Mi90aGhqT1diYmc2NDlDUlBrN0k5Rll4?=
- =?utf-8?B?NW5DSDYxbFJNdWlEa2s1cjZnMC9Lc1BjQ0lPdWhxNXFzRkZxNm5UcUtXM2NM?=
- =?utf-8?B?aEVUQ241Y0ZqWVJQUGN1TG41TkxWNHNYTHpRaWxxcVNpblVtQTNlMlA4THVY?=
- =?utf-8?B?VWdyempKWkZsTEtPMHFST1lmL0xKNjI5Ty9XemhWYk5DRVVaSVhTSVJMZ21t?=
- =?utf-8?B?NDhIRUJRbWgzWHhEUFIvTWVnS1UvMHozTXQ2S0J3aEtOKy9qSUxwMngvRTEw?=
- =?utf-8?B?K0dMVUhKZTBoV0FOaXVLY1ZTamZOMGNxcGQ5VktwNFJDQjBiN05SSTBYdnRP?=
- =?utf-8?B?VDZNOW5IVmtIeFFkQi9pbDZkKzdlbkJtb0htWGU5ZjBRR2UxUUlsOExEUUs0?=
- =?utf-8?B?REtpWHNvWU1EVmZhN29DdjJQTm1hUXVMZmdhRDZ3TktuUW9uT1R1d2k0a0JV?=
- =?utf-8?B?aWtnY25rRXdiRytMelNKZE5pODVjc1NNeGVLaGtocE1PV0FYZE5JdkljUzNU?=
- =?utf-8?B?bjJaV00yWmdQN0w2QzB1M1ZWN0tRenNaSEF1M3hrUm9QTTA5NllxQWlER0VV?=
- =?utf-8?B?VElucWhGQXF2NEtnSDY5TENjbWNRc0Vtc3VZMDljNjloTG44SXZMNWhKeTgr?=
- =?utf-8?B?ZSsxVXVLV0RDb25Xb1B2UkRzckVja2RoYWdQODBwS3hoY1lwMHNFRWJtRk14?=
- =?utf-8?B?Mmo1OFRHTUlmYjV4ZEp0a1Fxa1A3RjUrWmdSdnFhU1EySG1ickFPU2xlRXRu?=
- =?utf-8?B?Q0czMTY1TFZuZlBMSGVBcnNRUnpGNG1DdFd2YmRBTkdEZ2poU2NJS0FoNzVP?=
- =?utf-8?B?VldBdFh1ZEYyclJqNStDQTdueWpEN3BRZU1vck93Um04UHZsejR3YWRsRngr?=
- =?utf-8?B?Q2hwaXgyVUNhSWhDNWswdmU2TmxBPT0=?=
+	=?utf-8?B?OWVIRWxyK3dWRlpRMWFtYW1KQVhwQmxmcGpnSlpacWltcmNyNkdUaDdaYzBm?=
+ =?utf-8?B?SVBFejJCNHNqbXJMTkNtaXJ1ZE0yR2pFRS9EcHltY3VsYXZzdWRUZDBJb3J3?=
+ =?utf-8?B?VmVBenRnRTJVMDdSeWZWQTAvVXVwbytmZnh1MWlyY3RXcFhtUmQxZTRKdmJt?=
+ =?utf-8?B?UGErcXFRL1JqN2NOWEFJMlpoWkRFbzBRQ0liTnBiM1BLVURoS2hFbDVaMGQ1?=
+ =?utf-8?B?Z2p1VlhublBaV0J1SzJTbjh1ZXRteXhtSzBZNnRrdUxpNzFrcUVXcXlJeVhu?=
+ =?utf-8?B?MEF5SXJoTFpxek1ZT0V6RDRRTW9qa1dVTFFPeVR4WUpIajc0ZWxRTVc2cTI0?=
+ =?utf-8?B?RVM5K2pPMGZ5VHFGbGhZWFdwTWVaTnpIQnJRMVg0UjRqMmg4dFZNNEx3NjRl?=
+ =?utf-8?B?T2dyU21NbENZNFZIN0dEZWlEdjZGdkR5MDlsU2h6bGJXTkVsTFdQSFBBeW9E?=
+ =?utf-8?B?WFdMZE1OV3NsZUltWlNWTTBvWDNhV0MyUWpBU2oveEVHVFFYaXFEUnhrb05j?=
+ =?utf-8?B?NW1FQ1l3b0E0VFh5L20rZDRMRGc0RWp3MDczL3BGaVpCdkRiSWhjZGlEVEtj?=
+ =?utf-8?B?U3l0NjNMNkYrTlIraWh6T1RWaXBVWUFWWkV1Y24xb1AvWnoyWE5RTWlzYkFZ?=
+ =?utf-8?B?cWFyWEhPWlFIbnlndlpId0RUaXFiZjZRQU54QWkvTWVlUkxDa2E4NXE1dEJJ?=
+ =?utf-8?B?Z0ZFK0xUZ1d1YUZRZlk3QUhiOGFFTElaUytlWmYrbEd2TmdsMWZicHJZdEl6?=
+ =?utf-8?B?Vk1CRDBLNXF1YlFVRUFpTFdQZFhOV0p0UXhnbUpxcGkwa1lMN3B3Q0MrWGpW?=
+ =?utf-8?B?eFZqY0oyK0tFL2psUVpvYUwzU0RWODRGWnFqWjMwQ1NESENNNWtJOTRIVjNZ?=
+ =?utf-8?B?blZVeWVxNHpSV3E0MExkTzdhcURSVkJBTkJ3T0JuTW9kYWZVcDhNekY4aEZv?=
+ =?utf-8?B?UU5TdmJ6NG05S1ZvekhTckM1U3hVYUxqNTBhN0JQVjFpMUVtVDJ0UVU4REh5?=
+ =?utf-8?B?cEZDTVZqNnJpODNhUzl5SFFlUUN4U2NTZjRsUUZzaUEzT3pTMHpxZjd4R0NO?=
+ =?utf-8?B?RzBLVmUyRWJTeGRGNVpaS0lEZ3FaaUtSWTBkenJwQ0Y0ZmdwRWxNaFZNWjBI?=
+ =?utf-8?B?dVBydTRyZms1YlMxRVpzSENsUkN5aFBUVmJzYkVHTTllWWViOHEwKzFROGdE?=
+ =?utf-8?B?cTN2QmdzZVZON0R3REJYYjdxeENoUGJEMEZQVjM2VkU1dSt0QkIwVWpoVmZD?=
+ =?utf-8?B?T0NBeXVORlJrNVYyNzlQWmp1aFd5NWE2RW5STnJmRWFoaXNrTmhvQ0hneHhi?=
+ =?utf-8?B?bXlISjIyOWNzWElpUm43M3Y4cXRid3o4ZHBDbDgzeUV6bUZObFdKRHZnV3hm?=
+ =?utf-8?B?a3YwZUtWWWVEdGU3eFRiL3cyOUlOcnVpR241ejJKZkwzZlFuMmlMQzdMR1Bk?=
+ =?utf-8?B?N1M1UkNaUWpBZXhKelV2cWl2R2RtWTZ4RVJJRFRJRWg4cTNCdGNjTDVGdWdR?=
+ =?utf-8?B?SllxZ0pwaUFmV1Jpa2hCaG00YTNIR0FLQndGU0d0MzRSQXpEd01PdFo0aW9Z?=
+ =?utf-8?B?Y24vWThFWDNCYU9HN1dPSzVUSDBZSzdKU0lZRU9hZno4b1M5dEo5RDRSZVlH?=
+ =?utf-8?B?WVVDUzU2d2ZyTkY0RHhpanZPMGh1eDllNnVWZGpiSWlKbkI5SmIzVlArS2Ju?=
+ =?utf-8?B?SjVoRk9oRllaK29mdWUwR0owVng0VWlGRm8vb0pIZTZwYUcyQTd1Q0JubnZz?=
+ =?utf-8?B?NDkxVEdieFRrRDBIWHNoVW9IRnJCd1BNb2h4QmJXZ2h2dFQ4VjJQNmk3MGlu?=
+ =?utf-8?B?aThHY3NYY1BoN25xV2phRUV5SGZ2N0xXRU1YTDNpL1pLSjlSWmsveWxTMXBQ?=
+ =?utf-8?B?UEVYL1gwQUlTV0dDNmhiQnZseVlraUJzTjEvYXR4SzZRUktPR0NBMm1nNlBU?=
+ =?utf-8?B?U1NwOU10bXZmZG1KenV1QXFQalZWbWI1L1liVk1vdUhmQWVTMCtVZVJuSU82?=
+ =?utf-8?B?eklSdm05OXBkSXdxKzlMcEhVM0dHS3lQdHJmeFpSN1ROeTc0ZitDSHlBK2pR?=
+ =?utf-8?B?VE5ucUt5TUhiMlpRL2pjRTV1N01JSE5JU1RHNnBhYkZMYklUejRGQ216MHBX?=
+ =?utf-8?B?UW1XTlV4ckE3ejFlK2dGSGE0Wk5DSURTWXNwdy9GSXFqVzhtTXAybWtuNFNP?=
+ =?utf-8?B?NmllVnYvMGx5eUxXclpRdEJsUXlad25nWnZtNjVEcHZOVWc1UWR3MUhYcC9y?=
+ =?utf-8?B?eVRNcDVJR3hrVnIwb2l6TTUrd2VBPT0=?=
 X-OriginatorOrg: gocontroll.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7106a08a-59bc-48df-f51e-08de202f1ff6
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24a41aaf-daaa-428a-c9a0-08de2032d33a
 X-MS-Exchange-CrossTenant-AuthSource: AMBPR04MB11741.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2025 07:59:50.7488
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2025 08:26:20.0407
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4c8512ff-bac0-4d26-919a-ee6a4cecfc9d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BZXMqRjall9FDsZJ2+Oukk7uXLZDd3dadGI3SbwKhtxiDuq2eB3bz7U3QD3yOSanvgRLAgZoqetsUK0HWbcFUIm0CZmcti3wiN+KGdwohTw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8400
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ul4Mu7lPJDQudyHZedCy7/YHOQnPb9xt6rBALL48kQFkEzzUTkWS+6tfMKssiZF6PLlJd15z2+AGv92Y1w2dDVVf3P/Bz8GaOObc9hqhxm8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR04MB9630
 
-On 11/7/25 16:35, Frank Li wrote:
-> On Fri, Nov 07, 2025 at 01:49:58PM +0100, Maud Spierings via B4 Relay wrote:
+On 11/7/25 16:51, Frank Li wrote:
+> On Fri, Nov 07, 2025 at 01:49:59PM +0100, Maud Spierings via B4 Relay wrote:
 >> From: Maud Spierings <maudspierings@gocontroll.com>
 >>
 >> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
 >> with integrated boost controller.
 >>
 >> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
->>
 >> ---
+>>   MAINTAINERS                        |   1 +
+>>   drivers/video/backlight/Kconfig    |   7 +
+>>   drivers/video/backlight/Makefile   |   1 +
+>>   drivers/video/backlight/max25014.c | 409 +++++++++++++++++++++++++++++++++++++
+>>   4 files changed, 418 insertions(+)
 >>
->> In the current implementation the control registers for channel 1,
->> control all channels. So only one led subnode with led-sources is
->> supported right now. If at some point the driver functionality is
->> expanded the bindings can be easily extended with it.
->> ---
->>   .../bindings/leds/backlight/maxim,max25014.yaml    | 107 +++++++++++++++++++++
->>   MAINTAINERS                                        |   5 +
->>   2 files changed, 112 insertions(+)
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 606ce086f758..d082d3f8cfae 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -15265,6 +15265,7 @@ MAX25014 BACKLIGHT DRIVER
+>>   M:	Maud Spierings <maudspierings@gocontroll.com>
+>>   S:	Maintained
+>>   F:	Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+>> +F:	drivers/video/backlight/max25014.c
 >>
->> diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+>>   MAX31335 RTC DRIVER
+>>   M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
+>> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+>> index d9374d208cee..d3bb6ccd4185 100644
+>> --- a/drivers/video/backlight/Kconfig
+>> +++ b/drivers/video/backlight/Kconfig
+>> @@ -262,6 +262,13 @@ config BACKLIGHT_DA9052
+>>   	help
+>>   	  Enable the Backlight Driver for DA9052-BC and DA9053-AA/Bx PMICs.
+>>
+>> +config BACKLIGHT_MAX25014
+>> +	tristate "Backlight driver for the Maxim MAX25014 chip"
+>> +	depends on I2C
+>> +	select REGMAP_I2C
+>> +	help
+>> +	  If you are using a MAX25014 chip as a backlight driver say Y to enable it.
+>> +
+>>   config BACKLIGHT_MAX8925
+>>   	tristate "Backlight driver for MAX8925"
+>>   	depends on MFD_MAX8925
+>> diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+>> index dfbb169bf6ea..1170d9ec40b8 100644
+>> --- a/drivers/video/backlight/Makefile
+>> +++ b/drivers/video/backlight/Makefile
+>> @@ -45,6 +45,7 @@ obj-$(CONFIG_BACKLIGHT_LOCOMO)		+= locomolcd.o
+>>   obj-$(CONFIG_BACKLIGHT_LP855X)		+= lp855x_bl.o
+>>   obj-$(CONFIG_BACKLIGHT_LP8788)		+= lp8788_bl.o
+>>   obj-$(CONFIG_BACKLIGHT_LV5207LP)	+= lv5207lp.o
+>> +obj-$(CONFIG_BACKLIGHT_MAX25014)	+= max25014.o
+>>   obj-$(CONFIG_BACKLIGHT_MAX8925)		+= max8925_bl.o
+>>   obj-$(CONFIG_BACKLIGHT_MP3309C)		+= mp3309c.o
+>>   obj-$(CONFIG_BACKLIGHT_MT6370)		+= mt6370-backlight.o
+>> diff --git a/drivers/video/backlight/max25014.c b/drivers/video/backlight/max25014.c
 >> new file mode 100644
->> index 000000000000..e83723224b07
+>> index 000000000000..36bae508697e
 >> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
->> @@ -0,0 +1,107 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> ...
 >> +
->> +title: Maxim max25014 backlight controller
+>> +struct max25014 {
+>> +	struct i2c_client *client;
+>> +	struct backlight_device *bl;
+>> +	struct regmap *regmap;
+>> +	struct gpio_desc *enable;
+>> +	struct regulator *vin; /* regulator for boost converter Vin rail */
+>> +	uint32_t iset;
+>> +	uint8_t strings_mask;
+>> +};
 >> +
->> +maintainers:
->> +  - Maud Spierings <maudspierings@gocontroll.com>
+>> +static const struct regmap_config max25014_regmap_config = {
+>> +	.reg_bits = 8,
+>> +	.val_bits = 8,
+>> +	.max_register = MAX25014_DIAG,
+>> +};
 >> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - maxim,max25014
+>> +/**
+>> + * @brief control the brightness with i2c registers
+>> + *
+>> + * @param regmap trivial
+>> + * @param brt brightness
+>> + * @return int
+>> + */
+>> +static int max25014_register_control(struct regmap *regmap, uint32_t brt)
+>> +{
+>> +	uint32_t reg = TON_STEP * brt;
+>> +	int ret;
+>> +	/*
+>> +	 * 18 bit number lowest, 2 bits in first register,
+>> +	 * next lowest 8 in the L register, next 8 in the H register
+>> +	 * Seemingly setting the strength of only one string controls all of
+>> +	 * them, individual settings don't affect the outcome.
+>> +	 */
 >> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  "#address-cells":
->> +    const: 1
->> +
->> +  "#size-cells":
->> +    const: 0
->> +
->> +  enable-gpios:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  power-supply:
->> +    description: Regulator which controls the boost converter input rail.
->> +
->> +  pwms:
->> +    maxItems: 1
->> +
->> +  maxim,iset:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    maximum: 15
->> +    default: 11
->> +    description:
->> +      Value of the ISET field in the ISET register. This controls the current
->> +      scale of the outputs, a higher number means more current.
->> +
->> +  led@0:
->> +    type: object
->> +    description: Properties for a string of connected LEDs.
->> +    $ref: common.yaml#
->> +
->> +    properties:
->> +      reg:
->> +        const: 0
+>> +	ret = regmap_write(regmap, MAX25014_TON_1_4_LSB, reg & 0b00000011);
+>> +	if (ret != 0)
 > 
-> If reg is const 0, why need use led@0?
+> if (ret), check others regmap_*()
 > 
+>> +		return ret;
+>> +	ret = regmap_write(regmap, MAX25014_TON1L, (reg >> 2) & 0b11111111);
+>> +	if (ret != 0)
+>> +		return ret;
+>> +	return regmap_write(regmap, MAX25014_TON1H, (reg >> 10) & 0b11111111);
+>> +}
+>> +
+>> +static int max25014_check_errors(struct max25014 *maxim)
+>> +{
+>> +	uint8_t i;
+>> +	int ret;
+>> +	uint32_t val;
+>> +
+>> +	ret = regmap_read(maxim->regmap, MAX25014_OPEN, &val);
+>> +	if (ret != 0)
+>> +		return ret;
+>> +	if (val > 0) {
+> 
+> uint32 always >= 0
+> 
+> So
+> 	if (val)
+> 
+>> +		dev_err(&maxim->client->dev, "Open led strings detected on:\n");
+>> +		for (i = 0; i < 4; i++) {
+>> +			if (val & 1 << i)
+>> +				dev_err(&maxim->client->dev, "string %d\n", i + 1);
+>> +		}
+>> +		return -EIO;
+>> +	}
+>> +
+>> +	ret = regmap_read(maxim->regmap, MAX25014_SHORT_GND, &val);
+>> +	if (ret != 0)
+>> +		return ret;
+>> +	if (val > 0) {
+>> +		dev_err(&maxim->client->dev, "Short to ground detected on:\n");
+>> +		for (i = 0; i < 4; i++) {
+>> +			if (val & 1 << i)
+>> +				dev_err(&maxim->client->dev, "string %d\n", i + 1);
+>> +		}
+>> +		return -EIO;
+>> +	}
+>> +
+>> +	ret = regmap_read(maxim->regmap, MAX25014_SHORT_GND, &val);
+>> +	if (ret != 0)
+>> +		return ret;
+>> +	if (val > 0) {
+>> +		dev_err(&maxim->client->dev, "Shorted led detected on:\n");
+>> +		for (i = 0; i < 4; i++) {
+>> +			if (val & 1 << i)
+>> +				dev_err(&maxim->client->dev, "string %d\n", i + 1);
+>> +		}
+>> +		return -EIO;
+>> +	}
+>> +
+>> +	ret = regmap_read(maxim->regmap, MAX25014_DIAG, &val);
+>> +	if (ret != 0)
+>> +		return ret;
+>> +	/*
+>> +	 * The HW_RST bit always starts at 1 after power up.
+>> +	 * It is reset on first read, does not indicate an error.
+>> +	 */
+>> +	if (val > 0 && val != MAX25014_DIAG_HW_RST) {
+>> +		if (val & 0b1)
+> 
+> BIT(0)
+> 
+>> +			dev_err(&maxim->client->dev,
+>> +				"Overtemperature shutdown\n");
+>> +		if (val & 0b10)
+>> +			dev_err(&maxim->client->dev,
+>> +				 "Chip is getting too hot (>125C)\n");
+>> +		if (val & 0b1000)
+>> +			dev_err(&maxim->client->dev,
+>> +				"Boost converter overvoltage\n");
+>> +		if (val & 0b10000)
+>> +			dev_err(&maxim->client->dev,
+>> +				"Boost converter undervoltage\n");
+>> +		if (val & 0b100000)
+>> +			dev_err(&maxim->client->dev, "IREF out of range\n");
+>> +		return -EIO;
+>> +	}
+>> +	return 0;
+>> +}
+>> +
+> ...
+>> +static int max25014_parse_dt(struct max25014 *maxim,
+>> +			     uint32_t *initial_brightness)
+>> +{
+>> +	struct device *dev = &maxim->client->dev;
+>> +	struct device_node *node = dev->of_node;
+>> +	struct fwnode_handle *child;
+>> +	uint32_t strings[4];
+>> +	int res, i;
+>> +
+>> +	if (!node) {
+>> +		dev_err(dev, "no platform data\n");
+>> +		return -EINVAL;
+>> +	}
+> 
+> call from probe, check other place
+> 
+> 	return dev_err_probe()
+> 
+>> +
+>> +	child = device_get_next_child_node(dev, NULL);
+>> +	if (child) {
+>> +		res = fwnode_property_count_u32(child, "led-sources");
+>> +		if (res > 0) {
+>> +			fwnode_property_read_u32_array(child, "led-sources",
+>> +						       strings, res);
+>> +
+>> +			/* set all strings as disabled, then enable those in led-sources*/
+>> +			maxim->strings_mask = 0xf;
+>> +			for (i = 0; i < res; i++) {
+>> +				if (strings[i] <= 4)
+>> +					maxim->strings_mask &= ~BIT(strings[i]);
+>> +			}
+>> +		}
+>> +
+>> +		fwnode_property_read_u32(child, "default-brightness",
+>> +					 initial_brightness);
+>> +
+>> +		fwnode_handle_put(child);
+>> +	}
+>> +
+>> +	maxim->iset = MAX25014_ISET_DEFAULT_100;
+>> +	of_property_read_u32(node, "maxim,iset", &maxim->iset);
+>> +
+>> +	if (maxim->iset < 0 || maxim->iset > 15) {
+>> +		dev_err(dev,
+>> +			"Invalid iset, should be a value from 0-15, entered was %d\n",
+>> +			maxim->iset);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	if (*initial_brightness < 0 || *initial_brightness > 100) {
+>> +		dev_err(dev,
+>> +			"Invalid initial brightness, should be a value from 0-100, entered was %d\n",
+>> +			*initial_brightness);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int max25014_probe(struct i2c_client *cl)
+>> +{
+>> +	struct backlight_device *bl;
+>> +	const struct i2c_device_id *id = i2c_client_get_device_id(cl);
+>> +	struct max25014 *maxim;
+>> +	struct backlight_properties props;
+>> +	int ret;
+>> +	uint32_t initial_brightness = 50;
+> 
+> try keep reverise christmas order
+> 
+>> +
+>> +	maxim = devm_kzalloc(&cl->dev, sizeof(struct max25014), GFP_KERNEL);
+>> +	if (!maxim)
+>> +		return -ENOMEM;
+>> +
+>> +	maxim->client = cl;
+>> +
+>> +	ret = max25014_parse_dt(maxim, &initial_brightness);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	maxim->vin = devm_regulator_get_optional(&maxim->client->dev, "power");
+>> +	if (IS_ERR(maxim->vin)) {
+>> +		if (PTR_ERR(maxim->vin) == -EPROBE_DEFER)
+>> +			return -EPROBE_DEFER;
+>> +		maxim->vin = NULL;
+>> +	}
+>> +
+>> +	if (maxim->vin) {
+>> +		ret = regulator_enable(maxim->vin);
+>> +		if (ret < 0) {
+>> +			dev_err(&maxim->client->dev,
+>> +				"failed to enable Vin: %d\n", ret);
+>> +			return ret;
+>> +		}
+>> +	}
+> 
+> use devm_regulator_get_enable_optional() to combine devm_regulator_get_optional()
+> and regulator_enable() to one call.
 
-I made it this way so that at a later point the driver can be expanded 
-with 4 led subnodes when that functionality gets supported. If I were to 
-lock it to just led: right now I feel that may cause incompatibility 
-later on.
+This however does not return the regulator and will not allow further 
+potential power management, I did look into using that one but decided 
+against it. There is no runtime PM implemented right now so it wouldn't 
+really matter at this point. If it is desirable I will switch it, and it 
+will have to be switched back when PM gets implemented.
 
-If there is a better way to do this, I'm open to suggestions.
+>> +
+>> +	maxim->enable = devm_gpiod_get_optional(&maxim->client->dev, "enable",
+>> +						GPIOD_ASIS);
+>> +	if (IS_ERR(maxim->enable)) {
+>> +		ret = PTR_ERR(maxim->enable);
+>> +		dev_err(&maxim->client->dev, "failed to get enable gpio: %d\n",
+>> +			ret);
+>> +		goto disable_vin;
+>> +	}
+>> +
+>> +	if (maxim->enable)
+>> +		gpiod_set_value_cansleep(maxim->enable, 1);
+> 
+> gpiod_set_value_cansleep() tolerate NULL, so needn't if check here
+> 
+> and if you pass GPIOD_OUT_HIGH at devm_gpiod_get_optional(), needn't call
+> this function.
+
+got it, changed.
+
+>> +
+>> +	/* Enable can be tied to vin rail wait if either is available */
+>> +	if (maxim->enable || maxim->vin) {
+>> +		/* Datasheet Electrical Characteristics tSTARTUP 2ms */
+>> +		usleep_range(2000, 2500);
+> 
+> now perfer use fsleep()
+
+Ah didn't know of that, thanks!
+
+Other small remarks have also been resolved.
 
 Kind regards,
 Maud
 
-> 
+>> +	}
 >> +
->> +      led-sources:
->> +        allOf:
->> +          - minItems: 1
->> +            maxItems: 4
->> +            items:
->> +              minimum: 0
->> +              maximum: 3
->> +            default: [0, 1, 2, 3]
+>> +	maxim->regmap = devm_regmap_init_i2c(cl, &max25014_regmap_config);
+>> +	if (IS_ERR(maxim->regmap)) {
+>> +		ret = PTR_ERR(maxim->regmap);
+>> +		dev_err(&maxim->client->dev,
+>> +			"failed to initialize the i2c regmap: %d\n", ret);
+>> +		goto disable_full;
+>> +	}
 >> +
->> +      default-brightness:
->> +        minimum: 0
->> +        maximum: 100
->> +        default: 50
+>> +	i2c_set_clientdata(cl, maxim);
 >> +
->> +    required:
->> +      - reg
+>> +	ret = max25014_check_errors(maxim);
+>> +	if (ret) { /* error is already reported in the above function */
+>> +		goto disable_full;
+>> +	}
 >> +
->> +    additionalProperties: false
+>> +	ret = max25014_configure(maxim);
+>> +	if (ret) {
+>> +		dev_err(&maxim->client->dev, "device config err: %d", ret);
+>> +		goto disable_full;
+>> +	}
 >> +
->> +required:
->> +  - compatible
->> +  - reg
+>> +	memset(&props, 0, sizeof(props));
+>> +	props.type = BACKLIGHT_PLATFORM;
+>> +	props.max_brightness = MAX_BRIGHTNESS;
+>> +	props.brightness = initial_brightness;
+>> +	props.scale = BACKLIGHT_SCALE_LINEAR;
 >> +
->> +additionalProperties: false
+>> +	bl = devm_backlight_device_register(&maxim->client->dev, id->name,
+>> +					    &maxim->client->dev, maxim,
+>> +					    &max25014_bl_ops, &props);
+>> +	if (IS_ERR(bl))
+>> +		return PTR_ERR(bl);
 >> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +    #include <dt-bindings/interrupt-controller/irq.h>
+>> +	maxim->bl = bl;
 >> +
->> +    i2c {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
+>> +	return 0;
 >> +
->> +        backlight@6f {
->> +            compatible = "maxim,max25014";
->> +            reg = <0x6f>;
->> +            #address-cells = <1>;
->> +            #size-cells = <0>;
->> +            enable-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
->> +            interrupt-parent = <&gpio1>;
->> +            interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
->> +            power-supply = <&reg_backlight>;
->> +            pwms = <&pwm1>;
->> +            maxim,iset = <7>;
+>> +disable_full:
+>> +	if (maxim->enable)
+>> +		gpiod_set_value_cansleep(maxim->enable, 0);
+>> +disable_vin:
+>> +	if (maxim->vin)
+>> +		regulator_disable(maxim->vin);
+>> +	return ret;
+>> +}
 >> +
->> +            led@0 {
->> +                reg = <0>;
->> +                led-sources = <0 1 2 3>;
->> +                default-brightness = <50>;
->> +            };
->> +        };
->> +    };
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 58c7e3f678d8..606ce086f758 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -15261,6 +15261,11 @@ F:	Documentation/userspace-api/media/drivers/max2175.rst
->>   F:	drivers/media/i2c/max2175*
->>   F:	include/uapi/linux/max2175.h
->>
->> +MAX25014 BACKLIGHT DRIVER
->> +M:	Maud Spierings <maudspierings@gocontroll.com>
->> +S:	Maintained
->> +F:	Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+>> +static void max25014_remove(struct i2c_client *cl)
+>> +{
+>> +	struct max25014 *maxim = i2c_get_clientdata(cl);
 >> +
->>   MAX31335 RTC DRIVER
->>   M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
->>   L:	linux-rtc@vger.kernel.org
+>> +	maxim->bl->props.brightness = 0;
+>> +	max25014_update_status(maxim->bl);
+>> +	if (maxim->enable)
+>> +		gpiod_set_value_cansleep(maxim->enable, 0);
+>> +	if (maxim->vin)
+>> +		regulator_disable(maxim->vin);
+>> +}
+>> +
+>> +static const struct of_device_id max25014_dt_ids[] = {
+>> +	{ .compatible = "maxim,max25014", },
+>> +	{ }
+>> +};
+>> +MODULE_DEVICE_TABLE(of, max25014_dt_ids);
+>> +
+>> +static const struct i2c_device_id max25014_ids[] = {
+>> +	{ "max25014" },
+>> +	{ }
+>> +};
+>> +MODULE_DEVICE_TABLE(i2c, max25014_ids);
+>> +
+>> +static struct i2c_driver max25014_driver = {
+>> +	.driver = {
+>> +		.name = KBUILD_MODNAME,
+>> +		.of_match_table = of_match_ptr(max25014_dt_ids),
+>> +	},
+>> +	.probe = max25014_probe,
+>> +	.remove = max25014_remove,
+>> +	.id_table = max25014_ids,
+>> +};
+>> +module_i2c_driver(max25014_driver);
+>> +
+>> +MODULE_DESCRIPTION("Maxim MAX25014 backlight driver");
+>> +MODULE_AUTHOR("Maud Spierings <maudspierings@gocontroll.com>");
+>> +MODULE_LICENSE("GPL");
 >>
 >> --
 >> 2.51.2
