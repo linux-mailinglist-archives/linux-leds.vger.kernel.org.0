@@ -1,112 +1,100 @@
-Return-Path: <linux-leds+bounces-6063-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6064-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A7CC4670B
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Nov 2025 13:04:48 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3159C46F96
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Nov 2025 14:41:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 944403AE519
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Nov 2025 12:02:14 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 680FA4EB8EC
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Nov 2025 13:41:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B299F30E84B;
-	Mon, 10 Nov 2025 12:00:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B24DD199E9D;
+	Mon, 10 Nov 2025 13:41:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k9qI7CNx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R/KyLeHb"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0393221772A;
-	Mon, 10 Nov 2025 12:00:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2401DED7B;
+	Mon, 10 Nov 2025 13:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762776054; cv=none; b=ne1Lk0wk9glQE7Pn+90TzY8qnb8WlH/U/P7tYaQIp67I5pZJsbNNCswqwwKMLVKD9rp8IZ9MrTwQTu8/xAtfYCEINag8mg5v7Xbwl8BAbwFMOC1Jv+S+Z1NcAFQjeEZGB1mzavB2lrff/6zwhuKFuf8onCmzkGGsf5eVlwV4Fhw=
+	t=1762782069; cv=none; b=ZvJnPfqTH/OlPPggW5+clHRS8vqs9s3P/zY9fv2iDaApuv70kdY0ozhMtRsp1x6N+Oe4MLuz/7iLh0uEnwdjDTCF+20L7ausYFd/QRJdM1EUMMrMymVKjkuVBTH5U4ueBwlXXoZJejcwObt0wzX1mm1s9Gq2lplYdHh0g77DnLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762776054; c=relaxed/simple;
-	bh=WlwLG2zgBoJXDt29UJAUrZggw1Ut8UEnAV2Mrtzl3bo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GD+h5iDBtW6frrjxzC4D0QD1QjTsEzR1W2YuZ+B4nNkGyCCv30WnkX7bOSu0RttJlgYocXq9Wp0Z2yBChf1+AAyumkka78rUCrh7NlfheSMRchGk+Us3JMazcWeeIPzrpOyR+eSxhlzhuA4zDsJzUmY9j3bDqOYp12az7N/0wUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k9qI7CNx; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762776053; x=1794312053;
-  h=from:to:cc:in-reply-to:references:subject:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=WlwLG2zgBoJXDt29UJAUrZggw1Ut8UEnAV2Mrtzl3bo=;
-  b=k9qI7CNxVa/KX3IxOpg2AXFMLntELjnOC3uDBZh3HSKS7NTlhxBduo1n
-   4sQ8G6/hHs6WW18vmdhByD4Ql/neLDk3jd07USHsIdf/RoGiX8dHfUQVb
-   Oe2aNRHiWnMFxN1ndDI7+V36Spk4xcFhV2jmZXvdVWbKDV+Yu3OHHsz3v
-   wYHGVNEduCHYSxc+xJhMDNylrRLATKrOBDHyUhQatT+/xeXKXPjEVJkDh
-   fGWxzHYbh07GoGIIBW580ZP7wTEDx8rqk9n99saCcCjvAZtaco1EX7D52
-   smtcKJfzxtNqxcUfiq0+f7Dwqc/dK9KkgWndRDNs0koww0ITAvSzkuGo/
-   Q==;
-X-CSE-ConnectionGUID: Ib8oYDOzSHqe4ocv9GI0Lg==
-X-CSE-MsgGUID: XpxVTIZbTkikT9LWs70lLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="76274960"
-X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="76274960"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 04:00:52 -0800
-X-CSE-ConnectionGUID: 4y7kmFJZSf27/ZDP5D9ylA==
-X-CSE-MsgGUID: NLh+SRyWTq+8N/KXzHihIw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="193040267"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.13])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 04:00:47 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: hansg@kernel.org, chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de, 
- wse@tuxedocomputers.com, ggo@tuxedocomputers.com, 
- Armin Wolf <W_Armin@gmx.de>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- platform-driver-x86@vger.kernel.org, rdunlap@infradead.org, 
- alok.a.tiwari@oracle.com, linux-leds@vger.kernel.org, lee@kernel.org, 
- pobrn@protonmail.com, nathan@kernel.org
-In-Reply-To: <20251102172942.17879-1-W_Armin@gmx.de>
-References: <20251102172942.17879-1-W_Armin@gmx.de>
-Subject: Re: [PATCH v6 0/2] Add support for Uniwill laptop features
-Message-Id: <176277604087.8442.15648008989886648183.b4-ty@linux.intel.com>
-Date: Mon, 10 Nov 2025 14:00:40 +0200
+	s=arc-20240116; t=1762782069; c=relaxed/simple;
+	bh=YyvEILKZOPaCVdYywI5ynhrjxIxQw+U5jV/llmxJWmY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Eahi6qIkqgTyASFNZ20Yzu7OUVlY64ZSifhI9TGg60TTHVyeKyKxXu3phclSYklXqpCyBd/iPqc8S0bGfERCHJyvL4R96Scch+xpGFwiYcpD9xg/k11nWOgSDHEEeyi36jbJaKi0dWY9+DoHPPIeBuHmhS8oJ25x3271kqKLBio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R/KyLeHb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49F4EC4CEFB;
+	Mon, 10 Nov 2025 13:41:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762782065;
+	bh=YyvEILKZOPaCVdYywI5ynhrjxIxQw+U5jV/llmxJWmY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=R/KyLeHbVTG85KmeM2p+RjVp3d2RIC9vKlxVoeYyMtFnnZVq8Bv/PjBeQWFxZ7yi7
+	 h45NIs/Sk3wnniA7bsUNalcD++sDa8oQXxUe3HkGJ3rFRYWxzLf3Dm7QtR06zCumN5
+	 sqxZCEZA3pXAn4FqK/z5rbhbB4BalWIjMfGSYh/tM80LxXP0bbWQpS5hhCT4yxWKd+
+	 IO2ltmJeuYhy8xcoJNIqifrP0SyGsafOhXluqfjC1onGgoXe+Dd8aWnLdc6dx2egxb
+	 Bh9yQVugGUspb3VrXacOHtZIMWacqgv+epE1VAe2omnMVCHHEDpsQ4dSqxG1cw4VrQ
+	 sDI6tNGHBTbeA==
+Date: Mon, 10 Nov 2025 13:40:58 +0000
+From: Lee Jones <lee@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Markus Probst <markus.probst@posteo.de>,
+	Pavel Machek <pavel@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	bjorn3_gh@protonmail.com, Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	rust-for-linux@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 0/2] rust: leds: add led classdev abstractions
+Message-ID: <20251110134058.GC1949330@google.com>
+References: <20251027200547.1038967-1-markus.probst@posteo.de>
+ <DDVLMBC40199.2BVFYHDGQP4Q4@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DDVLMBC40199.2BVFYHDGQP4Q4@kernel.org>
 
-On Sun, 02 Nov 2025 18:29:40 +0100, Armin Wolf wrote:
+On Thu, 30 Oct 2025, Danilo Krummrich wrote:
 
-> This patch series adds support for the various features found on
-> laptops manufactured by Uniwill. Those features are:
+> Hi Markus,
 > 
->  - battery charge limiting
->  - RGB lightbar control
->  - hwmon support
->  - improved hotkey support
->  - keyboard-related settings
+> On Mon Oct 27, 2025 at 9:06 PM CET, Markus Probst wrote:
+> > Markus Probst (2):
+> >   rust: Add trait to convert a device reference to a bus device
+> >     reference
+> >   rust: leds: add basic led classdev abstractions
 > 
-> [...]
+> I don't see an entry in the MAINTAINERS file for the added LED code.
+> 
+> Did you hear back from the LED maintainers already?
+> 
+> @Lee, Pavel: What's your take on this?
 
+I'd be happy to take LED Rust patches at face value so long as they come
+with a quality Rust-specific Reviewed-by.  Reviewing professional level
+Rust code is presently beyond my capabilities.
 
-Thank you for your contribution, it has been applied to my local
-review-ilpo-next branch. Note it will show up in the public
-platform-drivers-x86/review-ilpo-next branch only once I've pushed my
-local branch there, which might take a while.
-
-The list of commits applied:
-[1/2] platform/x86: Add Uniwill laptop driver
-      commit: d050479693bb91da5a0e305ca9dd59f4c0b55dd3
-[2/2] Documentation: laptops: Add documentation for uniwill laptops
-      commit: cec551ec79c2f287d1eb048f70fe4bff66cc7d41
-
---
- i.
-
+-- 
+Lee Jones [李琼斯]
 
