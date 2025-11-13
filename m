@@ -1,53 +1,53 @@
-Return-Path: <linux-leds+bounces-6095-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6094-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36745C57F3A
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 15:31:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A07C57EDD
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 15:26:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7BCD44E54D9
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 14:26:39 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B80224EC932
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 14:20:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D424B289367;
-	Thu, 13 Nov 2025 14:26:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E626728642A;
+	Thu, 13 Nov 2025 14:20:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="ew70EQT5"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="hxiaim13"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1B0288CA3
-	for <linux-leds@vger.kernel.org>; Thu, 13 Nov 2025 14:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F5DF26D4DD
+	for <linux-leds@vger.kernel.org>; Thu, 13 Nov 2025 14:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763043992; cv=none; b=qV5qhGUn48HlxXEtclMLZl6XQ9CGPnnj4w0/qrjuYe2gcOJgftaXNDDrks2UFTt/ZssyAxHuPiT0am3fhx5vec88oXLldU403sU7D+wWel/vNgSlxfFeIlPd0eHlM+tWX+GdELUhqKm8Q1xqv5hkdhWGtAcSlutDagndPy4y3Zk=
+	t=1763043633; cv=none; b=f4AyUN005AguI9snPB4YAyEeMbLH6G9tNTIrYG8Aawr6q77A9nRTJZ5K0WHDTqBKfUwdzNnko/AJvzumri9itGPukOZJWw+Fcn1TP+yThOvAQa8BupVE1fOT5e7EJ4cxWWUGd/52dDgwVPFl5LTZ80jvkgnc6GeEfeF4TjQZtaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763043992; c=relaxed/simple;
+	s=arc-20240116; t=1763043633; c=relaxed/simple;
 	bh=pEtsXEYDUVwFnZGZDZwf6LQ8RdbFl0B6scfu0LRUXU4=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JYUgDGRrBUPV4K6LKvYhr1carGHheQU+WPsg/JZsW+Iqgj7LP+3B1Bao/cVnnIE2YS7Ymqvv+1dYzdqfSNaNz6ELigCAfKkXouQlIi1JGY7RoFA761QwqEUiX+XLvVrQgiSSZlSb3Nl6+3PGGdJ5U3iXt2Pp7unC8AaUsLX74GI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=ew70EQT5; arc=none smtp.client-ip=185.67.36.65
+	 Content-Type:MIME-Version; b=LiFxLIwKkPoiM/GBzN8tly5Zi8FkTPcFzV4yF5G7HskNejwF3+tUgy1h8FhI0MUliv8qeLtQ7DbYTlhPf/ItefVlVqW/Xh8mIpbJB81qktsskIyEw5rauaW2fD6WY8Yo5mJbmqebRkbapR7HmwnpOvYGApTjunSRM6LfWFNda1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=hxiaim13; arc=none smtp.client-ip=185.67.36.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id EC227240027
-	for <linux-leds@vger.kernel.org>; Thu, 13 Nov 2025 15:17:37 +0100 (CET)
+	by mout02.posteo.de (Postfix) with ESMTPS id 90536240106
+	for <linux-leds@vger.kernel.org>; Thu, 13 Nov 2025 15:20:29 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1763043457; bh=adBBVnRsn7HOZmzACpymK40j8Veheszabl7lrdMc79A=;
+	t=1763043629; bh=adBBVnRsn7HOZmzACpymK40j8Veheszabl7lrdMc79A=;
 	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version:OpenPGP:From;
-	b=ew70EQT52cJdMgXCXLOLor/H/VLZGG3bz/CZ83Wu+R/5Q5MLsdzoat8QBWz8d4+bI
-	 wIRTwCmtKi/JVSwLUyCbIQSWcIAyeJAD/fuCr/30NEum8KpBK0HT2aQo7lKrHF5qv6
-	 g7zU3R/6idx9cJAcqMqPZJPp42OkL8hfHAKDCZEZTFhT9tkwEzoe/DttLqClB9RbdL
-	 6qSwPuuIcnH/bfOFeKb1WB0JG9shLP45xENrlC0Xzbz6JOUeajOwf4IsDAlKPEisX3
-	 k4FysbpxZ6DvLWu6Wz5hIpySSEYE7QfI9B4xvF63lG0QJrbOZy5JJ3NafuXp+kJJly
-	 VwNp3mDJytCAg==
+	b=hxiaim13XwzrRzvQbESQJXjOvYQ/Dic4Lb1HI7/lgpMEOXn023bOb+Rgq1pbsnvky
+	 FDKMKtmBETr8DQEnih94rJ6G6BJ21BF8wLCW8LF8A3mwv5USD/j2wI8mQvV7sxM2bj
+	 KHPQLVOiMEGCH2nUROZLiWZ1qDOoJlEnrCOSeRjuq5hbnXkME4PNSc/NoinnFWHrSF
+	 Iirv/PglOPT4ykloyPcd5Ow+FGj2S6SbKqCEXu4xewPzmwal/ZHjC8ZjRHwk7PwZ1O
+	 Fl2phDovweFVepue48y9ypQhwCwvtBUj/YQB1wmCULEkLbn5Ad/3sRKa8DOWzN2IMU
+	 iZhv9aHXeHlWQ==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4d6j5p2CqVz6trs;
-	Thu, 13 Nov 2025 15:17:34 +0100 (CET)
-Message-ID: <ce0b823830c8477b723fb8d6ee0166e5b5848fa0.camel@posteo.de>
+	by submission (posteo.de) with ESMTPSA id 4d6j961Yhdz9rxN;
+	Thu, 13 Nov 2025 15:20:26 +0100 (CET)
+Message-ID: <bf4192fd466571f798023b70c3e83e19448d8149.camel@posteo.de>
 Subject: Re: [PATCH v7 0/2] rust: leds: add led classdev abstractions
 From: Markus Probst <markus.probst@posteo.de>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Miguel Ojeda
@@ -63,7 +63,7 @@ Cc: Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>,
  <kwilczynski@kernel.org>, rust-for-linux@vger.kernel.org, 
 	linux-leds@vger.kernel.org, linux-pci@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
-Date: Thu, 13 Nov 2025 14:17:36 +0000
+Date: Thu, 13 Nov 2025 14:20:28 +0000
 In-Reply-To: <20251027200547.1038967-1-markus.probst@posteo.de>
 References: <20251027200547.1038967-1-markus.probst@posteo.de>
 Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
