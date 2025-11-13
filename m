@@ -1,64 +1,56 @@
-Return-Path: <linux-leds+bounces-6099-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6100-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA77FC58332
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 16:06:31 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C08C58701
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 16:41:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AEF93422B43
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 14:54:29 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0540135B1C6
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 15:32:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EC002D595B;
-	Thu, 13 Nov 2025 14:54:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62A642F83BA;
+	Thu, 13 Nov 2025 15:22:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uWlTLJsq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qq5FG20h"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D3C1EE7DC;
-	Thu, 13 Nov 2025 14:54:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE572F83B5;
+	Thu, 13 Nov 2025 15:22:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763045666; cv=none; b=Y8O3pDuMrEiJsVWSHSf2YDnyVxmquLEYaGzscA2aj4jJS+fqlj4Tk+ndJ//mrq8U63ruHygWR2yMS+LOSFR/gnp9hwO/t1rTSdgX7WvUGRzYOo44WFJDEMPdkbiD18nScugkcTfphMLHoLR8UJ7iyzcIoz99xks3Fqn7/jiZ+h0=
+	t=1763047372; cv=none; b=WXRx30IH8DsxHG/ABbm8M0MyTeU6w7DXsVsjI5H+KEwGxsUiwjmPgl1VEIMIMRTd6DV718NeqvPKT0pLh2vOgprC8CDFwiHZhiIpPbBE/4L6/0QAwMRtQdETnizBsdDI8IWLcEfg4z/C0V7jiJgwAWJdlOIzvdG512m8/wpho+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763045666; c=relaxed/simple;
-	bh=1iW0BrdcYuWfbmGBaOox1kc2EnS9Qxrta7UYgGT6S3E=;
+	s=arc-20240116; t=1763047372; c=relaxed/simple;
+	bh=Ak5LCSsLVdpZh7VOQJKVIOo/c93CF9xpQr+3rCiQJCY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Lvs1RFIcDJ7DQQ/8sucSXbkknZbphBr6+bB5aBHpa2ZuByLcS3n/+CTAE24IfUkp3sMFNHUm0RpWHG8e4B/EdRsrmrrJ1xjjMjOlECLzOJQTs46Qs0CDT4BsYqXNSJq5C6XU/26BY6eoEldl5bb8ICYeCdlC8kG4ZcyO1+FkWdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uWlTLJsq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2516C2BC86;
-	Thu, 13 Nov 2025 14:54:21 +0000 (UTC)
+	 MIME-Version:Content-Type; b=I08iimAjdeCqecZkagD1HYBVYOA+qHlGTMZ9fQuaXIVJflcL1X5Qc8VMfz5GsM5wLEBnmm48nljUdDzq04P0SijDdrZE214e4o4L0BzZ1vO66gSV09ZmMu5KdVXX5yEn9P81UKi5EMfq7U+JBY7V5ZOoF4tcCmqN1NCTKDRZAAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qq5FG20h; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8624C4AF09;
+	Thu, 13 Nov 2025 15:22:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763045665;
-	bh=1iW0BrdcYuWfbmGBaOox1kc2EnS9Qxrta7UYgGT6S3E=;
+	s=k20201202; t=1763047371;
+	bh=Ak5LCSsLVdpZh7VOQJKVIOo/c93CF9xpQr+3rCiQJCY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=uWlTLJsqOgHLEu+jQ0/l8hm/65beOx5bgEXT5VVF6mAR5DyNjPdjdqx7pt67Vskjf
-	 iCfmwP/8s1SLH4f0f4zYLcDfU+kdIHqOViTyEMFobJ/VY+bOQL6uFYAwnnbaBJQiCZ
-	 +n8XfRTlmAKpTOInjn6L3G9rEJczXLha5vFZWfZxIZ4UJjWtWoS8OmxCzBKK6TNOPf
-	 y0S1bHfySn2OLON0IjxBsZQ3q8uV7ErdBER8bP/B8L0YCgX2MyPJywu5n7TZn1qgju
-	 nKYj3ZX5YwsEKDPpGmCXve3sDYxOcI8Up7iVvj7oK7f7KGvzsKVu+UogAdtB2vhid/
-	 Pll0HgghN9MaQ==
+	b=Qq5FG20hh4G52+N1vi0r/wi0Lw95b3jvWmJAngF+fQmt/jg/tK9jOpkZw7vXZeACD
+	 /Ft+6vt6OL2uY0KXFkiX75g9s8JZf30taGZOUGIfW1m02zn/LCj+dkJFB+x/Mw+Hpq
+	 zt7tfH25mGOc+a/y6V/27fss9+r0Pg6fKFfREIfnqfIZ7inKzNG/WcccrJT/DVZKC0
+	 MqqMCoL5kNrSNH4d+lebzEk9kFGxlFc6UMSXQU1yapQ+AhBnxSfXymDoJTiyDuyDcf
+	 a+GUSBu1NZ70hCoFBwDcT5LXBIhmAfyq7R8/XDqP2aVMEoODJtO2lbll+chjoF9h3J
+	 oy86ShgSkHEkg==
 From: Lee Jones <lee@kernel.org>
 To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Fenglin Wu <quic_fenglinw@quicinc.com>, 
- Stephen Boyd <sboyd@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Luca Weiss <luca.weiss@fairphone.com>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-gpio@vger.kernel.org
-In-Reply-To: <20251023-sm7635-pmxr2230-v3-1-f70466c030fe@fairphone.com>
-References: <20251023-sm7635-pmxr2230-v3-1-f70466c030fe@fairphone.com>
-Subject: Re: (subset) [PATCH v3 1/3] dt-bindings: leds:
- qcom,spmi-flash-led: Add PM7550
-Message-Id: <176304566170.1524829.17792235625966794976.b4-ty@kernel.org>
-Date: Thu, 13 Nov 2025 14:54:21 +0000
+ Thorsten Blum <thorsten.blum@linux.dev>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20251103120809.32834-1-thorsten.blum@linux.dev>
+References: <20251103120809.32834-1-thorsten.blum@linux.dev>
+Subject: Re: (subset) [PATCH] leds: led-class: Replace sprintf with
+ sysfs_emit in sysfs show functions
+Message-Id: <176304737052.1536060.7510618675723592499.b4-ty@kernel.org>
+Date: Thu, 13 Nov 2025 15:22:50 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -69,15 +61,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.15-dev-52d38
 
-On Thu, 23 Oct 2025 13:32:25 +0200, Luca Weiss wrote:
-> Document compatible for PM7550 Torch and Flash LED controller.
+On Mon, 03 Nov 2025 13:08:09 +0100, Thorsten Blum wrote:
+> Replace sprintf() with sysfs_emit() in sysfs show functions.
+> sysfs_emit() is preferred to format sysfs output as it provides better
+> bounds checking.  No functional changes.
 > 
 > 
 
 Applied, thanks!
 
-[1/3] dt-bindings: leds: qcom,spmi-flash-led: Add PM7550
-      commit: c42b91c426a12523b8d02bc6041f7931f199a301
+[1/1] leds: led-class: Replace sprintf with sysfs_emit in sysfs show functions
+      commit: 92f4b016dcb955cc0bb3942ac217cff6fe450a57
 
 --
 Lee Jones [李琼斯]
