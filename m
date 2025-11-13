@@ -1,45 +1,45 @@
-Return-Path: <linux-leds+bounces-6084-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6081-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF44AC56711
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 10:02:10 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2CBC56777
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 10:05:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80AD73B92CA
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 08:59:41 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id CF82B358121
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 08:57:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52D83340D90;
-	Thu, 13 Nov 2025 08:55:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0871F33BBDA;
+	Thu, 13 Nov 2025 08:54:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="So2O3v+L"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="B1Ad9Xsm"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371AB333753
-	for <linux-leds@vger.kernel.org>; Thu, 13 Nov 2025 08:55:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D37244664
+	for <linux-leds@vger.kernel.org>; Thu, 13 Nov 2025 08:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763024126; cv=none; b=IOaMl5VV45Ow5oIyiWQcBVLF/L47QBLMzeEUZ4nOsJ0X5rWTxmTBgBRPfjIwP1t2bBeoNQzJUJpDXDLTI1lj4CO3TLkW4B38hm1fDO71tOR/PeFaExto6lCCSFoG/tQr0A11sqeyQOD/Jeo5DUJ9IFkElQeSBybSNatC5H7Mihw=
+	t=1763024056; cv=none; b=m5NuygAzsBGJ02Q+bvuet+rpDhMkOOdlNp6AloPucmcnLWWH1aIGd74GICOlf6KBI6Qtk71x1Q4CBIynnk326RFMp2FcCphwMcxOunSTxD8y1X2qhdWq6CXzZtxXjaz4wS+ZIwBcc38EmAeBaYzd8nkR7TcYG681wrc+drCtw3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763024126; c=relaxed/simple;
-	bh=aYAFBOmIDFUMQV6gG3t1EytSgPZy68GCCSwjeK6BuKU=;
+	s=arc-20240116; t=1763024056; c=relaxed/simple;
+	bh=yId9UX3yYSZ80CLjUYhsLIP2TPDQAHVogZr335jJvvI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KtXL4BoIq4iDpglXv/KRkYi71vhIR3+OxWCp547EoduXqiytw00+3+L95BHqaVtvc+c/qWproG++UTB+u6+zVeXC06CoZWc2QgKlGjw3mi+tQeL0KDw7SXUWhHeexWCUmxq5Iy+0fvjemxyZFt7KRj065XD8hzRHY7HzlO21l+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=So2O3v+L; arc=none smtp.client-ip=91.218.175.174
+	 Content-Type:Content-Disposition:In-Reply-To; b=sDmelYrcQ/wae+Ti4P5QKelaYMMxsVcj8y4g3FSYGANIg4nn5TZGU59U7IFmAWTuq06FJ3VECYg1BnSs+oM/bs+N5MaY0QCgx835Pgy/RdOeinTgZS84xzq3+Z4KTCio02NYh/v+N5XckIQtCReIbyhifKX6OmfGNUxEuIB2qsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=B1Ad9Xsm; arc=none smtp.client-ip=95.215.58.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Thu, 13 Nov 2025 10:55:05 +0200
+Date: Thu, 13 Nov 2025 10:54:01 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1763024112; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	t=1763024053; h=from:from:reply-to:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:in-reply-to:in-reply-to:  references:references;
-	bh=p9urlC6OYIR48/xBlBNJmUBEIXy9CGBQiYwyq3/Edqo=;
-	b=So2O3v+LVwFK2S64xBJiUtIme4zYkKv9HwajY0uINWOLndzvvhXgmd5jcUA2hSgMPXgRIL
-	DLOjLJ314sosEuxAl8XJg76FufAJrhTX8Ro8sypWmk7hq+fhmNh5JgEkQVRp4x95nV4h1u
-	KOGxjt0jhE5VuVZB+SMiTv0Worn8tyU=
+	bh=pfO0fvFlkW05B334+6YdEtQ+FnpAyfg/HtS//YYBJT0=;
+	b=B1Ad9XsmemOfRD3V13HxJdtw+ma9blpwtoeWwZmoEXKcu0rMDHTOxQpJznerUpg0vq2GuH
+	dXkiUfBlTKp12OI8BjJe/SVCm7ibsbwO79nETycydYiHWUV1PwKyqVs/zzmCXg+x7opan4
+	UdwBMAhv50FaEOonMqbGnLg4dJPvkZY=
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Matti Vaittinen <matti.vaittinen@linux.dev>
 To: Matti Vaittinen <mazziesaccount@gmail.com>,
@@ -61,8 +61,8 @@ Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
 	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
 	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
 	linux-rtc@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
-Subject: [PATCH v4 12/16] clk: clk-bd718x7: Support BD72720 clk gate
-Message-ID: <16c92cc14da67ec6354ee0ac4e1faef4af4d0994.1763022807.git.mazziesaccount@gmail.com>
+Subject: [PATCH v4 09/16] regulator: bd71828: rename IC specific entities
+Message-ID: <f4a9fbe4bc0bda7e5ee7d46b85508f9084c16a84.1763022807.git.mazziesaccount@gmail.com>
 Reply-To: Matti Vaittinen <mazziesaccount@gmail.com>
 References: <cover.1763022807.git.mazziesaccount@gmail.com>
 Precedence: bulk
@@ -72,110 +72,189 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eEHz2p03zw8+XRiI"
+	protocol="application/pgp-signature"; boundary="McRCVugZrl/LxzQg"
 Content-Disposition: inline
 In-Reply-To: <cover.1763022807.git.mazziesaccount@gmail.com>
 X-Migadu-Flow: FLOW_OUT
 
 
---eEHz2p03zw8+XRiI
+--McRCVugZrl/LxzQg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 =46rom: Matti Vaittinen <mazziesaccount@gmail.com>
 
-The BD72720 has similar simple clk gate as a few other ROHM PMICs.
+The new ROHM BD72720 PMIC has similarities with the BD71828. It makes
+sense to support the regulator control for both PMICs using the same
+driver. It is often more clear to have the IC specific functions and
+globals named starting with the chip-name. So, as a preparatory step,
+prefix the BD71828 specific functions and globals with the bd71828.
 
-Add support for BD72720 clk gate.
+It would be tempting to try also removing the chip ID from those
+functions which will be common for both PMICs. I have bad experiences on
+this as it tends to lead to problems when yet another IC is being
+supported with the same driver, and we will have some functions used for
+all, some for two of the three, and some for just one. At this point
+I used to start inventing wildcards like BD718XX or BD7272X. This
+approach is pretty much always failing as we tend to eventually have
+something like BD73900 - where all the wildcard stuff will break down.
+
+So, my approach these days is to:
+ - keep the original chip-id prefix for anything that had it already
+   (and avoid the churn).
+ - use same prefix for all things that are used by multiple ICs -
+   typically the chip-ID of the first chip. This typically matches also
+   the driver and file names.
+ - use specific chip-ID as a prefix for anything which is specific to
+   just one chip.
+
+As a preparatory step to adding the BD72720, add bd71828 prefix to all
+commonly usable functions and globals.
 
 Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+Acked-by: Mark Brown <broonie@kernel.org>
 
 ---
 Revision history:
  RFCv1 =3D>:
  - No changes
+No functional changes intended.
 ---
- drivers/clk/Kconfig       |  4 ++--
- drivers/clk/clk-bd718x7.c | 10 ++++++++--
- 2 files changed, 10 insertions(+), 4 deletions(-)
+ drivers/regulator/bd71828-regulator.c | 32 +++++++++++++--------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/clk/Kconfig b/drivers/clk/Kconfig
-index 3a1611008e48..619bd63a3c77 100644
---- a/drivers/clk/Kconfig
-+++ b/drivers/clk/Kconfig
-@@ -475,8 +475,8 @@ config COMMON_CLK_BD718XX
- 	tristate "Clock driver for 32K clk gates on ROHM PMICs"
- 	depends on MFD_ROHM_BD718XX || MFD_ROHM_BD71828
- 	help
--	  This driver supports ROHM BD71837, BD71847, BD71850, BD71815
--	  and BD71828 PMICs clock gates.
-+	  This driver supports ROHM BD71837, BD71847, BD71850, BD71815,
-+	  BD71828, and BD72720 PMICs clock gates.
-=20
- config COMMON_CLK_FIXED_MMIO
- 	bool "Clock driver for Memory Mapped Fixed values"
-diff --git a/drivers/clk/clk-bd718x7.c b/drivers/clk/clk-bd718x7.c
-index ac40b669d60b..1cae974e6d1d 100644
---- a/drivers/clk/clk-bd718x7.c
-+++ b/drivers/clk/clk-bd718x7.c
-@@ -19,7 +19,8 @@
- #define BD71828_REG_OUT32K	0x4B
- /* BD71837 and BD71847 */
- #define BD718XX_REG_OUT32K	0x2E
--
-+/* BD72720 */
-+#define BD72720_REG_OUT32K	0x9a
- /*
-  * BD71837, BD71847, and BD71828 all use bit [0] to clk output control
-  */
-@@ -118,6 +119,10 @@ static int bd71837_clk_probe(struct platform_device *p=
-dev)
- 		c->reg =3D BD71815_REG_OUT32K;
- 		c->mask =3D CLK_OUT_EN_MASK;
- 		break;
-+	case ROHM_CHIP_TYPE_BD72720:
-+		c->reg =3D BD72720_REG_OUT32K;
-+		c->mask =3D CLK_OUT_EN_MASK;
-+		break;
- 	default:
- 		dev_err(&pdev->dev, "Unknown clk chip\n");
- 		return -EINVAL;
-@@ -146,6 +151,7 @@ static const struct platform_device_id bd718x7_clk_id[]=
- =3D {
- 	{ "bd71847-clk", ROHM_CHIP_TYPE_BD71847 },
- 	{ "bd71828-clk", ROHM_CHIP_TYPE_BD71828 },
- 	{ "bd71815-clk", ROHM_CHIP_TYPE_BD71815 },
-+	{ "bd72720-clk", ROHM_CHIP_TYPE_BD72720 },
- 	{ },
+diff --git a/drivers/regulator/bd71828-regulator.c b/drivers/regulator/bd71=
+828-regulator.c
+index dd871ffe979c..3d18dbfdb84e 100644
+--- a/drivers/regulator/bd71828-regulator.c
++++ b/drivers/regulator/bd71828-regulator.c
+@@ -28,7 +28,7 @@ struct bd71828_regulator_data {
+ 	int reg_init_amnt;
  };
- MODULE_DEVICE_TABLE(platform, bd718x7_clk_id);
-@@ -161,6 +167,6 @@ static struct platform_driver bd71837_clk =3D {
- module_platform_driver(bd71837_clk);
 =20
- MODULE_AUTHOR("Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>");
--MODULE_DESCRIPTION("BD718(15/18/28/37/47/50) and chip clk driver");
-+MODULE_DESCRIPTION("BD718(15/18/28/37/47/50) and BD72720 chip clk driver");
- MODULE_LICENSE("GPL");
- MODULE_ALIAS("platform:bd718xx-clk");
+-static const struct reg_init buck1_inits[] =3D {
++static const struct reg_init bd71828_buck1_inits[] =3D {
+ 	/*
+ 	 * DVS Buck voltages can be changed by register values or via GPIO.
+ 	 * Use register accesses by default.
+@@ -40,7 +40,7 @@ static const struct reg_init buck1_inits[] =3D {
+ 	},
+ };
+=20
+-static const struct reg_init buck2_inits[] =3D {
++static const struct reg_init bd71828_buck2_inits[] =3D {
+ 	{
+ 		.reg =3D BD71828_REG_PS_CTRL_1,
+ 		.mask =3D BD71828_MASK_DVS_BUCK2_CTRL,
+@@ -48,7 +48,7 @@ static const struct reg_init buck2_inits[] =3D {
+ 	},
+ };
+=20
+-static const struct reg_init buck6_inits[] =3D {
++static const struct reg_init bd71828_buck6_inits[] =3D {
+ 	{
+ 		.reg =3D BD71828_REG_PS_CTRL_1,
+ 		.mask =3D BD71828_MASK_DVS_BUCK6_CTRL,
+@@ -56,7 +56,7 @@ static const struct reg_init buck6_inits[] =3D {
+ 	},
+ };
+=20
+-static const struct reg_init buck7_inits[] =3D {
++static const struct reg_init bd71828_buck7_inits[] =3D {
+ 	{
+ 		.reg =3D BD71828_REG_PS_CTRL_1,
+ 		.mask =3D BD71828_MASK_DVS_BUCK7_CTRL,
+@@ -102,9 +102,9 @@ static int buck_set_hw_dvs_levels(struct device_node *n=
+p,
+ 	return rohm_regulator_set_dvs_levels(&data->dvs, np, desc, cfg->regmap);
+ }
+=20
+-static int ldo6_parse_dt(struct device_node *np,
+-			 const struct regulator_desc *desc,
+-			 struct regulator_config *cfg)
++static int bd71828_ldo6_parse_dt(struct device_node *np,
++				 const struct regulator_desc *desc,
++				 struct regulator_config *cfg)
+ {
+ 	int ret, i;
+ 	uint32_t uv =3D 0;
+@@ -212,8 +212,8 @@ static const struct bd71828_regulator_data bd71828_rdat=
+a[] =3D {
+ 			 */
+ 			.lpsr_on_mask =3D BD71828_MASK_LPSR_EN,
+ 		},
+-		.reg_inits =3D buck1_inits,
+-		.reg_init_amnt =3D ARRAY_SIZE(buck1_inits),
++		.reg_inits =3D bd71828_buck1_inits,
++		.reg_init_amnt =3D ARRAY_SIZE(bd71828_buck1_inits),
+ 	},
+ 	{
+ 		.desc =3D {
+@@ -253,8 +253,8 @@ static const struct bd71828_regulator_data bd71828_rdat=
+a[] =3D {
+ 			.lpsr_reg =3D BD71828_REG_BUCK2_SUSP_VOLT,
+ 			.lpsr_mask =3D BD71828_MASK_BUCK1267_VOLT,
+ 		},
+-		.reg_inits =3D buck2_inits,
+-		.reg_init_amnt =3D ARRAY_SIZE(buck2_inits),
++		.reg_inits =3D bd71828_buck2_inits,
++		.reg_init_amnt =3D ARRAY_SIZE(bd71828_buck2_inits),
+ 	},
+ 	{
+ 		.desc =3D {
+@@ -399,8 +399,8 @@ static const struct bd71828_regulator_data bd71828_rdat=
+a[] =3D {
+ 			.lpsr_reg =3D BD71828_REG_BUCK6_SUSP_VOLT,
+ 			.lpsr_mask =3D BD71828_MASK_BUCK1267_VOLT,
+ 		},
+-		.reg_inits =3D buck6_inits,
+-		.reg_init_amnt =3D ARRAY_SIZE(buck6_inits),
++		.reg_inits =3D bd71828_buck6_inits,
++		.reg_init_amnt =3D ARRAY_SIZE(bd71828_buck6_inits),
+ 	},
+ 	{
+ 		.desc =3D {
+@@ -440,8 +440,8 @@ static const struct bd71828_regulator_data bd71828_rdat=
+a[] =3D {
+ 			.lpsr_reg =3D BD71828_REG_BUCK7_SUSP_VOLT,
+ 			.lpsr_mask =3D BD71828_MASK_BUCK1267_VOLT,
+ 		},
+-		.reg_inits =3D buck7_inits,
+-		.reg_init_amnt =3D ARRAY_SIZE(buck7_inits),
++		.reg_inits =3D bd71828_buck7_inits,
++		.reg_init_amnt =3D ARRAY_SIZE(bd71828_buck7_inits),
+ 	},
+ 	{
+ 		.desc =3D {
+@@ -633,7 +633,7 @@ static const struct bd71828_regulator_data bd71828_rdat=
+a[] =3D {
+ 			 * LDO6 only supports enable/disable for all states.
+ 			 * Voltage for LDO6 is fixed.
+ 			 */
+-			.of_parse_cb =3D ldo6_parse_dt,
++			.of_parse_cb =3D bd71828_ldo6_parse_dt,
+ 		},
+ 	}, {
+ 		.desc =3D {
 --=20
 2.51.1
 
 
---eEHz2p03zw8+XRiI
+--McRCVugZrl/LxzQg
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCgAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmkVnOkACgkQeFA3/03a
-ocXIFAf/dTWebPRaTV3vBZaxLueuxBYLcF0xQHPRMDwXJHLta80As4drk1FI7DLm
-rvrHJmBiO5Bo4wqweiPnvetGUYOUj3qHK22oFs+VLaAmwESHd1AWYKDwYyJsgUCU
-RnL6d5OrrCI+wpcg+/E3rq95ObjRHE8p4ioEPgaxfzFyypgTRZ/lcxWnNXVucNK3
-690umWyZS90F9IsGcg1qEbT1KfXHt4aXVvdq7+/R5Kx4FolUZAJRtESfNvwkN7SZ
-pNkmdVd3ofCLQUxDAu2vea0UKc8aleMUIsyc5dy3X/85y/zoz9zxCIA+NWvxPRme
-d2a8ndI059XouOBozwmEqhRMvP9zcg==
-=g766
+iQEzBAEBCgAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmkVnKkACgkQeFA3/03a
+ocWapQgAmV3PHHH9Yh2k2PqFueBdt77UE2BR4zF+GgBHl/R1V4O86/burrAfveJ5
+ncCDsBHLQ8JzVLaAUA4DnZha3tK78t3DqSx2uKk1sDuDieeAnKMkxWHK91HiZVyr
+7yfCtyj41uEXq50WDUQaBTg9492AwlKsi7cVNvvY+5ql+7RiHW3sSH6hTna+vkGz
+j+B+HSSN87XrO6+z1h13vihCUB4kYcZrYDsF3AgrWdGuyYnvaYGuwtgkmj3Dxkfv
+sfd6e29ADdrbr4cZwqQFVS3P6tMpSsu0oF0aE9lX2oFAUJL+b6/rOATr/yTkNI/+
+sO8rnnCP71775CIU5Jm79sVW12egwA==
+=pJJV
 -----END PGP SIGNATURE-----
 
---eEHz2p03zw8+XRiI--
+--McRCVugZrl/LxzQg--
 
