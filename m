@@ -1,181 +1,194 @@
-Return-Path: <linux-leds+bounces-6071-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6072-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E6FC51112
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Nov 2025 09:15:54 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3B7C566A4
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 09:58:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EC0C14F5E0F
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Nov 2025 08:10:27 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 4EF01350EAC
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 08:51:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FAB42F1FCF;
-	Wed, 12 Nov 2025 08:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CFA13328E2;
+	Thu, 13 Nov 2025 08:51:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="F54h5VVk"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ALXDqWi4"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD232F291A
-	for <linux-leds@vger.kernel.org>; Wed, 12 Nov 2025 08:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210A733121D
+	for <linux-leds@vger.kernel.org>; Thu, 13 Nov 2025 08:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762935027; cv=none; b=fkorU4q7ux6V3aInyDunSBamE+8GbRgwhZqCYYxd05k+2Oum4VrpxkuLNnaDucAfM1mGguB/rbuJyH7VoW7LO4S0M1HwXoXQ7Xxx7u/3Y/jYGlJVeqe/iRTZAFf5lGXdv3SBtrhmiEsFmfWWkerMzuem7okF2hxEa9sUsLSyfX4=
+	t=1763023887; cv=none; b=X6oQlxpIYvx0x+ztcWKi95eblyQqrzzLrQEuJmvjCiLCzYWBokSclrqC5mRBQZkdGiLYmFgjv3v6laQ3Xg3wnITtpkCpYzkGVtgFfykmYOfagZ1ah0ex4/vSJDFVZgCQnjIhDvGoHchteJ2UiVsa4OMulZ+b9CsIfyq0HMi0o/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762935027; c=relaxed/simple;
-	bh=0x3hyexB8RN1aORyPKlDT00oHNFF/g8ktIl6ddCB0rI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kao/LIb00v42TIR/dOfJeb2JZsd09R4W0NpDioyArLPaF47SE1YQW4JYGOLa3EyTvyMTtoNWJmt4qwuyJEFwSI9I5Tz36M+bYLalL8lUHdxuwLbfWXTgGu3TWnpIPfMo4Uy5wfkBkvyQcPCSeOShk51oGvWc5zUtMnKzO+IsIV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=F54h5VVk; arc=none smtp.client-ip=91.218.175.180
+	s=arc-20240116; t=1763023887; c=relaxed/simple;
+	bh=gErgExs0giELNyDUhov4fCt/tgP4xuvM5MPlSNyKCQE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ArRha/+wDbR4N/87FGfZWswZfw9rmsHwFf7JNTwawJaUx+AKgam4t/tYLS0nzOoS8/B74D2ahH0ZDQn0MaYKndQcElHrl4etl/3cvRtHI5NjjUvwzJ7751AS8MPg78b6hRBAcc+LI1/ZgNDEOU3l69vtMVFdX1JyjpiMJOJNbPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ALXDqWi4; arc=none smtp.client-ip=91.218.175.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Wed, 12 Nov 2025 09:10:19 +0100
+Date: Thu, 13 Nov 2025 10:51:05 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1762935022;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DjA5G/w0hn6tSkNzMJ7TQLqDnTKycMpelEMAQRKSY3U=;
-	b=F54h5VVkGptEPuFFm5q4LVc3c0MS/iaqVvcqKW9bWq2CrJBG0uhU6Chihdg6THP6lmrCvG
-	AYSszUDVaswGW8iwTuE01LDjjnGp551W325W/7fvCQODjyC3l1rsXYJ1MBGg1NTxcHyluk
-	xaaftVv8JOU86Yejq85mKNXiQyJLO6Y=
+	t=1763023873; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type; bh=4Cu0d6W6TNdyyOOYee94EXw4t7os5fCG6nMUY/+KWMU=;
+	b=ALXDqWi4fMqjrdjYjYsvwPp+xOCvKCXNir1cgSmEAmSUfH5pTQmzSYnqU7yox5q+lwSQPl
+	ToJXsn5lJF7X+Izzp4pI68MjKOu3jZbrXxFelDM+4hQ0J6kkEhzprhSM9tmDgUo3YfnKic
+	F8kilmrxA6A4UQMpa2ooICj+KUZJLGQ=
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Richard Leitner <richard.leitner@linux.dev>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-leds@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
-Subject: Re: [PATCH v8 8/8] media: i2c: ov9282: dynamic flash_duration maximum
-Message-ID: <4ypovtmginw3ptunolxylxh7xhgfqf2ubhqqrxmywbukwspomx@gw6rnprfq6vx>
-References: <20251104-ov9282-flash-strobe-v8-0-b91dfef1c65a@linux.dev>
- <20251104-ov9282-flash-strobe-v8-8-b91dfef1c65a@linux.dev>
- <aRGat_G74zT1zaS0@kekkonen.localdomain>
+From: Matti Vaittinen <matti.vaittinen@linux.dev>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-rtc@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
+Subject: [PATCH v4 00/16] Support ROHM BD72720 PMIC
+Message-ID: <cover.1763022807.git.mazziesaccount@gmail.com>
+Reply-To: Matti Vaittinen <mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dKFZS09m7tQZCgSp"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aRGat_G74zT1zaS0@kekkonen.localdomain>
 X-Migadu-Flow: FLOW_OUT
 
-Hi Sakari,
 
-On Mon, Nov 10, 2025 at 09:56:39AM +0200, Sakari Ailus wrote:
-> On Tue, Nov 04, 2025 at 03:30:59PM +0100, Richard Leitner wrote:
-> > This patch sets the current exposure time as maximum for the
-> > flash_duration control. As Flash/Strobes which are longer than the
-> > exposure time have no effect.
-> > 
-> > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> > ---
-> >  drivers/media/i2c/ov9282.c | 30 ++++++++++++++++++++++++++----
-> >  1 file changed, 26 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > index 7aa74feb3ee44..df7beedba0b9e 100644
-> > --- a/drivers/media/i2c/ov9282.c
-> > +++ b/drivers/media/i2c/ov9282.c
-> > @@ -198,6 +198,7 @@ struct ov9282_mode {
-> >   * @exp_ctrl: Pointer to exposure control
-> >   * @again_ctrl: Pointer to analog gain control
-> >   * @pixel_rate: Pointer to pixel rate control
-> > + * @flash_duration: Pointer to flash duration control
-> >   * @vblank: Vertical blanking in lines
-> >   * @noncontinuous_clock: Selection of CSI2 noncontinuous clock mode
-> >   * @cur_mode: Pointer to current selected sensor mode
-> > @@ -220,6 +221,7 @@ struct ov9282 {
-> >  		struct v4l2_ctrl *again_ctrl;
-> >  	};
-> >  	struct v4l2_ctrl *pixel_rate;
-> > +	struct v4l2_ctrl *flash_duration;
-> >  	u32 vblank;
-> >  	bool noncontinuous_clock;
-> >  	const struct ov9282_mode *cur_mode;
-> > @@ -611,6 +613,15 @@ static int ov9282_update_controls(struct ov9282 *ov9282,
-> >  					mode->vblank_max, 1, mode->vblank);
-> >  }
-> >  
-> > +static u32 ov9282_exposure_to_us(struct ov9282 *ov9282, u32 exposure)
-> > +{
-> > +	/* calculate exposure time in µs */
-> > +	u32 frame_width = ov9282->cur_mode->width + ov9282->hblank_ctrl->val;
-> > +	u32 trow_us = frame_width * 1000000UL / ov9282->pixel_rate->val;
-> 
-> This can overflow.
+--dKFZS09m7tQZCgSp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Good catch. Thank you! I will fix this by dividing the pixel_rate->val
-by 1000000UL instead of multiplying frame_width.
+The ROHM BD72720 is a new power management IC for portable, battery
+powered devices. It integrates 10 BUCKs and 11 LDOs, RTC, charger, LEDs,
+GPIOs and a clock gate. To me the BD72720 seems like a successor to the
+BD71828 and BD71815 PMICs.
 
-> 
-> > +
-> > +	return exposure * trow_us;
-> > +}
-> > +
-> >  /**
-> >   * ov9282_update_exp_gain() - Set updated exposure and gain
-> >   * @ov9282: pointer to ov9282 device
-> > @@ -622,9 +633,10 @@ static int ov9282_update_controls(struct ov9282 *ov9282,
-> >  static int ov9282_update_exp_gain(struct ov9282 *ov9282, u32 exposure, u32 gain)
-> >  {
-> >  	int ret;
-> > +	u32 exposure_us = ov9282_exposure_to_us(ov9282, exposure);
-> >  
-> > -	dev_dbg(ov9282->dev, "Set exp %u, analog gain %u",
-> > -		exposure, gain);
-> > +	dev_dbg(ov9282->dev, "Set exp %u (~%u us), analog gain %u",
-> > +		exposure, exposure_us, gain);
-> >  
-> >  	ret = ov9282_write_reg(ov9282, OV9282_REG_HOLD, 1, 1);
-> >  	if (ret)
-> > @@ -635,6 +647,12 @@ static int ov9282_update_exp_gain(struct ov9282 *ov9282, u32 exposure, u32 gain)
-> >  		goto error_release_group_hold;
-> >  
-> >  	ret = ov9282_write_reg(ov9282, OV9282_REG_AGAIN, 1, gain);
-> > +	if (ret)
-> > +		goto error_release_group_hold;
-> > +
-> > +	ret = __v4l2_ctrl_modify_range(ov9282->flash_duration,
-> > +				       0, exposure_us, 1,
-> > +				       OV9282_STROBE_FRAME_SPAN_DEFAULT);
-> >  
-> >  error_release_group_hold:
-> >  	ov9282_write_reg(ov9282, OV9282_REG_HOLD, 1, 0);
-> > @@ -1423,6 +1441,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> >  	const struct ov9282_mode *mode = ov9282->cur_mode;
-> >  	struct v4l2_fwnode_device_properties props;
-> >  	u32 hblank_min;
-> > +	u32 exposure_us;
-> >  	u32 lpfr;
-> >  	int ret;
-> >  
-> > @@ -1495,8 +1514,11 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> >  	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops,
-> >  			  V4L2_CID_FLASH_STROBE_OE, 0, 1, 1, 0);
-> >  
-> > -	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
-> > -			  0, 13900, 1, 8);
-> > +	exposure_us = ov9282_exposure_to_us(ov9282, OV9282_EXPOSURE_DEFAULT);
-> > +	ov9282->flash_duration = v4l2_ctrl_new_std(ctrl_hdlr,
-> > +						   &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
-> > +						   0, exposure_us,
-> > +						   1, OV9282_STROBE_FRAME_SPAN_DEFAULT);
-> >  
-> >  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
-> >  	if (!ret) {
-> > 
-> 
-> -- 
-> Kind regards,
-> 
-> Sakari Ailus
+This series depends on
+5bff79dad20a ("power: supply: Add bd718(15/28/78) charger driver")
+which is in power-supply tree, for-next. Thus, the series is based on
+it.
 
-regards;rl
+The testing of v4 suffered some hardware-issues after I accidentally
+enabled charging while the PMIC's battery pin was connected to the I/O
+domain. Some heat was generated, not terribly lot smoke though...
+
+After the incident I've had occasional I2C failures. I, however, suspect
+the root cause is HW damage in I/O lines since changes in this revision
+have been made to dt-bindings. It's still fair to note that though, as
+my testing was impacted.
+
+Revision history:
+  v3 =3D> v4:
+  - dt-binding fixes to the BD72720 MFD example and regulator bindings
+  More accurate changelog in individual patches
+
+  v2 =3D> v3:
+  - rebased to power-supply/for-next as dependencies are merged to there
+  - plenty of dt-binding changes as suggested by reviewers
+  - add new patch to better document existing 'trickle-charging' property
+  More accurate changelog in individual patches
+
+  RFCv1 =3D> v2:
+  - Drop RFC status
+  - Use stacked regmaps to hide secondary map from the sub-drivers
+  - Quite a few styling fixes and improvements as suggested by
+    reviewers. More accurate changelog in individual patches.
+  - Link to v1:
+    https://lore.kernel.org/all/cover.1759824376.git.mazziesaccount@gmail.c=
+om/
+
+---
+
+Matti Vaittinen (16):
+  dt-bindings: regulator: ROHM BD72720
+  dt-bindings: battery: Clarify trickle-charge
+  dt-bindings: battery: Add trickle-charge upper limit
+  dt-bindings: power: supply: BD72720 managed battery
+  dt-bindings: mfd: ROHM BD72720
+  dt-bindings: leds: bd72720: Add BD72720
+  mfd: rohm-bd71828: Use regmap_reg_range()
+  mfd: bd71828: Support ROHM BD72720
+  regulator: bd71828: rename IC specific entities
+  regulator: bd71828: Support ROHM BD72720
+  gpio: Support ROHM BD72720 gpios
+  clk: clk-bd718x7: Support BD72720 clk gate
+  rtc: bd70528: Support BD72720 rtc
+  power: supply: bd71828: Support wider register addresses
+  power: supply: bd71828-power: Support ROHM BD72720
+  MAINTAINERS: Add ROHM BD72720 PMIC
+
+ .../bindings/leds/rohm,bd71828-leds.yaml      |    7 +-
+ .../bindings/mfd/rohm,bd72720-pmic.yaml       |  338 ++++++
+ .../bindings/power/supply/battery.yaml        |   11 +-
+ .../power/supply/rohm,vdr-battery.yaml        |   80 ++
+ .../regulator/rohm,bd72720-regulator.yaml     |  148 +++
+ MAINTAINERS                                   |    2 +
+ drivers/clk/Kconfig                           |    4 +-
+ drivers/clk/clk-bd718x7.c                     |   10 +-
+ drivers/gpio/Kconfig                          |    9 +
+ drivers/gpio/Makefile                         |    1 +
+ drivers/gpio/gpio-bd72720.c                   |  281 +++++
+ drivers/mfd/Kconfig                           |   18 +-
+ drivers/mfd/rohm-bd71828.c                    |  546 ++++++++-
+ drivers/power/supply/bd71828-power.c          |  160 ++-
+ drivers/regulator/Kconfig                     |    8 +-
+ drivers/regulator/bd71828-regulator.c         | 1025 ++++++++++++++++-
+ drivers/rtc/Kconfig                           |    3 +-
+ drivers/rtc/rtc-bd70528.c                     |   21 +-
+ include/linux/mfd/rohm-bd72720.h              |  634 ++++++++++
+ include/linux/mfd/rohm-generic.h              |    1 +
+ 20 files changed, 3177 insertions(+), 130 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/rohm,bd72720-pmic=
+=2Eyaml
+ create mode 100644 Documentation/devicetree/bindings/power/supply/rohm,vdr=
+-battery.yaml
+ create mode 100644 Documentation/devicetree/bindings/regulator/rohm,bd7272=
+0-regulator.yaml
+ create mode 100644 drivers/gpio/gpio-bd72720.c
+ create mode 100644 include/linux/mfd/rohm-bd72720.h
+
+
+base-commit: 8e8856396b54bea5c00a7ae88d87c6254aef2d94
+--=20
+2.51.1
+
+
+--dKFZS09m7tQZCgSp
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmkVm/kACgkQeFA3/03a
+ocX7IwgAzz6P/Y+KNbJ7ZjWahFcHUI1wgYDFcf/SlBI/HhU9hi+MX66swIV7RDkm
+VU8AUpREZDAa8F+YPBoDb+SWRVVkwN9NzP4rLsWiBL66HaHFtabSm0vRglj6AEY3
+71wtOXR0faeX2crZd8J2ID861dHix3A2mxomBmoAL6kF1E8arv7rIhyx3RonJ1dH
+rIT/DaJ7f/O7zJOHm9/YKTk4sN6paGFqGOIsj4qvLq87E/+70MZ02RsfSLWUDEIM
+4ITyfhALAxsa9Rq0Qw5XFB5jQzpQw7SCrJ+ms8Dkx2TX9H94UXj7Tj7pW6jTOa+L
+6GPekxZMEliDsXSVFdBkg/d3zK6C9Q==
+=03Sq
+-----END PGP SIGNATURE-----
+
+--dKFZS09m7tQZCgSp--
 
