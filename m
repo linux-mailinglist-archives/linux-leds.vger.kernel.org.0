@@ -1,121 +1,237 @@
-Return-Path: <linux-leds+bounces-6125-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6126-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3151EC59E15
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 20:59:48 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BAE4C5A30E
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 22:44:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 631BD354EC3
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 19:58:08 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0ACED4F76CB
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Nov 2025 21:36:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DD9031B120;
-	Thu, 13 Nov 2025 19:58:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CE753254A3;
+	Thu, 13 Nov 2025 21:33:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="s8nBX6me"
+	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="vlEeOcAy"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C4E76026;
-	Thu, 13 Nov 2025 19:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC865326927
+	for <linux-leds@vger.kernel.org>; Thu, 13 Nov 2025 21:33:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763063885; cv=none; b=EQbintq5nkfk/CugOqCfCV6plDws3ROye/Ebp7F/UXRlSLjRknPuYJj9wIG1d8puDD4ogWaMcOBiLA0SUfK/m8GrOe8b162abGLzWkr3GN6GYgH0FOEVjM24774tzc5TAKQwFbBsYmH/wgiG68z0V2uwOKMc2YahjEtfn0ZboE0=
+	t=1763069614; cv=none; b=LhKb86FVYLaLQ95ePUHV7vXCvpYIqWhQRgm1yROf8aXrDx8VJIVH4yfPNJWxFmusGb6qUr2n91wLKFx8Q9hK9Vzmy2Qs77zsPUnITCvUxMeFzec4ZVoUBfIkzQvUjAf7G/NfClYd56U30NINi9bON/+R9DI99ENZWXaMf3puUAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763063885; c=relaxed/simple;
-	bh=iBTFanEIxOT4IMFjt8xI4rzsbKY4Dm6/ucMLBZ2V4gc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V6uD83LAFoeD+1+MQ6C0YAZIyfCH1tlLiSs+0iyFqWGpxXiUjHifCCLSwfwpEbXm8fx8X/TFP2p8D0WgGUaIAshFV3SjGmtXqJ9MYh3s6Jcp7LIl5aPpBnjDS83s+8pyWiSR9lcAs1mbY3ku5RE6yjGAs2swlXAwxAreKIU85eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=s8nBX6me; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=UAioK4DG5C9zm1t6hyaDe3YJWZ5Zta/Pw1nq2GgNNgY=; b=s8nBX6meJGhwpK5oym8SCA1bBN
-	z878G0qTQ9+6fUcBwxozuPeScqbLnkG7YsmhzqixQWUn5FI1u32s6nqnXYqlaBYeAqZxyPcIt69MB
-	nlSjbE8HNu0b6W3d8PHadWuCK4lBcqX8C2/Z0kOWLUNFa6otjf2JnKpa67Stcf4MQu6L4ahKkPlOA
-	T+ICIPJcO9SOPElSasN6sqmBjgPw8y/Nnwm22MZvaQMQKMKB2HaTMCYnDk4Q9z18T1+ttd43SBl3o
-	5Qu/YqIlbSC77sUbZB+l0oB+WhFEzJ16i6qVoh0EsSFEWhfxQfBqYF7YuEzMmDyRg0IQ/jqfjCe++
-	1w4Wf6rA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJdSB-0000000B37a-2kPs;
-	Thu, 13 Nov 2025 19:57:59 +0000
-Message-ID: <2b5e182f-1933-41b1-803d-7084fbc4bbdc@infradead.org>
-Date: Thu, 13 Nov 2025 11:57:58 -0800
+	s=arc-20240116; t=1763069614; c=relaxed/simple;
+	bh=dOsmlXAaLYzJ3dRoD+Ceh7/hl+sEnM6GJpMWKUQ/PyE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=WHJ+rbiaet9JqnH3osma1z/TIl/Lam5YD43EmwDnAKnRP50XzGNdNVe6/xXO5iiE7TiY4BgDgOJyuA+e9Ay6Cx9wQHabFvuwH9pUa3IQLLCXUpLqoPu4uNlQzVPPwtdDzLfjquGeUfk76PsZKjAa4TWRZvXpvWBXZUGCXiS6xbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=vlEeOcAy; arc=none smtp.client-ip=84.16.241.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
+Received: from [IPv6:2a02:1812:162c:8f00:1e2d:b404:3319:eba8] (2a02-1812-162c-8f00-1e2d-b404-3319-eba8.ip6.access.telenet.be [IPv6:2a02:1812:162c:8f00:1e2d:b404:3319:eba8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sander@svanheule.net)
+	by polaris.svanheule.net (Postfix) with ESMTPSA id 851FD69E555;
+	Thu, 13 Nov 2025 22:25:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+	s=mail1707; t=1763069149;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=51L4HkBNkO3CTDdkbZuobL6jJipCP6lYYxkEhb+jVHM=;
+	b=vlEeOcAyqO2WzKutM/FSRYPs8W3X4fMlYSSP3FWn6GO81rPCDdnZ9kFtzmAGX1BeR4/6Cz
+	q74xxgcjcyQMgWtNTckYEyjV+hnvubxSJFjpySBdnv3mfUqwEBUwNxLXKyJU7RXqZ6wktp
+	dSPouneWmJclkhhimjL5Y+BM68rrYd5BmU5DmztmkmjVCEYHStG1vDK9vw8AZgLEBxtl6m
+	yoZh2y4Qr0UisFSaQHaHJC1mC00bOxLD1/JMJi0ILyhDgG3w1mzh3QwR+V/eKPwSpBSML8
+	nzqHo3TZx3fgfRfc8GDyojnJ4hHfIXNFVFR2nclgCCYJIBWnL3rtz6G88bk8HA==
+Message-ID: <d50db8a305d92b20a972a590f2082f39a8027edc.camel@svanheule.net>
+Subject: Re: [PATCH v6 5/8] mfd: Add RTL8231 core device
+From: Sander Vanheule <sander@svanheule.net>
+To: Lee Jones <lee@kernel.org>
+Cc: Michael Walle <mwalle@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>,  Bartosz Golaszewski	 <brgl@bgdev.pl>,
+ linux-gpio@vger.kernel.org, Pavel Machek <pavel@kernel.org>,  Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, 	linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org
+Date: Thu, 13 Nov 2025 22:25:48 +0100
+In-Reply-To: <20251106163316.GV8064@google.com>
+References: <20251021142407.307753-1-sander@svanheule.net>
+	 <20251021142407.307753-6-sander@svanheule.net>
+	 <20251106163316.GV8064@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/13] Documentation: leds: document pattern behavior of
- Samsung S2M series PMIC RGB LEDs
-To: Kaustabh Chakraborty <kauschluss@disroot.org>, Lee Jones
- <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org>
- <20251114-s2mu005-pmic-v1-11-9e3184d3a0c9@disroot.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251114-s2mu005-pmic-v1-11-9e3184d3a0c9@disroot.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+
+Hi Lee,
+
+On Thu, 2025-11-06 at 16:33 +0000, Lee Jones wrote:
+> On Tue, 21 Oct 2025, Sander Vanheule wrote:
+> > @@ -0,0 +1,193 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +
+> > +#include <linux/bits.h>
+> > +#include <linux/bitfield.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/gpio/consumer.h>
+> > +#include <linux/mfd/core.h>
+> > +#include <linux/mdio.h>
+> > +#include <linux/module.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/property.h>
+> > +#include <linux/regmap.h>
+>=20
+> Alphabetical please.
+
+Ack
+
+> > +static const struct reg_field RTL8231_FIELD_LED_START =3D
+> > REG_FIELD(RTL8231_REG_FUNC0, 1, 1);
+>=20
+> Why does this have to be global?
+>=20
+> Variables should be lowercase.
+
+Moving it to the one place where it's used.
+
+> > +static const struct mfd_cell rtl8231_cells[] =3D {
+> > +	{
+> > +		.name =3D "rtl8231-pinctrl",
+> > +	},
+> > +	{
+> > +		.name =3D "rtl8231-leds",
+> > +		.of_compatible =3D "realtek,rtl8231-leds",
+> > +	},
+> > +};
+>=20
+> This is a pretty tenuous MFD!
+
+I suppose two functions is the minimum to count as multi-functional :-)
+
+I need a place to perform chip detection and to start the output drivers. T=
+he
+latter could be part of a pinctrl driver, but making the led driver depend =
+on
+the pinctrl driver doesn't sit too well with me. Now the functionality is
+cleanly split across the MFD core driver and pinctrl/led drivers.
+
+> > +static int rtl8231_soft_reset(struct regmap *map)
+>=20
+> s/map/regmap/
+
+Ack, replaced throughout the driver.
+
+> > +{
+> > +	const unsigned int all_pins_mask =3D GENMASK(RTL8231_BITS_VAL - 1,
+> > 0);
+> > +	unsigned int val;
+> > +	int err;
+> > +
+> > +	/* SOFT_RESET bit self-clears when done */
+> > +	regmap_write_bits(map, RTL8231_REG_PIN_HI_CFG,
+> > +		RTL8231_PIN_HI_CFG_SOFT_RESET,
+> > RTL8231_PIN_HI_CFG_SOFT_RESET);
+> > +	err =3D regmap_read_poll_timeout(map, RTL8231_REG_PIN_HI_CFG, val,
+> > +		!(val & RTL8231_PIN_HI_CFG_SOFT_RESET), 50, 1000);
+> > +	if (err)
+> > +		return err;
+>=20
+> Do we have to scrunch these calls together?
+
+Made it a bit less claustrophobic.
+
+> > +	regcache_mark_dirty(map);
+
+This marks the device register state as invalid, which isn't what I wanted =
+here.
+After a reset, the cache should be repopulated, so this is now:
+
+	regcache_drop_region(0, RTL8231_REG_COUNT - 1);
+
+> > +static int rtl8231_init(struct device *dev, struct regmap *map)
+> > +{
+> > +	struct regmap_field *led_start;
+> > +	unsigned int started;
+> > +	unsigned int val;
+>=20
+> If this is used for only one thing, it makes sense to use better
+> nomenclature that refers to that thing.
+
+Ack, updated the naming a bit.
+
+> > +	led_start =3D dev_get_drvdata(dev);
+> > +	err =3D regmap_field_read(led_start, &started);
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	if (!started) {
+>=20
+> Reverse the logic and exit early if 'started'.
+
+Ack
+
+>=20
+> > +		err =3D rtl8231_soft_reset(map);
+> > +		if (err)
+> > +			return err;
+>=20
+> '\n' here.
+
+Ack
+
+> > +		/* LED_START enables power to output pins, and starts the
+> > LED engine */
+> > +		err =3D regmap_field_force_write(led_start, 1);
+
+This is in a volatile register, so the driver doesn't need to force anythin=
+g to
+write to the device and will now use regmap_field_write().
+
+> > +	led_start =3D devm_regmap_field_alloc(dev, map,
+> > RTL8231_FIELD_LED_START);
+> > +	if (IS_ERR(led_start))
+> > +		return PTR_ERR(led_start);
+>=20
+> Why do we need to do LED specific actions in the core driver?
+
+The is naming taken from the datasheet. Setting LED_START actually enables =
+both
+the LED scanning output engine and the output drivers. So this is needed fo=
+r
+proper functioning of the GPIO functionality too.
 
 
+> > +	return devm_mfd_add_devices(dev, PLATFORM_DEVID_AUTO,
+> > rtl8231_cells,
+> > +		ARRAY_SIZE(rtl8231_cells), NULL, 0, NULL);
+>=20
+> Odd tabbing.=C2=A0 Please line-up with the '(' like usual.
 
-On 11/13/25 11:05 AM, Kaustabh Chakraborty wrote:
-> Add documentation to describe how hardware patterns (as defined by the
-> documentation of led-class-multicolor) are parsed and implemented by the
-> Samsung S2M series PMIC RGB LED driver.
-> 
-> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
-> ---
->  Documentation/leds/index.rst        |  1 +
->  Documentation/leds/leds-s2m-rgb.rst | 60 +++++++++++++++++++++++++++++++++++++
->  2 files changed, 61 insertions(+)
-> 
+Ack
 
-> diff --git a/Documentation/leds/leds-s2m-rgb.rst b/Documentation/leds/leds-s2m-rgb.rst
-> new file mode 100644
-> index 000000000000..cf91f0238093
-> --- /dev/null
-> +++ b/Documentation/leds/leds-s2m-rgb.rst
-> @@ -0,0 +1,60 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +======================================
-> +Samsung S2M Series PMIC RGB LED Driver
-> +======================================
-> +
-> +Description
-> +-----------
-> +
-> +The RGB LED on the S2M series PMIC hardware features a three-channel LED that is
-> +grouped together as a single device. Furthermore, the it supports 8-bit
+> > +__maybe_unused static int rtl8231_suspend(struct device *dev)
+>=20
+> The __maybe_unused comes after the "static int" part.
 
-                                           drop the  ^^^
+Ack.
 
-> +brightness control for each channel. This LED is typically used as a status
-> +indicator in mobile devices. It also supports various parameters for hardware
-> +patterns.
+C11 attributes like [[maybe_unused]] must come before the "static int" part=
+, but
+that doesn't line up with how most of the kernel uses the attributes.
 
--- 
-~Randy
 
+Best,
+Sander
 
