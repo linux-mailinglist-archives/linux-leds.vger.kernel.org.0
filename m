@@ -1,212 +1,146 @@
-Return-Path: <linux-leds+bounces-6139-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6140-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7C0C5D4DE
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Nov 2025 14:20:22 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47182C5D599
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Nov 2025 14:29:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 7FE03356BA1
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Nov 2025 13:14:33 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AE7354E2935
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Nov 2025 13:22:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6112C30CD95;
-	Fri, 14 Nov 2025 13:14:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01579314D02;
+	Fri, 14 Nov 2025 13:22:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TE3O3wtx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JLxJBecV"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6353016FE
-	for <linux-leds@vger.kernel.org>; Fri, 14 Nov 2025 13:14:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0366E314A6B
+	for <linux-leds@vger.kernel.org>; Fri, 14 Nov 2025 13:22:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763126064; cv=none; b=NvTVmaIhk+dgLsyeLFafisD80buq+Cd/f5BCaXcVJKcAzGKEjZjS+2ngzoTuYGpIN6k6yqx/UgXek5xEqhuL/K/GjDvsxUjJRmvbifMb4uLZUmb7Hnrfs8T1PynIMBwCXKterjR9Jaf8wLJDve+wtxmYUbNjcB/Xu7T5JWthBDA=
+	t=1763126525; cv=none; b=omWZ08QmaMJumwesGG2Hp4mPbuDn2PZQGqvF2KzSIivPxJBNZob/8tsqEg0po7rE2jG00G3UAXnwa4nitrkEBbOXuMizxc9rigBWprV4GSRRqyDmpK6kyCwgN0KaqXbQv5oMKPDjEuDrPsUDfnCA0HDZdp3pxxCUa3zmIhmCn2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763126064; c=relaxed/simple;
-	bh=MkZ3kMIKj667Q6zlkFms+OxbDU158ERDyf3gzaKEAeo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=S4WESh0Y4frN1n9n/69uqBPTjxJuXKgD0Ao6khNyuI3wo8U+mUqAVI9Izth5QEMHrohnbd9Epg5+mqbPr5ETImho2E9voqeL09Af9s2PzXZx636a0Aj8jTAoaKBJ/41QpVJtg8tosGHkTWZtdp1RS3f65IKhCAN82Ufa47JihSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TE3O3wtx; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42b379cd896so1284795f8f.3
-        for <linux-leds@vger.kernel.org>; Fri, 14 Nov 2025 05:14:21 -0800 (PST)
+	s=arc-20240116; t=1763126525; c=relaxed/simple;
+	bh=PIhVxornY+xeHydrfUvm8sKztzt4GgYtkzvZxgJ8W40=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mwW+FBZb0F5iEJOfq+uMlmS3+8gTaxylt3c+k3KI4t9Qux+q1vf+UbEDLWvMD7ESVc3n7ed+asp36yEz1K1xRoaBvbcehAWX0Bd4wtIkrk28Id0n42gjR0O72Izs/5coyijfD/7wG+YabLOqf4qPiGdwuxRzaGd8v8JPYjo1Tqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JLxJBecV; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-37bac34346dso5637411fa.2
+        for <linux-leds@vger.kernel.org>; Fri, 14 Nov 2025 05:22:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763126060; x=1763730860; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=iU0sX+BIcc5PHiUInIFp7NW8ySzf+LdobKT956HEe2s=;
-        b=TE3O3wtxbtU988e/qgrUb8LBnjD9XIJlLYfOlnbpdfAMbp7tAn8xaDSqahTwEz8LDd
-         QT/r3JT3O6laClSRGB6DR8Q/I/DFmetFYbFtSrb7yVJwptnfeW55OTV6g/GSlo0Z6z1h
-         THKdIXSaw8d5cn3Dy+Hv6EWBqG2XF7KPo/fF0jqNJcHbTZ9JLLGDpEgxOlns0eMW8Syr
-         W9TGvEZP9hiviBfrC7zXWIG+WiYlqlzbSJJs0Rxm2XyRDr6xvYkgpLoGLtjKH4YCVnOs
-         2vvSdPUPB3mm+Dtj7U4Rlbbf8/j279ciFMTVAStWf6pmkGq570JrhgRVbElUVOPF9BHZ
-         rKzw==
+        d=gmail.com; s=20230601; t=1763126522; x=1763731322; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TrtX8x6xiGPlcF3REo6XTaulSDVNKE90sjqlhnGudPU=;
+        b=JLxJBecVTt7ci4MySHtaJCX2RuSWm+47+kgQXd3+q5iCTC6xRsKVeS4VMO2C6iKoUi
+         7wC7myl8516ZyD8NfP4qhC6InalfcMWDXVAnbtLDFNwJ6ARwpQfEZIrsLX12cgIT1uql
+         lrk6TGIK/1QEbP5uaOpQ8lOu/DJZfSzIb3aiGlYvsoBl6Z+b0tkjB3xpz6kbj1SreGpl
+         da9piGtvNIXkCcYmoDu2sNWR9609OQO1ta0KvjdQNYb4U1AiIS2D9tvNsn+Wv5udjE9n
+         tKW1+Vcx+V8JDmWgyb2Y2iuVQPq4hnOZ7a48Uw3v7Cx5fOHYIAEu4dBdezJxsOSPM0Es
+         tZGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763126060; x=1763730860;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iU0sX+BIcc5PHiUInIFp7NW8ySzf+LdobKT956HEe2s=;
-        b=MdsRpZBozqOCXwGTZjS5z/VVAEfVtaCr8mUedifq4qvr7gIEFJyBNagqlKdK5TjAQX
-         PFSSig8Rzff0QnFucLhTkht/MoG+LHspp1G+iuIFzpTI2ouu+Ckh074gDRXztymrMrWN
-         58Jbb+gSdAsQMxo9zoDlCEIPr3YwX0joWHeFd1nru/671SLc39Z9JzhIXesIolg4sapJ
-         luJ+gIjiPw3Ig29tMl1igi24ba/laWW50VLgN9FT0EQmtXyu5kmvxlhoUB1T7gp3s521
-         g+lObZYvKIujVd1A3gGttxFBxtoekgr3b2zzMdHVq36xIrUAHYVJzm06qfJxlqFvyNg6
-         lSDA==
-X-Gm-Message-State: AOJu0YwSQaMNDKI7aB+lb3Ipv/fZHcqnQUEmizCczr9u18f8qzWmhI24
-	jSbkD7uV/+ji9kSkajR/TwSkZApkAeKaEwfvEzlCuH7av7O3iiU/JzbkVbmHYESxHaM=
-X-Gm-Gg: ASbGncvnIKDAgnAJooCxZzHRJdQcArb76fQcjtorxDi7SCWXOKLR/+rYhLeCom7JK4Y
-	fbHNNEzpXhR7wkzP8IP7/j8UGiLF6CIJURkxPY2JrwBVcb0UK6t/PFdR06KOkdMuCKnfOFpLXKG
-	DJ1tywV0KWvArKbe1ZlqF7JGSJgUcqfwQ4dL1Jaj/6Lg+xw4gybTSJf6QbMmQYqHpE14pqhv2Ni
-	lgIjX3a6iytG9Cqmj4S1P+CZW2nFxEu+eS63/CJXhy6rXujZovYivUbp7xAJ76SvCVtYNPIgVvu
-	q9FQTvTmdPFudPpQ1BmqXtOiat44GNh0Td1mi5PiFizSLSq042a8xbnB9gW0e048tyE7f0Jpv1o
-	o6wJIfhUtLz3UqqazMg5ALiCwLDdzePDH/VbkzJSUU46J4TWNGIHW7YcvCWRd/jxSlWphuBgvnn
-	6TywEThWHjB22C0NUQ
-X-Google-Smtp-Source: AGHT+IFlqbLqO9l0QT9dnRaBnBUSrcaFuapWFmH3KDcEb64+slQqRjevdDELlFMz7eG9w0S/wckC7Q==
-X-Received: by 2002:a05:6000:290b:b0:42b:3592:1bb9 with SMTP id ffacd0b85a97d-42b595a4856mr2451223f8f.35.1763126060406;
-        Fri, 14 Nov 2025 05:14:20 -0800 (PST)
-Received: from draszik.lan ([212.129.74.29])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f2084dsm10190727f8f.42.2025.11.14.05.14.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Nov 2025 05:14:20 -0800 (PST)
-Message-ID: <982158427bae79e15c92ad0198b398258e262ef6.camel@linaro.org>
-Subject: Re: [PATCH 08/13] mfd: sec: store hardware revision in sec_pmic_dev
- and add S2MU005 support
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-To: Kaustabh Chakraborty <kauschluss@disroot.org>, Lee Jones
- <lee@kernel.org>,  Pavel Machek <pavel@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
- <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo
- Choi	 <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Jonathan Corbet	 <corbet@lwn.net>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Date: Fri, 14 Nov 2025 13:14:19 +0000
-In-Reply-To: <20251114-s2mu005-pmic-v1-8-9e3184d3a0c9@disroot.org>
-References: <20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org>
-	 <20251114-s2mu005-pmic-v1-8-9e3184d3a0c9@disroot.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-2+build3 
+        d=1e100.net; s=20230601; t=1763126522; x=1763731322;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TrtX8x6xiGPlcF3REo6XTaulSDVNKE90sjqlhnGudPU=;
+        b=RyIxbi2u8VxHGYrgqkFxdHMvQ3sElZ3lRBtV3e8iYlN1JiyENNqYOhO2nAZGqsR4LI
+         i4JPxT4zWRsE+Q3bbsbL4cMOPBsqjXkfNA9v1W4zEaP2NROIwhFICOjAvIiEH2qxdySl
+         P//q74QuK1WsSGJjlA8AFDQVcRunmdFwPZB+w2wdMfAUS7pGYUcBh0oVdaw7eYGs/2uI
+         4xak/Vdc0gRo4aE2YWptfkch1SDHN68wIZLjWYl5yio5GA8KB4dwFZcfR0KJ8RtX2qOG
+         ttlknJ+bh1OnwU91D9nc6cefOl8VmS8oqeuzl5dyNbzmgvwTzGHMh5tNN3PllLl80SX4
+         KTKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUgYJwiRq+ltY3uA3EhLiOPlYDhQdyP896GQ9xoHDQiApWX86xGU16fGrsHnZWvO6ld+NY0w8A37Xse@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0Ad2BkMp0+qJcvihf4G7AAwpcBysNXq60i8W6LmMsS2z6MdUq
+	fXbJDejCTQ3GTGqc7Ody2NTOsTeW1gbxLGFlHmMneqf790jybYHpt27w
+X-Gm-Gg: ASbGncvR/P9UoXpcg1uOLU3qZ8bc8oUzCOSOA4gQOPWBJINjdwz3HEAwpZEwflW+gXl
+	39NYEO5Yt6d8P2EohDKBjfQzR91AIRx5oL9SfwbtpmLhaQOxcV2Fh+e8lCcEsLq+gT6KxL68/3h
+	G+xHgbIXRmoGu+We+si9k+2Ael9aUK4OFPqeuIHVLndyAuZ716WbS0wrAn5Z9aEVHGZMBwHKe7H
+	KJGlVVqARcQU4tszf0kDUSoLk+lWcA3yB+7jNNwAnnXXYTmUrD4oZ7OVdEyPBeAvTnvRR0ClGNJ
+	i+H74nD2tlC7jOcoXcrZ2v9qGTxFbdacdf7lYnG/DCQtIXa130abJMRDtRRKw4Gytcv4XF45tdu
+	QZhXTjbjjIWD1Im7ZPY2OYNmYgpDmcqeRPyccZ2zRTJcKNYc8xP/XIUfNg9hsfC4TfUul8+lx5J
+	WumkDaqh9bLm3kNy3yMudksq1kPtpBUsjqCujYvP1OToIpKDWzgabPiquzKQ==
+X-Google-Smtp-Source: AGHT+IFJvPwRc3iSb2WexT7/Nxb76MqMei5zXQUBPxVbaOVwZ0mTUJAzGoCKPRFSwFTVf5iDU0WZyw==
+X-Received: by 2002:a05:651c:418f:b0:378:e3f9:2d26 with SMTP id 38308e7fff4ca-37babd80ac1mr5793261fa.39.1763126521767;
+        Fri, 14 Nov 2025 05:22:01 -0800 (PST)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37b9ce080a6sm10220141fa.4.2025.11.14.05.22.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Nov 2025 05:22:01 -0800 (PST)
+Message-ID: <2334e57c-a384-4a1e-9708-19d14b8f082c@gmail.com>
+Date: Fri, 14 Nov 2025 15:22:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 14/16] power: supply: bd71828: Support wider register
+ addresses
+To: Andreas Kemnade <andreas@kemnade.info>,
+ Matti Vaittinen <matti.vaittinen@linux.dev>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-rtc@vger.kernel.org
+References: <cover.1763022807.git.mazziesaccount@gmail.com>
+ <6248200397d3582fe926938736da66d6bbf9535d.1763022807.git.mazziesaccount@gmail.com>
+ <20251114121509.629d171b@kemnade.info>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20251114121509.629d171b@kemnade.info>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2025-11-14 at 00:35 +0530, Kaustabh Chakraborty wrote:
-> The device revision matters in cases when in some PMICs, the correct
-> register offsets very in different revisions. Instead of just debug
-> printing the value, store it in the driver data struct.
->=20
-> Unlike other devices, S2MU005 has its hardware revision ID in register
-> offset 0x73. Allow handling different devices and add support for S2MU005=
-.
->=20
-> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
-> ---
-> =C2=A0drivers/mfd/sec-common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 30 ++++++++++++++++++++++++------
-> =C2=A0include/linux/mfd/samsung/core.h |=C2=A0 3 +++
-> =C2=A02 files changed, 27 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/mfd/sec-common.c b/drivers/mfd/sec-common.c
-> index 4c5f4dc2905b..f51c53e7a164 100644
-> --- a/drivers/mfd/sec-common.c
-> +++ b/drivers/mfd/sec-common.c
-> @@ -16,6 +16,7 @@
-> =C2=A0#include <linux/mfd/samsung/irq.h>
-> =C2=A0#include <linux/mfd/samsung/s2mps11.h>
-> =C2=A0#include <linux/mfd/samsung/s2mps13.h>
-> +#include <linux/mfd/samsung/s2mu005.h>
-> =C2=A0#include <linux/module.h>
-> =C2=A0#include <linux/of.h>
-> =C2=A0#include <linux/pm.h>
-> @@ -86,17 +87,34 @@ static const struct mfd_cell s2mu005_devs[] =3D {
-> =C2=A0	MFD_CELL_OF("s2mu005-rgb", NULL, NULL, 0, 0, "samsung,s2mu005-rgb"=
-),
-> =C2=A0};
-> =C2=A0
-> -static void sec_pmic_dump_rev(struct sec_pmic_dev *sec_pmic)
-> +static void sec_pmic_store_rev(struct sec_pmic_dev *sec_pmic)
-> =C2=A0{
-> -	unsigned int val;
-> +	unsigned int reg, mask, shift;
-> =C2=A0
-> =C2=A0	/* For s2mpg1x, the revision is in a different regmap */
-> =C2=A0	if (sec_pmic->device_type =3D=3D S2MPG10)
-> =C2=A0		return;
-> =C2=A0
-> -	/* For each device type, the REG_ID is always the first register */
-> -	if (!regmap_read(sec_pmic->regmap_pmic, S2MPS11_REG_ID, &val))
-> -		dev_dbg(sec_pmic->dev, "Revision: 0x%x\n", val);
-> +	switch (sec_pmic->device_type) {
-> +	case S2MU005:
-> +		reg =3D S2MU005_REG_ID;
-> +		mask =3D S2MU005_ID_MASK;
-> +		shift =3D S2MU005_ID_SHIFT;
-> +		break;
-> +	default:
-> +		/* For other device types, the REG_ID is always the first register. */
-> +		reg =3D S2MPS11_REG_ID;
-> +		mask =3D ~0;
-> +		shift =3D 0;
-> +	}
-> +
-> +	if (!regmap_read(sec_pmic->regmap_pmic, reg, &sec_pmic->revision))
-> +		return;
+Thanks Andreas,
 
-You should probably propagate the error up to the caller here.
+On 14/11/2025 13:15, Andreas Kemnade wrote:
+> On Thu, 13 Nov 2025 10:55:39 +0200
+> Matti Vaittinen <matti.vaittinen@linux.dev> wrote:
+> 
+>> As a side note, we can reduce the "wasted space / member / instance" from
+>> 3 bytes to 1 byte, by using u16 instead of the unsigned int if needed. I
+>> rather use unsigned int to be initially prepared for devices with 32 bit
+>> registers if there is no need to count bytes.
+> 
+> Well, this is totally internal to the module, so no ABI/API changes, so
+> there is no advantage of using 32bit now I think. We can switch any time.
 
-Cheers,
-Andre'
+The only advantage is to avoid the churn if 32bit ICs are to be added.
 
-> +
-> +	sec_pmic->revision &=3D mask;
-> +	sec_pmic->revision >>=3D shift;
-> +
-> +	dev_dbg(sec_pmic->dev, "Revision: 0x%x\n", sec_pmic->revision);
-> =C2=A0}
-> =C2=A0
-> =C2=A0static void sec_pmic_configure(struct sec_pmic_dev *sec_pmic)
-> @@ -236,7 +254,7 @@ int sec_pmic_probe(struct device *dev, int device_typ=
-e, unsigned int irq,
-> =C2=A0		return ret;
-> =C2=A0
-> =C2=A0	sec_pmic_configure(sec_pmic);
-> -	sec_pmic_dump_rev(sec_pmic);
-> +	sec_pmic_store_rev(sec_pmic);
-> =C2=A0
-> =C2=A0	return ret;
-> =C2=A0}
-> diff --git a/include/linux/mfd/samsung/core.h b/include/linux/mfd/samsung=
-/core.h
-> index fc07f7944dcd..ccd1bfa15b85 100644
-> --- a/include/linux/mfd/samsung/core.h
-> +++ b/include/linux/mfd/samsung/core.h
-> @@ -63,6 +63,7 @@ enum sec_device_type {
-> =C2=A0 * @irq_base:		Base IRQ number for device, required for IRQs
-> =C2=A0 * @irq:		Generic IRQ number for device
-> =C2=A0 * @irq_data:		Runtime data structure for IRQ controller
-> + * @revision:		Revision number of the device
-> =C2=A0 * @wakeup:		Whether or not this is a wakeup device
-> =C2=A0 */
-> =C2=A0struct sec_pmic_dev {
-> @@ -74,6 +75,8 @@ struct sec_pmic_dev {
-> =C2=A0	int device_type;
-> =C2=A0	int irq;
-> =C2=A0	struct regmap_irq_chip_data *irq_data[MAX_IRQ_CHIPS];
-> +
-> +	unsigned int revision;
-> =C2=A0};
-> =C2=A0
-> =C2=A0struct sec_platform_data {
+> But we have 32bit stuff in the regmap cache anyways, so that is not above
+> the general level of wasting space.
+
+Exactly. And, I am not sure if sparing ~hundred bytes is worth the 
+hassle - even if it is hassle internal to the driver. But yeah, we can 
+squeeze a few bytes if it is seen beneficial. That's why I mentioned it 
+here :)
+
+Yours,
+	-- Matti
+
+---
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
 
