@@ -1,94 +1,89 @@
-Return-Path: <linux-leds+bounces-6145-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6146-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35333C5EB85
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Nov 2025 19:04:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0C9C603F7
+	for <lists+linux-leds@lfdr.de>; Sat, 15 Nov 2025 12:31:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 652B14F25AA
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Nov 2025 17:54:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D5AEA3BBE72
+	for <lists+linux-leds@lfdr.de>; Sat, 15 Nov 2025 11:31:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1088234A3B0;
-	Fri, 14 Nov 2025 17:53:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1E26298CB2;
+	Sat, 15 Nov 2025 11:31:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ag+mbxCQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uge+fHj4"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48BE346790;
-	Fri, 14 Nov 2025 17:53:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69ED1E9B22;
+	Sat, 15 Nov 2025 11:31:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763142817; cv=none; b=p+VWO4DF4zl/35pCrUoHqPx1bt3ueKJC4DHSxNiQRu7CBBxt3bSBTv3Xb5S7ShXvk87mIRkmoxGd0TNdxtTwyGpm2Gr8g8gSrwKcnkFmJZ4D70I3nKnGTr3JfiriO8vz4MqKiBJpNbr9Ni5Z5N8LPzCcg8sLEwOJQX6khSn92WM=
+	t=1763206312; cv=none; b=EP+MGAta9uu0v08l4s8iPK4ruE00NW32IwU8FQgiRhlJqkM/7VHMeof0ovLJ+AmSiLZlcGkDUuXhRptck2MyYD7auK2EdkGAlNILjvKruQHn+fMBwo434UTjtBq2shN/G6IpUZ+9+hA+/H/pl+GfhwK7XovdKrYMphQ46V8ppws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763142817; c=relaxed/simple;
-	bh=clFh80UCN2GxmCCAvzH1vFgZDVg9NsNxwAf0FB+VIUE=;
+	s=arc-20240116; t=1763206312; c=relaxed/simple;
+	bh=FPZ0kQZIwnebdbDeToX/YK8Bd3hA21dxcccPr3O5ccY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ALjh5U3FvYXz7C1D+gVmmnepTE72frUKihbtZgZ0NZk1YQXwVc1KRmbVreTIgD3aSckyGFePa23Xd5UNh4JfVTZUYWJIRey4u2gh84pW5je1AyuKr+lZ8ha+n4j8Q74dzpePR03Vg0PV1fIVnK4y6Re/Le4ly1VGuqZukYFV2VU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ag+mbxCQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C057FC4CEF8;
-	Fri, 14 Nov 2025 17:53:35 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=iFrXbFUKO7NfDGFxnZC2YFrpuQCQ7RTh9FG8Kl8EGW6bpwSPe4uJrhge0G7cR2YN0FIZ4h+yNUWAhJavuc13lFnn9ansQavZYwld5VHrZ7mHLi3wX0R/twVCAq0BvwnvJN+RRmNiTWOZ6iERBi0ED1d5N2VlO1UevdBYox5KSQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uge+fHj4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9200DC116B1;
+	Sat, 15 Nov 2025 11:31:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763142817;
-	bh=clFh80UCN2GxmCCAvzH1vFgZDVg9NsNxwAf0FB+VIUE=;
+	s=k20201202; t=1763206312;
+	bh=FPZ0kQZIwnebdbDeToX/YK8Bd3hA21dxcccPr3O5ccY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ag+mbxCQ+Y1v+qaj2r5jSJg7EZB2MlPYmsmqeWPy4NoJKZZ1U99nkwFmZdbbOdOI4
-	 HMYNb7KxHLawzU4L58ZZgMXfgltFLBwzbNRlJ7NxKiXdDJ/ESh8Zch/nI2uV2xdX8T
-	 LTJjE7I9GOFosy6+5jnxEvajFVOBafJd/CbtKewS/y6m32+i2bqsI+QOarv7XDFOw2
-	 tD8cetab1GF0ZlvtuYPiqW3BpVKxdExlvyYR6tML+wddANRUDwsZnWhCVK/4Y3Wm6O
-	 1qrlE6wFBLDm1ZlO686NpoEVJ3J/wzkcofQa9v632GInLssJgveAMuxFPCHDCq9D6J
-	 O0WZ1qXc0eJ1w==
-Date: Fri, 14 Nov 2025 17:53:33 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Daniel Mack <daniel.mack@holoplot.com>
-Cc: linux-leds@vger.kernel.org, pavel@kernel.org, lee@kernel.org,
-	robh@kernel.org, devicetree@vger.kernel.org,
-	Daniel Mack <daniel@zonque.org>
-Subject: Re: [PATCH v2 1/3] dt-bindings: leds: add issi,is31fl3293 to
- leds-is31fl32xx
-Message-ID: <20251114-endurance-doorstep-05bd2f5a3877@spud>
-References: <20251114094640.4096054-1-daniel.mack@holoplot.com>
- <20251114094640.4096054-2-daniel.mack@holoplot.com>
+	b=Uge+fHj4kRQhX5pc86U5iaOgiFqgdDil5CdrG2swUUk+N3TjlB62JemPjth32HKot
+	 l4WuxNKEZUq2a653BbiSjQ8UkzHm0pGUKXkKL5h8S8gyCwCdpGa+jZqUixOjYUZAcr
+	 YfnLBTOfBHgL7Lcl/B5L7qlvxYPwVoz4n5kEhNhXEi5xTpIFmAcKc341m2o91z9JqR
+	 pVj2PUJHMr8+SjXqBIHUHS2mnD+3M7fdYgJj3/kw/jLSCJcD5jNTeBb24ifdmFADB3
+	 hwB9tozgjFyOKqZ5x1eBXFBqRWVRv+rDiSn82Ep5Z8EA7Ns6+WUMF4OWIj8EHWn6L0
+	 NbFLU8nvdoNGQ==
+Date: Sat, 15 Nov 2025 12:31:49 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Sebastian Reichel <sre@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-rtc@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
+Subject: Re: [PATCH v4 05/16] dt-bindings: mfd: ROHM BD72720
+Message-ID: <20251115-wolverine-of-interesting-authority-faecde@kuoka>
+References: <cover.1763022807.git.mazziesaccount@gmail.com>
+ <ec2cb44d9d00f5edaed2fbe17fd9ddbed914ff37.1763022807.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="k+9fqS1GSlVhtUIJ"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251114094640.4096054-2-daniel.mack@holoplot.com>
+In-Reply-To: <ec2cb44d9d00f5edaed2fbe17fd9ddbed914ff37.1763022807.git.mazziesaccount@gmail.com>
 
+On Thu, Nov 13, 2025 at 10:52:35AM +0200, Matti Vaittinen wrote:
+> From: Matti Vaittinen <mazziesaccount@gmail.com>
+> 
+> The ROHM BD72720 is a power management IC integrating regulators, GPIOs,
+> charger, LEDs, RTC and a clock gate.
+> 
+> Add dt-binding doc for ROHM BD72720.
+> 
+> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> 
+> ---
+> Revision history:
 
---k+9fqS1GSlVhtUIJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-On Fri, Nov 14, 2025 at 10:46:38AM +0100, Daniel Mack wrote:
-> From: Daniel Mack <daniel@zonque.org>
->=20
-> This variant supports 3 channels with 4096 brightness steps.
->=20
-> Signed-off-by: Daniel Mack <daniel@zonque.org>
+Best regards,
+Krzysztof
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
-
---k+9fqS1GSlVhtUIJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaRdsnQAKCRB4tDGHoIJi
-0lrBAQDi+GMjFDYIu/j7b96Vtmi6Bm1mjKGu5B0oc+UqTnmqkQD/V8QnIzuFdCAR
-6q5RpaOAUzPnhLXTw2RoHTsHWm2wrAc=
-=YyA3
------END PGP SIGNATURE-----
-
---k+9fqS1GSlVhtUIJ--
 
