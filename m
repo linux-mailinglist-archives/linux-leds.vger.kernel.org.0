@@ -1,125 +1,237 @@
-Return-Path: <linux-leds+bounces-6147-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6148-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 299F5C607E3
-	for <lists+linux-leds@lfdr.de>; Sat, 15 Nov 2025 16:45:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19ED5C60937
+	for <lists+linux-leds@lfdr.de>; Sat, 15 Nov 2025 18:26:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9155A35F16C
-	for <lists+linux-leds@lfdr.de>; Sat, 15 Nov 2025 15:45:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C6B573B7942
+	for <lists+linux-leds@lfdr.de>; Sat, 15 Nov 2025 17:26:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77121221F11;
-	Sat, 15 Nov 2025 15:45:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10E15302167;
+	Sat, 15 Nov 2025 17:26:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="Cq3CwOBr"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="mrYjgiTf"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176A2224AF0;
-	Sat, 15 Nov 2025 15:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF8930170E
+	for <linux-leds@vger.kernel.org>; Sat, 15 Nov 2025 17:26:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763221510; cv=none; b=mGMSran2WnoWuSpD0eOOdWbCKVHnyPJa3KPGdMJlPQbLbHRCcaocReUTuKECfpJOPLYzUJFDX3HBEULao3ZwtJMfftO6X3ORDD5LqkjInKKHGm8mNH2lMpXnghtD/p+4n2bjny+4/2ZjuToDfScmPs0xDLgSwlS+iCdVayb3qE4=
+	t=1763227563; cv=none; b=YWovny2nfeTPquoDQrVZQ7Z459LnJwS7HGDLFTUc5b55+EiXaZBdzqxrHbEXf9JQXH1goQ2FshnCfRVEXoL6/5i6Y1xKXQVkPZ+flJO7i3HA5tJXX6HQL5tCmnm7UQ8GiqC4uu6TcsnEkkUYxDW+mcyWwuCCGPGwGnIpFkgRCEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763221510; c=relaxed/simple;
-	bh=Gyudq4S0PXURJ1G6M09B9etnlI7DjqgFnLsAvK6sZrQ=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=MnJ1vim0tt00Yg+ioyFppWTpuR+tAGgcjN2oi7kjDPbJjpFm1hXcppI7OWhFmDT5VkxDfl7l/Hq+jxIkQYx6C5Aj2hhIkI5n9mQAF2zpETbaLbb4zhyQW9RN1Xb/b6MgjNYP/hTgB7ewuuhszYYYI2Pyz8ad4cwCB8pHtgbKFlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=Cq3CwOBr; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id EFB6B25F6C;
-	Sat, 15 Nov 2025 16:45:03 +0100 (CET)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id DsCnIKgPNtPw; Sat, 15 Nov 2025 16:45:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1763221503; bh=Gyudq4S0PXURJ1G6M09B9etnlI7DjqgFnLsAvK6sZrQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Cq3CwOBrBz8UtUgIqT3ZyZIeqpI6ItiBbXnl7RML0b/SPP+jmtZ9s/pDm6P6CW1nd
-	 Nso0e7QvwFm3grc0NnozIg8YAnHtdt8WqXsMdlDO9zzYCK4axH2vknnNNDB5kN0NJS
-	 y9vdojWjFuDOtiO4KWZDIlB2t3rKxLtWvTz/DoKgbBkN+UTdKP21cVlUsqFXCZaSS1
-	 ttFE/K6+m9Ei1m8LfJkCIY5vcyY4Q7erdBl/ySUfwRO0I1ddroz5UETu5TVbyqBuWR
-	 2XQdvcZZ8702F4KDbcfHcuJ54P1Drdt7dqhNRodAfFEtv7At9gRrSKgH5NtGKFEjcQ
-	 0PKfI9u1xOjlA==
+	s=arc-20240116; t=1763227563; c=relaxed/simple;
+	bh=nskkVvrYPX3SCzchqjya6PP7ug9RwJkXulyxozAZqco=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WxytFqTvqCZNu21Y9ex7rhQrrLZCvmLEDbIOZvC+I4Gi38vO2L88PrEZJi6C07XTxRHSJ6tj0JJZR81aM5dlQPcACeXXjXUEZSm7VdzpymK/pksqSJ1WAaRSjrA4NA93O3GT/EAW8YuBGkHAVEcEwTnZoHPHZFHS+RhyDMT1dSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=mrYjgiTf; arc=none smtp.client-ip=185.67.36.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 84976240101
+	for <linux-leds@vger.kernel.org>; Sat, 15 Nov 2025 18:25:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
+	t=1763227558; bh=/8Lp9zEwFrnJ6sBlZpzjCxAODF9Es4MN2IMhj4DKS3M=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:To:Cc:Autocrypt:OpenPGP:From;
+	b=mrYjgiTfGIfheGI7wEMyvjMcuLFxKcGA4vJo9z8L6OG+HeuVm1CSsabzBATlmtdSj
+	 0nGQhXRHMo9H1NV9hZOdg+3iRooaJm5xoq0epu4XfpiqGianTeUVZd6qcQ+9ZkIYKj
+	 m8nL90NStshe83Zbd4ZsWx3/wvVHpeOC83JQAL55Tmq5L8Lhi6Kxe1kgqSinJcdW/n
+	 1Pee6VxLlOU/VffIUklL1xwQDe2XHme2nZzn0j7HaBVoSg/3/Qz3jAnYzo/8UqFHjE
+	 Ypy3UIlLG0BzhBOCCxUGMeZn8VV/cH5fsrscfABXzKREO3jmianF+WwuBxWhlTHIJe
+	 SO5rij3Lh1XVA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4d81BC00dWz9rxD;
+	Sat, 15 Nov 2025 18:25:54 +0100 (CET)
+From: Markus Probst <markus.probst@posteo.de>
+Subject: [PATCH v8 0/4] rust: leds: add led classdev abstractions
+Date: Sat, 15 Nov 2025 17:25:57 +0000
+Message-Id: <20251115-rust_leds-v8-0-d9a41f355538@posteo.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Sat, 15 Nov 2025 15:45:02 +0000
-From: Kaustabh Chakraborty <kauschluss@disroot.org>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Lee Jones
- <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo Choi
- <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>, Krzysztof
- Kozlowski <krzk@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH 06/13] mfd: sec-irq: add support for creating multiple IRQ
- chips
-In-Reply-To: <6479a8d84052b326ffeb5609959aaf3a1aac9ff8.camel@linaro.org>
-References: <20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org>
- <20251114-s2mu005-pmic-v1-6-9e3184d3a0c9@disroot.org>
- <20251114075004a444bff0@mail.local>
- <6479a8d84052b326ffeb5609959aaf3a1aac9ff8.camel@linaro.org>
-Message-ID: <efb5bdb045116ef467cdfa64b09d309f@disroot.org>
-X-Sender: kauschluss@disroot.org
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAI63GGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyLHQUlJIzE
+ vPSU3UzU4B8JSMDI1NDQ0MT3aLS4pL4nNSUYt1ES1PLNPNkozTzNEsloPqCotS0zAqwWdGxtbU
+ AXKsg3FsAAAA=
+X-Change-ID: 20251114-rust_leds-a959f7c2f7f9
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+ Leon Romanovsky <leon@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Cc: rust-for-linux@vger.kernel.org, linux-leds@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
+ Markus Probst <markus.probst@posteo.de>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3698;
+ i=markus.probst@posteo.de; h=from:subject:message-id;
+ bh=nskkVvrYPX3SCzchqjya6PP7ug9RwJkXulyxozAZqco=;
+ b=owEBbQKS/ZANAwAIATR2H/jnrUPSAcsmYgBpGLeipJdIL+rDzErnja0kiVtCQ3nf/pGExCb21
+ JCbhm1b5MyJAjMEAAEIAB0WIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaRi3ogAKCRA0dh/4561D
+ 0rG0D/4gg11Br9pc+XvXcHp9AH34ruGqJiBvEXkNsD3syKBNbCFUxrzsee0RpWHNGwIisPFu8YI
+ OkOAbWk3pUTdaMOO99qIgeQk1AKSWMV3cyblWanG8aP/9zK4coqxQLW9QkKNxrt2hphbPRm26Y9
+ PghUCELjxblUKItdQa7iMAUvHGsXtpn1IJEtfo/DxwH1wPUT+FTTQXS+g3JXehkjHZvYYA5R273
+ KSksoN8duQ0p2qf8jqUjqwrwb6HK9ofFoShK6Y8I5u19Uz0a1k3gfLEZn8T6Mew6ow9Pb3j2o4d
+ xYRDKh2KEEls1zRZS/43xNnW27aJN+4TaAb6BzHn2zeJIiwHxs/4L2Fwg6LUXhvRrDq26onbsHC
+ 8LNMfxBL+MVzJ0Nr1fGlnMAA0U1rjecPbZtwL5WeA7bNMy8ptfi4KB5eTjSjDHB+jnYXwfgOcmN
+ Iw+506OT02okCswm7xzmDGH+2bZUXgT8MecYR0248PYbRPSmU9AXCpv+VOvwTWW1a7CCGjjcrDH
+ d2qz9eanFmfPmiQFCednWoQeqBdwcFBzKugySbUTV70fDqa3XzQkAongd803Evi6nhtPpwSxsd+
+ cPsnk9U//G5jdwnGQ+7pxTIAsgXXQHUveXorz2Fgzze+luLbUG0safoY3Kh1ynNrfsGklIJeD+h
+ 9hRAyn97gG4z28w==
+X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
+ fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+  keydata=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
+  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-On 2025-11-14 11:55, André Draszik wrote:
-> On Fri, 2025-11-14 at 08:50 +0100, Alexandre Belloni wrote:
->> On 14/11/2025 00:35:07+0530, Kaustabh Chakraborty wrote:
->> > The current state of the driver only allows creating only one IRQ chip
->> > per PMIC. On some PMICs, such as Samsung's S2MU005, there are multiple
->> > interrupt blocks, for which the current implementation stands insufficient.
->> > 
->> > Add support for creating multiple IRQ chips for a PMIC. Every IRQ chip is
->> > given it's own index, which is used by sub-device drivers to request IRQs.
->> > 
->> > A macro is defined which states the maximum number of chips supported.
->> > It's set to 1 as currently, no PMIC requires more than one IRQ chip. The
->> > value must be changed accordingly on adding new PMICs requiring multiple
->> > IRQ chips.
->> > 
->> > Moreover, adjust the s5m RTC driver to initialize IRQs with the
->> > appropriate IRQ chip index.
->> > 
->> > Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
->> 
->> > ---
->> >  drivers/mfd/sec-irq.c            | 163 +++++++++++++++++++++++----------------
->> >  drivers/rtc/rtc-s5m.c            |  15 +++-
->> >  include/linux/mfd/samsung/core.h |   5 +-
->> >  include/linux/mfd/samsung/irq.h  |  14 ++++
->> >  4 files changed, 127 insertions(+), 70 deletions(-)
-> 
-> Your patch reminded me to finally send
-> https://lore.kernel.org/all/20251114-s5m-alarm-v1-0-c9b3bebae65f@linaro.org/
-> 
-> If applied first, you wouldn't need to touch rtc-s5m.c I believe.
+This patch series has previously been contained in
+https://lore.kernel.org/rust-for-linux/20251008181027.662616-1-markus.probst@posteo.de/T/#t
+which added a rust written led driver for a microcontroller via i2c.
 
-Oo, this cleans things up greatly!
+As the reading and writing to the i2c client via the register!
+macro has not been implemented yet [1], the patch series will only
+contain the additional abstractions required.
 
-> 
-> Equally, I can rebase mine on top of yours - no strong feelings.
+[1] https://lore.kernel.org/rust-for-linux/DDDS2V0V2NVJ.16ZKXCKUA1HUV@kernel.org/
 
-I will wait for your series to be applied. Your series is much shorter,
-so wouldn't hold that back for this. :)
+The following changes were made:
+* add abstraction to convert a device reference to a bus device
+  reference for use in class device callbacks
 
-> 
-> Cheers,
-> Andre'
+* add basic led classdev abstractions to register and unregister leds
+
+* add basic led classdev abstractions to register and unregister
+  multicolor leds
+
+Changes since v7:
+* adjusted import style
+* added classdev parameter to callback functions in `LedOps`
+* implement `led::Color`
+* extend `led::InitData` with
+  - initial_brightness
+  - default_trigger
+  - default_color
+* split generic and normal led classdev abstractions up (see patch 3/4)
+* add multicolor led class device abstractions (see patch 4/4)
+* added MAINTAINERS entry
+
+Changes since v6:
+* fixed typos
+* improved documentation
+
+Changes since v5:
+* rename `IntoBusDevice` trait into `AsBusDevice`
+* fix documentation about `LedOps::BLOCKING`
+* removed dependency on i2c bindings
+* added `AsBusDevice` implementation for `platform::Device`
+* removed `device::Device` fallback implementation
+* document that `AsBusDevice` must not be used by drivers and is
+  intended for bus and class device abstractions only.
+
+Changes since v4:
+* add abstraction to convert a device reference to a bus device
+  reference
+* require the bus device as parent device and provide it in class device
+  callbacks
+* remove Pin<Vec<_>> abstraction (as not relevant for the led
+  abstractions)
+* fixed formatting in `led::Device::new`
+* fixed `LedOps::BLOCKING` did the inverse effect
+
+Changes since v3:
+* fixed kunit tests failing because of example in documentation
+
+Changes since v2:
+* return `Devres` on `led::Device` creation
+* replace KBox<T> with T in struct definition
+* increment and decrement reference-count of fwnode
+* make a device parent mandatory for led classdev creation
+* rename `led::Handler` to `led::LedOps`
+* add optional `brightness_get` function to `led::LedOps`
+* use `#[vtable]` instead of `const BLINK: bool`
+* use `Opaque::cast_from` instead of casting a pointer
+* improve documentation
+* improve support for older rust versions
+* use `&Device<Bound>` for parent
+
+Changes since v1:
+* fixed typos noticed by Onur Özkan
+
+Signed-off-by: Markus Probst <markus.probst@posteo.de>
+---
+Markus Probst (4):
+      rust: Add trait to convert a device reference to a bus device reference
+      rust: leds: add basic led classdev abstractions
+      rust: leds: split generic and normal led classdev abstractions up
+      rust: leds: add multicolor classdev abstractions
+
+ MAINTAINERS                     |   8 +
+ rust/bindings/bindings_helper.h |   1 +
+ rust/kernel/auxiliary.rs        |   7 +
+ rust/kernel/device.rs           |  35 ++-
+ rust/kernel/led.rs              | 550 ++++++++++++++++++++++++++++++++++++++++
+ rust/kernel/led/multicolor.rs   | 195 ++++++++++++++
+ rust/kernel/led/normal.rs       |  39 +++
+ rust/kernel/lib.rs              |   1 +
+ rust/kernel/pci.rs              |   7 +
+ rust/kernel/platform.rs         |   7 +
+ rust/kernel/usb.rs              |   6 +
+ 11 files changed, 855 insertions(+), 1 deletion(-)
+---
+base-commit: e9a6fb0bcdd7609be6969112f3fbfcce3b1d4a7c
+change-id: 20251114-rust_leds-a959f7c2f7f9
+
 
