@@ -1,354 +1,207 @@
-Return-Path: <linux-leds+bounces-6157-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6158-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ED93C620D8
-	for <lists+linux-leds@lfdr.de>; Mon, 17 Nov 2025 03:01:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BCD9C62158
+	for <lists+linux-leds@lfdr.de>; Mon, 17 Nov 2025 03:22:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 052D54E6606
-	for <lists+linux-leds@lfdr.de>; Mon, 17 Nov 2025 02:01:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3AE2E3ABD84
+	for <lists+linux-leds@lfdr.de>; Mon, 17 Nov 2025 02:22:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A02323BCF5;
-	Mon, 17 Nov 2025 02:01:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94C88236A73;
+	Mon, 17 Nov 2025 02:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="i6YZpvcE";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FiOFGbja"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A738F1DA0E1;
-	Mon, 17 Nov 2025 02:00:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA3E1E3762
+	for <linux-leds@vger.kernel.org>; Mon, 17 Nov 2025 02:22:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763344860; cv=none; b=JuLqik7t3EXTa6QQop0z4/jSzj34SRzLxNPJeXIUbnX8RYvFAjXl1tXTUbaY4zVt/TEWmC6tJgnksQsk7iF58yph91TcFurkdBlvySKBV0kXJJLh+19b20jq8H6LpxI6TgI6VxEMW6xUEeaIVnjVE2pCsxQk6ieWLQP/DOn/YMA=
+	t=1763346155; cv=none; b=axNOrUEZcXTtoSzCafcHk54rs1YZMZFMOmZMvRaOahLGCfae2FKCpwK7gHfA8Q1V3VsdKoUfdqzD6cFzJJmQF2n3Sx+W1eE8rmGgCEfgRzYs4quNMHdlVBogZpz2x7H1qvSFf9v+ed7zXeonvTaAqFDz/uvRyPfJp+qMV9fv0HA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763344860; c=relaxed/simple;
-	bh=IWvb0i+ssFD4m+4AsJJdxGAYAExiZjQ5qAN41PUi4B0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u0B/37rMa09Cp+8ZaKgTICswAXD1qsMOIgQS5Y0ZLCuEJTDblCfNFvoT6FExywhmrNwLTAlBrUJRCoBuI8L9gnU9aGXIq3vFs2ifj/2Z0DNk1kJDv7nwcQEHmPUSN6YD1jbQcMr3Vs3x24yyXs1yuWYhzc2Vp+euBd/WMZv/LI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space; spf=pass smtp.mailfrom=timmermann.space; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timmermann.space
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4d8rYq2dNtz9tKq;
-	Mon, 17 Nov 2025 03:00:47 +0100 (CET)
-From: Lukas Timmermann <linux@timmermann.space>
-To: lee@kernel.org,
-	pavel@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux@timmermann.space
-Subject: [PATCH v10 2/2] leds: as3668: Driver for the ams Osram 4-channel i2c LED driver
-Date: Mon, 17 Nov 2025 03:00:08 +0100
-Message-ID: <20251117020008.316648-3-linux@timmermann.space>
-In-Reply-To: <20251117020008.316648-1-linux@timmermann.space>
-References: <20251117020008.316648-1-linux@timmermann.space>
+	s=arc-20240116; t=1763346155; c=relaxed/simple;
+	bh=e+p48IaoIhLfXRpESvp6/pHVPXSO99iUgRfoHczmL14=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QmAoQHEclq/oR4gec8z04QreTF7fPZxG9ix5u2vi7w2neDlKhVHFwlpRVKsGwfmYoBJfroMybhmmRJLJNNea6C9IGwPQ2TZJScI2cNiqPnfrDTE05kvgJ4JUCNewbWiaod3+v7PdxGF9YgiW9f1HNYJeAhhTU2UJQIcAc2aNBQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=i6YZpvcE; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FiOFGbja; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AGH2dnS1680204
+	for <linux-leds@vger.kernel.org>; Mon, 17 Nov 2025 02:22:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	zYlVhddMHWTqti30RONS2XolCrlKESX7cb8t/mBL6EM=; b=i6YZpvcEazbBUaFJ
+	o9oxWg0gtdveZ+InITy6kEk6LNd8vy3ZYbbs7D4+9PJD90gnYSdgnWIXYwQaLtuF
+	8AjNQ4aiJFXi0BNbMTdTNq8c7ueltsH5Qle/2uhqvI1jTbWTY88yPKr7Xhd8wzD5
+	yS8sSyD7wxfUw3S/60m5nHhWc9qiX5pgNpK5T8v2rMY76ZYx0TQ49vFH/4/N7K3v
+	Y80H8coHI0Bt5++kSf3GAk9aK8gR6qUrU4d0+DV6cqLQdmsQOsAaVpI6CuYAMYcz
+	CyzPkEpnWkOIMQAB4+fXBZ0avOQ9EtGFO8R4FainGLtSzcw2iNxLaKL/WhP8owzD
+	Q7Xgkg==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aejk1k1dy-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-leds@vger.kernel.org>; Mon, 17 Nov 2025 02:22:32 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-297e5a18652so43567725ad.1
+        for <linux-leds@vger.kernel.org>; Sun, 16 Nov 2025 18:22:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1763346151; x=1763950951; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zYlVhddMHWTqti30RONS2XolCrlKESX7cb8t/mBL6EM=;
+        b=FiOFGbjaRQ6IzE+rGwivZZD+SUfSl+VM5OqioHIMbhRnCoJjIO7wrjJ1VZ2V8M85aC
+         N0TZ1lWrzwUePs/ikslWLM2cmgayqUwAaEZTSYXi+MoYlaf3N5oPvWSmD8FkaLCvntJv
+         cWeWbPCcsSYB0Sg0hS9VZSWo54EgDMbEke4JrD3ovbWtgtRMIXJuFKXp9lGezlq9dsAX
+         fu8QvILu3C6eEuu7R8urjEUVYo6MPSoQOpQ4zqgmk3v+J198qxquj/rLoGV3Roc+9L66
+         SrAhsmQCkvRCmRQ1lY3NC+Hnj0AyCTzjxsOJKegwU2cgTFYl1OXh51sxC4UX1wFMN6vY
+         RnHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763346151; x=1763950951;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zYlVhddMHWTqti30RONS2XolCrlKESX7cb8t/mBL6EM=;
+        b=gvuawYpEIgHepEjm5wjnGXhTnXlg6pCtzsHmHUKyPR8e+FgUSzjGb+8g5alpnW5wcK
+         HBCTCH8lbHaqyEWYMGPLklyww1R6eAHi2KcriUfTuTJzVIhNjoRDljgxMZi/tzhb7cYW
+         wHx68ygK+sLfxt+irl6e2oHcpb6cAdblz+/NIlKLCdAHJzCVpliIeH/dQhl6qAPu/q4G
+         bvdN4uDkrKw0lY8po1/PgT6AhdMZ9Amxv04TlQu0/nCRgMZ4L5BhtZGrHCremWBnPcSu
+         1R0/dd6BesoeC0VPQALJ1cXZvWISzOMqf6umSb//hjHMjGT3bfXpMg4bpzF519fJHdtw
+         WEow==
+X-Forwarded-Encrypted: i=1; AJvYcCVb69nflCupSU1b6YQmktIMp5qGuXuTI4l2WSm95xAxItAuavW6mqezayD2T82t3+5eqojW8tKtiAPX@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaIRoqctgZYs6s6XXJlRDlf6Xi7ynN6q3CP45pTjY80ZvNu178
+	ELaOVUJj4BImTsf7KwuzHyfTPiRfXhCMaoj5Ozd9g60Or6YaCXKyrw0cB3WtAumoj4MtMBq6Hi1
+	u5FeGOO6d/ooC9lmQ3/lNfauyaqNuzbt5MG/BasZ2dunmM5T8iZkwB69xH6cElPoQ
+X-Gm-Gg: ASbGncs9VFWbwO5LCpGP3OE5W6M5hQ+SECv1y/OSObmYkS0ZdYpP3DxaBtU+9h7T9De
+	Pilp/6VfFfca8mifeulh3JtYR7rAWMD9yqJBnSiD6rJrZlx7ZgJ97NVhfsXZx6n8SJvPHca1KPv
+	7cMI5StOjdDC1pJz9p/vnUSmls++Q7d0D2yfoRyN+Q+R00Brj3KwHp8FJRXJAbNYs2ETWsk7rpF
+	xE/1EhgkN9w6p/hwbCOfFBGY8q2gX3JPmwpglXs15KqfyVrlcT3QD1vQFxrQnszkqzccV0RHxCT
+	1KL559YOFqDow9LsBtJ/RUXujYftLrILA2PflU5ovIzxDLtAwRo5JuFuJde59GH94PYa0DEbMRS
+	4Lgfshs+B0bo6FPagG4v2KiMloJuqJGaW/IEhVoveZ+JKvT+NnIv7eO/Ufp9FPpkKT/I=
+X-Received: by 2002:a17:902:e947:b0:295:7b8c:6622 with SMTP id d9443c01a7336-2986a6b8751mr131260995ad.11.1763346151450;
+        Sun, 16 Nov 2025 18:22:31 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE3D3b+HBgeuxjjE3vKDtxkEEvpqpfT69zOTS4Ccxq4aUIezvfTp6KMVKhasPkouV5wkn+nGw==
+X-Received: by 2002:a17:902:e947:b0:295:7b8c:6622 with SMTP id d9443c01a7336-2986a6b8751mr131260715ad.11.1763346150967;
+        Sun, 16 Nov 2025 18:22:30 -0800 (PST)
+Received: from [10.133.33.96] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2bebe1sm120036205ad.82.2025.11.16.18.22.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 16 Nov 2025 18:22:30 -0800 (PST)
+Message-ID: <cc41233d-f270-4cbe-b355-64f4dcd0652d@oss.qualcomm.com>
+Date: Mon, 17 Nov 2025 10:22:23 +0800
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] leds: rgb: leds-qcom-lpg: Only enable TRILED when LPG is
+ used by LED
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: kernel@oss.qualcomm.com, Lee Jones <lee@kernel.org>,
+        Pavel Machek <pavel@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Subbaraman Narayanamurthy <subbaraman.narayanamurthy@oss.qualcomm.com>,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20251114-lpg_triled_fix-v1-1-9b239832c53c@oss.qualcomm.com>
+ <7jf4xvqmlymwkyrdp2ulpazfwmhdmfegzigewc5esk2sj323a5@72skiavskrqt>
+ <7732165a-4147-4917-b76a-1525aae13c25@oss.qualcomm.com>
+ <t453czpauswdttsl5cqxwk5ryc7aau3bz4jfwfe4istkffgp43@ffoiicvnbxzh>
+Content-Language: en-US
+From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
+In-Reply-To: <t453czpauswdttsl5cqxwk5ryc7aau3bz4jfwfe4istkffgp43@ffoiicvnbxzh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: Ypt2omYBKWEAWRPi7mkFG76g6VnQBlTL
+X-Authority-Analysis: v=2.4 cv=OpZCCi/t c=1 sm=1 tr=0 ts=691a86e8 cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=sxwf-mhpPifykftr7pEA:9 a=QEXdDO2ut3YA:10
+ a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE3MDAxNyBTYWx0ZWRfXx3AEX16T50YR
+ u/wqcJtyTrYCDPDJz9B/1lZKHSHONHCAZgykuUOSCFIif0Xc1ijFAH/1kpdAU9c3mgzMNOc226P
+ jn1U3ldH3nuFnYATPbrwXwyO3c1DGthU4HusVanuRQOinUAWXqLatdaraGYzvzEb97YEdWhQJVH
+ mv1ZDXIdag2dUVMBHcGchhdbnU4PQwaweHO93oSMigq44w0sOoNvtmXfuq3+zlWLQGzOGCQkLaQ
+ v45cjYcJsjmULgF41kaVqK1zd+1PjugjF5lx5lzPoD9bRYXHWi9bmpIpCpuSbqG4JiI8//zUMOc
+ +4JjjgtnvwvxOrXYz+IKAyEg11wUWDnB09o/1RXFV37Vhv1UQ92it54bTmVgePLbillYkkYLNy0
+ EPh9UmDz2YWQUCIKsOchQhw8KkKJqQ==
+X-Proofpoint-ORIG-GUID: Ypt2omYBKWEAWRPi7mkFG76g6VnQBlTL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-17_01,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 phishscore=0 impostorscore=0 clxscore=1015
+ lowpriorityscore=0 bulkscore=0 spamscore=0 malwarescore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511170017
 
-Since there were no existing drivers for the AS3668 or related devices,
-a new driver was introduced in a separate file. Similar devices were
-reviewed, but none shared enough characteristics to justify code reuse.
-As a result, this driver is written specifically for the AS3668.
 
-Signed-off-by: Lukas Timmermann <linux@timmermann.space>
----
- MAINTAINERS                |   1 +
- drivers/leds/Kconfig       |  13 +++
- drivers/leds/Makefile      |   1 +
- drivers/leds/leds-as3668.c | 222 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 237 insertions(+)
- create mode 100644 drivers/leds/leds-as3668.c
+On 11/14/2025 10:56 PM, Bjorn Andersson wrote:
+> On Fri, Nov 14, 2025 at 03:13:18PM +0800, Fenglin Wu wrote:
+>> On 11/14/2025 12:58 PM, Bjorn Andersson wrote:
+>>> If chan->in_use, then the channel is exposed as a LED and
+>>> lpg_pwm_request() should have returned -EBUSY, so we should never reach
+>>> lpg_pwm_apply()?
+>> Yes, I agree.
+>>
+>> Change is trying to ignore enabling TRILED channel when the LPG channel
+>> mapping to TRILED is not used for controlling the LED (not defining the LED
+>> child nodes).
+>>
+>> So the fix should be just removing this line instead of adding the if check.
+>>
+> Sorry, it's been a while since I looked at this code, but isn't it
+> possible to configure a channel going through the triled to be exposed
+> as a PWM channel and if so, don't we need to enable the TRILED driver
+> for this channel in those cases?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 091206c54c63..945d78fef380 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3511,6 +3511,7 @@ M:	Lukas Timmermann <linux@timmermann.space>
- L:	linux-leds@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/leds/ams,as3668.yaml
-+F:	drivers/leds/leds-as3668.c
- 
- ASAHI KASEI AK7375 LENS VOICE COIL DRIVER
- M:	Tianshu Qiu <tian.shu.qiu@intel.com>
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index a104cbb0a001..ec37d55ac14e 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -100,6 +100,19 @@ config LEDS_ARIEL
- 
- 	  Say Y to if your machine is a Dell Wyse 3020 thin client.
- 
-+config LEDS_OSRAM_AMS_AS3668
-+	tristate "LED support for Osram AMS AS3668"
-+	depends on LEDS_CLASS
-+	depends on I2C
-+	help
-+	  This option enables support for the Osram AMS AS3668 LED controller.
-+	  The AS3668 provides up to four LED channels and is controlled via
-+	  the I2C bus. This driver offers basic brightness control for each
-+	  channel, without support for blinking or other advanced features.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called leds-as3668.
-+
- config LEDS_AW200XX
- 	tristate "LED support for Awinic AW20036/AW20054/AW20072/AW20108"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 2f170d69dcbf..983811384fec 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -14,6 +14,7 @@ obj-$(CONFIG_LEDS_ADP5520)		+= leds-adp5520.o
- obj-$(CONFIG_LEDS_AN30259A)		+= leds-an30259a.o
- obj-$(CONFIG_LEDS_APU)			+= leds-apu.o
- obj-$(CONFIG_LEDS_ARIEL)		+= leds-ariel.o
-+obj-$(CONFIG_LEDS_AS3668)		+= leds-as3668.o
- obj-$(CONFIG_LEDS_AW200XX)		+= leds-aw200xx.o
- obj-$(CONFIG_LEDS_AW2013)		+= leds-aw2013.o
- obj-$(CONFIG_LEDS_BCM6328)		+= leds-bcm6328.o
-diff --git a/drivers/leds/leds-as3668.c b/drivers/leds/leds-as3668.c
-new file mode 100644
-index 000000000000..8c43429f2856
---- /dev/null
-+++ b/drivers/leds/leds-as3668.c
-@@ -0,0 +1,222 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ *  Osram AMS AS3668 LED Driver IC
-+ *
-+ *  Copyright (C) 2025 Lukas Timmermann <linux@timmermann.space>
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/i2c.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/uleds.h>
-+
-+#define AS3668_MAX_LEDS			4
-+
-+/* Chip Ident */
-+
-+#define AS3668_CHIP_ID1_REG		0x3e
-+#define AS3668_CHIP_ID			0xa5
-+
-+/* Current Control */
-+
-+#define AS3668_CURR_MODE_REG		0x01
-+#define AS3668_CURR_MODE_OFF		0x0
-+#define AS3668_CURR_MODE_ON		0x1
-+#define AS3668_CURR1_MODE_MASK		GENMASK(1, 0)
-+#define AS3668_CURR2_MODE_MASK		GENMASK(3, 2)
-+#define AS3668_CURR3_MODE_MASK		GENMASK(5, 4)
-+#define AS3668_CURR4_MODE_MASK		GENMASK(7, 6)
-+#define AS3668_CURR1_REG		0x02
-+#define AS3668_CURR2_REG		0x03
-+#define AS3668_CURR3_REG		0x04
-+#define AS3668_CURR4_REG		0x05
-+
-+struct as3668_led {
-+	struct led_classdev cdev;
-+	struct as3668 *chip;
-+	struct fwnode_handle *fwnode;
-+	int led_id;
-+};
-+
-+struct as3668 {
-+	struct i2c_client *client;
-+	struct as3668_led leds[AS3668_MAX_LEDS];
-+};
-+
-+static void as3668_channel_mode_set(struct as3668 *as3668, int led_id, u8 mode)
-+{
-+	int err;
-+	u8 reg;
-+
-+	reg = i2c_smbus_read_byte_data(as3668->client, AS3668_CURR_MODE_REG);
-+	if (reg < 0) {
-+		dev_err(&as3668->client->dev, "failed to read channel modes\n");
-+		return;
-+	}
-+
-+	switch (led_id) {
-+	case 0:
-+		reg &= ~AS3668_CURR1_MODE_MASK;
-+		reg |= FIELD_PREP(AS3668_CURR1_MODE_MASK, mode);
-+		break;
-+	case 1:
-+		reg &= ~AS3668_CURR2_MODE_MASK;
-+		reg |= FIELD_PREP(AS3668_CURR2_MODE_MASK, mode);
-+		break;
-+	case 2:
-+		reg &= ~AS3668_CURR3_MODE_MASK;
-+		reg |= FIELD_PREP(AS3668_CURR3_MODE_MASK, mode);
-+		break;
-+	case 3:
-+		reg &= ~AS3668_CURR4_MODE_MASK;
-+		reg |= FIELD_PREP(AS3668_CURR4_MODE_MASK, mode);
-+		break;
-+	default:
-+		return;
-+	}
-+
-+	err = i2c_smbus_write_byte_data(as3668->client, AS3668_CURR_MODE_REG, reg);
-+	if (err)
-+		dev_err(&as3668->client->dev, "failed to set channel modes\n");
-+}
-+
-+static enum led_brightness as3668_brightness_get(struct led_classdev *cdev)
-+{
-+	struct as3668_led *led = container_of(cdev, struct as3668_led, cdev);
-+
-+	return i2c_smbus_read_byte_data(led->chip->client, AS3668_CURR1_REG + led->led_id);
-+}
-+
-+static void as3668_brightness_set(struct led_classdev *cdev, enum led_brightness brightness)
-+{
-+	struct as3668_led *led = container_of(cdev, struct as3668_led, cdev);
-+	int err;
-+
-+	if (brightness == 0)
-+		as3668_channel_mode_set(led->chip, led->led_id, AS3668_CURR_MODE_OFF);
-+	else
-+		as3668_channel_mode_set(led->chip, led->led_id, AS3668_CURR_MODE_ON);
-+
-+	err = i2c_smbus_write_byte_data(led->chip->client,
-+					AS3668_CURR1_REG + led->led_id,
-+					brightness);
-+
-+	if (err)
-+		dev_err(&led->chip->client->dev, "failed to set brightness: %d\n", err);
-+}
-+
-+static int as3668_dt_init(struct as3668 *as3668)
-+{
-+	struct device *dev = &as3668->client->dev;
-+	struct as3668_led *led;
-+	struct led_init_data init_data = {};
-+	int err;
-+	u32 reg;
-+
-+	for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
-+		err = of_property_read_u32(child, "reg", &reg);
-+		if (err)
-+			return dev_err_probe(dev, err, "failed to read 'reg' property");
-+
-+		if (reg < 0 || reg > AS3668_MAX_LEDS)
-+			return dev_err_probe(dev, -EOPNOTSUPP,
-+					     "unsupported LED: %d\n", reg);
-+
-+		led = &as3668->leds[reg];
-+		led->fwnode = of_fwnode_handle(child);
-+
-+		led->led_id = reg;
-+		led->chip = as3668;
-+
-+		led->cdev.max_brightness = U8_MAX;
-+		led->cdev.brightness_get = as3668_brightness_get;
-+		led->cdev.brightness_set = as3668_brightness_set;
-+
-+		init_data.fwnode = led->fwnode;
-+		init_data.default_label = ":";
-+
-+		err = devm_led_classdev_register_ext(dev, &led->cdev, &init_data);
-+		if (err)
-+			return dev_err_probe(dev, err, "failed to register LED %d\n", reg);
-+	}
-+
-+	return 0;
-+}
-+
-+static int as3668_probe(struct i2c_client *client)
-+{
-+	struct as3668 *as3668;
-+	int err;
-+	u8 chip_id;
-+
-+	chip_id = i2c_smbus_read_byte_data(client, AS3668_CHIP_ID1_REG);
-+	if (chip_id != AS3668_CHIP_ID)
-+		return dev_err_probe(&client->dev, -ENODEV,
-+				     "expected chip ID 0x%02x, got 0x%02x\n",
-+				     AS3668_CHIP_ID, chip_id);
-+
-+	as3668 = devm_kzalloc(&client->dev, sizeof(*as3668), GFP_KERNEL);
-+	if (!as3668)
-+		return -ENOMEM;
-+
-+	as3668->client = client;
-+
-+	err = as3668_dt_init(as3668);
-+	if (err)
-+		return err;
-+
-+	/* Set all four channel modes to 'off' */
-+	err = i2c_smbus_write_byte_data(client, AS3668_CURR_MODE_REG,
-+					FIELD_PREP(AS3668_CURR1_MODE_MASK, AS3668_CURR_MODE_OFF) |
-+					FIELD_PREP(AS3668_CURR2_MODE_MASK, AS3668_CURR_MODE_OFF) |
-+					FIELD_PREP(AS3668_CURR3_MODE_MASK, AS3668_CURR_MODE_OFF) |
-+					FIELD_PREP(AS3668_CURR4_MODE_MASK, AS3668_CURR_MODE_OFF));
-+
-+	/* Set initial currents to 0mA */
-+	err |= i2c_smbus_write_byte_data(client, AS3668_CURR1_REG, 0);
-+	err |= i2c_smbus_write_byte_data(client, AS3668_CURR2_REG, 0);
-+	err |= i2c_smbus_write_byte_data(client, AS3668_CURR3_REG, 0);
-+	err |= i2c_smbus_write_byte_data(client, AS3668_CURR4_REG, 0);
-+
-+	if (err)
-+		return dev_err_probe(&client->dev, -EIO, "failed to write to the device\n");
-+
-+	return 0;
-+}
-+
-+static void as3668_remove(struct i2c_client *client)
-+{
-+	int err;
-+
-+	err = i2c_smbus_write_byte_data(client, AS3668_CURR_MODE_REG, 0);
-+	if (err)
-+		dev_err(&client->dev, "failed to turn off the LEDs\n");
-+}
-+
-+static const struct i2c_device_id as3668_idtable[] = {
-+	{ "as3668" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, as3668_idtable);
-+
-+static const struct of_device_id as3668_match_table[] = {
-+	{ .compatible = "ams,as3668" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, as3668_match_table);
-+
-+static struct i2c_driver as3668_driver = {
-+	.driver = {
-+		.name = "leds_as3668",
-+		.of_match_table = as3668_match_table,
-+	},
-+	.probe = as3668_probe,
-+	.remove = as3668_remove,
-+	.id_table = as3668_idtable,
-+};
-+module_i2c_driver(as3668_driver);
-+
-+MODULE_AUTHOR("Lukas Timmermann <linux@timmermann.space>");
-+MODULE_DESCRIPTION("AS3668 LED driver");
-+MODULE_LICENSE("GPL");
--- 
-2.51.2
+Yes, this is possible, and enabling TRILED is not necessary in this 
+case. The signals from the LPG channels mapped to the TRILED channels 
+can also be routed to the PMIC GPIOs by setting the GPIO pinctrl state 
+to the "funcx" function. For example, for LPG channels in PMH0101, based 
+on the PMIC GPIO usage table, these GPIOs can be used to output the PWM 
+signals if they are configured to the "func1" function.
 
+GPIO05 -- PWM1
+
+GPIO06 -- PWM2
+
+GPIO11 -- PWM3
+
+GPIO08 -- PWM4
+
+GPIO09 -- PWM4
+
+>
+>> I will update it in patch v2.
+>>
+>>> Why do you check chan->triled_mask? I guess we will still read/write the
+>>> triled regiter, but don't make any changes if this is 0?
+>>>
+>>> Or is this the actual issue that you're fixing, that we read/write the
+>>> registers when we shouldn't? If so this should be clarified in the
+>>> commit message.
+>> Yes, there was a case that a LPG channel mapping to TRILED is repurposed to
+>> control a fan, and it was seen that the BOB1 (supplies to TRILED) voltage
+>> bumped to higher voltage when the PWM channel was enabled.
+>>
+> Is the signal still routed through the TRILED, or is it muxed to another
+> driver?
+No, the signals will not be routed to TRILED but through other PMIC GPIOs.
+>
+> Regards,
+> Bjorn
+>
+>>> Regards,
+>>> Bjorn
 
