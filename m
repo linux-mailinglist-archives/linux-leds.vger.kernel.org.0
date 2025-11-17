@@ -1,234 +1,163 @@
-Return-Path: <linux-leds+bounces-6164-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6165-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B5F8C63944
-	for <lists+linux-leds@lfdr.de>; Mon, 17 Nov 2025 11:36:13 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD25DC63CD5
+	for <lists+linux-leds@lfdr.de>; Mon, 17 Nov 2025 12:27:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 38EEE4E50F5
-	for <lists+linux-leds@lfdr.de>; Mon, 17 Nov 2025 10:28:51 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3254E3802DC
+	for <lists+linux-leds@lfdr.de>; Mon, 17 Nov 2025 11:18:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E74231E11C;
-	Mon, 17 Nov 2025 10:28:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50AE03594F;
+	Mon, 17 Nov 2025 11:18:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="MHRxvTgm"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="qP8SReAN"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3FF2D4814
-	for <linux-leds@vger.kernel.org>; Mon, 17 Nov 2025 10:28:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C87211CBA;
+	Mon, 17 Nov 2025 11:18:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763375327; cv=none; b=npQ4GbwTTb04Sm8cEITbH6JhUQY8+9rAt4sY72K4+3NsLkDXYWmVyITvW9/4QJN0KQObg/ZYYGyUILzVySWh8kmbbvQ4esl/nh/NW03QBFQh3yOWGUIdd7YmtQGtdOJPhP9HlMZ44Cm0UZklX2WBtODvie/6yCT5h+OM3tZOcJo=
+	t=1763378321; cv=none; b=bGIn/XNP4Jhw1CzWcXhyxAG/UZYzrizXt0vqiWmqWg8eZjv4hxIcqLfoHZhMRUdhtDNNQ4WBsCAZqTmYljijlURz/ecckU5YPtzQen7nv87BYarUnHQNfE1TIeRSc3uaRSDhNyVOAmyEdO00JtV9dcge7p+04kDkUgPkHAsK4Og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763375327; c=relaxed/simple;
-	bh=s+iROLNXr0PR/ebcGstX05mh2QdPAP+zsgiqjeVNAgI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WbLRHEsRGiqzIySsfopkq+w0+esAPUHI8c6SboesV7stsMFUQkf7xgWQ7U6xpnDIoQGldm06XCxWB9xbqfp4akLXx4QD4hx2wYbY8Yn/EozV4YMq/4DXVKTLIZwzWDah0+bDXVZOCqsBSQ78Z380mFl5DnF+lJd/FAvFxiLe7F8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=MHRxvTgm; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5957f617ff0so4570558e87.2
-        for <linux-leds@vger.kernel.org>; Mon, 17 Nov 2025 02:28:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763375323; x=1763980123; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qkJMtTN7NxZ+mZUREGtT9UKMbYN1mlB2BuJUoJdFB9Q=;
-        b=MHRxvTgm6oNnyspS9xikC5Tjgku5HViDeGOlipM9KsaYZgg8RsIPyed1rlLa6CgARm
-         v8J08ga8hHv1KA4RtgdnxPigz4solKJgp4zxpsyPSGKY/VR0FV6ptmh1OgQ37vmVhc1y
-         Cgc2S8NpFXEqkcNMpFs5XlhLigftagU/RMc7UzzsEiJEWhBqD8ot8TN+S9BVIN/d+coe
-         KsRp0bjhtjfg0GBjlAXlu96bIh9D2vY78tSbUuB9kKtbXa4j5CWIf3uZu93me42XNdTy
-         bXFVSNSNz1HZZvqN9ed3K2F44bTnZDT2Bgd4G2wCknvazxT09T2ttqanYR6iMOTBy70g
-         KXBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763375323; x=1763980123;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=qkJMtTN7NxZ+mZUREGtT9UKMbYN1mlB2BuJUoJdFB9Q=;
-        b=pE0kiVCxNHfsbIPpuspaijZlfhI9R7lH08/9RbpNBipyXA4qayPpy/WUBpSz5tZMNi
-         65IJjPb6FJrTxoATlERnHPkWBvSWODIGGn3ysFp2pG4D5qKL1ACln1xtuQ0ycfZ5Ik/n
-         xkoPo0xhFv02nFE3equWI3xwuytDg6n2GNrj9TsFlaZZ6SUFDBLOQntsc+MUCbyqsPk1
-         hsh714S8bqf9Erjsb1uhTxBvZsToyNNXsF800CaAL5c5otPtS8zceHtCSx8nlaN3v9Ac
-         N+vHn095mkRboM+QwkbT4PjFHoaK5XVTrd3L0pKX2Ph4PbFJobVCdVJSYiOMJjQtsje6
-         f8Pg==
-X-Forwarded-Encrypted: i=1; AJvYcCWEodhCg3wPdILdh9LGNrczpE24mHIqf3cp50Khsgl41XvggK6j+e6Wf2pk4hh8CCsbfhiIptYwmB6+@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2GQzPoIeCAUfXpiPjh+A1tEe0sVx2R0WhWDGY4FiUrHzMc3ZH
-	ubYZ+oyQgsR29GEkMSeqfZW+ueqfiyjjou3SOKcozkzNEZ1kuAe8mya1L873qSvScu4dEzdH3xE
-	2++LMobDegqZaNl+8O/sokQ2QnKBEGjfUFIyvDS3z7A==
-X-Gm-Gg: ASbGnctIpT3BCkbz0+2uE47Y+23TMRUPc4C6FCPQzoblPGCyTivbiCOPnJcDnWElka3
-	5YagtY/YoEkxv2dJr0fayIToLQ6gJ2ZDvanQU7hqvkfWxvvcYB7HTIgmZ8VfSF6jRnxgSaSKWdI
-	5MNUymPKBZtYam8E6yAeoFItzW4kQkOW3gP3SfqN0wjK6mWPp4pYHjwaxcxWmfdJi6rSVjxmuWB
-	6hH+NDESUlgJflE4Q03UeZQrNYp5R0XKyOB4AmEljJHTXJAENR6/r+5t3ng1DGC7/uF2hzNKy2m
-	ooXcdg23A4g7xeRSRp4JBToFMgI=
-X-Google-Smtp-Source: AGHT+IENV8CzaL1K6Mya3S06DEhM6EMRTPuSzPHFw2nXA/z7e0mvMy8eMA+dW5u5JNz+Rug2kI4wZiVyhTp0m7NKaNs=
-X-Received: by 2002:a05:6512:108e:b0:595:831d:22ff with SMTP id
- 2adb3069b0e04-595841b4e6emr3599560e87.21.1763375323425; Mon, 17 Nov 2025
- 02:28:43 -0800 (PST)
+	s=arc-20240116; t=1763378321; c=relaxed/simple;
+	bh=5wLLJVB66wca9v8xVdIHb23PUiY2YkW+I6ixqL5yXxY=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=em3Y/I1IW2/hPkN6jJ8/tUqJ9jEdAbxLgWP3/+eMtNBt51gK+UcyuBAYx8yJqxyiEePT6opXmhu0YSwBHq+M2J9bZrbys4rvTrZmOXGtuAn2VoL0CwvQ222GdNwgT1cNVSJcUNkFcWX3alT7sNo8Iyquxi20KFbfXiXGlxDpJR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=qP8SReAN; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4d94xR54l8z9tPN;
+	Mon, 17 Nov 2025 12:18:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1763378315;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3/yUxH07BZ7z6RY7qPh9V7bK+ouYzlYaoiAPzW2PwTA=;
+	b=qP8SReAN+DvwGXLfoMM3KkUe58s99DnzSDTAf1XxGfRjnYhfBORD1wZDUFwm37CoPG+IVJ
+	O08FKzwSJLvbAl0N4Q6FzdxDEq1ZmrcMdLshQgzorqd8wC9rN3tEwSxmFb63fhJv5AgP7C
+	jJIPdLAy0KQvz2srB1P1+KVdFKLEVA7tMYGKSVcrYb/lRPFmQfnvatOujR7q1fgYR9rWoN
+	Z79MzL8sEK57SET0sx5yYtTf64twTb1UE11oLnNU6fgrZ/LTyE65tN4gTczxLU3DFKlUrP
+	BpBpjvxWVERm0uPoD13NFIYTTZ9qZt4pfdr1K3VOYzTb8vbZtxVTu9zU4+dV7g==
+Message-ID: <b4ba27e5-a1cc-4477-a254-a318e586ef2a@mailbox.org>
+Date: Mon, 17 Nov 2025 12:18:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <tencent_1B2BC712D34FBE7DEB01320E665BEB2D8908@qq.com>
-In-Reply-To: <tencent_1B2BC712D34FBE7DEB01320E665BEB2D8908@qq.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 17 Nov 2025 11:28:30 +0100
-X-Gm-Features: AWmQ_blYR97KDYJ-s8zL-cfGqAncf-5UAgYD74kk8M7UvymRUP2B67vorJGJc58
-Message-ID: <CAMRc=Md9-Tqejkmw0dTOj686ZZ=QABEqeKgz1xUYniJ-swnxxA@mail.gmail.com>
-Subject: Re: [PATCH] leds: add aw91xxx driver
-To: 429368636@qq.com
-Cc: lee@kernel.org, pavel@kernel.org, linus.walleij@linaro.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, zhangxinyu <gavin.zhang@faiot.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] leds: trigger: netdev: Check offload ability on interface
+ up
+From: Marek Vasut <marek.vasut@mailbox.org>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: linux-leds@vger.kernel.org,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Christian Marangi <ansuelsmth@gmail.com>,
+ Christophe Roullier <christophe.roullier@foss.st.com>,
+ Daniel Golle <daniel@makrotopia.org>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, kernel@dh-electronics.com,
+ linux-stm32@st-md-mailman.stormreply.com, netdev@vger.kernel.org
+References: <20241001024731.140069-1-marex@denx.de>
+ <1d72f370-3409-4b0f-b971-8f194cf1644b@lunn.ch>
+ <d0411d89-5c83-47b4-bef9-904b63cbc2c0@denx.de>
+Content-Language: en-US
+In-Reply-To: <d0411d89-5c83-47b4-bef9-904b63cbc2c0@denx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: c634c576c82130d98b2
+X-MBO-RS-META: z4y1gngkuhdep4ypa3wmytu8h5dof3xm
 
-On Mon, Nov 17, 2025 at 10:36=E2=80=AFAM <429368636@qq.com> wrote:
->
-> From: zhangxinyu <gavin.zhang@faiot.com>
->
-> This commit adds support for AWINIC AW91XXX 6-channel LED driver.
-> The chip supports 6 PWM channels and is controlled with I2C.
->
-> Signed-off-by: zhangxinyu <429368636@qq.com>
-> ---
+On 10/3/24 2:47 AM, Marek Vasut wrote:
 
-Hi!
+Hello again,
 
-I have only skimmed through the code as it still requires a lot of work.
+>>> On STM32MP13xx with RTL8211F, it is enough to have the following udev 
+>>> rule
+>>> in place, boot the machine with cable plugged in, and the LEDs won't 
+>>> work
+>>> without this patch once the interface is brought up, even if they 
+>>> should:
+>>> "
+>>> ACTION=="add", SUBSYSTEM=="leds", KERNEL=="stmmac-0:01:green:wan", 
+>>> ATTR{trigger}="netdev", ATTR{link_10}="1", ATTR{link_100}="1", 
+>>> ATTR{link_1000}="1", ATTR{device_name}="end0"
+>>> ACTION=="add", SUBSYSTEM=="leds", KERNEL=="stmmac-0:01:yellow:wan", 
+>>> ATTR{trigger}="netdev", ATTR{rx}="1", ATTR{tx}="1", ATTR{device_name} 
+>>> ="end0"
+>>> "
+>>
+>> Nice use of udev. I had not thought about using it for this.
 
-> diff --git a/drivers/leds/leds-aw91xxx.c b/drivers/leds/leds-aw91xxx.c
-> new file mode 100644
-> index 000000000000..8d809f3e443b
-> --- /dev/null
-> +++ b/drivers/leds/leds-aw91xxx.c
-> @@ -0,0 +1,1865 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * leds-aw91xxx.c   aw91xxx led module
-> + *
-> + * Copyright (c) 2021 AWINIC Technology CO., LTD
-> + *
-> + * This program is free software; you can redistribute  it and/or modify=
- it
-> + * under  the terms of  the GNU General  Public License as published by =
-the
-> + * Free Software Foundation;  either version 2 of the  License, or (at y=
-our
-> + * option) any later version.
-> + */
-> +#include <linux/module.h>
-> +#include <linux/init.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/irq.h>
-> +#include <linux/workqueue.h>
-> +#include <linux/errno.h>
-> +#include <linux/pm.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/input.h>
-> +#include <linux/i2c.h>
-> +#include <linux/gpio.h>
+I might have been a bit too hasty with this. The following is only a 
+quick preliminary FYI, I am still investigating the details.
 
-Including this legacy header makes it an immediate NAK. Please use
-interfaces from linux/gpio/consumer.h.
+I observe on 6.18-rc6 (ST STM32MP13xx , so STM32 DWMAC ethernet, and 
+RTL8211F PHY), that if I use the these udev rules (SoC has two MACs, 
+there are two rules for each MAC, and 2 rules for each of two LEDs on 
+each MAC PHY , therefore four rules in total ; the rules for both MACs 
+are identical):
 
-> +#include <linux/delay.h>
-> +#include <linux/device.h>
-> +#include <linux/of_gpio.h>
-> +#include <linux/slab.h>
-> +#include <linux/wait.h>
-> +#include <linux/time.h>
-> +#include <linux/delay.h>
-> +#include <linux/of_gpio.h>
+"
+ACTION=="add|change", SUBSYSTEM=="leds", 
+KERNEL=="stmmac-0:01:green:wan", ATTR{trigger}="netdev", 
+ATTR{link_10}="1", ATTR{link_100}="1", ATTR{link_1000}="1", 
+ATTR{device_name}="ethsom0"
+ACTION=="add|change", SUBSYSTEM=="leds", 
+KERNEL=="stmmac-0:01:yellow:wan", ATTR{trigger}="netdev", ATTR{rx}="1", 
+ATTR{tx}="1", ATTR{device_name}="ethsom0"
 
-Duplicated include. Also: you don't really need it.
+ACTION=="add|change", SUBSYSTEM=="leds", 
+KERNEL=="stmmac-1:01:green:lan", ATTR{trigger}="netdev", 
+ATTR{link_10}="1", ATTR{link_100}="1", ATTR{link_1000}="1", 
+ATTR{device_name}="ethsom1"
+ACTION=="add|change", SUBSYSTEM=="leds", 
+KERNEL=="stmmac-1:01:yellow:lan", ATTR{trigger}="netdev", ATTR{rx}="1", 
+ATTR{tx}="1", ATTR{device_name}="ethsom1"
+"
 
-> +#include <linux/miscdevice.h>
-> +#include <linux/uaccess.h>
-> +#include <linux/leds.h>
-> +#include <linux/pinctrl/consumer.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/hrtimer.h>
-> +#include <linux/kernel.h>
-> +#include <linux/firmware.h>
-> +#include <linux/version.h>
-> +#include <linux/debugfs.h>
-> +#include <linux/leds.h>
-> +#include <linux/fb.h>
+I get this backtrace. Notice the "sysfs: cannot create duplicate 
+filename ..." part , I suspect there is some subtle race condition ?
 
-Please order includes alphabetically, you'll avoid duplications.
+"
+sysfs: cannot create duplicate filename 
+'/devices/platform/soc/5c007000.bus/5800e000.ethernet/mdio_bus/stmmac-1/stmmac-1:01/leds/stmmac-1:01:green:lan/link_10'
+CPU: 0 UID: 0 PID: 153 Comm: (udev-worker) Not tainted 6.18.0-rc6 #1 
+PREEMPT
+Hardware name: STM32 (Device Tree Support)
+Call trace:
+  unwind_backtrace from show_stack+0x18/0x1c
+  show_stack from dump_stack_lvl+0x54/0x68
+  dump_stack_lvl from sysfs_warn_dup+0x58/0x6c
+  sysfs_warn_dup from sysfs_add_file_mode_ns+0xf0/0x130
+  sysfs_add_file_mode_ns from internal_create_group+0x344/0x480
+  internal_create_group from internal_create_groups+0x48/0x6c
+  internal_create_groups from led_trigger_set+0x1e4/0x278
+  led_trigger_set from led_trigger_write+0xe0/0x118
+  led_trigger_write from sysfs_kf_bin_write+0x98/0xa0
+  sysfs_kf_bin_write from kernfs_fop_write_iter+0x14c/0x198
+  kernfs_fop_write_iter from vfs_write+0x170/0x1d4
+  vfs_write from ksys_write+0x7c/0xd0
+  ksys_write from ret_fast_syscall+0x0/0x54
+Exception stack(0xedbf1fa8 to 0xedbf1ff0)
+1fa0:                   00000006 bec4476c 00000015 bec4476c 00000006 
+00000001
+1fc0: 00000006 bec4476c 000e7698 00000004 00000006 fffffff7 00000000 
+000d1710
+1fe0: 00000004 bec44578 b6c34397 b6bb15e6
+leds stmmac-1:01:green:lan: Failed to add trigger attributes
+"
 
-> +//#include <stddef.h>
-
-??
-
-> +#include "leds-aw91xxx.h"
-
-What's the reason for this header's existence? Doesn't seem like
-anything here should be public?
-
-> +
-> +static DEVICE_ATTR_RW(reg);
-> +static DEVICE_ATTR_RW(hwen);
-> +static DEVICE_ATTR_RW(blink);
-> +static DEVICE_ATTR_WO(dim);
-> +static DEVICE_ATTR_WO(all_dim);
-> +static DEVICE_ATTR_WO(fade_mode);
-> +
-> +
-> +static struct attribute *aw91xxx_attributes[] =3D {
-> +       &dev_attr_reg.attr,
-> +       &dev_attr_hwen.attr,
-> +       &dev_attr_blink.attr,
-> +       &dev_attr_dim.attr,
-> +       &dev_attr_all_dim.attr,
-> +       &dev_attr_fade_mode.attr,
-> +       NULL
-> +};
-> +
-> +static struct attribute_group aw91xxx_attribute_group =3D {
-> +       .attrs =3D aw91xxx_attributes
-> +};
-
-This whole driver looks like it belongs in driver/staging/ for now.
-The LEDs subsystem provides all the relevant sysfs attributes already.
-You shouldn't create your own.
-
-> +
-> +static void aw91xxx_i2c_remove(struct i2c_client *i2c)
-> +{
-> +       struct aw91xxx *aw91xxx =3D i2c_get_clientdata(i2c);
-> +
-> +       if (gpio_is_valid(aw91xxx->reset_gpio))
-> +               gpio_free(aw91xxx->reset_gpio);
-> +       aw91xxx_gpio_free_all_resource(aw91xxx);
-> +       devm_kfree(aw91xxx->dev, aw91xxx);
-
-The whole purpose of devres is to not have to do this.
-
-> +
-> +}
-> +
-> +static const struct i2c_device_id aw91xxx_i2c_id[] =3D {
-> +       { AW91XXX_I2C_NAME, 0 },
-> +       { }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, aw91xxx_i2c_id);
-> +
-> +static const struct of_device_id aw91xxx_dt_match[] =3D {
-> +       { .compatible =3D "awinic,aw91xxx_led" },
-> +       { },
-> +};
-
-You need DT bindings for this too.
-
-Bart
+If I find out more, I will get back to this thread.
 
