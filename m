@@ -1,130 +1,102 @@
-Return-Path: <linux-leds+bounces-6187-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6188-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A276C6B83C
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 21:02:09 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF31C6BA6B
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 21:37:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sto.lore.kernel.org (Postfix) with ESMTPS id B1277290F0
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 20:02:08 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id AF28229A8A
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 20:37:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0A0927E05A;
-	Tue, 18 Nov 2025 20:02:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B80EF2F12CF;
+	Tue, 18 Nov 2025 20:37:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MCzoprNy"
+	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="Re5Lfyqt"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C636E1624C5;
-	Tue, 18 Nov 2025 20:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B5C12F617C
+	for <linux-leds@vger.kernel.org>; Tue, 18 Nov 2025 20:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763496123; cv=none; b=CrtBWMHUEfbHS8Qqco6bi0yuAG5ytpAGIBlHWXmVT9TH8GxrkK0gnwluxQdGTrpWWz77wAoj9b20x6xfnvUrxF3FtQUQ5hUYrQA1xdwZOTvc91sg5B8Uqt+ZqWA6XxxHbGGTG49O2NwjLKFF0UTky2yxCTpG4clPL+FwCpOpG6g=
+	t=1763498248; cv=none; b=gKF97rWaXU7C1ZdjYmAKj8eztfuw64+HyAHfCRIBXIV+aDXFInxOKgfM3YSYd7n1IR1xJj9MmRuaFEU1D9r12Stkhd+Rg548eKKfn7/hsXFZf3S201UzCsgWsNJBLrB0hnXbzOER9OLtdXr9UQ+T2zq9rNFSWCWhSmN1hzlKprQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763496123; c=relaxed/simple;
-	bh=gjSVuV0VvRb+v7MfFoe3CamAEnrmlYsG/ud4Md5QYHw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BQ7Xn7nMLYgTh0BIE7aJ2eTo6ttyARdbMQTpfhSTQhbY6td3r0BaXzpJ0mQbmDAgV1PFoxvIi6Z6GxBkKpAi4dXE0sd+rb6EyeTbY+0vghiTZzfFFi3PzOG68To8+6jTpOetKpoNaSFruMN+P9F3FzSdKEHS7GODvVTHYIY4eJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MCzoprNy; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763496122; x=1795032122;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gjSVuV0VvRb+v7MfFoe3CamAEnrmlYsG/ud4Md5QYHw=;
-  b=MCzoprNyWAp/Wf1mRoVseLA1pQO3HATHRhcX75DpIinAOKwui1cbrOPc
-   GMsd2x9yOyZpUjXmnBHHfgHhRsGTXTi7BD69YeFPTW7AieUtE2yns50pC
-   KSkQmOwraXLG+QONDA9FJU3Dpg56rEH5HVYS3jtFGzbvxymXa1rjr1OEo
-   6wTb+9/dbgrnPe25FKsxIvKOQ4lEmj79+OL/2hsTqPd8kj1rbQpSlbyCA
-   b4Qk5OmnAO+vHOqMXIEHRqkxWXrKZGOEPJ5EmZBkRTnJaRiGNUVqEUBS5
-   nBFYOQXMQNiQ0KN8LgR2En1xBnZcF1w/i4OP264B/xSFiKoWi69Fwe78y
-   w==;
-X-CSE-ConnectionGUID: 3Xc0IoNWT2eUrAfkr3m7NA==
-X-CSE-MsgGUID: GPZqNUA+Q/Gwp3XZcVtG4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="69399318"
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="69399318"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 12:02:01 -0800
-X-CSE-ConnectionGUID: DujWrKGRSAmwqMn2wsYZ4w==
-X-CSE-MsgGUID: HnrqYlIxSdKcayAaDHpdFQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="191639949"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Nov 2025 12:02:00 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id C70E196; Tue, 18 Nov 2025 21:01:58 +0100 (CET)
-Date: Tue, 18 Nov 2025 21:01:58 +0100
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Haotian Zhang <vulab@iscas.ac.cn>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Markus.Elfring@web.de, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] leds: netxbig: fix GPIO descriptor leak in error paths
-Message-ID: <aRzQtvOhYRaWCiFA@black.igk.intel.com>
-References: <20251028082117.276-1-vulab@iscas.ac.cn>
- <20251031021620.781-1-vulab@iscas.ac.cn>
+	s=arc-20240116; t=1763498248; c=relaxed/simple;
+	bh=U0bO+cFG7Ix82Qk9J/VxfrGtiVDBxJrS24aORhUcrIY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=OoA+/A12wxUxlIYVk5Gnqn47MJreQMa0VteugEMAIfHyNUJAkyte/CDWBRBRg7Lq+Ab/7pkAFrlOWrJuaS/ncwWbh8Dt2e42zY4r6UqKNMXMa15/e/VAm/CZawhxZw5pVuE7P97zVj8StFu54Y6nvsGHON7SEACd+8YASv7A67Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=Re5Lfyqt; arc=none smtp.client-ip=84.16.241.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
+Received: from [IPv6:2a02:1812:110a:5400:17f3:a8ff:d314:780e] (2a02-1812-110a-5400-17f3-a8ff-d314-780e.ip6.access.telenet.be [IPv6:2a02:1812:110a:5400:17f3:a8ff:d314:780e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sander@svanheule.net)
+	by polaris.svanheule.net (Postfix) with ESMTPSA id D8D366A14EB;
+	Tue, 18 Nov 2025 21:37:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+	s=mail1707; t=1763498243;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U0bO+cFG7Ix82Qk9J/VxfrGtiVDBxJrS24aORhUcrIY=;
+	b=Re5Lfyqt+TCF0Um6kyalyhufMpbWyLHopLgWFaVoUYLU2DzH0H66mBqR1tdCT1bC7J0gUJ
+	sRl7EHM8jCf0iHrUCfJ+9ipdVaYGUSy1BsPnbUswuM1AyoixTG0On6+xK0db0s50m6ct3F
+	mJLRpLRH9A1EpxiHKOUePqEBjiooN/9nLvjBpiUovk2A1WSVq5tXo9CDS4L7xvXWkLpGF1
+	eyYlzM6HW4VXZWVoWB5ktG9siZLXzvqdHYhyQxD+WHFZKbC9wEE+0rKGC4qmZN0CPWGnI6
+	EA90WGSKxfENjVFS9gQ95q7MUgnKgC4bM77wuXo/LEaf21EMqw7sJLGZR+kD8Q==
+Message-ID: <6a0fafaa35d29ab5efb3871a61b68bed0272d1d6.camel@svanheule.net>
+Subject: Re: [PATCH v7 1/6] dt-bindings: leds: Binding for RTL8231 scan
+ matrix
+From: Sander Vanheule <sander@svanheule.net>
+To: Rob Herring <robh@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Linus
+ Walleij	 <linus.walleij@linaro.org>, Michael Walle <mwalle@kernel.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org
+Date: Tue, 18 Nov 2025 21:37:21 +0100
+In-Reply-To: <20251118145805.GA3231100-robh@kernel.org>
+References: <20251117215138.4353-1-sander@svanheule.net>
+	 <20251117215138.4353-2-sander@svanheule.net>
+	 <20251118145805.GA3231100-robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251031021620.781-1-vulab@iscas.ac.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, Oct 31, 2025 at 10:16:20AM +0800, Haotian Zhang wrote:
-> The function netxbig_gpio_ext_get() acquires GPIO descriptors but
-> fails to release them when errors occur mid-way through initialization.
-> The cleanup callback registered by devm_add_action_or_reset() only
-> runs on success, leaving acquired GPIOs leaked on error paths.
-> 
-> Add goto-based error handling to release all acquired GPIOs before
-> returning errors.
+Hi Rob,
 
-...
+On Tue, 2025-11-18 at 08:58 -0600, Rob Herring wrote:
+> On Mon, Nov 17, 2025 at 10:51:31PM +0100, Sander Vanheule wrote:
+> > +=C2=A0=C2=A0=C2=A0 allOf:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - $ref: /schemas/leds/common.yaml#
 
->  	data = devm_kcalloc(dev, num_data, sizeof(*data), GFP_KERNEL);
-> +	if (!data) {
-> +		ret = -ENOMEM;
-> +		goto err_free_addr;
-> +	}
-> +
-> +	gpio_ext->data = data;
-> +	gpio_ext->num_data = 0;
->  
->  	for (i = 0; i < num_data; i++) {
->  		gpiod = gpiod_get_index(gpio_ext_dev, "data", i,
->  					GPIOD_OUT_LOW);
->  		if (IS_ERR(gpiod))
-> +			goto err_free_data;
->  		gpiod_set_consumer_name(gpiod, "GPIO extension data");
->  		data[i] = gpiod;
-> +		gpio_ext->num_data++;
->  	}
+I've moved the $ref property as you mentioned in your first message and add=
+ed the
+unevaluatedProperties: false
 
-While fixing one issue, this brings wrong order of the devm_ and non-devm
-resource cleaning. This may lead in some cases to the crash at ->remove() or on
-error path at ->probe().
+> > +examples:
+> > +=C2=A0 - |
+> > +=C2=A0=C2=A0=C2=A0 #include <dt-bindings/leds/common.h>
+> > +=C2=A0=C2=A0=C2=A0 led-controller {
+>=20
+> Also, drop the example here. It just duplicates what is in the mfd=20
+> schema and we want 1 complete example, not piecemeal examples.
 
-I think this needs much deeper refactoring, and rethinking. Easiest approach is
-to get rid of devm_ allocations altogether with a huge comment why.
+Done!
 
-That said, NAK to it in _this_ form.
-(However I see it is already applied, so perhaps it will be fixed by some
- followups)
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Sander
 
