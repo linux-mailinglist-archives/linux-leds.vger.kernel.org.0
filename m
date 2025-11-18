@@ -1,47 +1,47 @@
-Return-Path: <linux-leds+bounces-6182-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6183-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20DE7C6A252
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 15:57:33 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63428C6A267
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 15:58:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id DB32D28D13
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 14:56:20 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D4A7D363BD7
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 14:58:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6281535E52E;
-	Tue, 18 Nov 2025 14:56:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6D78361DB0;
+	Tue, 18 Nov 2025 14:58:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VkJ1LXJ0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G4hoHohy"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32156260580;
-	Tue, 18 Nov 2025 14:56:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A7633C50B;
+	Tue, 18 Nov 2025 14:58:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763477777; cv=none; b=fXKZ5Gd94XPP8G2lpDJ2O9F/1J7WUDMYcIokJlst3IgHOY8HjajO2L7sRm9KCS3g7an5RBWaXlU33l1Paq983pFCXOXLrPxSN1+N4ru4H+k4BGCvph+ijq91Mei3rUDvtF5Mljo+94bSv12RepNZfqFQpciVXO9kWLfJ8ZCuoaU=
+	t=1763477887; cv=none; b=uzPS91+1rYc9w6BsYsn7iRtQBFu+T7WRIigbqsBn8Jd4GMxF7+h3kbs8LsH66e/YhpKdGhdesMXARGMroYRk3/tVNjm5gX55SdGBD3GsSZGtkQjiuGKteeZXqyZAvQZhvzaipN4et03H2OzHPb0Nb9X09+9eJYP8iF4EAPJDPvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763477777; c=relaxed/simple;
-	bh=OkIQLw7rNaZTmdSh31V/fGiPIVnyok6ROzUAdx+L87U=;
+	s=arc-20240116; t=1763477887; c=relaxed/simple;
+	bh=e+z6XUwzhyDWTjtbWxr0qeGlqE4RlAw1sbQqNFwxbVc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n4QwFArrskT3ZCsuC5fDx7fcy8k4r7VlnZl2tm4QObTLf0VjZ4MdU5upoBMtkKt+Pyg12ytcwFCAXChssmdZqdXOavRcfzGaMS/CHARDHsEtiBzQqfPwXxVFvZsIhxK2nc2qfNdxfcbQIU/j5KTRKedVhskr8jphcgXP6RvRjuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VkJ1LXJ0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C157C116D0;
-	Tue, 18 Nov 2025 14:56:16 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=WYbtzNxlsUPg8iMCGrRphrPfWJhVfEJytFWEYpK3CeaCMpf+cOg632CvrOihh7Cyd/rPu3kMQukHhbX1+3ZIqU29yd1oCRrI3sZTtneaBZwj8tRYCH5YypKujqOurDp4h5dBoyWiOn6gvOQceRZ8U5tWQ9rp1EGhm8Uy4u+4VWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G4hoHohy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14243C19421;
+	Tue, 18 Nov 2025 14:58:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763477776;
-	bh=OkIQLw7rNaZTmdSh31V/fGiPIVnyok6ROzUAdx+L87U=;
+	s=k20201202; t=1763477887;
+	bh=e+z6XUwzhyDWTjtbWxr0qeGlqE4RlAw1sbQqNFwxbVc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VkJ1LXJ0WLpgMTm1J0A9nXxhBetNUCmLBXM6PVw2c1Hn4vARlF8pYjy5FmHbELfW0
-	 ZxQPFkXLRUtO+8s5TS5g7w/9fEWOPrf+gjawz4256+2w7UEj+hpzZ6UmWbaTkq6lod
-	 fxTdg1/VcRr0Y3rr1sqSii7KOrtbGaCSnZuS/FYvkASxNJhSZ9oCb66YbZrLLclHsp
-	 QHAMY34inHZlNwn1vGSLjNt9Q2yLXLEslJXXNQKUq+jGPNydcdnOr4UcXfSqc8uKpI
-	 lDdAfXCAm2jRyflkI16ADavqARf2woYZPBhpuuBYrk9Sq756qipxp80rjC35dxreAY
-	 a4ShfMr8EEmZg==
-Date: Tue, 18 Nov 2025 08:56:15 -0600
+	b=G4hoHohy7t59TIidJFhYEX7KnjIPC20/DcH2gQEYhqWV6N2BUykUssMLkBTbLo7gP
+	 ICMqOBFNYVC3dmOvgpZgWPdIPdkXYtGFUQW4jKMYsn8IaAf0Oz2wDPmq05ALYRZSid
+	 WFvLpR5bSUiSTD1ZHNqVhpZtz9rkKzN+/GeTnuw+d/hnoXWte1xy6cNQhqzt76vLqZ
+	 c0EBrjRvISNoLyS1M/9TZX4V6q/zhpgUnwjgs8DFjGk0ttDEUpTZLIL/kWvx7An4ZC
+	 iG9zG41uxWFEPGluEw2Lj0bHxBXJnqSwwoHLz8opO/IehzgzxncnBNvCqIUiydpMUq
+	 +D5bndO90hMKw==
+Date: Tue, 18 Nov 2025 08:58:05 -0600
 From: Rob Herring <robh@kernel.org>
 To: Sander Vanheule <sander@svanheule.net>
 Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
@@ -53,7 +53,7 @@ Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-gpio@vger.kernel.org
 Subject: Re: [PATCH v7 1/6] dt-bindings: leds: Binding for RTL8231 scan matrix
-Message-ID: <20251118145615.GA3223298-robh@kernel.org>
+Message-ID: <20251118145805.GA3231100-robh@kernel.org>
 References: <20251117215138.4353-1-sander@svanheule.net>
  <20251117215138.4353-2-sander@svanheule.net>
 Precedence: bulk
@@ -201,13 +201,6 @@ On Mon, Nov 17, 2025 at 10:51:31PM +0100, Sander Vanheule wrote:
 > +      support three LEDs. Additionally, but only when used in single color scan
 > +      mode, ports 24-31 support two LEDs.
 > +    type: object
-
-Drop the allOf and move the $ref here. You also need:
-
-       unevaluatedProperties: false
-
-The tools should have caught this, I'll have to check...
-
 > +
 > +    properties:
 > +      reg:
@@ -220,5 +213,53 @@ The tools should have caught this, I'll have to check...
 > +
 > +    allOf:
 > +      - $ref: /schemas/leds/common.yaml#
+> +
+> +    required:
+> +      - reg
+> +
+> +required:
+> +  - compatible
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - realtek,led-scan-mode
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/leds/common.h>
+> +    led-controller {
 
+Also, drop the example here. It just duplicates what is in the mfd 
+schema and we want 1 complete example, not piecemeal examples.
+
+> +        compatible = "realtek,rtl8231-leds";
+> +        #address-cells = <2>;
+> +        #size-cells = <0>;
+> +
+> +        realtek,led-scan-mode = "single-color";
+> +
+> +        led@0,0 {
+> +            reg = <0 0>;
+> +            color = <LED_COLOR_ID_GREEN>;
+> +            function = LED_FUNCTION_LAN;
+> +            function-enumerator = <0>;
+> +        };
+> +
+> +        led@0,1 {
+> +            reg = <0 1>;
+> +            color = <LED_COLOR_ID_AMBER>;
+> +            function = LED_FUNCTION_LAN;
+> +            function-enumerator = <0>;
+> +        };
+> +
+> +        led@0,2 {
+> +            reg = <0 2>;
+> +            color = <LED_COLOR_ID_GREEN>;
+> +            function = LED_FUNCTION_STATUS;
+> +        };
+> +    };
+> -- 
+> 2.51.1
+> 
 
