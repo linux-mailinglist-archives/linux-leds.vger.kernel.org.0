@@ -1,157 +1,372 @@
-Return-Path: <linux-leds+bounces-6179-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6180-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05822C6743A
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 05:32:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F397DC67DD5
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 08:15:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 845423656ED
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 04:31:58 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 6BA3F359C13
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 07:15:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9D6E28CF4A;
-	Tue, 18 Nov 2025 04:31:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C5562D7DF8;
+	Tue, 18 Nov 2025 07:15:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TeNjjjLX";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="bbVLZ6WS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hC2WWPzq"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5597826FDBF
-	for <linux-leds@vger.kernel.org>; Tue, 18 Nov 2025 04:31:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E058F2376FD;
+	Tue, 18 Nov 2025 07:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763440271; cv=none; b=JLxYeUfdhDjZeBevnQzC+mhM7A9o1hqHYYTFDWI03FGN66ltpcyL/mM1hdUoMk+mi/IjT3BsIJ/VgpZzOTz6XPGshBlIHurbDO9F+SS4KwCgAa/oLkmQbeVKtI6lL/8f83T1HlSKRTYRp4tEiKBcB12A+O6h4Evogl4pc2yxmiw=
+	t=1763450139; cv=none; b=SYz01JodypbyI1xeinEuN3Phl3LaZRzvKm2vQ+fL2hmmf0/QC8iHI+X1gTwFBIIWHCAXGHQAW3BERW7nlYa7VaFgRVwYWjfrviGU2ea5WW7eYLKWijRohyvbISVukjbFEWEtFWZh7vOYwU7WGroJiwkLROjGojKQGRYSBl+KIAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763440271; c=relaxed/simple;
-	bh=HavdvHtaUmsPCbS17TWupL2hRZZl5Of/xAeauK0azg8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g6bfcJ5eW9BtujVAQ9JdEx8aD3zxaMjZnFEJsFR31BKnN0xUCzB564XlELZtBL590C4aD13LpUBx+Dp3xS+nV7UvLtC1gvGWq5Negn++KJfmL5MDaePgAm7rHv6GuDFIaesY5Iypr8wXNBxawtnIds6Xnw73+V5Q4MXgRH08GVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TeNjjjLX; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=bbVLZ6WS; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AI1b9FF374189
-	for <linux-leds@vger.kernel.org>; Tue, 18 Nov 2025 04:31:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=XOqRyNm6zGDnKkA4W+0GBFVa
-	0Eebq9X1l2piDS1JtGA=; b=TeNjjjLXQ1iBjHdBfCAZiLw8sAYXTKTvvseUi9p2
-	yU06+wE4RF2P4fgZ/lTDhhB2bJjLZ2UaGGDLNLtC0DHGapL+WGtNYpglphnZRG8T
-	5f7nHzdxbDhX241wNVe3ivXwtGXjsd4TGvBhZVelaJBNh76IAVd218gwliF8OtP4
-	NJQbV77czO73CaLYjsvbVzDTmtS5cfFK2fnLv2c9C/J8l/tR/chDygZPig+HY/ym
-	xf78Wm48L0nzV3pr7OVoD6cm3JZvphGiP0f08kkAtSzva7ZsfvgeGaaI7C5ALNhB
-	OtmsHaE+7HuFXOKB6+35eZvXplj7KJ7iSwoTAflGYNSXkg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ag599a594-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-leds@vger.kernel.org>; Tue, 18 Nov 2025 04:31:08 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8b2ef6c8340so497520485a.0
-        for <linux-leds@vger.kernel.org>; Mon, 17 Nov 2025 20:31:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1763440268; x=1764045068; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XOqRyNm6zGDnKkA4W+0GBFVa0Eebq9X1l2piDS1JtGA=;
-        b=bbVLZ6WSMfn++wRgaC6LRnsfCBgQnXyDUNzsW09ZUirRjRKru2me8GVmxLSCs6wPEA
-         w6IfSqpgHIfLcyFJiIynrJgulbgOeUgzo9KEltyGhmwDQhUZbamdKBmxHUBU/AWdvCWu
-         2E1zfznU7kd0xjR8nk1FC19XadYIUspL8RhjvRVpsxZQoMMrIXrqtawnwLxKkuGQz4LY
-         o6xRVaAT9q+u+kYPOa+wN+UJppd1WiSez90g5wGL9crlt12wD+kobmRm2KROprzZMoBY
-         IMOPlSFHPRatNFqNWAnYNRbV5BX2JSzW6cS6T+7bGB2AcyiuO+oTcjKh4x2fHR7wnkjD
-         3R9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763440268; x=1764045068;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XOqRyNm6zGDnKkA4W+0GBFVa0Eebq9X1l2piDS1JtGA=;
-        b=cz8jM8DbC26uKSnTdBN2KOvv/tyDwwO6AELdp0SoRk/u1Wd8Fdo+cX3qxeyzRDvwIT
-         oxmLRvMQqWjqlh9onu89/w4kzRhu/noFupXuj3fA7g6hi51He6NjwsAcX3z1mDQ+iL+p
-         +fkfyCuiW2C8fQsdwZ8XAwgdaXVne7bUMwQFfHO/C9aygL83ozwN62kul8NXLKp34PcS
-         0/WI+PuyDX2eXdehl1L8rQ6R3GzfH6oXhZeckjedQ+0xJxX81kAmQaca47a14Z5236cZ
-         PsjwVBcZqCrXX7cptbRRxJqQwx11Uc5FQsfTfbOdj+TwfvtsT0Mim+qI0cC/q0VFWx2t
-         x0PA==
-X-Forwarded-Encrypted: i=1; AJvYcCXMqvJ5Htgc0jJLkr8HsWvigUoqK6gEOMn1HZm/OFaf5zWCRdjcNLjlOSSn/VaQz3olSIDLAU69RK+X@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjTT02qilM7889bs1nJk+HXpMZwOgnX/iwLNNZgEwlD4wvXPvn
-	tyoJqKgz8Jg6pUawCMtIkjmUnGvrosw14S3iOq6b8dVzhg+tUPT7oqUOphPypyMLjxZ/mvFc+Yu
-	kmbyAlCkwkIUKQyps9WJkdnOMUwPRUgP3Kye7hicTyAW4FdzmhWB6KLQlHLZOZPK+
-X-Gm-Gg: ASbGncuE+WVYPYt7JzLV53L9sYsXrQegCc42nHON/N7TWvWFbUG2iebXiOe9B+5ijJH
-	K55wz2rspRJUqdqHsRw1h/zSG2mupCJEmKL5v1g2QmG3T/kcoG3N7R3n/ggdwUTeq8TKRGnjg2p
-	d33D/18SrFLLyiF4vZhxkPh+HiumKZ9E/vUHRndHlgdXckvBTGw7ItanIT7KZvcGbMb7XKsMgwu
-	eENpzxfyMgaD5BdjTVLtO/yUTpjWGIEyiC+WCUn8QaFrpQO6cz2uKfidfQkUukgCgeW1riZWIef
-	YaO8SJZxp9H8dRDwTYF+d4JcKmQEXeogZzYUzM7h0xH5Jq8CKg5cAYdF/w2SQJmbVtJsadV4bRm
-	U+VrP7OYcOVxXlchyB35xqxu+6rjMnBsK1C4bqpiTSXM6uyIAhGk+vhmag+XG3M0/XBa+0J922I
-	c+wv1O3AJjGMR3
-X-Received: by 2002:a05:620a:414a:b0:8b2:aaa5:e88f with SMTP id af79cd13be357-8b300f31428mr232180285a.30.1763440268427;
-        Mon, 17 Nov 2025 20:31:08 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGINp4LrB+FLyj7KzZYhj6XUNXFOyCPdfbPL47E9cNSd2RbBsvLl0Yedu+4HF+/OLtvSbzn6g==
-X-Received: by 2002:a05:620a:414a:b0:8b2:aaa5:e88f with SMTP id af79cd13be357-8b300f31428mr232178185a.30.1763440268034;
-        Mon, 17 Nov 2025 20:31:08 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5958040049fsm3651658e87.61.2025.11.17.20.31.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 20:31:07 -0800 (PST)
-Date: Tue, 18 Nov 2025 06:31:05 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH] leds: rgb: leds-qcom-lpg: Allow LED_COLOR_ID_MULTI
-Message-ID: <27lvlcu65hdtm3nlovi43pfzi3kwelgm5ruzhnwqpmxdaepnok@lqeq3y2boeyf>
-References: <20251117-topic-lpg_multi-v1-1-05604374a2dd@oss.qualcomm.com>
+	s=arc-20240116; t=1763450139; c=relaxed/simple;
+	bh=TaK3+GcRTl52fnu7JKjw5BH2tWLx49qhm29L81/A/YI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hiD33DkouBSH1cKViTNQ1xtIqxTo+O+SPWvKSSWsFNkFCsjFuMav3t0rygublmgzxsL8vjPOBEYWfLdEOZUs2sHN61mIkacFe/juvzjhB1kSQoHDNG/bFqF1lVXWWte8GVTj6uLDG6NnOeNWILty9fNqzej2WnNAK4/ZpgXizQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hC2WWPzq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66777C116D0;
+	Tue, 18 Nov 2025 07:15:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763450138;
+	bh=TaK3+GcRTl52fnu7JKjw5BH2tWLx49qhm29L81/A/YI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hC2WWPzqMpiSHch/Y3DfBs8rZpE+h7g+hX/IKqGfZjTEodRY4aEnnpKm924JEckmV
+	 03BM+akCg3dKWXJM/TNCEpW10/OdPM4nxPxRlkZBjHgnSoGQJnTD/gyw7MSAO6yt0f
+	 iOp8Ix1vhoZRnYI2/ajHCak6eaPEBtG/r11wFAvA00gajdEOzx16w5VEcgee/oivVt
+	 OdhHQ6XWEmFg6VO23MRuvV4YXkRkryoWX+kdBLg0ZKwNjNqvxD9NSXxyGrJEl/lmri
+	 H3UaLUt3KIZyNAx/AYtwYHNABaZIouvfatQRBZF5LLo6+yy7Mx/mEwsaW//xAk8Rll
+	 bTrXwj/FqNwUA==
+Message-ID: <41ea5cef-e083-4a30-89a5-7aed7a6d4d6d@kernel.org>
+Date: Tue, 18 Nov 2025 08:15:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251117-topic-lpg_multi-v1-1-05604374a2dd@oss.qualcomm.com>
-X-Proofpoint-GUID: AVIuz4MOw9LDZsZUwaXNtX7h_tPYuLkH
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE4MDAzMyBTYWx0ZWRfX7q/FDMgF2I/t
- eVm2wy+gppRifT1vYa1xuFqdeH2aIOmixlwKvAENkDIt2IPmSpXxuPzvcM9sQluhGsw+oJWi83h
- bKt0NDcP/Z7dvzOaiHl9TMW9f9OrakblGiesS88qNYB3H5SgqwWUtmUfEWxrFvXimA8hQLWiCx6
- MFPsEno3FBMMj1hktaCBWkg/DzBG3nxc5NTW1XIN7+ous3T6nIYxBkvev8caksnbONnk5SmILh4
- YzCu7fJxwgNWtJNwVF5KDg/A9H5oYaeK89XL34a3aX4UfuHFgroQsFDSQNMLKrGVGbDIgfY0ED9
- H8PryQ0kdoBtpSoFzS77iqAs2F8V0oi2Ch9Gqv9eKYJSeqovB8OUzzjBCBSumzBk9wtPGPT+8un
- a2KbE4FEfFHUAN4G+Di//p803d2vOw==
-X-Authority-Analysis: v=2.4 cv=HaMZjyE8 c=1 sm=1 tr=0 ts=691bf68d cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=tMveQlRAX1j2jsrkZ7EA:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: AVIuz4MOw9LDZsZUwaXNtX7h_tPYuLkH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-17_04,2025-11-13_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 malwarescore=0
- clxscore=1011 phishscore=0 bulkscore=0 impostorscore=0 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511180033
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] leds: add aw91xxx driver
+To: 429368636@qq.com, lee@kernel.org
+Cc: pavel@kernel.org, linus.walleij@linaro.org, brgl@bgdev.pl,
+ linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-gpio@vger.kernel.org, zhangxinyu <gavin.zhang@faiot.com>
+References: <tencent_1B2BC712D34FBE7DEB01320E665BEB2D8908@qq.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <tencent_1B2BC712D34FBE7DEB01320E665BEB2D8908@qq.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 17, 2025 at 02:45:59PM +0100, Konrad Dybcio wrote:
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+On 17/11/2025 10:35, 429368636@qq.com wrote:
+> From: zhangxinyu <gavin.zhang@faiot.com>
 > 
-> There's nothing special about RGB multi-led instances. Allow any color
-> combinations by simply extending the "if _RGB" checks.
+> This commit adds support for AWINIC AW91XXX 6-channel LED driver.
+> The chip supports 6 PWM channels and is controlled with I2C.
 > 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Signed-off-by: zhangxinyu <429368636@qq.com>
+
+Mixed up SoB.
+
 > ---
->  drivers/leds/rgb/leds-qcom-lpg.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>  drivers/leds/Kconfig        |   11 +
 
 
--- 
-With best wishes
-Dmitry
+
+...
+
+> +
+> +	if (aw91xxx->matrix_key_enable) {
+> +		/* key init */
+> +		ret = aw91xxx_key_feature_init(aw91xxx);
+> +		if (ret) {
+> +			dev_err(aw91xxx->dev, "aw91xxx key feature init failed \r\n");
+> +			goto err_free_rst;
+> +		}
+> +	}
+> +
+> +	if (aw91xxx->led_feature_enable) {
+> +		ret = aw91xxx_parse_led_cdev(aw91xxx, np);
+> +		if (ret < 0) {
+> +			dev_err(&i2c->dev, "%s error creating led class dev\n", __func__);
+> +			goto free_key;
+> +		}
+> +	}
+> +
+> +	if (aw91xxx->gpio_feature_enable) {
+> +		/* gpio init */
+> +		ret = aw91xxx_gpio_feature_init(aw91xxx);
+> +		if (ret) {
+> +			dev_err(aw91xxx->dev, "aw91xxx gpio feature init failed \r\n");
+> +			goto free_key;
+> +		}
+> +	}
+> +	aw91xxx->screen_state = true;
+> +
+> +	pr_err("%s probe completed successfully!\n", __func__);
+
+No, drop.
+
+> +
+> +	return 0;
+> +
+> +free_key:
+> +	aw91xxx_key_free_all_resource(aw91xxx);
+> +err_free_rst:
+> +	gpio_free(aw91xxx->reset_gpio);
+> +err:
+> +	devm_kfree(&i2c->dev, aw91xxx);
+
+What?
+
+> +	return ret;
+> +}
+
+
+
+> +
+> +static const struct of_device_id aw91xxx_dt_match[] = {
+> +	{ .compatible = "awinic,aw91xxx_led" },
+
+Undocumented ABI.
+
+> +	{ },
+> +};
+> +
+> +static struct i2c_driver aw91xxx_i2c_driver = {
+> +	.driver = {
+> +		.name = AW91XXX_I2C_NAME,
+> +		.owner = THIS_MODULE,
+
+So you upstream us 12 year old code, with same issues, same bugs like
+above and below:
+
+> +		.of_match_table = of_match_ptr(aw91xxx_dt_match),
+
+Here with warning...
+
+You should start by taking a recently reviewed driver as base.
+
+> +	},
+> +	.probe = aw91xxx_i2c_probe,
+> +	.remove = aw91xxx_i2c_remove,
+> +	.id_table = aw91xxx_i2c_id,
+> +};
+> +
+> +static int __init aw91xxx_i2c_init(void)
+> +{
+> +	int ret = 0;
+> +
+> +	pr_err("aw91xxx driver version %s\n", AW91XXX_DRIVER_VERSION);
+
+There are no versions of drivers. Don't add it.
+
+> +
+> +	ret = i2c_add_driver(&aw91xxx_i2c_driver);
+> +	if (ret) {
+> +		pr_err("fail to add aw91xxx device into i2c\n");
+> +		return ret;
+> +	}
+
+No, drop such stuff. Just module_i2c_driver.
+
+> +
+> +	return 0;
+> +}
+> +module_init(aw91xxx_i2c_init);
+> +
+> +static void __exit aw91xxx_i2c_exit(void)
+> +{
+> +	i2c_del_driver(&aw91xxx_i2c_driver);
+> +}
+> +module_exit(aw91xxx_i2c_exit);
+> +
+> +
+> +MODULE_DESCRIPTION("AW91XXX LED Driver");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/leds/leds-aw91xxx.h b/drivers/leds/leds-aw91xxx.h
+> new file mode 100644
+> index 000000000000..d69c2334ffe0
+> --- /dev/null
+> +++ b/drivers/leds/leds-aw91xxx.h
+> @@ -0,0 +1,128 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +#ifndef _AW91XXX_H_
+> +#define _AW91XXX_H_
+> +
+> +#define AWINIC_DEBUG		1
+> +
+> +#ifdef AWINIC_DEBUG
+> +#define AW_DEBUG(fmt, args...)	pr_info(fmt, ##args)
+> +#else
+> +#define AW_DEBUG(fmt, ...)
+> +
+> +#endif
+> +
+> +#define MAX_I2C_BUFFER_SIZE 65536
+> +
+> +#define AW91XXX_ID 0x23
+> +#define AW91XXX_KEY_PORT_MAX (0x10) /* 16 */
+> +#define AW91XXX_INT_MASK (0xFFFF)
+> +
+> +enum AW91XXX_FADE_TIME {
+> +	AW91XXX_FADE_TIME_0000MS = 0x00,
+> +	AW91XXX_FADE_TIME_0315MS = 0X01,
+> +	AW91XXX_FADE_TIME_0630MS = 0x02,
+> +	AW91XXX_FADE_TIME_1260MS = 0x03,
+> +	AW91XXX_FADE_TIME_2520MS = 0x04,
+> +	AW91XXX_FADE_TIME_5040MS = 0x05
+> +};
+> +
+> +enum aw91xxx_gpio_dir {
+> +	AW91XXX_GPIO_INPUT = 0,
+> +	AW91XXX_GPIO_OUTPUT = 1,
+> +};
+> +
+> +enum aw91xxx_gpio_val {
+> +	AW91XXX_GPIO_HIGH = 1,
+> +	AW91XXX_GPIO_LOW = 0,
+> +};
+> +
+> +enum aw91xxx_gpio_output_mode {
+> +	AW91XXX_OPEN_DRAIN_OUTPUT = 0,
+> +	AW91XXX_PUSH_PULL_OUTPUT = 1,
+> +};
+> +
+> +struct aw91xxx_singel_gpio {
+> +	unsigned int gpio_idx;
+> +	enum aw91xxx_gpio_dir gpio_direction;
+> +	enum aw91xxx_gpio_val state;
+> +	struct aw91xxx *priv;
+> +};
+> +
+> +struct aw91xxx_gpio {
+> +	unsigned int gpio_mask;
+> +	unsigned int gpio_num;
+> +	enum aw91xxx_gpio_output_mode output_mode;
+> +	struct aw91xxx_singel_gpio *single_gpio_data;
+> +};
+> +
+> +typedef struct {
+> +	char name[10];
+> +	int key_code;
+> +	int key_val;
+> +} KEY_STATE;
+> +
+> +unsigned int aw91xxx_separate_key_data[AW91XXX_KEY_PORT_MAX] = {
+> +/*      0    1    2    3 */
+> +	1,   2,   3,   4,
+> +	5,   6,   7,   8,
+> +	9,   10,  11,  12,
+> +	13,  14,  15,  16
+> +};
+> +
+> +struct aw91xxx_key {
+> +	unsigned int key_mask;
+> +	unsigned int input_port_nums;
+> +	unsigned int output_port_nums;
+> +	unsigned int input_port_mask;
+> +	unsigned int output_port_mask;
+> +	unsigned int new_input_state;
+> +	unsigned int old_input_state;
+> +	unsigned int *new_output_state;
+> +	unsigned int *old_output_state;
+> +	unsigned int *def_output_state;
+> +	bool wake_up_enable;
+> +	struct input_dev *input;
+> +
+> +	unsigned int debounce_delay;
+> +	struct delayed_work int_work;
+> +	struct hrtimer key_timer;
+> +	struct work_struct key_work;
+> +	KEY_STATE *keymap;
+> +	int keymap_len;
+> +	struct aw91xxx *priv;
+> +};
+> +
+> +struct aw91xxx {
+> +	struct i2c_client *i2c;
+> +	struct device *dev;
+> +	struct led_classdev cdev;
+> +	struct work_struct brightness_work;
+> +	struct delayed_work int_work;
+> +
+> +	int reset_gpio;
+> +	int irq_gpio;
+> +	int irq_num;
+> +
+> +	unsigned char chipid;
+> +	unsigned char vendor_id;
+> +	unsigned char blink;
+> +
+> +	int imax;
+> +	int rise_time;
+> +	int on_time;
+> +	int fall_time;
+> +	int off_time;
+> +
+> +	bool led_feature_enable;
+> +	bool gpio_feature_enable;
+> +	bool matrix_key_enable;
+> +	bool single_key_enable;
+> +	bool screen_state;
+> +
+> +	struct aw91xxx_gpio *gpio_data;
+> +	struct aw91xxx_key *key_data;
+> +};
+> +
+> +
+> +#endif
+> +
+
+
+Best regards,
+Krzysztof
 
