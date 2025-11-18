@@ -1,372 +1,149 @@
-Return-Path: <linux-leds+bounces-6180-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6181-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id F397DC67DD5
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 08:15:44 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80C3CC68679
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 10:01:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 6BA3F359C13
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 07:15:44 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D85DB4F0866
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Nov 2025 09:00:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C5562D7DF8;
-	Tue, 18 Nov 2025 07:15:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FB2C31B815;
+	Tue, 18 Nov 2025 08:58:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hC2WWPzq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a+U9/+sp"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E058F2376FD;
-	Tue, 18 Nov 2025 07:15:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043243164AB;
+	Tue, 18 Nov 2025 08:58:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763450139; cv=none; b=SYz01JodypbyI1xeinEuN3Phl3LaZRzvKm2vQ+fL2hmmf0/QC8iHI+X1gTwFBIIWHCAXGHQAW3BERW7nlYa7VaFgRVwYWjfrviGU2ea5WW7eYLKWijRohyvbISVukjbFEWEtFWZh7vOYwU7WGroJiwkLROjGojKQGRYSBl+KIAQ=
+	t=1763456288; cv=none; b=MgqETSskwZPvV7GeszMcapB8lICchH8H6DJw4Xbyx7hXxkcQfbsge+pyrDsIEB4QYIY5s01TX5fmxB84HAHxk/XGXwQq1+iULpvjri56NgtRApPyB8m0PiHo6UI0o+a8v3XMi5PULXDGRxVG1V5sacTk0IaeTrowLzqZuGi18x0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763450139; c=relaxed/simple;
-	bh=TaK3+GcRTl52fnu7JKjw5BH2tWLx49qhm29L81/A/YI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hiD33DkouBSH1cKViTNQ1xtIqxTo+O+SPWvKSSWsFNkFCsjFuMav3t0rygublmgzxsL8vjPOBEYWfLdEOZUs2sHN61mIkacFe/juvzjhB1kSQoHDNG/bFqF1lVXWWte8GVTj6uLDG6NnOeNWILty9fNqzej2WnNAK4/ZpgXizQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hC2WWPzq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66777C116D0;
-	Tue, 18 Nov 2025 07:15:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763450138;
-	bh=TaK3+GcRTl52fnu7JKjw5BH2tWLx49qhm29L81/A/YI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hC2WWPzqMpiSHch/Y3DfBs8rZpE+h7g+hX/IKqGfZjTEodRY4aEnnpKm924JEckmV
-	 03BM+akCg3dKWXJM/TNCEpW10/OdPM4nxPxRlkZBjHgnSoGQJnTD/gyw7MSAO6yt0f
-	 iOp8Ix1vhoZRnYI2/ajHCak6eaPEBtG/r11wFAvA00gajdEOzx16w5VEcgee/oivVt
-	 OdhHQ6XWEmFg6VO23MRuvV4YXkRkryoWX+kdBLg0ZKwNjNqvxD9NSXxyGrJEl/lmri
-	 H3UaLUt3KIZyNAx/AYtwYHNABaZIouvfatQRBZF5LLo6+yy7Mx/mEwsaW//xAk8Rll
-	 bTrXwj/FqNwUA==
-Message-ID: <41ea5cef-e083-4a30-89a5-7aed7a6d4d6d@kernel.org>
-Date: Tue, 18 Nov 2025 08:15:34 +0100
+	s=arc-20240116; t=1763456288; c=relaxed/simple;
+	bh=2e3s67FJBQkKQctDjwsfZs3PlkxPX3KmBNoYaFFvDH0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Av4EATAmmEjzvUefloZC3y9jmDQ6Bfzai+tY9nFoLwLNuY9Q0IX272EVhAQ1WwwJK1WrXkhrGxLePGP77J6qIo+ZjKJIMyMrB7cY6yH/wsO0hLQ4bxNWNsgk9bHx3NPEUQoBxStVeTWQNXxZWMBWOUJtZIH9oSOalDTZh5fnBxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a+U9/+sp; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763456287; x=1794992287;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2e3s67FJBQkKQctDjwsfZs3PlkxPX3KmBNoYaFFvDH0=;
+  b=a+U9/+sprPjsINpsIjpv0OG0/8r6gY81WYITnxio1cZXUMfuJm7kCamF
+   cuJdpyhfBIk3SVRbiDvP64KUAq96vXyEKZOTI5rREBc7H0DqC8vYoYfeI
+   x5RUXWPSFRzgCvu+/2X9PIPFow6Kw1Q8xKMvF4bu/zoQrCqHYrsETjsc1
+   +IedVmcmm1X34rG/62iTmckQ5euEn7TF+4cMmx011u+GkBhsXjHK+yI1i
+   8112/RPonTQAEdF6bzE7RpNunuMN9Faoo5v6/Ux8HeJJNppVPjPRfUery
+   plfy28NIDjteENCftVaUPUZxKYU7ziaS+WxS9XBnxH1dHl4DMR+ugGDdQ
+   w==;
+X-CSE-ConnectionGUID: Ayj7VqZ7RxCsuEoF77vI3A==
+X-CSE-MsgGUID: qXGviupmTK6UTZNXA+r88A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="65353251"
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
+   d="scan'208";a="65353251"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 00:58:05 -0800
+X-CSE-ConnectionGUID: ggqtB+rsTNi0urkZLt529Q==
+X-CSE-MsgGUID: /nnLGuh2SvudOePaDGdeDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
+   d="scan'208";a="189964566"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 18 Nov 2025 00:58:03 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vLHXE-0001WN-16;
+	Tue, 18 Nov 2025 08:58:00 +0000
+Date: Tue, 18 Nov 2025 16:57:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: 429368636@qq.com, lee@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, pavel@kernel.org,
+	linus.walleij@linaro.org, brgl@bgdev.pl,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-gpio@vger.kernel.org, zhangxinyu <gavin.zhang@faiot.com>
+Subject: Re: [PATCH] leds: add aw91xxx driver
+Message-ID: <202511181607.3hTCfucu-lkp@intel.com>
+References: <tencent_1B2BC712D34FBE7DEB01320E665BEB2D8908@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: add aw91xxx driver
-To: 429368636@qq.com, lee@kernel.org
-Cc: pavel@kernel.org, linus.walleij@linaro.org, brgl@bgdev.pl,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-gpio@vger.kernel.org, zhangxinyu <gavin.zhang@faiot.com>
-References: <tencent_1B2BC712D34FBE7DEB01320E665BEB2D8908@qq.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <tencent_1B2BC712D34FBE7DEB01320E665BEB2D8908@qq.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 17/11/2025 10:35, 429368636@qq.com wrote:
-> From: zhangxinyu <gavin.zhang@faiot.com>
-> 
-> This commit adds support for AWINIC AW91XXX 6-channel LED driver.
-> The chip supports 6 PWM channels and is controlled with I2C.
-> 
-> Signed-off-by: zhangxinyu <429368636@qq.com>
+Hi,
 
-Mixed up SoB.
+kernel test robot noticed the following build warnings:
 
-> ---
->  drivers/leds/Kconfig        |   11 +
+[auto build test WARNING on lee-leds/for-leds-next]
+[also build test WARNING on linus/master v6.18-rc6 next-20251118]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/429368636-qq-com/leds-add-aw91xxx-driver/20251117-175335
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/tencent_1B2BC712D34FBE7DEB01320E665BEB2D8908%40qq.com
+patch subject: [PATCH] leds: add aw91xxx driver
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20251118/202511181607.3hTCfucu-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511181607.3hTCfucu-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511181607.3hTCfucu-lkp@intel.com/
 
-...
+All warnings (new ones prefixed by >>):
 
-> +
-> +	if (aw91xxx->matrix_key_enable) {
-> +		/* key init */
-> +		ret = aw91xxx_key_feature_init(aw91xxx);
-> +		if (ret) {
-> +			dev_err(aw91xxx->dev, "aw91xxx key feature init failed \r\n");
-> +			goto err_free_rst;
-> +		}
-> +	}
-> +
-> +	if (aw91xxx->led_feature_enable) {
-> +		ret = aw91xxx_parse_led_cdev(aw91xxx, np);
-> +		if (ret < 0) {
-> +			dev_err(&i2c->dev, "%s error creating led class dev\n", __func__);
-> +			goto free_key;
-> +		}
-> +	}
-> +
-> +	if (aw91xxx->gpio_feature_enable) {
-> +		/* gpio init */
-> +		ret = aw91xxx_gpio_feature_init(aw91xxx);
-> +		if (ret) {
-> +			dev_err(aw91xxx->dev, "aw91xxx gpio feature init failed \r\n");
-> +			goto free_key;
-> +		}
-> +	}
-> +	aw91xxx->screen_state = true;
-> +
-> +	pr_err("%s probe completed successfully!\n", __func__);
-
-No, drop.
-
-> +
-> +	return 0;
-> +
-> +free_key:
-> +	aw91xxx_key_free_all_resource(aw91xxx);
-> +err_free_rst:
-> +	gpio_free(aw91xxx->reset_gpio);
-> +err:
-> +	devm_kfree(&i2c->dev, aw91xxx);
-
-What?
-
-> +	return ret;
-> +}
+   drivers/leds/leds-aw91xxx.c: In function 'blink_store':
+>> drivers/leds/leds-aw91xxx.c:653:30: warning: format '%x' expects a matching 'unsigned int *' argument [-Wformat=]
+     653 |         if (sscanf(buf, "%x %x", &databuf[0]) == 1)
+         |                             ~^
+         |                              |
+         |                              unsigned int *
+   drivers/leds/leds-aw91xxx.c: At top level:
+>> drivers/leds/leds-aw91xxx.c:1309:13: warning: no previous prototype for 'aw91xxx_irq_func' [-Wmissing-prototypes]
+    1309 | irqreturn_t aw91xxx_irq_func(int irq, void *key_data)
+         |             ^~~~~~~~~~~~~~~~
+>> drivers/leds/leds-aw91xxx.c:1395:6: warning: no previous prototype for 'aw91xxx_int_work' [-Wmissing-prototypes]
+    1395 | void aw91xxx_int_work(struct work_struct *work)
+         |      ^~~~~~~~~~~~~~~~
+   drivers/leds/leds-aw91xxx.c: In function 'aw91xxx_key_work':
+>> drivers/leds/leds-aw91xxx.c:1425:13: warning: variable 'key_num' set but not used [-Wunused-but-set-variable]
+    1425 |         int key_num = 0;
+         |             ^~~~~~~
 
 
+vim +653 drivers/leds/leds-aw91xxx.c
 
-> +
-> +static const struct of_device_id aw91xxx_dt_match[] = {
-> +	{ .compatible = "awinic,aw91xxx_led" },
+   645	
+   646	static ssize_t
+   647	blink_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t len)
+   648	{
+   649		unsigned int databuf[2];
+   650		struct led_classdev *led_cdev = dev_get_drvdata(dev);
+   651		struct aw91xxx *aw91xxx = container_of(led_cdev, struct aw91xxx, cdev);
+   652	
+ > 653		if (sscanf(buf, "%x %x", &databuf[0]) == 1)
+   654			aw91xxx_led_blink(aw91xxx, databuf[0], 3);
+   655	
+   656		return len;
+   657	}
+   658	
 
-Undocumented ABI.
-
-> +	{ },
-> +};
-> +
-> +static struct i2c_driver aw91xxx_i2c_driver = {
-> +	.driver = {
-> +		.name = AW91XXX_I2C_NAME,
-> +		.owner = THIS_MODULE,
-
-So you upstream us 12 year old code, with same issues, same bugs like
-above and below:
-
-> +		.of_match_table = of_match_ptr(aw91xxx_dt_match),
-
-Here with warning...
-
-You should start by taking a recently reviewed driver as base.
-
-> +	},
-> +	.probe = aw91xxx_i2c_probe,
-> +	.remove = aw91xxx_i2c_remove,
-> +	.id_table = aw91xxx_i2c_id,
-> +};
-> +
-> +static int __init aw91xxx_i2c_init(void)
-> +{
-> +	int ret = 0;
-> +
-> +	pr_err("aw91xxx driver version %s\n", AW91XXX_DRIVER_VERSION);
-
-There are no versions of drivers. Don't add it.
-
-> +
-> +	ret = i2c_add_driver(&aw91xxx_i2c_driver);
-> +	if (ret) {
-> +		pr_err("fail to add aw91xxx device into i2c\n");
-> +		return ret;
-> +	}
-
-No, drop such stuff. Just module_i2c_driver.
-
-> +
-> +	return 0;
-> +}
-> +module_init(aw91xxx_i2c_init);
-> +
-> +static void __exit aw91xxx_i2c_exit(void)
-> +{
-> +	i2c_del_driver(&aw91xxx_i2c_driver);
-> +}
-> +module_exit(aw91xxx_i2c_exit);
-> +
-> +
-> +MODULE_DESCRIPTION("AW91XXX LED Driver");
-> +MODULE_LICENSE("GPL v2");
-> diff --git a/drivers/leds/leds-aw91xxx.h b/drivers/leds/leds-aw91xxx.h
-> new file mode 100644
-> index 000000000000..d69c2334ffe0
-> --- /dev/null
-> +++ b/drivers/leds/leds-aw91xxx.h
-> @@ -0,0 +1,128 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +#ifndef _AW91XXX_H_
-> +#define _AW91XXX_H_
-> +
-> +#define AWINIC_DEBUG		1
-> +
-> +#ifdef AWINIC_DEBUG
-> +#define AW_DEBUG(fmt, args...)	pr_info(fmt, ##args)
-> +#else
-> +#define AW_DEBUG(fmt, ...)
-> +
-> +#endif
-> +
-> +#define MAX_I2C_BUFFER_SIZE 65536
-> +
-> +#define AW91XXX_ID 0x23
-> +#define AW91XXX_KEY_PORT_MAX (0x10) /* 16 */
-> +#define AW91XXX_INT_MASK (0xFFFF)
-> +
-> +enum AW91XXX_FADE_TIME {
-> +	AW91XXX_FADE_TIME_0000MS = 0x00,
-> +	AW91XXX_FADE_TIME_0315MS = 0X01,
-> +	AW91XXX_FADE_TIME_0630MS = 0x02,
-> +	AW91XXX_FADE_TIME_1260MS = 0x03,
-> +	AW91XXX_FADE_TIME_2520MS = 0x04,
-> +	AW91XXX_FADE_TIME_5040MS = 0x05
-> +};
-> +
-> +enum aw91xxx_gpio_dir {
-> +	AW91XXX_GPIO_INPUT = 0,
-> +	AW91XXX_GPIO_OUTPUT = 1,
-> +};
-> +
-> +enum aw91xxx_gpio_val {
-> +	AW91XXX_GPIO_HIGH = 1,
-> +	AW91XXX_GPIO_LOW = 0,
-> +};
-> +
-> +enum aw91xxx_gpio_output_mode {
-> +	AW91XXX_OPEN_DRAIN_OUTPUT = 0,
-> +	AW91XXX_PUSH_PULL_OUTPUT = 1,
-> +};
-> +
-> +struct aw91xxx_singel_gpio {
-> +	unsigned int gpio_idx;
-> +	enum aw91xxx_gpio_dir gpio_direction;
-> +	enum aw91xxx_gpio_val state;
-> +	struct aw91xxx *priv;
-> +};
-> +
-> +struct aw91xxx_gpio {
-> +	unsigned int gpio_mask;
-> +	unsigned int gpio_num;
-> +	enum aw91xxx_gpio_output_mode output_mode;
-> +	struct aw91xxx_singel_gpio *single_gpio_data;
-> +};
-> +
-> +typedef struct {
-> +	char name[10];
-> +	int key_code;
-> +	int key_val;
-> +} KEY_STATE;
-> +
-> +unsigned int aw91xxx_separate_key_data[AW91XXX_KEY_PORT_MAX] = {
-> +/*      0    1    2    3 */
-> +	1,   2,   3,   4,
-> +	5,   6,   7,   8,
-> +	9,   10,  11,  12,
-> +	13,  14,  15,  16
-> +};
-> +
-> +struct aw91xxx_key {
-> +	unsigned int key_mask;
-> +	unsigned int input_port_nums;
-> +	unsigned int output_port_nums;
-> +	unsigned int input_port_mask;
-> +	unsigned int output_port_mask;
-> +	unsigned int new_input_state;
-> +	unsigned int old_input_state;
-> +	unsigned int *new_output_state;
-> +	unsigned int *old_output_state;
-> +	unsigned int *def_output_state;
-> +	bool wake_up_enable;
-> +	struct input_dev *input;
-> +
-> +	unsigned int debounce_delay;
-> +	struct delayed_work int_work;
-> +	struct hrtimer key_timer;
-> +	struct work_struct key_work;
-> +	KEY_STATE *keymap;
-> +	int keymap_len;
-> +	struct aw91xxx *priv;
-> +};
-> +
-> +struct aw91xxx {
-> +	struct i2c_client *i2c;
-> +	struct device *dev;
-> +	struct led_classdev cdev;
-> +	struct work_struct brightness_work;
-> +	struct delayed_work int_work;
-> +
-> +	int reset_gpio;
-> +	int irq_gpio;
-> +	int irq_num;
-> +
-> +	unsigned char chipid;
-> +	unsigned char vendor_id;
-> +	unsigned char blink;
-> +
-> +	int imax;
-> +	int rise_time;
-> +	int on_time;
-> +	int fall_time;
-> +	int off_time;
-> +
-> +	bool led_feature_enable;
-> +	bool gpio_feature_enable;
-> +	bool matrix_key_enable;
-> +	bool single_key_enable;
-> +	bool screen_state;
-> +
-> +	struct aw91xxx_gpio *gpio_data;
-> +	struct aw91xxx_key *key_data;
-> +};
-> +
-> +
-> +#endif
-> +
-
-
-Best regards,
-Krzysztof
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
