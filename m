@@ -1,153 +1,119 @@
-Return-Path: <linux-leds+bounces-6195-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6196-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD995C6C337
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Nov 2025 01:58:52 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11158C6C456
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Nov 2025 02:38:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D52C434B3E5
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Nov 2025 00:56:08 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 674F94E5DD8
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Nov 2025 01:38:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2755B221F26;
-	Wed, 19 Nov 2025 00:55:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 083E523F429;
+	Wed, 19 Nov 2025 01:38:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WrdwrK9u"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rXKxgaw4"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D99F184E;
-	Wed, 19 Nov 2025 00:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C3123EA9B
+	for <linux-leds@vger.kernel.org>; Wed, 19 Nov 2025 01:38:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763513741; cv=none; b=YNG8HaGosu20jHQ821R1vLnHqWyW8e6Ru1uV667igqncMrt4dO5qPrPyPNdRUW+L+gqiMA6VDIB8eSSSOAcMxs3ukK/UvwYB6ouVRIW5CyRQemrvMwndwPk7aijFVvTCmvU32pKww32w9qZtADnT0zh+jnBHDUZl+61mp1UUznM=
+	t=1763516289; cv=none; b=TGB7FtDBYr11DBLw3fhVLEACyM483b+sTfNmkDCzPMauIhnSEllCytjRFyoh0E72vxjKdrTxBujjZBlTKBbQZU79C+3sOwkGTRHXs6g5uXb/ZUY9Qd+zZmQL0jriEay9dkfRJbsbReo+uQGX86WGEWHAMC61GeT3lXyDCRMkOmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763513741; c=relaxed/simple;
-	bh=u0Qq0YbxbHCN1eZRe+dJ2fIaduGkFYl26dgK+ZBByYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PgFSgIU/+yH44D5So4Yv69r3OWUxuEPe1jvt+TVo/ALx2CrCDsbL3Wrqh9lpwxSObBPcGTNTQvio8JwSpO3w7BxKANZGxZ+WuQj5uNdhFe+2FpnwuGqz276lbtXrSD1MVSUa1G7Zzto3pnFwqK9oELb9In5A5s1eABQ0KmC46ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WrdwrK9u; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763513740; x=1795049740;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u0Qq0YbxbHCN1eZRe+dJ2fIaduGkFYl26dgK+ZBByYI=;
-  b=WrdwrK9u37+yiPLcj5o8jks1dl247Z7HnMfad/2afAZ+neaJAhUpbtaQ
-   8PT63grvAeQOlAsuzgrFHq5ryTC1T60yu+o5/uTyeMfH2xWPnrtLg1iQ2
-   wMWNtrbzSZOinQ4ptcfqGIOB/BFAGkU9FfTMFcR2cDB8OccBAcSNUjqzO
-   CEzLCbK8phYeVAdmeMh0pCENkkDxzULDOcLXnFTCz9nmid6sEVCfR6Qn3
-   EqGo9CW3GtVcbEwR/Z/gTE//gk42f6hA7mbKZYs03DLq159YHyvGj6sdh
-   k4xBnlLLfIxaeGWaassKvI2XSjXq+Y/B3mslddWdjPg3o89UAwJGvZT3A
-   w==;
-X-CSE-ConnectionGUID: AgRXaKBJR0GIZDPMfmFUlw==
-X-CSE-MsgGUID: 1851ddQBQEK2r3bXiPJ+Ow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="88201035"
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="88201035"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 16:55:39 -0800
-X-CSE-ConnectionGUID: 5c+6PfFLSim5pSaSYdRr+w==
-X-CSE-MsgGUID: L29TR0mCSRSMOk1MDcaW8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="221547609"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 18 Nov 2025 16:55:36 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vLWTt-0002JX-30;
-	Wed, 19 Nov 2025 00:55:33 +0000
-Date: Wed, 19 Nov 2025 08:54:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: 429368636@qq.com, lee@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, pavel@kernel.org,
-	linus.walleij@linaro.org, brgl@bgdev.pl,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-gpio@vger.kernel.org, zhangxinyu <gavin.zhang@faiot.com>
-Subject: Re: [PATCH] leds: add aw91xxx driver
-Message-ID: <202511190823.KypHuQek-lkp@intel.com>
-References: <tencent_1B2BC712D34FBE7DEB01320E665BEB2D8908@qq.com>
+	s=arc-20240116; t=1763516289; c=relaxed/simple;
+	bh=1zFHC/D3qDhaCV+4B0RKeie8bN/hEL/zcC1isKO/Ij8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HBjBuk0yyOgwb6zlr71YMs+suAWRvZLHrUUfM9qWkg/2NArZhzIq5GW7Rjni5hX7HnIM2IdHG07LLujD0tZIMXoKfM4F8a8wkgoq2YLKTIohmHKCRwubEoYFsDDwBqT7QE98W9aUjcyyJK3RrmEB206G0o3ygMCgoAu9p+m/HYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rXKxgaw4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D227C19421
+	for <linux-leds@vger.kernel.org>; Wed, 19 Nov 2025 01:38:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763516289;
+	bh=1zFHC/D3qDhaCV+4B0RKeie8bN/hEL/zcC1isKO/Ij8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=rXKxgaw4ugmF2j6wHMGVaVlOkXKPKdbFsalN2P7BY0dVzufkrRPGtRcSOXxc2Y5Ud
+	 Eon7MDcFe+Yh8cJaMvJr1O9IKvfRQ/fyi/V48LRcqX08ZaDDeeekuAmFddOxpKWJ9f
+	 bFgj5LapqFH2A2xs/pGRBXqlrK24Bh3KcCOZ/iU5kEXqS3mh4NwUXEsuzBRW+ElpkZ
+	 Uo4Kut4mB2X0pTR4BMrt3OdIF2SL2wSae4lIkShRqFGN+4MWXQtIpeFkiE+Pmpc3zm
+	 9zekCApsD43kiIpFz2xEPBf/GHEyJ4LfMD6iKPhYuWUNj3X+0ZRdiK2wzmyG1pcOR/
+	 mfn836/zXiQsA==
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-64180bd67b7so8464850a12.0
+        for <linux-leds@vger.kernel.org>; Tue, 18 Nov 2025 17:38:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWSLadLfOJi7z+5rjJTX5rrGoLmhO74eJFodMnA3tE6gBhnnpx6+AYN/TNE4gl24kdD6tmcgvica1ia@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXy1b6xhC2bdm9Za3vmMhvoL1usYcnN0V7w5/dJ640EDBlXyqO
+	9ortTUDE/YzKmteQ7KYoXA9yFvCufHhfgt+M5zX9dDIO4IKkrJ9OCrSjm33+UaiQzDTTkdnuqCw
+	Pde9rwykWqS2N0Tc1/FLHVBsflgyMFw==
+X-Google-Smtp-Source: AGHT+IEGIARixQQxL/Z1vr1zZwusANAarRAXKjnwQT9SgCWjwfycQbJPhMJgCUV5i3+Ije/OVDWoe3jsxHkuyDWz110=
+X-Received: by 2002:a05:6402:2396:b0:640:a836:eacf with SMTP id
+ 4fb4d7f45d1cf-64350ead477mr11536886a12.26.1763516286855; Tue, 18 Nov 2025
+ 17:38:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_1B2BC712D34FBE7DEB01320E665BEB2D8908@qq.com>
+References: <20251117215138.4353-1-sander@svanheule.net> <20251117215138.4353-3-sander@svanheule.net>
+ <CAL_Jsq+Mzj+3d4q+xQLq_GEYzRJA6E+CEJ9M8FQH6kL9eBZhVg@mail.gmail.com> <9fc358372ef267530b4304b4fa1cf5643c18cb42.camel@svanheule.net>
+In-Reply-To: <9fc358372ef267530b4304b4fa1cf5643c18cb42.camel@svanheule.net>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 18 Nov 2025 19:37:55 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKKpymk_i9c=29Zq0QSzHMU3x0RPWjBMmW84k_5jUe4Jg@mail.gmail.com>
+X-Gm-Features: AWmQ_bma3IwgMlrXQXQ04kE3R6adJH2pYZDDa4bWglo_Mov9dGx6o8xd45F7CwY
+Message-ID: <CAL_JsqKKpymk_i9c=29Zq0QSzHMU3x0RPWjBMmW84k_5jUe4Jg@mail.gmail.com>
+Subject: Re: [PATCH v7 2/6] dt-bindings: mfd: Binding for RTL8231
+To: Sander Vanheule <sander@svanheule.net>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Michael Walle <mwalle@kernel.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Tue, Nov 18, 2025 at 3:57=E2=80=AFPM Sander Vanheule <sander@svanheule.n=
+et> wrote:
+>
+> Hi Rob,
+>
+> On Tue, 2025-11-18 at 15:28 -0600, Rob Herring wrote:
+> > On Mon, Nov 17, 2025 at 3:52=E2=80=AFPM Sander Vanheule <sander@svanheu=
+le.net> wrote:
+> > > +patternProperties:
+> > > +  "-pins$":
+> > > +    type: object
+> > > +    $ref: /schemas/pinctrl/pinmux-node.yaml#
+> >
+> >          additionalProperties: false
+>
+> In this case dt_binding_check doesn't recognize input-debounce. The follo=
+wing seems to
+> work for the provided example:
+>
+> -    $ref: /schemas/pinctrl/pinmux-node.yaml#
+> +    allOf:
+> +      - $ref: /schemas/pinctrl/pincfg-node.yaml#
+> +      - $ref: /schemas/pinctrl/pinmux-node.yaml#
+> +
+> +    additionalProperties: false
+>
+>
+> with this included in the led node properties:
+> +      input-debounce: true
+>
+> If I understand correctly, "unevaluatedProperties: false" (like for the l=
+eds binding)
+> would allow everything from the referenced pincfg-node and pinmux-node sc=
+hemas, which is
+> more than is actually supported by this device.
 
-kernel test robot noticed the following build warnings:
+Yes, that works too. The first way lets you be explicit about which
+referenced properties are used, but either way is fine. If it is only
+1 property, then I'd probably go with the first way.
 
-[auto build test WARNING on lee-leds/for-leds-next]
-[also build test WARNING on linus/master v6.18-rc6 next-20251118]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/429368636-qq-com/leds-add-aw91xxx-driver/20251117-175335
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/tencent_1B2BC712D34FBE7DEB01320E665BEB2D8908%40qq.com
-patch subject: [PATCH] leds: add aw91xxx driver
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251119/202511190823.KypHuQek-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511190823.KypHuQek-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511190823.KypHuQek-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/leds/leds-aw91xxx.c:653:23: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
-     653 |         if (sscanf(buf, "%x %x", &databuf[0]) == 1)
-         |                             ~^
->> drivers/leds/leds-aw91xxx.c:1309:13: warning: no previous prototype for function 'aw91xxx_irq_func' [-Wmissing-prototypes]
-    1309 | irqreturn_t aw91xxx_irq_func(int irq, void *key_data)
-         |             ^
-   drivers/leds/leds-aw91xxx.c:1309:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1309 | irqreturn_t aw91xxx_irq_func(int irq, void *key_data)
-         | ^
-         | static 
->> drivers/leds/leds-aw91xxx.c:1395:6: warning: no previous prototype for function 'aw91xxx_int_work' [-Wmissing-prototypes]
-    1395 | void aw91xxx_int_work(struct work_struct *work)
-         |      ^
-   drivers/leds/leds-aw91xxx.c:1395:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1395 | void aw91xxx_int_work(struct work_struct *work)
-         | ^
-         | static 
-   drivers/leds/leds-aw91xxx.c:1425:6: warning: variable 'key_num' set but not used [-Wunused-but-set-variable]
-    1425 |         int key_num = 0;
-         |             ^
-   4 warnings generated.
-
-
-vim +653 drivers/leds/leds-aw91xxx.c
-
-   645	
-   646	static ssize_t
-   647	blink_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t len)
-   648	{
-   649		unsigned int databuf[2];
-   650		struct led_classdev *led_cdev = dev_get_drvdata(dev);
-   651		struct aw91xxx *aw91xxx = container_of(led_cdev, struct aw91xxx, cdev);
-   652	
- > 653		if (sscanf(buf, "%x %x", &databuf[0]) == 1)
-   654			aw91xxx_led_blink(aw91xxx, databuf[0], 3);
-   655	
-   656		return len;
-   657	}
-   658	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Rob
 
