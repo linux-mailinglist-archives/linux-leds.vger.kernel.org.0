@@ -1,182 +1,146 @@
-Return-Path: <linux-leds+bounces-6210-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6209-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD1CC7080A
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Nov 2025 18:43:38 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA587C7052B
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Nov 2025 18:08:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0BCE0343908
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Nov 2025 17:36:12 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8B6C14FF2AC
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Nov 2025 16:52:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3076F243367;
-	Wed, 19 Nov 2025 17:34:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AC792FDC55;
+	Wed, 19 Nov 2025 16:51:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="yEd2xxua"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eJ5R4CUf"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCD41FAC42;
-	Wed, 19 Nov 2025 17:34:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8E52F90C9;
+	Wed, 19 Nov 2025 16:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763573697; cv=none; b=uR1Y8loITu/DB6xt8TBDIjUkjpR4ZPoToMqam8O2Mw/Xw1w9Rq5K7j9mRDzV8wQOhz/J6IoMt7FI1pK4b6mu8CMUBGXgyO0svOZu0CKEt9HUgyIFPalCr5sau2kycl0BMLmh2G6uH76ve4h0PaF5w66aUNWlvAbxwqHPHMbeP9o=
+	t=1763571074; cv=none; b=O+v5rRKXbz5gc7JjGSD6OCqU+KhXFsNlzHtqOZv3oWg4VpdBps/G9UrUyiVn/BNqzpoABYdRWNP/b6b65yZpRQefKRVCQXXfQhmJmwtDQmnAZVc9Lt3DLyhknUsyXrHggqZPi5qHkAaSo7VI1CH7dTPP+ZVXBHlYhuNnUZ8BsS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763573697; c=relaxed/simple;
-	bh=CP1RHwnLKRxiLODuRu9d3QUcRfYZy94bnfo/gKve3d8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=umqo6DKNqn1FfDaHGfhaaign2CgosCxNtWE1IROx7VtWkOIyVPPcuD8lRea0f8TAApP8uu0lZPdweo4ADnJvjM0BNNRYZYh2Viy+yQmrrU5P+x3+71XpCONL+9ZmMHkHa0yDrswJrHQEZTkn0duQJvYvv+3yZiPFlO8lSiUOmr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=yEd2xxua; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dBTBW16zVz9tl0;
-	Wed, 19 Nov 2025 18:34:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1763573683;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=e8QG+N4/1kcdXJQ/ndyF1FfjMK6+46fe00n91fXl4zg=;
-	b=yEd2xxualOZVytUgw3Cm0xIpSSC+7i0hA/sy4Jpc/iTSCJvNNzs1XQ0HU5b74/FHvDgBb5
-	X6QCpYcnMXyMVeqbdnCjfWM9ZHsbz95+R8P5Ai/2+V9PS0a33sJsxAa4dDebvAqdic28Av
-	obTly/Pir2GjLVbNv/RvwHWdFWAMGgTjrNtwVYuO4LcNRiHgIxDhq/GKupAlfvIkaat3Ad
-	ZvrX+B+wVyf3eErqKyxWbTdt6/oTWudG1hcfgjwQZ3W7cK7yaSGVoO1IGVXreyah4PpCvC
-	9CuOUsy9k9wCuOuGQ98BEHBzpVFOzZ/Ye1MT8O8XtNXvDRi0ciTzMbnOvUaf9Q==
-Message-ID: <d520f61e-1c51-48dd-aa49-6bf4618d6b54@mailbox.org>
-Date: Wed, 19 Nov 2025 17:09:30 +0100
+	s=arc-20240116; t=1763571074; c=relaxed/simple;
+	bh=Jf3QOMsv/yFxFhNTxVO+z5AEA7wgqqdFKXXjyigJjN4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AxbPy1yaV6dyLMTSy85n/pdPRkwa+xfe6kRTXUORg+LbOJ81mIN6tlS7egNs26yZBbMfauOOAvNMeifVJgtaML1AKiRPXHxn47f4IZ8UVgmFEwrnl3HD+AAEpNMKT063eOlwFOfulTlp8F7ffVvnBWkCsC8+IdtfMkUd83e2VKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eJ5R4CUf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AEC5C4CEF5;
+	Wed, 19 Nov 2025 16:51:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763571073;
+	bh=Jf3QOMsv/yFxFhNTxVO+z5AEA7wgqqdFKXXjyigJjN4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eJ5R4CUfLVuK/r0CpMTHHYF3mBCKmKikO3mVN7rd8F81SURBi6VxM53JcQcn7RRiZ
+	 1Wz03gVr3Ef/AXwoKsfYi5hvunWXFrCfvGVd2L9mQYzf0VqAcqFcRoAbqCAaYqno4L
+	 ZUz1/LPTv+2kmLNR7pAmguPwBFyrTnK8n9R6za5mF9LXqE6JJIJPZGBQTFqihcu5wC
+	 UuTulxWdoUOLP1FMAvL+Z9bbm0QI9wzIKXIhIerdLSDu1P5DEfZVo+etRe/qBAwaD5
+	 FkIPtSCPh6j6jHypy2Zby3nea077WCcGow64UOB7aKYo2Dg932gh90dHus/vWndgRs
+	 zBE6cGbRJrqpg==
+Date: Wed, 19 Nov 2025 16:51:09 +0000
+From: Lee Jones <lee@kernel.org>
+To: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
+Cc: Pavel Machek <pavel@kernel.org>, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: group-multicolor: Add support for initial value.
+Message-ID: <20251119165109.GV1949330@google.com>
+References: <20251111204556.2803878-1-martijn.de.gouw@prodrive-technologies.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] leds: trigger: netdev: Check offload ability on interface
- up
-From: Marek Vasut <marek.vasut@mailbox.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: linux-leds@vger.kernel.org,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Christian Marangi <ansuelsmth@gmail.com>,
- Christophe Roullier <christophe.roullier@foss.st.com>,
- Daniel Golle <daniel@makrotopia.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, kernel@dh-electronics.com,
- linux-stm32@st-md-mailman.stormreply.com, netdev@vger.kernel.org,
- Vladimir Oltean <vladimir.oltean@nxp.com>
-References: <20241001024731.140069-1-marex@denx.de>
- <1d72f370-3409-4b0f-b971-8f194cf1644b@lunn.ch>
- <d0411d89-5c83-47b4-bef9-904b63cbc2c0@denx.de>
- <b4ba27e5-a1cc-4477-a254-a318e586ef2a@mailbox.org>
-Content-Language: en-US
-In-Reply-To: <b4ba27e5-a1cc-4477-a254-a318e586ef2a@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 846c09ea91c3b08f769
-X-MBO-RS-META: sx15x14jwms1as3f6qs156fxnrhnbrkr
+In-Reply-To: <20251111204556.2803878-1-martijn.de.gouw@prodrive-technologies.com>
 
-On 11/17/25 12:18 PM, Marek Vasut wrote:
+On Tue, 11 Nov 2025, Martijn de Gouw wrote:
 
-Hello one more time,
+> It's possible to set a default state for leds in the dts with
+> 'default-state', but this was not reflected when the LEDs are grouped.
+> This patch adds support for keeping the default-state value.
+> 
+> Signed-off-by: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
+> ---
+>  drivers/leds/rgb/leds-group-multicolor.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/leds/rgb/leds-group-multicolor.c b/drivers/leds/rgb/leds-group-multicolor.c
+> index 548c7dd63ba1e..b3e46a51dfbc7 100644
+> --- a/drivers/leds/rgb/leds-group-multicolor.c
+> +++ b/drivers/leds/rgb/leds-group-multicolor.c
+> @@ -69,6 +69,7 @@ static int leds_gmc_probe(struct platform_device *pdev)
+>  	struct mc_subled *subled;
+>  	struct leds_multicolor *priv;
+>  	unsigned int max_brightness = 0;
+> +	unsigned int default_brightness = 0;
+>  	int i, ret, count = 0, common_flags = 0;
+>  
+>  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> @@ -96,6 +97,12 @@ static int leds_gmc_probe(struct platform_device *pdev)
+>  
+>  		max_brightness = max(max_brightness, led_cdev->max_brightness);
+>  
+> +		/* If any LED is on, set brightness to the max brightness.
+> +		 * The actual brightness of the LED is set as intensity value.
+> +		 */
 
->>>> On STM32MP13xx with RTL8211F, it is enough to have the following 
->>>> udev rule
->>>> in place, boot the machine with cable plugged in, and the LEDs won't 
->>>> work
->>>> without this patch once the interface is brought up, even if they 
->>>> should:
->>>> "
->>>> ACTION=="add", SUBSYSTEM=="leds", KERNEL=="stmmac-0:01:green:wan", 
->>>> ATTR{trigger}="netdev", ATTR{link_10}="1", ATTR{link_100}="1", 
->>>> ATTR{link_1000}="1", ATTR{device_name}="end0"
->>>> ACTION=="add", SUBSYSTEM=="leds", KERNEL=="stmmac-0:01:yellow:wan", 
->>>> ATTR{trigger}="netdev", ATTR{rx}="1", ATTR{tx}="1", 
->>>> ATTR{device_name} ="end0"
->>>> "
->>>
->>> Nice use of udev. I had not thought about using it for this.
-> 
-> I might have been a bit too hasty with this. The following is only a 
-> quick preliminary FYI, I am still investigating the details.
-> 
-> I observe on 6.18-rc6 (ST STM32MP13xx , so STM32 DWMAC ethernet, and 
-> RTL8211F PHY), that if I use the these udev rules (SoC has two MACs, 
-> there are two rules for each MAC, and 2 rules for each of two LEDs on 
-> each MAC PHY , therefore four rules in total ; the rules for both MACs 
-> are identical):
-> 
-> "
-> ACTION=="add|change", SUBSYSTEM=="leds", 
-> KERNEL=="stmmac-0:01:green:wan", ATTR{trigger}="netdev", ATTR{link_10} 
-> ="1", ATTR{link_100}="1", ATTR{link_1000}="1", ATTR{device_name}="ethsom0"
-> ACTION=="add|change", SUBSYSTEM=="leds", 
-> KERNEL=="stmmac-0:01:yellow:wan", ATTR{trigger}="netdev", ATTR{rx}="1", 
-> ATTR{tx}="1", ATTR{device_name}="ethsom0"
-> 
-> ACTION=="add|change", SUBSYSTEM=="leds", 
-> KERNEL=="stmmac-1:01:green:lan", ATTR{trigger}="netdev", ATTR{link_10} 
-> ="1", ATTR{link_100}="1", ATTR{link_1000}="1", ATTR{device_name}="ethsom1"
-> ACTION=="add|change", SUBSYSTEM=="leds", 
-> KERNEL=="stmmac-1:01:yellow:lan", ATTR{trigger}="netdev", ATTR{rx}="1", 
-> ATTR{tx}="1", ATTR{device_name}="ethsom1"
-> "
-> 
-> I get this backtrace. Notice the "sysfs: cannot create duplicate 
-> filename ..." part , I suspect there is some subtle race condition ?
-> 
-> "
-> sysfs: cannot create duplicate filename '/devices/platform/ 
-> soc/5c007000.bus/5800e000.ethernet/mdio_bus/stmmac-1/stmmac-1:01/leds/ 
-> stmmac-1:01:green:lan/link_10'
-> CPU: 0 UID: 0 PID: 153 Comm: (udev-worker) Not tainted 6.18.0-rc6 #1 
-> PREEMPT
-> Hardware name: STM32 (Device Tree Support)
-> Call trace:
->   unwind_backtrace from show_stack+0x18/0x1c
->   show_stack from dump_stack_lvl+0x54/0x68
->   dump_stack_lvl from sysfs_warn_dup+0x58/0x6c
->   sysfs_warn_dup from sysfs_add_file_mode_ns+0xf0/0x130
->   sysfs_add_file_mode_ns from internal_create_group+0x344/0x480
->   internal_create_group from internal_create_groups+0x48/0x6c
->   internal_create_groups from led_trigger_set+0x1e4/0x278
->   led_trigger_set from led_trigger_write+0xe0/0x118
->   led_trigger_write from sysfs_kf_bin_write+0x98/0xa0
->   sysfs_kf_bin_write from kernfs_fop_write_iter+0x14c/0x198
->   kernfs_fop_write_iter from vfs_write+0x170/0x1d4
->   vfs_write from ksys_write+0x7c/0xd0
->   ksys_write from ret_fast_syscall+0x0/0x54
-> Exception stack(0xedbf1fa8 to 0xedbf1ff0)
-> 1fa0:                   00000006 bec4476c 00000015 bec4476c 00000006 
-> 00000001
-> 1fc0: 00000006 bec4476c 000e7698 00000004 00000006 fffffff7 00000000 
-> 000d1710
-> 1fe0: 00000004 bec44578 b6c34397 b6bb15e6
-> leds stmmac-1:01:green:lan: Failed to add trigger attributes
-> "
-> 
-> If I find out more, I will get back to this thread.
+I don't know this code well, but if no one complains, I can take your
+word for this.
 
-I've been tracking it all the way to kernfs, but so far without much 
-success.
+However, the comment needs changing to proper multi-line format.
 
-I found commit 52c47742f79d ("leds: triggers: send uevent when changing 
-triggers") which indicates the udev rules above are likely wrong, but 
-they still shouldn't corrupt sysfs the way they do, right ?
+        /*
+         * This is the preferred style for multi-line
+         * comments in the Linux kernel source code.
+         * Please use it consistently.
+         *
+         * Description:  A column of asterisks on the left side,
+         * with beginning and ending almost-blank lines.
+         */
 
-If you have any hint how to find out what is actually going on, I would 
-be much grateful. I already tried KASAN on this and LOCKDEP, but neither 
-triggers. I was also adding a lot of trace_printk() into netdev LED 
-trigger, but all I could find is the link_* attributes are removed, then 
-added again, and the kernel complains the link_10 attribute already exists.
+> +		if (led_cdev->brightness)
+> +			default_brightness = max_brightness;
+> +
+>  		count++;
+>  	}
+>  
+> @@ -109,14 +116,16 @@ static int leds_gmc_probe(struct platform_device *pdev)
+>  
+>  		subled[i].color_index = led_cdev->color;
+>  
+> -		/* Configure the LED intensity to its maximum */
+> -		subled[i].intensity = max_brightness;
+> +		/* Configure the LED intensity to its current brightness */
+> +		subled[i].intensity = DIV_ROUND_CLOSEST(led_cdev->brightness * max_brightness,
 
-I also noticed that if I try to list /sys/...stmmac-1:01:green:lan/ 
-directory after the splat with netdev trigger set, the result of the 
-listing is not always the same, sometimes there are the netdev trigger 
-attributes, sometimes not, and sometimes they are corrupted.
+How does this work?  Won't this value be huge?
+
+> +							led_cdev->max_brightness);
+
+Also we said we were going to set actual brightness with the intensity
+in the comment above, but we appear to be using max_brightness again?
+
+>  	}
+>  
+>  	/* Initialise the multicolor's LED class device */
+>  	cdev = &priv->mc_cdev.led_cdev;
+>  	cdev->brightness_set_blocking = leds_gmc_set;
+>  	cdev->max_brightness = max_brightness;
+> +	cdev->brightness = default_brightness;
+>  	cdev->color = LED_COLOR_ID_MULTI;
+>  	priv->mc_cdev.num_colors = count;
+>  
+> -- 
+> 2.39.2
+> 
+
+-- 
+Lee Jones [李琼斯]
 
