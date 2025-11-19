@@ -1,283 +1,138 @@
-Return-Path: <linux-leds+bounces-6211-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6212-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D33C70A4A
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Nov 2025 19:29:44 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6A8C70B95
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Nov 2025 20:01:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 6A0CD348DBA
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Nov 2025 18:24:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 784D74E1173
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Nov 2025 18:57:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0DB63596E2;
-	Wed, 19 Nov 2025 18:24:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5EEF34105C;
+	Wed, 19 Nov 2025 18:57:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=prodrive-technologies.com header.i=@prodrive-technologies.com header.b="oZwFIu5O"
+	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="cx27ivo3"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11020108.outbound.protection.outlook.com [52.101.69.108])
+Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C9D33A6FC;
-	Wed, 19 Nov 2025 18:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.108
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763576668; cv=fail; b=JNcQl9TV8yA0AdP2sKF4hL6p/xEvJDjMwZ2iXMVafbg+fPIb57xSUegs7x7QsEMJzEhFYLsbkQ5COYvR1trPoPRDjf4MNi8jebu/f9fSnZzH5kk6C/JA4f7nJRJZdHaiyQCbhSKQgm6QUNCuEZwh+ItDynINk/ldtaI0ONUez3c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763576668; c=relaxed/simple;
-	bh=W8g0mEcKh4EtyjuksMOnCZZ7VOfDbcBbmhs02Ez6aq4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=PrVNav0ZtQyTy6QEs/o4aLAnEqonyPKZfS3cYRWR1e5gwZW/dCP7M6sqU4R+Ndw++bXOfopT9Q2drCguVOGaAK01vNTi8WDpujK2NwSSNVXf0f6ka/7yv6NX+K3XmnvYpnmLNEqjcakGIDGjv7FWgcDpzfG4XJkNUsznQDG1dYE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=prodrive-technologies.com; spf=pass smtp.mailfrom=prodrive-technologies.com; dkim=pass (1024-bit key) header.d=prodrive-technologies.com header.i=@prodrive-technologies.com header.b=oZwFIu5O; arc=fail smtp.client-ip=52.101.69.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=prodrive-technologies.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prodrive-technologies.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qbw4WzluMVQRfSkJhkkVsym+Bf8Fc1KsQtlniO5dUR4uj8t+dcZ+rpm4rL2JePz81e0rSdczzY3o8oYPGO1iOcEjSfpneLIruHIB/0fj5dP261EII/eHPwDrwuBKw1vPAhhHZKX2ZKlQ+NL8QQ0H5BTxd9jdgsUDxqyO7ktoLEpRVqyCVzFI7eo7+LiJl9D5LMdUVq+c6/PQn7EUo/HjqBeYIOveNf26+jIDrJP9CXVJd7xG5CHpyhhFsPDCexsigjQhkw1TI7V3WuFwYT+/abSrN5p4UL3fRUm5U1Bu9gRRSq+x2hTR77aOqc8x4Ld2Kpg2Lsy2x9Wdg+3T1/HjxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XQg4tAZBpH1N09RtIIXy1ZJrAqKbk4qeWg3i3ZjpOg4=;
- b=ltKjnYVGS9+thVRQ8g7MsJAyMtw0ggINWQ4ekkEde6MjMjiXfnk0fmgjG/pH2xnd4+1MRfIAId24Xno1MeSP9wE8eGip+NyZPI12W6TzGYHdBctIoYQpswtaCOLGHtocN3u5FRe0l96jOI6myDI9NZfIxdHLQVZD4I7iDTz7NoFJaFqAIyB9c8crf8Fz9WtrwaWyMGKTvVRgN1cTy8Q4SEYRWggBFVnn4R+DlhvgoK/qiAz/zfPRlnSLl8yELcOhTkD9ut9tRCYHrZyVsQkdOnO5FMMyOI/K8bUoI71OGFXPzzguOqN5AaBZBfjrndzOhQ+oLG8l3zPZn3Io8fNu2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=prodrive-technologies.com; dmarc=pass action=none
- header.from=prodrive-technologies.com; dkim=pass
- header.d=prodrive-technologies.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=prodrive-technologies.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XQg4tAZBpH1N09RtIIXy1ZJrAqKbk4qeWg3i3ZjpOg4=;
- b=oZwFIu5OwNgYYif0nx4Svj1lEzwdWRnKCmK78ojNkAIcWeyaBNCBBFm3a1w3zSwEpqHLb50l6bE6bcWgnBA0kXYIaP/bEYPny0aR53/X88RMNeGPHQ+5fUBJJcIKDPPy7+Y4aCFNjZmEYNgui52/M3AiE1FAQZZbjzJMSmJutVM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=prodrive-technologies.com;
-Received: from AS8PR02MB9532.eurprd02.prod.outlook.com (2603:10a6:20b:5a8::17)
- by DB9PR02MB8298.eurprd02.prod.outlook.com (2603:10a6:10:391::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Wed, 19 Nov
- 2025 18:24:14 +0000
-Received: from AS8PR02MB9532.eurprd02.prod.outlook.com
- ([fe80::4636:d263:14f1:bced]) by AS8PR02MB9532.eurprd02.prod.outlook.com
- ([fe80::4636:d263:14f1:bced%4]) with mapi id 15.20.9343.009; Wed, 19 Nov 2025
- 18:24:14 +0000
-Message-ID: <d453c7e3-022e-4f5b-bdf1-a78ed5cef4f4@prodrive-technologies.com>
-Date: Wed, 19 Nov 2025 19:24:13 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: group-multicolor: Add support for initial value.
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@kernel.org>, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251111204556.2803878-1-martijn.de.gouw@prodrive-technologies.com>
- <20251119165109.GV1949330@google.com>
-Content-Language: en-US
-From: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
-In-Reply-To: <20251119165109.GV1949330@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM9P250CA0020.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:20b:21c::25) To AS8PR02MB9532.eurprd02.prod.outlook.com
- (2603:10a6:20b:5a8::17)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7057A28A1F1
+	for <linux-leds@vger.kernel.org>; Wed, 19 Nov 2025 18:57:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763578659; cv=none; b=acC/LIfTg8QLhTfCcSxcxBcbQXhTeTl507kHq0EVyFwaV5BxzMxHyG3sjvEuxGC3ElFuIt38dHk54WHDLn7ChjpNuU8WdKRj2FON3G5f7y17OJdEL2/CdlCMrfuH66CHSYAqg1GjfQmF9x6En9Z3aZjgtTwp0m18ah2Gte2atdg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763578659; c=relaxed/simple;
+	bh=DrUMQQIRs8itbSC+3mDznjL9OAtA0LU7Cru6b4x2oX0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=AaR91vCMlSMyAyo4wc+9F6ZGkqiG6azX3vvLozJpDXUFWRhPgtszfe0GMUUSxrlNhQsiW7RyjqcljreKTHwlUNf37Uj4effjoVCmprNqIEpIsYBTrhBt255Sgro1tbmnuwrsV3HKNB/SwRD8d5q5gK/jpnEw2TbDpL3sm9qa24c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=cx27ivo3; arc=none smtp.client-ip=84.16.241.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
+Received: from [IPv6:2a02:1812:162c:8f00:26cd:b932:ba51:717b] (2a02-1812-162c-8f00-26cd-b932-ba51-717b.ip6.access.telenet.be [IPv6:2a02:1812:162c:8f00:26cd:b932:ba51:717b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sander@svanheule.net)
+	by polaris.svanheule.net (Postfix) with ESMTPSA id 850926A1E37;
+	Wed, 19 Nov 2025 19:57:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+	s=mail1707; t=1763578652;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DrUMQQIRs8itbSC+3mDznjL9OAtA0LU7Cru6b4x2oX0=;
+	b=cx27ivo3T4K8dTrWkdWleUVPkkmWP6Q1UXAsd2PDbaSa2ZswdXLKe9vWQAXfaHC6AdRlOy
+	EfoyZz0GGAFwFC6mnyv2W4dKmiTjGuewyafWeab+x9SPR3pu4V43uIGT1edQVnqRzXn4eY
+	kur61/YRKh01Ua1QZ36DRCLxbeyJfccfDmwhmWr/EXQuUneibH+e8TargiGJQgIOVqgpIw
+	+cpV5F34XTwBCwqt+7cbcFtWU46Ip7QMU9Q1jAf2kULGCxCOM3Jj0Rz17Rswc91Xtf5GML
+	j1A0ezogClQB3OlAefD7NYKCLjnIrYW2c5kkTWGlILexmC+7BXI5amYWVCG+tg==
+Message-ID: <1e90814b86355384010966f559d185a5b6fea99d.camel@svanheule.net>
+Subject: Re: [PATCH v7 4/6] pinctrl: Add RTL8231 pin control and GPIO support
+From: Sander Vanheule <sander@svanheule.net>
+To: kernel test robot <lkp@intel.com>, Lee Jones <lee@kernel.org>, Pavel
+ Machek	 <pavel@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski	 <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Linus
+ Walleij	 <linus.walleij@linaro.org>, Michael Walle <mwalle@kernel.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+Date: Wed, 19 Nov 2025 19:57:25 +0100
+In-Reply-To: <202511191158.bVKUDrKa-lkp@intel.com>
+References: <20251117215138.4353-5-sander@svanheule.net>
+	 <202511191158.bVKUDrKa-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR02MB9532:EE_|DB9PR02MB8298:EE_
-X-MS-Office365-Filtering-Correlation-Id: e4dc8ce3-9844-45c3-c602-08de2798d7e0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QVN4UDQ2M0JoWDRPSU5EK0ZZRWtUakd5UE53OVVPR1BBV3BuSnlBbWVVWjBs?=
- =?utf-8?B?aUh3SFlKd0Q4MnRPZU9iRTYyLzNITnVxRU9zRXYzMGVmSFJHTkN4SlhwcVh1?=
- =?utf-8?B?OTBiWkJGdHREZ2lTTXlIdHgrdkFDbWx2b1hCaDljN2gzN2JSWlJoTndyWjhZ?=
- =?utf-8?B?Qlp2ZEE4ald5TDlLTlhIZS96V3IvMnlXbWVnSU4rNkVYRWNiK3NLdEZSanQy?=
- =?utf-8?B?UXFyRVVNaTVaMUllVkhqZDZCdWUxVFZyRnliQUNEdmFRaE1MT2J1dlVOWUJF?=
- =?utf-8?B?OXhEUjVlY2poZDVQQWdZL1Y5RFhLa3IyQnhCUFE5YnRmRkRWWHB6OWRTQTU4?=
- =?utf-8?B?aEVwUEVRaTlYT0FBb2EwY2NMUjNhMWp2TXByaEtKVmlhU216bTAwc1o2S1VM?=
- =?utf-8?B?T0ErUC84K2VMSW0rUjU4N05xOUhDTjJBYjdSbjdmbE5rTnF4cGM0ZlJWREFj?=
- =?utf-8?B?OGNWaXlweXhYU1BPODJOWXgvcWhMRFU5ck1zL0J4QTNUcTdRQnE2L2dyaWg5?=
- =?utf-8?B?anJoNVdORytjcC9tdnByUVFheWZ5Y25iYk9CUjFRNEsvWXFvbTg2cGtJYzM1?=
- =?utf-8?B?VFY3YitJVXFFeGsrWVJnT2QzaW5qZ2l0V3BGZUEvY00xSnFQWTF1dlZiOFRn?=
- =?utf-8?B?MGo2VDFPSVVVNTNZdUk5Rndyc0tqQmdYOXF0UlJZdlpQN0t6aWRtVXFLTHo4?=
- =?utf-8?B?WjJoMmxtbGJXWmxESnh5N1ZHQklValdDMUlBQVRFcXVTMXVwTTNIUDBnbVFr?=
- =?utf-8?B?T0l5cUhUYU5lMGZ0eW1TRzJreVg5VmdPa1hBVlZUYlNCYXZDeitVSUdHd21m?=
- =?utf-8?B?MEVEeDh0TW4reWc1dFZqdFR5NFhlYzdHRTg0ZUovWHZncUtzS3JlUEorTVla?=
- =?utf-8?B?RG1UOTFxZURpRXh5Qk5JaTBjMmxOWGtJT0VUb3BNZ3hwRDYvY2hkTTZ5Rkw0?=
- =?utf-8?B?U05xUVNXMDF0UTlnKzYydWFqYTlSYXdSZWJKZHJyUzRyaURjRjZaaGM4QTBm?=
- =?utf-8?B?cGtkcXRtTndDR0k5K0V2K3E2aUpUOGlHL0JmbDdFYlNvVnBqME5NRDR3RFVs?=
- =?utf-8?B?WGVKdlkvbGR0N2VsRWM1eHNjVmhGUGQyR2ovR1l5dG9lZDNlTWlzN2JsVk9t?=
- =?utf-8?B?NjdhUG5HL1JuQTQrY1NGL0MvMlVLOUJnRlpvK2RkSHhmVkxTajM3MVgzWngz?=
- =?utf-8?B?TXlmTXk1dWFlVEdQaFh6STIxVURxbzhKbmF0cmczNVZaUmRSa3VrOVo5WkNU?=
- =?utf-8?B?NXZ1T3o1Q1pIcWlvTVBPeDhQRklmdkFkN2ZyWXJwM2xxK3E4OWpYUm0zQmZL?=
- =?utf-8?B?UTBlQStZWGFJLzM4RGhKL1lCeTVBUlc2bmFHV081OU5aK1FybnhvWEQzYU1w?=
- =?utf-8?B?elRDL1lzT2RQUkVzSkhLOEpsNWM0YlQyaUdZYnpod2FrczlBeDZ4L1JuRjZp?=
- =?utf-8?B?c0V3aW1uZG95bytubG9jelJTYW9iYXpadU9jSUNXSmpPekJrU1N0ay9oMUdy?=
- =?utf-8?B?cjdhL1c0UHBSZno3UmxBS3BQTjVGZWVvSkwrdkR6Vm1jZUwwVDFMbnpNWmlE?=
- =?utf-8?B?NzJHYnZiaFg3TXRZZ01kTFRJRUg3aTNZOFdSWXZ2UnhRR1liL01qRmRYdW5v?=
- =?utf-8?B?UC91Y2l5Y3RkUUtuRldxRFVBRExGZXlqRFd1M2ZQcUlSVGJGUGlXOFk4b3dI?=
- =?utf-8?B?WGRmK1ZaeE5NVFFYSEhIYlZmazdYM0dHU3BGaktJU0V5Ulg3MUxHVXkrSEla?=
- =?utf-8?B?dmhxMENNVVYyMFlzelBxaUxET3lHcVhGNXY3NWw3MC9kZHBoM1hXV05UR2hw?=
- =?utf-8?B?T09CUFdkM3JzNVFaSVJ6SmkxdlkycE1LM3NCN3oyZ2h3NklEUnNpUWpNS3lz?=
- =?utf-8?B?MDRWQUZ5cUZLMkZsTGdiV055K1VseWdseEFoWllZTlJxMXlUanUyVXV0RTVr?=
- =?utf-8?Q?yEWRhGHe4kkR6jZC84sJbngIosy6Vbf+?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR02MB9532.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WXVuSjZucUtwWkJicFgyREoxTkdkOWordmlwNnFPcFJwT25NQXpxcmFSTVB0?=
- =?utf-8?B?YVlVcTMwdUZLdCs3YXMvbVRtRGo5alZadnhEMDVESER6WXhuN1dOK0NUMW1m?=
- =?utf-8?B?bnJkcU5EWjNaZ0ZWTUNReGFIWHlnMi9aYWhSRjg0MGZ3dXNSYytBRmUyMEJD?=
- =?utf-8?B?RDBSK3VGcXZaTmxZTEowMWE2K1VUaHJjN3FreVlMd2NTRVh1cVhFeC9QK085?=
- =?utf-8?B?YnZEamR5K0d4eWVxdnFYdU56SkVVc1NLWjk0OTR4Qy9SOUVibE55b25lbTB0?=
- =?utf-8?B?UVJON1E5ZE5FZVNtOEc5RWQxSHJ6VGgxQWM3eDhjODU4dEVXaUNpbmJlaXc0?=
- =?utf-8?B?cU80WkNjUEUzMVViR2lMTW1tNWpvM0FoS0dIbGRGOCtzZGdJdTRremU3a09U?=
- =?utf-8?B?M2NFVnpBYy9NT2NjY0Radll6ejNJdjd1dENsbkNHZ0VFMEY4blFjZ2tWT2Jq?=
- =?utf-8?B?KzdaSkNoVzY0WE9qRXpiUng5WFI2aHhsWlorcUJSU0E1Y3Zxa2NLZUhxOVha?=
- =?utf-8?B?Tmc0YmFJN0lobzRpZ3VCTDVwSzFEVCtKdTMrQWJEalIwS1Z1ZitmdlFmTXpJ?=
- =?utf-8?B?M3BUajdSdzNHME1jNzhmTU1hTmk4cFpLUWlRYzZ6RWUyRlJNUjk4c2Y4dXZ5?=
- =?utf-8?B?NVhydEJFUm9VcUhvb0c1c0I0ZytIdEZjUE9UWk42N2ttYzZtWmZwUGFvZXIy?=
- =?utf-8?B?QVhTSjR2Tzl5NWJtdVlTR1lWUDVRU29wbDlhSUlnNDhPM28xK1VNMHpCWkQ4?=
- =?utf-8?B?cE1qNlZyb1hwZEFTbUIrYzFFMVNEdXEyK1FHUW9TUEhJZFhrdW5ySjVSaEFC?=
- =?utf-8?B?MkowdDY1cHBOYS9kOWtBMXlHc3RkU2FnQ2lyNFI5aTk5ZnFQUUZkL0dXOTdW?=
- =?utf-8?B?V3k2dTcrMW42UkErNjk5OFMyMGQwQ284WWk2dUdiVlcrZXI0UXRka1AzMnFz?=
- =?utf-8?B?NElZZ3Vsc2RnQ2tmaEY3MTQzeDRHRHA4T2wxVmUxaG82NStlZ0JtMS9jTVVh?=
- =?utf-8?B?eDh0TEtlcVRoclhTVnZUMmdFS0FPd1doU3VNTU9tYXkwYThHZU9icWY4TnFt?=
- =?utf-8?B?eHRZZHljTGcvVlBnMTZNWDdtYndJMm5KUEd0R2xBU3VqS2UvUGlCWFVtV1Ny?=
- =?utf-8?B?RVc1aUZDVTE5Rll5QzczRUtXT0VwVjlUNkIvUko5NTczdHNrMzFVN2JIOENR?=
- =?utf-8?B?Y05reTl4dEZ5VDVzY2VnK2E3M1B0NVhXTlQxdURXQmVIVnZRQjAxVDdZRTY2?=
- =?utf-8?B?enVFbkMxTEU3bkhrcFRZN2FZN0I0MDBwK0VQcTNLS0RmRWd0TmVSMHZHK3M2?=
- =?utf-8?B?NmwyMDBiN0twN1FnMzZjcVdUdG0zdlc1ZW5lQlR3UGtDYXdSVFMzK0RqbGxM?=
- =?utf-8?B?dm5uNXg2d2lqZjZTZmFpVkRDVnJ6M2lhcDJINHhOYzZrdWNlZXUxNEhZSSsx?=
- =?utf-8?B?OTA5UUIwS1ljQ0xTbk1FNndxR2RLS0wrZURnSHFpSXJQRjQ5L09MM2E0aDFy?=
- =?utf-8?B?Vk13SHhYZjlQVEs5Q2tLbi80UU82UkU5VGxDMlBHZWlOaUIvbGNUMjE5QWlL?=
- =?utf-8?B?cmNlUGdKZURnWnVsblYweTNVd3dvQjJ1Y0dlL1VJcmMwdnlhT20wdDNjQVNB?=
- =?utf-8?B?YUxWRGxxQW0yMzkvZlRvdWt3VTZxUHdKalQrOXFoM1dXTEV2YWdXWWpwcjJP?=
- =?utf-8?B?YVpMKzNoNStVUDRndVBjcGJlR005dHlUc2tOc1NCTS9ZdzdyMzNRdjBtTnFw?=
- =?utf-8?B?Q0VLc0dlV2R5ZEk1STZVRldRMmhrSFVzQVEwdzNQTUkyaWxNRmlEN1pjN0p3?=
- =?utf-8?B?T2VjaXRIWFBTdWVXRmkzZmpwcGFkSm9TL3NLVERUbWg3ek1uSVRJNTRXNXJO?=
- =?utf-8?B?Y3J2Zks5Q2VraTJKeWJZSmZ4U2JMMlVXck4zZHJuTHh2cVhtL3Jub3gxSEtH?=
- =?utf-8?B?MFcxeXlXUFU1c2FxWlpWcDd3M0h6TEpvbi9HeFdaRXBnZmtzKzJkV2h5eWxS?=
- =?utf-8?B?TGxsUFExa29nMUM0NjYyV3VoUkhHU0h0aGRrK0tXeWpFTnlOUTFyWlQyRjVJ?=
- =?utf-8?B?TWxMU3hjWFpBWUdRNXNSa2VkeE90cllOWXc3a1E0dkE0bFJqeVBiaVljRXd0?=
- =?utf-8?B?N3oxRVZOOW85NEVEdjkxR3ZrN3YrTEVrTkt4RTdnQXdjNDcwYXZJV0k5cEUy?=
- =?utf-8?Q?Ua1zei69zL25mnoRb5pXb+ggzgUXFi+0OuRpcD/T/aCh?=
-X-OriginatorOrg: prodrive-technologies.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4dc8ce3-9844-45c3-c602-08de2798d7e0
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR02MB9532.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2025 18:24:14.5118
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 612607c9-5af7-4e7f-8976-faf1ae77be60
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fI+Pv0oCXe2ByqnpSMIWexjiK3cZCSgOT0DG6U/mKCfSU71N5QF4JqxbNm8es1MaS1EfxvV8IUN+k50CKdrwv9N6K6/2dWtbeFUtSD1lWOb2kJWX1Q4vlmDDr1BaOQp7G7ldt9z1W2u08T8D2Xf2CA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB8298
 
-Hi,
+On Wed, 2025-11-19 at 12:19 +0800, kernel test robot wrote:
+> Hi Sander,
+>=20
+> kernel test robot noticed the following build warnings:
+>=20
+> [auto build test WARNING on lee-mfd/for-mfd-next]
+> [also build test WARNING on lee-mfd/for-mfd-fixes lee-leds/for-leds-next =
+linusw-
+> pinctrl/devel linusw-pinctrl/for-next linus/master v6.18-rc6 next-2025111=
+8]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:=C2=A0=C2=A0=C2=A0
+> https://github.com/intel-lab-lkp/linux/commits/Sander-Vanheule/dt-binding=
+s-leds-Binding-for-RTL8231-scan-matrix/20251118-055707
+> base:=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd=
+.git=C2=A0for-mfd-next
+> patch link:=C2=A0=C2=A0=C2=A0 https://lore.kernel.org/r/20251117215138.43=
+53-5-sander%40svanheule.net
+> patch subject: [PATCH v7 4/6] pinctrl: Add RTL8231 pin control and GPIO s=
+upport
+> config: i386-randconfig-063-20251119
+> (https://download.01.org/0day-ci/archive/20251119/202511191158.bVKUDrKa-l=
+kp@intel.com/co
+> nfig)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=3D1 build):
+> (https://download.01.org/0day-ci/archive/20251119/202511191158.bVKUDrKa-l=
+kp@intel.com/re
+> produce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202511191158.bVKUDrKa-lkp=
+@intel.com/
+>=20
+> sparse warnings: (new ones prefixed by >>)
+> > > drivers/pinctrl/pinctrl-rtl8231.c:28:27: sparse: sparse: missing iden=
+tifier in
+> > > declaration
+> =C2=A0=C2=A0 drivers/pinctrl/pinctrl-rtl8231.c:28:27: sparse: sparse: Exp=
+ected ; at the end of
+> type declaration
+> =C2=A0=C2=A0 drivers/pinctrl/pinctrl-rtl8231.c:28:27: sparse: sparse: got=
+ :
+> > > drivers/pinctrl/pinctrl-rtl8231.c:52:44: sparse: sparse: invalid bitf=
+ield specifier
+> > > for type incomplete type enum rtl8231_pin_function.
 
-On 11/19/2025 5:51 PM, Lee Jones wrote:
-> On Tue, 11 Nov 2025, Martijn de Gouw wrote:
-> 
->> It's possible to set a default state for leds in the dts with
->> 'default-state', but this was not reflected when the LEDs are grouped.
->> This patch adds support for keeping the default-state value.
->>
->> Signed-off-by: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
->> ---
->>  drivers/leds/rgb/leds-group-multicolor.c | 13 +++++++++++--
->>  1 file changed, 11 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/leds/rgb/leds-group-multicolor.c b/drivers/leds/rgb/leds-group-multicolor.c
->> index 548c7dd63ba1e..b3e46a51dfbc7 100644
->> --- a/drivers/leds/rgb/leds-group-multicolor.c
->> +++ b/drivers/leds/rgb/leds-group-multicolor.c
->> @@ -69,6 +69,7 @@ static int leds_gmc_probe(struct platform_device *pdev)
->>  	struct mc_subled *subled;
->>  	struct leds_multicolor *priv;
->>  	unsigned int max_brightness = 0;
->> +	unsigned int default_brightness = 0;
->>  	int i, ret, count = 0, common_flags = 0;
->>  
->>  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->> @@ -96,6 +97,12 @@ static int leds_gmc_probe(struct platform_device *pdev)
->>  
->>  		max_brightness = max(max_brightness, led_cdev->max_brightness);
->>  
->> +		/* If any LED is on, set brightness to the max brightness.
->> +		 * The actual brightness of the LED is set as intensity value.
->> +		 */
-> 
-> I don't know this code well, but if no one complains, I can take your
-> word for this.
-> 
-> However, the comment needs changing to proper multi-line format.
-> 
->         /*
->          * This is the preferred style for multi-line
->          * comments in the Linux kernel source code.
->          * Please use it consistently.
->          *
->          * Description:  A column of asterisks on the left side,
->          * with beginning and ending almost-blank lines.
->          */
 
-Will do!
+sparse doesn't seem to understand the enum type specifier either. Fixed by =
+instead casting
+rtl8231_pin_function where a uintptr_t is required.
 
-> 
->> +		if (led_cdev->brightness)
->> +			default_brightness = max_brightness;
->> +
->>  		count++;
->>  	}
->>  
->> @@ -109,14 +116,16 @@ static int leds_gmc_probe(struct platform_device *pdev)
->>  
->>  		subled[i].color_index = led_cdev->color;
->>  
->> -		/* Configure the LED intensity to its maximum */
->> -		subled[i].intensity = max_brightness;
->> +		/* Configure the LED intensity to its current brightness */
->> +		subled[i].intensity = DIV_ROUND_CLOSEST(led_cdev->brightness * max_brightness,
-> 
-> How does this work?  Won't this value be huge?
-
-It calculates the intensity of the led with respect to the max_brightness of the whole group.
-So actually it's doing:
-subled[i].intensity = group->max_brightness * (led_cdev->brightness/led_cdev->max_brightness).
-
-I highest value I could find for a max_brightness is 4096 (12 bit). Maybe some PWM LEDs use up to 16bit?
-So I made the assumption that is should not be an issue.
-I wrote it this way, where the multiplication comes first, because integer divisions don't work well.
-> 
->> +							led_cdev->max_brightness);
-> 
-> Also we said we were going to set actual brightness with the intensity
-> in the comment above, but we appear to be using max_brightness again?
-
-I'll try to clarify the comments.
-
-> 
->>  	}
->>  
->>  	/* Initialise the multicolor's LED class device */
->>  	cdev = &priv->mc_cdev.led_cdev;
->>  	cdev->brightness_set_blocking = leds_gmc_set;
->>  	cdev->max_brightness = max_brightness;
->> +	cdev->brightness = default_brightness;
->>  	cdev->color = LED_COLOR_ID_MULTI;
->>  	priv->mc_cdev.num_colors = count;
->>  
->> -- 
->> 2.39.2
->>
-> 
-
--- 
-Martijn de Gouw
-Designer
-Prodrive Technologies B.V.
-Mobile: +31 63 17 76 161
-Phone:  +31 40 26 76 200
-
+Best,
+Sander
 
