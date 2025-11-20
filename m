@@ -1,54 +1,55 @@
-Return-Path: <linux-leds+bounces-6243-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6244-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A51CC7380F
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 11:42:34 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B91C4C7382D
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 11:44:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A935F3439D7
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 10:42:33 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id B33492A379
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 10:44:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 614C4272E45;
-	Thu, 20 Nov 2025 10:42:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42C5A32E125;
+	Thu, 20 Nov 2025 10:44:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ElnYylfU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mp3x/uYm"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38908757EA;
-	Thu, 20 Nov 2025 10:42:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACD232D7EC;
+	Thu, 20 Nov 2025 10:44:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763635349; cv=none; b=M3eKqSiwOqZH73YgpXbn5MDdhNptlQd9djuIa/hg3CZ3nnyLB1tdHHXzQPDwEP4Q445+8Vfm3j8civdz9HBv5FZVp5PDomYSmSpd7svixZ7/unsGrOf9RcpbsV9dVHMkheAssmo9KiGxcYQBwd+3Desok8iol3W7G0ceh9OWC+g=
+	t=1763635461; cv=none; b=S750CIfyqvhhIj59xs1c5LzQTUb1vPfprJpUuwgr3eiCfx0XDH/LKuNDaLHnSoLpM1Wb06EdiaZTyAV6DshH2MBw9qtHs7ONJy4ZUJ+C8iRCouCM0jDfLQuq6962ifnC7qabaCp+kJsjWHKsl+lftyEl7I3ziHc1roqmWgWNEC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763635349; c=relaxed/simple;
-	bh=6Xq8ia8Lq6KOMeslHV9RF4HxCjdUoN7PVLieO/tqFF4=;
+	s=arc-20240116; t=1763635461; c=relaxed/simple;
+	bh=8RuH9W0zWkwEPjxF+A/rZR6va/xvHOrYqhvnHOoZ1bA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cuQmTBZNSjw3MEuNBw5g9579gQ8cTM0+0Aznw/ypjQJXPqfzBOgiRckfuWzw7vwflOBk7a0WfG0eUi1g7sLV146Lch8sHUS5kDliKDx3RehqUKapzmYvq4I/leXJn5Y0JZz2sEkmh/u24ej1pd0RHW9H2dzL+cKl8sveIknAZrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ElnYylfU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FC9DC4CEF1;
-	Thu, 20 Nov 2025 10:42:26 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=UF4lsHN9gSL06/seRhsF5mfq6fhWmcfhFDS+wx2s7yRPzSTAgMYqonTxlu7rtrYJMFgtUas8fPL8hF0AaMxYL9gO3mu2OkeRSPMgH3iNz8UndOGNOPwObwXDGBpwbbXtndXb1xiKg1H0Iz0a+fdytnJM7ywdYlNU0bSp+9CQmZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mp3x/uYm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECACFC4CEF1;
+	Thu, 20 Nov 2025 10:44:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763635348;
-	bh=6Xq8ia8Lq6KOMeslHV9RF4HxCjdUoN7PVLieO/tqFF4=;
+	s=k20201202; t=1763635460;
+	bh=8RuH9W0zWkwEPjxF+A/rZR6va/xvHOrYqhvnHOoZ1bA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ElnYylfUAh2XXbfFCqVtP7b0wD9+p+yPz0oIAZFiAM15QN2lPON1Vs7bW2AJxRJ2t
-	 cEu54W90Sy0nwry0gvMA2qrbRdaAghN4bdlWHsDfSizdz2M5wzy0dZbaMN5LZbc9z8
-	 4L8f07hkjt64jW7cvqV0zT4X2jq3F8pDK5ACQ4Cn5JEI69S/leROYWth09OyKz/EAA
-	 v8wVrkqRgg/fzGCAC8r07A0ac4HP/6GVu6rpyjrQKiyx/GxqkFV4Uq/CwnaEj1naxU
-	 fd3uvzJEZ2dEx8jfzbIHymMIt/zZhi/BDyUosVsl5BZGxE3rVqrHLnX1zQOHGRssyI
-	 ZmcI93acXtA9Q==
-Date: Thu, 20 Nov 2025 10:42:24 +0000
+	b=Mp3x/uYmI8WmvmL8b/0tSnLc8Ky74WumHM9iiIb+24u3EHhA5TyGf/IoeV+z84zqc
+	 +x37/bFDzdqBl/BgxxG/xRqP5x/y9UeZ+EKRc+q46uL7bF1umlGXO17d/PFJmGGNRq
+	 JeIcwJmnG09KTAA0KFXUKLDKwOWBTxkDRuKrfnX8lCV4D130SRDD075g12DM9obeb8
+	 pp98m70wnJpIQPUubnYavIvQe09HU5w8UpL58jm9z4Ag0fxz6E02R46tcF5hEMmaZb
+	 A0HcNGsK6eT9gTbemr4MCnYO8GP0DQQwLAR0Hf/kmX+4YKk5LnR/9Oly4m88jjvtDe
+	 RwrLSCYhkaZNA==
+Date: Thu, 20 Nov 2025 10:44:16 +0000
 From: Lee Jones <lee@kernel.org>
 To: Daniel Mack <daniel.mack@holoplot.com>
 Cc: linux-leds@vger.kernel.org, pavel@kernel.org, robh@kernel.org,
 	devicetree@vger.kernel.org, Daniel Mack <daniel@zonque.org>
 Subject: Re: [PATCH v2 0/3] leds: is31f132xx: add support for is31fl3293
-Message-ID: <20251120104224.GA1949330@google.com>
+Message-ID: <20251120104416.GB1949330@google.com>
 References: <20251114094640.4096054-1-daniel.mack@holoplot.com>
+ <20251120104224.GA1949330@google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -58,36 +59,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251114094640.4096054-1-daniel.mack@holoplot.com>
+In-Reply-To: <20251120104224.GA1949330@google.com>
 
-On Fri, 14 Nov 2025, Daniel Mack wrote:
+On Thu, 20 Nov 2025, Lee Jones wrote:
 
-> From: Daniel Mack <daniel@zonque.org>
+> On Fri, 14 Nov 2025, Daniel Mack wrote:
 > 
-> This is v2 of the series to support the is31fl3293 with the is31f132xx
-> driver.
-
-Please place the changelog in the patch itself, under the "---" markers.
-
-> It is now split into 3 parts and also addresses the removal of forward
-> declarations.
-
-I still see the forward declarations.
-
-> Comments on styling isses in v1 were addressed.
+> > From: Daniel Mack <daniel@zonque.org>
+> > 
+> > This is v2 of the series to support the is31fl3293 with the is31f132xx
+> > driver.
 > 
-> Daniel Mack (3):
->   dt-bindings: leds: add issi,is31fl3293 to leds-is31fl32xx
->   leds: is31f132xx: add support for is31fl3293
->   leds: is31f132xx: re-order code to remove forward declarations
+> Please place the changelog in the patch itself, under the "---" markers.
 > 
->  .../bindings/leds/leds-is31fl32xx.txt         |   1 +
->  drivers/leds/leds-is31fl32xx.c                | 234 +++++++++++++-----
->  2 files changed, 177 insertions(+), 58 deletions(-)
+> > It is now split into 3 parts and also addresses the removal of forward
+> > declarations.
 > 
-> -- 
-> 2.51.1
-> 
+> I still see the forward declarations.
+
+Oh wait.  They are removed in a subsequent patch.
+
+Breaking and repairing things in the same set is generally frowned upon.
+
+Make the preliminary changes first, then you never need the prototypes.
 
 -- 
 Lee Jones [李琼斯]
