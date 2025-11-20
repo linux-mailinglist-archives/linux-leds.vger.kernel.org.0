@@ -1,68 +1,64 @@
-Return-Path: <linux-leds+bounces-6256-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6257-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368E3C754DE
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 17:20:18 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id E022DC75561
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 17:25:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 086BC346204
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 16:12:10 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id DDAC14E46CE
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 16:13:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72BC43644A0;
-	Thu, 20 Nov 2025 16:11:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDCF32E88B0;
+	Thu, 20 Nov 2025 16:13:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j6sZSIw/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lAIiJ9m0"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364B334DB48;
-	Thu, 20 Nov 2025 16:11:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEEDB2D9EDC;
+	Thu, 20 Nov 2025 16:13:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763655082; cv=none; b=G69n3XuZnPnLCOJ3HGO2JVaCUvScpqfAEoUr+2a5WIzwMlDC7tNhqXTkscb1K/pRCZiMhfnggOTJtGUBQFYbDUt0mg9tKRcX1jOr7GE9vIzXVSNXC8pok6d9jsf1z9gJOCBjHBf/Rt/9LiN9HQwzGFxZz48woeya3GKF58XAn00=
+	t=1763655188; cv=none; b=I4Q+w6wHFzNiKNfJupDqQcS3c/LAMwdTHzTrVjGIc3q4bFfVNY8/wEL7OodjX+5M/rpJ7DjS8Vh+ah2TmDmoT77/7DTfMK5wdv3F5ASl2O5PQRA33dlLIJxlhp0Qs+Zuj28r6W8NMgoHRL/y7mWrtY4NClLdYAV81uGOyRwwEY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763655082; c=relaxed/simple;
-	bh=BbjFmvnZpIAYJemMHM1v/+EA292tt6R+P8dHMuj7Xbo=;
+	s=arc-20240116; t=1763655188; c=relaxed/simple;
+	bh=U2Yymk82oxW3QAqGYYk1nRCJ1Gq7NQgRNxhzjfFuXvE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QDIUMhTfUbVvhr0XM1i/7RYf07JjFCUhsmnP1BYcX5uav6viwyi+Of0vhJva7IgBAATwQ5wEG+D7Q03ZyXy7DZRCfwxZ5VxflJS2H9Pb7ZmX7w/H3+xf0/RxeXNDFUoVXkGqB1KUsT+bvMPEnbe0XGjS3wPcfiCAmdI0iNBjZe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j6sZSIw/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7944BC16AAE;
-	Thu, 20 Nov 2025 16:11:21 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=j14OwNcJtJqW3uueBegMdF5npVgDuHA6Vnou795kmhxOfvTo+7p+MlplGCxtkSn/UqlcQdbp91lh7TFYpGpvsqRpXcFZAPuSMbaxfJfdOH6pzlP7MbrQIvU+DU+zASyJk7x8n8WnxZPhlrTzrmR6oGKszacrwtQlzr+46MKMtSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lAIiJ9m0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FA0BC4CEF1;
+	Thu, 20 Nov 2025 16:13:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763655081;
-	bh=BbjFmvnZpIAYJemMHM1v/+EA292tt6R+P8dHMuj7Xbo=;
+	s=k20201202; t=1763655188;
+	bh=U2Yymk82oxW3QAqGYYk1nRCJ1Gq7NQgRNxhzjfFuXvE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j6sZSIw/JPOJ5KPAnyvMTDJJwbyriGW5UTQEbsjE6QELz2EfAY2mJp36zyAAt0b+y
-	 +vswlXRwsb0Sxxg8huowpVFhvSMiHekutXcQKmGpubePU5D60wuTCeWev9J/6Fu+op
-	 cCSRGK1ecV/0eAkS9q+wD2uL2rM/iY1F7eOaa/u0kGHEoe9bkUCWrAbKWPBad3dSJT
-	 N2euymlkYqScUvei7EX4PwXMWXXmS+KZjw9lh/5DnWGrDlxud6l/CIoB+5tVAJ2r48
-	 Fnk6TPbYFHVm8R935wu3uLwRsCucySQuCtStJiF1UoblbTDE8eVGumiMuEoLObpe/g
-	 VTBQZGKbhUaKw==
-Date: Thu, 20 Nov 2025 10:11:19 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Matti Vaittinen <matti.vaittinen@linux.dev>
-Cc: Pavel Machek <pavel@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	devicetree@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>, Mark Brown <broonie@kernel.org>,
-	linux-gpio@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>,
-	Michael Turquette <mturquette@baylibre.com>,
-	linux-pm@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	linux-clk@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Lee Jones <lee@kernel.org>, linux-rtc@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v5 04/16] dt-bindings: battery: Voltage drop properties
-Message-ID: <176365507949.1467967.14779548559679744817.robh@kernel.org>
-References: <cover.1763625920.git.mazziesaccount@gmail.com>
- <93768cba6688714756fca49cc57d46a111885863.1763625920.git.mazziesaccount@gmail.com>
+	b=lAIiJ9m0LFZo9AbyRZ5XRyOHg0kd6b9GIn9+oyj+oJhHuIbSbEibyuYmBkrTorzkF
+	 m79sVk1ZVWzC1AIDswfcr6Xstlp6+l00oFGkpQym5l1HIur3HHAqteQLkWtxFXFuBG
+	 8t41XQYzicXaascb2wWn9ujAMCM3lhtM0CnqtmQ4WdvX3mZLdnxCRor2H/p1GHX/0r
+	 TTyIb/wEmp2903me3oy+QDEQ7XFt2jOtucU67FCrGSDOnfcNa/gd3oy15xRw96Cv9A
+	 kWjpzd4prj8cU55987CmaD9SbiQAH4p7BoQKykyeDFv0oes5q6Zc0p98suKhb5QnvH
+	 1lNpVGWzOkwCA==
+Date: Thu, 20 Nov 2025 10:13:06 -0600
+From: Rob Herring <robh@kernel.org>
+To: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
+Cc: kernel@oss.qualcomm.com, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	linux-arm-msm@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Subbaraman Narayanamurthy <subbaraman.narayanamurthy@oss.qualcomm.com>,
+	Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: leds: qcom-lpg: Explain standalone
+ PWM usage
+Message-ID: <20251120161306.GA1468415-robh@kernel.org>
+References: <20251119-lpg_triled_fix-v3-0-84b6dbdc774a@oss.qualcomm.com>
+ <20251119-lpg_triled_fix-v3-1-84b6dbdc774a@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -71,79 +67,42 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <93768cba6688714756fca49cc57d46a111885863.1763625920.git.mazziesaccount@gmail.com>
+In-Reply-To: <20251119-lpg_triled_fix-v3-1-84b6dbdc774a@oss.qualcomm.com>
 
-
-On Thu, 20 Nov 2025 10:20:24 +0200, Matti Vaittinen wrote:
-> From: Matti Vaittinen <mazziesaccount@gmail.com>
+On Wed, Nov 19, 2025 at 02:06:42PM +0800, Fenglin Wu wrote:
+> LPG channels can be used for only outputting PWM signals by routing to
+> PMIC GPIOs without enabling TRILED. Explain this usage in the description
+> for better clarity.
 > 
-> ROHM has developed a so called "zero-correction" -algorithm to improve
-> the fuel-gauging accuracy close to the point where battery is depleted.
-> This relies on battery specific "VDR" (voltage drop rate) tables, which
-> are measured from the battery, and which describe the voltage drop rate.
-> More thorough explanation about the "zero correction" and "VDR"
-> parameters is here:
-> https://lore.kernel.org/all/676253b9-ff69-7891-1f26-a8b5bb5a421b@fi.rohmeurope.com/
-> 
-> Document the VDR zero-correction specific battery properties used by the
-> BD71815, BD71828, BD72720 and some other ROHM chargers. (Note, charger
-> drivers aren't upstream yet).
-> 
-> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> 
+> Signed-off-by: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
 > ---
+>  Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> Revision history:
->  v4 => v5:
->  - Move volt-drop parameters from rohm,vdr-battry,yaml to the
->    battery.yaml
->  - drop rohm, -prefix from volt-drop-* properties
->  - Drop the rohm,vdr-battry,yaml
->  - Add comment clarifying what the rohm,volt-drop-* properties are for
->    because this may no longer be obvious as they were moved to common
->    battery.yaml
->  - Drop Linus Walleij's rb-tag because the concept was changed
-> 
->  v3 => v4:
->  - No changes
-> 
->  v2 => v3:
->  - Constrain VDR threshold voltage to 48V
->  - Use standard '-bp' -suffix for the rohm,volt-drop-soc
-> 
->  RFCv1 => v2:
->  - Add units to rohm,volt-drop-soc (tenths of %)
->  - Give real temperatures matching the VDR tables, instead of vague
->    'high', 'normal', 'low', 'very low'. (Add table of temperatures and
->    use number matching the right temperature index in the VDR table name).
->  - Fix typoed 'algorithm' in commit message.
-> 
-> The parameters are describing the battery voltage drop rates - so they
-> are properties of the battery, not the charger. Thus they do not belong
-> in the charger node.
-> 
-> The right place for them is the battery node, which is described by the
-> generic "battery.yaml". There were some discussion whether these
-> properties should be in their own file, or if they should be added to
-> battery.yaml. Discussion can be found from:
-> https://lore.kernel.org/all/52b99bf7-bfea-4cee-aa57-4c13e87eaa0d@gmail.com/
-> This patch implements the volt-drop properties as generic (not vemdor
-> specific) properties in the battery.yaml. It's worth noting that these
-> properties are:
-> 
->   - Meaningful only for those charger drivers which have the VDR
->     algorithm implemented. (And even though the algorithm is not charger
->     specific, AFAICS, it is currently only used by some ROHM PMIC
->     drivers).
->   - Technique of measuring the VDR tables for a battery is not widely
->     known. AFAICS, only folks at ROHM are measuring those for some
->     customer products. We do have those tables available for some of the
->     products, like Kobo e-readers though.
-> ---
->  .../bindings/power/supply/battery.yaml        | 22 +++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+> index 841a0229c472a4764426d25d9dbb900adc20fc11..c4b7e57b251845a6970b34bc9ae0c00647b1bf96 100644
+> --- a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+> +++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+> @@ -13,6 +13,11 @@ description: >
+>    The Qualcomm Light Pulse Generator consists of three different hardware blocks;
+>    a ramp generator with lookup table (LUT), the light pulse generator and a three
+>    channel current sink. These blocks are found in a wide range of Qualcomm PMICs.
+> +  The light pulse generator (LPG) can also be used independently to output PWM
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Is this a separate paragraph or the same paragraph? The former needs a 
+blank line.
 
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+
+> +  signal for standard PWM applications. In this scenario, the LPG output should
+> +  be routed to a specific PMIC GPIO by setting the GPIO pin mux to the special
+> +  functions indicated in the datasheet, the TRILED driver for the channel will
+> +  not be enabled in this configuration.
+>  
+>  properties:
+>    compatible:
+> 
+> -- 
+> 2.34.1
+> 
 
