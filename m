@@ -1,145 +1,94 @@
-Return-Path: <linux-leds+bounces-6242-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6243-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1DDC7358B
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 10:59:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A51CC7380F
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 11:42:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 1224F34575A
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 09:57:27 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A935F3439D7
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 10:42:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C207F30CDB4;
-	Thu, 20 Nov 2025 09:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 614C4272E45;
+	Thu, 20 Nov 2025 10:42:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MvpirHjJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ElnYylfU"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86ECD304BD7;
-	Thu, 20 Nov 2025 09:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38908757EA;
+	Thu, 20 Nov 2025 10:42:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763632642; cv=none; b=Tcm6sTkT5bM14LzSobmJpuOXzGtBRZrfw3IpsNMTisnlAAtLvwHQqM0eiLRV7y0Kr365b+XtFv76q+A0GeR9NfIRbYxv/NtQwP2IonEU9mp6sy9I9HcnkN7l6vwBGU1AJVCs/pzj4X7moLb/7+QOLJyxM0YkS2Zo2RK202cG344=
+	t=1763635349; cv=none; b=M3eKqSiwOqZH73YgpXbn5MDdhNptlQd9djuIa/hg3CZ3nnyLB1tdHHXzQPDwEP4Q445+8Vfm3j8civdz9HBv5FZVp5PDomYSmSpd7svixZ7/unsGrOf9RcpbsV9dVHMkheAssmo9KiGxcYQBwd+3Desok8iol3W7G0ceh9OWC+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763632642; c=relaxed/simple;
-	bh=WWvza9V1Q2u8DbMFgQRM3aXZHjVB5evXtyFIWbL5gTc=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=YwTTmzDfqUF6oYpTuL6mwJSKMi/IxwGfA68+L2H1Squ/Gw7fxCEHELLNdM3XwfGoe9bK7Xae/Jzrl1HMpa/r67/juF/hv5jgsR8+68iK58p21anUOAEgvyyaF07EGyk1yWpW7lNK59OBXEXA7xbD+yauC5q2oKCeBz++LzI2gr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MvpirHjJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2D20C4CEF1;
-	Thu, 20 Nov 2025 09:57:21 +0000 (UTC)
+	s=arc-20240116; t=1763635349; c=relaxed/simple;
+	bh=6Xq8ia8Lq6KOMeslHV9RF4HxCjdUoN7PVLieO/tqFF4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cuQmTBZNSjw3MEuNBw5g9579gQ8cTM0+0Aznw/ypjQJXPqfzBOgiRckfuWzw7vwflOBk7a0WfG0eUi1g7sLV146Lch8sHUS5kDliKDx3RehqUKapzmYvq4I/leXJn5Y0JZz2sEkmh/u24ej1pd0RHW9H2dzL+cKl8sveIknAZrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ElnYylfU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FC9DC4CEF1;
+	Thu, 20 Nov 2025 10:42:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763632642;
-	bh=WWvza9V1Q2u8DbMFgQRM3aXZHjVB5evXtyFIWbL5gTc=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=MvpirHjJ+ZIRqw3cN0N1IEkiTBhIqW96zK528S8uL1FQKZ0Pacm4NeuAghOlsmDgP
-	 W5O0Sbo5s1e3d/JuFq3polCo8DgwC8S3yMjS2QOjkDPNyW/UwT5BZ9fM51kB41TMP3
-	 Krjf+Yj8NrH7/hWmhp1x78WvqFZjgaeD2ylsnjm6gCFO1X12GSZqMWo1YnMEFnH3Du
-	 WNO9RFitMK3ubzzObHcM8q8uSWICWKr1tX6JYR8WqB64IUcVyhUICJk9EecBGtojSK
-	 0WBQmlNbZ+kENzw2VXKhrwpeZUOJ6AdP75eDAPqbKxs1wFITwMVKE/690YpewMTAmf
-	 w4WWZ7HzL7m5g==
-Date: Thu, 20 Nov 2025 03:57:20 -0600
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+	s=k20201202; t=1763635348;
+	bh=6Xq8ia8Lq6KOMeslHV9RF4HxCjdUoN7PVLieO/tqFF4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ElnYylfUAh2XXbfFCqVtP7b0wD9+p+yPz0oIAZFiAM15QN2lPON1Vs7bW2AJxRJ2t
+	 cEu54W90Sy0nwry0gvMA2qrbRdaAghN4bdlWHsDfSizdz2M5wzy0dZbaMN5LZbc9z8
+	 4L8f07hkjt64jW7cvqV0zT4X2jq3F8pDK5ACQ4Cn5JEI69S/leROYWth09OyKz/EAA
+	 v8wVrkqRgg/fzGCAC8r07A0ac4HP/6GVu6rpyjrQKiyx/GxqkFV4Uq/CwnaEj1naxU
+	 fd3uvzJEZ2dEx8jfzbIHymMIt/zZhi/BDyUosVsl5BZGxE3rVqrHLnX1zQOHGRssyI
+	 ZmcI93acXtA9Q==
+Date: Thu, 20 Nov 2025 10:42:24 +0000
+From: Lee Jones <lee@kernel.org>
+To: Daniel Mack <daniel.mack@holoplot.com>
+Cc: linux-leds@vger.kernel.org, pavel@kernel.org, robh@kernel.org,
+	devicetree@vger.kernel.org, Daniel Mack <daniel@zonque.org>
+Subject: Re: [PATCH v2 0/3] leds: is31f132xx: add support for is31fl3293
+Message-ID: <20251120104224.GA1949330@google.com>
+References: <20251114094640.4096054-1-daniel.mack@holoplot.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Matti Vaittinen <mazziesaccount@gmail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, linux-gpio@vger.kernel.org, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Conor Dooley <conor+dt@kernel.org>, 
- linux-leds@vger.kernel.org, linux-pm@vger.kernel.org, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- devicetree@vger.kernel.org, Sebastian Reichel <sre@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Mark Brown <broonie@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, linux-clk@vger.kernel.org, 
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, 
- Andreas Kemnade <andreas@kemnade.info>, Lee Jones <lee@kernel.org>, 
- linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org
-To: Matti Vaittinen <matti.vaittinen@linux.dev>
-In-Reply-To: <28726d1e0573a6efb6e70716a23ba27c4fc93c6d.1763625920.git.mazziesaccount@gmail.com>
-References: <cover.1763625920.git.mazziesaccount@gmail.com>
- <28726d1e0573a6efb6e70716a23ba27c4fc93c6d.1763625920.git.mazziesaccount@gmail.com>
-Message-Id: <176363264051.648957.5833707932747052681.robh@kernel.org>
-Subject: Re: [PATCH v5 01/16] dt-bindings: regulator: ROHM BD72720
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251114094640.4096054-1-daniel.mack@holoplot.com>
 
+On Fri, 14 Nov 2025, Daniel Mack wrote:
 
-On Thu, 20 Nov 2025 10:19:40 +0200, Matti Vaittinen wrote:
-> From: Matti Vaittinen <mazziesaccount@gmail.com>
+> From: Daniel Mack <daniel@zonque.org>
 > 
-> The ROHM BD72720 is a new PMIC with 10 BUCk and 11 LDO regulators.
+> This is v2 of the series to support the is31fl3293 with the is31f132xx
+> driver.
+
+Please place the changelog in the patch itself, under the "---" markers.
+
+> It is now split into 3 parts and also addresses the removal of forward
+> declarations.
+
+I still see the forward declarations.
+
+> Comments on styling isses in v1 were addressed.
 > 
-> The BD72720 is designed to support using the BUCK10 as a supply for
-> the LDOs 1 to 4. When the BUCK10 is used for this, it can be set to a
-> LDON_HEAD mode. In this mode, the BUCK10 voltage can't be controlled by
-> software, but the voltage is adjusted by PMIC to match the LDO1 .. LDO4
-> voltages with a given offset. Offset can be 50mV .. 300mV and is
-> changeable at 50mV steps.
+> Daniel Mack (3):
+>   dt-bindings: leds: add issi,is31fl3293 to leds-is31fl32xx
+>   leds: is31f132xx: add support for is31fl3293
+>   leds: is31f132xx: re-order code to remove forward declarations
 > 
-> Add 'ldon-head-microvolt' property to denote a board which is designed
-> to utilize the LDON_HEAD mode.
+>  .../bindings/leds/leds-is31fl32xx.txt         |   1 +
+>  drivers/leds/leds-is31fl32xx.c                | 234 +++++++++++++-----
+>  2 files changed, 177 insertions(+), 58 deletions(-)
 > 
-> All other properties are already existing.
-> 
-> Add dt-binding doc for ROHM BD72720 regulators to make it usable.
-> 
-> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> 
-> ---
-> Revision history:
->  v4 =>
->  - No changes
-> 
->  v3 => v4:
->  - Drop type from ldon-head
->  - Fix the name patterns for regulator nodes and names
-> 
->  v2 => v3:
->  - drop unnecessary descriptions
->  - use microvolts for the 'ldon-head' dt-property
-> 
->  RFCv1 => v2:
->  - No changes
-> ---
->  .../regulator/rohm,bd72720-regulator.yaml     | 148 ++++++++++++++++++
->  1 file changed, 148 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/regulator/rohm,bd72720-regulator.yaml
+> -- 
+> 2.51.1
 > 
 
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-
-
-doc reference errors (make refcheckdocs):
-Warning: Documentation/devicetree/bindings/regulator/rohm,bd72720-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd72720-pmic.yaml
-Documentation/devicetree/bindings/regulator/rohm,bd72720-regulator.yaml: Documentation/devicetree/bindings/mfd/rohm,bd72720-pmic.yaml
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/28726d1e0573a6efb6e70716a23ba27c4fc93c6d.1763625920.git.mazziesaccount@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+Lee Jones [李琼斯]
 
