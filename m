@@ -1,54 +1,55 @@
-Return-Path: <linux-leds+bounces-6250-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6251-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ACD4C74130
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 14:00:16 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91AE3C742CE
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 14:24:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 54F614E4597
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 13:00:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id DFE812B033
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 13:24:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2AA233A000;
-	Thu, 20 Nov 2025 13:00:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74050337B8B;
+	Thu, 20 Nov 2025 13:21:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="R2SIxkk5"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="cl5fE7e5"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF8F3396E1
-	for <linux-leds@vger.kernel.org>; Thu, 20 Nov 2025 13:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4905533C1BD
+	for <linux-leds@vger.kernel.org>; Thu, 20 Nov 2025 13:21:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763643614; cv=none; b=K5gyL7d/AbWsHuXYi797Q5HElvWhQDe/N0lSENYGlqSOgUlrcEzKTCIKOu6MNc6rzCYI98YQKD17eEsyqIfHnz6BDM7pvAOm3NA3ZUy94wrNHJWeItJYYALkFu9x/Rt1dnOxxBjUn/TuhVRiowhDxlfmYNjsHJftplS1FLHmgBA=
+	t=1763644914; cv=none; b=TsVxqxQJoxzWR59m7AD0EQWLZHmvzzTYlQSA7wlamCheMeZvJFtvNfpwKY8IKnpmjGJhIfHDB5LLj+U2NbVtDlLbxjCwCk+Q5X4FWoW4zQMi6Z/054MVa6eYDyIf8TAov0k+c2a4dAiVaIiBBJYvEuknLUUlCy9Mj2C/YhrqPrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763643614; c=relaxed/simple;
-	bh=8Z+hDiwvrPMWuY4uXNJyCH+MNAnBdSaIkwO0p+G22Wo=;
+	s=arc-20240116; t=1763644914; c=relaxed/simple;
+	bh=H4K4KUY2Rzx8q9CqWZhbCnxR9pPbZ7Vwxf6VkBfJ98Y=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=q+2fTFxJ9l0izoUblW09F8swA4G7JDt1E/8Xk4E5F8eJpkec2Ww2AWWea/kwERfmyO51Yk7aCTzvZFiVd+SoUox5tVv6U9MRsmRmTGJykLl9Qtec1XunLWafw+bgF0pidHS4JilL81HPeObGPjepuZH7vH5FCCKMauSwUvkv250=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=R2SIxkk5; arc=none smtp.client-ip=185.67.36.66
+	 Content-Type:MIME-Version; b=U9L6ptqSmH84MleWAVX3Qsj1FP+2NFczLAJVIUZ/FKyUL9TLfJ5f4Ih5AXBxLgc1tvC2cC5qTx0njbgX4KfgpGnHXbOZWzhpBxIn6F3XkmjZM52aY1JyPbwf2K9GUZdh9i+nB+l3i0raxS/UrzJx0yLrhre5+leMKr2eF+T/2Wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=cl5fE7e5; arc=none smtp.client-ip=185.67.36.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 04E6E240101
-	for <linux-leds@vger.kernel.org>; Thu, 20 Nov 2025 14:00:10 +0100 (CET)
+	by mout01.posteo.de (Postfix) with ESMTPS id 96E42240027
+	for <linux-leds@vger.kernel.org>; Thu, 20 Nov 2025 14:21:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1763643611; bh=vhsUxwE6xNQ4+dhDBeuysWt11E79WeRbxcahyyAMSK4=;
+	t=1763644909; bh=H4K4KUY2Rzx8q9CqWZhbCnxR9pPbZ7Vwxf6VkBfJ98Y=;
 	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version:OpenPGP:From;
-	b=R2SIxkk5Y7MYvYINckZLb/nMwO+3Q71S0DVGwH5nNZ6vI41moRB7UYmmmbUv+SS+D
-	 9h6ZZl3QFh3jJZUuF3jDJ/VpjuY+IU9VQ4F8nn+mRoGzDngJl6yw6DgXQCIk3ti1mT
-	 IpDuEwzprUySBcEFxONaXMRcqFC00/fckFW6JWGFiPNg7DOt+oltMjGxYR2ENTWPae
-	 mLrkHnGns/k6PFQsMQessO3xsRF/+dO5dCpg2D4+UZtEVDHMC7urKtUvFVTsm0gyGu
-	 KacZ7GaUHQm/g7FdAB760YROVZzzgpZ0i3701j7hE0Bq6nFa57pwjp2YkChsuemvRk
-	 8RVohVx20fsbw==
+	b=cl5fE7e504X1rwtiDkf+S2e17/Wa1wh1wQKVwXEzkamJqAzSfBLTA+PaZgFf2jPl0
+	 9tX8Z/7IwK2TGmqXEe8rh2Gc6T3cp8hkxq4I9qdrA+NSxBTltjlv4yXe0NFegCukA0
+	 WiKfhCfHfoNlD8fO+OCdFgZAORysyLsbqRizQMAM144a4EAEa+5kwoGAOAkhwpeV07
+	 k6Wx45GzuqDOPDJ8ISgCgBniYxP6D9OP2Y2cxrFC26qltK9xnTqzQTxaDTZLMXeNhh
+	 0myKSd55quK8N5FowWQzUyL8/rg/7k/9uxSj6yTDAHYJnM8rFaf61xR9+BHO6TJI2h
+	 Vcljwtdn9IGJA==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4dBz3C1jVDz9rxT;
-	Thu, 20 Nov 2025 14:00:07 +0100 (CET)
-Message-ID: <f0158d9e98734d325fbde643ca982332c40980cd.camel@posteo.de>
-Subject: Re: [PATCH v9 1/3] rust: leds: add basic led classdev abstractions
+	by submission (posteo.de) with ESMTPSA id 4dBzX96WVSz6twj;
+	Thu, 20 Nov 2025 14:21:45 +0100 (CET)
+Message-ID: <501ad13182eb1c18f671343a34490deb043c2643.camel@posteo.de>
+Subject: Re: [PATCH v9 2/3] rust: leds: split generic and normal led
+ classdev abstractions up
 From: Markus Probst <markus.probst@posteo.de>
 To: Alice Ryhl <aliceryhl@google.com>
 Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Greg
@@ -64,11 +65,11 @@ Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Greg
 	 <kwilczynski@kernel.org>, rust-for-linux@vger.kernel.org, 
 	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-pci@vger.kernel.org
-Date: Thu, 20 Nov 2025 13:00:09 +0000
-In-Reply-To: <aR78ywVnpWaOEeJ-@google.com>
+Date: Thu, 20 Nov 2025 13:21:48 +0000
+In-Reply-To: <aR7zeX-akq2Zyf8B@google.com>
 References: <20251119-rust_leds-v9-0-86c15da19063@posteo.de>
-	 <20251119-rust_leds-v9-1-86c15da19063@posteo.de>
-	 <aR78ywVnpWaOEeJ-@google.com>
+	 <20251119-rust_leds-v9-2-86c15da19063@posteo.de>
+	 <aR7zeX-akq2Zyf8B@google.com>
 Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
  keydata=mQINBGiDvXgBEADAXUceKafpl46S35UmDh2wRvvx+UfZbcTjeQOlSwKP7YVJ4JOZrVs93
  qReNLkOWguIqPBxR9blQ4nyYrqSCV+MMw/3ifyXIm6Pw2YRUDg+WTEOjTixRCoWDgUj1nOsvJ9tVA
@@ -112,202 +113,41 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-On Thu, 2025-11-20 at 11:34 +0000, Alice Ryhl wrote:
-> On Wed, Nov 19, 2025 at 02:11:21PM +0000, Markus Probst wrote:
-> > Implement the core abstractions needed for led class devices, including=
-:
-> >=20
-> > * `led::LedOps` - the trait for handling leds, including
-> >   `brightness_set`, `brightness_get` and `blink_set`
-> >=20
-> > * `led::InitData` - data set for the led class device
-> >=20
-> > * `led::Device` - a safe wrapper around `led_classdev`
+On Thu, 2025-11-20 at 10:54 +0000, Alice Ryhl wrote:
+> On Wed, Nov 19, 2025 at 02:11:24PM +0000, Markus Probst wrote:
+> > Move code specific to normal led class devices into a separate file and
+> > introduce the `led::Mode` trait to allow for other types of led class
+> > devices.
 > >=20
 > > Signed-off-by: Markus Probst <markus.probst@posteo.de>
-> > ---
-> >  MAINTAINERS        |   7 +
-> >  rust/kernel/led.rs | 472 +++++++++++++++++++++++++++++++++++++++++++++=
-++++++++
-> >  rust/kernel/lib.rs |   1 +
-> >  3 files changed, 480 insertions(+)
-> >=20
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index b71ea515240a..80cb030911b7 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -14112,6 +14112,13 @@ F:	drivers/leds/
-> >  F:	include/dt-bindings/leds/
-> >  F:	include/linux/leds.h
-> > =20
-> > +LED SUBSYSTEM [RUST]
-> > +M:	Markus Probst <markus.probst@posteo.de>
-> > +L:	linux-leds@vger.kernel.org
-> > +L:	rust-for-linux@vger.kernel.org
-> > +S:	Maintained
-> > +F:	rust/kernel/led.rs
-> > +
-> >  LEGO MINDSTORMS EV3
-> >  R:	David Lechner <david@lechnology.com>
-> >  S:	Maintained
-> > diff --git a/rust/kernel/led.rs b/rust/kernel/led.rs
-> > new file mode 100644
-> > index 000000000000..fca55f02be8d
-> > --- /dev/null
-> > +++ b/rust/kernel/led.rs
-> > @@ -0,0 +1,472 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +
-> > +//! Abstractions for the leds driver model.
-> > +//!
-> > +//! C header: [`include/linux/leds.h`](srctree/include/linux/leds.h)
-> > +
-> > +use core::{
-> > +    marker::PhantomData,
-> > +    mem::transmute,
-> > +    pin::Pin,
-> > +    ptr::NonNull, //
-> > +};
-> > +
-> > +use pin_init::{
-> > +    pin_data,
-> > +    pinned_drop,
-> > +    PinInit, //
-> > +};
-> > +
-> > +use crate::{
-> > +    build_error,
-> > +    container_of,
-> > +    device::{
-> > +        self,
-> > +        property::FwNode,
-> > +        AsBusDevice,
-> > +        Bound, //
-> > +    },
-> > +    devres::Devres,
-> > +    error::{
-> > +        code::EINVAL,
-> > +        from_result,
-> > +        to_result,
-> > +        Error,
-> > +        Result,
-> > +        VTABLE_DEFAULT_ERROR, //
-> > +    },
-> > +    macros::vtable,
-> > +    str::CStr,
-> > +    try_pin_init,
-> > +    types::{
-> > +        ARef,
-> > +        Opaque, //
-> > +    }, //
-> > +};
 >=20
-> Please import kernel::prelude::* and remove all the imports that are
-> available from the prelude.
+> So it seems like the goal of this trait is to support both normal led
+> and multicolor led under the same code. However, it seems the traits
+> involved with this are pretty complex.
 >=20
-> > +impl<'a> InitData<'a> {
-> > +    /// Sets the firmware node
-> > +    pub fn fwnode(self, fwnode: Option<ARef<FwNode>>) -> Self {
->=20
-> I'm thinking that perhaps this should just be a `&'a FwNode` instead?
-> That way, you can increment the refcount in Device::new() if
-> registration is successful.
-This was the way I have done it in v8. I issue with this approch is, if
-the fwnode is optional, you have to do this ugly code:
+> My primary feedback here is: please consider if we can avoid these
+> complex traits. How much duplication would it really take to just have
+> two Device structs and two LedOps traits? I think a few pieces of
+> duplication would be far better than what this patch does.
+I counted over 221 lines of code for each classdev type (not counting
+LedOps). If we want to support `led_classdev_flash` later down the line
+(if a Rust driver would need it), that would be over 663 lines of code.
 
-let mut init_data =3D InitData::new()
-    .default_label(c_str!(":label"))
-    .devicename(c_str!("devicename"));
-
-let child_fwnode =3D fwnode.child_by_name(c_str!("led"));
-
-if let Some(child_fwnode_ref) =3D &child_fwnode {
-    init_data =3D init_data.fwnode(child_fwnode_ref);
-}
-
-Instead of
-
-let mut init_data =3D InitData::new()
-    .fwnode(fwnode.child_by_name(c_str!("led")))
-    .default_label(c_str!(":label"))
-    .devicename(c_str!("devicename"));
-
-Furthermore, most of the functions in the rust abstractions return a
-`ARef<FwNode>` anyway. The only exception I found is
-`device::Device::fwnode()`, but an led driver usually has more than one
-led to its unlikely that the root fwnode will be directly passed to an
-led classdev. As a result with the `&'a FwNode` approach, the led
-abstraction would increment the reference count once, and the driver
-will then decrement it once (dropping of the ARef<FwNode>).
-Sounds like a tiny overhead to me.
+It doesn't look too complex to me, but thats maybe because I wrote it?
 
 >=20
-> > +        Self { fwnode, ..self }
-> > +    }
-> > +
-> > +    /// Sets a default label
->=20
-> There are many missing periods in doc-comments.
->=20
-> > +/// Trait defining the operations for a LED driver.
-> > +///
-> > +/// # Examples
-> > +///
-> > +///```
-> > +/// # use kernel::{
-> > +/// #     c_str, device, devres::Devres,
-> > +/// #     error::Result, led,
-> > +/// #     macros::vtable, platform, prelude::*,
-> > +/// # };
-> > +/// # use core::pin::Pin;
-> > +///
-> > +/// struct MyLedOps;
->=20
-> When using # in examples, please do not have an empty line before
-> beginning the example. It shows up as a weird extra empty line in the
-> rendered docs.
->=20
-> You could consider just making the imports displayed here also.
->=20
-> Also the ``` both above and below the example usually has a space:
->=20
-> /// ```
->=20
-> rather than
->=20
-> ///```
->=20
-> > +                    // SAFETY:
-> > +                    // - `parent.as_raw()` is guaranteed to be a point=
-er to a valid `device`
-> > +                    //    or a null pointer.
-> > +                    // - `ptr` is guaranteed to be a pointer to an ini=
-tialized `led_classdev`.
-> > +                    to_result(unsafe {
-> > +                        bindings::led_classdev_register_ext(
-> > +                            parent.as_ref().as_raw(),
-> > +                            ptr,
-> > +                            &mut init_data_raw,
-> > +                        )
-> > +                    })?;
-> > +
-> > +                    core::mem::forget(init_data.fwnode); // keep the r=
-eference count incremented
->=20
-> This led abstraction implicitly takes a refcount on the fwnode and then
-> drops it when the device is unbound.
-I did look through the led classdev code and noticed that the fwnode
-refcount isn't incremented. From what I can tell, the driver is
-responsible to ensure the fwnode refcount never hits 0 while the led
-classdev is registered. Thats why I incremented the refcount of the
-fwnode to ensure the safety requirement is met.
+> In fact, I'm not sure you even need two LedOps traits if you did that;
+> it seems like you could even get away with reusing the trait for both
+> cases.
+Currently it only uses one LedOps trait. The implementation in the
+multicolor needs access to `Device::subleds()`. `Device` gets passed as
+a reference to every LedOps function. If there would be two `Device`
+structs, I am not sure how we can preserve one LedOps trait. Possibly a
+type declaration on `Mode`? (assuming we still want the `Mode` trait)
 
 Thanks
 - Markus Probst
 
->=20
-> Lee, can you confirm that taking a refcount on the fwnode is the right
-> way to use the LED subsytem?
 >=20
 > Alice
 
