@@ -1,49 +1,55 @@
-Return-Path: <linux-leds+bounces-6247-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6248-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382C0C73CA1
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 12:44:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58357C73DF7
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 13:07:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 6B41F34ABFB
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 11:43:48 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id CC7A2354977
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 12:07:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39EE1329386;
-	Thu, 20 Nov 2025 11:43:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FC3C32E756;
+	Thu, 20 Nov 2025 12:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZC7OyiES"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F8432E735;
-	Thu, 20 Nov 2025 11:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F77270541;
+	Thu, 20 Nov 2025 12:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763639017; cv=none; b=hlFstqxXHEFdR6XHgSlGqsmEWiUMoAgZIUKAUxPS0ayyM2OCF3JarrDuWhAY+X5Q+3HBZFzUglmHshbHBX+eNAqxzByLsEAVRkf2LkzNVy2BZS+ZMvKejpaTtLnx86wd5GMagyxE9cWyKWliVmKAyFGfTtp4YdGMJOOCk1AqJVs=
+	t=1763640429; cv=none; b=P19e44CywwyCLOxHj1q8wBjZAIKmQ4ukPvSlKzKKkR7IaRxEjz1BNr49Xju0K1LwVvIkMo27ttHJSlVy98d0H8/KlJyksYlTkeSU801vVp5zhx6w/F6UaY98pdWSLUNIVbQphlPiY4Y8jKxe0T0sIVeV4jOmNQJr3FBVofa7JHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763639017; c=relaxed/simple;
-	bh=T7yH+tLH0ytcPlliAfVYtJBUKjrxly67IXG+/EGy4/I=;
+	s=arc-20240116; t=1763640429; c=relaxed/simple;
+	bh=jOAR/2OEg96v/OAxdeweZ7wHHbn/DqZmAgrJRgPLZYs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HKSf+YkC7DojnsufL0+7lVyaVaEvnlk3uz94vxtG1ynvhnjYbQH/L/ROUU0oM2Wl7cFHYFkSJ/zSdtQ/9F7CNumlx2goiTC0k2wlTH6M6sdgyC+bNoGGMEfNrrtc14+rrTCzGRl8sv9OACElTZ/yJKjOsu3RAaq4q18VqiAaud4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space; spf=pass smtp.mailfrom=timmermann.space; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timmermann.space
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dBxLm226Lz9smP;
-	Thu, 20 Nov 2025 12:43:28 +0100 (CET)
-Date: Thu, 20 Nov 2025 12:43:21 +0100
-From: Lukas Timmermann <linux@timmermann.space>
-To: lee@kernel.org, pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=t2eO/1vpI0Sm64u1BGJpC894nxyG50EgOk5TMR9W5HJDhTA1evtUBEeohOnJtMSeUeJmeWNmxOAsXAO2Wr6yUdQ8YpW6up9YYuKE+Drjf8ZezTnaTo+HTSZNPXM9Q8k2Mtw7CgSm01SACcSZf9JCTWBuzyQcEyMb85nM+z55xDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZC7OyiES; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B969C4CEF1;
+	Thu, 20 Nov 2025 12:07:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763640429;
+	bh=jOAR/2OEg96v/OAxdeweZ7wHHbn/DqZmAgrJRgPLZYs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZC7OyiESbGr9mwSf9D+jJhYoN7Qc0qQcS8Lxvd8PxLZ9VhJqiV/2U1JOm2AtvaPnN
+	 fRB2iWdNYdrvTEPeiiGws0ZVvsT14sE0S0F1JC/RKIUuvZMQwka6kBSqVr9fkV5MYl
+	 XfIw3uOSeEROdwl3Qr6hmvT8XP6B6x1AHl/SoAYC0BqNpNQ0LrKsPVRVjjD2Shg3YB
+	 /6FfM2+alMeyFd8M6JBB4B+1jZQvU82mIZQP5Y68N5rO6Uj9NiI66HX2k59BEE+e+c
+	 mfxvmyb2YmoD8JCrxGYnNHr8iYz25H0WPFEW6PTefdkhTtqVfoK2tcwpU4emwtJqqF
+	 J/03jinDvzqQw==
+Date: Thu, 20 Nov 2025 12:07:04 +0000
+From: Lee Jones <lee@kernel.org>
+To: Lukas Timmermann <linux@timmermann.space>
+Cc: pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v10 2/2] leds: as3668: Driver for the ams Osram 4-channel
  i2c LED driver
-Message-ID: <nkdqizx5lmf5mgovt4lv4pkzzaujnqt4zlhuwdlidrlgyqr5s5@dvnhdhkhfuvy>
+Message-ID: <20251120120704.GC1949330@google.com>
 References: <20251117020008.316648-1-linux@timmermann.space>
  <20251117020008.316648-3-linux@timmermann.space>
 Precedence: bulk
@@ -52,11 +58,13 @@ List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20251117020008.316648-3-linux@timmermann.space>
 
-On Mon, Nov 17, 2025 at 03:00:08AM +0100, Lukas Timmermann wrote:
+On Mon, 17 Nov 2025, Lukas Timmermann wrote:
+
 > Since there were no existing drivers for the AS3668 or related devices,
 > a new driver was introduced in a separate file. Similar devices were
 > reviewed, but none shared enough characteristics to justify code reuse.
@@ -92,9 +100,6 @@ On Mon, Nov 17, 2025 at 03:00:08AM +0100, Lukas Timmermann wrote:
 >  	  Say Y to if your machine is a Dell Wyse 3020 thin client.
 >  
 > +config LEDS_OSRAM_AMS_AS3668
-I've modified this line as requested in patch series v9. After comparing
-this with other configuration options in drivers/leds/Kconfig, this
-seems out of place. Shouldn't we keep this consistent?
 > +	tristate "LED support for Osram AMS AS3668"
 > +	depends on LEDS_CLASS
 > +	depends on I2C
@@ -167,6 +172,11 @@ seems out of place. Shouldn't we keep this consistent?
 > +	struct as3668 *chip;
 > +	struct fwnode_handle *fwnode;
 > +	int led_id;
+
+If you stored AS3668_CURR{X}_MODE_MASK and AS3668_CURR1_REG + {X} in
+here, you could omit led_id from here and save on a bunch of parameter
+passing and additional handling (i.e. removal of the switch(), etc).
+
 > +};
 > +
 > +struct as3668 {
@@ -180,6 +190,11 @@ seems out of place. Shouldn't we keep this consistent?
 > +	u8 reg;
 > +
 > +	reg = i2c_smbus_read_byte_data(as3668->client, AS3668_CURR_MODE_REG);
+
+Does CURR have anything to do with Current (amps)?
+
+Either way 'reg' can be named better.
+
 > +	if (reg < 0) {
 > +		dev_err(&as3668->client->dev, "failed to read channel modes\n");
 > +		return;
@@ -207,8 +222,9 @@ seems out of place. Shouldn't we keep this consistent?
 > +	}
 > +
 > +	err = i2c_smbus_write_byte_data(as3668->client, AS3668_CURR_MODE_REG, reg);
-> +	if (err)
-> +		dev_err(&as3668->client->dev, "failed to set channel modes\n");
+
+Either it's an error or it's not.  Why isn't it being propagated?
+
 > +}
 > +
 > +static enum led_brightness as3668_brightness_get(struct led_classdev *cdev)
@@ -227,6 +243,11 @@ seems out of place. Shouldn't we keep this consistent?
 > +		as3668_channel_mode_set(led->chip, led->led_id, AS3668_CURR_MODE_OFF);
 > +	else
 > +		as3668_channel_mode_set(led->chip, led->led_id, AS3668_CURR_MODE_ON);
+
+If you take my advice further up, you can drop all of this for:
+
+	as3668_channel_mode_set(led, !!brightness);
+
 > +
 > +	err = i2c_smbus_write_byte_data(led->chip->client,
 > +					AS3668_CURR1_REG + led->led_id,
@@ -234,6 +255,9 @@ seems out of place. Shouldn't we keep this consistent?
 > +
 > +	if (err)
 > +		dev_err(&led->chip->client->dev, "failed to set brightness: %d\n", err);
+
+cdev->dev
+
 > +}
 > +
 > +static int as3668_dt_init(struct as3668 *as3668)
@@ -251,6 +275,9 @@ seems out of place. Shouldn't we keep this consistent?
 > +
 > +		if (reg < 0 || reg > AS3668_MAX_LEDS)
 > +			return dev_err_probe(dev, -EOPNOTSUPP,
+
+This should be -EINVAL.
+
 > +					     "unsupported LED: %d\n", reg);
 > +
 > +		led = &as3668->leds[reg];
@@ -311,7 +338,9 @@ seems out of place. Shouldn't we keep this consistent?
 > +
 > +	if (err)
 > +		return dev_err_probe(&client->dev, -EIO, "failed to write to the device\n");
-> +
+
+Failed to set zero initial current levels
+
 > +	return 0;
 > +}
 > +
@@ -322,6 +351,11 @@ seems out of place. Shouldn't we keep this consistent?
 > +	err = i2c_smbus_write_byte_data(client, AS3668_CURR_MODE_REG, 0);
 > +	if (err)
 > +		dev_err(&client->dev, "failed to turn off the LEDs\n");
+
+This is probably not useful to the user.
+
+Just make an attempt to turn them off, then leave.
+
 > +}
 > +
 > +static const struct i2c_device_id as3668_idtable[] = {
@@ -353,8 +387,7 @@ seems out of place. Shouldn't we keep this consistent?
 > -- 
 > 2.51.2
 > 
-> 
---
-Best regards,
-Lukas Timmermann
+
+-- 
+Lee Jones [李琼斯]
 
