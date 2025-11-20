@@ -1,114 +1,200 @@
-Return-Path: <linux-leds+bounces-6224-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6225-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ECE1C712EA
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Nov 2025 22:47:29 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DEC3C72C4E
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 09:21:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4D6E14E1503
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Nov 2025 21:47:28 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 052E0353D9E
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Nov 2025 08:19:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 497D7302759;
-	Wed, 19 Nov 2025 21:47:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C7942F83CF;
+	Thu, 20 Nov 2025 08:19:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lTfGPOZP"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OcEUBQBB"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1693E244660;
-	Wed, 19 Nov 2025 21:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377652EC579
+	for <linux-leds@vger.kernel.org>; Thu, 20 Nov 2025 08:19:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763588846; cv=none; b=E5yxERbI/d8WSjY28r+MVI2GV9fyhBkIyK22GX55VzT4T7V19plloltIERuqTE8O6is3F4ZL3k7y5d/VEWK3Us+IG5CbLHdwAQt+m/mscwJeCSphTLsljm8Y2G6l+0gMz7euM4sVRXUrv2+YjoQ6PEHjBHtmbZsTYXqloPePThU=
+	t=1763626785; cv=none; b=ubtFx7+WSt08ILw+YRVONNBApLHZO9lLiqn8zesSwhdyTPiQEk3C+pfmHFCsn63DFfhGEbncbm+zhAN9auZ0S8+Q4E5fahsU16Iw/eCFzmmu0LMfKZoSZFx8fbZaIQfqoEMVpCngdcsSrRLzl6wL/EQmEpXq24ej8wl/T/9n2js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763588846; c=relaxed/simple;
-	bh=1S87CsHDgrNyu7M/zDisuHV2BZcJE4D9EKxcIIqJvBA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e5OUHgvEYcEEweiCWT0RqZV8ifBhYX1RcxTkgXQfYUrXY+TCl0GEdHRgRF0i9i/3lnD0/BG6QOOuxv4mcdEH1/7cRim/jziS7lZVf64JxeUt8t0WTpwJrzMcczDFwZEuiYaa2qb7bb15EBNMtKfjVCSW9Ud60kEd1NUjXlm1YvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lTfGPOZP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B232BC4CEF5;
-	Wed, 19 Nov 2025 21:47:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763588845;
-	bh=1S87CsHDgrNyu7M/zDisuHV2BZcJE4D9EKxcIIqJvBA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lTfGPOZPlWNjHVhsjLdoMLPOGDNmw2IILNmbjgBc9ywj5LsP9HyD3jKMWq5hhy3nC
-	 Dz1LhSd5xXd0xaBjw51xUWme64KPfsGtAAHFb+p2sFMPXE1K+WDc2naCyzBPhSuswe
-	 fooI0hZB7muHGc4NM4Sm2LykOArVm148YSNSmUyFbJXabTZXgYx1xijenj9L6l/vuS
-	 rDA7cawiZYceK8MhWEtyQNLrsnanH4HQFDZf9dhceRQbgJVXr66bFq+EwIKsYcsntS
-	 qs2KlAHtjioDRwFjucySp/UEq5AD1Cg8EamPyMI9J+N+qCZlQ48uX5YI0kqAtI2AJY
-	 cG1OC/5Z8MJYg==
-Date: Wed, 19 Nov 2025 15:52:20 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: fenglin.wu@oss.qualcomm.com
-Cc: kernel@oss.qualcomm.com, Lee Jones <lee@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Marijn Suijten <marijn.suijten@somainline.org>, 
-	linux-arm-msm@vger.kernel.org, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Subbaraman Narayanamurthy <subbaraman.narayanamurthy@oss.qualcomm.com>, Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] leds: rgb: leds-qcom-lpg: Don't enable TRILED
- when configuring PWM
-Message-ID: <aeborccfbf6hgu5m6ilfkdxjukmkvzp77j2n7lkehtpxhdjxgs@gkdelpxkapvw>
-References: <20251119-lpg_triled_fix-v3-0-84b6dbdc774a@oss.qualcomm.com>
- <20251119-lpg_triled_fix-v3-2-84b6dbdc774a@oss.qualcomm.com>
+	s=arc-20240116; t=1763626785; c=relaxed/simple;
+	bh=gPS6lCGIRGcxxQSZNthifmSBFCXs3B3kMXmWi4bEZ7w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=s6I5tySHwwiZRFmii+dHeXeN5PD7llcbQY+ZGW812bPbISdIJKcRoCuQ/h9NKrAgZ3tudwlRAMXsQewI2X5BGO5z+EBJfbBFnglr09+OeSR/9mTNKF8vdPeLWVoE6FTC/T53YSqDGB4eEl9oVVXsDrkROTXje4mUMo/3ZzUjI4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OcEUBQBB; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Thu, 20 Nov 2025 10:19:18 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1763626771; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type; bh=lqP09SI4iTaIvX15z16i9CR8/quVrC8ublsHH/F3wTE=;
+	b=OcEUBQBBrl8TzgVKxhqvy/WbAbsSuYduJgSrQuemdiF1E4B/kfTNZ2PFPZy50Ro9DPE1Yr
+	JfwDNLZAn2+X3wDWuOqk0P13dxdBSwc9pxjhFHtSuGDfF1/pXSJ6ZfZ2bPpXj0hkPuuhZ7
+	8v4p8kbm8WyRaLtpYqTeycSiXI89Tts=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Matti Vaittinen <matti.vaittinen@linux.dev>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-rtc@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
+Subject: [PATCH v5 00/16] Support ROHM BD72720 PMIC
+Message-ID: <cover.1763625920.git.mazziesaccount@gmail.com>
+Reply-To: Matti Vaittinen <mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="txQLuSbT+MkGzS45"
+Content-Disposition: inline
+X-Migadu-Flow: FLOW_OUT
+
+
+--txQLuSbT+MkGzS45
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251119-lpg_triled_fix-v3-2-84b6dbdc774a@oss.qualcomm.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 19, 2025 at 02:06:43PM +0800, Fenglin Wu via B4 Relay wrote:
-> From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
-> 
-> The PWM signal from the LPG channel can be routed to PMIC GPIOs with
-> proper GPIO configuration, and it is not necessary to enable the
-> TRILED channel in that case. This also applies to the LPG channels
-> that mapped to TRILED channels. Additionally, enabling the TRILED
-> channel unnecessarily would cause a voltage increase in its power
-> supply. Hence remove it.
-> 
+The ROHM BD72720 is a new power management IC for portable, battery
+powered devices. It integrates 10 BUCKs and 11 LDOs, RTC, charger, LEDs,
+GPIOs and a clock gate. To me the BD72720 seems like a successor to the
+BD71828 and BD71815 PMICs.
 
-Reviewed-by: Bjorn Andersson <andersson@kernel.org>
+This series depends on
+5bff79dad20a ("power: supply: Add bd718(15/28/78) charger driver")
+which is in power-supply tree, for-next. Thus, the series is based on
+it.
 
-> Fixes: 24e2d05d1b68 ("leds: Add driver for Qualcomm LPG")
-> Signed-off-by: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
-> ---
->  drivers/leds/rgb/leds-qcom-lpg.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-> index 4f2a178e3d265a2cc88e651d3e2ca6ae3dfac2e2..e197f548cddb03d079c54c4a0f402402c5d047e2 100644
-> --- a/drivers/leds/rgb/leds-qcom-lpg.c
-> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
-> @@ -2,7 +2,7 @@
->  /*
->   * Copyright (c) 2017-2022 Linaro Ltd
->   * Copyright (c) 2010-2012, The Linux Foundation. All rights reserved.
-> - * Copyright (c) 2023-2024, Qualcomm Innovation Center, Inc. All rights reserved.
-> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
->   */
->  #include <linux/bits.h>
->  #include <linux/bitfield.h>
-> @@ -1247,8 +1247,6 @@ static int lpg_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
->  
->  	lpg_apply(chan);
->  
-> -	triled_set(lpg, chan->triled_mask, chan->enabled ? chan->triled_mask : 0);
-> -
->  out_unlock:
->  	mutex_unlock(&lpg->lock);
->  
-> 
-> -- 
-> 2.34.1
-> 
-> 
+The testing of v4 suffered some hardware-issues after I accidentally
+enabled charging while the PMIC's battery pin was connected to the I/O
+domain. Some heat was generated, not terribly lot smoke though...
+
+After the incident I've had occasional I2C failures. I, however, suspect
+the root cause is HW damage in I/O lines since changes in this revision
+have been made to dt-bindings. It's still fair to note that though, as
+my testing was impacted.
+
+Revision history:
+  v4 =3D> v5:
+  - dt-binding fixes as discussed in v4 reviews.
+    - Drop rohm,vdr-battery.yaml and add vdr properties to battery.yaml
+    - Drop 'rohm,' -vendor-prefix from vdr properties
+  - Link to v4:
+    https://lore.kernel.org/all/cover.1763022807.git.mazziesaccount@gmail.c=
+om/
+  More accurate changelog in individual patches
+
+  v3 =3D> v4:
+  - dt-binding fixes to the BD72720 MFD example and regulator bindings
+  More accurate changelog in individual patches
+
+  v2 =3D> v3:
+  - rebased to power-supply/for-next as dependencies are merged to there
+  - plenty of dt-binding changes as suggested by reviewers
+  - add new patch to better document existing 'trickle-charging' property
+  More accurate changelog in individual patches
+
+  RFCv1 =3D> v2:
+  - Drop RFC status
+  - Use stacked regmaps to hide secondary map from the sub-drivers
+  - Quite a few styling fixes and improvements as suggested by
+    reviewers. More accurate changelog in individual patches.
+  - Link to v1:
+    https://lore.kernel.org/all/cover.1759824376.git.mazziesaccount@gmail.c=
+om/
+
+---
+
+Matti Vaittinen (16):
+  dt-bindings: regulator: ROHM BD72720
+  dt-bindings: battery: Clarify trickle-charge
+  dt-bindings: battery: Add trickle-charge upper limit
+  dt-bindings: battery: Voltage drop properties
+  dt-bindings: mfd: ROHM BD72720
+  dt-bindings: leds: bd72720: Add BD72720
+  mfd: rohm-bd71828: Use regmap_reg_range()
+  mfd: bd71828: Support ROHM BD72720
+  regulator: bd71828: rename IC specific entities
+  regulator: bd71828: Support ROHM BD72720
+  gpio: Support ROHM BD72720 gpios
+  clk: clk-bd718x7: Support BD72720 clk gate
+  rtc: bd70528: Support BD72720 rtc
+  power: supply: bd71828: Support wider register addresses
+  power: supply: bd71828-power: Support ROHM BD72720
+  MAINTAINERS: Add ROHM BD72720 PMIC
+
+ .../bindings/leds/rohm,bd71828-leds.yaml      |    7 +-
+ .../bindings/mfd/rohm,bd72720-pmic.yaml       |  339 ++++++
+ .../bindings/power/supply/battery.yaml        |   33 +-
+ .../regulator/rohm,bd72720-regulator.yaml     |  148 +++
+ MAINTAINERS                                   |    2 +
+ drivers/clk/Kconfig                           |    4 +-
+ drivers/clk/clk-bd718x7.c                     |   10 +-
+ drivers/gpio/Kconfig                          |    9 +
+ drivers/gpio/Makefile                         |    1 +
+ drivers/gpio/gpio-bd72720.c                   |  281 +++++
+ drivers/mfd/Kconfig                           |   18 +-
+ drivers/mfd/rohm-bd71828.c                    |  546 ++++++++-
+ drivers/power/supply/bd71828-power.c          |  160 ++-
+ drivers/regulator/Kconfig                     |    8 +-
+ drivers/regulator/bd71828-regulator.c         | 1025 ++++++++++++++++-
+ drivers/rtc/Kconfig                           |    3 +-
+ drivers/rtc/rtc-bd70528.c                     |   21 +-
+ include/linux/mfd/rohm-bd72720.h              |  634 ++++++++++
+ include/linux/mfd/rohm-generic.h              |    1 +
+ 19 files changed, 3120 insertions(+), 130 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/rohm,bd72720-pmic=
+=2Eyaml
+ create mode 100644 Documentation/devicetree/bindings/regulator/rohm,bd7272=
+0-regulator.yaml
+ create mode 100644 drivers/gpio/gpio-bd72720.c
+ create mode 100644 include/linux/mfd/rohm-bd72720.h
+
+
+base-commit: 8e8856396b54bea5c00a7ae88d87c6254aef2d94
+--=20
+2.51.1
+
+
+--txQLuSbT+MkGzS45
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmkezwYACgkQeFA3/03a
+ocV+vgf/a1KAYMhU5YxlbMf2zyzVkzG9a0t6DZvk8PFqDx5TcU0QKkeEjONsuhre
+i98P+Ou5A0MdX3vFWPDyPpsUFcniGkAvoDqKwEgiZS0tdQLrN6fTVxq1YpArcXtZ
+fCNrYVoaNn7/DU/RGjx9vL36e+nSawnCZMKOhWxJboFU40XnSnX3+GpHYcxBtrxI
+igcXO97YI0efNWcfLpGUy2DWW4FIZ5YCTe4l3TztcAsYMpg1oW7QOkBS0AH3T3Zf
+jDZ9rH4LBhQ9zuyGOUCMySA6n5pLyE+alzIlesAq7t/GLXJwMFoMeELXZkkDVSdj
+nYZCl4mpUPRHG+ApdEPUfQSNp5nVvQ==
+=MOad
+-----END PGP SIGNATURE-----
+
+--txQLuSbT+MkGzS45--
 
