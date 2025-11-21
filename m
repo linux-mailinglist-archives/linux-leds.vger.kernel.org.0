@@ -1,328 +1,405 @@
-Return-Path: <linux-leds+bounces-6270-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6271-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6A3DC78DBC
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Nov 2025 12:39:54 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89933C79F5D
+	for <lists+linux-leds@lfdr.de>; Fri, 21 Nov 2025 15:07:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by tor.lore.kernel.org (Postfix) with ESMTPS id CFCA82D8B4
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Nov 2025 11:39:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTPS id 53FD52DDEE
+	for <lists+linux-leds@lfdr.de>; Fri, 21 Nov 2025 14:07:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8A3B350D65;
-	Fri, 21 Nov 2025 11:36:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2186B334C1C;
+	Fri, 21 Nov 2025 14:05:29 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.bugwerft.de (mail.bugwerft.de [46.23.86.59])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C961C3502BD
-	for <linux-leds@vger.kernel.org>; Fri, 21 Nov 2025 11:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.23.86.59
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFA02F1FEF;
+	Fri, 21 Nov 2025 14:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763724985; cv=none; b=BKhLsYTMUoTK/69ZguFMiKgJ/CHG/fKP9NuO9GyDK024fV0+K17GFtexmIw167rrmjWUYaNNZEc67lq7sYQTs/I/mGgxca5Vb4syQSAicFgX4QTUnusbbnyMyZzE0c9lBZ09jzPU4Q7auh+0NfwaQIbS4YJcpW2QhojHVr6kvgs=
+	t=1763733929; cv=none; b=oc/4hnolyjYBI3PCmHkcMWUJnoKvs553v/w2fQxXTABkbsFed523s4JEDSc99PWRASg1o2DzhviRubaFc1uz6Kxb1PiL8CmYZv+JZtrvpKOH9Hm6biGjbVqxKrmwga+P83CIiNRJWvXEJUzaG8blLyJE5DTc0bnz8wIsOCTydrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763724985; c=relaxed/simple;
-	bh=yHiysPbUOwbJ6Zp/YqW541uWNqJ1AkW+Pji9r7zwuQU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=owWQr9q6j0SDnInboJMlEjGS3m3tpNRB79D6na8kegDF1D5Dr6Zn46l5iZaj/mn5iM4RrMrj9CoMtS2nWWMWfgR0NmvOjvtbMI6lcAA1GdqqhsDM5hiQDbYwJSB1GZH11UC0sEvm32CC2Eqc13/69UzVjHjrxWh1oBDh0vhmJ6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=holoplot.com; spf=fail smtp.mailfrom=holoplot.com; arc=none smtp.client-ip=46.23.86.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=holoplot.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=holoplot.com
-Received: from hq-00595.pfsense.f14 (p4ff24940.dip0.t-ipconnect.de [79.242.73.64])
-	by mail.bugwerft.de (Postfix) with ESMTPSA id 6B6D0281ED8;
-	Fri, 21 Nov 2025 11:36:15 +0000 (UTC)
-From: Daniel Mack <daniel.mack@holoplot.com>
-To: linux-leds@vger.kernel.org
-Cc: lee@kernel.org,
-	Daniel Mack <daniel@zonque.org>
-Subject: [PATCH v3 3/3] leds: is31f132xx: add support for is31fl3293
-Date: Fri, 21 Nov 2025 12:35:57 +0100
-Message-ID: <20251121113557.77418-4-daniel.mack@holoplot.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251121113557.77418-1-daniel.mack@holoplot.com>
-References: <20251121113557.77418-1-daniel.mack@holoplot.com>
+	s=arc-20240116; t=1763733929; c=relaxed/simple;
+	bh=g6SPz42+YbnsNvBkv4zvY8fg4ZBGTuaq0VoDdi8oqGA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZDHO/KANcIRtiHMteGUngowtO05EIK+EO96swK2eqnTykTXleUVaos5CzhpTzrsDUVi2FEAEFg4YJDbGjQjJZw933xZNtMXp6gasgkuFHDUGQtfYuLMtPEfcLJbh//hPl2qo0Z4GXdbeDlb4i2t7OpOeiWGSrNEFg4irAghxQ1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space; spf=pass smtp.mailfrom=timmermann.space; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timmermann.space
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dCcRx4MCFz9tDy;
+	Fri, 21 Nov 2025 15:05:17 +0100 (CET)
+Date: Fri, 21 Nov 2025 15:05:14 +0100
+From: Lukas Timmermann <linux@timmermann.space>
+To: Lee Jones <lee@kernel.org>
+Cc: pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 2/2] leds: as3668: Driver for the ams Osram 4-channel
+ i2c LED driver
+Message-ID: <gk6v5x5jwapaafsppq2svukviidibvsmdwwp2vizfd7yetb5fh@gaov2dqfxp34>
+References: <20251117020008.316648-1-linux@timmermann.space>
+ <20251117020008.316648-3-linux@timmermann.space>
+ <20251120120704.GC1949330@google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251120120704.GC1949330@google.com>
 
-From: Daniel Mack <daniel@zonque.org>
-
-This chip supports 3 LED channels with 4096 possible PWM values.
-
-Extend the driver to support this variant:
-
- * Make brightness steps configurable per device type
- * Handle dual-register brightness updates
- * Allow to specify values to write into the PWM update register
- * Add custom init and shutdown function for 3293 variant
- * Init registers after parsing DT properties
-
-Signed-off-by: Daniel Mack <daniel@zonque.org>
----
-v1 -> v2: address styling issues
-
- drivers/leds/leds-is31fl32xx.c | 137 +++++++++++++++++++++++++++++++--
- 1 file changed, 129 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-index 388d6a0b6932..05e28257ca4b 100644
---- a/drivers/leds/leds-is31fl32xx.c
-+++ b/drivers/leds/leds-is31fl32xx.c
-@@ -32,10 +32,25 @@
- #define IS31FL3216_CONFIG_SSD_ENABLE  BIT(7)
- #define IS31FL3216_CONFIG_SSD_DISABLE 0
- 
-+/* Registers for IS31FL3293 */
-+#define IS31FL3293_SHUTDOWN_REG 0x01
-+#define IS31FL3293_SHUTDOWN_SSD_DISABLE  BIT(0)
-+#define IS31FL3293_SHUTDOWN_EN1 BIT(4)
-+#define IS31FL3293_SHUTDOWN_EN2 BIT(5)
-+#define IS31FL3293_SHUTDOWN_EN3 BIT(6)
-+#define IS31FL3293_GCC_REG 0x03
-+#define IS31FL3293_GCC_LEVEL_MAX 0x3f
-+#define IS31FL3293_CL_REG 0x10
-+#define IS31FL3293_COLOR_UPDATE_REG 0x27
-+#define IS31FL3293_COLOR_UPDATE_MAGIC 0xc5
-+#define IS31FL3293_RESET_REG 0x3c
-+#define IS31FL3293_RESET_MAGIC 0xc5
-+
- struct is31fl32xx_priv;
- struct is31fl32xx_led_data {
- 	struct led_classdev cdev;
- 	u8 channel; /* 1-based, max priv->cdef->channels */
-+	u32 max_microamp;
- 	struct is31fl32xx_priv *priv;
- };
- 
-@@ -51,12 +66,14 @@ struct is31fl32xx_priv {
-  * @channels            : Number of LED channels
-  * @shutdown_reg        : address of Shutdown register (optional)
-  * @pwm_update_reg      : address of PWM Update register
-+ * @pwm_update_value    : value to write to PWM Update register
-  * @global_control_reg  : address of Global Control register (optional)
-  * @reset_reg           : address of Reset register (optional)
-  * @pwm_register_base   : address of first PWM register
-  * @pwm_registers_reversed: : true if PWM registers count down instead of up
-  * @led_control_register_base : address of first LED control register (optional)
-  * @enable_bits_per_led_control_register: number of LEDs enable bits in each
-+ * @brightness_steps    : number of brightness steps supported by the chip
-  * @reset_func          : pointer to reset function
-  * @sw_shutdown_func    : pointer to software shutdown function
-  *
-@@ -74,12 +91,14 @@ struct is31fl32xx_chipdef {
- 	u8	channels;
- 	u8	shutdown_reg;
- 	u8	pwm_update_reg;
-+	u8	pwm_update_value;
- 	u8	global_control_reg;
- 	u8	reset_reg;
- 	u8	pwm_register_base;
- 	bool	pwm_registers_reversed;
- 	u8	led_control_register_base;
- 	u8	enable_bits_per_led_control_register;
-+	u16	brightness_steps;
- 	int (*reset_func)(struct is31fl32xx_priv *priv);
- 	int (*sw_shutdown_func)(struct is31fl32xx_priv *priv, bool enable);
- };
-@@ -148,6 +167,62 @@ static int is31fl3216_software_shutdown(struct is31fl32xx_priv *priv,
- 	return is31fl32xx_write(priv, IS31FL3216_CONFIG_REG, value);
- }
- 
-+/*
-+ * Custom Reset function for IS31FL3293. We need to set the global current limit
-+ * and write to the color update register once.
-+ */
-+static int is31fl3293_reset(struct is31fl32xx_priv *priv)
-+{
-+	int i, ret;
-+
-+	ret = is31fl32xx_write(priv, IS31FL3293_RESET_REG,
-+			       IS31FL3293_RESET_MAGIC);
-+	if (ret)
-+		return ret;
-+
-+	/* Set the global current limit to maximum */
-+	ret = is31fl32xx_write(priv, IS31FL3293_GCC_REG,
-+			       IS31FL3293_GCC_LEVEL_MAX);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < priv->num_leds; i++) {
-+		struct is31fl32xx_led_data *led_data = &priv->leds[i];
-+		int current_level_reg = IS31FL3293_CL_REG + led_data->channel - 1;
-+		int microamp = max(led_data->max_microamp, 20000);
-+		int current_level = (microamp * 0xff) / 20000;
-+
-+		ret = is31fl32xx_write(priv, current_level_reg, current_level);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	ret = is31fl32xx_write(priv, IS31FL3293_COLOR_UPDATE_REG,
-+			       IS31FL3293_COLOR_UPDATE_MAGIC);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+/*
-+ * Custom Software-Shutdown function for IS31FL3293 because the SHUTDOWN
-+ * register of this device also has bits to enable the channels.
-+ */
-+static int is31fl3293_software_shutdown(struct is31fl32xx_priv *priv,
-+					bool enable)
-+{
-+	u8 value = 0;
-+
-+	if (!enable)
-+		value =	IS31FL3293_SHUTDOWN_SSD_DISABLE |
-+			IS31FL3293_SHUTDOWN_EN1 |
-+			IS31FL3293_SHUTDOWN_EN2 |
-+			IS31FL3293_SHUTDOWN_EN3;
-+
-+	return is31fl32xx_write(priv, IS31FL3293_SHUTDOWN_REG, value);
-+}
-+
- /*
-  * NOTE: A mutex is not needed in this function because:
-  * - All referenced data is read-only after probe()
-@@ -186,13 +261,36 @@ static int is31fl32xx_brightness_set(struct led_classdev *led_cdev,
- 	else
- 		pwm_register_offset = led_data->channel - 1;
- 
--	ret = is31fl32xx_write(led_data->priv,
--			       cdef->pwm_register_base + pwm_register_offset,
--			       brightness);
--	if (ret)
--		return ret;
-+	switch (cdef->brightness_steps) {
-+	case 256:
-+		ret = is31fl32xx_write(led_data->priv,
-+				       cdef->pwm_register_base + pwm_register_offset,
-+				       brightness);
-+		if (ret)
-+			return ret;
-+
-+		break;
-+	case 4096:
-+		/* IS31FL329x devices use two registers to store 12 bits of brightness */
-+		pwm_register_offset *= 2;
- 
--	return is31fl32xx_write(led_data->priv, cdef->pwm_update_reg, 0);
-+		ret = is31fl32xx_write(led_data->priv,
-+				       cdef->pwm_register_base + pwm_register_offset,
-+				       brightness & 0xff);
-+		if (ret)
-+			return ret;
-+
-+		ret = is31fl32xx_write(led_data->priv,
-+				       cdef->pwm_register_base + pwm_register_offset + 1,
-+				       (brightness >> 8) & 0xf);
-+		if (ret)
-+			return ret;
-+
-+		break;
-+	}
-+
-+	return is31fl32xx_write(led_data->priv, cdef->pwm_update_reg,
-+				cdef->pwm_update_value);
- }
- 
- static int is31fl32xx_reset_regs(struct is31fl32xx_priv *priv)
-@@ -291,6 +389,8 @@ static int is31fl32xx_parse_child_dt(const struct device *dev,
- 	}
- 	led_data->channel = reg;
- 
-+	of_property_read_u32(child, "led-max-microamp", &led_data->max_microamp);
-+
- 	cdev->brightness_set_blocking = is31fl32xx_brightness_set;
- 
- 	return 0;
-@@ -322,6 +422,7 @@ static int is31fl32xx_parse_dt(struct device *dev,
- 		const struct is31fl32xx_led_data *other_led_data;
- 
- 		led_data->priv = priv;
-+		led_data->cdev.max_brightness = priv->cdef->brightness_steps - 1;
- 
- 		ret = is31fl32xx_parse_child_dt(dev, child, led_data);
- 		if (ret)
-@@ -362,6 +463,7 @@ static const struct is31fl32xx_chipdef is31fl3236_cdef = {
- 	.pwm_register_base			= 0x01,
- 	.led_control_register_base		= 0x26,
- 	.enable_bits_per_led_control_register	= 1,
-+	.brightness_steps			= 256,
- };
- 
- static const struct is31fl32xx_chipdef is31fl3235_cdef = {
-@@ -373,6 +475,7 @@ static const struct is31fl32xx_chipdef is31fl3235_cdef = {
- 	.pwm_register_base			= 0x05,
- 	.led_control_register_base		= 0x2a,
- 	.enable_bits_per_led_control_register	= 1,
-+	.brightness_steps			= 256,
- };
- 
- static const struct is31fl32xx_chipdef is31fl3218_cdef = {
-@@ -384,6 +487,7 @@ static const struct is31fl32xx_chipdef is31fl3218_cdef = {
- 	.pwm_register_base			= 0x01,
- 	.led_control_register_base		= 0x13,
- 	.enable_bits_per_led_control_register	= 6,
-+	.brightness_steps			= 256,
- };
- 
- static const struct is31fl32xx_chipdef is31fl3216_cdef = {
-@@ -398,9 +502,25 @@ static const struct is31fl32xx_chipdef is31fl3216_cdef = {
- 	.enable_bits_per_led_control_register	= 8,
- 	.reset_func				= is31fl3216_reset,
- 	.sw_shutdown_func			= is31fl3216_software_shutdown,
-+	.brightness_steps			= 256,
-+};
-+
-+static const struct is31fl32xx_chipdef is31fl3293_cdef = {
-+	.channels				= 3,
-+	.shutdown_reg				= IS31FL32XX_REG_NONE,
-+	.pwm_update_reg				= 0x28,
-+	.pwm_update_value			= 0xc5,
-+	.global_control_reg			= IS31FL32XX_REG_NONE,
-+	.reset_reg				= IS31FL32XX_REG_NONE,
-+	.pwm_register_base			= 0x19,
-+	.led_control_register_base		= IS31FL32XX_REG_NONE,
-+	.brightness_steps			= 4096,
-+	.reset_func				= is31fl3293_reset,
-+	.sw_shutdown_func			= is31fl3293_software_shutdown,
- };
- 
- static const struct of_device_id of_is31fl32xx_match[] = {
-+	{ .compatible = "issi,is31fl3293", .data = &is31fl3293_cdef, },
- 	{ .compatible = "issi,is31fl3236", .data = &is31fl3236_cdef, },
- 	{ .compatible = "issi,is31fl3235", .data = &is31fl3235_cdef, },
- 	{ .compatible = "issi,is31fl3218", .data = &is31fl3218_cdef, },
-@@ -435,11 +555,11 @@ static int is31fl32xx_probe(struct i2c_client *client)
- 	priv->cdef = cdef;
- 	i2c_set_clientdata(client, priv);
- 
--	ret = is31fl32xx_init_regs(priv);
-+	ret = is31fl32xx_parse_dt(dev, priv);
- 	if (ret)
- 		return ret;
- 
--	ret = is31fl32xx_parse_dt(dev, priv);
-+	ret = is31fl32xx_init_regs(priv);
- 	if (ret)
- 		return ret;
- 
-@@ -462,6 +582,7 @@ static void is31fl32xx_remove(struct i2c_client *client)
-  * even though it is not used for DeviceTree based instantiation.
-  */
- static const struct i2c_device_id is31fl32xx_id[] = {
-+	{ "is31fl3293" },
- 	{ "is31fl3236" },
- 	{ "is31fl3235" },
- 	{ "is31fl3218" },
--- 
-2.51.1
-
+On Thu, Nov 20, 2025 at 12:07:04PM +0000, Lee Jones wrote:
+> On Mon, 17 Nov 2025, Lukas Timmermann wrote:
+> 
+> > Since there were no existing drivers for the AS3668 or related devices,
+> > a new driver was introduced in a separate file. Similar devices were
+> > reviewed, but none shared enough characteristics to justify code reuse.
+> > As a result, this driver is written specifically for the AS3668.
+> > 
+> > Signed-off-by: Lukas Timmermann <linux@timmermann.space>
+> > ---
+> >  MAINTAINERS                |   1 +
+> >  drivers/leds/Kconfig       |  13 +++
+> >  drivers/leds/Makefile      |   1 +
+> >  drivers/leds/leds-as3668.c | 222 +++++++++++++++++++++++++++++++++++++
+> >  4 files changed, 237 insertions(+)
+> >  create mode 100644 drivers/leds/leds-as3668.c
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 091206c54c63..945d78fef380 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -3511,6 +3511,7 @@ M:	Lukas Timmermann <linux@timmermann.space>
+> >  L:	linux-leds@vger.kernel.org
+> >  S:	Maintained
+> >  F:	Documentation/devicetree/bindings/leds/ams,as3668.yaml
+> > +F:	drivers/leds/leds-as3668.c
+> >  
+> >  ASAHI KASEI AK7375 LENS VOICE COIL DRIVER
+> >  M:	Tianshu Qiu <tian.shu.qiu@intel.com>
+> > diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> > index a104cbb0a001..ec37d55ac14e 100644
+> > --- a/drivers/leds/Kconfig
+> > +++ b/drivers/leds/Kconfig
+> > @@ -100,6 +100,19 @@ config LEDS_ARIEL
+> >  
+> >  	  Say Y to if your machine is a Dell Wyse 3020 thin client.
+> >  
+> > +config LEDS_OSRAM_AMS_AS3668
+> > +	tristate "LED support for Osram AMS AS3668"
+> > +	depends on LEDS_CLASS
+> > +	depends on I2C
+> > +	help
+> > +	  This option enables support for the Osram AMS AS3668 LED controller.
+> > +	  The AS3668 provides up to four LED channels and is controlled via
+> > +	  the I2C bus. This driver offers basic brightness control for each
+> > +	  channel, without support for blinking or other advanced features.
+> > +
+> > +	  To compile this driver as a module, choose M here: the module
+> > +	  will be called leds-as3668.
+> > +
+> >  config LEDS_AW200XX
+> >  	tristate "LED support for Awinic AW20036/AW20054/AW20072/AW20108"
+> >  	depends on LEDS_CLASS
+> > diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+> > index 2f170d69dcbf..983811384fec 100644
+> > --- a/drivers/leds/Makefile
+> > +++ b/drivers/leds/Makefile
+> > @@ -14,6 +14,7 @@ obj-$(CONFIG_LEDS_ADP5520)		+= leds-adp5520.o
+> >  obj-$(CONFIG_LEDS_AN30259A)		+= leds-an30259a.o
+> >  obj-$(CONFIG_LEDS_APU)			+= leds-apu.o
+> >  obj-$(CONFIG_LEDS_ARIEL)		+= leds-ariel.o
+> > +obj-$(CONFIG_LEDS_AS3668)		+= leds-as3668.o
+> >  obj-$(CONFIG_LEDS_AW200XX)		+= leds-aw200xx.o
+> >  obj-$(CONFIG_LEDS_AW2013)		+= leds-aw2013.o
+> >  obj-$(CONFIG_LEDS_BCM6328)		+= leds-bcm6328.o
+> > diff --git a/drivers/leds/leds-as3668.c b/drivers/leds/leds-as3668.c
+> > new file mode 100644
+> > index 000000000000..8c43429f2856
+> > --- /dev/null
+> > +++ b/drivers/leds/leds-as3668.c
+> > @@ -0,0 +1,222 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +/*
+> > + *  Osram AMS AS3668 LED Driver IC
+> > + *
+> > + *  Copyright (C) 2025 Lukas Timmermann <linux@timmermann.space>
+> > + */
+> > +
+> > +#include <linux/bitfield.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/leds.h>
+> > +#include <linux/module.h>
+> > +#include <linux/uleds.h>
+> > +
+> > +#define AS3668_MAX_LEDS			4
+> > +
+> > +/* Chip Ident */
+> > +
+> > +#define AS3668_CHIP_ID1_REG		0x3e
+> > +#define AS3668_CHIP_ID			0xa5
+> > +
+> > +/* Current Control */
+> > +
+> > +#define AS3668_CURR_MODE_REG		0x01
+> > +#define AS3668_CURR_MODE_OFF		0x0
+> > +#define AS3668_CURR_MODE_ON		0x1
+> > +#define AS3668_CURR1_MODE_MASK		GENMASK(1, 0)
+> > +#define AS3668_CURR2_MODE_MASK		GENMASK(3, 2)
+> > +#define AS3668_CURR3_MODE_MASK		GENMASK(5, 4)
+> > +#define AS3668_CURR4_MODE_MASK		GENMASK(7, 6)
+> > +#define AS3668_CURR1_REG		0x02
+> > +#define AS3668_CURR2_REG		0x03
+> > +#define AS3668_CURR3_REG		0x04
+> > +#define AS3668_CURR4_REG		0x05
+> > +
+> > +struct as3668_led {
+> > +	struct led_classdev cdev;
+> > +	struct as3668 *chip;
+> > +	struct fwnode_handle *fwnode;
+> > +	int led_id;
+> 
+> If you stored AS3668_CURR{X}_MODE_MASK and AS3668_CURR1_REG + {X} in
+> here, you could omit led_id from here and save on a bunch of parameter
+> passing and additional handling (i.e. removal of the switch(), etc).
+> 
+I will check that out, thanks.
+> > +};
+> > +
+> > +struct as3668 {
+> > +	struct i2c_client *client;
+> > +	struct as3668_led leds[AS3668_MAX_LEDS];
+> > +};
+> > +
+> > +static void as3668_channel_mode_set(struct as3668 *as3668, int led_id, u8 mode)
+> > +{
+> > +	int err;
+> > +	u8 reg;
+> > +
+> > +	reg = i2c_smbus_read_byte_data(as3668->client, AS3668_CURR_MODE_REG);
+> 
+> Does CURR have anything to do with Current (amps)?
+> 
+> Either way 'reg' can be named better.
+> 
+No. We read the register in order to modify just parts of its value. We then
+write the modified state back to the register. I guess we could call it
+'mode'.
+> > +	if (reg < 0) {
+> > +		dev_err(&as3668->client->dev, "failed to read channel modes\n");
+> > +		return;
+> > +	}
+> > +
+> > +	switch (led_id) {
+> > +	case 0:
+> > +		reg &= ~AS3668_CURR1_MODE_MASK;
+> > +		reg |= FIELD_PREP(AS3668_CURR1_MODE_MASK, mode);
+> > +		break;
+> > +	case 1:
+> > +		reg &= ~AS3668_CURR2_MODE_MASK;
+> > +		reg |= FIELD_PREP(AS3668_CURR2_MODE_MASK, mode);
+> > +		break;
+> > +	case 2:
+> > +		reg &= ~AS3668_CURR3_MODE_MASK;
+> > +		reg |= FIELD_PREP(AS3668_CURR3_MODE_MASK, mode);
+> > +		break;
+> > +	case 3:
+> > +		reg &= ~AS3668_CURR4_MODE_MASK;
+> > +		reg |= FIELD_PREP(AS3668_CURR4_MODE_MASK, mode);
+> > +		break;
+> > +	default:
+> > +		return;
+> > +	}
+> > +
+> > +	err = i2c_smbus_write_byte_data(as3668->client, AS3668_CURR_MODE_REG, reg);
+> 
+> Either it's an error or it's not.  Why isn't it being propagated?
+> 
+My patch had a dev_err() call here. It's missing in your citation.
+Was using dev_err() here wrong?
+> > +}
+> > +
+> > +static enum led_brightness as3668_brightness_get(struct led_classdev *cdev)
+> > +{
+> > +	struct as3668_led *led = container_of(cdev, struct as3668_led, cdev);
+> > +
+> > +	return i2c_smbus_read_byte_data(led->chip->client, AS3668_CURR1_REG + led->led_id);
+> > +}
+> > +
+> > +static void as3668_brightness_set(struct led_classdev *cdev, enum led_brightness brightness)
+> > +{
+> > +	struct as3668_led *led = container_of(cdev, struct as3668_led, cdev);
+> > +	int err;
+> > +
+> > +	if (brightness == 0)
+> > +		as3668_channel_mode_set(led->chip, led->led_id, AS3668_CURR_MODE_OFF);
+> > +	else
+> > +		as3668_channel_mode_set(led->chip, led->led_id, AS3668_CURR_MODE_ON);
+> 
+> If you take my advice further up, you can drop all of this for:
+> 
+> 	as3668_channel_mode_set(led, !!brightness);
+> 
+Understood. That is indeed nicer.
+> > +
+> > +	err = i2c_smbus_write_byte_data(led->chip->client,
+> > +					AS3668_CURR1_REG + led->led_id,
+> > +					brightness);
+> > +
+> > +	if (err)
+> > +		dev_err(&led->chip->client->dev, "failed to set brightness: %d\n", err);
+> 
+> cdev->dev
+> 
+That makes sense. Thank you.
+> > +}
+> > +
+> > +static int as3668_dt_init(struct as3668 *as3668)
+> > +{
+> > +	struct device *dev = &as3668->client->dev;
+> > +	struct as3668_led *led;
+> > +	struct led_init_data init_data = {};
+> > +	int err;
+> > +	u32 reg;
+> > +
+> > +	for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
+> > +		err = of_property_read_u32(child, "reg", &reg);
+> > +		if (err)
+> > +			return dev_err_probe(dev, err, "failed to read 'reg' property");
+> > +
+> > +		if (reg < 0 || reg > AS3668_MAX_LEDS)
+> > +			return dev_err_probe(dev, -EOPNOTSUPP,
+> 
+> This should be -EINVAL.
+> 
+Acknowledged.
+> > +					     "unsupported LED: %d\n", reg);
+> > +
+> > +		led = &as3668->leds[reg];
+> > +		led->fwnode = of_fwnode_handle(child);
+> > +
+> > +		led->led_id = reg;
+> > +		led->chip = as3668;
+> > +
+> > +		led->cdev.max_brightness = U8_MAX;
+> > +		led->cdev.brightness_get = as3668_brightness_get;
+> > +		led->cdev.brightness_set = as3668_brightness_set;
+> > +
+> > +		init_data.fwnode = led->fwnode;
+> > +		init_data.default_label = ":";
+> > +
+> > +		err = devm_led_classdev_register_ext(dev, &led->cdev, &init_data);
+> > +		if (err)
+> > +			return dev_err_probe(dev, err, "failed to register LED %d\n", reg);
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int as3668_probe(struct i2c_client *client)
+> > +{
+> > +	struct as3668 *as3668;
+> > +	int err;
+> > +	u8 chip_id;
+> > +
+> > +	chip_id = i2c_smbus_read_byte_data(client, AS3668_CHIP_ID1_REG);
+> > +	if (chip_id != AS3668_CHIP_ID)
+> > +		return dev_err_probe(&client->dev, -ENODEV,
+> > +				     "expected chip ID 0x%02x, got 0x%02x\n",
+> > +				     AS3668_CHIP_ID, chip_id);
+> > +
+> > +	as3668 = devm_kzalloc(&client->dev, sizeof(*as3668), GFP_KERNEL);
+> > +	if (!as3668)
+> > +		return -ENOMEM;
+> > +
+> > +	as3668->client = client;
+> > +
+> > +	err = as3668_dt_init(as3668);
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	/* Set all four channel modes to 'off' */
+> > +	err = i2c_smbus_write_byte_data(client, AS3668_CURR_MODE_REG,
+> > +					FIELD_PREP(AS3668_CURR1_MODE_MASK, AS3668_CURR_MODE_OFF) |
+> > +					FIELD_PREP(AS3668_CURR2_MODE_MASK, AS3668_CURR_MODE_OFF) |
+> > +					FIELD_PREP(AS3668_CURR3_MODE_MASK, AS3668_CURR_MODE_OFF) |
+> > +					FIELD_PREP(AS3668_CURR4_MODE_MASK, AS3668_CURR_MODE_OFF));
+> > +
+> > +	/* Set initial currents to 0mA */
+> > +	err |= i2c_smbus_write_byte_data(client, AS3668_CURR1_REG, 0);
+> > +	err |= i2c_smbus_write_byte_data(client, AS3668_CURR2_REG, 0);
+> > +	err |= i2c_smbus_write_byte_data(client, AS3668_CURR3_REG, 0);
+> > +	err |= i2c_smbus_write_byte_data(client, AS3668_CURR4_REG, 0);
+> > +
+> > +	if (err)
+> > +		return dev_err_probe(&client->dev, -EIO, "failed to write to the device\n");
+> 
+> Failed to set zero initial current levels
+> 
+More descriptive. Thanks.
+> > +	return 0;
+> > +}
+> > +
+> > +static void as3668_remove(struct i2c_client *client)
+> > +{
+> > +	int err;
+> > +
+> > +	err = i2c_smbus_write_byte_data(client, AS3668_CURR_MODE_REG, 0);
+> > +	if (err)
+> > +		dev_err(&client->dev, "failed to turn off the LEDs\n");
+> 
+> This is probably not useful to the user.
+> 
+> Just make an attempt to turn them off, then leave.
+> 
+Okay. That wasn't in v1, but I guess I went the other way and added to
+much error handling now. I will leave it out in v11. Thanks.
+> > +}
+> > +
+> > +static const struct i2c_device_id as3668_idtable[] = {
+> > +	{ "as3668" },
+> > +	{ }
+> > +};
+> > +MODULE_DEVICE_TABLE(i2c, as3668_idtable);
+> > +
+> > +static const struct of_device_id as3668_match_table[] = {
+> > +	{ .compatible = "ams,as3668" },
+> > +	{ }
+> > +};
+> > +MODULE_DEVICE_TABLE(of, as3668_match_table);
+> > +
+> > +static struct i2c_driver as3668_driver = {
+> > +	.driver = {
+> > +		.name = "leds_as3668",
+> > +		.of_match_table = as3668_match_table,
+> > +	},
+> > +	.probe = as3668_probe,
+> > +	.remove = as3668_remove,
+> > +	.id_table = as3668_idtable,
+> > +};
+> > +module_i2c_driver(as3668_driver);
+> > +
+> > +MODULE_AUTHOR("Lukas Timmermann <linux@timmermann.space>");
+> > +MODULE_DESCRIPTION("AS3668 LED driver");
+> > +MODULE_LICENSE("GPL");
+> > -- 
+> > 2.51.2
+> > 
+> 
+> -- 
+> Lee Jones [李琼斯]
+> 
+--
+Best regards,
+Lukas Timmermann
 
