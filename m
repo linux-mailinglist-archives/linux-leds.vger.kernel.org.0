@@ -1,64 +1,64 @@
-Return-Path: <linux-leds+bounces-6301-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6302-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id C18DAC81B6A
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Nov 2025 17:54:09 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67DA3C81C28
+	for <lists+linux-leds@lfdr.de>; Mon, 24 Nov 2025 18:01:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 82D30341128
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Nov 2025 16:54:05 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 08AE24E606A
+	for <lists+linux-leds@lfdr.de>; Mon, 24 Nov 2025 17:00:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC8ED314B83;
-	Mon, 24 Nov 2025 16:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 834D42C15A3;
+	Mon, 24 Nov 2025 17:00:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BNw38J/g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WnWNs/tL"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03AA82BE05F;
-	Mon, 24 Nov 2025 16:54:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8EB2C1581;
+	Mon, 24 Nov 2025 17:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764003242; cv=none; b=V6j1ot5mVF/L5mt/odDXOCST/DL6jYExt+4RkJNur/YpzwALLMXTR+7dCpwCtV3Tp46OilhXZhrUPP5yD93hRZCEvE86cm48TIsc/oo5he+DbRMGQHYqa6I6J+dBAglUz0yh/P9N3XrzCOVsJY7ty1Zqh7lKfDMVtgSGsY4/qTs=
+	t=1764003631; cv=none; b=TQenXB2Mx8qfjkJLtG1J05gt/SPX4kVj1ASfFPdOA5QaUnlZ/kPbbUlILPf0kmPNJ5TJH1UnWyAR4vf4kPqAYHjSZ571vl/qF+pjnyRGQ2N2Imqu3pvmbB/hmBjNwzVMj4A8EDXh+k9P96byrrUKspWWthDVN2ZQ/+/+Su4N/Rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764003242; c=relaxed/simple;
-	bh=Mk0Gchkw9MwOg+few64zM2hLS7IZoyhOdqKCDhhfur4=;
+	s=arc-20240116; t=1764003631; c=relaxed/simple;
+	bh=Mk/slBwKHprGvIb7bG9qOObsfJ8L/yVyEYYi4ycNtnc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DREiTFl4rbI93ZR8/HeHn4fsA9l2/xq0IRw6j06tJruRsloSxcb1OCMQP+gN2AG48GcC2uPA0zWAJ7GALrh/tSLBHkpUMkJESSaDpwGYQcWw1vjJlMyBeePSv2DDCUfJsYbDEcNVcz7dUYccJZLHwFtc+Z6on6HYlMBcRB/32ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BNw38J/g; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=BLAxdDWu/4WHgI+NBsov0uj9j1ztv8kN3VLmCQa0Zxizn0Q+3ZxtS0s17isuMkSb2klRHf2Hu1yWkzUlkFRBZu+9yB8Q9svG792avijD1fi4asnnVek8HEHOM3X7D7k0WXUoCmerNPZDFskwAjsRpb8Rf9s0EBZjgeQvrFQkilE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WnWNs/tL; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764003241; x=1795539241;
+  t=1764003630; x=1795539630;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=Mk0Gchkw9MwOg+few64zM2hLS7IZoyhOdqKCDhhfur4=;
-  b=BNw38J/g4d0bUdJNUYGnuOvw4sRnRZx3UqJkXj2W7GifOxiG3xE/wyJP
-   O2HlM05CCY7ayjbkJviUZU1vxseL3YU7mPxEYf5Kqu37u7Y/H58e3K2yU
-   gPijx+lYNW2FDEZslER4CLUWCO2ukbner3jXFiZxroojuXEIA1I6s/GGm
-   EauK+sSH8+QsRzLnJQt/F7zW25H4SpUAXKiEq7U2Vbpk6XVK6NHzpP1eS
-   o3hNzkbcjzvUuS7nl7/Ilv/O+IZ7m9yMPboauUumLZSoGzWokvlyH511R
-   S4sqjHjtpi+hl04g2DskyWWlxgeCR6RUDi8PZZ9GgpPqD51G42H8qrCIc
-   A==;
-X-CSE-ConnectionGUID: wewSN0MfRxabBGESRasLJg==
-X-CSE-MsgGUID: Ix2D1tpbRwS9jxOYbNSeVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="76622098"
+  bh=Mk/slBwKHprGvIb7bG9qOObsfJ8L/yVyEYYi4ycNtnc=;
+  b=WnWNs/tLU5+VOI0kOViV745p/KY5LP4V8a6jB0Hiv5Wc9WLhhEkWHjiI
+   TDSu0Snbl6Es9+Mm4eS/ERQDjW8b2VJgBqbpqui0B5rbZd8ZnwlweiXIT
+   OPvhNTx9B1mp75wQ9DBSUiXF2W6txGsT3TmV1g4+Z97N6Q+s0zks5SiEP
+   BOm8HFCSx0fW83V+aN6XFKTLkEv6DwhL6tIOKYzQcuajdceVC0ov0wFdp
+   lPoqRALMqhoofIXCja/0fS5kVZhuDfrLmDGLA/S/FHM1CfIuhRRPyen3O
+   h+sHbRDLyXvxz3D0SkLM11ElAKwjJTjbQto0PhWooNtA2wyLw83WKD+yS
+   Q==;
+X-CSE-ConnectionGUID: /rKijaGORJGtfR8dEbxSsA==
+X-CSE-MsgGUID: erF9oOftQ1KPaOTMuC/Y8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="77370512"
 X-IronPort-AV: E=Sophos;i="6.20,223,1758610800"; 
-   d="scan'208";a="76622098"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 08:54:00 -0800
-X-CSE-ConnectionGUID: bdRNKzb5SOqAlhvhFuHGNA==
-X-CSE-MsgGUID: 1rbhavySTTurkuyCQIYaxg==
+   d="scan'208";a="77370512"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 09:00:29 -0800
+X-CSE-ConnectionGUID: Kecw1TliSNiD/U1VmgsvSw==
+X-CSE-MsgGUID: f1f+bLoYTVmvE3sediqx6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,223,1758610800"; 
-   d="scan'208";a="192393371"
+   d="scan'208";a="223048537"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.5])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 08:53:58 -0800
-Date: Mon, 24 Nov 2025 18:53:55 +0200
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 09:00:26 -0800
+Date: Mon, 24 Nov 2025 19:00:24 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: =?iso-8859-1?Q?Jean-Fran=E7ois?= Lessard <jefflessard3@gmail.com>
 Cc: Andy Shevchenko <andy@kernel.org>,
@@ -67,11 +67,11 @@ Cc: Andy Shevchenko <andy@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
 	linux-leds@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v6 6/7] auxdisplay: TM16xx: Add support for I2C-based
+Subject: Re: [PATCH v6 7/7] auxdisplay: TM16xx: Add support for SPI-based
  controllers
-Message-ID: <aSSNoyDOOjG2s1Wl@smile.fi.intel.com>
+Message-ID: <aSSPKObizmpKiSpR@smile.fi.intel.com>
 References: <20251121145911.176033-1-jefflessard3@gmail.com>
- <20251121145911.176033-7-jefflessard3@gmail.com>
+ <20251121145911.176033-8-jefflessard3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -81,182 +81,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251121145911.176033-7-jefflessard3@gmail.com>
+In-Reply-To: <20251121145911.176033-8-jefflessard3@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Nov 21, 2025 at 09:59:06AM -0500, Jean-François Lessard wrote:
+On Fri, Nov 21, 2025 at 09:59:07AM -0500, Jean-François Lessard wrote:
 > Add support for TM16xx-compatible auxiliary display controllers connected
-> via the I2C bus.
+> via the SPI bus.
 > 
 > The implementation includes:
-> - I2C driver registration and initialization
-> - Probe/remove logic for I2C devices
+> - SPI driver registration and initialization
+> - Probe/remove logic for SPI devices
 > - Controller-specific handling and communication sequences
 > - Integration with the TM16xx core driver for common functionality
 > 
-> This allows platforms using TM16xx or compatible controllers over I2C to be
+> This allows platforms using TM16xx or compatible controllers over SPI to be
 > managed by the TM16xx driver infrastructure.
 
 ...
 
-+ array_size.h
+Seems like same/similar comments as per I2C glue driver are applicable here.
+Please, address accordingly.
 
-> +#include <linux/bitfield.h>
-
-> +#include <linux/device.h>
-
-Isn't it simply device/devres.h
-
-
-+ errno.h
-
-> +#include <linux/i2c.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/types.h>
+Additional comments below.
 
 ...
 
-> +static int tm16xx_i2c_probe(struct i2c_client *client)
-> +{
-> +	const struct tm16xx_controller *controller;
-> +	struct tm16xx_display *display;
-> +	int ret;
-> +
-> +	controller = i2c_get_match_data(client);
-> +	if (!controller)
-> +		return -EINVAL;
-> +
-> +	display = devm_kzalloc(&client->dev, sizeof(*display), GFP_KERNEL);
-> +	if (!display)
-> +		return -ENOMEM;
-> +
-> +	display->dev = &client->dev;
-> +	display->controller = controller;
-> +
-> +	i2c_set_clientdata(client, display);
+> +	tm16xx_for_each_key(display, row, col) {
+> +		byte = col >> 1;
 
-> +	ret = tm16xx_probe(display);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
+> +		bit = (2 - row) + ((col & 1) << 2);
 
-	return tm16xx_probe();
+If you do something like
 
-> +}
+		byte = col / 2;
+		... = col % 2;
 
-...
+it may be optimised to a single assembly instruction on some architectures
+by a compiler (and yes, I saw it in real life that `idiv` on x86 has been
+chosen over other approaches by GCC).
 
-> +static int tm16xx_i2c_read(struct tm16xx_display *display, u8 cmd, u8 *data, size_t len)
-> +{
-> +	struct i2c_client *i2c = to_i2c_client(display->dev);
 
-> +	/* expected sequence: S Command [A] [Data] [A] P */
-> +	struct i2c_msg msgs[1] = {{
-> +		.addr = cmd >> 1,
-> +		.flags = I2C_M_RD | I2C_M_NO_RD_ACK,
-> +		.len = len,
-> +		.buf = data,
-> +	}};
+> +		value = !!(codes[byte] & BIT(bit));
 
-No array is needed.
+Seems unneeded
 
-> +	int ret;
-> +
-> +	ret = i2c_transfer(i2c->adapter, msgs, ARRAY_SIZE(msgs));
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return (ret == ARRAY_SIZE(msgs)) ? 0 : -EIO;
-> +}
+> +		tm16xx_set_key(display, row, col, value);
 
-...
+		tm16xx_set_key(display, row, col, codes[byte] & BIT(bit));
 
-> +static int tm1650_init(struct tm16xx_display *display)
-> +{
-> +	const enum led_brightness brightness = display->main_led.brightness;
-> +	u8 cmds[2];
-> +
-> +	cmds[0] = TM1650_CMD_CTRL;
-> +	cmds[1] = TM16XX_CTRL_BRIGHTNESS(brightness, brightness, TM1650) |
-> +		  TM1650_CTRL_SEG8_MODE;
-> +
-> +	return tm16xx_i2c_write(display, cmds, ARRAY_SIZE(cmds));
 
-For u8 / char it's okay to use simple sizeof(). But it's up to you.
-Ditto for the rest similar cases.
-
-> +}
-
-...
-
-> +static void hbs658_swap_nibbles(u8 *data, size_t len)
-> +{
-> +	for (size_t i = 0; i < len; i++)
-> +		data[i] = (data[i] << 4) | (data[i] >> 4);
-> +}
-
-Perhaps make it part of swab.h?
-
-...
-
-> +static int hbs658_init(struct tm16xx_display *display)
-> +{
-> +	const enum led_brightness brightness = display->main_led.brightness;
-> +	u8 cmd;
-> +	int ret;
-> +
-> +	/* Set data command */
-> +	cmd = TM16XX_CMD_WRITE | TM16XX_DATA_ADDR_AUTO;
-> +	hbs658_swap_nibbles(&cmd, 1);
-> +	ret = tm16xx_i2c_write(display, &cmd, 1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Set control command with brightness */
-> +	cmd = TM16XX_CMD_CTRL |
-> +	      TM16XX_CTRL_BRIGHTNESS(brightness, brightness - 1, TM16XX);
-> +	hbs658_swap_nibbles(&cmd, 1);
-
-> +	ret = tm16xx_i2c_write(display, &cmd, 1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-
-	return tm16xx_i2c_write(display, &cmd, 1);
-
-> +}
-
-...
-
-> +static int hbs658_keys(struct tm16xx_display *display)
-> +{
-> +	u8 cmd, keycode;
-> +	int col;
-> +	int ret;
-> +
-> +	cmd = TM16XX_CMD_READ;
-> +	hbs658_swap_nibbles(&cmd, 1);
-> +	ret = tm16xx_i2c_read(display, cmd, &keycode, 1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	hbs658_swap_nibbles(&keycode, 1);
-
-> +	if (keycode != 0xFF) {
-
-Perhaps
-
-	if (keycode == 0xFF) // consider defining 0xFF with useful name
-		return;
-
-?
-
-> +		col = FIELD_GET(HBS658_KEY_COL_MASK, keycode);
-> +		tm16xx_set_key(display, 0, col, true);
 > +	}
 > +
 > +	return 0;
@@ -264,8 +138,13 @@ Perhaps
 
 ...
 
-Probably it is better to split out the additional HW enablement
-to separate changes.
+> +	tm16xx_set_key(display, 0, 0, !!(codes[0] & BIT(1)));
+> +	tm16xx_set_key(display, 0, 1, !!(codes[0] & BIT(4)));
+> +	tm16xx_set_key(display, 0, 2, !!(codes[1] & BIT(1)));
+> +	tm16xx_set_key(display, 0, 3, !!(codes[1] & BIT(4)));
+> +	tm16xx_set_key(display, 0, 4, !!(codes[2] & BIT(1)));
+
+Do we really need !!() ?
 
 -- 
 With Best Regards,
