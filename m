@@ -1,64 +1,64 @@
-Return-Path: <linux-leds+bounces-6293-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6294-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F63C7F2E2
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Nov 2025 08:31:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE457C7F303
+	for <lists+linux-leds@lfdr.de>; Mon, 24 Nov 2025 08:33:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2B4B94E1704
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Nov 2025 07:31:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6E1EE3A3BAF
+	for <lists+linux-leds@lfdr.de>; Mon, 24 Nov 2025 07:33:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F41A2DCF57;
-	Mon, 24 Nov 2025 07:31:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A8BD2E6CA0;
+	Mon, 24 Nov 2025 07:33:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XvEtXzDo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hNpKVjB1"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B0742417F2;
-	Mon, 24 Nov 2025 07:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957742DCF78;
+	Mon, 24 Nov 2025 07:33:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763969497; cv=none; b=SpTYD0Y7Olg+/8Svb4R9/0PJUiQzsJ7XkdckbfXxaF/HTDbvTVku1v6PUsS9LSMysaepTDH/Ek0i8hT/OuF1jNlcUf4FbBF9rYcR1g7gbWi4ezOyZOk/6NmXnoTT0rQkwlDIjBTxMGbX2zud1xpd3JDXzHlfaHJkdK3GEOd2YA8=
+	t=1763969592; cv=none; b=BUOl3QDSNocUygqYiG3RTbJk1D5Ar/foh/fgtbdVDm1JfL1ECgR6LEVxT99lPq2ZgzcfAThzdIUt0uthXdNT/rKDg7fvqLN8lIawJkDvtJnWrSbApli1Aqwdc66rLgwz8Vi8jvxevK8LzVEIP+mAPFXokWDuo3bbjd0MbrtK+N4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763969497; c=relaxed/simple;
-	bh=z/Y+4YCIUV7lLFCSRjb85rkZ6HXZdrhWx4+fo6UvLWk=;
+	s=arc-20240116; t=1763969592; c=relaxed/simple;
+	bh=cqbIEG4ASBw/izH7PnD3MA5+1hXa/BVGhD6facXwBjw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jTpVz56lgLNN9grGb9063UJ85DcjH5qntHRaf6Kq/xRwKcqvITzo4YB4UqcmBzaCAvZr0G9Hlz8X+TZgxp3ahrigcGu0naLEgfE7ChNapSXRjKC6Pu4zDrg0Wg23oKfDq1tzclZr5WroKPcKnYtvbjS7mOg3L6lyc00X87H+zJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XvEtXzDo; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=MF1b5MeqJ4Rza1wQabIvh+IMx12bkcdK71jeNkxSselKAMC9qy8R+iADXgoKjS35CbtTHEmwXQgpJQygx4yuBSiCL6GsbQG4QSkysd0rRJ20zDQB+v3KHV6HIsB3x1xDcjmx057bJqkbJIlRqflUWWJmAy2iPzynnAUNwt9V0jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hNpKVjB1; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763969495; x=1795505495;
+  t=1763969590; x=1795505590;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=z/Y+4YCIUV7lLFCSRjb85rkZ6HXZdrhWx4+fo6UvLWk=;
-  b=XvEtXzDoYXDyHYujllAwYi4ltMlECMDvzNpdUOXTemnBLX/4/437fMOy
-   sC72u0JRz8VVigt+8zitW/FWRVMiTkmMs9lINBYJJInUPRCscEDi4AuS2
-   0EUlVrcqnEw0FiDQWpDVsjgbRnRj9n5C4jAf15FnKHZetyaDg7iCmJpOP
-   pxBoaNpSVgGT2MViUKtSZdztbj0f4kM7gel7YVv1krJiZd4er9KJzmasy
-   FCwNA5IWMssbgiD1onjdvDDLqNAZCb25kuPh/NBnm5FzeNVXSXsls2uM/
-   pBFtI+mppaQHf8pyV8SULtSiQCjfihyOtGjNEx5FxeQIi3WAOCn1Z3W7G
-   g==;
-X-CSE-ConnectionGUID: f15KJ3WuT6aHbTy9Awm0CQ==
-X-CSE-MsgGUID: BT51uxh3RxuLXgiw7I2gSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="66041276"
+  bh=cqbIEG4ASBw/izH7PnD3MA5+1hXa/BVGhD6facXwBjw=;
+  b=hNpKVjB1SiRoicA/JPblqXo09x3AdgkpsKjsXW42GKfnMvoJxoYliYEO
+   DOloMngI5C7CfvHl7F5frlRbslFeiJEFtI0XlwOBn2JI/O2RNcZvfdzJU
+   jur196BIAwbjmzgn0JS2CMjyukgPGX0NOQB9hK+P+IVeKGq7w4df91NPN
+   rm9DxwIif4BRHWOJxMqf8RCxFsJwDtcVHJQvinYS48ClXf+0x8aqrw9V7
+   nUkG5IopW73ZPPNS0vdxW2qzxIvQNBha7LoOFUka4VDcee06wDdtYgm2H
+   A5X4xGgGvx5ro2O0bOTQ7j8qw++e6JPaZYPhRdkamDxDKlt6/e3kkISJL
+   A==;
+X-CSE-ConnectionGUID: jofHJxH0QcGGpDdumVfakw==
+X-CSE-MsgGUID: qJ8SdlkoR9yDNlR1TD7jhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="76574423"
 X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
-   d="scan'208";a="66041276"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 23:31:34 -0800
-X-CSE-ConnectionGUID: LGcbzO7nQUmnMyussKJi3g==
-X-CSE-MsgGUID: ReTjegNbRM+1xpjkDvsnVQ==
+   d="scan'208";a="76574423"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 23:33:09 -0800
+X-CSE-ConnectionGUID: y8oQ5MozQVKD0XS+fHAIMw==
+X-CSE-MsgGUID: aiTgZwhLSQ6/uI89K1nWrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
-   d="scan'208";a="193037431"
+   d="scan'208";a="196544650"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.5])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 23:31:32 -0800
-Date: Mon, 24 Nov 2025 09:31:30 +0200
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 23:33:07 -0800
+Date: Mon, 24 Nov 2025 09:33:05 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: =?iso-8859-1?Q?Jean-Fran=E7ois?= Lessard <jefflessard3@gmail.com>
 Cc: Andy Shevchenko <andy@kernel.org>,
@@ -67,11 +67,10 @@ Cc: Andy Shevchenko <andy@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
 	linux-leds@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 6/7] auxdisplay: TM16xx: Add support for I2C-based
- controllers
-Message-ID: <aSQJ0sadpeyiuWRh@smile.fi.intel.com>
-References: <20250926141913.25919-1-jefflessard3@gmail.com>
- <20250926141913.25919-7-jefflessard3@gmail.com>
+Subject: Re: [PATCH v6 0/7] auxdisplay: Add TM16xx 7-segment LED matrix
+ display controllers driver
+Message-ID: <aSQKMXNmF4CtFQxy@smile.fi.intel.com>
+References: <20251121145911.176033-1-jefflessard3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -81,237 +80,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250926141913.25919-7-jefflessard3@gmail.com>
+In-Reply-To: <20251121145911.176033-1-jefflessard3@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Sep 26, 2025 at 10:19:07AM -0400, Jean-François Lessard wrote:
-> Add support for TM16xx-compatible auxiliary display controllers connected
-> via the I2C bus.
+On Fri, Nov 21, 2025 at 09:59:00AM -0500, Jean-François Lessard wrote:
+> This series adds mainline kernel support for TM16xx family LED matrix
+> controllers and compatible chips, widely used in auxiliary displays on TV
+> boxes and embedded devices.
 > 
-> The implementation includes:
-> - I2C driver registration and initialization
-> - Probe/remove logic for I2C devices
-> - Controller-specific handling and communication sequences
-> - Integration with the TM16xx core driver for common functionality
+> Many consumer devices, particularly TV boxes, use auxiliary displays based
+> on TM16xx controllers to show status information such as time, network
+> connectivity and system state. Currently, there is no mainline kernel
+> support for these displays, forcing users to rely on out-of-tree drivers
+> or userspace solutions that access hardware interfaces directly.
 > 
-> This allows platforms using TM16xx or compatible controllers over I2C to be
-> managed by the TM16xx driver infrastructure.
+> This driver provides unified TM16xx support through the LED subsystem with
+> both I2C and SPI communication protocols. It integrates with the LED class
+> framework, enabling control via standard sysfs interfaces and LED triggers,
+> while supporting keypad input when hardware connections are available.
+> 
+> The driver supports multiple controller families from various vendors:
+> - Titan Micro Electronics: TM1618, TM1620, TM1628, TM1638, TM1650
+> - Fuda Hisi Microelectronics: FD620, FD628, FD650, FD655, FD6551
+> - i-Core Electronics: AiP650, AiP1618, AiP1628
+> - Princeton Technology: PT6964
+> - Winrise Technology: HBS658
+> 
+> Key features:
+> - 7-segment display support with flexible digit/segment mapping
+> - Individual LED icon control through LED class devices
+> - Optional keypad scanning with configurable key mapping
+> - Device tree configuration for board-specific wiring layouts
+> - LED trigger integration for automatic system event indication
+> - I2C and SPI protocol support depending on controller interface
+> 
+> Device tree bindings describe board-specific display wiring since
+> controllers are layout-agnostic. The bindings use separate 'digits' and
+> 'leds' containers with specific addressing schemes to accommodate the
+> hardware's grid/segment matrix organization.
+> 
+> Tested on multiple ARM TV boxes (H96 Max, Magicsee N5, Tanix TX3 Mini,
+> Tanix TX6, X92, X96 Max) across different SoC platforms (Rockchip, Amlogic,
+> Allwinner) in both I2C and SPI configurations.
+> 
+> User space utilities available at:
+> https://github.com/jefflessard/tm16xx-display
+> 
+> Dependencies:
+> - linedisp_attach()/_detach() infrastructure introduced in patch series:
+>  "auxdisplay: linedisp: support attribute attachment to auxdisplay devices"
+> - fwnode_for_each_available_child_node_scoped() from patch series:
+>  "device property: Add scoped fwnode child node iterators"
+> 
+> Note: This driver is placed in drivers/auxdisplay rather than drivers/leds
+> based on previous maintainer guidance. LED maintainer Pavel Machek
+> recommended auxdisplay for TM1628-based display drivers:
+> https://lore.kernel.org/linux-devicetree/20200226130300.GB2800@duo.ucw.cz/
+> 
+> Regmap Evaluation:
+> TM16xx controllers use command-based 2-wire/3-wire protocols that share
+> sufficient commonalities with I2C/SPI to leverage their subsystems, but
+> are not fully compliant with standard register-based access patterns:
+> - TM1650 example: 0x48 is a control command while 0x4F is a keyscan
+>   command. These appear as adjacent I2C "addresses" but are distinct
+>   commands with different data directions and payloads, not read/write
+>   pairs of the same register.
+> - TM1628 example: Initialization requires coordinated sequences followed
+>   by indexed data writes. Single regmap read/write calls cannot express
+>   these multi-step transactions and timing constraints.
+> - Protocol requirements: I2C read operations require I2C_M_NO_RD_ACK flags;
+>   SPI write-then-read operations require mandatory inter-transfer delays
+>   and CS assertion across phases.
+> 
+> While regmap provides valuable synchronization, debugfs, and abstraction
+> benefits, standard I2C/SPI regmap buses cannot handle these requirements.
+> 
+> Custom regmap implementation is technically possible via IO accessors, but
+> demands complex command routing logic and only partially supports paging.
+> It would essentially recreate the existing controller functions while
+> forcing them into register semantics they don't naturally fit.
+> 
+> The current explicit I2C/SPI approach directly expresses the hardware's
+> actual command structure and maintains proper controller abstraction.
 
-...
-
-> +	help
-> +	  This driver supports the following TM16XX compatible
-> +	  I2C (2-wire) 7-segment led display chips:
-
-LED
-
-> +	  - Titanmec: TM1650
-> +	  - Fuda Hisi: FD650, FD655, FD6551
-> +	  - i-Core: AiP650
-> +	  - Winrise: HBS658
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called tm16xx_i2c and you will also get tm16xx for the
-> +	  core module.
-
-...
-
-Please, check the include blocks to follow IWYU principle.
-
-+ array_size.h
-
-> +#include <linux/bitfield.h>
-> +#include <linux/device.h>
-
-dev_printk.h
-device/devres.h
-
-?
-
-+ err
-
-> +#include <linux/i2c.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-
-+ types.h
-
-...
-
-> +static int tm16xx_i2c_probe(struct i2c_client *client)
-> +{
-> +	const struct tm16xx_controller *controller;
-> +	struct tm16xx_display *display;
-> +	int ret;
-> +
-> +	controller = i2c_get_match_data(client);
-> +	if (!controller)
-> +		return -EINVAL;
-> +
-> +	display = devm_kzalloc(&client->dev, sizeof(*display), GFP_KERNEL);
-> +	if (!display)
-> +		return -ENOMEM;
-> +
-> +	display->dev = &client->dev;
-> +	display->controller = controller;
-> +
-> +	i2c_set_clientdata(client, display);
-
-> +	ret = tm16xx_probe(display);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-
-	return tm16xx_probe(...);
-
-> +}
-
-...
-
-> +static void tm16xx_i2c_remove(struct i2c_client *client)
-> +{
-> +	struct tm16xx_display *display = i2c_get_clientdata(client);
-> +
-> +	tm16xx_remove(display);
-> +}
-
-Just provide dem_tm16xx_probe() and drop this.
-
-...
-
-> +static int tm16xx_i2c_read(struct tm16xx_display *display, u8 cmd, u8 *data, size_t len)
-> +{
-> +	struct i2c_client *i2c = to_i2c_client(display->dev);
-> +
-> +	/* expected sequence: S Command [A] [Data] [A] P */
-> +	struct i2c_msg msgs[1] = {{
-
-Why an array out of a sudden? Previous function coped with just a single structure.
-
-> +		.addr = cmd >> 1,
-> +		.flags = I2C_M_RD | I2C_M_NO_RD_ACK,
-> +		.len = len,
-> +		.buf = data,
-> +	}};
-> +	int ret;
-> +
-> +	ret = i2c_transfer(i2c->adapter, msgs, ARRAY_SIZE(msgs));
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return (ret == ARRAY_SIZE(msgs)) ? 0 : -EIO;
-> +}
-
-...
-
-> +static int tm1650_init(struct tm16xx_display *display)
-> +{
-> +	const enum led_brightness brightness = display->main_led.brightness;
-> +	u8 cmds[2];
-> +
-> +	cmds[0] = TM1650_CMD_CTRL;
-> +	cmds[1] = TM16XX_CTRL_BRIGHTNESS(brightness, brightness, TM1650) |
-> +		  TM1650_CTRL_SEG8_MODE;
-> +
-> +	return tm16xx_i2c_write(display, cmds, ARRAY_SIZE(cmds));
-
-For cases of char / u8 the sizeof() is fine.
-
-> +}
-> +
-> +static int tm1650_data(struct tm16xx_display *display, u8 index,
-> +		       unsigned int grid)
-> +{
-> +	u8 cmds[2];
-> +
-> +	cmds[0] = TM1650_CMD_ADDR + index * 2;
-> +	cmds[1] = grid; /* SEG 1 to 8 */
-> +
-> +	return tm16xx_i2c_write(display, cmds, ARRAY_SIZE(cmds));
-
-Ditto.
-
-> +}
-
-...
-
-> +static void hbs658_swap_nibbles(u8 *data, size_t len)
-> +{
-> +	for (size_t i = 0; i < len; i++)
-> +		data[i] = (data[i] << 4) | (data[i] >> 4);
-> +}
-
-At least these ones
-drivers/iio/adc/mcp320x.c:158:          *val = (adc->rx_buf[0] << 4 | adc->rx_buf[1] >> 4);
-drivers/mtd/tests/nandbiterrs.c:83:     c = (c & 0x0F) << 4 | (c & 0xF0) >> 4;
-drivers/usb/atm/ueagle-atm.c:2072:      sc->ovl = intr->e1_bOvl >> 4 | intr->e1_bOvl << 4;
-
-use the same code (and I believe more, but that needs a bit more sophisticated `grep`).
-
-Perhaps make it a part of include/linux/swab.h
-
-as
-
-static inline void swab_nibbles(u8 *buf, unsigned int words)
-{
-	...
-}
-
-in a separate patch?
-
-...
-
-> +static int hbs658_init(struct tm16xx_display *display)
-> +{
-> +	const enum led_brightness brightness = display->main_led.brightness;
-> +	u8 cmd;
-> +	int ret;
-> +
-> +	/* Set data command */
-> +	cmd = TM16XX_CMD_WRITE | TM16XX_DATA_ADDR_AUTO;
-> +	hbs658_swap_nibbles(&cmd, 1);
-> +	ret = tm16xx_i2c_write(display, &cmd, 1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Set control command with brightness */
-> +	cmd = TM16XX_CMD_CTRL |
-> +	      TM16XX_CTRL_BRIGHTNESS(brightness, brightness - 1, TM16XX);
-> +	hbs658_swap_nibbles(&cmd, 1);
-
-> +	ret = tm16xx_i2c_write(display, &cmd, 1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-
-	return tm16xx_i2c_write(display, &cmd, 1);
-
-> +}
-
-...
-
-> +	if (keycode != 0xFF) {
-
-Hmm... Maybe
-
-
-	if (keycode == 0xFF)
-		return 0;
-
-?
-
-Also you use 0xFF magic several times. If it's the same semantically, define it
-with name and use everywhere, if it's different we need either comments or a
-few definitions for each semantically different case.
-
-> +		col = FIELD_GET(HBS658_KEY_COL_MASK, keycode);
-> +		tm16xx_set_key(display, 0, col, true);
-> +	}
-> +
-> +	return 0;
+Sorry, it seems I forgot to send a review of the input (sub)driver, I think
+most of the comments there are still applicable to this series. I'll also
+look into the rest.
 
 -- 
 With Best Regards,
