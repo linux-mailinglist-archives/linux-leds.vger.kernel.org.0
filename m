@@ -1,59 +1,59 @@
-Return-Path: <linux-leds+bounces-6311-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6312-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA419C850EF
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Nov 2025 13:59:39 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17AE0C853DF
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Nov 2025 14:49:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5CB364E9578
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Nov 2025 12:58:52 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 7FE2534ECEE
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Nov 2025 13:49:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCF6A321456;
-	Tue, 25 Nov 2025 12:58:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E566257820;
+	Tue, 25 Nov 2025 13:48:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WUAalPFm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cctn4wiv"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928712D8363;
-	Tue, 25 Nov 2025 12:58:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D912571D4;
+	Tue, 25 Nov 2025 13:48:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764075529; cv=none; b=W1AsVDR9ztT5HtMg5R4e09uI+CgqbqK/WNeUp/ZK7G1hwWUShZj9O7jXfBiHcJP/aPr936e6dO9eCp6YEBnL3O6qLsDuYGkF9YYvit2pyHn/8JFqGcorMIa/iKEpgRspdI/nsmtEGK2MSdGPueA8/BpIS5S6Ect9An1NeoJ797k=
+	t=1764078522; cv=none; b=Nt9gq1khj493vwe3fgyZeScntJZnqJAB6+gPAWm+SsmS1aYCTdm8IckZ+gP0/QhL5QIG8Xy4LC+S8CmTS/HeJbrWGHBzv6Mm5SRJhB6XMv8KctCHyXNxTfDMDvhqLseHyDWfEvGaemBFqQYvK6PEDgfol5gQq++gHUxhFsJ/RQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764075529; c=relaxed/simple;
-	bh=u8F21xXVO3lW2+k9EOsFAJ9mPFYDVMjWnE0952aUtZE=;
+	s=arc-20240116; t=1764078522; c=relaxed/simple;
+	bh=qMRrDoHOcsks99zvgZZqkBP5LxJkyWPAJLlzUR7nP+k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F7MYt3sZ4DX5oaHeUUM+hviSYRP8Sx/cmU/AelCV/Je2SGLRhPWHMy0fs26puEMl6fAQD5JOZenNZL2lyUjDUBavynomOeUMjItwj215UHmULl8pNNWSOoxG9aU+6LfAoE55hp90sMs6QijjidXxSmCdi4ZdxGYYAUOY//6g8QQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WUAalPFm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D474C4CEF1;
-	Tue, 25 Nov 2025 12:58:45 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=e8L95kmCYhYA95P7HuON0HGjVGrGEs92ZVUum/QaBQJ4Erd9i18gmkM8IhQoir3U+ZoQe8YMKdm7EJabqfi9dp4uDudLZwZeoYtdIXc9M73ABpc5Yy7xFsrqTJHoLra+E70oQHd09JjrIcgJgqYN2vBWCg6GWJn+b9AAlIOKiuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cctn4wiv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 068CDC4CEF1;
+	Tue, 25 Nov 2025 13:48:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764075527;
-	bh=u8F21xXVO3lW2+k9EOsFAJ9mPFYDVMjWnE0952aUtZE=;
+	s=k20201202; t=1764078521;
+	bh=qMRrDoHOcsks99zvgZZqkBP5LxJkyWPAJLlzUR7nP+k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WUAalPFmfR+iRTY0DGX+ATuVmZRFYaUVyFK5aTXFawgPRuyBiEQl89bmP9EvdJc0e
-	 eEzNfxyG50SHoPprURiesOZUr+b8bcB3sUbeXWS9sJFSBP6bNgFslia4geRimcjmN3
-	 iMnte2UCRy2XctdwqilQr1FuvmlLVKHL6SQ5aYi7IiAAPBJ9kwQ00Bv9phO0ONi0Rd
-	 ScxdxgFom4F8rhG7ku8+sAGE9r96v0HUXOj4FZ5QnkT7nP2F+X/T9QjJZGuAtaEi27
-	 XFnCFMe+7wkh9M/kLvNUf8zve8YRA1eNL+8gBHuD81UMey1R4pjgeYdcNUEhbh4bRs
-	 sgyItTdj9TthA==
-Date: Tue, 25 Nov 2025 12:58:42 +0000
+	b=Cctn4wivDT5Fe+bxp//YG1wlwcVs966fkjZwcPMXNxK/5ZjPwsTEyI4BoPcZqOiZK
+	 gMSh46t7U92KDynXPlMA6pOWwJov8mWbLqe64FHlhJAlTog5ziqqLoL6aqJmVG0qcq
+	 dzwTI98Hyp1iPzMpymNgQL9PTKEMPZa3GnIB7rtILd6g3EhUUEZ6TVqZaEf10uDrUB
+	 JYn9dP+cG7rFpX04bYPrllH3SNxFgT8KSt2AL+yuQ2JuuGmtCbnL+/x3slNuMLW974
+	 IV2GMTZiturUAthSN4RNTG0e+wDzyCvGscdMnOp0GXs7eQaWUrKDbW401djnwzI0hK
+	 lsM/gY5UZTqmQ==
+Date: Tue, 25 Nov 2025 13:48:36 +0000
 From: Lee Jones <lee@kernel.org>
-To: Lukas Timmermann <linux@timmermann.space>
-Cc: pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v10 2/2] leds: as3668: Driver for the ams Osram 4-channel
- i2c LED driver
-Message-ID: <20251125125842.GB1127788@google.com>
-References: <20251117020008.316648-1-linux@timmermann.space>
- <20251117020008.316648-3-linux@timmermann.space>
- <20251120120704.GC1949330@google.com>
- <gk6v5x5jwapaafsppq2svukviidibvsmdwwp2vizfd7yetb5fh@gaov2dqfxp34>
+To: Nam Tran <trannamatk@gmail.com>
+Cc: pavel@kernel.org, gregkh@linuxfoundation.org, rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr, krzk+dt@kernel.org, robh@kernel.org,
+	conor+dt@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v18 2/3] leds: add basic support for TI/National
+ Semiconductor LP5812 LED Driver
+Message-ID: <20251125134836.GC1127788@google.com>
+References: <20251123191042.116917-1-trannamatk@gmail.com>
+ <20251123191042.116917-3-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -63,65 +63,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <gk6v5x5jwapaafsppq2svukviidibvsmdwwp2vizfd7yetb5fh@gaov2dqfxp34>
+In-Reply-To: <20251123191042.116917-3-trannamatk@gmail.com>
 
-On Fri, 21 Nov 2025, Lukas Timmermann wrote:
+On Mon, 24 Nov 2025, Nam Tran wrote:
 
-> On Thu, Nov 20, 2025 at 12:07:04PM +0000, Lee Jones wrote:
-> > On Mon, 17 Nov 2025, Lukas Timmermann wrote:
-> > 
-> > > Since there were no existing drivers for the AS3668 or related devices,
-> > > a new driver was introduced in a separate file. Similar devices were
-> > > reviewed, but none shared enough characteristics to justify code reuse.
-> > > As a result, this driver is written specifically for the AS3668.
-> > > 
-> > > Signed-off-by: Lukas Timmermann <linux@timmermann.space>
-> > > ---
-> > >  MAINTAINERS                |   1 +
-> > >  drivers/leds/Kconfig       |  13 +++
-> > >  drivers/leds/Makefile      |   1 +
-> > >  drivers/leds/leds-as3668.c | 222 +++++++++++++++++++++++++++++++++++++
-> > >  4 files changed, 237 insertions(+)
-> > >  create mode 100644 drivers/leds/leds-as3668.c
+> The LP5812 is a 4x3 matrix RGB LED driver with an autonomous animation
+> engine and time-cross-multiplexing (TCM) support for up to 12 LEDs or
+> 4 RGB LEDs. Each LED can be configured through the related registers
+> to realize vivid and fancy lighting effects.
+> 
+> This patch adds minimal driver support for the LP5812, implementing
+> only the essential functionality: I2C communication with the device,
+> LED registration, brightness control in manual mode, and basic sysfs
+> interfaces for LED configuration and fault monitoring.
+> 
+> This patch adds minimal driver support for the LP5812, implementing
+> only the essential functionality: I2C communication with the device,
+> LED registration, brightness control in manual mode, and basic sysfs
+> interfaces for LED configuration and fault monitoring.
+> 
+> Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> ---
+>  MAINTAINERS                    |   4 +
+>  drivers/leds/rgb/Kconfig       |  13 +
+>  drivers/leds/rgb/Makefile      |   1 +
+>  drivers/leds/rgb/leds-lp5812.c | 646 +++++++++++++++++++++++++++++++++
+>  drivers/leds/rgb/leds-lp5812.h | 172 +++++++++
+>  5 files changed, 836 insertions(+)
+>  create mode 100644 drivers/leds/rgb/leds-lp5812.c
+>  create mode 100644 drivers/leds/rgb/leds-lp5812.h
 
-[...] 
+[...]
 
-> > > +	if (reg < 0) {
-> > > +		dev_err(&as3668->client->dev, "failed to read channel modes\n");
-> > > +		return;
-> > > +	}
-> > > +
-> > > +	switch (led_id) {
-> > > +	case 0:
-> > > +		reg &= ~AS3668_CURR1_MODE_MASK;
-> > > +		reg |= FIELD_PREP(AS3668_CURR1_MODE_MASK, mode);
-> > > +		break;
-> > > +	case 1:
-> > > +		reg &= ~AS3668_CURR2_MODE_MASK;
-> > > +		reg |= FIELD_PREP(AS3668_CURR2_MODE_MASK, mode);
-> > > +		break;
-> > > +	case 2:
-> > > +		reg &= ~AS3668_CURR3_MODE_MASK;
-> > > +		reg |= FIELD_PREP(AS3668_CURR3_MODE_MASK, mode);
-> > > +		break;
-> > > +	case 3:
-> > > +		reg &= ~AS3668_CURR4_MODE_MASK;
-> > > +		reg |= FIELD_PREP(AS3668_CURR4_MODE_MASK, mode);
-> > > +		break;
-> > > +	default:
-> > > +		return;
-> > > +	}
-> > > +
-> > > +	err = i2c_smbus_write_byte_data(as3668->client, AS3668_CURR_MODE_REG, reg);
-> > 
-> > Either it's an error or it's not.  Why isn't it being propagated?
-> > 
-> My patch had a dev_err() call here. It's missing in your citation.
-> Was using dev_err() here wrong?
+> +static ssize_t parse_drive_mode(struct lp5812_chip *chip, const char *str)
+> +{
+> +	int i;
+> +
+> +	chip->u_drive_mode.s_drive_mode.mix_sel_led_0 = false;
+> +	chip->u_drive_mode.s_drive_mode.mix_sel_led_1 = false;
+> +	chip->u_drive_mode.s_drive_mode.mix_sel_led_2 = false;
+> +	chip->u_drive_mode.s_drive_mode.mix_sel_led_3 = false;
+> +
+> +	if (sysfs_streq(str, LP5812_MODE_DIRECT_NAME)) {
+> +		chip->u_drive_mode.s_drive_mode.led_mode = LP5812_MODE_DIRECT_VALUE;
+> +		return 0;
+> +	}
+> +
+> +	for (i = 0; i < ARRAY_SIZE(chip_mode_map); i++) {
+> +		if (!sysfs_streq(str, chip_mode_map[i].mode_name))
+> +			continue;
+> +
+> +		chip->u_drive_mode.s_drive_mode.led_mode = chip_mode_map[i].mode;
+> +		chip->u_scan_order.s_scan_order.scan_order_0 = chip_mode_map[i].scan_order_0;
+> +		chip->u_scan_order.s_scan_order.scan_order_1 = chip_mode_map[i].scan_order_1;
+> +		chip->u_scan_order.s_scan_order.scan_order_2 = chip_mode_map[i].scan_order_2;
+> +		chip->u_scan_order.s_scan_order.scan_order_3 = chip_mode_map[i].scan_order_3;
 
-Yes.  It's preferable that you propagate (return) the error.
+Where are all of these used?
 
-If you don't do that, it's just a warning.
+> +
+> +		switch (chip_mode_map[i].selection_led) {
+> +		case LP5812_MODE_MIX_SELECT_LED_0:
+> +			chip->u_drive_mode.s_drive_mode.mix_sel_led_0 = true;
+> +			break;
+> +		case LP5812_MODE_MIX_SELECT_LED_1:
+> +			chip->u_drive_mode.s_drive_mode.mix_sel_led_1 = true;
+> +			break;
+> +		case LP5812_MODE_MIX_SELECT_LED_2:
+> +			chip->u_drive_mode.s_drive_mode.mix_sel_led_2 = true;
+> +			break;
+> +		case LP5812_MODE_MIX_SELECT_LED_3:
+> +			chip->u_drive_mode.s_drive_mode.mix_sel_led_3 = true;
+> +			break;
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +
+> +		return 0;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+
+[...]
+
+> +union u_scan_order {
+
+What is 'u'?
+
+> +	struct {
+> +		u8 scan_order_0:2;
+> +		u8 scan_order_1:2;
+> +		u8 scan_order_2:2;
+> +		u8 scan_order_3:2;
+> +	} s_scan_order;
+> +	u8 scan_order_val;
+> +};
+
+[...]
 
 -- 
 Lee Jones [李琼斯]
