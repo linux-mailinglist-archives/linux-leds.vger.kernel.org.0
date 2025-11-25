@@ -1,31 +1,30 @@
-Return-Path: <linux-leds+bounces-6307-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6308-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B5DC84B53
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Nov 2025 12:21:27 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7067CC84C37
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Nov 2025 12:40:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A76D24E257F
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Nov 2025 11:21:26 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 1EAC834CC24
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Nov 2025 11:40:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99C203115A2;
-	Tue, 25 Nov 2025 11:21:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9967D27467D;
+	Tue, 25 Nov 2025 11:40:38 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19F726C39E;
-	Tue, 25 Nov 2025 11:21:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C551487F6;
+	Tue, 25 Nov 2025 11:40:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764069664; cv=none; b=OmaI2zJ1Xbao2BTgPnE37awfg82PfCLYQ4namxZtn5IC2N8exFoaw8QBFg4L6S29f8056LcAy+xtaFY2UqlFn8RsYcbsVlKUncm7KM3M/bgscXWZE2TOTSNfA5SsTM4eHRhIqn6U3tlltU9VUo+xQ692nXi9r8cjO8UXGbLF3f4=
+	t=1764070838; cv=none; b=LkYFWge3+ObFhmVUum/RB77d8bDwgtGHew7AaIpOwU2PAJcvcKDx9+Ybz+ealmm/Dzfiu22k6+thsQGQibSma5Q81cexvsk1G7A78n0kUK+qRfA5WD2zp3IO1bt3V/rVKM8+YM9s0dwk6sVKJPVJ6+i5Dun3Tr76AoedrNgbYlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764069664; c=relaxed/simple;
-	bh=90IwNIvTFQNIrULrq7DdzIJAwRK020sjuUe2cVoRkUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JGbBNMwnURCzlIRwbeZc9+6KUJ/89p272TUp+T+gayM2YoRgwx0b4q/Myrdlur308A9oWzIpzlFl3epx8MjiuiXRbymXGle1IwiQQUmdoqBKN25Hn1HUkfg/1tqLqgJfl/skZLsE+9YG4V7JTuT4d2zvsP4IfOSDcLARQdm5BYk=
+	s=arc-20240116; t=1764070838; c=relaxed/simple;
+	bh=uI6ypjaNqhtaxxzOybDhM1Bn9X+mDxz3WCo4V4+1mRk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=myTN2cZjoI+e8Nzc7oQbEpi10C+s+Buk1afLbnMKyObKCze50gNXfT3SjxQLTJJcZfadXq3nGFA7oqWt6+yE2N2ESnglrQlCm8GlrOd6e/ZdpxMB7lkNsElDYL3rme7lOfWyQ29UqcgrOn/eAAtq+YHyLQgrSapZsUGpndqbUCs=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space; spf=pass smtp.mailfrom=timmermann.space; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timmermann.space
@@ -33,88 +32,131 @@ Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dG0cM3Fdvz9tX0;
-	Tue, 25 Nov 2025 12:20:51 +0100 (CET)
-Date: Tue, 25 Nov 2025 12:20:46 +0100
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dG1341Z5Pz9spd;
+	Tue, 25 Nov 2025 12:40:32 +0100 (CET)
 From: Lukas Timmermann <linux@timmermann.space>
-To: Lee Jones <lee@kernel.org>
-Cc: pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v10 2/2] leds: as3668: Driver for the ams Osram 4-channel
- i2c LED driver
-Message-ID: <lqgf7lmnxy3zwmlzhip56tqwrraunhldghvlm7cafvruvscqby@5ik6mijwqmvg>
-References: <20251117020008.316648-1-linux@timmermann.space>
- <20251117020008.316648-3-linux@timmermann.space>
- <nkdqizx5lmf5mgovt4lv4pkzzaujnqt4zlhuwdlidrlgyqr5s5@dvnhdhkhfuvy>
- <20251120133149.GA661940@google.com>
+To: lee@kernel.org,
+	pavel@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux@timmermann.space
+Subject: [PATCH v11 0/2] Support for Osram as3668 LED driver
+Date: Tue, 25 Nov 2025 12:40:13 +0100
+Message-ID: <20251125114015.355487-1-linux@timmermann.space>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251120133149.GA661940@google.com>
 
-On Thu, Nov 20, 2025 at 01:31:49PM +0000, Lee Jones wrote:
-> On Thu, 20 Nov 2025, Lukas Timmermann wrote:
-> 
-> > On Mon, Nov 17, 2025 at 03:00:08AM +0100, Lukas Timmermann wrote:
-> > > Since there were no existing drivers for the AS3668 or related devices,
-> > > a new driver was introduced in a separate file. Similar devices were
-> > > reviewed, but none shared enough characteristics to justify code reuse.
-> > > As a result, this driver is written specifically for the AS3668.
-> > > 
-> > > Signed-off-by: Lukas Timmermann <linux@timmermann.space>
-> > > ---
-> > >  MAINTAINERS                |   1 +
-> > >  drivers/leds/Kconfig       |  13 +++
-> > >  drivers/leds/Makefile      |   1 +
-> > >  drivers/leds/leds-as3668.c | 222 +++++++++++++++++++++++++++++++++++++
-> > >  4 files changed, 237 insertions(+)
-> > >  create mode 100644 drivers/leds/leds-as3668.c
-> > > 
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 091206c54c63..945d78fef380 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -3511,6 +3511,7 @@ M:	Lukas Timmermann <linux@timmermann.space>
-> > >  L:	linux-leds@vger.kernel.org
-> > >  S:	Maintained
-> > >  F:	Documentation/devicetree/bindings/leds/ams,as3668.yaml
-> > > +F:	drivers/leds/leds-as3668.c
-> > >  
-> > >  ASAHI KASEI AK7375 LENS VOICE COIL DRIVER
-> > >  M:	Tianshu Qiu <tian.shu.qiu@intel.com>
-> > > diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> > > index a104cbb0a001..ec37d55ac14e 100644
-> > > --- a/drivers/leds/Kconfig
-> > > +++ b/drivers/leds/Kconfig
-> > > @@ -100,6 +100,19 @@ config LEDS_ARIEL
-> > >  
-> > >  	  Say Y to if your machine is a Dell Wyse 3020 thin client.
-> > >  
-> > > +config LEDS_OSRAM_AMS_AS3668
-> > I've modified this line as requested in patch series v9. After comparing
-> > this with other configuration options in drivers/leds/Kconfig, this
-> > seems out of place. Shouldn't we keep this consistent?
-> 
-> There are a few other examples in there, so consistency is less of an
-> issue.  I personally think it provides a better picture of the device if
-> the manufacture is mentioned as well.
-> 
-> But this is not a blocking point.  Take your preference.
-> 
-> -- 
-> Lee Jones [李琼斯]
-> 
-I agree that including the manufacturer is more descriptive. Thanks for
-explaining that to me, I didn't notice the other entries with
-manufacturers. Also thanks for the continued patience with my newbie patches.
+This patch adds basic support for the as3668 driver IC via I2C interface. 
+The IC is capable of driving four individual LEDs up to 25.5mA per 
+channel. Hardware blinking would be theoretically possible, but this chip
+only supports a few set on/off-delays which makes using that feature 
+unfeasable, therefore my driver doesn't offer that capability. 
+It's intended applications is in mobile devices such as phones, 
+tablets and cameras. This driver was tested and is working on 
+a google-manta which is running postmarketOS with a near mainline kernel.
+Also there is a patch in the linux mailing list for that device:
+https://lore.kernel.org/all/20251120201958.1970828-1-linux@timmermann.space/
+The register names and values are taken from the official datasheet which
+can be found here:
+https://www.mouser.com/datasheet/2/588/AS3668_DS000196_1-00-1512816.pdf
 
-Best regards,
-Lukas Timmermann
+Please note: This is my first suggested patch to the kernel. 
+I've read the docs in regards to the led subsystem, 
+coding style and submission of patches, 
+but I'm still a bit unsure about the general workflow. 
+
+I will try my best.
+
+Changes in v11:
+- Adding mask and register to struct instead of led_id. (@Lee)
+- Renaming reg variables to be more clear. (@Lee)
+- Simplified calling of ..channel_mode_set(). (@Lee)
+- Removed unnecessary pointer dereferencing. (@Lee)
+- Changed error type in ..probe() to -EINVAL. (@Lee)
+- Reworded some error messages to be more clear. (@Lee)
+- Removed error message when removing module. (@Lee)
+- Link to v10: https://lore.kernel.org/all/20251117020008.316648-1-linux@timmermann.space/
+Changes in v10:
+- Reworded some error messages to be more clear. (@Lee)
+- Removed newline. (@Lee)
+- Added enabling and disabling of channels during brightness set. (@Lee)
+- Rearranged and renamed constants.
+- Link to v9: https://lore.kernel.org/all/20251014152604.852487-1-linux@timmermann.space/
+Changes in v9:
+- Tabbed out values. (@Lee)
+- Removed newlines. (@Lee)
+- Renamed chip id constant and variables to be more clear. (@Lee)
+- Removed unnecessary comments. (@Lee)
+- Removed unnecessary debug message. (@Lee)
+- Separate declaration and assignment of err variable. (@Lee)
+- Link to v8: https://lore.kernel.org/all/20250808213143.146732-1-linux@timmermann.space/
+Changes in v8:
+- Rearranged constants.
+- Removed more newlines.
+- Changed error messages to be more clear.
+- Renamed variables.
+- Removed revision check.
+- Removed extra i2c read&write functions.
+- Made initalisation code more readable with bitmasks.
+- The code now wraps around before 100 chars instead of 80.
+- Link to v7: https://lore.kernel.org/all/20250708141114.134950-1-linux@timmermann.space/
+Changes in v7:
+- Simplified multiple error messages. They now use dev_err_probe().
+- Removed some newlines.
+- Link to v6: https://lore.kernel.org/all/20250611083151.22150-1-linux@timmermann.space/
+Changes in v6:
+- Fixed missing error handling during init
+- Fixed missing newline in error messages
+- Fixed size calculation for memory allocation
+- Fixed error handling for memory allocation
+- Link to v5: https://lore.kernel.org/lkml/20250608231854.75668-1-linux@timmermann.space/
+Changes in v5:
+- Fixed debug and error messages using wrong format specifiers.
+- Fixed missing include bitwise.h.
+- Changed commit message for dt file to fit expected style.
+- Link to v4: https://lore.kernel.org/lkml/20250607215049.29259-1-linux@timmermann.space/
+Changes in v4:
+- Fixed some mistakes made in the dt file pointed out in v3.
+- Swapped dt and driver in patch series. DT now comes first.
+- Fixed errors in Kconfig due to last minute changes.
+- Added dt file into MAINTAINERS file.
+- Link to v3: https://lore.kernel.org/lkml/20250604225838.102910-2-linux@timmermann.space/
+Changes in v3:
+- Fixed an extra whitespace in the dt bindings documentation.
+- Sent patch to all related lists and maintainers.
+- Link to v2: https://lore.kernel.org/lkml/20250531120715.302870-4-linux@timmermann.space/
+Changes in v2:
+- Fixed reading led subnodes in dt incorrectly, 
+  which caused wrong numbering and a segfault when removing the driver module
+- Fixed calling of_property_read_u8 with an int, causing a compiler error
+- Added more error checking during writes to the i2c bus
+- Link to v1: https://lore.kernel.org/linux-leds/20250530184219.78085-3-linux@timmermann.space/
+
+Signed-off-by: Lukas Timmermann <linux@timmermann.space>
+
+Lukas Timmermann (2):
+  dt-bindings: leds: Add new as3668 support
+  leds: as3668: Driver for the ams Osram 4-channel i2c LED driver
+
+ .../devicetree/bindings/leds/ams,as3668.yaml  |  74 +++++++
+ MAINTAINERS                                   |   7 +
+ drivers/leds/Kconfig                          |  13 ++
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-as3668.c                    | 202 ++++++++++++++++++
+ 5 files changed, 297 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/ams,as3668.yaml
+ create mode 100644 drivers/leds/leds-as3668.c
+
+-- 
+2.52.0
+
 
