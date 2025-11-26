@@ -1,177 +1,160 @@
-Return-Path: <linux-leds+bounces-6320-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6321-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44AB7C8A92F
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Nov 2025 16:15:26 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F05C8ACD5
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Nov 2025 17:03:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 197873581CB
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Nov 2025 15:14:44 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BF4514EEFDD
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Nov 2025 16:00:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B11530F942;
-	Wed, 26 Nov 2025 15:14:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27B1A33BBB6;
+	Wed, 26 Nov 2025 16:00:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rpjo/HEO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GznyddyK"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723C730BB84
-	for <linux-leds@vger.kernel.org>; Wed, 26 Nov 2025 15:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6384233BBCB
+	for <linux-leds@vger.kernel.org>; Wed, 26 Nov 2025 16:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764170048; cv=none; b=Qw4mizFEgljwRQ62EbZjisPy+FkTCMypsqhC8QaLhoL0/NloGfzzXslmyvNy/kowsgfWA4L36LiTgcCMoDqH3E3ibdDL2tJfJYyHZRH8dAcGPkq17U/A75pAYHiHe3I1kb/ggKMeXoX/TnpfI1lC9JPMpyJwjXAFE+hST61axp8=
+	t=1764172833; cv=none; b=HiJyi0GM14BsJSuvLxYvS5+0NsdtpxrEjHNJctqckdARtlwJot90Jfx93G+rJICBxp7Miz1/1EsNTNUxO1ffBrf3kl7pYRNKrLpv+gBPRPEM+SAZutefxC3Fix02yZxf4w3jPTRwJGUNNdEnkhRKo3ekJq9JHyk1B5CUFDYIMCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764170048; c=relaxed/simple;
-	bh=PZYdF6QIQdSMI1swSdioBoMdBJTarR2Qx3nBbSVSHMY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cEHEjdZ1B4/0vqaPafw6Bsa/Qy+n4cXKHbClcebPPL0mOrR29JhZ7Z+I6niuXCPPv+FF/D4FCmD1PBtPcZbu3YfZWWSQjipxKGyXAPQ16gOjqyqrVginIFNWD4BvBkOW3Dy5WhlE5SG1iE/vcKlP5ZXUDfrLLmJiU7RSlNzB0XQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rpjo/HEO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3021C4CEF8;
-	Wed, 26 Nov 2025 15:14:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764170047;
-	bh=PZYdF6QIQdSMI1swSdioBoMdBJTarR2Qx3nBbSVSHMY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Rpjo/HEOF2UoBtElrb7NMQYec0ZwSDboECkSGgqNFEsJYms5xCvv7FnPIW2G2KUDV
-	 V7QwBe7VqcDZwLQklPtKz4GJN2zz8wjHLrrRlO91IkK6u/Fw6nHpBBr7BzXTcxIORU
-	 +uITOx3iFTRcESSO4cILfQrDtWNaVeXuWn3c1vo2HW8n8wosp9VbhF1ZDcu93vwufc
-	 7WsM+Bg1cs8qu4bMYCRoq4hqqnTj/obKC/4VQFnHWLfemctpTij7reyk7wZTXruuqh
-	 hA67Z7dN9jE/LoseOsa8DU9RDl9UxhxI+7FGX7pyplJQKvyJ3LT+s40/LGwHBw0mmS
-	 UC7mgSogYxHuw==
-Date: Wed, 26 Nov 2025 15:14:04 +0000
-From: Lee Jones <lee@kernel.org>
-To: Daniel Mack <daniel.mack@holoplot.com>
-Cc: linux-leds@vger.kernel.org, Daniel Mack <daniel@zonque.org>
-Subject: Re: [PATCH v3 3/3] leds: is31f132xx: add support for is31fl3293
-Message-ID: <20251126151404.GG3070764@google.com>
-References: <20251121113557.77418-1-daniel.mack@holoplot.com>
- <20251121113557.77418-4-daniel.mack@holoplot.com>
+	s=arc-20240116; t=1764172833; c=relaxed/simple;
+	bh=WBJ9UwUNrgy/X0b0BvnOXQpDRGyYIy7WU+2Gj+p774c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=S2s63JlmQHhgSDzO/jSaJyqaOUKlrP4V5Ht9J5V2lWxvU/Lu2mnVtdZrm0c+AUy8oUFW0jft2INPx13oRvkFzyJ642JWIzR8+rQrkluUQFXgkV+WxXzEpOItlvqqJM6GVyOXo4+802XB+AVGgucNAZcBzaIivndFOhjuUj5GTKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GznyddyK; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-297e239baecso8048425ad.1
+        for <linux-leds@vger.kernel.org>; Wed, 26 Nov 2025 08:00:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764172831; x=1764777631; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rZ9M6k/4ewqJkE2TX87HwTQsuW0EN1M63J7M16fS/j8=;
+        b=GznyddyKpf8VEbt0x7coIKsZpiCgiyOza3ZG0WDpm3vX4OlWsyrTmM5SKHqAuS4UYz
+         n7ypeJ0k6VsF3SxHF/VSEBykvU82dWT7h0LDSbjekroXMkqyUKeHI/hbvDpTzc5EH/x+
+         5JwmQ6p/nn1JsN8tqBTx9jQFnu9RaSil8FV65Alz5KnFDxjf6h1C9Bt9B6/I6+P8zcJg
+         mHq+ckc26vQki1ZAMEdh5Wg9iIHjhMPrPvbWoQwLwvKe5x0v32SUUFqQEI9TBtcLaeEk
+         S+ZYHo0XPxBKP/yZ7iBmpQL/n7jq81Quoeq+xb6EB49q4GKsAg/yClET1L1bAZB14Psr
+         o/Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764172831; x=1764777631;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rZ9M6k/4ewqJkE2TX87HwTQsuW0EN1M63J7M16fS/j8=;
+        b=DBVy0UxIts9Rvn58ZTA4fE77argbTgjS4ICVzglhqOqSZbvuuvWqSKycFoJJWlqyBf
+         uS08CID6MY0h5D5zwP9r0QKN5I+oBcSVXnB4Mz4BzRbr6/3hpPGfFQUx1cfVlkQd/7xi
+         OKW1hkK1KPlW/Iaiqffu74PeylcMS7B9cmEk+DfLnUGyFKM/D/QZoWBvdegt1aF8+IWA
+         MUIug673IU5XY2cJve6iQSQWkgFORFEHIqjvBCfay175AbgDzBkM/5bVP338XnvEwNtm
+         r6EqI0rD6l270I2oqoH5wnSmljkdn/eW9ZzCaRRyhP1C5+IQHx6QNaVFpGq+pEGW2z8Y
+         l9Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCUiXNGilH7Lskau9W1bj2Jk8lXjsLjZ1WhpLPcI7rG2Xb0oOR9XuGOSuIkG6E6ZMFpmaZBbqr7cIWPX@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCB0dI8iSbqrtmhYHGBqsUvKZ/9VZuzWZh3v3xm9fJgC4a2r/r
+	3FdD5mBLMfVhyJ3c5AbbAAuTFZ1mChMlvjg7yGLbXIywbd/1IHBtnaLp
+X-Gm-Gg: ASbGncvNv3ANTCXwgYz+Nvc1CUhA1JsN80OpwdSpfFroum6jIk4BZeXqYV38oXt5Tn/
+	TkZnZrET340rOVJ0VEDYLHdXuhMDBFDcq3orbdJVZe0jm8pneVbtG97TR8QrrF3I/hoB0omgAiy
+	CTMA0TBggurpQAwS9lSAQ5zlrh5478LOPc2P8L3KQlAIPzKF1Lp78cYb7kUDtrmm5ySexHdbqcE
+	JUJDQ7NTxKlLVN/o6wTSUILVcyAFzgzFR+CHg55tMLueIlKObXkPsILI0TZ6+AAMqcnK/EPMCZK
+	uRv/a6wtUAh71v8Icz+3cqpxeP9PMPCQvq4L1I5nFi3k7kc7KCa48jDzrwdaLINLuu7y9vIcMMj
+	oQh3G6rn9wbw4n/GmZwi9oqplr8mq/l49sHd922ms956ELhNCKHg3GnQQTD+nVAJO+NzzgRUUW5
+	/yWZR59gIzNm8N1YM6IyvHzQ==
+X-Google-Smtp-Source: AGHT+IHW4vl9EURMb8YJrD3dHKPOSvMXx6AkbqAkBsNYyyUqCnQUvs3T4dn6AYYdWnbh0jPv+aNGrQ==
+X-Received: by 2002:a17:903:384f:b0:297:f527:885f with SMTP id d9443c01a7336-29b5df697dfmr276743665ad.0.1764172830405;
+        Wed, 26 Nov 2025 08:00:30 -0800 (PST)
+Received: from DESKTOP-P76LG1N.lan ([42.116.199.188])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b13a865sm203447045ad.33.2025.11.26.08.00.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Nov 2025 08:00:29 -0800 (PST)
+From: Nam Tran <trannamatk@gmail.com>
+To: lee@kernel.org
+Cc: gregkh@linuxfoundation.org,
+	pavel@kernel.org,
+	rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v18 2/3] leds: add basic support for TI/National Semiconductor LP5812 LED Driver
+Date: Wed, 26 Nov 2025 23:00:24 +0700
+Message-Id: <20251126160024.141129-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20251125134836.GC1127788@google.com>
+References: <20251125134836.GC1127788@google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251121113557.77418-4-daniel.mack@holoplot.com>
 
-On Fri, 21 Nov 2025, Daniel Mack wrote:
+On Tue, 25 Nov 2025, Lee Jones wrote:
 
-> From: Daniel Mack <daniel@zonque.org>
+> > +static ssize_t parse_drive_mode(struct lp5812_chip *chip, const char *str)
+> > +{
+> > +	int i;
+> > +
+> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_0 = false;
+> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_1 = false;
+> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_2 = false;
+> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_3 = false;
+> > +
+> > +	if (sysfs_streq(str, LP5812_MODE_DIRECT_NAME)) {
+> > +		chip->u_drive_mode.s_drive_mode.led_mode = LP5812_MODE_DIRECT_VALUE;
+> > +		return 0;
+> > +	}
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(chip_mode_map); i++) {
+> > +		if (!sysfs_streq(str, chip_mode_map[i].mode_name))
+> > +			continue;
+> > +
+> > +		chip->u_drive_mode.s_drive_mode.led_mode = chip_mode_map[i].mode;
+> > +		chip->u_scan_order.s_scan_order.scan_order_0 = chip_mode_map[i].scan_order_0;
+> > +		chip->u_scan_order.s_scan_order.scan_order_1 = chip_mode_map[i].scan_order_1;
+> > +		chip->u_scan_order.s_scan_order.scan_order_2 = chip_mode_map[i].scan_order_2;
+> > +		chip->u_scan_order.s_scan_order.scan_order_3 = chip_mode_map[i].scan_order_3;
 > 
-> This chip supports 3 LED channels with 4096 possible PWM values.
-> 
-> Extend the driver to support this variant:
-> 
->  * Make brightness steps configurable per device type
->  * Handle dual-register brightness updates
->  * Allow to specify values to write into the PWM update register
->  * Add custom init and shutdown function for 3293 variant
->  * Init registers after parsing DT properties
-> 
-> Signed-off-by: Daniel Mack <daniel@zonque.org>
-> ---
-> v1 -> v2: address styling issues
-> 
->  drivers/leds/leds-is31fl32xx.c | 137 +++++++++++++++++++++++++++++++--
->  1 file changed, 129 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-> index 388d6a0b6932..05e28257ca4b 100644
-> --- a/drivers/leds/leds-is31fl32xx.c
-> +++ b/drivers/leds/leds-is31fl32xx.c
-> @@ -32,10 +32,25 @@
->  #define IS31FL3216_CONFIG_SSD_ENABLE  BIT(7)
->  #define IS31FL3216_CONFIG_SSD_DISABLE 0
->  
-> +/* Registers for IS31FL3293 */
-> +#define IS31FL3293_SHUTDOWN_REG 0x01
-> +#define IS31FL3293_SHUTDOWN_SSD_DISABLE  BIT(0)
-> +#define IS31FL3293_SHUTDOWN_EN1 BIT(4)
-> +#define IS31FL3293_SHUTDOWN_EN2 BIT(5)
-> +#define IS31FL3293_SHUTDOWN_EN3 BIT(6)
-> +#define IS31FL3293_GCC_REG 0x03
-> +#define IS31FL3293_GCC_LEVEL_MAX 0x3f
-> +#define IS31FL3293_CL_REG 0x10
-> +#define IS31FL3293_COLOR_UPDATE_REG 0x27
-> +#define IS31FL3293_COLOR_UPDATE_MAGIC 0xc5
-> +#define IS31FL3293_RESET_REG 0x3c
-> +#define IS31FL3293_RESET_MAGIC 0xc5
-> +
->  struct is31fl32xx_priv;
->  struct is31fl32xx_led_data {
->  	struct led_classdev cdev;
->  	u8 channel; /* 1-based, max priv->cdef->channels */
-> +	u32 max_microamp;
->  	struct is31fl32xx_priv *priv;
->  };
->  
-> @@ -51,12 +66,14 @@ struct is31fl32xx_priv {
->   * @channels            : Number of LED channels
->   * @shutdown_reg        : address of Shutdown register (optional)
->   * @pwm_update_reg      : address of PWM Update register
-> + * @pwm_update_value    : value to write to PWM Update register
->   * @global_control_reg  : address of Global Control register (optional)
->   * @reset_reg           : address of Reset register (optional)
->   * @pwm_register_base   : address of first PWM register
->   * @pwm_registers_reversed: : true if PWM registers count down instead of up
->   * @led_control_register_base : address of first LED control register (optional)
->   * @enable_bits_per_led_control_register: number of LEDs enable bits in each
-> + * @brightness_steps    : number of brightness steps supported by the chip
->   * @reset_func          : pointer to reset function
->   * @sw_shutdown_func    : pointer to software shutdown function
->   *
-> @@ -74,12 +91,14 @@ struct is31fl32xx_chipdef {
->  	u8	channels;
->  	u8	shutdown_reg;
->  	u8	pwm_update_reg;
-> +	u8	pwm_update_value;
->  	u8	global_control_reg;
->  	u8	reset_reg;
->  	u8	pwm_register_base;
->  	bool	pwm_registers_reversed;
->  	u8	led_control_register_base;
->  	u8	enable_bits_per_led_control_register;
-> +	u16	brightness_steps;
->  	int (*reset_func)(struct is31fl32xx_priv *priv);
->  	int (*sw_shutdown_func)(struct is31fl32xx_priv *priv, bool enable);
->  };
-> @@ -148,6 +167,62 @@ static int is31fl3216_software_shutdown(struct is31fl32xx_priv *priv,
->  	return is31fl32xx_write(priv, IS31FL3216_CONFIG_REG, value);
->  }
->  
-> +/*
-> + * Custom Reset function for IS31FL3293. We need to set the global current limit
-> + * and write to the color update register once.
-> + */
-> +static int is31fl3293_reset(struct is31fl32xx_priv *priv)
-> +{
-> +	int i, ret;
-> +
-> +	ret = is31fl32xx_write(priv, IS31FL3293_RESET_REG,
-> +			       IS31FL3293_RESET_MAGIC);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Set the global current limit to maximum */
-> +	ret = is31fl32xx_write(priv, IS31FL3293_GCC_REG,
-> +			       IS31FL3293_GCC_LEVEL_MAX);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (i = 0; i < priv->num_leds; i++) {
-> +		struct is31fl32xx_led_data *led_data = &priv->leds[i];
-> +		int current_level_reg = IS31FL3293_CL_REG + led_data->channel - 1;
-> +		int microamp = max(led_data->max_microamp, 20000);
-> +		int current_level = (microamp * 0xff) / 20000;
+> Where are all of these used?
 
-Nit: Why 20000?  Please define it instead of using magic numbers for things.
+These fields are part of unions (u_drive_mode and u_scan_order).
+The bitfields are packed into drive_mode_val and scan_order_val, which are
+written to DEV_CONFIG1 and DEV_CONFIG2 in lp5812_set_drive_mode_scan_order().
 
--- 
-Lee Jones [李琼斯]
+> [...]
+> 
+> > +union u_scan_order {
+> 
+> What is 'u'?
+
+The u_* and s_* prefixes were originally meant to indicate union/struct, but they are not idiomatic.
+I will rename it to
+        union lp5812_scan_order {
+            struct {
+                u8 order0:2;
+                u8 order1:2;
+                u8 order2:2;
+                u8 order3:2;
+            } bits;
+            u8 val;
+        };
+and do the same for u_drive_mode.
+
+Thanks for reviewing.
+
+Best regards,
+Nam Tran
 
