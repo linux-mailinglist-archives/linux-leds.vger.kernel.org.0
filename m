@@ -1,69 +1,53 @@
-Return-Path: <linux-leds+bounces-6318-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6319-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE95C8A5B3
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Nov 2025 15:34:57 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id E675EC8A8F6
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Nov 2025 16:14:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E42493A4D6C
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Nov 2025 14:33:16 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C1F5F35820F
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Nov 2025 15:13:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27CF4302752;
-	Wed, 26 Nov 2025 14:33:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0306E303A1B;
+	Wed, 26 Nov 2025 15:13:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WXGQULyX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiRXpqfV"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19B21EA7CC;
-	Wed, 26 Nov 2025 14:33:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D295222A7E6
+	for <linux-leds@vger.kernel.org>; Wed, 26 Nov 2025 15:13:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764167593; cv=none; b=iOVvWzVD/iQbPQa3Wid8BEj1S/gLnlaOmHpllobUooMJ4XbnFjlqtTvH7GYx/hbC45w6s/M6uMhxNPoP+FuyK+vLV0HiI9y/kY1xTY8/PoK6i+S8epaXDCNCHcfuP/Wj4jhk7E3fET7RA+6P1Jq40XdhYeFMXxFKxhNBOiOLWc8=
+	t=1764169998; cv=none; b=l8fqHn5Eik48rSSpBKgxsVsDB99BY4sI+5dBVGJHdHLFFEKTYeMWcyufXyxsKtZOwAubpoAfI7hWDKMhAtW3uPJvo7W65aJjjU0ZbdalYkthA111qv0IndNiPq1ULeG5kFOJl0wy0Ba+AzOHrwGJ9ohLazHMuDEqvuMG7TwgrDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764167593; c=relaxed/simple;
-	bh=3kLYYlGyDPHSsE6wcJ2XsDDhl/NGDbPeXtDpM7DF2vo=;
+	s=arc-20240116; t=1764169998; c=relaxed/simple;
+	bh=fEkmddd7EiHDKABFoOk8xqa2crD7MaN4iatVeyEvDuo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qig0YYq8Hbl8jTCQQlB4spm/3R5ORHfcxzcW9cI/3nGVPih6bFBjNhEMUD1VetLiK0WnJr+ej6dHZ1X9zsfGMdWLyPRRlSsyYaP+MktjciUu7bntbgTe/wfvSjSaj2nqwrpAgcM27wm0i5nOwOitv+TLnRIX6qwkw2VXDxmrTfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WXGQULyX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF377C2BCFB;
-	Wed, 26 Nov 2025 14:33:07 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=K7yKJMO3AHczkpvlaec/bxJWw4OlbIEgXw0in3maIINICpbFW91FAQl2JfNpcREUf9NJwujqo2WcFSzyAvXhS8O8kgKBpoHBrNAAxs6xogF67D3yvHKl4huGZD3ksjkrbhdOyPqohcXsLR471fbOJdffbGwp4uvACK6AN5OHn+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiRXpqfV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3526C4CEF8;
+	Wed, 26 Nov 2025 15:13:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764167592;
-	bh=3kLYYlGyDPHSsE6wcJ2XsDDhl/NGDbPeXtDpM7DF2vo=;
+	s=k20201202; t=1764169998;
+	bh=fEkmddd7EiHDKABFoOk8xqa2crD7MaN4iatVeyEvDuo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WXGQULyXc18uR2+ihgtWOAIxSzN1ZxFrYzI1MQF4ZyK+9LYwJtBz58sOKogc39hMS
-	 SskktgRiFDH2URe0f58AtzRB+0fp6P4T3GzOZkiUylSOWLPvvOp09GBmVG/Insmtq4
-	 lwhvG3GEE2qTp0kzvlGnLwKbbCzl7vgOJbc+90x2++7OIDPw6zzkXc+MVi8nbCkvJj
-	 xK0rriKdxfoMKMoYZbvCL82s2/zpyzfpRxB9dXQS7qMQ2lzCzWbufnyZR/OxzF+8E6
-	 1bETaOzF9d78Noi3lDfyule/rfRoddI0VQSdLb0OCkQ2FlyTd2GA34G3ieAsBRCcmA
-	 WOqfu5c35FWwQ==
-Date: Wed, 26 Nov 2025 14:33:04 +0000
+	b=YiRXpqfVJ6rjhwxvcCnOJAJAuKxCVZ316fTCUE8+bX6VODg5hrYpJErKAt/UQt4C+
+	 9oTlPURWC6fF2FpBwsAcH5csY2AI3mjigp7d6yCg/SBRYNQCfWU0gnv5AJNfqumGvz
+	 O9C6v2kv3GG+YQgADDJQO/Sr3E/urwP98qZTqERtvBu7mkSWUEDvzpEBC7C7TZ16gc
+	 CxvjoYGInwz1ZvGeU4XHXGZiEfdm81gzrknonGN3ctCJmTpXLP/oi9A//T5Z2Z8pp8
+	 PWE1IjEooAWs7E589cJQaeU5vvJhmnVfVmuxGPZoUqL58NCKN/Y/RfqMu12tHJQ6FV
+	 9DJLP45hYtp3w==
+Date: Wed, 26 Nov 2025 15:13:14 +0000
 From: Lee Jones <lee@kernel.org>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-rtc@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH v5 07/16] mfd: rohm-bd71828: Use regmap_reg_range()
-Message-ID: <20251126143304.GE3070764@google.com>
-References: <cover.1763625920.git.mazziesaccount@gmail.com>
- <b0c6256deb1388f0774b3c855c0614d363aa003b.1763625920.git.mazziesaccount@gmail.com>
+To: Daniel Mack <daniel.mack@holoplot.com>
+Cc: linux-leds@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] leds: is31f132xx: add support for is31fl3293
+Message-ID: <20251126151314.GF3070764@google.com>
+References: <20251121113557.77418-1-daniel.mack@holoplot.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -73,31 +57,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b0c6256deb1388f0774b3c855c0614d363aa003b.1763625920.git.mazziesaccount@gmail.com>
+In-Reply-To: <20251121113557.77418-1-daniel.mack@holoplot.com>
 
-On Thu, 20 Nov 2025, Matti Vaittinen wrote:
+On Fri, 21 Nov 2025, Daniel Mack wrote:
 
-> From: Matti Vaittinen <mazziesaccount@gmail.com>
+> This is v3 of the series to support the is31fl3293 with the is31f132xx
+> driver.
 > 
-> The regmap range tables tend to be somewhat verbose. Using the
-> regmap_reg_range() can make the definitions slightly mode compact.
+> Daniel Mack (3):
+>   dt-bindings: leds: add issi,is31fl3293 to leds-is31fl32xx
+>   leds: is31f132xx: re-order code to remove forward declarations
+>   leds: is31f132xx: add support for is31fl3293
 > 
-> Tidy the regmap range tables by using the regmap_reg_range().
-> 
-> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> ---
-> Revision history:
->  v2 => :
->  - no changes
->  RFCv1 => v2:
->  - New patch
-> ---
->  drivers/mfd/rohm-bd71828.c | 64 +++++++++++---------------------------
->  1 file changed, 18 insertions(+), 46 deletions(-)
+>  .../bindings/leds/leds-is31fl32xx.txt         |   1 +
+>  drivers/leds/leds-is31fl32xx.c                | 234 +++++++++++++-----
+>  2 files changed, 177 insertions(+), 58 deletions(-)
 
-LGTM.
+This set does not apply.  Please rebase onto -next.
 
-Once everything is in order, I plan to merge the set through MFD.
+Since you have to rebase anyway, please see the nit I have in one of the patches.
 
 -- 
 Lee Jones [李琼斯]
