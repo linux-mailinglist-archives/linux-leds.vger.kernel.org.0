@@ -1,140 +1,106 @@
-Return-Path: <linux-leds+bounces-6343-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6344-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2793C8E008
-	for <lists+linux-leds@lfdr.de>; Thu, 27 Nov 2025 12:22:24 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF2EC8E0EA
+	for <lists+linux-leds@lfdr.de>; Thu, 27 Nov 2025 12:32:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D826734FC51
-	for <lists+linux-leds@lfdr.de>; Thu, 27 Nov 2025 11:22:05 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5FCCE4E6445
+	for <lists+linux-leds@lfdr.de>; Thu, 27 Nov 2025 11:32:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E65932E123;
-	Thu, 27 Nov 2025 11:21:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D88E032825B;
+	Thu, 27 Nov 2025 11:32:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bNZKoPli"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A6OkcU2+"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B921F32C95A
-	for <linux-leds@vger.kernel.org>; Thu, 27 Nov 2025 11:21:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C101CEAA3;
+	Thu, 27 Nov 2025 11:32:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764242470; cv=none; b=NThxnAzIorJJJn2p/mrk2OHFARDm40rtLEGMlIyxWJigmGiNVQxCzcinsipEQAx6eWcQprEeAYR1q5l9lJ1p6dpwe/Lhi/FEwIHTAJS2UwRIjstOmkdyoVpU0Bl+mlgwIVetG20FmS6gGGIzvZZVlLNwy1q+TD7GgF8nTjsUrRk=
+	t=1764243139; cv=none; b=f9y1ztXVO0ADFSEEuyvsIbkl7ac/qfJIEHS9yjoJPnRK57fhz9I9s6DWol/1pbhAwhnr8YpGWdus7sCJ2nECG6SFbmoMh4fjpH6NY7T+iYpsks1AM4tbndhrLBLRxnxIP5Y6eHl7zSH07aouqqRMCJA47OrVD5zFUF++mGswacY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764242470; c=relaxed/simple;
-	bh=Ap6/9SbkbbPmwKUm+ihzBVNWRWeUs4zdF9KjvdKRdpo=;
+	s=arc-20240116; t=1764243139; c=relaxed/simple;
+	bh=tj0lS7DdoAPQr2ERf+1y9nts1ZyFCni7ZhxheEkBTvg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LuOwxzVyduNHIjz5rnHOxMseKybal5pYOMz/FiVSkYhHOo/nfsWSuKabZmXvt5VNRw4t8LrjyZnqeleTarH6PQ866XSbFUGzOEyB6c0RQL1dzzYkC/li0qGPrnB6wL95YZuZtYJjRiorxv+5yi1LbA4ZLUDUH75212KZvs7XXtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bNZKoPli; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Thu, 27 Nov 2025 13:20:59 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1764242467; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:in-reply-to:in-reply-to:  references:references;
-	bh=9hlvCyZam0KEugkCTICJnPQK3CmfT/W9AcEwJZGBgVM=;
-	b=bNZKoPlijfeIKaessbhVKny47LUKJ96A8IP++cezctLMuEAswDl7dm94n5cgZ1rJgbu0kH
-	ac7WG827thIkBZkzxrRokIrtVGsgZufp/lcbh5c/GQOo+haInO57NBPwGB5cJ8jPreLuBa
-	EP7ij3w6c52Q2cch1r5DqRWtXjxMjps=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Matti Vaittinen <matti.vaittinen@linux.dev>
-To: Matti Vaittinen <mazziesaccount@gmail.com>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-rtc@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
-Subject: [PATCH v6 17/17] MAINTAINERS: Add ROHM BD72720 PMIC
-Message-ID: <e9bf9a504fdd5011adc4a012d59f71a9385d57ea.1764241265.git.mazziesaccount@gmail.com>
-Reply-To: Matti Vaittinen <mazziesaccount@gmail.com>
-References: <cover.1764241265.git.mazziesaccount@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=V9bHEkNe7qAxkPQRxrmCLfPsGLVHFIbI+jsSGspSfIPsurbVocRWLU6id7l9F6ZG3QHjQ7lRPLsMEg2fa72DsyGbmSDLnQ0TyE5Bu7Rah/BR/uMqO8bLsNWmhi7di7vWkYv1oyDkacXyyMcN11f3bE7z3pbemWDCkBLPVFZYIFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A6OkcU2+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 543A5C4CEF8;
+	Thu, 27 Nov 2025 11:32:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764243139;
+	bh=tj0lS7DdoAPQr2ERf+1y9nts1ZyFCni7ZhxheEkBTvg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=A6OkcU2+6vY+ruG5rNfD4I2Q0lW8Xx8u7um9781+twFJpfMSP0eI/nHoDT5lud0Tn
+	 3Iv+q1EID5qMZwczSqUrcLaTzLzhQpPKdPxYi5f1y5HoLmFSbUIOvc7QLeNmo2iAZb
+	 /iEm6J4imT4tFFCYCA8TdkBvFAxSYreQB0Jy0o6VXsi36AfHY8JypZzxH+272BX9cU
+	 yASq2HgE64s/4G4q5SqaL2Z6P7QuQ6Zh7j+u6weD4X3dR0123qxWOj7WMMhZqOmlXh
+	 2fkjnLd/oV6R3gC1oKK7acgYGy2jXvL249MTa52xJbPWkD9SIymA1LXk9SZJ5IXJ22
+	 F8AqGFErnV12A==
+Date: Thu, 27 Nov 2025 11:32:13 +0000
+From: Lee Jones <lee@kernel.org>
+To: Nam Tran <trannamatk@gmail.com>
+Cc: gregkh@linuxfoundation.org, pavel@kernel.org, rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr, krzk+dt@kernel.org, robh@kernel.org,
+	conor+dt@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v18 2/3] leds: add basic support for TI/National
+ Semiconductor LP5812 LED Driver
+Message-ID: <20251127113213.GI3070764@google.com>
+References: <20251125134836.GC1127788@google.com>
+ <20251126160024.141129-1-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="TAKA8cOt62rM1h2P"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cover.1764241265.git.mazziesaccount@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251126160024.141129-1-trannamatk@gmail.com>
 
+On Wed, 26 Nov 2025, Nam Tran wrote:
 
---TAKA8cOt62rM1h2P
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Tue, 25 Nov 2025, Lee Jones wrote:
+> 
+> > > +static ssize_t parse_drive_mode(struct lp5812_chip *chip, const char *str)
+> > > +{
+> > > +	int i;
+> > > +
+> > > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_0 = false;
+> > > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_1 = false;
+> > > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_2 = false;
+> > > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_3 = false;
+> > > +
+> > > +	if (sysfs_streq(str, LP5812_MODE_DIRECT_NAME)) {
+> > > +		chip->u_drive_mode.s_drive_mode.led_mode = LP5812_MODE_DIRECT_VALUE;
+> > > +		return 0;
+> > > +	}
+> > > +
+> > > +	for (i = 0; i < ARRAY_SIZE(chip_mode_map); i++) {
+> > > +		if (!sysfs_streq(str, chip_mode_map[i].mode_name))
+> > > +			continue;
+> > > +
+> > > +		chip->u_drive_mode.s_drive_mode.led_mode = chip_mode_map[i].mode;
+> > > +		chip->u_scan_order.s_scan_order.scan_order_0 = chip_mode_map[i].scan_order_0;
+> > > +		chip->u_scan_order.s_scan_order.scan_order_1 = chip_mode_map[i].scan_order_1;
+> > > +		chip->u_scan_order.s_scan_order.scan_order_2 = chip_mode_map[i].scan_order_2;
+> > > +		chip->u_scan_order.s_scan_order.scan_order_3 = chip_mode_map[i].scan_order_3;
+> > 
+> > Where are all of these used?
+> 
+> These fields are part of unions (u_drive_mode and u_scan_order).
+> The bitfields are packed into drive_mode_val and scan_order_val, which are
+> written to DEV_CONFIG1 and DEV_CONFIG2 in lp5812_set_drive_mode_scan_order().
 
-=46rom: Matti Vaittinen <mazziesaccount@gmail.com>
+Sure, but where.  What line of code?
 
-Add the ROHM BD72720 PMIC driver files to be maintained by undersigned.
-
-Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-
----
-Revision history:
- RFCv1 =3D>:
- - No changes
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fe01aa31c58b..7e3c1eac7cda 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22353,6 +22353,7 @@ S:	Supported
- F:	drivers/clk/clk-bd718x7.c
- F:	drivers/gpio/gpio-bd71815.c
- F:	drivers/gpio/gpio-bd71828.c
-+F:	drivers/gpio/gpio-bd72720.c
- F:	drivers/mfd/rohm-bd71828.c
- F:	drivers/mfd/rohm-bd718x7.c
- F:	drivers/mfd/rohm-bd9576.c
-@@ -22369,6 +22370,7 @@ F:	drivers/watchdog/bd96801_wdt.c
- F:	include/linux/mfd/rohm-bd71815.h
- F:	include/linux/mfd/rohm-bd71828.h
- F:	include/linux/mfd/rohm-bd718x7.h
-+F:	include/linux/mfd/rohm-bd72720.h
- F:	include/linux/mfd/rohm-bd957x.h
- F:	include/linux/mfd/rohm-bd96801.h
- F:	include/linux/mfd/rohm-bd96802.h
---=20
-2.52.0
-
-
---TAKA8cOt62rM1h2P
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmkoNBsACgkQeFA3/03a
-ocX3XwgA0e7s/RbGuUWSAffxeMa2iMDujJPBu2E1K8RfwmVs+g7zs1N1LXPRjig0
-RsN2Q6KdvgbMyTWjhich47XuU1THSsNf5zWKCWw9lgsopVO5UMxnRfJWaNlDNCDG
-5WetCUfKGSjh0uJHmg6y48ggWigquj/D+8z/cqELCWTiXlEVxvzSW1gbYUn2a6/e
-oKHSGSHMg1gXoho7utxadtFxdfI0kBiuEs724deIcx9L4TLMsktEmV0+t5j5E1Jj
-naA+FsVE0tfSlMwpSEOV7L4WVUaDrd/JjeO+poH74sjwgQx7CXke9nCYIbdywWCs
-5hjJhl0RnIlLdrd4k9xiu0lCEs/KLQ==
-=l3La
------END PGP SIGNATURE-----
-
---TAKA8cOt62rM1h2P--
+-- 
+Lee Jones [李琼斯]
 
