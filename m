@@ -1,283 +1,335 @@
-Return-Path: <linux-leds+bounces-6324-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6325-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0D2C8BBC3
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Nov 2025 20:59:01 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75BC0C8D2E3
+	for <lists+linux-leds@lfdr.de>; Thu, 27 Nov 2025 08:48:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA2E33BD740
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Nov 2025 19:55:07 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 4B8233512AA
+	for <lists+linux-leds@lfdr.de>; Thu, 27 Nov 2025 07:47:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7714D34028F;
-	Wed, 26 Nov 2025 19:54:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A98823233F4;
+	Thu, 27 Nov 2025 07:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="oG4F1+oP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nSmq4RHR"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA7E33F8A4
-	for <linux-leds@vger.kernel.org>; Wed, 26 Nov 2025 19:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4827320CCF
+	for <linux-leds@vger.kernel.org>; Thu, 27 Nov 2025 07:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764186898; cv=none; b=pavxZyjzQuiI1PSgI8bPiba4o5w+Rdi/CMK3mo7Myoei1JqF7znNj8Dvsl2hbtIlNtn9P+EYSbcVNtSeXPOLQF5FUtA4+X4jJpvWe6j0ZJiqtvfjr7RjBWn6Y4xfhrDLSXwsqp4sVxDF5h44aigucnyMXWhNlLYqyMDIR4zHErw=
+	t=1764229577; cv=none; b=Nb6pSYNVs//RKpHdTzydftjcTm/Z4pBtwBz5ORZJb0Zj/rpGtn1owCXgRbfhy9b2wkJzVe8AOGOQOkmdkN9/Ix8pIhpusVza6uSDo6cAyT2E4pbCl5BiamgGg+6f6fzJAENbZjj9ly5TN0N7R+NoiLu7BLFLxlFma/gomaR6RoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764186898; c=relaxed/simple;
-	bh=2Av56t9uJGDOdh1tiDXLSIs+ur3rFEJiL4aNQMWeziU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uCkBWLW1Beq896rsYHEjKYwstKGSj9bqN0EEB+IZaPxrP4tJ5RMkX/X1eTMj8PEO4WTYAiT49WkINdrkKzfOIM/FplXSCDwnfqdzFZrzdfdI7tc+ncEDoYFRp2OOzSlq7W/Vo6sJ6gKoaHqsiZJAPcLuV2cPJS3fz+w1D6v0OyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=oG4F1+oP; arc=none smtp.client-ip=84.16.241.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
-Received: from [IPv6:2a02:1812:162c:8f00:74f7:450e:16bb:b45f] (2a02-1812-162c-8f00-74f7-450e-16bb-b45f.ip6.access.telenet.be [IPv6:2a02:1812:162c:8f00:74f7:450e:16bb:b45f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sander@svanheule.net)
-	by polaris.svanheule.net (Postfix) with ESMTPSA id 29D066A61AC;
-	Wed, 26 Nov 2025 20:54:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-	s=mail1707; t=1764186887;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bEm82vySwX2e9VO+ntVk9tkKUj/BEzLPKS4pAtBBzwg=;
-	b=oG4F1+oPVjAIYPoSZGOAaiU4VXPJHNUMALBJ/a/+390wM6+ael2S6u8gwV76vDsXV5FfOk
-	wgzyia7gWwWa89Ez1eevZsnV7T/+kl/hETR8r36Z8FMuxmBVouTt0bkpb9OMEkJhj/nisM
-	7DpyBZiYpCSEhfhjahKi4nqg5kpd+AsHvatdycfcGmVt7gZ6DrQpXE7yVqGP9+BhlBaaSb
-	clDaxHitOxCiza73aPU6p31fXliMVrIhSL4Powom0vcV+j2UlVz80KoyLL+uTYiO1hZijH
-	nFijkpVn9aBgxovs3rWk76MmjcBXXGJkTMTavSky2LJZyKvCbISdRl+e4SeU0Q==
-Message-ID: <38c9b9e77029f894dd186305a275231aaa502664.camel@svanheule.net>
-Subject: Re: [PATCH v8 3/6] mfd: Add RTL8231 core device
-From: Sander Vanheule <sander@svanheule.net>
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Linus Walleij	 <linus.walleij@linaro.org>, Michael
- Walle <mwalle@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
-Date: Wed, 26 Nov 2025 20:54:44 +0100
-In-Reply-To: <20251126130447.GB3070764@google.com>
-References: <20251119200306.60569-1-sander@svanheule.net>
-	 <20251119200306.60569-4-sander@svanheule.net>
-	 <20251126130447.GB3070764@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
+	s=arc-20240116; t=1764229577; c=relaxed/simple;
+	bh=eixrv2CdiGHk1MmiwyukM55rvIC4y05XI7ZWqeHAQvk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cdx7ZwWlCuAIv6EMN3ZxYsjja/ryLl/sFdYOI3z/aHim1U44Hctl7v2bZapF/E7Rm2ZpQyhDT8pX+ddvDzfwuYAw1Z2weHj4TgpN41Z8p1Wg3HoDuVVoVqdakJAV82D887GtQznX7o6imDevbd2ixRlACT2ZbpNMiLjwMqfFvEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nSmq4RHR; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5957c929a5eso856938e87.1
+        for <linux-leds@vger.kernel.org>; Wed, 26 Nov 2025 23:46:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764229572; x=1764834372; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Hnj14zijJRhbSEOBE/unb9XqHQn52yQ1cvvxZ0DFyqE=;
+        b=nSmq4RHRUsjIsmho2ujm1TeyNB0Mfs92BmkhKmaKjrxY5Hxp3Pg34YrahjAlDnNN1/
+         dG7ktJFimwoUG8rq7oWKmVvhI396ad68pO1UziJ/QDZ5I+lhAk97mnZUmgPiGd2K/1Uf
+         oL02pjbheZoUh5e94mnbVCNR9yIavH0WGqyfk70pxPYI0H+xt0GCB7URFrtVWqRke/0P
+         5NlO6t4H97b4q+8GDUZxBg+QMol4YtasALG9EP8IURnDt2rw8/CoEe0NaDCpLQP/vTMb
+         SbKWw+ebzNOCObefJMkJIqWC097X0J+M3tXPuyEcfocyAjsp/85bzMRwSMI/GD7YglER
+         30Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764229572; x=1764834372;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Hnj14zijJRhbSEOBE/unb9XqHQn52yQ1cvvxZ0DFyqE=;
+        b=YdUb4JJirDA5xyQ29KGokvCzwXsfcBrQ5Ub/WdS7rqrSwns0+95/8bS6A8wrKfyIL8
+         mmI4fEFRdfwEm4BlOTTiGAF92w8La6pN7WggkemxtfErm149+6WKBz0f7ZZc2h4gEVcj
+         cqN9eOnqEMOXpJMjckRQycWChKGdW5iTvdoOS9UJk5hiYBbQIq3ZQOXPjwnUkZEXc25y
+         9VUpf+1hDbZ/h00U2Gfh4kxv4JIzJ895QAoaMKhc8O4Jx5VTt6mqmfBrN/dNWe2slQBV
+         VR3xRtidBH+7/yoL/FmHzKC+yybgkN3CdVvEXdphtrcmwAGRYLYy7/9tz8VKSVKQMQTV
+         WMDw==
+X-Forwarded-Encrypted: i=1; AJvYcCUgUWUjAs/MPHuaz9JyzqkunPYlSUavu09BN4vi7CshGuyxpPZdKVm/F36wLiLx3zEg1BfHIot70IW8@vger.kernel.org
+X-Gm-Message-State: AOJu0YwP5ZFUSKbZF/JKV490hUgCLD3NIpw0ubFti3Ta3wc8ykslSWqK
+	3DeUytQxpMKh8SCu3kI4z3i3oLcKbWIeOw8hOfxYjMLoGff3hkwiWlHDr4DlOKtfQtA=
+X-Gm-Gg: ASbGncsTxsgd/0eoBfy3QoJtXizXNlkJ/qWgG1xycmqz06l/lhqVonrXPGq20du7Bes
+	iB0mVJyeSsl5HBhODIyHjs998NJyq5LyoaDYYsviSFreaCTCeDOAImXayLdOXIVleAkMswtCJtz
+	L83+5uR89kVUiVnlmhg8+wyTt9dEye6DcD2PkWw2uL1XqiHzRnzdHungSNKlqxYrYlxnKH7hJSb
+	P0iTRmCuI5GpJPPCW0K9pe92Y4BmojC4Y3dd9Tc/ZtSZ0HD+98NE2G7aQ16wvuQferfc1jAobt1
+	FQ3QKbyaXmm1fgTjLL9paDW3aYCw2S7rsoU+Zek5rjlCdWk6cHXRr5AOZhjtHgDS/XVB1ehrguW
+	Oedhvj1I8ZFIHknez0Sbyrvb6UK+CKPJKdSt5P/8ufzEHkWgxBL2qieinzebQTr3Cy1kXc48N9q
+	52f6Ds7z3n9UOYDTcJnR+TJLlIAfodJCvy1jwStoSCDUqUKBK0EOnkBIiL6+WhUcO0qxC9
+X-Google-Smtp-Source: AGHT+IE0AX+RugWE0+4LM7mYSSpRxls5r75Ssa4ZNDWg6K4RRVvhPkZhmvV5UTirnjSMOo+4ntezOw==
+X-Received: by 2002:a05:6512:b17:b0:595:7854:af7c with SMTP id 2adb3069b0e04-596b5277bfemr3434647e87.24.1764229571533;
+        Wed, 26 Nov 2025 23:46:11 -0800 (PST)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-596bf8a7cffsm202938e87.18.2025.11.26.23.46.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Nov 2025 23:46:10 -0800 (PST)
+Message-ID: <01285891-a73f-4916-8c5a-ef187c676edd@gmail.com>
+Date: Thu, 27 Nov 2025 09:46:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/16] mfd: bd71828: Support ROHM BD72720
+To: Lee Jones <lee@kernel.org>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-rtc@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
+References: <cover.1763625920.git.mazziesaccount@gmail.com>
+ <ffdc1c2f380959c792ad39817ba5e9cf4bbc1131.1763625920.git.mazziesaccount@gmail.com>
+ <20251126142809.GD3070764@google.com>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20251126142809.GD3070764@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Lee,
+On 26/11/2025 16:28, Lee Jones wrote:
+> On Thu, 20 Nov 2025, Matti Vaittinen wrote:
+> 
+>> From: Matti Vaittinen <mazziesaccount@gmail.com>
+>>
+>> The ROHM BD72720 is a power management IC which continues the BD71828
+>> family of PMICs. Similarly to the BD71815 and BD71828, the BD72720
+>> integrates regulators, charger, RTC, clock gate and GPIOs.
+>>
+>> The main difference to the earlier PMICs is that the BD72720 has two
+>> different I2C slave addresses. In addition to the registers behind the
+>> 'main I2C address', most of the charger (and to some extent LED) control
+>> is done via registers behind a 'secondary I2C slave address', 0x4c.
+>>
+>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+>>
+>> ---
+>> Revision history:
+>>   v2 =>:
+>>   - no changes
+>>
+>>   RFCv1 => v2: (Mostly addressed comments from Lee and Andreas)
+>>   - Use stacked regmaps to avoid platform data and the tango with
+>>     multiple regmaps in the power-supply driver
+>>   - Use regmap_reg_range()
+>>   - make it clear bd72720_irq_type_base is an array
+>>   - tab-out definitions in the bd72720 header
+>>   - minor styling
+>>
+>> Note: This patch depends on the series: "power: supply: add charger for
+>> BD71828" by Andreas:
+>> https://lore.kernel.org/all/20250918-bd71828-charger-v5-0-851164839c28@kemnade.info/
+>>
+>> There are some new variants being planned. Most notably, the BD73900
+>> should be almost identical to the BD72720 - for everything else except
+>> the charger block.
+>> ---
+>>   drivers/mfd/Kconfig              |  18 +-
+>>   drivers/mfd/rohm-bd71828.c       | 488 +++++++++++++++++++++++-
+>>   include/linux/mfd/rohm-bd72720.h | 634 +++++++++++++++++++++++++++++++
+>>   include/linux/mfd/rohm-generic.h |   1 +
+>>   4 files changed, 1126 insertions(+), 15 deletions(-)
+>>   create mode 100644 include/linux/mfd/rohm-bd72720.h
 
-On Wed, 2025-11-26 at 13:04 +0000, Lee Jones wrote:
-> On Wed, 19 Nov 2025, Sander Vanheule wrote:
-> > --- /dev/null
-> > +++ b/drivers/mfd/rtl8231.c
-> > @@ -0,0 +1,193 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
->=20
-> No company copyright or author tags?
->=20
+// snip
 
-I'm writing this driver on my own time, so there's no company. My name is a=
-t the
-bottom of the driver, in the MODULE_AUTHOR() macro. That's enough for me.
+>> diff --git a/drivers/mfd/rohm-bd71828.c b/drivers/mfd/rohm-bd71828.c
+>> index 2a43005b67ee..2e546aa60ffd 100644
+>> --- a/drivers/mfd/rohm-bd71828.c
+>> +++ b/drivers/mfd/rohm-bd71828.c
+>> @@ -2,7 +2,7 @@
+>>   //
+>>   // Copyright (C) 2019 ROHM Semiconductors
+>>   //
+>> -// ROHM BD71828/BD71815 PMIC driver
+>> +// ROHM BD718[15/28/79] and BD72720 PMIC driver
+> 
+> Looks like this header format slipped in.
+> 
+> I would appreciate a follow-up patch to change it to standard C
+> multi-line format (except the SPDX line).
 
+Sure.
 
-> > +static int rtl8231_soft_reset(struct regmap *regmap)
-> > +{
-> > +	const unsigned int all_pins_mask =3D GENMASK(RTL8231_BITS_VAL - 1,
-> > 0);
-> > +	unsigned int cfg;
-> > +	int err;
-> > +
-> > +	/* SOFT_RESET bit self-clears when done */
-> > +	regmap_write_bits(regmap, RTL8231_REG_PIN_HI_CFG,
-> > +			=C2=A0 RTL8231_PIN_HI_CFG_SOFT_RESET,
-> > RTL8231_PIN_HI_CFG_SOFT_RESET);
-> > +
-> > +	err =3D regmap_read_poll_timeout(regmap, RTL8231_REG_PIN_HI_CFG, cfg,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !(cfg &
-> > RTL8231_PIN_HI_CFG_SOFT_RESET), 50, 1000);
-> > +	if (err)
-> > +		return err;
-> > +
-> > +	regcache_drop_region(regmap, 0, RTL8231_REG_COUNT - 1);
->=20
-> Nit:
->=20
-> RTL8231_REG_FUNC0, RTL8231_REG_GPIO_DATA2
->=20
-> I'll also accept additional devices for each of these which would make
-> things very clear.
->=20
-> RTL8231_REG_START	0
-> RTL8231_REG_END		RTL8231_REG_COUNT - 1
->=20
-> Or similar.
+// snip
 
-I went with:
+>>   
+>> +static int regmap_write_wrapper(void *context, unsigned int reg, unsigned int val)
+>> +{
+>> +	struct bd72720_regmaps *maps = context;
+>> +
+>> +	if (reg < 0x100)
+> 
+> Define this to something human readable please.
+> 
+> Some kind of PAGE or BOUNDARY.  Perhaps something better.
 
-#define RTL8231_REG_START	0x00
-#define RTL8231_REG_END		0x1e
+I will use 'BD72720_SECONDARY_I2C_REG_OFFSET'. A tad long, but it's not 
+used on a long lines.
 
-I will also use RTL8231_REG_END for the regmap config's max_register, so
-RTL8231_REG_COUNT can even be dropped.
+> 
+>> +		return regmap_write(maps->map1_4b, reg, val);
+>> +
+>> +	reg = BD72720_REG_UNWRAP(reg);
+>> +
+>> +	return regmap_write(maps->map2_4c, reg, val);
+>> +}
 
+// snip
 
-> > +static int rtl8231_init(struct device *dev, struct regmap *regmap)
-> > +{
-> > +	struct regmap_field *led_start;
-> > +	unsigned int ready_code;
-> > +	unsigned int started;
-> > +	unsigned int status;
-> > +	int err;
-> > +
-> > +	err =3D regmap_read(regmap, RTL8231_REG_FUNC1, &status);
-> > +	if (err) {
-> > +		dev_err(dev, "failed to read READY_CODE\n");
-> > +		return err;
-> > +	}
-> > +
-> > +	ready_code =3D FIELD_GET(RTL8231_FUNC1_READY_CODE_MASK, status);
-> > +	if (ready_code !=3D RTL8231_FUNC1_READY_CODE_VALUE) {
-> > +		dev_err(dev, "RTL8231 not present or ready 0x%x !=3D 0x%x\n",
-> > +			ready_code, RTL8231_FUNC1_READY_CODE_VALUE);
-> > +		return -ENODEV;
-> > +	}
-> > +
-> > +	led_start =3D dev_get_drvdata(dev);
-> > +	err =3D regmap_field_read(led_start, &started);
-> > +	if (err)
-> > +		return err;
-> > +
-> > +	if (started)
-> > +		return 0;
-> > +
-> > +	err =3D rtl8231_soft_reset(regmap);
-> > +	if (err)
-> > +		return err;
-> > +
-> > +	/* LED_START enables power to output pins, and starts the LED
-> > engine */
-> > +	return regmap_field_write(led_start, 1);
->=20
-> Why can't the dedicated LED driver initialise itself?
+> 
+>> +		return (struct regmap *)secondary_i2c;
+> 
+> *shudders* -- that's a hack, right!
+> 
+> /me does some grepping around ...
+> 
+> Shouldn't this be:
+> 
+> 		return ERR_CAST(secondary_i2c);
 
-Perhaps I didn't explain this clearly enough in my previous message, but th=
-e
-"led_start" bit must also be set if all pins are configured for use as GPIO=
- and
-the LED driver isn't even loaded in the kernel. Otherwise the output driver=
-s of
-the pins remain disabled.
+I didn't know about the ERR_CAST(). Thanks for going the extra mile and 
+looking
 
-I can rename "led_start" to "output_enable" if that would make things clear=
-er.
+> 
+>> +	}
 
->=20
-> > +}
-> > +
-> > +static const struct regmap_config rtl8231_mdio_regmap_config =3D {
-> > +	.val_bits =3D RTL8231_BITS_VAL,
-> > +	.reg_bits =3D RTL8231_BITS_REG,
-> > +	.volatile_reg =3D rtl8231_volatile_reg,
-> > +	.max_register =3D RTL8231_REG_COUNT - 1,
+//snip
 
-Changed to RTL8231_REG_END.
+>> diff --git a/include/linux/mfd/rohm-bd72720.h b/include/linux/mfd/rohm-bd72720.h
+>> new file mode 100644
+>> index 000000000000..42fcf8f81b2f
+>> --- /dev/null
+>> +++ b/include/linux/mfd/rohm-bd72720.h
+>> @@ -0,0 +1,634 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+>> +/*
+>> + * Copyright 2024 ROHM Semiconductors.
+> 
+> Still out of date.
 
-> > +	regmap =3D devm_regmap_init_mdio(mdiodev,
-> > &rtl8231_mdio_regmap_config);
-> > +	if (IS_ERR(regmap)) {
-> > +		dev_err(dev, "failed to init regmap\n");
->=20
-> Nit: Let's not shorten user messages - "initialise".
+Ah. Indeed. Thanks.
 
-Ack.
+>> + * Author: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+>> + */
+>> +
+// snip
 
+>> +
+>> +/* BD72720 interrupts */
+>> +#define BD72720_INT_LONGPUSH_MASK	BIT(0)
+>> +#define BD72720_INT_MIDPUSH_MASK	BIT(1)
+>> +#define BD72720_INT_SHORTPUSH_MASK	BIT(2)
+>> +#define BD72720_INT_PUSH_MASK		BIT(3)
+>> +#define BD72720_INT_HALL_DET_MASK	BIT(4)
+>> +#define BD72720_INT_HALL_TGL_MASK	BIT(5)
+>> +#define BD72720_INT_WDOG_MASK		BIT(6)
+>> +#define BD72720_INT_SWRESET_MASK	BIT(7)
+>> +#define BD72720_INT_SEQ_DONE_MASK	BIT(0)
+>> +#define BD72720_INT_PGFAULT_MASK	BIT(4)
+>> +#define BD72720_INT_BUCK1_DVS_MASK	BIT(0)
+>> +#define BD72720_INT_BUCK2_DVS_MASK	BIT(1)
+>> +#define BD72720_INT_BUCK3_DVS_MASK	BIT(2)
+>> +#define BD72720_INT_BUCK4_DVS_MASK	BIT(3)
+>> +#define BD72720_INT_BUCK5_DVS_MASK	BIT(4)
+>> +#define BD72720_INT_BUCK6_DVS_MASK	BIT(5)
+>> +#define BD72720_INT_BUCK7_DVS_MASK	BIT(6)
+>> +#define BD72720_INT_BUCK8_DVS_MASK	BIT(7)
+>> +#define BD72720_INT_BUCK9_DVS_MASK	BIT(0)
+>> +#define BD72720_INT_BUCK10_DVS_MASK	BIT(1)
+>> +#define BD72720_INT_LDO1_DVS_MASK	BIT(4)
+>> +#define BD72720_INT_LDO2_DVS_MASK	BIT(5)
+>> +#define BD72720_INT_LDO3_DVS_MASK	BIT(6)
+>> +#define BD72720_INT_LDO4_DVS_MASK	BIT(7)
+>> +#define BD72720_INT_VBUS_RMV_MASK	BIT(0)
+>> +#define BD72720_INT_VBUS_DET_MASK	BIT(1)
+>> +#define BD72720_INT_VBUS_MON_RES_MASK	BIT(2)
+>> +#define BD72720_INT_VBUS_MON_DET_MASK	BIT(3)
+>> +#define BD72720_INT_VSYS_MON_RES_MASK	BIT(0)
+>> +#define BD72720_INT_VSYS_MON_DET_MASK	BIT(1)
+>> +#define BD72720_INT_VSYS_UV_RES_MASK	BIT(2)
+>> +#define BD72720_INT_VSYS_UV_DET_MASK	BIT(3)
+>> +#define BD72720_INT_VSYS_LO_RES_MASK	BIT(4)
+>> +#define BD72720_INT_VSYS_LO_DET_MASK	BIT(5)
+>> +#define BD72720_INT_VSYS_OV_RES_MASK	BIT(6)
+>> +#define BD72720_INT_VSYS_OV_DET_MASK	BIT(7)
+>> +#define BD72720_INT_BAT_ILIM_MASK	BIT(0)
+>> +#define BD72720_INT_CHG_DONE_MASK	BIT(1)
+>> +#define BD72720_INT_EXTEMP_TOUT_MASK	BIT(2)
+>> +#define BD72720_INT_CHG_WDT_EXP_MASK	BIT(3)
+>> +#define BD72720_INT_BAT_MNT_OUT_MASK	BIT(4)
+>> +#define BD72720_INT_BAT_MNT_IN_MASK	BIT(5)
+>> +#define BD72720_INT_CHG_TRNS_MASK	BIT(7)
+>> +#define BD72720_INT_VBAT_MON_RES_MASK	BIT(0)
+>> +#define BD72720_INT_VBAT_MON_DET_MASK	BIT(1)
+>> +#define BD72720_INT_VBAT_SHT_RES_MASK	BIT(2)
+>> +#define BD72720_INT_VBAT_SHT_DET_MASK	BIT(3)
+>> +#define BD72720_INT_VBAT_LO_RES_MASK	BIT(4)
+>> +#define BD72720_INT_VBAT_LO_DET_MASK	BIT(5)
+>> +#define BD72720_INT_VBAT_OV_RES_MASK	BIT(6)
+>> +#define BD72720_INT_VBAT_OV_DET_MASK	BIT(7)
+>> +#define BD72720_INT_BAT_RMV_MASK	BIT(0)
+>> +#define BD72720_INT_BAT_DET_MASK	BIT(1)
+>> +#define BD72720_INT_DBAT_DET_MASK	BIT(2)
+>> +#define BD72720_INT_BAT_TEMP_TRNS_MASK	BIT(3)
+>> +#define BD72720_INT_LOBTMP_RES_MASK	BIT(4)
+>> +#define BD72720_INT_LOBTMP_DET_MASK	BIT(5)
+>> +#define BD72720_INT_OVBTMP_RES_MASK	BIT(6)
+>> +#define BD72720_INT_OVBTMP_DET_MASK	BIT(7)
+>> +#define BD72720_INT_OCUR1_RES_MASK	BIT(0)
+>> +#define BD72720_INT_OCUR1_DET_MASK	BIT(1)
+>> +#define BD72720_INT_OCUR2_RES_MASK	BIT(2)
+>> +#define BD72720_INT_OCUR2_DET_MASK	BIT(3)
+>> +#define BD72720_INT_OCUR3_RES_MASK	BIT(4)
+>> +#define BD72720_INT_OCUR3_DET_MASK	BIT(5)
+>> +#define BD72720_INT_CC_MON1_DET_MASK	BIT(0)
+>> +#define BD72720_INT_CC_MON2_DET_MASK	BIT(1)
+>> +#define BD72720_INT_CC_MON3_DET_MASK	BIT(2)
+>> +#define BD72720_INT_GPIO1_IN_MASK	BIT(4)
+>> +#define BD72720_INT_GPIO2_IN_MASK	BIT(5)
+>> +#define BD72720_INT_VF125_RES_MASK	BIT(0)
+>> +#define BD72720_INT_VF125_DET_MASK	BIT(1)
+>> +#define BD72720_INT_VF_RES_MASK		BIT(2)
+>> +#define BD72720_INT_VF_DET_MASK		BIT(3)
+>> +#define BD72720_INT_RTC0_MASK		BIT(4)
+>> +#define BD72720_INT_RTC1_MASK		BIT(5)
+>> +#define BD72720_INT_RTC2_MASK		BIT(6)
+> 
+> I'd be able to sleep better if these all lined up.
 
-> > +		return PTR_ERR(regmap);
-> > +	}
-> > +
-> > +	led_start =3D devm_regmap_field_alloc(dev, regmap, field_led_start);
-> > +	if (IS_ERR(led_start))
-> > +		return PTR_ERR(led_start);
-> > +
-> > +	dev_set_drvdata(dev, led_start);
->=20
-> I'd pass the whole Regmap through and let the LED extract its own part.
->=20
-> > +	mdiodev->reset_gpio =3D devm_gpiod_get_optional(dev, "reset",
-> > GPIOD_OUT_LOW);
-> > +	if (IS_ERR(mdiodev->reset_gpio))
-> > +		return PTR_ERR(mdiodev->reset_gpio);
-> > +
-> > +	device_property_read_u32(dev, "reset-assert-delay", &mdiodev-
-> > >reset_assert_delay);
-> > +	device_property_read_u32(dev, "reset-deassert-delay", &mdiodev-
-> > >reset_deassert_delay);
-> > +
-> > +	err =3D rtl8231_init(dev, regmap);
->=20
-> ... then you can omit the 'regmap' argument.
+Hm. I think they are when this is applied?
 
-Sure, that's one less allocation too. The field writes become a bit more
-verbose, but it's not too unwieldy.
+Thanks for the review! I agree with all the comments I didn't comment 
+on. I'll prepare v6 fixing these :)
 
+Yours,
+	-- Matti
 
-> > +	if (err)
-> > +		return err;
-> > +
-> > +	return devm_mfd_add_devices(dev, PLATFORM_DEVID_AUTO,
-> > rtl8231_cells,
-> > +				=C2=A0=C2=A0=C2=A0 ARRAY_SIZE(rtl8231_cells), NULL, 0,
-> > NULL);
-> > +}
-> > +
-> > +static int __maybe_unused rtl8231_suspend(struct device *dev)
+---
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
 
-I've learned the __maybe_unused is (no longer) required, so I dropped these=
-.
-
-> > +{
-> > +	struct regmap_field *led_start =3D dev_get_drvdata(dev);
-> > +
-> > +	return regmap_field_write(led_start, 0);
->=20
-> The LED driver doesn't have its own suspend support?
-
-Because this affects both the GPIO outputs and the LED scanning feature, th=
-is
-does belong in the core driver IMHO.
-
->=20
-> > +}
-> > +
-> > +static int __maybe_unused rtl8231_resume(struct device *dev)
-> > +{
-> > +	struct regmap_field *led_start =3D dev_get_drvdata(dev);
-> > +
-> > +	return regmap_field_write(led_start, 1);
-> > +}
-> > +
->=20
-> Nit: Remove this line.
-
-You mean the blank line above "SIMPLE_DEV_PM_OPS"? AFAICT this is standard =
-style
-for this kind of statement. It feels "ugly" to me to glue the PM_OPS macro =
-to
-the resume function, while the suspend function is separated from it.
-
->=20
-Best,
-Sander
+~~ When things go utterly wrong vim users can always type :help! ~~
 
