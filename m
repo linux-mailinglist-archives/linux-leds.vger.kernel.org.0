@@ -1,333 +1,173 @@
-Return-Path: <linux-leds+bounces-6368-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6369-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61199C985FB
-	for <lists+linux-leds@lfdr.de>; Mon, 01 Dec 2025 17:53:32 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52BDFC99842
+	for <lists+linux-leds@lfdr.de>; Tue, 02 Dec 2025 00:06:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 49F4D4E1FBA
-	for <lists+linux-leds@lfdr.de>; Mon,  1 Dec 2025 16:53:00 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 6587E3442E3
+	for <lists+linux-leds@lfdr.de>; Mon,  1 Dec 2025 23:06:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09CF7334C04;
-	Mon,  1 Dec 2025 16:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="R3aL+RUr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C98F2874FF;
+	Mon,  1 Dec 2025 23:06:26 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011051.outbound.protection.outlook.com [52.101.65.51])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA34229D29B;
-	Mon,  1 Dec 2025 16:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764607975; cv=fail; b=XCWjBHJSt9Yp8coQV/ge0WhzxzwuQ2YYRpjf7YxFXh5FEy5BOlW+wi8GwiSEI+kitNtEkM2/g/jvKY4Co5rTCijua//MGTjWPobDKLq2YqzDda1shdWL4rb0SYLAv/ei1FsQ89+XLMEaivqbP2GclPET8A82CmefNAFhQkPYhXA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764607975; c=relaxed/simple;
-	bh=1I4rZd/Enhc7yFBuz5wiHn8wsU6msY7LSHTio/q959w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=S/929HTwkVdGOujaqnVpuS1BhRriwzBHG6fwmK1zW4GEv7mUKeZ3pRw3/L9TR5JATePfOYQywV4sz9EiSigkO/5AW1tLjMu2XTwfTt+X580BgPJdLWiNcBVMXIB+h7hZaPOl2dK0l3DvmMSDaCOQ1n47djPP0UEMmdoges3BG2k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=R3aL+RUr; arc=fail smtp.client-ip=52.101.65.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KPdpOeqCsrO8c86HNHj607ceMqo8XPQAcISF7Ci7o6gD6oowJD2hFeY9ZPfK9wbOgXIXxbn3hpy8mEpYB+jnTuuPJ5UzBstQfM7EDRqSM8bQXC2as/iAcaYeZVynSQV3HWOEnoeuP8rROv4m3b6xH3sV/IWlAYLwEsDkXIsmBQipFH6BVvb9R4Y2fjGK6NlCd9bMkFEGogyQZbtHCyhZmKTLMKAuG6FwiNapc9nMlBSJ2mlDA4Vc9RnhP8Zes9XYRmkhzB/mpZZeGh6mvkSagCq6k8pBbUe7oYCAWoG5ME8JKF7UtaYXZyCyA6qNFesvCDHq0nBLyxNJ/xLw1AZXpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l58dffqnoPz3cOiK1sf14CjfiSUwOcau9Xv/PpLgrXg=;
- b=X0MlfzKCjyD79OHCwLN9Ab/BImQnMlSbtmLgKV2MJ9Xt0CVs5lzxGoq4JyKZXOGwZ3veTZiu/vHYaeeGRaNDBFWf0hkNe+3Tdktg1KI8Rbvv1hL69tDpfWhwktCB1dfZxgQo7viRqXUvjWsF0tA+NU3+/qVZRHeckJr4r+6wU0uOapPmrVmZpBAy3h+CLZ00OS8DA38OKpgOAaPWyN6CpGPZbJqGld4gi1SfOFmnhE6FltBDSJ0TrqLBXqUuZGULDx3NT0sylJ5obJts8p632f1Cei2mL4KAHx+YJRtAwotdu9Si4XzOqPdvxIVJgEwIE/NgGSZaT2nV6oXSHq12tw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l58dffqnoPz3cOiK1sf14CjfiSUwOcau9Xv/PpLgrXg=;
- b=R3aL+RUrpCwsvSr4ysrPPKxtf3h/Vz8Q2NpYZdINz/5iY5Q758qn4iszjSoc0nukaT7C/qYW3tHYGMTuSQYsMsa0kmaPZn4O38FeN9zI+NeZSbltgtX1GDu/jwIGVrL1N7TWakh5xTm4RiiFZsUFP/GGSbU/ZkVsNiORC32KEIzHuI3tsJjVWrqUl9NVBstEG+fc9ZRKfToNt7THMCBXckAXgK3OikAzDhbLmBn/Q1qq1fFlzGU3FDvjvEPT57PYgrBZiKtVrcm6TgyfIyz1u9s5m0IjAybiRdWVmVGZFb2Wxs6mBXBWgMj2mhnv6CMSt7esQQCcqzfzk2ahXuCkNQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DU2PR04MB8951.eurprd04.prod.outlook.com (2603:10a6:10:2e2::22)
- by AS8PR04MB8279.eurprd04.prod.outlook.com (2603:10a6:20b:3f8::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
- 2025 16:52:49 +0000
-Received: from DU2PR04MB8951.eurprd04.prod.outlook.com
- ([fe80::753c:468d:266:196]) by DU2PR04MB8951.eurprd04.prod.outlook.com
- ([fe80::753c:468d:266:196%4]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
- 16:52:48 +0000
-Date: Mon, 1 Dec 2025 11:52:38 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: maudspierings@gocontroll.com
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 1/4] dt-bindings: backlight: Add max25014 support
-Message-ID: <aS3H1qzSMKHamqpP@lizhi-Precision-Tower-5810>
-References: <20251201-max25014-v6-0-88e3ac8112ff@gocontroll.com>
- <20251201-max25014-v6-1-88e3ac8112ff@gocontroll.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251201-max25014-v6-1-88e3ac8112ff@gocontroll.com>
-X-ClientProxiedBy: PH8PR02CA0015.namprd02.prod.outlook.com
- (2603:10b6:510:2d0::7) To DU2PR04MB8951.eurprd04.prod.outlook.com
- (2603:10a6:10:2e2::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE40513DDAA;
+	Mon,  1 Dec 2025 23:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764630386; cv=none; b=sO1XydFuzLWuaJUMYdf0KPGlPyCPR6DZRdRxn92RIFKpSC+hPfY7mWKcrSKRNVbtRNtPsDryX3keTkXc1o54qBBTVLEeqj4sSjHH/2WjUsNFlvr9m5e+o6rIIBthkOXoF149jSu3Dp+jMHgMGiWuEpUhbK32QppjNMdyk6fusxY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764630386; c=relaxed/simple;
+	bh=VWQWgg/5jBY5AAqYvh7eK27f2dRVZWZVc31tnaat5a8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MNjr69HMaaRQOPKx7KjcXcdr552T4KhQiM7z4Bi1BcYu4bs0KAL/+bE01wTbPI2C/jCjn1sPfzq4eRNd97uqxm5vJ6XEZ+K9Ei1YOTHnMVQSXHswXtyx1M1lpYU/vAq4NbRZde+vEukN79vS/e0wL9BIloZ6cYLHTBiOEVeAoJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space; spf=pass smtp.mailfrom=timmermann.space; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timmermann.space
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dKzzb3fkvz9tL7;
+	Tue,  2 Dec 2025 00:06:19 +0100 (CET)
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of linux@timmermann.space designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=linux@timmermann.space
+From: Lukas Timmermann <linux@timmermann.space>
+To: lee@kernel.org,
+	pavel@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux@timmermann.space
+Subject: [PATCH v13 0/2] Support for Osram as3668 LED driver
+Date: Tue,  2 Dec 2025 00:05:59 +0100
+Message-ID: <20251201230601.285641-1-linux@timmermann.space>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PR04MB8951:EE_|AS8PR04MB8279:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d19c844-45d3-4f5a-fd1b-08de30fa0f23
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|366016|7416014|52116014|376014|1800799024|38350700014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?x6suohBV+EXou57H3PUnLwyDDUbOVQ9pBOq+mTasHdq7hlY9C5Ue2cKEpPkE?=
- =?us-ascii?Q?t6qswluzbmBiAZ2v/D2qJpGWo0hhAIlM+7sgmjiKavYKXUO27UBLYVWlNaAI?=
- =?us-ascii?Q?VJEtdM13CqOdC+4vXMNlGmq1II0C/bn2YDcxL3gNTGPdAofK2G4Hw7LXPgy8?=
- =?us-ascii?Q?uQVd4db/xB0NAymP2gebPxu0EWf1kE4nLtjGmQUD6oM66I1m+sEug9IXUTo9?=
- =?us-ascii?Q?pmVrjO/kXhoyyAXA/oRdOelWrsNxAPu8sr2qUdPI7jbHdtO9UER6VXcY2wlX?=
- =?us-ascii?Q?/YKxDpZJ4AoEQetf9yvozwJpcgViTW1Gf4bGCay4xyPHc8irb4BWaQhpkJhE?=
- =?us-ascii?Q?8De1Qgi+Xye8soQb+8+0vg/IYe8LgjiR1XWujtLdSKpLGPjEBZQ1tIl4v4FA?=
- =?us-ascii?Q?AYa1hpe5B2+R6gsmOZur21RyO4iniaa3i29gsUH3bVychqqEBdmnf3sDVfNM?=
- =?us-ascii?Q?wkGQ+jr8i45pQZLcHvLHrHOPC4toW1uspb/UA6b9+nhaRMLhg2s0s1RsC+j7?=
- =?us-ascii?Q?CHZ4Wj6rrpFnaVpDldoU4tZ5p4bQ/3BWXzGpmLI7gFhdq9NMIXk9NnLgxirz?=
- =?us-ascii?Q?izEpxG0w5MKy3/s2A/W7b5kCguV4pwvdaGoVSRAZTjzRT/2c8w3hl8JZYf45?=
- =?us-ascii?Q?+kQTXZD/z2oQWI3yH/+2W7LiMmHMs2HCJI75WuCEguE3KM1E8bB7gAotXiOU?=
- =?us-ascii?Q?hP52GcHxCnYv7DCOW25OIpqwTBOy2mIUuc0smdbt8W9L7clb9sy+LWwS+xmk?=
- =?us-ascii?Q?LIEidtFiDJW5CS6VG9BVXdgPVfcOob+HO0R+3KIZBXp23M52sdNAtFVc3XMW?=
- =?us-ascii?Q?gOovD36fJAt6bC2x4UPjzq1uinPQuxEJd0Ymjy/OvNGImkdGy4SxyVlpmuui?=
- =?us-ascii?Q?Z9AFnQBoAUOwN6CUPsRCHTWGOrGxVOD2+uFJVuX04OFpTp1+Wl49ESypf+iy?=
- =?us-ascii?Q?1d6NCk/53WxQWUGgUxu71jlULZiTcyK/PT1VmeJL8RQ4XD7ygEM8/r8YaMHY?=
- =?us-ascii?Q?pRCKphQlboCavDolngLUwqVZ1agjDpFjI4pTkqLA/wOqiQ5kc38Z9wFqlZOR?=
- =?us-ascii?Q?A1ju9aIran5Uro7tpmN5RfytitiqjbrdPAX35wsn2fIViy419Ufs/aleS5Gg?=
- =?us-ascii?Q?rCaNsL5DCMp79IMjz7GwrM83mDhc0JMGR+KqIcItatT/sJVC35rSFnkqkGGW?=
- =?us-ascii?Q?TuGW5vZVaz83v7OEhVtRERqDn8TQ/MF3S/KLzR4jQt9t4R4BMA2rawviRld6?=
- =?us-ascii?Q?9EYhPaPRZp5Wwofm4AwEjxr8YWJkFv2eIvHd7BXdLrfxrhCyIwaarhsKElJ/?=
- =?us-ascii?Q?oDJxDIDheaIZ17VjGIbvolrE2pi2E0PaanxiEVBA6+w7Y8djwzks2T2a3b5B?=
- =?us-ascii?Q?AH6CyxFUGJoyTHIUUs6+tnz90EAlqEYK7n8kaWXARdqQJFsIdTDLeLhgDCuN?=
- =?us-ascii?Q?gfiA6ROf9WMLu7TwBKYQHEtshjiaJwFnP8S2MbvZYsHSizH/b7e4sg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8951.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(7416014)(52116014)(376014)(1800799024)(38350700014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?P9AqLSRMFR48W2TKbZgd2TZmXTBsJP0/ypP9pHJLicknagJ7BV9D6vEuLqoV?=
- =?us-ascii?Q?H4yv1kN0Nyg98LNfEtLQdZ8rT7afWxRybOHYlkrMIrvN7PCIBsgj8CAKNDyC?=
- =?us-ascii?Q?v/FtWNft/jym0+qWRwJcOusYJQePTwUWwYizWGH44iAHw8Xmh90wW6PlkWhg?=
- =?us-ascii?Q?iRjqkY/benNt1CT5owkn87bTk42D3FpVjgzj3GQmLoNmwJZhfu34VfzPm+KC?=
- =?us-ascii?Q?1CCHvfk+8J/IaY7n8wRDaFwLj9OxNo2uBYlw0aCn2Aijxzyy/mEvefoU61Iq?=
- =?us-ascii?Q?uGBO+3RdS1alDhcTGBG9XwGYG+YeR131rRXJLOAljFwAMFTDrG8nCGICkYRj?=
- =?us-ascii?Q?0ulHaeVpfvw7y95xfZMK7Y5vGXIRNC9CGy1qskYpba8qIGdHF1cJo1zBGFV1?=
- =?us-ascii?Q?Bwgbix5s8Gui3aN70A5N552DtSnYFUlmOQzDbaPcuiYz0l44iE3OB/WuUixp?=
- =?us-ascii?Q?yp1B2rD9Cv160HsWV+t5BUnx8fNV6pv/6tS9M2X0Ozd8pKc8j4SwqgZIrw1R?=
- =?us-ascii?Q?+SAZKIFKjHeUplMQ5eeqO1XhxVEfYkLg2ZFvthPNKUs4xMiXMKm14WGYvxgx?=
- =?us-ascii?Q?mBp354Y2BaijkTNvhHzWHFwoZcIhvq1sVAuAIXYmUi/HYk1vM9rKr3WD81j5?=
- =?us-ascii?Q?QPDoUVmg+yxgxf+0FUBA2pmNmeVHbXQGnwZsOXJbnQd4Kje31jX/sE6nEf7/?=
- =?us-ascii?Q?ZjjhxeumIO+L5psc4Pih5Y4MCvYDC8H4rtMCWzJKk32Y9WQATmm9B5Hkilj0?=
- =?us-ascii?Q?4nL4RRrGxjGMjnGJAZzsL5tjD0PqETmTluy5nqMvzzzE93agWXe1j5D4tJek?=
- =?us-ascii?Q?56OJUZDwmC7E/kJBom9Kn2rFerH0lOeNOKvKQnv9yQsYGxrosWbjaFryRN3f?=
- =?us-ascii?Q?RXqg1imHe657iu/NWLjHiUhmMhvOo/mPrMzGRT/W4qAaVEfEnMMHYiugljup?=
- =?us-ascii?Q?8h+88+WxxGU0gpVXhRsFXm3Pi4yvsyg1oMW4MW2gmlbZh5Ov3FKUY19hUEiv?=
- =?us-ascii?Q?M6XqXMk6PT6u1XHyF42DSG3ZtkatsLZ7KdHGE1IsVHjzMqRqbiP/MRCh1jCH?=
- =?us-ascii?Q?urOplsYObtLQqxH0YgYxNFNbUQv6RvfQ8y+RkpByn+sJwlkAYzAs87f+jhrV?=
- =?us-ascii?Q?tn0FCadf/3cbvSENgnGzv1r6e40F3LKNwsLA+iYbNiIRPlVsStOxb7YWEXQS?=
- =?us-ascii?Q?bX952t5AWmP3/4aVyoMHkJYnNJff0Efh7M9k8/wn44BQ/xkA/EtN2kMlEr0n?=
- =?us-ascii?Q?r+JYdi5IABTvN1sN5AFwheIbdI1xM9SZUPWfK0NPzerLcNwkLToZJqX7HGAZ?=
- =?us-ascii?Q?NKpxIqJNWTbx8thLK/hubJVEgkWJD1EL4g5dLFi0HDEvQom7QVPUGixGMFZd?=
- =?us-ascii?Q?8eT5eYbsOAfqthK47y5P+VSNn/W4RdT0tBc87Tfovva9uQYmGwgTRLVzRhXC?=
- =?us-ascii?Q?NhGkU18R325ziA7fOnNjzlNrQsoUfaHprTXG4noLevipx5n0XpUOBt8vzOcO?=
- =?us-ascii?Q?qvIvWJCmxPQspbuROUBCuURfA/TY8h6JRTvCOBeMvCRH6XjaRNNLqNTBxXJR?=
- =?us-ascii?Q?UfIdu1jXu53GVSn0SlQ=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d19c844-45d3-4f5a-fd1b-08de30fa0f23
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8951.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 16:52:48.8395
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zkvPhN+ZO4DM3ufm79Im18GRam+/hXLyThBb2JIjYSuO9d3WtK7JTaOfite01DlyKpzi+/z+F9SBEnbj5cxSkQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8279
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4dKzzb3fkvz9tL7
 
-On Mon, Dec 01, 2025 at 12:53:20PM +0100, Maud Spierings via B4 Relay wrote:
-> From: Maud Spierings <maudspierings@gocontroll.com>
->
-> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
-> with integrated boost controller.
->
-> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
->
-> ---
->
-> In the current implementation the control registers for channel 1,
-> control all channels. So only one led subnode with led-sources is
-> supported right now. If at some point the driver functionality is
-> expanded the bindings can be easily extended with it.
-> ---
->  .../bindings/leds/backlight/maxim,max25014.yaml    | 107 +++++++++++++++++++++
->  MAINTAINERS                                        |   5 +
->  2 files changed, 112 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> new file mode 100644
-> index 000000000000..e83723224b07
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> @@ -0,0 +1,107 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Maxim max25014 backlight controller
-> +
-> +maintainers:
-> +  - Maud Spierings <maudspierings@gocontroll.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - maxim,max25014
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  enable-gpios:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  power-supply:
-> +    description: Regulator which controls the boost converter input rail.
-> +
-> +  pwms:
-> +    maxItems: 1
-> +
-> +  maxim,iset:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maximum: 15
-> +    default: 11
-> +    description:
-> +      Value of the ISET field in the ISET register. This controls the current
-> +      scale of the outputs, a higher number means more current.
-> +
-> +  led@0:
+This patch adds basic support for the as3668 driver IC via I2C interface. 
+The IC is capable of driving four individual LEDs up to 25.5mA per 
+channel. Hardware blinking would be theoretically possible, but this chip
+only supports a few set on/off-delays which makes using that feature 
+unfeasable, therefore my driver doesn't offer that capability. 
+It's intended applications is in mobile devices such as phones, 
+tablets and cameras. This driver was tested and is working on 
+a google-manta which is running postmarketOS with a near mainline kernel.
+Also there is a patch in the linux mailing list for that device:
+https://lore.kernel.org/all/20251120201958.1970828-1-linux@timmermann.space/
+The register names and values are taken from the official datasheet which
+can be found here:
+https://www.mouser.com/datasheet/2/588/AS3668_DS000196_1-00-1512816.pdf
 
-define whole binding, allow 0-3. binding is not related with driver's
-implement.
+Please note: This is my first suggested patch to the kernel. 
+I've read the docs in regards to the led subsystem, 
+coding style and submission of patches, 
+but I'm still a bit unsure about the general workflow. 
 
-it'd better put unders leds.
+I will try my best.
 
+Changes in v13:
+- Fixed a syntax error in ..channel_mode_set().
+- Improved error handling in ..channel_mode_set().
+- Link to v12: https://lore.kernel.org/all/20251128175827.649481-1-linux@timmermann.space/
+Changes in v12:
+- Fixed error handling in ..channel_mode_set(). (@Lee)
+- Link to v11: https://lore.kernel.org/all/20251125114015.355487-1-linux@timmermann.space/
+Changes in v11:
+- Adding mask and register to struct instead of led_id. (@Lee)
+- Renaming reg variables to be more clear. (@Lee)
+- Simplified calling of ..channel_mode_set(). (@Lee)
+- Removed unnecessary pointer dereferencing. (@Lee)
+- Changed error type in ..probe() to -EINVAL. (@Lee)
+- Reworded some error messages to be more clear. (@Lee)
+- Removed error message when removing module. (@Lee)
+- Link to v10: https://lore.kernel.org/all/20251117020008.316648-1-linux@timmermann.space/
+Changes in v10:
+- Reworded some error messages to be more clear. (@Lee)
+- Removed newline. (@Lee)
+- Added enabling and disabling of channels during brightness set. (@Lee)
+- Rearranged and renamed constants.
+- Link to v9: https://lore.kernel.org/all/20251014152604.852487-1-linux@timmermann.space/
+Changes in v9:
+- Tabbed out values. (@Lee)
+- Removed newlines. (@Lee)
+- Renamed chip id constant and variables to be more clear. (@Lee)
+- Removed unnecessary comments. (@Lee)
+- Removed unnecessary debug message. (@Lee)
+- Separate declaration and assignment of err variable. (@Lee)
+- Link to v8: https://lore.kernel.org/all/20250808213143.146732-1-linux@timmermann.space/
+Changes in v8:
+- Rearranged constants.
+- Removed more newlines.
+- Changed error messages to be more clear.
+- Renamed variables.
+- Removed revision check.
+- Removed extra i2c read&write functions.
+- Made initalisation code more readable with bitmasks.
+- The code now wraps around before 100 chars instead of 80.
+- Link to v7: https://lore.kernel.org/all/20250708141114.134950-1-linux@timmermann.space/
+Changes in v7:
+- Simplified multiple error messages. They now use dev_err_probe().
+- Removed some newlines.
+- Link to v6: https://lore.kernel.org/all/20250611083151.22150-1-linux@timmermann.space/
+Changes in v6:
+- Fixed missing error handling during init
+- Fixed missing newline in error messages
+- Fixed size calculation for memory allocation
+- Fixed error handling for memory allocation
+- Link to v5: https://lore.kernel.org/lkml/20250608231854.75668-1-linux@timmermann.space/
+Changes in v5:
+- Fixed debug and error messages using wrong format specifiers.
+- Fixed missing include bitwise.h.
+- Changed commit message for dt file to fit expected style.
+- Link to v4: https://lore.kernel.org/lkml/20250607215049.29259-1-linux@timmermann.space/
+Changes in v4:
+- Fixed some mistakes made in the dt file pointed out in v3.
+- Swapped dt and driver in patch series. DT now comes first.
+- Fixed errors in Kconfig due to last minute changes.
+- Added dt file into MAINTAINERS file.
+- Link to v3: https://lore.kernel.org/lkml/20250604225838.102910-2-linux@timmermann.space/
+Changes in v3:
+- Fixed an extra whitespace in the dt bindings documentation.
+- Sent patch to all related lists and maintainers.
+- Link to v2: https://lore.kernel.org/lkml/20250531120715.302870-4-linux@timmermann.space/
+Changes in v2:
+- Fixed reading led subnodes in dt incorrectly, 
+  which caused wrong numbering and a segfault when removing the driver module
+- Fixed calling of_property_read_u8 with an int, causing a compiler error
+- Added more error checking during writes to the i2c bus
+- Link to v1: https://lore.kernel.org/linux-leds/20250530184219.78085-3-linux@timmermann.space/
 
-> +    type: object
-> +    description: Properties for a string of connected LEDs.
-> +    $ref: common.yaml#
-> +
-> +    properties:
-> +      reg:
-> +        const: 0
-> +
-> +      led-sources:
-> +        allOf:
-> +          - minItems: 1
-> +            maxItems: 4
-> +            items:
-> +              minimum: 0
-> +              maximum: 3
-> +            default: [0, 1, 2, 3]
-> +
-> +      default-brightness:
-> +        minimum: 0
-> +        maximum: 100
-> +        default: 50
-> +
-> +    required:
-> +      - reg
-> +
-> +    additionalProperties: false
+Signed-off-by: Lukas Timmermann <linux@timmermann.space>
 
-unevaluatedProperties: false because ref to common.yaml
+Lukas Timmermann (2):
+  dt-bindings: leds: Add new as3668 support
+  leds: as3668: Driver for the ams Osram 4-channel i2c LED driver
 
-Frank
+ .../devicetree/bindings/leds/ams,as3668.yaml  |  74 +++++++
+ MAINTAINERS                                   |   7 +
+ drivers/leds/Kconfig                          |  13 ++
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-as3668.c                    | 202 ++++++++++++++++++
+ 5 files changed, 297 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/ams,as3668.yaml
+ create mode 100644 drivers/leds/leds-as3668.c
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        backlight@6f {
-> +            compatible = "maxim,max25014";
-> +            reg = <0x6f>;
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            enable-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
-> +            interrupt-parent = <&gpio1>;
-> +            interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
-> +            power-supply = <&reg_backlight>;
-> +            pwms = <&pwm1>;
-> +            maxim,iset = <7>;
-> +
-> +            led@0 {
-> +                reg = <0>;
-> +                led-sources = <0 1 2 3>;
-> +                default-brightness = <50>;
-> +            };
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 58c7e3f678d8..606ce086f758 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15261,6 +15261,11 @@ F:	Documentation/userspace-api/media/drivers/max2175.rst
->  F:	drivers/media/i2c/max2175*
->  F:	include/uapi/linux/max2175.h
->
-> +MAX25014 BACKLIGHT DRIVER
-> +M:	Maud Spierings <maudspierings@gocontroll.com>
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> +
->  MAX31335 RTC DRIVER
->  M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
->  L:	linux-rtc@vger.kernel.org
->
-> --
-> 2.52.0
->
->
+-- 
+2.52.0
+
 
