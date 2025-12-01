@@ -1,179 +1,132 @@
-Return-Path: <linux-leds+bounces-6357-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6358-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB9FC9558B
-	for <lists+linux-leds@lfdr.de>; Sun, 30 Nov 2025 23:46:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59091C95B26
+	for <lists+linux-leds@lfdr.de>; Mon, 01 Dec 2025 05:27:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 2D0223416EC
-	for <lists+linux-leds@lfdr.de>; Sun, 30 Nov 2025 22:46:43 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id AF66E3419A0
+	for <lists+linux-leds@lfdr.de>; Mon,  1 Dec 2025 04:26:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6F7223645D;
-	Sun, 30 Nov 2025 22:46:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96C631DE8BE;
+	Mon,  1 Dec 2025 04:26:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="KZ3czxe7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RRGbC9U2"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazolkn19012052.outbound.protection.outlook.com [52.103.2.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D17B137750;
-	Sun, 30 Nov 2025 22:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.2.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764542799; cv=fail; b=abDq3m0l21lf+ol2P0TDzGY5LkRkRPnNzJbDAmdx6SP1Xn7KZ/9MzNy8lDyGK+zadAlZoLcaPynomXKvspU5LdJiyi6RH/X02+K5OfBOD+8+XCt8ILI8rjB0QYWYEgWH0u/hMft103NPrClRuUKezfrqKI9bcZVjCM83BxXQ1tw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764542799; c=relaxed/simple;
-	bh=gmm3WjQYbsQZwnWRqYkCQk9q7ahs0Jf7xEL8x50az8E=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZZFXG1QkR7J6MqOaa3cyR/5MY+ttL64s3eHC5xeTsjpyQkbyjb9wmgHXSKCpEiFqrhQzk+U+ThHld0ffCm7twc6Lc3iSotkN/Z7eJWPA8bCHeykpOP+c3C8M7RH+e38/Yfm8IL7zPdJ+sEVf5rJH+MxMju23gXxnBTgEhdAoKlY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=KZ3czxe7; arc=fail smtp.client-ip=52.103.2.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sbvdMS6XTmjS/P2ZXqQIwbFiQnQKHT1OO88IP85SgZ9hauz1PIitFKrvina2PLaDr7YVDXQ480FhT5bczNuq/UrZbH7zDQfdBVuWlx2B8zBcXhRE4LpoBYMiWA008w+vhF1A+0x0LkBhHmZrWb0IBeeYjdQhMDtxTlyrlIwX/ma0hUVno5tFG0jmAry6ysRt3D6l3bJRjOtR6mYciBCuyK/3b0cIA5oIOCCKKZIS0VtI1HK2iSjEudtKCo7bocDc12TD8MsDH3S7sM0mV3o4Gm9z3gUWpAtIMyms6QXFj4CZw/HrEpOEt9/1/Uorh637vyK2E7xlBAD/M9+2LbCM4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Pg7uSemT+wzBW75Yz8+TObizg66y4omNRDV1AClisao=;
- b=suQkEaLj1a6w84BLhcMbleo4P325PVZ4oYFDqk0DVGLDPPSEdOcz5oLum60gi0NvwadT/Uph+jJCeNYuRxtCxVNHgwO+K5AG+Cn7F6hzhs4x+9eXWltQN9BDh3hoUm16VIW8SKwxRIf4RBnQS5mvORX5J5F5whyZDDlW2lgQiJbFteVJDDPKmG9+BmV3oZwQV2MrBM0NuIl4EZSyZkHzvjdLdUTB7eG3VFyF16EDhj0MfD0CHRAdolBI3rFalyYcwFbJEU2Y8aOuF1SKnN0wzIn8zw8J8NGhNdBkGvmtHzBmH8F7oTrKrXKy3ue7uOAl7bFOWwGnrOsno5aFzoXlZw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Pg7uSemT+wzBW75Yz8+TObizg66y4omNRDV1AClisao=;
- b=KZ3czxe7R9mjaLWzf0YSFXkQuBprrAnPPMhDWTFhEdpjUNI8J4HzVIyiOemTwCt2hkPhferGrYGV+60DcKJSR9aWB7sMsQDKtTmr00TGBGGRPhCyLV9sGPfhi9hkkkMy5/3atC0CoV/soVklUcaVRY7z/dOu5SFThVSybtjAayDqAfriir73MOtb46m2TDPp47FEv+jI0omtj0pfLjdBD/Baa9kN89/7D/SDHlOcSEWHWzTmAH2lcXJricIxFKi8Mm50fNJ3Ip4UMBFG3PRijqcV8Dy/sNVUUNeN9TOQ7m8K74KcKCkoGh4c8BUy4FF0l3PzwXKBY6RPTXGUks3d/A==
-Received: from DS0PR84MB3746.NAMPRD84.PROD.OUTLOOK.COM (2603:10b6:8:1aa::21)
- by SJ0PR84MB1722.NAMPRD84.PROD.OUTLOOK.COM (2603:10b6:a03:431::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Sun, 30 Nov
- 2025 22:46:35 +0000
-Received: from DS0PR84MB3746.NAMPRD84.PROD.OUTLOOK.COM
- ([fe80::478a:57e4:fdbe:4a6c]) by DS0PR84MB3746.NAMPRD84.PROD.OUTLOOK.COM
- ([fe80::478a:57e4:fdbe:4a6c%5]) with mapi id 15.20.9366.012; Sun, 30 Nov 2025
- 22:46:34 +0000
-From: Jonathan Brophy <Professor_jonny@hotmail.com>
-To: Jonathan Brophy <professorjonny98@gmail.com>, lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Radoslav
- Tsvetkov <rtsvetkov@gradotech.eu>
-CC: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: RE: [PATCH v3 4/4] leds: Add virtualcolor LED group driver
-Thread-Topic: [PATCH v3 4/4] leds: Add virtualcolor LED group driver
-Thread-Index: AQHcQNopJuD6pqltWEyBJIQ4E9N9H7UMDKpg
-Date: Sun, 30 Nov 2025 22:46:34 +0000
-Message-ID:
- <DS0PR84MB3746D474DCC43EC8A73F930E9FDAA@DS0PR84MB3746.NAMPRD84.PROD.OUTLOOK.COM>
-References: <20251019092331.49531-1-professorjonny98@gmail.com>
- <20251019092331.49531-5-professorjonny98@gmail.com>
-In-Reply-To: <20251019092331.49531-5-professorjonny98@gmail.com>
-Accept-Language: en-NZ, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS0PR84MB3746:EE_|SJ0PR84MB1722:EE_
-x-ms-office365-filtering-correlation-id: ecfdf80f-874b-4526-8ae6-08de30625054
-x-microsoft-antispam:
- BCL:0;ARA:14566002|8062599012|8060799015|51005399006|31061999003|461199028|15080799012|19110799012|13091999003|3412199025|440099028|40105399003|102099032;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?5BSu6sGlGLC8GUJXLN4oGX3W1qDORaRYEOk5G7nUUADAJHklK7hKmqqHv2eg?=
- =?us-ascii?Q?u156OhMMNmoIrS+kWcuHqQIEjBhZaRFbbUQzuZaZkC7nJSL0rtFChFAFXs0V?=
- =?us-ascii?Q?82Ovov55W/cqkBabNZ26Dw0DEVpruZqawtruj510R77Gac8UFhmPOKxBx6ZW?=
- =?us-ascii?Q?X5tQ1MzM1jc+YO2ihxpAwvbgK7ygNMBUeLN93duuzHv82J6TUmutbPzgzn6k?=
- =?us-ascii?Q?uXuEtyGvQQsmjEEfUCZkUMEl3BO/Qsef9EgRXbBLO4hcJzn6UnfSi4x9KwO6?=
- =?us-ascii?Q?CxLaOVjtpHJP43/O1Q/oR4ingEWTBnfHZCL9h+6ieQE5KaCo5gyx9jE1rwh1?=
- =?us-ascii?Q?8DP8gSlYSoDAwdNcuhnMOT0+6y6EWiy+jGdeZccONDRx6q985dzzlzgQvVa2?=
- =?us-ascii?Q?XYnz569tZyBsS5asT9be5KFCxcGY/R3K98/mjpCUsf4M8+qCMJw+JCIM0Ey8?=
- =?us-ascii?Q?W4u9XywoXQ5Co0JTX9+PC0hzB/u2kg+AFKhG03BxODD06Xrkrc8cP1SxWgpP?=
- =?us-ascii?Q?/Diij2LHXuW9v6rhW1xpUXdey/IbrBIl6Ra5MZ4pC/kUBJiQ8YLI+Jm6s3EP?=
- =?us-ascii?Q?Tm4nDekgm0eTULvMj4T+gVzI7eJdhhlv+u3+BniNRR1YuvZDzjBWg7Z2QbCP?=
- =?us-ascii?Q?OkBK7TJ6UwuLjYdq/r3a/HLOkYHNOMgSDqKn1JcClS++lwaY8Yfk2CoqCCP9?=
- =?us-ascii?Q?MI1YpvsDzY/0M39xBvJq4GONMR4xB4Or3J6XBRnxOPozfGeCfShX8vFqile+?=
- =?us-ascii?Q?WUQ82E30kkrNx39RGFVvjk4AcPn/HnMqIpzNDhnzHy5dRHzJVM4cgzcjBkmz?=
- =?us-ascii?Q?2XEOfcLVcspB9hj6BH+WdAayXlUQREn91+qWNuOA9uO/SHHZUgf33OfWZsS7?=
- =?us-ascii?Q?v4MtPBPDO5cffYLSDk//cMmopZz/zb7wjLL3SUe2W/ORoeTiNhpwgBmT2GpA?=
- =?us-ascii?Q?v2cpRlSe056EcoKtnBKMPGR/yANTZYYPbE6gX/D1v/gSnNM1UC49PqTSHJNc?=
- =?us-ascii?Q?fCw7e1Hd5wcKYaL8l97GgMj8eiC11LOotq9w57YHko9CERsFxX+pS3xehFYb?=
- =?us-ascii?Q?fBGP2a5E5hHg6+rnUueaCqFA2d/Q8buD/v+Clp3sTTGlOUdT+vkEgh30RpYZ?=
- =?us-ascii?Q?DzUMVinmUHD9iWfmS723iRK90kkCCtKoWNhF7I12CX9/M7WDkkW91doQ9c9f?=
- =?us-ascii?Q?Je8S2F9jPPeycRDw8UAtN35rniecnyNiAs/qOQ=3D=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?tetuliOerBxoS5gz5rgRXR7SRjoBEKeTQIroSO60qFHfTnH2ArSsMT76RrEi?=
- =?us-ascii?Q?5GoU6Ikq3VyyLns2BZGqjZaJ14y/edFGZYPKPg2dXNqVs835mGjCB91zKZlu?=
- =?us-ascii?Q?0mzelRTTBd+6WF/Zv38KslVbNQvV7J85kryXOHbvwyWH8XI/iJn6kOpeB0EY?=
- =?us-ascii?Q?/KdU+xDJPIqI+E7nCfs7KJvAuniR2ViS+VhizTpLnEprCwyIFuXUYyrKb/8j?=
- =?us-ascii?Q?TiacoVoMaAuf372u425kjwQM2RVLkL8bXLsWNEKr68++a1H17V5g0V1O032h?=
- =?us-ascii?Q?AC4VaSih5T5T0r64MpnjBPhox6no6UmHSNSKrGM5p9cyAF7gQPIiYdlKmzDY?=
- =?us-ascii?Q?NLKbWR++xZuTOqKjkTcYePoyFRoLO1vDey2Ar0OYLe4fu1lXlvm33GYiFEMn?=
- =?us-ascii?Q?EvK42AVGpFPGwcY7U9Pp2zpslMBtNrXyH9ZvBV+OTbxgrbXvTvLRf+pPIQPM?=
- =?us-ascii?Q?MnODJZWjZMbubT1KZhabACdvJwaA95l08is0wguiVi+8gBn4r9wyawYbXlbX?=
- =?us-ascii?Q?KZTBjM2JtVo8PnxlPG2C3rwJpnDx+/1WfenToduEUbdASxq7+raXWl0W70Wx?=
- =?us-ascii?Q?GBYXS+FYU5hrBWZ476dAxdaNo4rrE4r2cmvfp5LM2BbQyal/nM5axWH2cKsb?=
- =?us-ascii?Q?Jf9C6C5Me2QpFEoMFPvo7jdSfD1irVsPR5afdP4agxEX9Zpx1kuHGZIGR9u8?=
- =?us-ascii?Q?nSKWZ1Z1OA1oMkno6py0r6XZDKgu7RxZs6DedoxK7gSbyj0l31mvNa/ENd9V?=
- =?us-ascii?Q?GHi+aNUG6/9BaHY9EMHGePEclDj2GLAHtpk500Jq8SmbIZal0g8iRNzJrfBD?=
- =?us-ascii?Q?SA5uJ9LFo21d/iS6N81UswErwzt5S4BeJvvlcVYNGMK5CBwZ/x6N+dFoV5Xc?=
- =?us-ascii?Q?jxQ1sSA051mhuDFaBO63yb/Itp7whQh8FMvnWrAb+hoswXJ/e9YH9+WwQz2o?=
- =?us-ascii?Q?HiktI0x+j14sUk6dFCDinbwnT83FQH/+RBcURmxYtPtmJ1TiNdsoqfLJOqbG?=
- =?us-ascii?Q?OvX03Pizw3PVc3o6BJ8i4Vt5HvB9xrtMfvmFbrEBMNSMjZbHlMyvAKqbL2ks?=
- =?us-ascii?Q?Rltmy3pzMoW0sTPkr4xb2bHlDj/JVlkRZxqwkOzHzTsOD7H1/XRnmJpBI8VB?=
- =?us-ascii?Q?xM9PfP74EvCSge7AbV7tlgPPi82uO9BpDGboQiFxIgd97AQ6/hnkgt1h4gts?=
- =?us-ascii?Q?JcT8M/AOCheG7eJXfz+VEsxVC9cawJtnKSd9/x0xTc2PRzoAd01dbdY2800?=
- =?us-ascii?Q?=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014A036D51B
+	for <linux-leds@vger.kernel.org>; Mon,  1 Dec 2025 04:26:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764563216; cv=none; b=DgZKSo1F07OJDLtQ/JC6Tnaq9AXF3CUOaUrQa0o96qskTsaH8bGzfR5iyICym5rJgqqTU407lsecqPm7WtYVcPpHIc8rBJr8HX0n0K3bbNYYCx17PJTimQMYDL+8mnTgpeatfL8kdoD1Yzn7lxMHs/8pp9v7nSXfAwKBWPeLhUY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764563216; c=relaxed/simple;
+	bh=s2zZcpkhEWJzD4hdcW5jRWBegv/r6soWrUEvNqdRjVU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=om2hj7p3BQfdNimleQDfVjqmOJluuNnyJ0GcKlysrYi8ln9B1njLLe6izGL2zrOdfj968XW0FfaYnGXP2sgBak1mUoghiD3M+FQlGQvH5yH/32n5Vy2tN1OH//28YvDOd0lNRaKQL8NvvaV94HV+yqiQTw53zSrvi3bXL8p6vAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RRGbC9U2; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-882379c0b14so30143256d6.1
+        for <linux-leds@vger.kernel.org>; Sun, 30 Nov 2025 20:26:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764563214; x=1765168014; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iA2L2HQEqrwIONxNXAAo9wwBSUWk3QOPio/3w8+Rs+0=;
+        b=RRGbC9U2lARf+wuNHcpl6t/YojrhsvUVyxkJ/o9wprDqqykQ8GDQQILLj++UbMQya/
+         lfsG0u5RbAJzveDg4VqoaQXqkc+NM1tv5TZPjFOJKJS6xCJeXXG7n0SrwXKo3Tvcj65w
+         +NjToBT9oxvyygqrWunT3kAG9jRGfa7HIWhDJQO9pPyGw0zUiujuEfW+6GDmYGuYpehU
+         w8qIHJmywOFr+dFD870HtJd/Xj3cM8fAZsYVeOkRY9K9PnXPq5GzLp/GTZChrAT/jpWq
+         WICpmvuQStpSarROYSU7GcQfaj58DEzu1e3V1WLknYEkcsnFSB/etjefYxid0yabBl+A
+         83lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764563214; x=1765168014;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iA2L2HQEqrwIONxNXAAo9wwBSUWk3QOPio/3w8+Rs+0=;
+        b=pa3VrGlU7KSqsjp3IGgjseH/uJAdStfm35eTk9DermJZ4qb8RN/CT1r64JFsvzoUth
+         0Ms6Fb6oQQOnqch6V0n7Oal6mlSEj5GOS4h3TEPUbsaRL1/BzmkR+c23VByZiOptJPxm
+         Py0xgIZwgp+rH7eQzrgVLhLcP+h0QD+2TCSfva9A3wP2VLdTbRwG6GJjkwuhaB1qxDEw
+         ddTsb9kzLRZt5BBSujYDtDS5A1uJXPvPicjF51K9lWpos2DwpzmxgfDH5gaCtBwmg9E6
+         mBq+R8VePWKSWU2WHU7KPbazTakI4rdtCg4SBEt5xtr8ki0iH9tfSVDwIlajS36+T1zE
+         bIAA==
+X-Gm-Message-State: AOJu0YzRhhSy2nvNvfblsdosTDh43zEjUA/062ldW6v1IGLsryHqr66d
+	en8IaMzHa/MpiuOFN8O+lzLGSMS62XhRLYa6SSX3X4SKfTCREzeyrlTI06J7JQ==
+X-Gm-Gg: ASbGncusy0aN6HRlBRCECK1x209VkbzyB6agPw5Wg8e+KmhFiZqrudfxqtuucYKMPvQ
+	aZKlgLrvspJBmjVqZvnqUzGn+ElAC+wG4yVG2X34f/5w6o5voPMjJu+AtaFsVbfCH/DZHL9Yej0
+	U1AMCAj6eh0JVNGKSICqFhAhMRSTYla+dn1lLXRyCwVV8OjteJNXTEpUm0XRvw22JyYhALfpPbr
+	yXyGF8YAD5qdsLlNLVci3OkaQNARco+dpLgx8PXR9BA063Z43L3yIm+Mua9crLRjvZTTYpWeY6F
+	fLb46b8ydmJKs6bM68I4Q3bzVbbNO5k+Rl0jbPuub1vbHsFy26VUYMcEYZ8ibQjrqsm/OHjL8De
+	GvrImezk8ic9k1MiTfLzRr26QJ7lLpQghu+oyEo+kiTXO0UJz9a09kv5BZJzxvq7uumT8QMISkF
+	6djsWbLPOU5t3HHHK4aRmuu1gDK7mATRxVZqhkYcHPblU=
+X-Google-Smtp-Source: AGHT+IHJNgnwvHT8MT6+kFZLJD0Hr6y23R2yf99SVlSjIE66NXGl1ukySq/D0tYSFKVIS/2/Iy5WIA==
+X-Received: by 2002:a05:6214:e85:b0:87b:cbf7:5eae with SMTP id 6a1803df08f44-8847c57cd6cmr710418546d6.59.1764563213698;
+        Sun, 30 Nov 2025 20:26:53 -0800 (PST)
+Received: from kernel-internship-machine.. ([143.110.209.46])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88652b494e0sm75621836d6.26.2025.11.30.20.26.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Nov 2025 20:26:53 -0800 (PST)
+From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+To: Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>
+Cc: linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Vivek Balachandhar TN <vivek.balachandhar@gmail.com>
+Subject: [PATCH] leds: lm3692x: fix kernel-doc for struct lm3692x_led
+Date: Mon,  1 Dec 2025 04:26:12 +0000
+Message-Id: <20251201042612.2099239-1-vivek.balachandhar@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-8534-20-msonline-outlook-774d9.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR84MB3746.NAMPRD84.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: ecfdf80f-874b-4526-8ae6-08de30625054
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Nov 2025 22:46:34.5695
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR84MB1722
+Content-Transfer-Encoding: 8bit
 
-I have been refactoring this driver for a v4 release, but I have come up wi=
-th a problem in testing with a new driver.
+Building with W=1 reports several kernel-doc warnings in
+drivers/leds/leds-lm3692x.c:
 
-I have converted my driver to a complete FW node implementation, but it won=
-'t work with LEDs provided by the GPIO LEDs driver as it does not work like=
- other LED drivers.
+  Warning: leds-lm3692x.c:122 struct member 'boost_ctrl'
+  not described in 'lm3692x_led'
+  Warning: leds-lm3692x.c:122 struct member 'brightness_ctrl'
+  not described in 'lm3692x_led'
+  Warning: leds-lm3692x.c:122 struct member 'enabled'
+  not described in 'lm3692x_led'
 
-GPIO LEDs register using devm_led_classdev_register_ext() but thet don't cr=
-eate a separate device structure.
-so there is no symbolic links or FW structures to read with the modern FW n=
-ode functions.
+These fields were added to struct lm3692x_led but the corresponding
+kernel-doc comment was not updated. Convert the kernel-doc block to
+use the "@member: description" style consistently and document the
+boost_ctrl, brightness_ctrl and enabled fields.
 
-The FWnode-based bus search (bus_find_device()) requires a device with dev_=
-fwnode(), which GPIO LEDs don't have
-of_led_get() and devm_of_led_get() have special handling in the LED core to=
- work around this but then I'll be mixing FW node and OF functions in my cu=
-rrent driver approach.
+This keeps the documentation in sync with the implementation and
+silences the W=1 warnings.
 
-Do I keep with OF format or is it ok to mix and match as it has been done i=
-n LEDS GROUP multicolor and other drivers? As it was already pointed out in=
- a past review and was not acceptable but there Is no real way around his p=
-roblem otherwise I see.
+Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+---
+ drivers/leds/leds-lm3692x.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-my alternative option is to patch the led core to add fwnode_led_get()  to =
-Get LED classdev by FW node?
-
-I'm wondering on the best approach here as every option has a drawback, or =
-review problems.=20
-
+diff --git a/drivers/leds/leds-lm3692x.c b/drivers/leds/leds-lm3692x.c
+index c319ff4d70b2..1d64ceb5ac85 100644
+--- a/drivers/leds/leds-lm3692x.c
++++ b/drivers/leds/leds-lm3692x.c
+@@ -104,6 +104,9 @@
+  * @regulator: LED supply regulator pointer
+  * @led_enable: LED sync to be enabled
+  * @model_id: Current device model ID enumerated
++ * @boost_ctrl: Cached configuration for the boost control register
++ * @brightness_ctrl: Cached configuration for brightness/brightness control
++ * @enabled: Cached enable state of the device
+  */
+ struct lm3692x_led {
+ 	struct mutex lock;
+-- 
+2.34.1
 
 
