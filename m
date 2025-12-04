@@ -1,185 +1,115 @@
-Return-Path: <linux-leds+bounces-6375-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6376-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4A5CA2023
-	for <lists+linux-leds@lfdr.de>; Thu, 04 Dec 2025 01:00:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9E9CCA2819
+	for <lists+linux-leds@lfdr.de>; Thu, 04 Dec 2025 07:22:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 50457300ACE3
-	for <lists+linux-leds@lfdr.de>; Thu,  4 Dec 2025 00:00:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 630D9305FAAF
+	for <lists+linux-leds@lfdr.de>; Thu,  4 Dec 2025 06:22:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27DE62F39B4;
-	Thu,  4 Dec 2025 00:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VSsZIlEl"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F23AF25334B;
+	Thu,  4 Dec 2025 06:22:12 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890A1257423;
-	Thu,  4 Dec 2025 00:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1581A2C181;
+	Thu,  4 Dec 2025 06:22:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764806431; cv=none; b=czFhGogZG4p+0s4YvSm/bWZXtAcqQLRqeS/GDD0fAphCpe97OU4GMNrphcIUu911oQgGFzllqWdIMS8keF+u6vU5hb7WjY3JtR5k5e5dGPfvfSoQ3xVHBG24oDGCpfjJOgLXOCN7d9vpPES7Hj/CBqcDS5vV3vU99EoE+GOpoL8=
+	t=1764829332; cv=none; b=GX9IPY31DJCoqQJ8P95Ow9bbitPQXtOhoXuRtMgbMO2NSWP3p8j+d1ZO0wUYWP56o1x4n/XQx72IBNKUUgL6APzXDUpzriT3VKRXR3tfnlyOUfsqpy2NqhuOF/xmhsAYerz/ZRQi7hs0+r2g+v6GsnibRMVD1fSEUhq9Au5MsKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764806431; c=relaxed/simple;
-	bh=RmzqbENcigN+/N9ttogRVF3nlDiwJKyUSgVC/gXr80c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JaNICc7QumU5dXVhFXFTZ6/yCO/pMDvocnFDYReTsUSY5Ao67DDt/CDQaBPVL0/DvrI4M/7h8nFgxy2Z00JHyJyBL0MlYKte2SaZYxdj9dy9iqDqxIFBQIdbo7jRXqfEym2+LoD4tmxyJeMUpuNLbzjGiRezaYFtwVd0gARaqpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VSsZIlEl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56699C4CEF5;
-	Thu,  4 Dec 2025 00:00:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764806431;
-	bh=RmzqbENcigN+/N9ttogRVF3nlDiwJKyUSgVC/gXr80c=;
-	h=Date:From:To:Cc:Subject:From;
-	b=VSsZIlElMOBGSBxuC5nfA+wjbZoyzgQHzvZ1W4UK6z2fM2CmSbo4hgdzmyrB3XwvS
-	 zrQdtPGMqTkT3VTWbNDDvljh5H/7vAaeIue9U6cnfOjimDccWOpIVGW4JRUbCGRi7x
-	 s6dgQnzU0/fwD6MmJmI2zsVPwaWsO2BHSSCDi5q+dsTIPew9/ocebV8W/iamnKcT4Y
-	 BSf4SzTd9/17houGpc//Ajf8LN5nGvCmjutDxxK8OX3MyAitbtAQUUH3wC7GD7I2K3
-	 +Jks/pGoaOYyLAECSF/JPpDNp/y6DfEuDq1aDiME5osnCBDDtjeT3bBwEnF4e1T/cj
-	 8ZbKGARwq9uag==
-Date: Wed, 3 Dec 2025 17:00:25 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>
-Cc: stable@vger.kernel.org, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, linux-leds@vger.kernel.org,
-	Stefan Kalscheuer <stefan@stklcode.de>
-Subject: Apply ccc35ff2fd2911986b716a87fe65e03fac2312c9 to 5.15, 6.1, and 6.6
-Message-ID: <20251204000025.GA468348@ax162>
+	s=arc-20240116; t=1764829332; c=relaxed/simple;
+	bh=z0Jxay3FOofAlB0LYItlOmQCSgShj1gWwmJ/OETfiB4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q9I8vO0mz38++wIXNZNlw8ofPjlIJobqhMJ2+sLQFAPLdYFHpjN9bT2h9OEfoHG150n2qJsVUHAsoZ3WScc6mFlaUZTr7jpL5g7YAo1ddyLMqATdV1GQzwNutmOvviXPC4w3liZxwJjwX2JZ8QiZ5EpgVxjjWjS9khMscL1kgHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from DESKTOP-L0HPE2S (unknown [124.16.141.245])
+	by APP-03 (Coremail) with SMTP id rQCowADHV9qCKDFpwkodAw--.5119S2;
+	Thu, 04 Dec 2025 14:21:55 +0800 (CST)
+From: Haotian Zhang <vulab@iscas.ac.cn>
+To: lee@kernel.org,
+	pavel@kernel.org
+Cc: abel.vesa@linaro.org,
+	marijn.suijten@somainline.org,
+	sre@kernel.org,
+	andersson@kernel.org,
+	anjelique.melendez@oss.qualcomm.com,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haotian Zhang <vulab@iscas.ac.cn>
+Subject: [PATCH] leds: qcom-lpg: Check the return value of regmap_bulk_write()
+Date: Thu,  4 Dec 2025 14:17:28 +0800
+Message-ID: <20251204061728.124-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="Hz+hp81qPmbwKaze"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowADHV9qCKDFpwkodAw--.5119S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tFyUAr45GF4Dtw4xCF13twb_yoW8Xr15pa
+	y5CFW2kr4rAas5CayjvFZ8Aas8t3Wftas8GFykGa4S9F9FvF1jqF1rtFy5tFWrJr93Ca15
+	JrWYqFWxAF12vFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9C14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4vE14v_GF1l42xK82IYc2Ij64vIr4
+	1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
+	67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
+	8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAv
+	wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
+	v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JU-6pPUUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgoGA2kxGKM3JQAAs4
 
+The lpg_lut_store() function currently ignores the return value of
+regmap_bulk_write() and always returns 0. This can cause hardware write
+failures to go undetected, leading the caller to believe LUT programming
+succeeded when it may have failed.
 
---Hz+hp81qPmbwKaze
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Check the return value of regmap_bulk_write() in lpg_lut_store and return
+the error to the caller on failure.
 
-Hi stable folks,
-
-Please apply commit ccc35ff2fd29 ("leds: spi-byte: Use
-devm_led_classdev_register_ext()") to 5.15, 6.1, and 6.6. It
-inadvertently addresses an instance of -Wuninitialized visible with
-clang-21 and newer:
-
-  drivers/leds/leds-spi-byte.c:99:26: error: variable 'child' is uninitialized when used here [-Werror,-Wuninitialized]
-     99 |         of_property_read_string(child, "label", &name);
-        |                                 ^~~~~
-  drivers/leds/leds-spi-byte.c:83:27: note: initialize the variable 'child' to silence this warning
-     83 |         struct device_node *child;
-        |                                  ^
-        |                                   = NULL
-
-It applies cleanly to 6.6. I have attached a backport for 6.1 and 5.15,
-which can be generated locally with:
-
-  $ git format-patch -1 --stdout ccc35ff2fd2911986b716a87fe65e03fac2312c9 | sed 's;strscpy;strlcpy;' | patch -p1
-
-This change seems safe to me but if I am missing a massive dependency
-chain, an alternative would be moving child's initialization up in these
-stable branches.
-
-Cheers,
-Nathan
-
-diff --git a/drivers/leds/leds-spi-byte.c b/drivers/leds/leds-spi-byte.c
-index 82696e0607a5..7dd876df8b36 100644
---- a/drivers/leds/leds-spi-byte.c
-+++ b/drivers/leds/leds-spi-byte.c
-@@ -96,6 +96,7 @@ static int spi_byte_probe(struct spi_device *spi)
- 	if (!led)
- 		return -ENOMEM;
- 
-+	child = of_get_next_available_child(dev_of_node(dev), NULL);
- 	of_property_read_string(child, "label", &name);
- 	strlcpy(led->name, name, sizeof(led->name));
- 	led->spi = spi;
-@@ -106,7 +107,6 @@ static int spi_byte_probe(struct spi_device *spi)
- 	led->ldev.max_brightness = led->cdef->max_value - led->cdef->off_value;
- 	led->ldev.brightness_set_blocking = spi_byte_brightness_set_blocking;
- 
--	child = of_get_next_available_child(dev_of_node(dev), NULL);
- 	state = of_get_property(child, "default-state", NULL);
- 	if (state) {
- 		if (!strcmp(state, "on")) {
-
---Hz+hp81qPmbwKaze
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment;
-	filename=ccc35ff2fd2911986b716a87fe65e03fac2312c9-5.15-6.1.patch
-
-From 45fa848142bf47813b7b08679f28f2ddc6b3ad82 Mon Sep 17 00:00:00 2001
-From: Stefan Kalscheuer <stefan@stklcode.de>
-Date: Sun, 4 Feb 2024 16:07:26 +0100
-Subject: [PATCH 5.15 and 6.1] leds: spi-byte: Use
- devm_led_classdev_register_ext()
-
-commit ccc35ff2fd2911986b716a87fe65e03fac2312c9 upstream.
-
-Use extended classdev registration to generate generic device names from
-color and function enums instead of reading only the label from the
-device tree.
-
-Signed-off-by: Stefan Kalscheuer <stefan@stklcode.de>
-Link: https://lore.kernel.org/r/20240204150726.29783-1-stefan@stklcode.de
-Signed-off-by: Lee Jones <lee@kernel.org>
-[nathan: Fix conflict due to lack of bf4a35e9201d]
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Fixes: 24e2d05d1b68 ("leds: Add driver for Qualcomm LPG")
+Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
 ---
- drivers/leds/leds-spi-byte.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/leds/rgb/leds-qcom-lpg.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/leds/leds-spi-byte.c b/drivers/leds/leds-spi-byte.c
-index 6883d3ba382f..eb6481df5997 100644
---- a/drivers/leds/leds-spi-byte.c
-+++ b/drivers/leds/leds-spi-byte.c
-@@ -83,7 +83,7 @@ static int spi_byte_probe(struct spi_device *spi)
- 	struct device_node *child;
- 	struct device *dev = &spi->dev;
- 	struct spi_byte_led *led;
--	const char *name = "leds-spi-byte::";
-+	struct led_init_data init_data = {};
- 	const char *state;
- 	int ret;
+diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+index 4f2a178e3d26..76734b1520f6 100644
+--- a/drivers/leds/rgb/leds-qcom-lpg.c
++++ b/drivers/leds/rgb/leds-qcom-lpg.c
+@@ -369,7 +369,7 @@ static int lpg_lut_store(struct lpg *lpg, struct led_pattern *pattern,
+ {
+ 	unsigned int idx;
+ 	u16 val;
+-	int i;
++	int i, ret;
  
-@@ -96,12 +96,9 @@ static int spi_byte_probe(struct spi_device *spi)
- 	if (!led)
- 		return -ENOMEM;
+ 	idx = bitmap_find_next_zero_area(lpg->lut_bitmap, lpg->lut_size,
+ 					 0, len, 0);
+@@ -379,8 +379,10 @@ static int lpg_lut_store(struct lpg *lpg, struct led_pattern *pattern,
+ 	for (i = 0; i < len; i++) {
+ 		val = pattern[i].brightness;
  
--	of_property_read_string(child, "label", &name);
--	strlcpy(led->name, name, sizeof(led->name));
- 	led->spi = spi;
- 	mutex_init(&led->mutex);
- 	led->cdef = device_get_match_data(dev);
--	led->ldev.name = led->name;
- 	led->ldev.brightness = LED_OFF;
- 	led->ldev.max_brightness = led->cdef->max_value - led->cdef->off_value;
- 	led->ldev.brightness_set_blocking = spi_byte_brightness_set_blocking;
-@@ -121,7 +118,11 @@ static int spi_byte_probe(struct spi_device *spi)
- 	spi_byte_brightness_set_blocking(&led->ldev,
- 					 led->ldev.brightness);
+-		regmap_bulk_write(lpg->map, lpg->lut_base + LPG_LUT_REG(idx + i),
++		ret = regmap_bulk_write(lpg->map, lpg->lut_base + LPG_LUT_REG(idx + i),
+ 				  &val, sizeof(val));
++		if (ret)
++			return ret;
+ 	}
  
--	ret = devm_led_classdev_register(&spi->dev, &led->ldev);
-+	init_data.fwnode = of_fwnode_handle(child);
-+	init_data.devicename = "leds-spi-byte";
-+	init_data.default_label = ":";
-+
-+	ret = devm_led_classdev_register_ext(&spi->dev, &led->ldev, &init_data);
- 	if (ret) {
- 		of_node_put(child);
- 		mutex_destroy(&led->mutex);
-
-base-commit: f6e38ae624cf7eb96fb444a8ca2d07caa8d9c8fe
+ 	bitmap_set(lpg->lut_bitmap, idx, len);
 -- 
-2.52.0
+2.50.1.windows.1
 
-
---Hz+hp81qPmbwKaze--
 
