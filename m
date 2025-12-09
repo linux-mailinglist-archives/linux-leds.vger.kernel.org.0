@@ -1,123 +1,120 @@
-Return-Path: <linux-leds+bounces-6386-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6387-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9387ACAF121
-	for <lists+linux-leds@lfdr.de>; Tue, 09 Dec 2025 07:56:40 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53FADCB0393
+	for <lists+linux-leds@lfdr.de>; Tue, 09 Dec 2025 15:14:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 9C3B9301AA48
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Dec 2025 06:56:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 12897300E3EE
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Dec 2025 14:14:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2043F27F4E7;
-	Tue,  9 Dec 2025 06:56:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86F9C2868B4;
+	Tue,  9 Dec 2025 14:14:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iRAeg8LH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nJrzUsLW"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F85227B4F5
-	for <linux-leds@vger.kernel.org>; Tue,  9 Dec 2025 06:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D3927C162
+	for <linux-leds@vger.kernel.org>; Tue,  9 Dec 2025 14:14:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765263396; cv=none; b=B1rgFMpPzIsyrrByT85B4c3+zFVtB8SvOWO/dUPoNkvzECt/o+sN+ywyeLjojQZ3DsZHspu+BXZX4AlhIwTxPJgRyDmNgvdeR6Paxp6P4pMklhGNQMyW0fr0ze9ux8ZEI9pXOM4q6V/trpR7VEJ0/kM/zzrfbnRb9gkh149E1h0=
+	t=1765289683; cv=none; b=uOPltyf/dE6fulvRW7DppNDwIr6sm18ZEwOCimF9340QZFplSZPjVCoNqEn52WRui+3JRvV4o50drH9ZVZ7aUPnp9jyMykMZzaTaKJ4wJqKKKjG1uby/MCRxWO8GnSHhl9N9i8wfpc0bTRUewdeH6eIeOh5tN4lG+11/awByMcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765263396; c=relaxed/simple;
-	bh=6iFRA45dPKiXNveZ1wXay7FvVPKi5iIumQ5qYPzeCM0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qiiInK1TtyIwi9w9zcsShPBeY+pJz9x9P6shkZfPX5ZIzDZI35sd806m8oVT+OYZ4V+xZ1EfZXuy9AHX3Kq+QpvCb+/W6YCbBZCPuiNiWPTYGLupY5sk/OMQ4WeFNIf2RirEyUqkP3qKeeWrZyrAvQTuPMM1Rfb/Lo2f/k7b8KE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iRAeg8LH; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-477770019e4so55552495e9.3
-        for <linux-leds@vger.kernel.org>; Mon, 08 Dec 2025 22:56:34 -0800 (PST)
+	s=arc-20240116; t=1765289683; c=relaxed/simple;
+	bh=p+MnXMxY2ieuINKDW+qcU42qclFHOt/7ycs9gddmvKw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Drx+O0rbT8P2AzzgcyFgxHncz47825pQiSsIWpiYP4y6opw5/nNr7EGU3HwOR8I+uOTosGs4HR1/WRAtluFQciS53bA9FOfQffJxRF7qD4Zf+XS/4nWSl3KBngZhmpg/CYsyGtbKfpi5qTh6YCwMx6IcWcYQD57W9RFVErWN+mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nJrzUsLW; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b72bf7e703fso964897166b.2
+        for <linux-leds@vger.kernel.org>; Tue, 09 Dec 2025 06:14:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765263393; x=1765868193; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sHIRJtJwasNsdM3LPTiBUAFA6xA3CvX5kgG0LlrG2hg=;
-        b=iRAeg8LHh5av5qRUAgYIXTyWApRzZvcL4/lwtwHK0NpPt0jqD6HiL06BYAmF874A8b
-         ugqHAqTg7syPnWxNM1YaMNBLh+LpR9eWTzW7Z8Bs99et5Q+6HpGEGHOiBhl41NFFRXjq
-         5TycuDZhRqFh1SGixCK+aBiZ8NHw7smimGWRfUuExNNA68vlLfYx4rRg2rp67A8+DZ20
-         kf4miUEEWbQgTN50GvRbkwWJMwVq83Do5FmIXH4nwmwYerljcrtuBZZIh+iPly1Ttd4f
-         QEqlM35pL0CA/HhpziNUAR7BH+jwjW+c/aJlLaE1TOVlZAbfDta+NPfzwUFFszdmPLmg
-         b2QA==
+        d=gmail.com; s=20230601; t=1765289680; x=1765894480; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FmfJkbH7xP/snHtbfubSpeIYpZRSL8H97Un9pUNUfhg=;
+        b=nJrzUsLWcWVtPph2cTv2gAxxL3vJpcVU2HosFhlnRRmcojvudV5pdPvg696LPN7lGj
+         y4kMnRC5xYXbHf9fqDBHE9wjyFULunpHMLxMnwjiBpeg10TUhPdqj2Dd1uX+zZM5f/nb
+         U27R6Zh/3/BBK6MyldQoadI8DeFF7LGDVhu+fOGq8K2l17U6qYgVnKMVxulUOVw9Q3yY
+         uQeXJRAWL9+PkzGDDqCtRyppGCUMRahQPJx1FJRLUkPqOiqDCzOd/bNz4V3StsYy9mDr
+         aodVT1V/7NuQ8nyMwsl8xVH1g/58ylAyycgKKO9MIOPCcPQ9Om9Ne69uv/izsS1n7qxW
+         ZkSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765263393; x=1765868193;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sHIRJtJwasNsdM3LPTiBUAFA6xA3CvX5kgG0LlrG2hg=;
-        b=BERWLUEz1rdgTQHXUtyiZaWKDP7+3Jvw0m6MBaVGi0MLyHPVzqtLR4/Pd03R3I9gvo
-         0Rx8bz/CzZQ6ZB3WYHPCI6DXzFYplWQpc8bsKt7XsHiJ1ozoTFUhWYiG+9JFd742a6Es
-         IB0qq6R69AJOYPLFRx1eXkSss9xYM3vEyS9kh2PO9e9RU57QF5b6y2En3CIuw5pikfx+
-         9Wbg34h6+21fPMEuxU+A1FZ/KU1X6LWw6Ebm8oZhevqhXRuyTBqLe9CODvTrpYZTd+4J
-         NL8LaQNWFWcMrD+WCbf92aNkt8wKifI8c9PPpc5i4yJmFzUD8PKGoaC+eBvX01S4Vfwz
-         K+HQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV0O8WSJYwuI1DCFMkss291Y9ak4IRQwNYAasHO27c1s8eUZwqlMjPLotlH+QJQlY6NZ8/nFpz92R6S@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpXLyjLXgXbcar0vArg+5N04TERvbjxtWt/RC+3EZG1uWtN9Rx
-	MuaItvY4YlJkWf+Qq+eWCl+OVRxVgFMMdJxe03jZ7EgT/ZpCZhkDu3QeCyit0AbA1Ig=
-X-Gm-Gg: ASbGncsCGOy1f5pVXw3hET48nECE+onh8bLnr+Ws1WIjmX/z7KHoXOC9V1JpqhWwRRj
-	L/90OA0KjSDelWRocDSqHJJmh0/16IdVQJSruLWyXSe8MbuwMmu7KKigwwoPvcYfXX8+XTXTOtl
-	9+HDh9rg6/Ze+4KMEJERgZsTU2MFegzZMpdkwdMLrjnBZaUBRD/ivBTh015jVIeui4ga4EO+rt4
-	rPlgbvD1jje0XlTYp2ibN/Pgq4uHocbSVgSirujUs1ADzt2e+7va5XqlNAJs70K1/g0XEYVZc2R
-	Q/c/AGmCumYLQMAHbSAUXIrt2RtPluU08UEIqCy7RAcLk3/kVa2KKZM2IXHjylJKcJSIQCFyR7o
-	b4WkEiNnW8SxkKTOll1km6lH/RqXH0Qsv4zhr3IHSPkR4hI0Qt3cY2KlGTZW1t5XWgAU4GAGK2B
-	+wgpEnhfZTTUF2eLDr
-X-Google-Smtp-Source: AGHT+IEUTCsh2YjbuWgwjA9kSB0ES+TnIdyt4FuUa3p/09Hcq5GxbqSJOTL2WUyG6So5dXKx25k28A==
-X-Received: by 2002:a05:600c:1384:b0:477:28c1:26ce with SMTP id 5b1f17b1804b1-47939df1478mr118585015e9.7.1765263392577;
-        Mon, 08 Dec 2025 22:56:32 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a7da2e4c2sm9447925e9.18.2025.12.08.22.56.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Dec 2025 22:56:32 -0800 (PST)
-Date: Tue, 9 Dec 2025 09:56:28 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Kate Hsuan <hpa@redhat.com>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>,
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH] leds: rgb: leds-ktd202x: Fix error code in
- ktd202x_setup_led_rgb()
-Message-ID: <aTfIHE_2-iKIrwqv@stanley.mountain>
+        d=1e100.net; s=20230601; t=1765289680; x=1765894480;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=FmfJkbH7xP/snHtbfubSpeIYpZRSL8H97Un9pUNUfhg=;
+        b=jKQCy7aoLpYFqeDMQJfwejPdWGR2X+Us15CXrjaGSXRtzQp7TDqgmBBx0YoJVDgLpN
+         VegKa1CfOR2tYt0zd3PxWdTY7HAujXPyt058Q4LNN1uNdrjC3H0i1SJNWPs2hAbUQX6S
+         R4+iasIEnZW6coMzxusDFZXXU0t93ZJTDgTzY2THJGZYZfMjlDU61Fl0wJmZWTb2m+ZJ
+         lvtZlRGStZfwTOPVR5VrQN2h06y/M+zUr39MFlpNjZEWbyZ+2Byy2zWPzEz+uIG1Yudt
+         9kXZwqlwMWGLWhxQGlSgAwl4uswKQGdrwDs2FIrLxz6NVneD8uA9wM/syOO4LlensKQM
+         krGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXAK9Gu/XfvHGaLjT3GEdEuWxVBKmmdYwR94/FJ9dXSzv7/X9gmx678rkE80Ceog1kT9s0r+9qPxHuT@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiW6+tI0TPI4es4jS5XIP2SCfxmrTT9smdS9iboSshYPd+W3K1
+	HBNQhgw/Tw78mcsLPMmATB/N6RhG5q4S+75jKXo7oyU25NudAPI/AaZwOcBG/ZsyDsz/Ks/EaS5
+	0awS6lJ5AFr8xVz1LQ2ycfL7dp8FD2+c=
+X-Gm-Gg: ASbGncsef/7hrLbB3uRcB2wP2KdATnWBwyBTEkaeAYIE6G3rsaxV+DnWn+xieKHLOtt
+	1eOGq02ixb2G2JX+I4s1X5fG1yFXBvy6zZyCkS8rt648Tn3i7+YmdJ5zzzq9WOM5e41VFNfzSQK
+	7m5qfJ1zh/BthTvRip6knYASqOiJ7AqgcTgMoP+GEjaIac7VjYARg7va7nJ2yQI97f8i5uOqWjQ
+	HP1JTbZetR7Fse3NErGtYRxlcXopdUaPZH6RTFmv7HRKo0j5mKs+I0l/6Die0FdsA2pNodxqQe+
+	C/pkuplckUcFHnwXzJmtb5Ux56vxAnv3vym12mnA0kUOFsZFnh/3aCe5L6H5NA7+txekHB4=
+X-Google-Smtp-Source: AGHT+IF5UkCJdJKXlr6Gth/qwcAe2dPAWhiuJkFRY5Ifo8BeEAGB6I3vdou2q1Tu4uhuVuZOOpDIp5dIYPVIef5NDe0=
+X-Received: by 2002:a17:907:9707:b0:b53:e871:f0ea with SMTP id
+ a640c23a62f3a-b7a247f6120mr1199899066b.56.1765289679946; Tue, 09 Dec 2025
+ 06:14:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+References: <aTfIHE_2-iKIrwqv@stanley.mountain>
+In-Reply-To: <aTfIHE_2-iKIrwqv@stanley.mountain>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 9 Dec 2025 16:14:03 +0200
+X-Gm-Features: AQt7F2rhjNP1srDjpyNtylnlt2n4nXE0BQJ1nV4SdGEvG-2omw-a6EWOmFv0S24
+Message-ID: <CAHp75VdHEVsj9o1UPSS1ikJYofDuiA7KwUaj8v79cJ3Xs=N5xw@mail.gmail.com>
+Subject: Re: [PATCH] leds: rgb: leds-ktd202x: Fix error code in ktd202x_setup_led_rgb()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Kate Hsuan <hpa@redhat.com>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Jonathan Cameron <jonathan.cameron@huawei.com>, Hans de Goede <hansg@kernel.org>, 
+	Andy Shevchenko <andy@kernel.org>, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Return -EINVAL if the "reg" value is invalid.  This is unlikely to
-happen in real life because it comes from the firmware, whether from
-device tree or ACPI.
+On Tue, Dec 9, 2025 at 8:56=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro.=
+org> wrote:
+>
+> Return -EINVAL if the "reg" value is invalid.  This is unlikely to
+> happen in real life because it comes from the firmware, whether from
+> device tree or ACPI.
 
-Fixes: f14aa5ea415b ("leds: rgb: leds-ktd202x: Get device properties through fwnode to support ACPI")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/leds/rgb/leds-ktd202x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+...
 
-diff --git a/drivers/leds/rgb/leds-ktd202x.c b/drivers/leds/rgb/leds-ktd202x.c
-index e4f0f25a5e45..3b7f2272036c 100644
---- a/drivers/leds/rgb/leds-ktd202x.c
-+++ b/drivers/leds/rgb/leds-ktd202x.c
-@@ -410,7 +410,7 @@ static int ktd202x_setup_led_rgb(struct ktd202x *chip, struct fwnode_handle *fwn
- 		if (ret != 0 || reg >= chip->num_leds) {
- 			dev_err(chip->dev, "invalid 'reg' of %pfw\n", child);
- 			fwnode_handle_put(child);
--			return ret;
-+			return ret ?: -EINVAL;
- 		}
- 
- 		ret = fwnode_property_read_u32(child, "color", &mono_color);
--- 
-2.51.0
+>                 if (ret !=3D 0 || reg >=3D chip->num_leds) {
+>                         dev_err(chip->dev, "invalid 'reg' of %pfw\n", chi=
+ld);
+>                         fwnode_handle_put(child);
+> -                       return ret;
+> +                       return ret ?: -EINVAL;
+>                 }
 
+I think the better fix is to split the original conditional to two.
+
+And make the message something like
+"can't retrieve 'reg' property of %pfw\n'
+for the case if (ret).
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
