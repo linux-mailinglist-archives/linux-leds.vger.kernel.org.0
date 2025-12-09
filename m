@@ -1,208 +1,183 @@
-Return-Path: <linux-leds+bounces-6390-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6392-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB2F3CB0E74
-	for <lists+linux-leds@lfdr.de>; Tue, 09 Dec 2025 20:07:29 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 201F6CB152B
+	for <lists+linux-leds@lfdr.de>; Tue, 09 Dec 2025 23:44:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CEB1D3015970
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Dec 2025 19:07:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B9A1730BCC50
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Dec 2025 22:44:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6941303C9B;
-	Tue,  9 Dec 2025 19:07:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E6FB2EE611;
+	Tue,  9 Dec 2025 22:44:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lwA+gXGm"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dKT1v2DU"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA6227C162;
-	Tue,  9 Dec 2025 19:07:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026DA26ED3E;
+	Tue,  9 Dec 2025 22:44:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765307246; cv=none; b=OC/ysrwgqih8RSzcvZXUjZNQmqvDUC1w0xzxCc2LoZ9lRZTjHXJDgFG5bYhvkc11fMo6TJoo8ZkoNCXwR6Ge1tECNExJHeWVG8ZwthedFelMYchBoDtzqfiX1czHXS5Rp9vMSTZjxH7FTB6y9GAuuKbtGna5UVeuFoFwzux47tU=
+	t=1765320292; cv=none; b=Sbi5U7BU3Y1c5ZD3VpVIZDyNWVmYc75V5sBV95NbHsJGIBTTQPG4DQOG0sMZ0BrXy+u+7W5vEFHz0tnmat8Im9naVYfZ/ktCF8IXwOIN4h85fNdkcX4Hun3LphJ30qcr0C4+Li8Ar6MxF3HbVk6DwFvEjuAxY6e4dqQBbtlfmUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765307246; c=relaxed/simple;
-	bh=Oym70OZBadIC1w/YlIPC9DL2FkmLeSFqIX49SQ+L7/g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ddJ/urqJOYh9ffigNf6RJ/WNw2AV52aPw9AyxCkUWrta/mSuFNJLchzfWOgYjHrLYUrKAoSofDpzZng4h8BYouEnGO/X7MbBEnWBI1fSbsjao9gdCsIj37GXwMtAgwe5eHuhELZvcfZs20PjdTnHSVgEJHIIUwOx9WdweFqdGLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lwA+gXGm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51CFDC4CEF5;
-	Tue,  9 Dec 2025 19:07:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765307245;
-	bh=Oym70OZBadIC1w/YlIPC9DL2FkmLeSFqIX49SQ+L7/g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lwA+gXGmpmgU5IwRHGVMFdXkRrn2+bkW/1NNddhQa7ZCTcOkRZKqNLyZxseM4ffEc
-	 tvoHjUes1u+9UfHDpaHfHBrJKjrOTB5C5P0qTNTSINvTke+8WiffQDDM7v6eRQ1QnF
-	 ALj2rikjP19zVrI4FCAiJ5V0WwVzuy6D22psHQrApox27xZXK5Y58q75kL3bEgSmkE
-	 YJOXdKxIk8hj3CNeYCUveh0d+yaWA/49Fe+x7I9Eumh+mweANs1I0FWElnnU8nX2FF
-	 jwpB+a4Ed6Ruh3KB7nMLnDd2wD3F6WE+vCqHXZmG9Q7zgTpxyzcTo6Q2vVCjya9ixP
-	 fEwMfQ3mJUIXw==
-Date: Tue, 9 Dec 2025 13:07:22 -0600
-From: Rob Herring <robh@kernel.org>
-To: Maud Spierings <maudspierings@gocontroll.com>
-Cc: Frank Li <Frank.li@nxp.com>, Lee Jones <lee@kernel.org>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 1/4] dt-bindings: backlight: Add max25014 support
-Message-ID: <20251209190722.GA945742-robh@kernel.org>
-References: <20251201-max25014-v6-0-88e3ac8112ff@gocontroll.com>
- <20251201-max25014-v6-1-88e3ac8112ff@gocontroll.com>
- <aS3H1qzSMKHamqpP@lizhi-Precision-Tower-5810>
- <b9fe6df7-fdc6-4a32-919b-8f3b44eace7d@gocontroll.com>
- <aS79eKc9Ac4np6Nf@lizhi-Precision-Tower-5810>
- <e428c3a9-49e2-4af5-b597-2cdfef7028f5@gocontroll.com>
+	s=arc-20240116; t=1765320292; c=relaxed/simple;
+	bh=kqHZHTYcalfqHfsySNEaGq9rBcBlyOIsvDj+Sp/LTc4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=LEv5nYd9V5LadBJFm0tSbqOuX4dJ14YfrTmM1RB9wngkQE2u0ygKI86+1LyvHvVkBo/JhXad6rgrBKPFeHLoD+wVB9dqJF38lyVSmhlINnfaByXs+62ZjqSCqbbOgx2SfVYq2Ip/gg4F78tbnIAMmfOIRqZwr3Ix8qTa7lwPan0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dKT1v2DU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8DC29C4CEF5;
+	Tue,  9 Dec 2025 22:44:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
+	t=1765320291; bh=kqHZHTYcalfqHfsySNEaGq9rBcBlyOIsvDj+Sp/LTc4=;
+	h=From:Subject:Date:To:Cc:From;
+	b=dKT1v2DUfZ3KDw87TcY0tnFlrF/9EUfSo8K6hqn5XeCzFM4HzxAvRffj3wuZ2dJ5x
+	 EYWvYUJJ6vjFyuUD0rt8txF1AwWdC1NDj88g+ZOLB8vNf2Wlwu3oDwR2DXHWiKfF1F
+	 16UTy4CboExuR8meWmYFniPn1h/dBCCKiwrb1oOw=
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79347D3B998;
+	Tue,  9 Dec 2025 22:44:51 +0000 (UTC)
+From: Richard Leitner <richard.leitner@linux.dev>
+Subject: [PATCH v10 0/8] Add strobe duration and strobe output enable v4l2
+ ctrl
+Date: Tue, 09 Dec 2025 23:44:35 +0100
+Message-Id: <20251209-ov9282-flash-strobe-v10-0-0117cab82e2d@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e428c3a9-49e2-4af5-b597-2cdfef7028f5@gocontroll.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAFOmOGkC/33R227CMAwG4FdBuV6Q7ZwarvYe0y7SHEYkoFtbK
+ ibUd18o0oq6skv/sj9b8pV1sc2xY7vNlbVxyF1uTqVAeNkwv3enj8hzKAEjIAUCBG8GSxXxdHD
+ dnnd929SRO6/rAOBtiJqVyc82pnyZ2Lf3e93Gr3PR+3vIatdF7pvjMfe7zaC3WPHWS3Zr3ueub
+ 9rv6aQBp+5/lw/IgUMKyjhUWtbu9ZBP58s2xGHyBnowUK4bVAyUwTiqUEgKS0PMhiS7bohiEIL
+ yEY21ipaGnA0FZt2QxTBUk7Uea+Pt0lCzofGJoYphjabgjAyg1dLQs2FQrxv6ZgiZkFxMSYilY
+ WbDAq4bphhBVUE5baVLfmlUvwYiPPlLVYzaYkgxodfqz2/tg0GwbthiaG+jcFIABvNojOP4A4M
+ A4REEAwAA
+X-Change-ID: 20250303-ov9282-flash-strobe-ac6bd00c9de6
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-leds@vger.kernel.org, Richard Leitner <richard.leitner@linux.dev>, 
+ Hans Verkuil <hverkuil@kernel.org>
+X-Mailer: b4 0.15-dev-a3fc8
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1765320290; l=5031;
+ i=richard.leitner@linux.dev; s=20250225; h=from:subject:message-id;
+ bh=kqHZHTYcalfqHfsySNEaGq9rBcBlyOIsvDj+Sp/LTc4=;
+ b=ctor+vw6XpqZLU+HkfWDOvmVs3OcWapc6aanSZ5nu376Juz9ysKeq0+k1ifAgHWMChFmNaUsx
+ ai784X27lrIBBDHTsmVsyZ5txHrqKeqeTnhIgXN5y9cGzyovGYQkK/F
+X-Developer-Key: i=richard.leitner@linux.dev; a=ed25519;
+ pk=8hZNyyyQFqZ5ruVJsSGBSPIrmJpfDm5HwHU4QVOP1Pk=
+X-Endpoint-Received: by B4 Relay for richard.leitner@linux.dev/20250225
+ with auth_id=350
 
-On Mon, Dec 08, 2025 at 02:56:50PM +0100, Maud Spierings wrote:
-> On 12/2/25 15:53, Frank Li wrote:
-> > On Tue, Dec 02, 2025 at 08:46:21AM +0100, Maud Spierings wrote:
-> > > On 12/1/25 17:52, Frank Li wrote:
-> > > > On Mon, Dec 01, 2025 at 12:53:20PM +0100, Maud Spierings via B4 Relay wrote:
-> > > > > From: Maud Spierings <maudspierings@gocontroll.com>
-> > > > > 
-> > > > > The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
-> > > > > with integrated boost controller.
-> > > > > 
-> > > > > Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
-> > > > > 
-> > > > > ---
-> > > > > 
-> > > > > In the current implementation the control registers for channel 1,
-> > > > > control all channels. So only one led subnode with led-sources is
-> > > > > supported right now. If at some point the driver functionality is
-> > > > > expanded the bindings can be easily extended with it.
-> > > > > ---
-> > > > >    .../bindings/leds/backlight/maxim,max25014.yaml    | 107 +++++++++++++++++++++
-> > > > >    MAINTAINERS                                        |   5 +
-> > > > >    2 files changed, 112 insertions(+)
-> > > > > 
-> > > > > diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> > > > > new file mode 100644
-> > > > > index 000000000000..e83723224b07
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> > > > > @@ -0,0 +1,107 @@
-> > > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > > > +%YAML 1.2
-> > > > > +---
-> > > > > +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
-> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > +
-> > > > > +title: Maxim max25014 backlight controller
-> > > > > +
-> > > > > +maintainers:
-> > > > > +  - Maud Spierings <maudspierings@gocontroll.com>
-> > > > > +
-> > > > > +properties:
-> > > > > +  compatible:
-> > > > > +    enum:
-> > > > > +      - maxim,max25014
-> > > > > +
-> > > > > +  reg:
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  "#address-cells":
-> > > > > +    const: 1
-> > > > > +
-> > > > > +  "#size-cells":
-> > > > > +    const: 0
-> > > > > +
-> > > > > +  enable-gpios:
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  interrupts:
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  power-supply:
-> > > > > +    description: Regulator which controls the boost converter input rail.
-> > > > > +
-> > > > > +  pwms:
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  maxim,iset:
-> > > > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > > > +    maximum: 15
-> > > > > +    default: 11
-> > > > > +    description:
-> > > > > +      Value of the ISET field in the ISET register. This controls the current
-> > > > > +      scale of the outputs, a higher number means more current.
-> > > > > +
-> > > > > +  led@0:
-> > > > 
-> > > > define whole binding, allow 0-3. binding is not related with driver's
-> > > > implement.
-> > > > 
-> > > > it'd better put unders leds.
-> > > > 
-> > > 
-> > > so like:
-> > > 
-> > > backlight: backlight@6f {
-> > > 	compatible = "maxim,max25014";
-> > > 	reg = <0x6f>;
-> > > 	enable-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
-> > > 	pinctrl-names = "default";
-> > > 	pinctrl-0 = <&pinctrl_backlight>;
-> > > 	maxim,iset = <7>;
-> > > 
-> > > 	leds {
-> > > 		#address-cells = <1>;
-> > > 		#size-cells = <0>;
-> > > 
-> > > 		led@0 {
-> > > 			reg = <0>;
-> > > 			led-sources = <0 1 2>;
-> > > 			default-brightness = <50>;
-> > > 		};
-> > > 
-> > > 		optional led@#....
-> > > 	};
-> > > };
-> > > 
-> > > right?
-> > 
-> > yes.
-> > 
-> 
-> I am feeling a bit weird about these led sub nodes, because it is not
-> programmed as a led driver, it is programmed as a backlight. I am trying to
-> figure out how this would be used later when the led strings are
-> individually controllable.
-> 
-> it isn't possible to link the seperate strings to different displays because
-> it is only one backlight device, so I don't seen any reason why it would
-> ever be used in another way than what it is now, were all strings are
-> programmed by one register.
-> 
-> The only way I can make sense of it is if instead I program this device as a
-> led driver and then use the led_bl driver as the actual backlight.
-> 
-> Thats a pretty big step in a different direction, but then the led subnodes
-> at least can be properly used I feel.
+This series adds two new v4l2 controls:
+- V4L2_CID_FLASH_DURATION: "Strobe duration": This control enables
+  setting a desired flash/strobe length/duration in µs.
+- V4L2_CID_FLASH_STROBE_OE: "Strobe output enable": This
+  control enables the hardware strobe output signal of a v4l2 device.
 
-If you don't have any use for anything other than driving a single 
-backlight, then I'd just drop the led nodes completely.
+As a first user of these new controls add basic flash/strobe support
+for ov9282 sensors using their "hardware strobe output". The duration
+calculation is only interpolated from various measurements, as no
+documentation was found.
 
-Rob
+Further flash/strobe-related controls as well as a migration to v4l2-cci
+helpers for ov9282 will likely be implemented in future series.
+
+All register addresses/values are based on the OV9281 datasheet v1.53
+(january 2019). This series was tested using an ov9281 VisionComponents
+camera module.
+
+Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+---
+Changes in v10:
+- Avoid bitwise or on error codes in ov9282_set_ctrl_flash_duration() (Thanks Sakari)
+- Link to v9: https://patch.msgid.link/20251120-ov9282-flash-strobe-v9-0-6c9e3a4301d7@linux.dev
+
+Changes in v9:
+- Avoid needless multiplication/division in ov9282.c (Thanks Sakari)
+- Avoid possible u32 overflow in ov9282.c (Thanks Sakari)
+- Link to v8: https://patch.msgid.link/20251104-ov9282-flash-strobe-v8-0-b91dfef1c65a@linux.dev
+
+Changes in v8:
+- Minor styling changes across the set
+- Add missing error handling for ov9282 strobe_frame_span writing
+- Rename V4L2_CID_FLASH_HW_STROBE_SIGNAL to V4L2_CID_FLASH_STROBE_OE
+- Drop 02/10: FLASH_DURATION handling in v4l2-flash
+- Drop 08/10: strobe_source in ov9282
+- Link to v7: https://lore.kernel.org/r/20250901-ov9282-flash-strobe-v7-0-d58d5a694afc@linux.dev
+
+Changes in v7:
+- Improved v4l2 uAPI documentation (thanks Sakari)
+- Link to v6: https://lore.kernel.org/r/20250716-ov9282-flash-strobe-v6-0-934f12aeff33@linux.dev
+
+Changes in v6:
+- Fix "Alignment should match open parenthesis" by Media-CI bot in v4l2-flash-led-class.c
+- Fix "format string contains non-ascii character (µ)" by Media-CI bot in ov9282.c
+- Introduce new V4L2_CID_FLASH_HW_STROBE_SIGNAL control (as suggested by Sakari)
+- Implement V4L2_CID_FLASH_HW_STROBE_SIGNAL instead of
+  V4L2_CID_FLASH_LED_MODE in ov9282.c (as suggested by Sakari)
+- Drop "media: v4l2-flash: fix flash_timeout comment" as this was
+  applied (thanks Lee)
+- Link to v5: https://lore.kernel.org/r/20250617-ov9282-flash-strobe-v5-0-9762da74d065@linux.dev
+
+Changes in v5:
+- Improve try_ctrl for flash_duration by using DIV_ROUND_UP() and abs() (thanks Sakari)
+- Drop "leds: flash: Add support for flash/strobe duration" as this was applied upstream
+- Add "media: i2c: ov9282: dynamic flash_duration maximum" (thanks Sakari)
+- Link to v4: https://lore.kernel.org/r/20250507-ov9282-flash-strobe-v4-0-72b299c1b7c9@linux.dev
+
+Changes in v4:
+- Fix FLASH_DURATION implementation in v4l2-flash-led-class.c by adding a
+  missing brace and enum entry (thanks Sakari)
+- Fix format of multiline comment in ov9282.c (thanks Sakari)
+- Add missing NULL check in ov9282.c (thanks Sakari)
+- Adapt nr_of_controls_hint for v4l2 handler in ov9282.c (thanks Sakari)
+- Add patch for implementing try_ctrl for strobe_duration (thanks Sakari)
+- Link to v3: https://lore.kernel.org/r/20250429-ov9282-flash-strobe-v3-0-2105ce179952@linux.dev
+
+Changes in v3:
+- create separate patch for leds driver changes (thanks Lee)
+- Link to v2: https://lore.kernel.org/r/20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev
+
+Changes in v2:
+- remove not needed controls in struct ov9282 (thanks Dave)
+- Fix commit message of 3/3 regarding framerate get/set (thanks Dave)
+- Add V4L2_CID_FLASH_STROBE_SOURCE impementation to ov9282
+- Add new V4L2_CID_FLASH_DURATION control (as suggested by Laurent)
+- Use FLASH_DURATION instead of FLASH_TIMEOUT for ov9282
+- Link to v1: https://lore.kernel.org/r/20250303-ov9282-flash-strobe-v1-0-0fd57a1564ba@linux.dev
+
+---
+Richard Leitner (8):
+      media: v4l: ctrls: add a control for flash/strobe duration
+      media: v4l: ctrls: add a control for enabling strobe output
+      Documentation: uAPI: media: add V4L2_CID_FLASH_{DURATION,STROBE_OE}
+      media: i2c: ov9282: add output enable register definitions
+      media: i2c: ov9282: add strobe output enable v4l2 control
+      media: i2c: ov9282: add strobe_duration v4l2 control
+      media: i2c: ov9282: implement try_ctrl for strobe_duration
+      media: i2c: ov9282: dynamic flash_duration maximum
+
+ .../userspace-api/media/v4l/ext-ctrls-flash.rst    |  42 +++++
+ drivers/media/i2c/ov9282.c                         | 174 ++++++++++++++++++++-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c          |   3 +
+ include/uapi/linux/v4l2-controls.h                 |   2 +
+ 4 files changed, 215 insertions(+), 6 deletions(-)
+---
+base-commit: 2f112b1c25da9f5346c2261ed35c5b1e0b906471
+change-id: 20250303-ov9282-flash-strobe-ac6bd00c9de6
+
+Best regards,
+--  
+Richard Leitner <richard.leitner@linux.dev>
+
+
 
