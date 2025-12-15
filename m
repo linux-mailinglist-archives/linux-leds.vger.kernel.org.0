@@ -1,175 +1,212 @@
-Return-Path: <linux-leds+bounces-6416-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6417-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72260CBD747
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Dec 2025 12:12:02 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93324CBDF86
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Dec 2025 14:17:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6742C300CCD0
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Dec 2025 11:11:40 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 938DF3005099
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Dec 2025 13:17:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 698CE32FA39;
-	Mon, 15 Dec 2025 11:11:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17BE82D8365;
+	Mon, 15 Dec 2025 13:17:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cHKWjdkj";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dNixLx56"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GnLwksGI"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3DDD32FA14
-	for <linux-leds@vger.kernel.org>; Mon, 15 Dec 2025 11:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C512D8DB5
+	for <linux-leds@vger.kernel.org>; Mon, 15 Dec 2025 13:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765797098; cv=none; b=P5cHZ1Mz+SpQIC2kYIx77KcXUmy9AQuKX2yUKACmAWBpZTuaaEapl8ZqDUqTi7WLyCw0bb1yynWieAaOF6zAZcwCUQ+52oDVwnADXYZYDi2gAp+st0QvdqrkPilAvgHubFESos4GQqWqsu946a44rSt1PI5XopPdd29wrfanQcs=
+	t=1765804622; cv=none; b=VKZ1NMtaGgO6EYx3UAuXd1cY3yovhEdUHK7p8tSPacXqQjLHXg7v3XXtS7oJeicq63Ab0ORp5l4LwrAFgBMbBgtnFnwO6qNny6j5XXLn8VpeIifE3X/3+cbrhFOBOam3JtkYS4S8gKd7e4dJ+1rZ+GZrzCx2Z2M6L4em6gVjF7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765797098; c=relaxed/simple;
-	bh=DUs4wJC+VDe1QuwgJs0TQdGCZpxs4c2W//GgpczUYho=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=meWOBSW8w+V1zk2UXDM/L+OlCulrH3FZcMt5eC5HR9uP38U7wkag0CyewKfGXYvirb9n2Oz/jInT/NTTTq0LWbWgrkW4Xc07xzyHbpGBR2hPQLtfkcaeXGK1r5lyPiFWMbodA/yJaSHHEprSoQVNLqk1hhnsQOGpRq9dhNrdsDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cHKWjdkj; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=dNixLx56; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BFANpSI675929
-	for <linux-leds@vger.kernel.org>; Mon, 15 Dec 2025 11:11:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	7ffG3VR+qlMIzXuQA/U6HHK8nmsBe+hFJK9dh88LIiI=; b=cHKWjdkjB7mQZ87d
-	83A0etNMLzq8sKdPDGgGstDQQXOUdD65B62vL8j1tNaqhRSWFj0kvzWZ39STuyZ6
-	50e4kL3/KjEkNRPw3JFFDpVWgcPkrhjA+VMhge1uUtv4Pe0g+dTns3Xtrh/gNk1n
-	zUAVx6bIa9eluY5thx4znkhJ3cs5LTqVgNRUf/9ck4uJ1Cb9qabFBmdk03VUoVZG
-	6A69pkHovjyya0v+pjSKvEQZwzYtWLUUnXMrewcefhrue5VsOiHbc3CKgionR4xR
-	JRrZNY+xM26v6NIDV6GWU/bAxSPjPQ5OkGoZvAO7tJwIs4iwQrYnUDo9enMmHaTj
-	Ehd1sg==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b11cyma66-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-leds@vger.kernel.org>; Mon, 15 Dec 2025 11:11:35 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-7bb2303fe94so3910697b3a.3
-        for <linux-leds@vger.kernel.org>; Mon, 15 Dec 2025 03:11:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765797094; x=1766401894; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7ffG3VR+qlMIzXuQA/U6HHK8nmsBe+hFJK9dh88LIiI=;
-        b=dNixLx56m38GP65bak+AHBERlVarj/+G86hqyCyhl87tznnMl7d8KlagIGZUQBnMqT
-         +F0wZgh6D7r/lIuFSwejbQYaUfSJnl5CxkGdwl3clkVUePNsK5k0bfAzVzhU8SNnhwGm
-         Markm4IaIbxROLhcP7mecpTsV4rOD8E6QPZ2fs+G9AZUIUehCX9hNa9WX2o+4Tt786LT
-         s0htGg522OuyWSy9+p9/mPsvqERziUGpSJG08+m1wLnsPzOmBMc98BQifEGB1mqxcvbq
-         xjoefn82Zwn/SdTSBRJbgtDaPvDjR8AXtNqBwfn2ZvmWayh1U0N9jHWSqMSaUX7jzTCa
-         PckA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765797094; x=1766401894;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7ffG3VR+qlMIzXuQA/U6HHK8nmsBe+hFJK9dh88LIiI=;
-        b=ISY8sAVDCtD4l15rI5Ti1aoI87l4HWYv1ha0XhC1NJr1zXeJDKo6E+fwhAhTVgVEty
-         OctKRQyuxojG/KVo8XXxozK3rIRve+yHF8omHGP2ifwuBJeqYOULDXdY3GicVqDd7Q2F
-         YYB9dMAO9dpIggDYeW3/Rr3XmQUXOhfjdcF0ZEGUeNbp2vIyQV8XJKoNmg8XV08dwL09
-         /+VcCTCGm9uzmRs00NP+qnLfjRJ0ZGhU6LiLpugRiMcKJ70VMAOhE47Romj8Uch76Zhh
-         TwHLij2Nv6O2SfdotYm9QBa1rh7MnMEzTB/G9UHxWyX8poKYm2HBVEjlZG831VMDtP2q
-         cbfQ==
-X-Gm-Message-State: AOJu0YwMGSPTgDGzUcYGHnH7qSan+u9mk+DjZwjVE8voIux8ZQNqb2cG
-	2uCTTYhcvE3tn9Mg2MKzNGWAi2tpDZXW1mTwI4jkQrmy/AatpcHB+xwPPPM/JWUpAvy/n4aCH+g
-	FarQvDQ1n656L/Kmumc4Bz503S8GCQ1o1Mpv7wFwk6NwESSZntDRevY+PYwwXFv+kjhtpDODq
-X-Gm-Gg: AY/fxX7dPgi+x20xCiMgDOKq/sw/EX9JJeUvvuLCbWpZIkO98uda1YFvDseOPWq0/Z+
-	Pp2RXM+1JOmWce+fn587G+4KB/3e3zvqMr+cms5kNUCBDRC52XwnoYqaL6jG6L2s/lMELr0mEK7
-	GT8HTwhFw9l9yprfMKp5TsuiJUkYXWu9ulZdANonE0nbOj6NO+mtu3QpAvvXHSZmKxVqla4sjJ5
-	Na8CuYgnCWQWdPlUt7iC1racaNBAeXD/anl+2d0/P/5Tt3HuEMB4qpd84cAsFws8T3VmwNLcfyK
-	PJP0H1bnTJQXKLlPssSB02VP28Y8p/pRB9w11nFOf2JFa5TFEzd5dx/Y0n5u+0YQGYi4x/UjbL6
-	3WhDZl/MgbJzL9lCG5aeik/L/zXMNTjZN3baHsdgwkkFT
-X-Received: by 2002:a05:6a00:420d:b0:7e8:4471:8d2 with SMTP id d2e1a72fcca58-7f669a9517fmr8364722b3a.51.1765797093053;
-        Mon, 15 Dec 2025 03:11:33 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFMAG3FqJ3rO8O/F6vgV20Uh7A7qwd0IDUFCE4AJkIO6SxD7DJFPLNODUpHPj8MI4zg4KfsjA==
-X-Received: by 2002:a05:6a00:420d:b0:7e8:4471:8d2 with SMTP id d2e1a72fcca58-7f669a9517fmr8364684b3a.51.1765797092519;
-        Mon, 15 Dec 2025 03:11:32 -0800 (PST)
-Received: from hu-jprakash-hyd.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f4c2379e40sm12408918b3a.5.2025.12.15.03.11.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 03:11:32 -0800 (PST)
-From: Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>
-Date: Mon, 15 Dec 2025 16:41:05 +0530
-Subject: [PATCH v3 2/2] dt-bindings: leds: qcom,spmi-flash-led: Add PMH0101
- compatible
+	s=arc-20240116; t=1765804622; c=relaxed/simple;
+	bh=t+3/rBH8Fou7YH7QS+lXRreFqP+9OwpFHCCxzxu16JE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ktbt2Pr96YzSvvBL0REHMbj6i3GwPhajblVJA/uFQKC5ycJC31ti4CSkL2PR3JHkcJbPMbXLauXAyzPJqfhdUzWxUUmoCdPbJBexn7SULsjyXduJnqXmTQr8mW5Wj4v1Ak48pie5iOpSCATdjPoHUevv0YXEjrWBr22N3YLI4a4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GnLwksGI; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Mon, 15 Dec 2025 15:16:41 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1765804612; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type; bh=WiDNFAxR5yiVwu+hAtbQBY28p8F8f+gFH61h9WqQhIo=;
+	b=GnLwksGIPDesCnH5nLgzqbszxAc83W9+2jFI9EeJ23KcYY3MPN/RZqRYRp3wxqjBVKThnW
+	d0GMoVbLfZ2uwxsKyNMpxRjmg5ZkFUxMpGNxof3KJNi4Hpvlw59D9WtPC8nmDOUqm+whn0
+	fWJHCjchn8dFDflUHsGH9XCA/xdhL1A=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Matti Vaittinen <matti.vaittinen@linux.dev>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-rtc@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
+Subject: [PATCH RESEND v6 00/17] Support ROHM BD72720 PMIC
+Message-ID: <cover.1765804226.git.mazziesaccount@gmail.com>
+Reply-To: Matti Vaittinen <mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251215-knp-pmic-leds-v3-2-5e583f68b0e5@oss.qualcomm.com>
-References: <20251215-knp-pmic-leds-v3-0-5e583f68b0e5@oss.qualcomm.com>
-In-Reply-To: <20251215-knp-pmic-leds-v3-0-5e583f68b0e5@oss.qualcomm.com>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Fenglin Wu <quic_fenglinw@quicinc.com>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>,
-        aiqun.yu@oss.qualcomm.com, kamal.wadhwa@oss.qualcomm.com,
-        yijie.yang@oss.qualcomm.com, jingyi.wang@oss.qualcomm.com
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1765797078; l=900;
- i=jishnu.prakash@oss.qualcomm.com; s=20251014; h=from:subject:message-id;
- bh=DUs4wJC+VDe1QuwgJs0TQdGCZpxs4c2W//GgpczUYho=;
- b=+fdqUtJl468HYmox3ssrVw9vp/3lRX056AtNh36u3Vy3N1dkxQWuS9TMo9IMZ6xkbB71AWhsl
- JHQj/nwLhH7A+blW7EL0r0WRqfU1WTBZRpIy7ZJSi1OiTKksuabu1DN
-X-Developer-Key: i=jishnu.prakash@oss.qualcomm.com; a=ed25519;
- pk=g89pXdLVwRjdTeQ+uX1QzvBO346E3hQAc1N7fcTXgmk=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE1MDA5NiBTYWx0ZWRfXzLJvxCvFE/fv
- LXO1Egx7jJ8xheAxB+4qugN8m+ZgTV0eE0cjQMEol8lLWFrDY3tEKwOZjjaiJg58xTNj4R9i25U
- Hj3ZiMKKsmGBOyDkPgb3ApHnAWVquDgZGsau52+Ob1mnUOBYtSbMNzsHIYXMq5rbVZBvyTPPLWs
- qzFmbywUyJGT9nLmn+dSKANyunFy7Fz7uywpJIrvd+jLy0AGWKwTYZGZPCXutF0gR61/+jIkrw9
- aDWFiolf6XkQOmQcDUf95TaQcHFGLi3eFY0mfhuj8WsmiUmZ9W/m/rBDTcjz6WBEmDnEXlHHFCW
- bXqWDaFU27f4qgN7gAHP7Kftjljqh1zvNR5uEQBFbDm+KcBtqXGtm5FR5cAfTQfrnGT7aOgjgzm
- OzTCWBsHfkxY++HAc1ahYlEzWBWG0w==
-X-Proofpoint-GUID: QtM9xCeIWcwXpyHapcoz_yrtUQZi467W
-X-Authority-Analysis: v=2.4 cv=Afq83nXG c=1 sm=1 tr=0 ts=693fece7 cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=aS6jM6utL2cIvELFAl4A:9
- a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
-X-Proofpoint-ORIG-GUID: QtM9xCeIWcwXpyHapcoz_yrtUQZi467W
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-15_02,2025-12-15_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
- suspectscore=0 lowpriorityscore=0 clxscore=1011 adultscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512150096
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6ZIbSEWw5sj//Cs4"
+Content-Disposition: inline
+X-Migadu-Flow: FLOW_OUT
 
-Document compatible for PMH0101 Torch and Flash LED controller.
 
-Signed-off-by: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
-Signed-off-by: Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>
+--6ZIbSEWw5sj//Cs4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Resending the v6
+
+Series is same as v6 _except_ being rebased on v6.19-rc1 - and adding rb
+tags which were replied to v6.
+
+The ROHM BD72720 is a new power management IC for portable, battery
+powered devices. It integrates 10 BUCKs and 11 LDOs, RTC, charger, LEDs,
+GPIOs and a clock gate. To me the BD72720 seems like a successor to the
+BD71828 and BD71815 PMICs.
+
+This series depends on
+5bff79dad20a ("power: supply: Add bd718(15/28/78) charger driver")
+which is in power-supply tree, for-next. Thus, the series is based on
+it.
+
+The testing since v4 has suffered some hardware-issues after I
+accidentally enabled charging while the PMIC's battery pin was connected
+to the I/O domain. Some heat was generated, not terribly lot smoke
+though...
+
+After the incident I've had occasional I2C failures. I, however, suspect
+the root cause is HW damage in I/O lines.
+
+Revision history:
+  v6 resend:
+  - Rebased on v6.19-rc1 and collected rb-tags from v6.
+
+  v5 =3D> v6:
+  - MFD fixes as suggested by Lee
+    - Styling mostly
+    - New patch to Fix comment style for MFD driver
+  More accurate changelog in individual patches
+
+  v4 =3D> v5:
+  - dt-binding fixes as discussed in v4 reviews.
+    - Drop rohm,vdr-battery.yaml and add vdr properties to battery.yaml
+    - Drop 'rohm,' -vendor-prefix from vdr properties
+  - Link to v4:
+    https://lore.kernel.org/all/cover.1763022807.git.mazziesaccount@gmail.c=
+om/
+  More accurate changelog in individual patches
+
+  v3 =3D> v4:
+  - dt-binding fixes to the BD72720 MFD example and regulator bindings
+  More accurate changelog in individual patches
+
+  v2 =3D> v3:
+  - rebased to power-supply/for-next as dependencies are merged to there
+  - plenty of dt-binding changes as suggested by reviewers
+  - add new patch to better document existing 'trickle-charging' property
+  More accurate changelog in individual patches
+
+  RFCv1 =3D> v2:
+  - Drop RFC status
+  - Use stacked regmaps to hide secondary map from the sub-drivers
+  - Quite a few styling fixes and improvements as suggested by
+    reviewers. More accurate changelog in individual patches.
+  - Link to v1:
+    https://lore.kernel.org/all/cover.1759824376.git.mazziesaccount@gmail.c=
+om/
+
 ---
- Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml b/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
-index 05250aefd385..3bfa24ff58cd 100644
---- a/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
-+++ b/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
-@@ -29,6 +29,7 @@ properties:
-           - qcom,pm8150l-flash-led
-           - qcom,pm8350c-flash-led
-           - qcom,pm8550-flash-led
-+          - qcom,pmh0101-flash-led
-           - qcom,pmi8998-flash-led
-       - const: qcom,spmi-flash-led
- 
+Matti Vaittinen (17):
+  dt-bindings: regulator: ROHM BD72720
+  dt-bindings: battery: Clarify trickle-charge
+  dt-bindings: battery: Add trickle-charge upper limit
+  dt-bindings: battery: Voltage drop properties
+  dt-bindings: mfd: ROHM BD72720
+  dt-bindings: leds: bd72720: Add BD72720
+  mfd: rohm-bd71828: Use regmap_reg_range()
+  mfd: rohm-bd71828: Use standard file header format
+  mfd: rohm-bd71828: Support ROHM BD72720
+  regulator: bd71828: rename IC specific entities
+  regulator: bd71828: Support ROHM BD72720
+  gpio: Support ROHM BD72720 gpios
+  clk: clk-bd718x7: Support BD72720 clk gate
+  rtc: bd70528: Support BD72720 rtc
+  power: supply: bd71828: Support wider register addresses
+  power: supply: bd71828-power: Support ROHM BD72720
+  MAINTAINERS: Add ROHM BD72720 PMIC
 
--- 
-2.25.1
+ .../bindings/leds/rohm,bd71828-leds.yaml      |    7 +-
+ .../bindings/mfd/rohm,bd72720-pmic.yaml       |  339 ++++++
+ .../bindings/power/supply/battery.yaml        |   33 +-
+ .../regulator/rohm,bd72720-regulator.yaml     |  148 +++
+ MAINTAINERS                                   |    2 +
+ drivers/clk/Kconfig                           |    4 +-
+ drivers/clk/clk-bd718x7.c                     |   10 +-
+ drivers/gpio/Kconfig                          |    9 +
+ drivers/gpio/Makefile                         |    1 +
+ drivers/gpio/gpio-bd72720.c                   |  281 +++++
+ drivers/mfd/Kconfig                           |   18 +-
+ drivers/mfd/rohm-bd71828.c                    |  555 ++++++++-
+ drivers/power/supply/bd71828-power.c          |  160 ++-
+ drivers/regulator/Kconfig                     |    8 +-
+ drivers/regulator/bd71828-regulator.c         | 1025 ++++++++++++++++-
+ drivers/rtc/Kconfig                           |    3 +-
+ drivers/rtc/rtc-bd70528.c                     |   21 +-
+ include/linux/mfd/rohm-bd72720.h              |  634 ++++++++++
+ include/linux/mfd/rohm-generic.h              |    1 +
+ 19 files changed, 3127 insertions(+), 132 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/rohm,bd72720-pmic=
+=2Eyaml
+ create mode 100644 Documentation/devicetree/bindings/regulator/rohm,bd7272=
+0-regulator.yaml
+ create mode 100644 drivers/gpio/gpio-bd72720.c
+ create mode 100644 include/linux/mfd/rohm-bd72720.h
 
+
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+--=20
+2.52.0
+
+
+--6ZIbSEWw5sj//Cs4
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmlACjQACgkQeFA3/03a
+ocVvXAf/aLg1mLcDMQctdZXd7r8pJ+3IdKs/8MIgXbLFX7s5jdJQe0eKVKmVjxpT
+irXNoLXsm/9rr9isLWL3cw7Mp43js/nt8XHEODlhnUR3X0xgqziT1WYFQQrFZHP0
+Vji6T+4dPH26Rf5Im1Sj38pl7mujbmKrqjtcfX5SCxAg8mUzm7BWdZVoNfyj1VbH
+IAPtHGngvqBPH3E17qFo7ki24BNFHQsn7rj5PKFAVFDpHL/A5m9MlaUXhlb5AKxA
+3/eawVNqe5+D/OvamKViZ0JAxdTxwc/d1oW3tSy0hYPsEHkqKmQPDokjuBZo+wfx
+YRBJk5U3v2ciuwq4SBuy/VzH9xw55w==
+=1Nk1
+-----END PGP SIGNATURE-----
+
+--6ZIbSEWw5sj//Cs4--
 
