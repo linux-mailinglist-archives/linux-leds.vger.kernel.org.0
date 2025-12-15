@@ -1,43 +1,43 @@
-Return-Path: <linux-leds+bounces-6420-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6421-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F70CBDFFB
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Dec 2025 14:19:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F243ECBE040
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Dec 2025 14:20:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 152CF302034D
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Dec 2025 13:18:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8FBCE3021E54
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Dec 2025 13:18:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD2E72D3A77;
-	Mon, 15 Dec 2025 13:18:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ED432DAFDA;
+	Mon, 15 Dec 2025 13:18:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="t9cXS2PR"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qL+czE7q"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBA02DC774
-	for <linux-leds@vger.kernel.org>; Mon, 15 Dec 2025 13:18:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9DB2D3A77
+	for <linux-leds@vger.kernel.org>; Mon, 15 Dec 2025 13:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765804688; cv=none; b=aAkSgG2+tQB79pv+cqXkpG/BeX9E7i3KZAeCsxPt1OsUAiAlKxMgCh6S2+9p/NjsDptfvJ2Xqb4HDrRcUJ5uD+QwwknaCdibiJmJjuvR+e3vdtVHhlekF0EMtvMdWyd/9Sy0y+USWUwXcvEe8a0fy6npEhgcNUwvK4IYNuPtT1E=
+	t=1765804704; cv=none; b=Dyk91z8FV9R71RqrpTNLa+alGSH5+qT6TMWEiZPC4QGSy3bj2QYLIXkL1XG/9Zz6aiIPge2B6lb4HmbAQJAbd5MYxvA5lxDi/uLkhJJkPR4tsq3jp3+pFaYynG6eSQutWmwuTs4MwQvuRI54IRpo0m5vCM4PpmKU8z7kH0u2G/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765804688; c=relaxed/simple;
-	bh=h9Zef/uHFUhBBWMZu79j8NVQzZMPJTz4vaF15xu8VzU=;
+	s=arc-20240116; t=1765804704; c=relaxed/simple;
+	bh=+/JtY60q2Qkm2a2ym9c8qXlCx/CawZR8OhUemcBt1pk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pa745akeCnUUxrPl7SsxldXKzl9SumZ6P9XwS+TnIlrheEnkkWoFXtEDU6DPOWJilIKBigzln5FMaKP8Vy6QE0scgIB37MywDQjfTHP/rOchW/+JQacfiKJF2pZST+Amgypq4eqlLPEZVr+K0qcLTMNWrEw9p29jBJ32dszfccM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=t9cXS2PR; arc=none smtp.client-ip=91.218.175.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=tZw39B/jkLvjOyGx+xF5mAB2KBK+ReI+6z8zPJoo2ku0WoWXp2f1+TrOJCJscI6aW3KMIF4tAj5byTC+rWZztWNBCoEJIjql/4ae3I5Qit4hdrFr7cnmbpWoC7sLS0lQYHLftTRzNdymWSlrB0daSfja6LUjF+i27dSodjeAqwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qL+czE7q; arc=none smtp.client-ip=95.215.58.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Mon, 15 Dec 2025 15:17:53 +0200
+Date: Mon, 15 Dec 2025 15:18:11 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1765804680; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	t=1765804700; h=from:from:reply-to:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:in-reply-to:in-reply-to:  references:references;
-	bh=PxMqs7Hjz6o6kjWDDq1RNqTyYND+1RwU//dXvpr/p3o=;
-	b=t9cXS2PR7eWg5MHv6vHG8w8UGYafNTEH12TT3drM/qfyfoN9ORHQ6HTJLbf96v8he4oPK2
-	guyJPjFapzOpe1UnQtsbZeZSbzrLnsj46a3QENFpw+7MrfNq0h8xqmWFaa7qiWiiGzXlM3
-	pOLVgFDXt2s1LaMkVnbeW6CT1nzj5yo=
+	bh=NeVM4oy8fgXRhssi0/ne7Qtl529zd3wNeXCzpeVJm9U=;
+	b=qL+czE7qlnPRuLX7C9Jt3dhWuv266Iod9Ufemyu27/yX6gtrVxKxuqsfsVZW0WlpB3fv1N
+	4a7q1YE1RXQEr18bNX1Bq4W8YLko/x0+q9hUeKMselvqyF9v8eC+DEuCaY4zrxsYo9dnB7
+	fT2wfcNGY01II1hgn+Wk6q4i7xfo3WE=
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Matti Vaittinen <matti.vaittinen@linux.dev>
 To: Matti Vaittinen <mazziesaccount@gmail.com>,
@@ -59,9 +59,8 @@ Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
 	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
 	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
 	linux-rtc@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
-Subject: [PATCH RESEND v6 03/17] dt-bindings: battery: Add trickle-charge
- upper limit
-Message-ID: <9c3064ec7e32cda442336bf633fb93355ce6a97d.1765804226.git.mazziesaccount@gmail.com>
+Subject: [PATCH RESEND v6 04/17] dt-bindings: battery: Voltage drop properties
+Message-ID: <461f2840a03e0189ecd4f1a7c261014342ddee91.1765804226.git.mazziesaccount@gmail.com>
 Reply-To: Matti Vaittinen <mazziesaccount@gmail.com>
 References: <cover.1765804226.git.mazziesaccount@gmail.com>
 Precedence: bulk
@@ -71,81 +70,158 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Zsxot14ruzf+19Ka"
+	protocol="application/pgp-signature"; boundary="sGWcLtLyM3nIvnQ7"
 Content-Disposition: inline
 In-Reply-To: <cover.1765804226.git.mazziesaccount@gmail.com>
 X-Migadu-Flow: FLOW_OUT
 
 
---Zsxot14ruzf+19Ka
+--sGWcLtLyM3nIvnQ7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 =46rom: Matti Vaittinen <mazziesaccount@gmail.com>
 
-Some of the chargers for lithium-ion batteries use a trickle-charging as
-a first charging phase for very empty batteries, to "wake-up" the battery.
-Trickle-charging is a low current, constant current phase. After the
-voltage of the very empty battery has reached an upper limit for
-trickle charging, the pre-charge phase is started with a higher current.
+ROHM has developed a so called "zero-correction" -algorithm to improve
+the fuel-gauging accuracy close to the point where battery is depleted.
+This relies on battery specific "VDR" (voltage drop rate) tables, which
+are measured from the battery, and which describe the voltage drop rate.
+More thorough explanation about the "zero correction" and "VDR"
+parameters is here:
+https://lore.kernel.org/all/676253b9-ff69-7891-1f26-a8b5bb5a421b@fi.rohmeur=
+ope.com/
 
-Allow defining the upper limit for trickle charging voltage, after which
-the charging should be changed to the pre-charging.
+Document the VDR zero-correction specific battery properties used by the
+BD71815, BD71828, BD72720 and some other ROHM chargers. (Note, charger
+drivers aren't upstream yet).
 
 Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
 ---
+
 Revision history:
- v3 =3D> :
+ v5 =3D>:
+ - No changes
+
+ v4 =3D> v5:
+ - Move volt-drop parameters from rohm,vdr-battry,yaml to the
+   battery.yaml
+ - drop rohm, -prefix from volt-drop-* properties
+ - Drop the rohm,vdr-battry,yaml
+ - Add comment clarifying what the rohm,volt-drop-* properties are for
+   because this may no longer be obvious as they were moved to common
+   battery.yaml
+ - Drop Linus Walleij's rb-tag because the concept was changed
+
+ v3 =3D> v4:
  - No changes
 
  v2 =3D> v3:
- - Clarify the 'trickle-charging' the property refers to is the
-   "pre-pre" -phase charging.
+ - Constrain VDR threshold voltage to 48V
+ - Use standard '-bp' -suffix for the rohm,volt-drop-soc
 
  RFCv1 =3D> v2:
- - No changes
+ - Add units to rohm,volt-drop-soc (tenths of %)
+ - Give real temperatures matching the VDR tables, instead of vague
+   'high', 'normal', 'low', 'very low'. (Add table of temperatures and
+   use number matching the right temperature index in the VDR table name).
+ - Fix typoed 'algorithm' in commit message.
+
+The parameters are describing the battery voltage drop rates - so they
+are properties of the battery, not the charger. Thus they do not belong
+in the charger node.
+
+The right place for them is the battery node, which is described by the
+generic "battery.yaml". There were some discussion whether these
+properties should be in their own file, or if they should be added to
+battery.yaml. Discussion can be found from:
+https://lore.kernel.org/all/52b99bf7-bfea-4cee-aa57-4c13e87eaa0d@gmail.com/
+This patch implements the volt-drop properties as generic (not vemdor
+specific) properties in the battery.yaml. It's worth noting that these
+properties are:
+
+  - Meaningful only for those charger drivers which have the VDR
+    algorithm implemented. (And even though the algorithm is not charger
+    specific, AFAICS, it is currently only used by some ROHM PMIC
+    drivers).
+  - Technique of measuring the VDR tables for a battery is not widely
+    known. AFAICS, only folks at ROHM are measuring those for some
+    customer products. We do have those tables available for some of the
+    products, like Kobo e-readers though.
 ---
- Documentation/devicetree/bindings/power/supply/battery.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../bindings/power/supply/battery.yaml        | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/power/supply/battery.yaml b/=
 Documentation/devicetree/bindings/power/supply/battery.yaml
-index bfb7b716ae13..d1a2080557a0 100644
+index d1a2080557a0..8ebf05d9497c 100644
 --- a/Documentation/devicetree/bindings/power/supply/battery.yaml
 +++ b/Documentation/devicetree/bindings/power/supply/battery.yaml
-@@ -71,6 +71,10 @@ properties:
-       NiMh bq24400) - that is different and not controlled by this
-       property.
+@@ -128,6 +128,21 @@ properties:
+       - description: alert when battery temperature is lower than this val=
+ue
+       - description: alert when battery temperature is higher than this va=
+lue
 =20
-+  tricklecharge-upper-limit-microvolt:
-+    description: limit when to change to precharge from trickle charge
-+      Trickle-charging here refers "wake-up" or "pre-pre" -charging.
++  # The volt-drop* -properties describe voltage-drop for a battery, descri=
+bed
++  # as VDROP in:
++  # https://patentimages.storage.googleapis.com/6c/f5/17/c1d901c220f6a9/US=
+20150032394A1.pdf
++  volt-drop-thresh-microvolt:
++    description: Threshold for starting the VDR correction
++    maximum: 48000000
 +
-   precharge-current-microamp:
-     description: current for pre-charge phase
++  volt-drop-soc-bp:
++    description: Table of capacity values matching the values in VDR table=
+s.
++      The value should be given as basis points, 1/100 of a percent.
++
++  volt-drop-temperatures-millicelsius:
++    description: An array containing the temperature in milli celsius, for=
+ each
++      of the VDR lookup table.
++
+ required:
+   - compatible
 =20
+@@ -146,6 +161,13 @@ patternProperties:
+         - description: battery capacity percent
+           maximum: 100
+=20
++  '^volt-drop-[0-9]-microvolt':
++    description: Table of the voltage drop rate (VDR) values. Each entry i=
+n the
++      table should match a capacity value in the volt-drop-soc table.
++      Furthermore, the values should be obtained for the temperature given=
+ in
++      volt-drop-temperatures-millicelsius table at index matching the
++      number in this table's name.
++
+ additionalProperties: false
+=20
+ examples:
 --=20
 2.52.0
 
 
---Zsxot14ruzf+19Ka
+--sGWcLtLyM3nIvnQ7
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCgAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmlACoEACgkQeFA3/03a
-ocXwGggAkAJOkAse9cYUNXx7azPdc+d3b/i91h01w+q/dyiHLwQuHPieREdnWyup
-Mc7NK982SY6yJbSUwDx1CQkn9aMgWHumxD+3Q6Mx5Nq+fkJ9t6XHtggrFk6fimfI
-dGOvJ/pHTaZTRuszmGaeb6LA3o330dsHHz27nb5IgFSIDcBWw8TbKqvpnSQxNBNw
-4ByoS7hJ0vVWOdQUEKaCYdInyPsJzE/g4P+ZD0URZNYEl7gj2O1iRSYAmVVlq5ia
-Fe5ocz5+kEMpkd/JAMSc6BbbvdfbKiXIYw4tCJoZxncVQ29dYGkwWB3V2MS+CuH+
-V7iNQr4xK+L3RMUvC4HvVVTzwI13TQ==
-=mCtW
+iQEzBAEBCgAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmlACpMACgkQeFA3/03a
+ocWcgggAkIq7jgJumF51IeSoHWUZ+sWynLFIlLMqwmAJjUZzqiETZeEEg6WT9E0o
+v9EXaCiOGsysyBSou4PhQ5asR9KZyj1tUWuNuPOZAFgu9LSPqJZUSBVnbCDK7t7j
+rP+jYam6K7TTdjl8iip1HwRpS/OGDVLHXbcwhm/TPrRRHUS0mveAmjMjp8dvaHAo
+ih5ueTXmlzjWW8VvCDcSrnTrvcbA5yDHfXhfKZ8t7Kai4qcJBa3qPJJBnRl6w+78
+sdp/1aYz0RbYn/QyAauXelscucP/0QY2DUjyopa+6O0lrpEj0RbioqYbw93SJ+Aw
+WZjtB2jaA7tXxVj0Huedy4V4xJvTHA==
+=TItG
 -----END PGP SIGNATURE-----
 
---Zsxot14ruzf+19Ka--
+--sGWcLtLyM3nIvnQ7--
 
