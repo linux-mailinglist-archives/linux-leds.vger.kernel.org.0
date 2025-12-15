@@ -1,130 +1,170 @@
-Return-Path: <linux-leds+bounces-6435-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6438-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4CE5CBE172
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Dec 2025 14:35:31 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33CBCCBF4FA
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Dec 2025 18:53:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B167B301275B
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Dec 2025 13:27:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 513B4301F243
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Dec 2025 17:51:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6698F2DECCB;
-	Mon, 15 Dec 2025 13:27:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 234EF3242BA;
+	Mon, 15 Dec 2025 17:51:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YpIBVJNj"
+	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="P0uuvtuo"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB1C291864
-	for <linux-leds@vger.kernel.org>; Mon, 15 Dec 2025 13:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902B0322B62
+	for <linux-leds@vger.kernel.org>; Mon, 15 Dec 2025 17:51:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765805265; cv=none; b=r1x+xqt17/7UT0eHbsg14iorZrmdivloiWxOEAqB0x3n+SJyv5/AURLE63udcc2ebbke0pqowidN8gBGtYR8Sf8YjUugXYBUz5PWyutas9i4pYXQBgnpOZ0rEKF8HEXtqh9stI8ajXCLyvMWKqiGXMBHXEuCBnjW11qj4YJnOEs=
+	t=1765821093; cv=none; b=TD/gjKOUQHOpptWKVo4LjuKy3Y5NNv6iaXvytyNU1SqTodaBwBR/1S8zANe9WL2SCf3ND5kDEkvSmW+qgNVx+yEvGsFb/NpeO/SoXoeWhNC5wofc5AmiyEtBd2IifZ0FLBMyRfUN4by+aLWoD2aE/rKtTaMdw8xqs3KRqi1hlz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765805265; c=relaxed/simple;
-	bh=Bsr8lXOOTjj/n6mLLqWuV51jaTy3lwf0AoraTFJMdPk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K0W8VHnCNaTU3w7Cj3wsheDLmiEh902SdWNcxcAQ4WegGj7XXTFuuCsfWpUeOsKUBGC1ZnLwv9C5bOmjNDZW1WUNDtvc6eqFUtbeXC3uEPl2bb3Ngj8qjTyBmOy3A+dxBUoU3Tw6Ij4HS8jQV0L0nXk2xQGvYYbdK8ubRmWBwrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YpIBVJNj; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-595819064cdso5617147e87.0
-        for <linux-leds@vger.kernel.org>; Mon, 15 Dec 2025 05:27:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765805261; x=1766410061; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NmBz14k7F2CZy0azsuA9GLkJkSsaTofyi1phzk7lTs8=;
-        b=YpIBVJNjZHQ9bdmFAzaABDq5AZRqGMQMW3xYW9+dxDZIfc6REMbe80koFgXWSjR+y5
-         j1RgwXGXUyiIQrPLLm7hkm3DmRJ5eIEAr4J4OANjsoESpXh+QwlCt7OUfMKXZewMHZFB
-         k4PfyyCzpgplKEhKZbhP5PtMIyrd1+NcU/1MUCgaf495nm5n5zrcjN5HRADDCFwOwwPo
-         DUrOvMzZMcMGxw73kBuB8L/ruXXLL5kR/6V9d0OyLK8StwWNGj11vyOyN1v9d02wZTW1
-         0Y/XL6/xAUsRdvzS/ZN+JuApylRdMM6IpNlG8GHwNQuMJ4oc1EdqdukkiNl525lsRuRd
-         hsfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765805261; x=1766410061;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NmBz14k7F2CZy0azsuA9GLkJkSsaTofyi1phzk7lTs8=;
-        b=bmshthDtGwi0IKz3YjJ2q7TXa70PE6klLKYkgDGJLFOI/ASxZpBZ+OLKWFLXTOc8A9
-         zQyfVoSq6kXTcHmoZ6Z13uRYaX/iE0ZqIWXJVMmZNyspgZnVZNeAMJKd/sCTUNUnyZgx
-         lKQ4jaXQ0eMCOROo6vudt0D21pz9VnnlQpUvJPTqpK8ok7jzXcXDtdUuh1NxdWRzNgKt
-         Ecv8QhOjPXNShj8UNKaQdrIf4FhKFa2L0oMyl4zAqIjoNkHsFK9XVmciQ5XWb6F67tuW
-         bRo7ZNHA2YfYfSQy993Y1K+T1ly5x5l4pw6FDpWLzdzar4MlldLYnz/qkh5PaW7DD6xZ
-         N1vA==
-X-Forwarded-Encrypted: i=1; AJvYcCU+kfJuii/DoQ7hoeXhi7FqO3EFnb8L3INLLmX44Ny3+LE1WM1yLmY9Vd5L+007HvUcc8GtOgQVqcOi@vger.kernel.org
-X-Gm-Message-State: AOJu0YxObQ0/wqbLucwleo+RkIaZKbpeMIUhD37zqmM+f9wTiuorJr5c
-	VQooLrrsDqBt2kqk+2P1X3h3GkweDDObHCXzVScS619bmx3eLdnfBOBa
-X-Gm-Gg: AY/fxX5MoDvv1fz5dMZA3U0I8YxdL/1bf6lB8gdpsVH3vmvYct6MRBUzLHxb0DwMvun
-	FZY3f+8Vsp0BdJpGM/pp57ziLF3qkz0Fh2QVtteNZcbFdIUKoRcT5ZoJB9oZRIAxChPy/BfZ7js
-	oHkjplO6pDzCy5mHSqKzAa2K4SYlvLlBt4SmJGckZrMx+V2biofTREMQIze/g1TzaOKNfhJYfeJ
-	wJGO2ZF2sgqDgXY7Oha0iwJgaNg5zzrS2H/BazWSR8ElWcS4KBYp++PdUydyINtw9Ep8l/IYRHw
-	T4rFcpOUqTzFmqyWUj7ysy/RaZW8Mlw61XN5PlWj5dXLlqZ9SXDa7FrRVo7jhqoX6u1RTv3EqQH
-	kFtoVAqwMTp2vAhwNxD9BIc92XbW9H9BJYvW3Xi4u9xHBOQ85MpYYr6hX5eLPFSVZgRUEoYx1p+
-	C4MfpamOvFktNcjYGODczdwasxArkgSPblZ9TnnwsyTDth5TjteBXTVC38ZApnu8EpMArSWzjQE
-	uiyVQQ=
-X-Google-Smtp-Source: AGHT+IHtF9/8gCCfZYm0qwIEIZc0jQIgrSD13Q3Kck8IHizEYRr0Rndx3rb7OqBExae0ujerBryxlg==
-X-Received: by 2002:a05:6512:3d1e:b0:598:ea79:a5ca with SMTP id 2adb3069b0e04-598fa644a9dmr3696212e87.15.1765805261049;
-        Mon, 15 Dec 2025 05:27:41 -0800 (PST)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-598f2f37ae8sm5611235e87.15.2025.12.15.05.27.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Dec 2025 05:27:40 -0800 (PST)
-Message-ID: <a52fe6d9-35fd-4046-aa76-ba4051a47ee5@gmail.com>
-Date: Mon, 15 Dec 2025 15:27:39 +0200
+	s=arc-20240116; t=1765821093; c=relaxed/simple;
+	bh=hGESFDHN0cScS8HX+PUDAVWfBBgxxynfSPIQOpSViA8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=K+7PLp2sWlJRvp0+tE2c6FYJbXAokfb0CN1FeR3akpeAza7pGryhmF8rWRxvY0bv/X+a/9VwatXsHMrLQUdQECJnPg4n/LQXdbd9C67M92YF2g73T1evYLyDPTZ3N9GL2A5zcVP+BzA8IGqnppum+TNDAOk+7wU7dSxo2Z9xStk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=P0uuvtuo; arc=none smtp.client-ip=84.16.241.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
+Received: from terra.vega.svanheule.net (2a02-1812-162c-8f00-1e2d-b404-3319-eba8.ip6.access.telenet.be [IPv6:2a02:1812:162c:8f00:1e2d:b404:3319:eba8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sander@svanheule.net)
+	by polaris.svanheule.net (Postfix) with ESMTPSA id 94F186B1FA2;
+	Mon, 15 Dec 2025 18:51:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+	s=mail1707; t=1765821082;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=PWl1EwvinAHVTukioGc0f8nDw4G1d0vgl+v+BhLtPtY=;
+	b=P0uuvtuoGH9ZF+BF55NOtW8Fnw7NA2+uq808mfAvxGEjNGzo1owS/Wxj9K9F3DeBjesEy5
+	BYVbVyJ1xPoRfw+iW/bV+UFrWdFi9zIGs73dkBAG1+IJtuiTsAVnbUo17cBVaDMdFY/LyM
+	qcS13qUzACyjyo0sPNH6ac/BYQeQmq1h3DQgKrL7+JEalMspeJQ/FmkY/0FWVb4oVGA7bw
+	kEch30x2SsYmZgtlpkamXIi1A6U95uldN2mDBv1/AysnvWv05qosQWqux95t2yhDTv1cTt
+	q6YrzE5o0kwJLdCzDJhgKNQ1g+MwtwhaxlWRClsp9cNdJ6dF5H5CqtBntg0VCg==
+From: Sander Vanheule <sander@svanheule.net>
+To: Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Michael Walle <mwalle@kernel.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	Sander Vanheule <sander@svanheule.net>
+Subject: [PATCH v9 0/6] RTL8231 GPIO expander support
+Date: Mon, 15 Dec 2025 18:51:08 +0100
+Message-ID: <20251215175115.135294-1-sander@svanheule.net>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v6 00/17] Support ROHM BD72720 PMIC
-To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-rtc@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
-References: <cover.1765804226.git.mazziesaccount@gmail.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <cover.1765804226.git.mazziesaccount@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 15/12/2025 15:16, Matti Vaittinen wrote:
-> Resending the v6
+The RTL8231 GPIO and LED expander can be configured for use as an MDIO
+or SMI bus device. Currently only the MDIO mode is supported, although
+SMI mode support should be fairly straightforward, once an SMI bus
+driver is available.
 
-// snip
+Provided features by the RTL8231:
+  - Up to 37 GPIOs
+    - Configurable drive strength: 8mA or 4mA (currently unsupported)
+    - Input debouncing on GPIOs 31-36
+  - Up to 88 LEDs in multiple scan matrix groups
+    - On, off, or one of six toggling intervals
+    - "single-color mode": 2×36 single color LEDs + 8 bi-color LEDs
+    - "bi-color mode": (12 + 2×6) bi-color LEDs + 24 single color LEDs
+  - Up to one PWM output (currently unsupported)
+    - Fixed duty cycle, 8 selectable frequencies (1.2kHz - 4.8kHz)
 
-> This series depends on
-> 5bff79dad20a ("power: supply: Add bd718(15/28/78) charger driver")
-> which is in power-supply tree, for-next. Thus, the series is based on
-> it.
-
-I forgot to update this. The 5bff79dad20a is now in v6.19-rc1, and as I 
-wrote above, this is now based on v6.19-rc1, not power-supply tree's 
-for-next.
-
-Yours,
-	-- Matti
+The patches have been in use downstream by OpenWrt for some months. As
+the original patches are already a few years old, I would like to request
+all patches to be reviewed again (and I've dropped all provided tags and
+changelogs until v6).
 
 ---
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
+Changes since v8:
+Link: https://lore.kernel.org/lkml/20251119200306.60569-1-sander@svanheule.net/
+- Rebase on top of v6.19-rc1
+- Drop no longer needed __maybe_unused for PM functions
+- No abbreviations in user messages
+- Replace {0,RTL8231_REG_COUNT-1} with RTL8231_REG_{START,END}
+- Replace led_start regmap_field with direct regmap operations
+- Replace SIMPLE_DEV_PM_OPS with DEFINE_SIMPLE_DEV_PM_OPS
+- Switch to REGCACHE_FLAT_S for improved cache performance
 
-~~ When things go utterly wrong vim users can always type :help! ~~
+Changes since v7:
+Link: https://lore.kernel.org/lkml/20251117215138.4353-1-sander@svanheule.net/
+- All drivers can now be built independently with COMPILE_TEST
+- Fix storage size of pinfunction flags in a more compatible way
+- Add missing OF dependency to pinctrl driver
+- Improve referenced properties in bindings
+
+Changes since v6:
+Link: https://lore.kernel.org/lkml/20251021142407.307753-1-sander@svanheule.net/
+- Drop already merged regmap_gpio changes
+- Devicetree bindings:
+  - Relax description formatting
+  - Use absolute paths for schema references
+  - Enforce address format for led node names
+  - Add pinctrl properties to led-controller node in example
+- mfd driver:
+  - Small code refactors, variable renames
+  - Header include sorting
+  - regmap/regcache usage updates
+- pinctrl driver:
+  - Fixed build issue on 64b platforms
+  - Simplify safe direction startup config
+  - Add GPIOLIB dependency
+
+RFC for gpio-regmap changes:
+Link: https://lore.kernel.org/lkml/20251020115636.55417-1-sander@svanheule.net/
+
+Patch series v5 (June 2021):
+Link: https://lore.kernel.org/lkml/cover.1623532208.git.sander@svanheule.net/
+
+Sander Vanheule (6):
+  dt-bindings: leds: Binding for RTL8231 scan matrix
+  dt-bindings: mfd: Binding for RTL8231
+  mfd: Add RTL8231 core device
+  pinctrl: Add RTL8231 pin control and GPIO support
+  leds: Add support for RTL8231 LED scan matrix
+  MAINTAINERS: Add RTL8231 MFD driver
+
+ .../bindings/leds/realtek,rtl8231-leds.yaml   | 136 +++++
+ .../bindings/mfd/realtek,rtl8231.yaml         | 199 +++++++
+ MAINTAINERS                                   |  10 +
+ drivers/leds/Kconfig                          |  10 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-rtl8231.c                   | 285 ++++++++++
+ drivers/mfd/Kconfig                           |   9 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/rtl8231.c                         | 188 ++++++
+ drivers/pinctrl/Kconfig                       |  12 +
+ drivers/pinctrl/Makefile                      |   1 +
+ drivers/pinctrl/pinctrl-rtl8231.c             | 533 ++++++++++++++++++
+ include/linux/mfd/rtl8231.h                   |  73 +++
+ 13 files changed, 1458 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/realtek,rtl8231-leds.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/realtek,rtl8231.yaml
+ create mode 100644 drivers/leds/leds-rtl8231.c
+ create mode 100644 drivers/mfd/rtl8231.c
+ create mode 100644 drivers/pinctrl/pinctrl-rtl8231.c
+ create mode 100644 include/linux/mfd/rtl8231.h
+
+-- 
+2.52.0
+
 
