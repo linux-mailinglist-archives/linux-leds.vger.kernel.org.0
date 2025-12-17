@@ -1,71 +1,81 @@
-Return-Path: <linux-leds+bounces-6445-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6446-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB7ACC4910
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Dec 2025 18:10:11 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB9F9CC680F
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Dec 2025 09:15:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id F17573036E3B
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Dec 2025 17:08:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 019DD3024131
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Dec 2025 08:15:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91ED7341AB6;
-	Tue, 16 Dec 2025 12:50:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11301349B05;
+	Wed, 17 Dec 2025 08:15:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="GPLy1Maw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bamswvsf"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64D534029C;
-	Tue, 16 Dec 2025 12:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AD6349AFE;
+	Wed, 17 Dec 2025 08:15:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765889434; cv=none; b=DANI2+YeTXidV5pFiuZc4iPkucfriIrMjbpAk2Z21EFMc+0wbQjwBFqbd0slC/P/4m1XiUMZ3a575em7pK9fGFnGkTHEwIjVhXyXONyyxgukqSSJpGQPXvEXHoZOPmzdWJALsUfMdbsi/mppjWogtvj0tqBZOv5Ph4GEKdJFO+w=
+	t=1765959314; cv=none; b=m7Rca9P8qiAQ58sOnhKFysAHVQIQu2W81kC9mRWrrbHnYb4DWvIghn54woHtWpn1I5JelbnjGC49kQQYuD/Hrz+Nwxre25WLVEX3AXqgpiCSRN4TkK7myhc2vSpdRQnAVG/z/YcHyU3I8CBYFkagTRH1ZdlvpdC2mSVcYoPiwoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765889434; c=relaxed/simple;
-	bh=m/J/nUS2/6k0e8ixn+1Yvy1A1GNbKIrYYTkDriBeNCE=;
+	s=arc-20240116; t=1765959314; c=relaxed/simple;
+	bh=2OafIiysh5+/QTm0bhByzlnf9H06b6KUh52r+eioDGs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FLR8bZ4LhxvbS1GFunULDFCKbS+YQdNtzbWbs8syV2oDO0K9sVXs45rtx8CQxNKttxOjP5Qco2kxZYsGXldxK1NvW5cJDhKIAZppL6Dwbx5dFfSI+QikP367L5FnfdxMiXaHSbK36hMv8X3/6XMdwQRzWPyTvVLiPV37kxlxDa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=GPLy1Maw; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1765889424;
-	bh=m/J/nUS2/6k0e8ixn+1Yvy1A1GNbKIrYYTkDriBeNCE=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=JpWqdouofQG0NKzd3fSJSQLB7PdhZj1tkLFwdynVWA3omHX/cCppsnjrAGelTtzWejiXy8SCvYYRzwqs2LJ67NycVLQ2XkRXECyJdFwVSxgbgwwtRr2O1MNs8PItb19fGhaBGWvmdUGX5B6Uf6gbv65S5WnzNhzYAJSVJ2jexVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bamswvsf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82EABC4CEF5;
+	Wed, 17 Dec 2025 08:15:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765959313;
+	bh=2OafIiysh5+/QTm0bhByzlnf9H06b6KUh52r+eioDGs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GPLy1MawfPTbvM90jC+mVy+62K5qHW7kcFBjDDbt8fJS6Z+fx9vExg6DiZhc/Vhys
-	 WZQTGou2B752Pxvqxbx1hzMwFKWb8CSKxS3qFn55gr/cVL886LAo94YYNsCP9fTfVR
-	 gSgi2EbZivzN5OfMw4NOjLTV0NLrBtDErYnY2UBc=
-Date: Tue, 16 Dec 2025 13:50:19 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: stable@vger.kernel.org
+	b=bamswvsfdqnM6YpVQVosEwPZ325jREx8HXJ8dr3eW+sDlEpX9BoirDR27o5lXgMBh
+	 ECu00Tdl1L1RyZ9IDyzDjxC8fHeM/pHnnvDgJeEBEGDAHLEmivyWyILu5g4zVzLvD+
+	 kfGY7loxA1I5tpRCRYavBLWACvVBrqR0yxKqOnhmRulv1KRtcwSi5qQvWn41uZ/QYA
+	 kbouGPqGpUJeed8MQUHUu0Y7ckXuvo26fg1FMxdKqW5UcoBLGCcRmgZCrO0btlZ/nr
+	 fVZ5qSB5Oo/VHkWtBRRlZqfiD9uRun5okB9YaM6hrqVft7cTWz9b5esDstYjqvneJ4
+	 R2KCQvYpHRTng==
+Date: Wed, 17 Dec 2025 09:15:10 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>
 Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, linux-leds@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [STABLE BACKPORT] leds: leds-cros_ec: Skip LEDs without color
- components
-Message-ID: <6b4ad836-7c7e-471d-a491-b0e8e68673b5@t-8ch.de>
-References: <20251028-cros_ec-leds-no-colors-v1-1-ebe13a02022a@weissschuh.net>
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Fenglin Wu <quic_fenglinw@quicinc.com>, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, aiqun.yu@oss.qualcomm.com, 
+	kamal.wadhwa@oss.qualcomm.com, yijie.yang@oss.qualcomm.com, jingyi.wang@oss.qualcomm.com
+Subject: Re: [PATCH v3 1/2] dt-bindings: leds: leds-qcom-lpg: Add support for
+ PMH0101 PWM
+Message-ID: <20251217-quiet-wandering-gaur-c9c6fe@quoll>
+References: <20251215-knp-pmic-leds-v3-0-5e583f68b0e5@oss.qualcomm.com>
+ <20251215-knp-pmic-leds-v3-1-5e583f68b0e5@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251028-cros_ec-leds-no-colors-v1-1-ebe13a02022a@weissschuh.net>
+In-Reply-To: <20251215-knp-pmic-leds-v3-1-5e583f68b0e5@oss.qualcomm.com>
 
-Dear stable team,
+On Mon, Dec 15, 2025 at 04:41:04PM +0530, Jishnu Prakash wrote:
+> Add support for PMH0101 PWM modules which are compatible with the PM8350c
+> PWM modules.
+> 
+> Signed-off-by: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
+> Signed-off-by: Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>
+> ---
+>  Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-please backport the following commit from Linus' tree to the relevant
-stable trees.
+So how many nvmem entries it has? You need to define it in schema.
 
-	4dbf066d965c ("leds: leds-cros_ec: Skip LEDs without color components")
+Best regards,
+Krzysztof
 
-It fixes a probing issue affecting users as explained in the commit.
-
-
-Regards,
-Thomas
 
