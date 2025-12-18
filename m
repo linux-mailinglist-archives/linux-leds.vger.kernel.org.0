@@ -1,237 +1,177 @@
-Return-Path: <linux-leds+bounces-6448-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6449-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8697CC9464
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Dec 2025 19:21:53 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 188B0CCAA2D
+	for <lists+linux-leds@lfdr.de>; Thu, 18 Dec 2025 08:25:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5575E3046149
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Dec 2025 18:20:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 19060305D7AD
+	for <lists+linux-leds@lfdr.de>; Thu, 18 Dec 2025 07:23:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BB5C337692;
-	Wed, 17 Dec 2025 18:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1D1232938B;
+	Thu, 18 Dec 2025 07:23:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O7pS1ZSW"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IU18Q12S"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D93F33CE8A
-	for <linux-leds@vger.kernel.org>; Wed, 17 Dec 2025 18:14:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA513A1E64
+	for <linux-leds@vger.kernel.org>; Thu, 18 Dec 2025 07:23:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765995276; cv=none; b=fIikRvgUJvCO83Ws9cdroQ8no7UQi0JfIlMicuKWOUe2KtMgtzkCyS3h+C35Zh6nsVyDwXO1RNiIwG+TYaNZTbOY0FaMiiGzBw6CZUVjZIVi+D6hBaVTQDJNgSWP8X67nMorYRWQE2vihXwXBG1T+DBlM34Fyg7X/n3aVgcUN2U=
+	t=1766042588; cv=none; b=IRnywz92fbwF/IcGhGVVtsJoT83S8qYSuXEWU9Gan9ubArW/6mHpCNKfBzh5g7JSz0stNDIqgfZyZYcz6BkDtVinlCZWo99gO/Z2zrktvF2Ygq/OHXoqY+GiWJYTZZDA9otWTuwVgcID7tnBfV/rDKaBybJ3GxkfSroBhMf7/jU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765995276; c=relaxed/simple;
-	bh=K15nuZjaTiUBVKSXtUhPDvjMT3AwbGOD/SO+UT+RLk0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=UwoAk+PjzvUOscwWVQQLsAV/6xbZWhxo4GTPYFk+7duXdSObf+T+LhL3vcqMDNQZ9GpzvtR8O9CisZ8K5rOpoPb2kJbfXxRYY5dA5rl7qYeq7wRzkTOHoWZQOZM1AJR2mnZkVSQ7suoAfB9g+jxh3JS2PyuyVPm1XX14pum2PoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O7pS1ZSW; arc=none smtp.client-ip=209.85.208.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f67.google.com with SMTP id 4fb4d7f45d1cf-649e28dccadso4524910a12.3
-        for <linux-leds@vger.kernel.org>; Wed, 17 Dec 2025 10:14:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765995273; x=1766600073; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VbVikF+2G1b3d7XO038cFmze5WHGBBZWgyB+3vlCP44=;
-        b=O7pS1ZSWIOJDyPqRS1/ZKwWa/vaVFBZb1quTM0M1/jn69zG7HtnJd1CzSEJl52lORy
-         ZaUmsvYsJ5v8ePHhxs/GQfQ2aRkplv+xXb3WT92vASgI/crapJ3ouzzE/SM+iETl+GaJ
-         9gtr8ec+MkRObbofkmQjwwjZYokrynXgj5HZz048WqbguUz2yt4Vb3+NWU47o60ZROxZ
-         0tGABTOrMxj1jJM7bPwZpqRo3iH7e1ElglEqJdMGIhuUnOWW7vAq4Pf9Qb5ern2wwh6z
-         Qx7navV4pumQfi+p8MKG9XlLNdSNnmAWYmeQnU0xyPxk06PjKb0dNLIFDmhZDCyfgj5d
-         PErA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765995273; x=1766600073;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VbVikF+2G1b3d7XO038cFmze5WHGBBZWgyB+3vlCP44=;
-        b=bq+z2Lv5+829wliSavmZdYWq1FGqCM56k1Nlc+Wvmce10NkBnCmWhaTXBXEAswK01L
-         UgUidEk2KRrt6e90PjY627EvWuuxVOY4H2XwL30yWciqo7jYLatRUqinVv86EpJSb0Jq
-         f5zghWgz1EGWhkqevaJ8rAyyBNA0mRqLtDk94+24Gn/LsdGIKUbyAFh9pCgj/q3FtWBA
-         QKb9Of5qAscbJBe2tcS0KI3rZFu4t69ctmXmZ5MVQ9FNarMDDsXgtfUOXaNRpVKlKZhj
-         +1aLAgnejgf00/0OW9c0Kz5LpW5w8fWVk7aXoNhjMvfP3VPqADGJKpevrbVe9XlGmNLi
-         PtWA==
-X-Forwarded-Encrypted: i=1; AJvYcCVqgrzTfeoPs0L+u6yV98WF7r6T0Tbc+pcr/bYipeTh8a6eYl2ueOaPJN6jZEaAj3hHI5uYsdWXI+yn@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHIZyhjgFqlfJpKPmOLa84ZqcmUcdPL2fRIj23xx5HoAQD4AXg
-	XT2yYBgXKVIscVPLo+Po/PzqV6BdJnkjNNHDHrrUKn7c59EukZByVXik
-X-Gm-Gg: AY/fxX5GbaNwSDwTYr4K51MBqbPI/tfgoAHLX8I5slVQEPnEVzYU4BVM3p6zZeW4tDN
-	4uyiVWw3Q07y/GqU5PNYdYkrX9dg2+lVLWTvWBpxqYqClEA6USum1tQ68YRejDXLPCRt/emibLo
-	la2iF9yMBpyQVEY8Lhf0mBOZBxB5ipd3az+b663q6UzSCwqYYcw/IoDFY3d/pt/dSpZhNcmCFU/
-	oIYsA93R2KG3+um9NIXDXpatUcX3klZykEwbsm0ixOVi15F/38Pbyf+usbN7xKTjjIqv9zZSzld
-	fKihcfVkyIRUnWr2A9QWvdLy7PAnfmNnm3G9T/r9Bkil4FOOhR/JgmBXabJaeILlw/arpiLsPJx
-	SlSU7yB7C7oF/LLbvfi/z2iAvuiBETKC+3nwvF3/4UCaHhFgRQLsmBOgc9xzgh2YKvvC3wMdkOb
-	BwlJQ4bs4dQbA6WGsRSrRwogwVWWIcElxLSY0rb66f9k2KDQn+0W23oOwmkDQ5ThFj
-X-Google-Smtp-Source: AGHT+IFj3TCyaBMkYZdzStRuIRqQZOLqF7ec/I58OPcphVai+0kRlE2QbnpuALvqaq35kB4vGBD2QQ==
-X-Received: by 2002:a05:6402:1446:b0:640:3210:6e48 with SMTP id 4fb4d7f45d1cf-6499b16a78emr16792502a12.4.1765995272511;
-        Wed, 17 Dec 2025 10:14:32 -0800 (PST)
-Received: from Radijator.localdomain (93-140-155-17.adsl.net.t-com.hr. [93.140.155.17])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b5886d3d4sm152344a12.19.2025.12.17.10.14.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 10:14:30 -0800 (PST)
-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <dujemihanovic32@gmail.com>
-Date: Wed, 17 Dec 2025 19:14:23 +0100
-Subject: [PATCH v2] leds: expresswire: Fix chip state breakage
+	s=arc-20240116; t=1766042588; c=relaxed/simple;
+	bh=pqE7TN73cyQ6C0V9F/JqPAXFactfSlilstdEh8iQY3k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HuaEAsKGhsc1ceSM237Bgzyl8XMhwOxM9oUwbTjK/7zObY8nlc45y+S9C4AQMpH9xJJcJ5KLcdUD2xRDYVSkB92V1UeH/2FXhijG2dt7VI+tPCuyOsRrAYI/tLh5AnZ8BRhTWU2udpbBOznpKQr66KFrUNsBCoYgDLgGq9ozUac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IU18Q12S; arc=none smtp.client-ip=95.215.58.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Thu, 18 Dec 2025 08:22:47 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1766042573;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ur3+xX735OJxTtLwT7qimDRHM1J5/raBkJzXVWdcNNU=;
+	b=IU18Q12SiYo5//u6OgRX6urKHJ+CGIkZlg3I+q87C/crMiZKfAA3f48piEfPoX/M258Wwm
+	WZlmu52e/bTGmnbyotkOoIPfPvkK7sTL0p0STnAqXbBsKz7413nU/bZoxtJK4U54cTB5Ct
+	JV/9Ov6AH7hV+w4Lz22rxudNfhLwZUM=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-leds@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
+Subject: Re: [PATCH v10 0/8] Add strobe duration and strobe output enable
+ v4l2 ctrl
+Message-ID: <h4ecxwe27hzelohvwhhosvdz5b6ybi25yopicatp54prrkaaai@sir4kskvxza5>
+References: <20251209-ov9282-flash-strobe-v10-0-0117cab82e2d@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20251217-expresswire-fix-v2-1-4a02b10acd96@dujemihanovic.xyz>
-X-B4-Tracking: v=1; b=H4sIAP7yQmkC/3WOTQ6CMBCFr0JmbQ1tQ4OuvIdhUaeDjIlgWq0g6
- d0d2bv83sv7WSFRZEpwrFaIlDnxNAqYXQU4+PFKioMwmNo0dWsOiuZHpJTeHEn1PCvnbNAXi9Z
- 4D5ISV+St8dwJD5yeU1y2gax/6v+urJVWfYstOh8cNv0pvG50ZzkyZcb9vHygK6V8AXq18CK2A
- AAA
-X-Change-ID: 20250829-expresswire-fix-663d1b3c32aa
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Karel Balej <balejk@matfyz.cz>, David Wronek <david@mainlining.org>, 
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje@dujemihanovic.xyz>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4518;
- i=duje@dujemihanovic.xyz; s=20240706; h=from:subject:message-id;
- bh=88T4mkMcx1ShNFI4rFzfnyovyPLWzXoaZQkJnadZHJY=;
- b=owGbwMvMwCW21nBykGv/WmbG02pJDJlOn1kPXbT4s1472WKZyw3dpe2Jh4qWaE3qW/nhToHIL
- ZWPHlK7O0pZGMS4GGTFFFly/zte4/0ssnV79jIDmDmsTCBDGLg4BWAiV84zMjx5bX7ygW2PwbN7
- CVXdOkYWfIssXnzmXPvG6OtWsSSFOdMYGRasKVkneSLe1OvV9r8rfQ4u/ik/4QurQUNA1+KpJfe
- 9mTkB
-X-Developer-Key: i=duje@dujemihanovic.xyz; a=openpgp;
- fpr=6DFF41D60DF314B5B76BA630AD319352458FAD03
+In-Reply-To: <20251209-ov9282-flash-strobe-v10-0-0117cab82e2d@linux.dev>
+X-Migadu-Flow: FLOW_OUT
 
-From: Duje MihanoviÄ‡ <duje@dujemihanovic.xyz>
+Hi everybody,
 
-It is possible to put the KTD2801 chip in an unknown/undefined state by
-changing the brightness very rapidly (for example, with a brightness
-slider). When this happens, the brightness is stuck on max and cannot be
-changed until the chip is power cycled.
+just a friendly ping before the holiday season kicks in :-)
 
-Fix this by disabling interrupts while talking to the chip. While at it,
-make expresswire_power_off() use fsleep() and also unexport some
-functions meant to be internal.
+regards;rl
 
-Fixes: 1368d06dd2c9 ("leds: Introduce ExpressWire library")
-Tested-by: Karel Balej <balejk@matfyz.cz>
-Signed-off-by: Duje MihanoviÄ‡ <duje@dujemihanovic.xyz>
----
-Changes in v2:
-- Update trailers
-- Rebase on v6.19-rc1
-- Reword commit message (fix grammar errors, simplify text)
-- Add Fixes: tag
-- Link to v1: https://lore.kernel.org/r/20250829-expresswire-fix-v1-1-f8c8c6ad6c5f@dujemihanovic.xyz
----
- drivers/leds/leds-expresswire.c  | 24 +++++++++++++++++-------
- include/linux/leds-expresswire.h |  3 ---
- 2 files changed, 17 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/leds/leds-expresswire.c b/drivers/leds/leds-expresswire.c
-index bb69be228a6d..25c6b159a6ee 100644
---- a/drivers/leds/leds-expresswire.c
-+++ b/drivers/leds/leds-expresswire.c
-@@ -9,6 +9,7 @@
- #include <linux/delay.h>
- #include <linux/export.h>
- #include <linux/gpio/consumer.h>
-+#include <linux/irqflags.h>
- #include <linux/types.h>
- 
- #include <linux/leds-expresswire.h>
-@@ -16,37 +17,41 @@
- void expresswire_power_off(struct expresswire_common_props *props)
- {
- 	gpiod_set_value_cansleep(props->ctrl_gpio, 0);
--	usleep_range(props->timing.poweroff_us, props->timing.poweroff_us * 2);
-+	fsleep(props->timing.poweroff_us);
- }
- EXPORT_SYMBOL_NS_GPL(expresswire_power_off, "EXPRESSWIRE");
- 
- void expresswire_enable(struct expresswire_common_props *props)
- {
-+	unsigned long flags;
-+
-+	local_irq_save(flags);
-+
- 	gpiod_set_value(props->ctrl_gpio, 1);
- 	udelay(props->timing.detect_delay_us);
- 	gpiod_set_value(props->ctrl_gpio, 0);
- 	udelay(props->timing.detect_us);
- 	gpiod_set_value(props->ctrl_gpio, 1);
-+
-+	local_irq_restore(flags);
- }
- EXPORT_SYMBOL_NS_GPL(expresswire_enable, "EXPRESSWIRE");
- 
--void expresswire_start(struct expresswire_common_props *props)
-+static void expresswire_start(struct expresswire_common_props *props)
- {
- 	gpiod_set_value(props->ctrl_gpio, 1);
- 	udelay(props->timing.data_start_us);
- }
--EXPORT_SYMBOL_NS_GPL(expresswire_start, "EXPRESSWIRE");
- 
--void expresswire_end(struct expresswire_common_props *props)
-+static void expresswire_end(struct expresswire_common_props *props)
- {
- 	gpiod_set_value(props->ctrl_gpio, 0);
- 	udelay(props->timing.end_of_data_low_us);
- 	gpiod_set_value(props->ctrl_gpio, 1);
- 	udelay(props->timing.end_of_data_high_us);
- }
--EXPORT_SYMBOL_NS_GPL(expresswire_end, "EXPRESSWIRE");
- 
--void expresswire_set_bit(struct expresswire_common_props *props, bool bit)
-+static void expresswire_set_bit(struct expresswire_common_props *props, bool bit)
- {
- 	if (bit) {
- 		gpiod_set_value(props->ctrl_gpio, 0);
-@@ -60,13 +65,18 @@ void expresswire_set_bit(struct expresswire_common_props *props, bool bit)
- 		udelay(props->timing.short_bitset_us);
- 	}
- }
--EXPORT_SYMBOL_NS_GPL(expresswire_set_bit, "EXPRESSWIRE");
- 
- void expresswire_write_u8(struct expresswire_common_props *props, u8 val)
- {
-+	unsigned long flags;
-+
-+	local_irq_save(flags);
-+
- 	expresswire_start(props);
- 	for (int i = 7; i >= 0; i--)
- 		expresswire_set_bit(props, val & BIT(i));
- 	expresswire_end(props);
-+
-+	local_irq_restore(flags);
- }
- EXPORT_SYMBOL_NS_GPL(expresswire_write_u8, "EXPRESSWIRE");
-diff --git a/include/linux/leds-expresswire.h b/include/linux/leds-expresswire.h
-index a422921f4159..7f8c4795f69f 100644
---- a/include/linux/leds-expresswire.h
-+++ b/include/linux/leds-expresswire.h
-@@ -30,9 +30,6 @@ struct expresswire_common_props {
- 
- void expresswire_power_off(struct expresswire_common_props *props);
- void expresswire_enable(struct expresswire_common_props *props);
--void expresswire_start(struct expresswire_common_props *props);
--void expresswire_end(struct expresswire_common_props *props);
--void expresswire_set_bit(struct expresswire_common_props *props, bool bit);
- void expresswire_write_u8(struct expresswire_common_props *props, u8 val);
- 
- #endif /* _LEDS_EXPRESSWIRE_H */
-
----
-base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-change-id: 20250829-expresswire-fix-663d1b3c32aa
-
-Best regards,
--- 
-Duje MihanoviÄ‡ <duje@dujemihanovic.xyz>
-
+On Tue, Dec 09, 2025 at 11:44:35PM +0100, Richard Leitner wrote:
+> This series adds two new v4l2 controls:
+> - V4L2_CID_FLASH_DURATION: "Strobe duration": This control enables
+>   setting a desired flash/strobe length/duration in µs.
+> - V4L2_CID_FLASH_STROBE_OE: "Strobe output enable": This
+>   control enables the hardware strobe output signal of a v4l2 device.
+> 
+> As a first user of these new controls add basic flash/strobe support
+> for ov9282 sensors using their "hardware strobe output". The duration
+> calculation is only interpolated from various measurements, as no
+> documentation was found.
+> 
+> Further flash/strobe-related controls as well as a migration to v4l2-cci
+> helpers for ov9282 will likely be implemented in future series.
+> 
+> All register addresses/values are based on the OV9281 datasheet v1.53
+> (january 2019). This series was tested using an ov9281 VisionComponents
+> camera module.
+> 
+> Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> ---
+> Changes in v10:
+> - Avoid bitwise or on error codes in ov9282_set_ctrl_flash_duration() (Thanks Sakari)
+> - Link to v9: https://patch.msgid.link/20251120-ov9282-flash-strobe-v9-0-6c9e3a4301d7@linux.dev
+> 
+> Changes in v9:
+> - Avoid needless multiplication/division in ov9282.c (Thanks Sakari)
+> - Avoid possible u32 overflow in ov9282.c (Thanks Sakari)
+> - Link to v8: https://patch.msgid.link/20251104-ov9282-flash-strobe-v8-0-b91dfef1c65a@linux.dev
+> 
+> Changes in v8:
+> - Minor styling changes across the set
+> - Add missing error handling for ov9282 strobe_frame_span writing
+> - Rename V4L2_CID_FLASH_HW_STROBE_SIGNAL to V4L2_CID_FLASH_STROBE_OE
+> - Drop 02/10: FLASH_DURATION handling in v4l2-flash
+> - Drop 08/10: strobe_source in ov9282
+> - Link to v7: https://lore.kernel.org/r/20250901-ov9282-flash-strobe-v7-0-d58d5a694afc@linux.dev
+> 
+> Changes in v7:
+> - Improved v4l2 uAPI documentation (thanks Sakari)
+> - Link to v6: https://lore.kernel.org/r/20250716-ov9282-flash-strobe-v6-0-934f12aeff33@linux.dev
+> 
+> Changes in v6:
+> - Fix "Alignment should match open parenthesis" by Media-CI bot in v4l2-flash-led-class.c
+> - Fix "format string contains non-ascii character (µ)" by Media-CI bot in ov9282.c
+> - Introduce new V4L2_CID_FLASH_HW_STROBE_SIGNAL control (as suggested by Sakari)
+> - Implement V4L2_CID_FLASH_HW_STROBE_SIGNAL instead of
+>   V4L2_CID_FLASH_LED_MODE in ov9282.c (as suggested by Sakari)
+> - Drop "media: v4l2-flash: fix flash_timeout comment" as this was
+>   applied (thanks Lee)
+> - Link to v5: https://lore.kernel.org/r/20250617-ov9282-flash-strobe-v5-0-9762da74d065@linux.dev
+> 
+> Changes in v5:
+> - Improve try_ctrl for flash_duration by using DIV_ROUND_UP() and abs() (thanks Sakari)
+> - Drop "leds: flash: Add support for flash/strobe duration" as this was applied upstream
+> - Add "media: i2c: ov9282: dynamic flash_duration maximum" (thanks Sakari)
+> - Link to v4: https://lore.kernel.org/r/20250507-ov9282-flash-strobe-v4-0-72b299c1b7c9@linux.dev
+> 
+> Changes in v4:
+> - Fix FLASH_DURATION implementation in v4l2-flash-led-class.c by adding a
+>   missing brace and enum entry (thanks Sakari)
+> - Fix format of multiline comment in ov9282.c (thanks Sakari)
+> - Add missing NULL check in ov9282.c (thanks Sakari)
+> - Adapt nr_of_controls_hint for v4l2 handler in ov9282.c (thanks Sakari)
+> - Add patch for implementing try_ctrl for strobe_duration (thanks Sakari)
+> - Link to v3: https://lore.kernel.org/r/20250429-ov9282-flash-strobe-v3-0-2105ce179952@linux.dev
+> 
+> Changes in v3:
+> - create separate patch for leds driver changes (thanks Lee)
+> - Link to v2: https://lore.kernel.org/r/20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev
+> 
+> Changes in v2:
+> - remove not needed controls in struct ov9282 (thanks Dave)
+> - Fix commit message of 3/3 regarding framerate get/set (thanks Dave)
+> - Add V4L2_CID_FLASH_STROBE_SOURCE impementation to ov9282
+> - Add new V4L2_CID_FLASH_DURATION control (as suggested by Laurent)
+> - Use FLASH_DURATION instead of FLASH_TIMEOUT for ov9282
+> - Link to v1: https://lore.kernel.org/r/20250303-ov9282-flash-strobe-v1-0-0fd57a1564ba@linux.dev
+> 
+> ---
+> Richard Leitner (8):
+>       media: v4l: ctrls: add a control for flash/strobe duration
+>       media: v4l: ctrls: add a control for enabling strobe output
+>       Documentation: uAPI: media: add V4L2_CID_FLASH_{DURATION,STROBE_OE}
+>       media: i2c: ov9282: add output enable register definitions
+>       media: i2c: ov9282: add strobe output enable v4l2 control
+>       media: i2c: ov9282: add strobe_duration v4l2 control
+>       media: i2c: ov9282: implement try_ctrl for strobe_duration
+>       media: i2c: ov9282: dynamic flash_duration maximum
+> 
+>  .../userspace-api/media/v4l/ext-ctrls-flash.rst    |  42 +++++
+>  drivers/media/i2c/ov9282.c                         | 174 ++++++++++++++++++++-
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c          |   3 +
+>  include/uapi/linux/v4l2-controls.h                 |   2 +
+>  4 files changed, 215 insertions(+), 6 deletions(-)
+> ---
+> base-commit: 2f112b1c25da9f5346c2261ed35c5b1e0b906471
+> change-id: 20250303-ov9282-flash-strobe-ac6bd00c9de6
+> 
+> Best regards,
+> --  
+> Richard Leitner <richard.leitner@linux.dev>
+> 
+> 
 
