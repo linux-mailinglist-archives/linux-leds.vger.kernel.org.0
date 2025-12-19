@@ -1,49 +1,48 @@
-Return-Path: <linux-leds+bounces-6452-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6453-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F592CD09C8
-	for <lists+linux-leds@lfdr.de>; Fri, 19 Dec 2025 16:47:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4806ACD09CE
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Dec 2025 16:47:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6C2603066AAE
-	for <lists+linux-leds@lfdr.de>; Fri, 19 Dec 2025 15:46:53 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 95FC73068DE3
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Dec 2025 15:46:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 148FD26CE11;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E111F328247;
 	Fri, 19 Dec 2025 15:45:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zonque.org header.i=@zonque.org header.b="aZ/gMK9R"
+	dkim=pass (1024-bit key) header.d=zonque.org header.i=@zonque.org header.b="A6wAPFlG"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mailkram.bugwerft.de (mailkram.bugwerft.de [95.216.200.101])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE799236454
-	for <linux-leds@vger.kernel.org>; Fri, 19 Dec 2025 15:45:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA0BC33BBCC
+	for <linux-leds@vger.kernel.org>; Fri, 19 Dec 2025 15:45:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.200.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766159146; cv=none; b=RfGnW8bKjoARtn4uzc6prFH4SvYgYBBAwOYKNqq2OZqWTacoKU3MdBQIVa0Z2iLbNBh9iBMqfS+Is7owseDMU71mxnEytgQ0RH8GaqHun7ARIDppE8rH00aZ6tTBoZFSAsT+5c6mF9UndbyIt6aLRTzX6Ngp/zZlk3Knm/joU7Y=
+	t=1766159147; cv=none; b=ZH00dWRd1+24ogzUv9BGbV+Dm0v9zxHVMLAQNqvBtXK2si9cWyrhYNTgM6YyQYXA7YPXf4HgUvZluqxZ/BNnNlWFK7ihUAHx+/4Xbj3SSL8AtCE1GdL6xv6LtflW+MMqO02SP6/EgG0NUgTZga8y5i967qWJ7ZISamzxgofIEcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766159146; c=relaxed/simple;
-	bh=Mbm+KQiSrtuNe9UFB/tTmk/UQ4jwKICTeRUt0y0vVcs=;
+	s=arc-20240116; t=1766159147; c=relaxed/simple;
+	bh=3ztc5y29mE5nv0ZxJE7SAyKvo8CnvxbiVdDAs+F4CqU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DeRWsdvyZEKA7BnwkUmsyTgoOx68ULZQjFGOAWWbx25LqIhbk5J4b3M2SxrH+rt9RQ0y7/N5fGh6P0NnbgczyaWRx+VLq6Jml/N89GTmbKS0wFp45T/leWxq01DVPJNjp2ryXYDc/WVQNkKWfJUyaH7nwjN9/dCdCX4Ls4SB6Wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zonque.org; spf=pass smtp.mailfrom=zonque.org; dkim=pass (1024-bit key) header.d=zonque.org header.i=@zonque.org header.b=aZ/gMK9R; arc=none smtp.client-ip=95.216.200.101
+	 MIME-Version; b=VDQzSB5rDvloMPPBtl62utyWv9IiSWqu+YoXB1VfLbvsBd6r9CTzCDQgoUA2LbTi1QiiCIxoNPsa8E8QZYkE1CwscKPsJYMHZAhMULIuxZVfWWdSAc/NfmXXAONgdtUlKrm8eo3dY+rFIuRRfGLq8PlLrn4wnvV1zJR9TXePRgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zonque.org; spf=pass smtp.mailfrom=zonque.org; dkim=pass (1024-bit key) header.d=zonque.org header.i=@zonque.org header.b=A6wAPFlG; arc=none smtp.client-ip=95.216.200.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zonque.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zonque.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zonque.org; s=mail;
-	t=1766159138; bh=Mbm+KQiSrtuNe9UFB/tTmk/UQ4jwKICTeRUt0y0vVcs=;
+	t=1766159139; bh=3ztc5y29mE5nv0ZxJE7SAyKvo8CnvxbiVdDAs+F4CqU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=aZ/gMK9RDxGaF8Yi3aTBn8FzqMbM14tDkiz8wlr4EghpJyAwjN7KxV08i8OWvBmZj
-	 5tqjSdubbtGHRLfn+U/i6WtyWbzrNr+4Rg0EynU/XtDsV1A4AhXrbuAWn9vPDnZ+HE
-	 U+bSs0N2pGNhI7m9ltjw4uKiz4waP7Lr2dOUv31w=
+	b=A6wAPFlGddctnej1ng5D4dCEP/tasM+71d45kEwbKvaDihiVMS8G92d63p75e3Yc0
+	 NXJOnz9lsdjSs/9C3RQR8+ENf9U4JvjjJXBlefVNJ4BQiICYD/UCX2DympokCiBz2i
+	 qwPzwy6UvTiG6Vpt6Da12Kj2+4vnhTbCOj9hpgZg=
 Received: from hq-00595.pfsense.f14 (p4ff24940.dip0.t-ipconnect.de [79.242.73.64])
-	by mailkram.bugwerft.de (Postfix) with ESMTPSA id 20E7F416D0;
+	by mailkram.bugwerft.de (Postfix) with ESMTPSA id AC1FF416D1;
 	Fri, 19 Dec 2025 15:45:38 +0000 (UTC)
 From: Daniel Mack <daniel@zonque.org>
 To: linux-leds@vger.kernel.org
 Cc: lee@kernel.org,
-	Daniel Mack <daniel@zonque.org>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v4 1/3] dt-bindings: leds: add issi,is31fl3293 to leds-is31fl32xx
-Date: Fri, 19 Dec 2025 16:45:19 +0100
-Message-ID: <20251219154521.643312-2-daniel@zonque.org>
+	Daniel Mack <daniel@zonque.org>
+Subject: [PATCH v4 2/3] leds: is31f132xx: re-order code to remove forward declarations
+Date: Fri, 19 Dec 2025 16:45:20 +0100
+Message-ID: <20251219154521.643312-3-daniel@zonque.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251219154521.643312-1-daniel@zonque.org>
 References: <20251219154521.643312-1-daniel@zonque.org>
@@ -55,26 +54,163 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This variant supports 3 channels with 4096 brightness steps.
+Move the chipdef structs after the functions they reference so that forward
+declarations become unnecessary.
 
 Signed-off-by: Daniel Mack <daniel@zonque.org>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt | 1 +
- 1 file changed, 1 insertion(+)
+v2 -> v3: re-ordered patches to get rid of the forward declarations
+          before introducing more of them.
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt b/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
-index 926c2117942c..7082ed186dd9 100644
---- a/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
-@@ -10,6 +10,7 @@ Required properties:
- 	issi,is31fl3235
- 	issi,is31fl3218
- 	issi,is31fl3216
-+	issi,is31fl3293
- 	si-en,sn3218
- 	si-en,sn3216
- - reg: I2C slave address
+ drivers/leds/leds-is31fl32xx.c | 128 ++++++++++++++++-----------------
+ 1 file changed, 62 insertions(+), 66 deletions(-)
+
+diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
+index dc9349f9d350..bd5323f2316e 100644
+--- a/drivers/leds/leds-is31fl32xx.c
++++ b/drivers/leds/leds-is31fl32xx.c
+@@ -88,72 +88,6 @@ struct is31fl32xx_chipdef {
+ 	int (*sw_shutdown_func)(struct is31fl32xx_priv *priv, bool enable);
+ };
+ 
+-static const struct is31fl32xx_chipdef is31fl3236_cdef = {
+-	.channels				= 36,
+-	.shutdown_reg				= 0x00,
+-	.pwm_update_reg				= 0x25,
+-	.global_control_reg			= 0x4a,
+-	.reset_reg				= 0x4f,
+-	.output_frequency_setting_reg		= IS31FL32XX_REG_NONE,
+-	.pwm_register_base			= 0x01,
+-	.led_control_register_base		= 0x26,
+-	.enable_bits_per_led_control_register	= 1,
+-};
+-
+-static const struct is31fl32xx_chipdef is31fl3236a_cdef = {
+-	.channels				= 36,
+-	.shutdown_reg				= 0x00,
+-	.pwm_update_reg				= 0x25,
+-	.global_control_reg			= 0x4a,
+-	.reset_reg				= 0x4f,
+-	.output_frequency_setting_reg		= 0x4b,
+-	.pwm_register_base			= 0x01,
+-	.led_control_register_base		= 0x26,
+-	.enable_bits_per_led_control_register	= 1,
+-};
+-
+-static const struct is31fl32xx_chipdef is31fl3235_cdef = {
+-	.channels				= 28,
+-	.shutdown_reg				= 0x00,
+-	.pwm_update_reg				= 0x25,
+-	.global_control_reg			= 0x4a,
+-	.reset_reg				= 0x4f,
+-	.output_frequency_setting_reg		= IS31FL32XX_REG_NONE,
+-	.pwm_register_base			= 0x05,
+-	.led_control_register_base		= 0x2a,
+-	.enable_bits_per_led_control_register	= 1,
+-};
+-
+-static const struct is31fl32xx_chipdef is31fl3218_cdef = {
+-	.channels				= 18,
+-	.shutdown_reg				= 0x00,
+-	.pwm_update_reg				= 0x16,
+-	.global_control_reg			= IS31FL32XX_REG_NONE,
+-	.reset_reg				= 0x17,
+-	.output_frequency_setting_reg		= IS31FL32XX_REG_NONE,
+-	.pwm_register_base			= 0x01,
+-	.led_control_register_base		= 0x13,
+-	.enable_bits_per_led_control_register	= 6,
+-};
+-
+-static int is31fl3216_reset(struct is31fl32xx_priv *priv);
+-static int is31fl3216_software_shutdown(struct is31fl32xx_priv *priv,
+-					bool enable);
+-static const struct is31fl32xx_chipdef is31fl3216_cdef = {
+-	.channels				= 16,
+-	.shutdown_reg				= IS31FL32XX_REG_NONE,
+-	.pwm_update_reg				= 0xB0,
+-	.global_control_reg			= IS31FL32XX_REG_NONE,
+-	.reset_reg				= IS31FL32XX_REG_NONE,
+-	.output_frequency_setting_reg		= IS31FL32XX_REG_NONE,
+-	.pwm_register_base			= 0x10,
+-	.pwm_registers_reversed			= true,
+-	.led_control_register_base		= 0x01,
+-	.enable_bits_per_led_control_register	= 8,
+-	.reset_func				= is31fl3216_reset,
+-	.sw_shutdown_func			= is31fl3216_software_shutdown,
+-};
+-
+ static int is31fl32xx_write(struct is31fl32xx_priv *priv, u8 reg, u8 val)
+ {
+ 	int ret;
+@@ -435,6 +369,68 @@ static int is31fl32xx_parse_dt(struct device *dev,
+ 
+ 	return 0;
+ }
++static const struct is31fl32xx_chipdef is31fl3236_cdef = {
++	.channels				= 36,
++	.shutdown_reg				= 0x00,
++	.pwm_update_reg				= 0x25,
++	.global_control_reg			= 0x4a,
++	.reset_reg				= 0x4f,
++	.output_frequency_setting_reg		= IS31FL32XX_REG_NONE,
++	.pwm_register_base			= 0x01,
++	.led_control_register_base		= 0x26,
++	.enable_bits_per_led_control_register	= 1,
++};
++
++static const struct is31fl32xx_chipdef is31fl3236a_cdef = {
++	.channels				= 36,
++	.shutdown_reg				= 0x00,
++	.pwm_update_reg				= 0x25,
++	.global_control_reg			= 0x4a,
++	.reset_reg				= 0x4f,
++	.output_frequency_setting_reg		= 0x4b,
++	.pwm_register_base			= 0x01,
++	.led_control_register_base		= 0x26,
++	.enable_bits_per_led_control_register	= 1,
++};
++
++static const struct is31fl32xx_chipdef is31fl3235_cdef = {
++	.channels				= 28,
++	.shutdown_reg				= 0x00,
++	.pwm_update_reg				= 0x25,
++	.global_control_reg			= 0x4a,
++	.reset_reg				= 0x4f,
++	.output_frequency_setting_reg		= IS31FL32XX_REG_NONE,
++	.pwm_register_base			= 0x05,
++	.led_control_register_base		= 0x2a,
++	.enable_bits_per_led_control_register	= 1,
++};
++
++static const struct is31fl32xx_chipdef is31fl3218_cdef = {
++	.channels				= 18,
++	.shutdown_reg				= 0x00,
++	.pwm_update_reg				= 0x16,
++	.global_control_reg			= IS31FL32XX_REG_NONE,
++	.reset_reg				= 0x17,
++	.output_frequency_setting_reg		= IS31FL32XX_REG_NONE,
++	.pwm_register_base			= 0x01,
++	.led_control_register_base		= 0x13,
++	.enable_bits_per_led_control_register	= 6,
++};
++
++static const struct is31fl32xx_chipdef is31fl3216_cdef = {
++	.channels				= 16,
++	.shutdown_reg				= IS31FL32XX_REG_NONE,
++	.pwm_update_reg				= 0xB0,
++	.global_control_reg			= IS31FL32XX_REG_NONE,
++	.reset_reg				= IS31FL32XX_REG_NONE,
++	.output_frequency_setting_reg		= IS31FL32XX_REG_NONE,
++	.pwm_register_base			= 0x10,
++	.pwm_registers_reversed			= true,
++	.led_control_register_base		= 0x01,
++	.enable_bits_per_led_control_register	= 8,
++	.reset_func				= is31fl3216_reset,
++	.sw_shutdown_func			= is31fl3216_software_shutdown,
++};
+ 
+ static const struct of_device_id of_is31fl32xx_match[] = {
+ 	{ .compatible = "issi,is31fl3236",  .data = &is31fl3236_cdef, },
 -- 
 2.52.0
 
