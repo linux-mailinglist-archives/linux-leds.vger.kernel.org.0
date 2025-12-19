@@ -1,226 +1,69 @@
-Return-Path: <linux-leds+bounces-6451-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6454-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 688C9CD02BA
-	for <lists+linux-leds@lfdr.de>; Fri, 19 Dec 2025 14:55:01 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56488CD09D4
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Dec 2025 16:47:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CD22F30C4EEE
-	for <lists+linux-leds@lfdr.de>; Fri, 19 Dec 2025 13:52:14 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id CAAC0305E0A5
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Dec 2025 15:46:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7995A324B24;
-	Fri, 19 Dec 2025 13:52:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 517BD33BBCC;
+	Fri, 19 Dec 2025 15:45:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="N+8TfQ5W"
+	dkim=pass (1024-bit key) header.d=zonque.org header.i=@zonque.org header.b="kQ0a2ZRN"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35162325498
-	for <linux-leds@vger.kernel.org>; Fri, 19 Dec 2025 13:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
+Received: from mailkram.bugwerft.de (mailkram.bugwerft.de [95.216.200.101])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE84F23EA82
+	for <linux-leds@vger.kernel.org>; Fri, 19 Dec 2025 15:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.200.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766152334; cv=none; b=cFWMzMra7HnpnYFbdH/zfn2wwQVOGBBarm1JWV8kykiA8p7bFwroHJYO/CYp7+SkfvKnuTGGdjIaJNR75IJfknMamRaG+jOWFqNe0xMvzX7/sYjyykq3vGxX1KsBi0Lhd9Ysb0Dy2bRw2vjU/O+UIUHVD14bX/eV11xJ35DBCxY=
+	t=1766159148; cv=none; b=K+DAfhrwwcxEXLqE9b4j47B65QMV0jrWWd3XPkWt+ktOEADsGKw60LjMsww6H3LzcPH4bRllZtj1FKQofY/kpGTeXvL7nFV+MhyGtjn1CYY3r4sRvBIdyycdHydiMG+sdQ2TuyIFW76JlnTk9zLTqPUf36k9rZ6qWFrTRo0vK+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766152334; c=relaxed/simple;
-	bh=QVNW9VCkm/Gl2Ow08FMDi4lwS5IZamXnVz2EjK6HCfU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=WkyhOmPNhQ4sA4QNeHfWnKwmHVvHjstdl2SYThEFjrV9dAvVd2fbez8PeWigINBFcXNhGB4QSIfrTANais+YthhgPTyWmEMbKwgHloyPxMNCQrnZHOcSFZD1K2ajL6pMI3/CZjXWyVVzisyJBXMn5I3e/d19+c+CopjruJSIb4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=N+8TfQ5W; arc=none smtp.client-ip=84.16.241.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
-Received: from [IPv6:2a02:1812:162c:8f00:8398:f36e:d4f1:2098] (2a02-1812-162c-8f00-8398-f36e-d4f1-2098.ip6.access.telenet.be [IPv6:2a02:1812:162c:8f00:8398:f36e:d4f1:2098])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sander@svanheule.net)
-	by polaris.svanheule.net (Postfix) with ESMTPSA id 192E16B4540;
-	Fri, 19 Dec 2025 14:52:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-	s=mail1707; t=1766152330;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d2o70PZGD0XY2yO/MRFHLYH1C1Zp53KE2ugIGnm80Us=;
-	b=N+8TfQ5W7SUe27ub7Aj7pC89Dq14uj+78LyZ1Kb7HjjRdga3hjxd6PxsioYc0nDUNnO+Uz
-	RYEzV2wEax/0baM6F6Oub73bUkLxLnrSsgasp7NYlF7sKHIz1FmA61aoDuJ1zvUIwRojEk
-	mPoqOMwd3kvO+3rgxxTz2dPQc9SdI4reqI7ngrdzEp8Ur+aADQLc935hoPeWOZcSJYLK9I
-	9ozH+2zBkuZzCvtt7E/rvwrvQ2aHZW1phagIuFP3ATozfOwHQX/U3zla7yORilzz3CP1W7
-	yIGFbteyxWmwxR3qS58uOyC6UmLinhYYt6yfM2PHAe4X74yHNR6laxk1yXIeEg==
-Message-ID: <a8063a3a5eb8055bf88976f9da07175528502144.camel@svanheule.net>
-Subject: Re: [PATCH v9 4/6] pinctrl: Add RTL8231 pin control and GPIO support
-From: Sander Vanheule <sander@svanheule.net>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring
-	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
- <conor+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Michael
- Walle	 <mwalle@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
-Date: Fri, 19 Dec 2025 14:52:08 +0100
-In-Reply-To: <CAMRc=Mdb7CWB9PmzXJyfvGjvG0iwuwUgfLuKJuMweRFvAhAoHg@mail.gmail.com>
-References: <20251215175115.135294-1-sander@svanheule.net>
-	 <20251215175115.135294-5-sander@svanheule.net>
-	 <CAMRc=Mdb7CWB9PmzXJyfvGjvG0iwuwUgfLuKJuMweRFvAhAoHg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	s=arc-20240116; t=1766159148; c=relaxed/simple;
+	bh=cFYQ48pcQREiDeBw70pHa8iYig3i8QlkTOsODqsj+AE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oNN7xEhX4ab7TEEBAHyCZ7S5sKFexOo0qN9apAwKnV86iJpggI/44O5/BW+b77Zc0cLuwQbffJZcuCTrV1Nj3u7XB0t2J7x+pVcRqe4zymXL67qdMj7wW+J4E9Xynyyo0Z0+DWi0rSpcwxBR6o3WJph/oqAagHMgqnkv9AF89ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zonque.org; spf=pass smtp.mailfrom=zonque.org; dkim=pass (1024-bit key) header.d=zonque.org header.i=@zonque.org header.b=kQ0a2ZRN; arc=none smtp.client-ip=95.216.200.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zonque.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zonque.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zonque.org; s=mail;
+	t=1766159137; bh=cFYQ48pcQREiDeBw70pHa8iYig3i8QlkTOsODqsj+AE=;
+	h=From:To:Cc:Subject:Date;
+	b=kQ0a2ZRNI9+s3deTpoRfNHR5KGpbb0QT87bR7BmrMAZwG59Q067MxtkrYuND/LosJ
+	 o5gL3rkUNoJZeiIJYWv996Fm8k5OfIe6ol/OG7WQ2gHrui4HIJaNN1Z0entggrTgYe
+	 ZCPxlorRyTJ/s/WP6PITh9HEW6hM1d/4wNRYsNOU=
+Received: from hq-00595.pfsense.f14 (p4ff24940.dip0.t-ipconnect.de [79.242.73.64])
+	by mailkram.bugwerft.de (Postfix) with ESMTPSA id 5EA944168D;
+	Fri, 19 Dec 2025 15:45:37 +0000 (UTC)
+From: Daniel Mack <daniel@zonque.org>
+To: linux-leds@vger.kernel.org
+Cc: lee@kernel.org,
+	Daniel Mack <daniel@zonque.org>
+Subject: [PATCH v4 0/3] leds: is31f132xx: add support for is31fl3293
+Date: Fri, 19 Dec 2025 16:45:18 +0100
+Message-ID: <20251219154521.643312-1-daniel@zonque.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Bartosz,
+This is v4 of the series to support the is31fl3293 with the is31f132xx
+driver, rebased on top of 6v.18.
 
-On Thu, 2025-12-18 at 01:15 -0800, Bartosz Golaszewski wrote:
-> On Mon, 15 Dec 2025 18:51:12 +0100, Sander Vanheule <sander@svanheule.net=
->
-> said:
-> > This driver implements the GPIO and pin muxing features provided by the
-> > RTL8231. The device should be instantiated as an MFD child, where the
-> > parent device has already configured the regmap used for register
-> > access.
-> >=20
-> > Debouncing is only available for the six highest GPIOs, and must be
-> > emulated when other pins are used for (button) inputs. Although
-> > described in the bindings, drive strength selection is currently not
-> > implemented.
-> >=20
-> > Signed-off-by: Sander Vanheule <sander@svanheule.net>
-> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> > ---
->=20
-> [snip]
->=20
-> > +#include <linux/bitfield.h>
-> > +#include <linux/gpio/driver.h>
-> > +#include <linux/gpio/regmap.h>
-> > +#include <linux/module.h>
-> > +#include <linux/pinctrl/pinconf.h>
-> > +#include <linux/pinctrl/pinctrl.h>
-> > +#include <linux/pinctrl/pinmux.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/regmap.h>
-> > +
-> > +#include "core.h"
-> > +#include "pinmux.h"
-> > +#include <linux/mfd/rtl8231.h>
->=20
-> Please put this together with other global headers.
+Daniel Mack (3):
+  dt-bindings: leds: add issi,is31fl3293 to leds-is31fl32xx
+  leds: is31f132xx: re-order code to remove forward declarations
+  leds: is31f132xx: add support for is31fl3293
 
-Updated here and in the other driver files.
+ .../bindings/leds/leds-is31fl32xx.txt         |   1 +
+ drivers/leds/leds-is31fl32xx.c                | 266 +++++++++++++-----
+ 2 files changed, 193 insertions(+), 74 deletions(-)
 
-> > +static const unsigned int PWM_PIN =3D 35;
->=20
-> Please use the RTL8231 prefix for all symbols.
-
-Added the prefix here and also for a struct defined in this file (rtl8231_.=
-..).
-
-> > +static int rtl8231_set_mux(struct pinctrl_dev *pctldev, unsigned int
-> > func_selector,
-> > + unsigned int group_selector)
-> > +{
-> > + const struct function_desc *func =3D pinmux_generic_get_function(pctl=
-dev,
-> > func_selector);
-> > + const struct rtl8231_pin_desc *desc =3D
-> > rtl8231_pins[group_selector].drv_data;
-> > + const struct rtl8231_pin_ctrl *ctrl =3D pinctrl_dev_get_drvdata(pctld=
-ev);
-> > + enum rtl8231_pin_function func_flag =3D (uintptr_t) func->data;
-> > + unsigned int function_mask;
-> > + unsigned int gpio_function;
->=20
-> Can you put these on the same line here and elsewhere?
-
-I am aware this is often done, and also mentioned in the kernel docs [1], b=
-ut I
-actually prefer this style and have always used it in my kernel patches.
-IMHO placing these on separate lines helps with:
- * readability: every line is either [type] [name] or [type] [name] =3D [va=
-lue]
- * reducing churn: changing the type of one variable doesn't impact other l=
-ines
- * quickly assessing code complexity: number of local variables is simply t=
-he
-   number of lines
-
-Editors aren't typically 80x24 anymore. The maximum line length has been re=
-laxed
-to 100 characters, so I feel like a developer can also be expected to have =
-more
-lines available on their display nowadays.
-
-[1]
-https://docs.kernel.org/6.18/process/maintainer-tip.html#variable-declarati=
-ons
-
-> > + /*
-> > + * Set every pin that is not muxed as a GPIO to gpio-in. That
-> > + * way the pin will be high impedance when it is muxed to GPIO,
-> > + * preventing unwanted glitches.
-> > + * The pin muxes are left as-is, so there are no signal changes.
-> > + */
-> > + regmap_field_write(field_dir, is_input | ~is_gpio);
->=20
-> This is an MDIO regmap. The operations may fail. Don't you want to check =
-the
-> return values of regmap routines?
-
-Error checking was indeed not done consistently, so I've now added checks t=
-o all
-regmap_*() calls that return an error code. Also updated in the other drive=
-rs.
-
-> > +
-> > +static int rtl8231_pinctrl_init(struct device *dev, struct rtl8231_pin=
-_ctrl
-> > *ctrl)
-> > +{
-> > + struct pinctrl_dev *pctldev;
-> > + int err;
-> > +
-> > + err =3D devm_pinctrl_register_and_init(dev->parent, &rtl8231_pctl_des=
-c,
-> > ctrl, &pctldev);
-> > + if (err) {
-> > + dev_err(dev, "failed to register pin controller\n");
-> > + return err;
->=20
-> Please use dev_err_probe() here an elsewhere.
-
-Updated here and in the other drivers.
-
-> > + }
-> > +
-> > + err =3D rtl8231_pinctrl_init_functions(pctldev, &rtl8231_pctl_desc);
-> > + if (err)
-> > + return err;
-> > +
-> > + err =3D pinctrl_enable(pctldev);
-> > + if (err)
-> > + dev_err(dev, "failed to enable pin controller\n");
-> > +
-> > + return err;
-> > +}
-> > +
-> > +/*
-> > + * GPIO controller functionality
-> > + */
-> > +static int rtl8231_gpio_reg_mask_xlate(struct gpio_regmap *gpio, unsig=
-ned
-> > int base,
-> > + unsigned int offset, unsigned int *reg, unsigned int *mask)
->=20
-> Can you align the start of the line with the opening bracket?
-
-Will do.
-
-Best,
-Sander
+-- 
+2.52.0
 
 
