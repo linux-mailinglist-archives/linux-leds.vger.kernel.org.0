@@ -1,201 +1,123 @@
-Return-Path: <linux-leds+bounces-6459-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6460-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A09CD3B79
-	for <lists+linux-leds@lfdr.de>; Sun, 21 Dec 2025 05:21:24 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2B2CD5258
+	for <lists+linux-leds@lfdr.de>; Mon, 22 Dec 2025 09:47:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9C987302176C
-	for <lists+linux-leds@lfdr.de>; Sun, 21 Dec 2025 04:20:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CF8E4302F699
+	for <lists+linux-leds@lfdr.de>; Mon, 22 Dec 2025 08:43:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2638E2222BF;
-	Sun, 21 Dec 2025 04:20:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C77430DEAA;
+	Mon, 22 Dec 2025 08:43:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eQhNzP2h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VsM5g689"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B63A1DE8AF
-	for <linux-leds@vger.kernel.org>; Sun, 21 Dec 2025 04:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3752E3043D2;
+	Mon, 22 Dec 2025 08:43:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766290846; cv=none; b=hZvd2pKDkZfHhrpS1FKv+uLAU1HEyfKrOdC8mWKIHbjyupiZAEDWakDqbBW0cxUTiQ4wdWo9+xcyDnshn1DAEtrJDcCCoyd+NuBeRL7SnQbNaHRDNPnmlhur7huc7OJQKl61blPcCMLKmnSdflP4ZgxE0xybJ9TIHq8XwYxLyGY=
+	t=1766393001; cv=none; b=ov53Em13I96OXSbNyjQ1PvwKFtcFhim262o40Yr2unL2XptnCdPdrrpd+iyfJnBcFBlJk54bbPTcf7ZUM0s4wNPOQF6PWvX9Ng7OfG77IJasugoEbBvJ7Xv9dPf/xBgLngBFWW8+Mpvh40fM5vU+oLNAG3M2uRzgoCBuxFpKPvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766290846; c=relaxed/simple;
-	bh=p32qd1CMtpZrvOqiOyNxVvmMRWtTmW3d9z9hTfsYpGw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Ta6bC/lsA5qfb4G3cx0VmeYCa2qHhI/VbBA1dOV5Uxyi+LuR8sB49zC0FFd0XOO4LUq6CBQUiGv1VZHC/J8fAPLonVM00kqXTenwP24JcGgkfxaJwbD3Fzl1AHyO8x4buJnYD7IL0+R39fb6cscBl3rkYYlf/YWFwjCvCT65mg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eQhNzP2h; arc=none smtp.client-ip=209.85.214.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-2a0833b5aeeso40796955ad.1
-        for <linux-leds@vger.kernel.org>; Sat, 20 Dec 2025 20:20:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766290842; x=1766895642; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XnP7OKw91qUHBafMZ5I1kAG02nR+3IKvTt8SsYgVCHw=;
-        b=eQhNzP2hyJPrrXzQHti/TlHxYQ7rh820FC1uSKeiaxBMTqW84YClOkDOgmygSLcyJ4
-         SD7T+3YXTNzDJwuQBzzlnYy8OL4jZY2C3Bd6dYXK2n2fz+GlvKzy+3xFnnGZhuthLJ0O
-         7mFdd67OeJL9rCg1Ovina79UX447bw20MpLPeOChQ5DktvBIcGRC10lCKOOhLIYZtSPc
-         xEo6dyOsKpOR12doH04Z/OIdjjwvfv8glw1cidp4j//+3R1egb/W5ZJR9wENagxRKmf+
-         FgMyE/3ErvPTbrLXLncnHzR/cMN+DW6Sp4Hu8CsA+CXpHz2aaDel++dpaRcTT+mbuz5e
-         WJzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766290842; x=1766895642;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=XnP7OKw91qUHBafMZ5I1kAG02nR+3IKvTt8SsYgVCHw=;
-        b=XHfpM1tntA2hQHkRzYrl48biB2GXwROSLR1lbvFqK4uJpYLA0HUgUv5rJMhXwUhwl3
-         iOT8tXWvfwJHaJUaNdBCshsF+e91D/cSYsXQRXO1H/Pd539x96o6QlN8p+qewvgZcHFi
-         NBmVDHNn4ktaLR9zRmEVeq+J3R7kKvwzvU7qkb4pD0hB84rYjiFQATFpwvD+kvC6GQki
-         ATKnlUn7FHRA+xYFXBXZ8EmClVcf0ZTHBVlVXteFX058QCz4j63rnqzdVfKWqGItwtDT
-         CV3jsVGBXHMg0YtJKoJtKMzM3rjHM1LdN6qyje9PcrNnso/pdaUep4EjUVM2Y7bgYv1z
-         8v+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUu4JoJVzAQHdcl7TJL4JlVwZjbY6OVqO5Y7saq601mXrWDbkEOC13z/KmJVIW21h6Kn2STiunwi6lG@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgmiYaEksSHf5h6O7W3VLVgykBBuPoEAsB1+Y2COrlUOZeJtw8
-	0/87vMNbZmxVYeTMQ97p54jSTymFBvI96oav7OuJo6yp1hh63CSDrGeN
-X-Gm-Gg: AY/fxX4Nr89rtiziZGrTeluiYKGrwcLHKk/wvRyY92T1kU4m2e/pRY398P9qhSaajHD
-	3sQt86a7V/w4rF6nAzhTZoSPZ8HYcaU/Z+pxQk1buTQYKjNGA2ZR+P0Iv8RXDzERS8GK+vjemmv
-	FLCyd2BK+D3iPNPGOW/Yg6Z6L88e3FqePiosLx8CWhccOrVt2W1BAQlGkJZQQxLUQoiYGu2Jy1y
-	Bi1h8z2eqSRLr0szhXbPuYlsYM+tkoaMsYQfGCy578alhEKEkCujDYFeib1EJgs/btRh6nf0hTk
-	A4Kb5x/OrOIVqHzV7WROmgWf11QPmnwZlGWxJg0X9xsRzU1ga5YDxaM54tZd8vsshm4tSc37Kfa
-	uQxEcFZQP5oXtS+rrwu/TRfzYcgKppLIaTmbQuGkCY6x51XOz5/oC7LKWq2XDu8ginlfEoWxHuR
-	vluh1qcuhzH4JI27UG+hNIIt4=
-X-Google-Smtp-Source: AGHT+IGmGZSCNhEhHjUIS60wSnhLvOSqRgduWOyCEsTNRSYTC/0ddkkGHZQMcpHHjFAEheFEk433nw==
-X-Received: by 2002:a17:903:2342:b0:2a0:e5cd:80a1 with SMTP id d9443c01a7336-2a2f2a34fa1mr71333975ad.41.1766290842511;
-        Sat, 20 Dec 2025 20:20:42 -0800 (PST)
-Received: from localhost.localdomain ([14.255.43.222])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d4cb90sm62319245ad.51.2025.12.20.20.20.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Dec 2025 20:20:42 -0800 (PST)
-From: Nam Tran <trannamatk@gmail.com>
-To: lee@kernel.org
-Cc: pavel@kernel.org,
-	gregkh@linuxfoundation.org,
-	rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Nam Tran <trannamatk@gmail.com>
-Subject: [PATCH v20 3/3] docs: leds: Document TI LP5812 LED driver
-Date: Sun, 21 Dec 2025 11:19:50 +0700
-Message-Id: <20251221041950.4631-4-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251221041950.4631-1-trannamatk@gmail.com>
-References: <20251221041950.4631-1-trannamatk@gmail.com>
+	s=arc-20240116; t=1766393001; c=relaxed/simple;
+	bh=GRcYlQBruRngt7LkX5/K9L6heF2AHR0uznAPu0+t6A0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aFPS5txfFm8gtyK0Y7ZO5Ym02FIAeoag//XT82Q8F2r16ZUQlpODzixbrTyNauOqRF6B4vhh+wLKv+O0wJ44Bnjd5ljZmNeGVaEIf8sBZq9F77aQ+CXU07u3YRPjWWNGUPDXwnOE0kHAkavXIrl9MkIK203NrhWyKtQ0Lx5BN58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VsM5g689; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766393000; x=1797929000;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GRcYlQBruRngt7LkX5/K9L6heF2AHR0uznAPu0+t6A0=;
+  b=VsM5g689PESY/qyz5a1ZgevV924aYcV2zd6mg8KlFulRKRxBJjipsaZZ
+   UWyNCB18nBk0xctd0kP1/ANRH36+bstxOVnLj0dxCRKGy7TXTDVDl1Rns
+   t9LiEVSBfGPvuV5FHjQfsM/nIg7UYSUg/jzQ2ltLPPAAS3T4SB7iWNtAP
+   KDPXW1yPXj9wpAqIUnZQQVwJwkFRvoZw3gSO9EpDt4ZXHmiG4jkqVQzOT
+   GxSXcbPOHAmg1Yy5QvVL9o+bP7YXqbYNTsxu45deF9N0bKl+8K7/Xwd9g
+   2YtnOYeJJQv7GeXuS5+oqA2H7urmTA3kBr4ibgndjyUcLpQJKF4xjinau
+   A==;
+X-CSE-ConnectionGUID: LCUUFYvJTpevpmBtiGM6Mg==
+X-CSE-MsgGUID: Y2JlwDWhRs2FkCoFNK01xg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68000150"
+X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
+   d="scan'208";a="68000150"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 00:43:20 -0800
+X-CSE-ConnectionGUID: S07oB/BDQSaGmbOKpqOOhQ==
+X-CSE-MsgGUID: n2Ww8oiZS1yQtD5njgISaA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
+   d="scan'208";a="199979885"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 22 Dec 2025 00:43:16 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vXbVZ-000000005Pk-3usP;
+	Mon, 22 Dec 2025 08:43:13 +0000
+Date: Mon, 22 Dec 2025 09:43:03 +0100
+From: kernel test robot <lkp@intel.com>
+To: Sander Vanheule <sander@svanheule.net>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Michael Walle <mwalle@kernel.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, Sander Vanheule <sander@svanheule.net>
+Subject: Re: [PATCH v9 3/6] mfd: Add RTL8231 core device
+Message-ID: <202512220956.FVakrdhV-lkp@intel.com>
+References: <20251215175115.135294-4-sander@svanheule.net>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251215175115.135294-4-sander@svanheule.net>
 
-The driver provides sysfs interfaces to control and configure the
-LP5812 device and its LED channels.
+Hi Sander,
 
-The documetation describes the chip's capabilities, sysfs interface,
-and usage examples.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Nam Tran <trannamatk@gmail.com>
----
- Documentation/leds/index.rst       |  1 +
- Documentation/leds/leds-lp5812.rst | 50 ++++++++++++++++++++++++++++++
- MAINTAINERS                        |  1 +
- 3 files changed, 52 insertions(+)
- create mode 100644 Documentation/leds/leds-lp5812.rst
+[auto build test WARNING on lee-mfd/for-mfd-fixes]
+[also build test WARNING on lee-leds/for-leds-next linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.19-rc2 next-20251219]
+[cannot apply to lee-mfd/for-mfd-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
-index 76fae171039c..bebf44004278 100644
---- a/Documentation/leds/index.rst
-+++ b/Documentation/leds/index.rst
-@@ -25,6 +25,7 @@ LEDs
-    leds-lp5523
-    leds-lp5562
-    leds-lp55xx
-+   leds-lp5812
-    leds-mlxcpld
-    leds-mt6370-rgb
-    leds-sc27xx
-diff --git a/Documentation/leds/leds-lp5812.rst b/Documentation/leds/leds-lp5812.rst
-new file mode 100644
-index 000000000000..c2a6368d5149
---- /dev/null
-+++ b/Documentation/leds/leds-lp5812.rst
-@@ -0,0 +1,50 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================
-+Kernel driver for lp5812
-+========================
-+
-+* TI/National Semiconductor LP5812 LED Driver
-+* Datasheet: https://www.ti.com/product/LP5812#tech-docs
-+
-+Authors: Jared Zhou <jared-zhou@ti.com>
-+
-+Description
-+===========
-+
-+The LP5812 is a 4x3 matrix LED driver with support for both manual and
-+autonomous animation control. This driver provides sysfs interfaces to
-+control and configure the LP5812 device and its LED channels.
-+
-+Sysfs Interface
-+===============
-+
-+This driver uses the standard multicolor LED class interfaces defined
-+in Documentation/ABI/testing/sysfs-class-led-multicolor.rst.
-+
-+Each LP5812 LED output appears under ``/sys/class/leds/`` with its
-+assigned label (for example ``LED_A``).
-+
-+The following attributes are exposed:
-+  - multi_intensity: Per-channel RGB intensity control
-+  - brightness: Standard brightness control (0-255)
-+
-+Autonomous Control Modes
-+========================
-+
-+The driver also supports autonomous control through pattern configuration
-+(e.g., direct, tcmscan, or mixscan modes) defined in the device tree.
-+When configured, the LP5812 can generate transitions and color effects
-+without CPU intervention.
-+
-+Refer to the device tree binding document for valid mode strings and
-+configuration examples.
-+
-+Example Usage
-+=============
-+
-+To control LED_A::
-+    # Set RGB intensity (R=50, G=50, B=50)
-+    echo 50 50 50 > /sys/class/leds/LED_A/multi_intensity
-+    # Set overall brightness to maximum
-+    echo 255 > /sys/class/leds/LED_A/brightness
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8d840b34c924..394165660e67 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -25841,6 +25841,7 @@ M:	Nam Tran <trannamatk@gmail.com>
- L:	linux-leds@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/leds/ti,lp5812.yaml
-+F:	Documentation/leds/leds-lp5812.rst
- F:	drivers/leds/rgb/Kconfig
- F:	drivers/leds/rgb/Makefile
- F:	drivers/leds/rgb/leds-lp5812.c
+url:    https://github.com/intel-lab-lkp/linux/commits/Sander-Vanheule/dt-bindings-leds-Binding-for-RTL8231-scan-matrix/20251216-015552
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-fixes
+patch link:    https://lore.kernel.org/r/20251215175115.135294-4-sander%40svanheule.net
+patch subject: [PATCH v9 3/6] mfd: Add RTL8231 core device
+config: alpha-kismet-CONFIG_MDIO_BUS-CONFIG_REGMAP_MDIO-0-0 (https://download.01.org/0day-ci/archive/20251222/202512220956.FVakrdhV-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20251222/202512220956.FVakrdhV-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512220956.FVakrdhV-lkp@intel.com/
+
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for MDIO_BUS when selected by REGMAP_MDIO
+   WARNING: unmet direct dependencies detected for MDIO_BUS
+     Depends on [n]: NETDEVICES [=n]
+     Selected by [y]:
+     - REGMAP_MDIO [=y]
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
