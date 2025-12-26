@@ -1,182 +1,161 @@
-Return-Path: <linux-leds+bounces-6464-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6465-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1F2CDC414
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Dec 2025 13:45:59 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8063CDEABB
+	for <lists+linux-leds@lfdr.de>; Fri, 26 Dec 2025 12:59:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8E1DD300CAE5
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Dec 2025 12:45:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A4C4A3007EF0
+	for <lists+linux-leds@lfdr.de>; Fri, 26 Dec 2025 11:59:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A098C31691C;
-	Wed, 24 Dec 2025 12:45:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B97229BDA9;
+	Fri, 26 Dec 2025 11:59:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JzB/Uvm4";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VJ6dXdX3"
+	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="23hxyghz"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242292EDD63
-	for <linux-leds@vger.kernel.org>; Wed, 24 Dec 2025 12:45:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C941F9ECB
+	for <linux-leds@vger.kernel.org>; Fri, 26 Dec 2025 11:59:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766580328; cv=none; b=HQlWiXnJEU35fSJ3k7I5fXjRETajBnssVGAPftQHXx+O4RBkSFXM+pjXop0VrrcArzwCwJsNOHNy0Gmdql8nBSEgq2lF6v2lGfBMMBf4YWOh7A0w/qbIDrtU3mgxWkRbv0cGXSaM3zEMc6GilmA/OzlJuMYtUWuAIS3cf83j5Qk=
+	t=1766750392; cv=none; b=QLysu3PFAgO5NzAYh6S0g6WrtX+B0WBd2tbXSkxHk1okJ7v93j1Bp5JypOYhsTGfPD2Dvfx1NzMQlMUTzWjeCr6Vdf07sZSUcwVxmh8PoxPFGozGH15fhBO4cgzXZDojWMyfFAvB1xcYjI8Cpw1O7H9fSR3sXo52fOhLMa4FUZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766580328; c=relaxed/simple;
-	bh=A0+rJ/jcjyo87GKNzaYx5E2SXVpyt5drNxPlXUUyifM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KrCTULEEIytKEN0hLiRsY9A04mIkf4R9mcnCcRdn3geaoN7Vkh6K2Zw1tfYAFo3bjh2DpLTHXX2ODw/jPE3PIiTf581casFGA5o3K2+sjq80XyblZP80K++5zLwfd+jpV7a2rTfjXFWBoEvPXpluQ0gEe3Jw929v2VeJ+bQ0aNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JzB/Uvm4; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VJ6dXdX3; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BO8JK1M721758
-	for <linux-leds@vger.kernel.org>; Wed, 24 Dec 2025 12:45:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=QHbBmahycKCkeFq0h+J9dCWQdTsBuHKlmM6
-	37HMXv+w=; b=JzB/Uvm4/nz4AklkPOHnlE8WRTnb7xGfwrwRrHhmW+1jHz3z03e
-	+4on7xj6jfbi+LWLry94TihlUbd/jLwh9lQmDVu/5llODnwVgLdw+iSL/PCZvTjy
-	ZX1KSLNA3FCJD/gQbO0xIc+TASfQeU7T7cbv5TupQEsV8uBbWFJq0E+oGhXWeO8d
-	l81WsJYx3xuo0mjUzSIZyK1W1TMgtwUT3IoG5hDOJBeR9nxQbabYO9pbm4OKBtDk
-	se+G1Xr4Ki2Le3MJIysyS4WT76wIgccd0aH5oJKif8EyBfC8uSReJfA9tSLVLNZ3
-	wRdXNfYVtP4W2zWdNMNmGweV+V6Ezv2IymA==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b81mta7wx-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-leds@vger.kernel.org>; Wed, 24 Dec 2025 12:45:25 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4f4a92bf359so128773651cf.2
-        for <linux-leds@vger.kernel.org>; Wed, 24 Dec 2025 04:45:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1766580325; x=1767185125; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QHbBmahycKCkeFq0h+J9dCWQdTsBuHKlmM637HMXv+w=;
-        b=VJ6dXdX3jsODpYjzH5vik5tkMtXvYJ7J4kzV3Qxn/eNV7j3go6DKlRLIvOHRKpz0U/
-         ckEU8FF+POhc2DIomEWgqNolQiebXzWY2jbkwBDcwfKPc+EIYlJtNrSFEA0KQDlGxk28
-         kE/6U0/8HFz0Wvs7nculQpRAnDcPc3Vkl1brOPLtzSOy7MMscKWsDeUscsBQCnNo9CgR
-         4rIseTiFctzje3zgtRh4/ZLPi4BLCisrsCerlXJ4MwELUn/Zlu8K5j1RnbkyrnpWPT+f
-         VUP13KyJX8Wc1ZUSBZ/jeMbDUH+StKxE3IVlRFLlVKRwKqeM0ItFMtT7/pn2p2yDm5Z+
-         KkZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766580325; x=1767185125;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QHbBmahycKCkeFq0h+J9dCWQdTsBuHKlmM637HMXv+w=;
-        b=l8tkVapXCiIaT+8FdL+qUY3Zt5y4eqg5svYrHOmd5Id3t/kjbHxnzRYKdA6gUxNqzj
-         fXKnwVmliawuN1sUqfaySIq6CZIG/FFTVrd3gTgnLbTaYHF/tDFR49CmBfdPEYVgmbv6
-         6xxerO4uaqufiaUqxw/53iGtfDo8mPyhf0LF4+WdiNFmPo2r75/vpr7hIk50plt8vqoD
-         ACHFWjM8BR6KF5nHh14kXSHYmAjd+awryy8t6s9vKZJBXYum8JEcWPd4dSGMGlIB0tN5
-         fCgcJd+vLFkXwwIRhthlK16oHVLurJMlo90z3st66GaHt9YIbHMbY0URSSD6ayhdWoCS
-         M1Dw==
-X-Forwarded-Encrypted: i=1; AJvYcCXZ7FYkpD6H/xfgm28t70u0wHhc0CckkVNKoVwLfxbl4YhDu8FClQN0SRGBjopCPgmQpsyBpWHHqWAb@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHujqHSDNWEZzw9wllBqHREjTQFPFfqA78+LpNJJhZXxI0OxU3
-	a220iwLjHsdwRK5bzvHpY0Y7AbeNkV6i0kFcnp/gnQ09LDO4HMf5FO7vqNainKvGXVKsFBhqOJ5
-	zdCEZXVdG71qx7Ho/vNfb+JOCCNmy9eIDQOKbiThrTWxRnfIIELqZqXaG7sQyUhqr
-X-Gm-Gg: AY/fxX4ktZNGEBo+U9Xb3/7UaO9jEzIldDW3kUn36Q0w8AXecJ7zHcMxLs1FMS7UEeu
-	eL0voldIGf2JZPwx/j3pAuXF85NE2h/oHLrzN58pRlrttyfHdXBawWEPCXB+4mgRDsE8bkkm873
-	D7Qd52jcJEJRR0nY4v4r7P8lqEdtGQwugeVN0a0ns+26mVWo/9u6cFuHs75HuXjdgcipdHhiEJy
-	POWDOZYwYYKPrgPXFnc7euk8wcmOO/T4Kzs0658TpTcVO8+3c8G9dOceU/cDHD9hZutE1Pp6rGI
-	vKTdHVmSK2kU3JtUJhnSsPfqsj53OvYKdHM4Bg12TMC6SyPeXKXvdeQApNgu1tEhKnI++nvWX3u
-	odcfyQ6yhftSfLgyIoqJxoGWJfbeGFoYmbO9Gul1c7nB9DGNphPmtkChClOTELR7PANhbMQ==
-X-Received: by 2002:a05:622a:a07:b0:4f1:ac56:3c05 with SMTP id d75a77b69052e-4f4abd97f66mr286460681cf.38.1766580325451;
-        Wed, 24 Dec 2025 04:45:25 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFckI07eeRPrrqzU4lKfHT6hUGe8mpk74PBP7U30VqRr3mJ85xTL8ZBbRtqUJyjNTC9265xew==
-X-Received: by 2002:a05:622a:a07:b0:4f1:ac56:3c05 with SMTP id d75a77b69052e-4f4abd97f66mr286460311cf.38.1766580325038;
-        Wed, 24 Dec 2025 04:45:25 -0800 (PST)
-Received: from quoll.home (83.5.187.232.ipv4.supernova.orange.pl. [83.5.187.232])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b9105655asm17007068a12.9.2025.12.24.04.45.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Dec 2025 04:45:23 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH] leds: lp55xx: Simplify with scoped for each OF child loop
-Date: Wed, 24 Dec 2025 13:45:22 +0100
-Message-ID: <20251224124521.208635-2-krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1766750392; c=relaxed/simple;
+	bh=OWWYLrilFhz9YC8b9tP2fN0oE1fQiFaqy3spTA2lL2M=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mTfotBwFRR4HdAJBELiFk1hrXk/d7tXGYewmzY6ZxiFYXsztI2az7bqRq/NJzbJWCiiIqVkX8jNXb/gIjm8JIaLNkMYDahXyIOKxnOiZWhteZFWNhKf7KIJJbhRUlnkbr6ZJ6qkeBtnsgKesRL+u1Y3ATpLt31wKn/OFin7ovww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=23hxyghz; arc=none smtp.client-ip=84.16.241.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
+Received: from [IPv6:2a02:1812:162c:8f00:1e2d:b404:3319:eba8] (2a02-1812-162c-8f00-1e2d-b404-3319-eba8.ip6.access.telenet.be [IPv6:2a02:1812:162c:8f00:1e2d:b404:3319:eba8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sander@svanheule.net)
+	by polaris.svanheule.net (Postfix) with ESMTPSA id 8C6476B8CAB;
+	Fri, 26 Dec 2025 12:59:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+	s=mail1707; t=1766750382;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WtiGe9UVY4DRuvW+VF67JllIQ13Z+/lQWqwadNoyDPI=;
+	b=23hxyghzwayhUxPh7bSQxjkB0B59Vce2uTZ4urCcEqxrCM7VT5aTxuVfGceB/FeN+4KL3A
+	4OydY24Q2CI8/Clu1DrbSowTnyzUrNajPIG+1nW/UHlJQjPXdXhT5M9RsyDn51l6FRCs60
+	o6ny4vB2n9l5KO4Do/pK/8FnWT8rvIv/tf96TgQfjifQae0sluFCcUGoIHpmDKR/kiNJ6k
+	mPOH+gnzsXhmPuLRWy+KKt8j2kdxgnD890CBxQiEj2luZSGoqOEamX4SeCQBlplFoNPDLl
+	IEU+Ftd65iwYsnuLmjnCpGmOzYr9d9Ja6oN1ekrWQwJX0qUz+47o7JtOWVZI+Q==
+Message-ID: <12c98c7c8bead26a61764e3e9611badf2cdfcac5.camel@svanheule.net>
+Subject: Re: [PATCH v9 3/6] mfd: Add RTL8231 core device
+From: Sander Vanheule <sander@svanheule.net>
+To: kernel test robot <lkp@intel.com>, Lee Jones <lee@kernel.org>, Pavel
+ Machek	 <pavel@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Michael Walle	 <mwalle@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Mark Brown	 <broonie@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Heiner
+ Kallweit	 <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ "David S. Miller"	 <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski	 <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>
+Cc: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran	
+ <fazilyildiran@gmail.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ netdev@vger.kernel.org,  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Date: Fri, 26 Dec 2025 12:59:40 +0100
+In-Reply-To: <202512220956.FVakrdhV-lkp@intel.com>
+References: <20251215175115.135294-4-sander@svanheule.net>
+	 <202512220956.FVakrdhV-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1256; i=krzysztof.kozlowski@oss.qualcomm.com;
- h=from:subject; bh=A0+rJ/jcjyo87GKNzaYx5E2SXVpyt5drNxPlXUUyifM=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpS+BhqMr3uCfDgDjtv57gr9p71LMXH/nVk7DxD
- FRm1vmguEOJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaUvgYQAKCRDBN2bmhouD
- 1xA5D/9BTeFTVX1pzYzU1uPltHLPRHvs9dVi2F/LqgJc5d9nivAA7KkhNA3FWJbV+rSylAeAbGs
- J1fCoKtYDFh6d9WZ5x9WNDuBb+cGmQpRz6Dz3eCh+X2XgoFTSxyaTek73V+ioqe/28CUy8gWSnE
- COlZx8CoxI5UIXbhLBa+Z/rfpQ/kZcsWogBdpsMqiefYRzC9KQJB8WFOeIzsjGD9b12eFVF1M6K
- TsYCnHTdJ1fFfGDP8Hp0LABJaZze5d2BlW8UCOOEeeAyiZXV4Gk2J6ny2ocbsPfAhyvKCFu45bG
- oVp2blcJ3pRLx/yneqsEfn6k/k1J9PbHqgv23ebSWom2PTVmt8H2LDJ2Wqd/v5ElZonI5lX5PTB
- oaIrSkx3lRWDpmtKhhgP/6P1DnXq/VY82acXuv3V3T4XUzOX8iWXAIp+BlPuBnXCPclTAwlchjp
- WG/OvBOGUmvoVxHtJ+m1F9QErgosjwAxRg/0sQuYpJ+31omE83SFLZZutTnGAFhWUzEbgm+p5bF
- 3wJa/5wrwyW2xuf2IedykV94OI5L/6aWrXhft+7i3L2aQgXY/2sUTgNtYZKmAASktyRvNDVs3kY
- gwrcYmvCu1AX0dm77kmt0tMCxGlI18U1TnnMCHQzEm/tJ4W7/jHprkpXBJcQV+4SQ4nqgSzxsF2 4r35h1CviTU5H4A==
-X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=e/ILiKp/ c=1 sm=1 tr=0 ts=694be065 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=urQ9wjG1USoGuMoDBEOPbA==:17
- a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=kVq6N5mEIK0mURhpU1kA:9 a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-GUID: YV4hDkFws24RCPmixoYEbX1Lf-gKqh9d
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDExMCBTYWx0ZWRfX0UPEbroFq0N9
- yucOWDCB/dizTTYStfKsklmlN2ZY3bt0MqyxWA+UQ1knTl9sitjJam2KJnf9o9jEaSDJgeiCbuN
- 3CCVwGyX7HBQo1BZ4SgO1zwtuWUXntrKbkt88NTFbzH9gATog4GJakPAQI2VcrG/poFB9vUThTF
- R8c3XcxAn1Uo1de4jMZeYprE4mUbirHjCdvWWhfqaT1lQN+wpZdlMbCnFP6o5v3+g11HJup+/4M
- Ul198+OTdizaHAEl/7l3g4yoe4D+xqz6gdnixvpHUk/TbqmL1w8JqiBP+fwMlOgC6LBx7QxTtM7
- 1DsbCe/RnfADAfVLELYhXKxUk5fpRs592T7Pg6YkxSo+jps91bKbpmpDqW/lYiX+kr37PhntOgQ
- q21P9gmKOwK1TU8l3UMLHbiDRfm1APDdsvg8sAx7FGTBHghjkcI/YYtdh8BnFewjv0QQFRkpH38
- XC0zlfdZoVU1Ay8Qdmg==
-X-Proofpoint-ORIG-GUID: YV4hDkFws24RCPmixoYEbX1Lf-gKqh9d
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-24_03,2025-12-22_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1011 phishscore=0 adultscore=0 suspectscore=0
- spamscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512240110
 
-Use scoped for-each loop when iterating over device nodes to make code a
-bit simpler.
+Adding the netdev and regmap maintainers for extra input.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
----
- drivers/leds/leds-lp55xx-common.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+On Mon, 2025-12-22 at 09:43 +0100, kernel test robot wrote:
+> url:=C2=A0=C2=A0=C2=A0 https://github.com/intel-lab-lkp/linux/commits/San=
+der-Vanheule/dt-bindings-leds-Binding-for-RTL8231-scan-matrix/20251216-0155=
+52
+> base:=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd=
+.git=C2=A0for-mfd-fixes
+> patch link:=C2=A0=C2=A0=C2=A0 https://lore.kernel.org/r/20251215175115.13=
+5294-4-sander%40svanheule.net
+> patch subject: [PATCH v9 3/6] mfd: Add RTL8231 core device
+> config: alpha-kismet-CONFIG_MDIO_BUS-CONFIG_REGMAP_MDIO-0-0 (https://down=
+load.01.org/0day-ci/archive/20251222/202512220956.FVakrdhV-lkp@intel.com/co=
+nfig)
+> reproduce: (https://download.01.org/0day-ci/archive/20251222/202512220956=
+.FVakrdhV-lkp@intel.com/reproduce)
+>=20
 
-diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
-index fd447eb7eb15..ea131177de96 100644
---- a/drivers/leds/leds-lp55xx-common.c
-+++ b/drivers/leds/leds-lp55xx-common.c
-@@ -1204,7 +1204,6 @@ static struct lp55xx_platform_data *lp55xx_of_populate_pdata(struct device *dev,
- 							     struct device_node *np,
- 							     struct lp55xx_chip *chip)
- {
--	struct device_node *child;
- 	struct lp55xx_platform_data *pdata;
- 	struct lp55xx_led_config *cfg;
- 	int num_channels;
-@@ -1229,12 +1228,10 @@ static struct lp55xx_platform_data *lp55xx_of_populate_pdata(struct device *dev,
- 	pdata->num_channels = num_channels;
- 	cfg->max_channel = chip->cfg->max_channel;
- 
--	for_each_available_child_of_node(np, child) {
-+	for_each_available_child_of_node_scoped(np, child) {
- 		ret = lp55xx_parse_logical_led(child, cfg, i);
--		if (ret) {
--			of_node_put(child);
-+		if (ret)
- 			return ERR_PTR(-EINVAL);
--		}
- 		i++;
- 	}
- 
--- 
-2.51.0
+For context: these patches introduce a new MFD with pinctrl and led subdevi=
+ces.
+The RTL8231 MFD is attached to an MDIO bus, but it can also be attached to =
+an
+I2C bus (not currently supported). The drivers use regmap to provide a bus
+abstraction.
 
+> kismet warnings: (new ones prefixed by >>)
+> > > kismet: WARNING: unmet direct dependencies detected for MDIO_BUS when
+> > > selected by REGMAP_MDIO
+> =C2=A0=C2=A0 WARNING: unmet direct dependencies detected for MDIO_BUS
+> =C2=A0=C2=A0=C2=A0=C2=A0 Depends on [n]: NETDEVICES [=3Dn]
+> =C2=A0=C2=A0=C2=A0=C2=A0 Selected by [y]:
+> =C2=A0=C2=A0=C2=A0=C2=A0 - REGMAP_MDIO [=3Dy]
+
+I'm a bit puzzled on how to solve this one. The issue detected here is that=
+ my
+driver (MFD_RTL8231) selects REGMAP_MDIO, which in turn selects MDIO_BUS. T=
+he
+latter is dependent on NETDEVICES, which is not selected in this test.=C2=
+=A0
+The kernel does not yet have any other consumers of REGMAP_MDIO, which is
+probably the reason the dependency issue has gone undetected until now.
+
+REGMAP_MDIO is not a visible symbol, so it must be selected by drivers.
+
+Other REGMAP_XYZ symbols (almost) exclusively use "depends on XYZ", but if =
+I
+change REGMAP_MDIO to "depends on", the warning just changes to:
+
+   WARNING: unmet direct dependencies detected for REGMAP_MDIO
+     Depends on [n]: MDIO_BUS [=3Dn]
+     Selected by [y]:
+     - MFD_RTL8231 [=3Dy] && HAS_IOMEM [=3Dy]
+
+Trying to make MFD_RTL8231 also depend on MDIO_BUS, like .e.g I2C dependent
+devices do, results in a recursive dependency:
+
+
+   error: recursive dependency detected!
+   	symbol GPIOLIB is selected by PINCTRL_RTL8231
+   	symbol PINCTRL_RTL8231 depends on MFD_RTL8231
+   	symbol MFD_RTL8231 depends on MDIO_BUS
+   	symbol MDIO_BUS is selected by PHYLIB
+   	symbol PHYLIB is selected by ARC_EMAC_CORE
+   	symbol ARC_EMAC_CORE is selected by EMAC_ROCKCHIP
+   	symbol EMAC_ROCKCHIP depends on OF_IRQ
+   	symbol OF_IRQ depends on IRQ_DOMAIN
+   	symbol IRQ_DOMAIN is selected by GENERIC_IRQ_CHIP
+   	symbol GENERIC_IRQ_CHIP is selected by GPIO_MVEBU
+   	symbol GPIO_MVEBU depends on GPIOLIB
+  =20
+The 'quick fix' appears to be to add "select NETDEVICES" to REGMAP_MDIO. Th=
+e
+platforms that use the RTL8231 MFD are typically ethernet switches, so they
+would have NETDEVICES enabled anway, but that feels very heavy handed and
+automatically pulls in a lot of extra stuff. Would this be acceptable or is
+there a more desirable approach I'm not seeing here?
+
+Best,
+Sander
 
