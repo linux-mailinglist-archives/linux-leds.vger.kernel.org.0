@@ -1,77 +1,77 @@
-Return-Path: <linux-leds+bounces-6487-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6488-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43732CE86B3
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Dec 2025 01:34:22 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D72CE86A4
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Dec 2025 01:34:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3FBE03028597
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Dec 2025 00:33:33 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D11FE30139A9
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Dec 2025 00:33:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCC562DAFB5;
-	Tue, 30 Dec 2025 00:33:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 988292DA763;
+	Tue, 30 Dec 2025 00:33:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EIpUzR20"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="evvtKJky"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8B22DAFA4
-	for <linux-leds@vger.kernel.org>; Tue, 30 Dec 2025 00:33:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515A52D97A2
+	for <linux-leds@vger.kernel.org>; Tue, 30 Dec 2025 00:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767054812; cv=none; b=oGVrsq8y61P5ouCSTKAIYixAuLtrdbIH3k/d/oqSyifMEVfEHBJWTQlhqnb/IWXVze6dYetNxgE1wW/fxffkyCl2KbeyTnNu352vvKQx/JbwQ+bx2V9TVpZ9m6+PQZD2qzi3MPIQ9owkMxe+qqox2MwNfFDlyPkU6TQAKlR65L0=
+	t=1767054819; cv=none; b=o9kfWb7HDYLHzCAQiv+882hr120wnODa6NJWkhVXYi5eEHaXW5fTBLUAl9VZ3LBVSJeUoPUiWC2YxVnXIJTZ5Iv2aS154oz6z7ZYGt0PCD09CknBLXKOoAUY4Az4h8CVBiOonZnyzqqUFDMjZz4UemX2H2TuVHPpZzOGIqADZIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767054812; c=relaxed/simple;
-	bh=39ba9wue30A1aWTeAfgL3s9LMi8ZQBWqzHOGtGyy7Nw=;
+	s=arc-20240116; t=1767054819; c=relaxed/simple;
+	bh=oWgzFPh6Xk63phUVjE1VPLOjLHvlEa4NlrrigjDqrDE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bqeOrt9g51EQK6JdbUd/gs2+YNZQPhsQWrriUzZJHI+zruWqt5xweiskviBjxlJ5Hg9kRDGOWgnlfYY/jChwlBGRXuJaXFW0U+TJ2P5Q7ZTk2wbsMgkkOC2vzXci21zQVZaNjN1kziTiQV1CS506rTe+ZzGNMtJq+Jkx44Rs7ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EIpUzR20; arc=none smtp.client-ip=209.85.214.195
+	 MIME-Version:Content-Type; b=TCa5p363E5bZr+y5SZt9X6wGWFd+YgiUelopdl7z/eo2YP9Ao91We+2XjHPo7kDbgf6gBrIk396//gvqnfsoq+Sxjs/bJgFWRBTOgYNdom6HL8HVtQg3ovRGtSlwtb/XcOhhxQ1sH8UD8Y564/z49Cj/oJtFLA+Gl9gBiH1KE8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=evvtKJky; arc=none smtp.client-ip=209.85.210.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-2a0d6f647e2so153843915ad.1
-        for <linux-leds@vger.kernel.org>; Mon, 29 Dec 2025 16:33:30 -0800 (PST)
+Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-7aa2170adf9so7052889b3a.0
+        for <linux-leds@vger.kernel.org>; Mon, 29 Dec 2025 16:33:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767054810; x=1767659610; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767054816; x=1767659616; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ugSCWrsJRygqnHc991VxzRvXCpP5GFtf/Wie/j+cCEo=;
-        b=EIpUzR20Z/bJJgMwk6r8RM5cpCfX9hWXVcO4XDGlPjnZLJYMFiW7dA83yNhzYv+7Lt
-         kWg6HIX29UqU596jGPTaQGbHic7SHocf6c7Apw8n4uFwcMCH3O+do2Aee4gdP0Ksdd7I
-         zhy2eAorx/56cCx1XcrCK2l05T+DmPnMkxR3pvMeR6XdDfM90nJddTkMmITiJtqWnCUm
-         6eWbZGNZ4qX6TLczmPG8dZJ9ykod+d8p0rG6X4gBjUuxBkz0MhNNl8tfP0HiUsPjAOk2
-         Ybo5w11v5BqmAaYvDkuS7c5Ueegh081L8IbJ9MQ2bee0/WelKYAUT4QX3OwBeYahbVq8
-         810A==
+        bh=h8GT9Ha1jA/0OeYqmx0KDJpRc2kzNe9zv0KeqP7AQN8=;
+        b=evvtKJkyPsnen2UpmTKuZR2VvrD8hXZSxbMbd+7TY9SWlelLbDuo4fx9ToOpCYSFWB
+         PeaaAITRKa/mvNOIkAkZU79IbVqXqoGzqsoSe4XiQUZ1fU5dzzSebCGC89WD16OjZuU2
+         KUoH2wMEUnTKf+32c1gP9zvshWY451ymNIaOBojeyxPeBc1spz+48uLSknzomuUbaBiK
+         D/mFoD0/LHrNnLSoDvpbmFNfMOI7XCx4O2BL/WnwaeabjzsfF6bvxIcbSwiMTE8JRGRK
+         LYl7NAqO0Y4TdW2kRnQW5s2lnuH0Jes23YhWRqtNCSbymL48jqhoVfurcYiU7bkUwQIZ
+         a7EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767054810; x=1767659610;
+        d=1e100.net; s=20230601; t=1767054816; x=1767659616;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ugSCWrsJRygqnHc991VxzRvXCpP5GFtf/Wie/j+cCEo=;
-        b=BQmJc8IUyYIMHE6Z8e6JLQuJhRmTkdOZo43c85f8OQ1rGr0Zz/TkUrdbyS/mkusFP0
-         2Vzdny0lYF7xgtxe+pmOXUsplbpx5/x98YAaurI8GkTLivrbp+aMBTikQyjot+KbSrva
-         a6EMd9/n7/50X88/lCiweA+lWHcKg6Qleo1UZ6fu6Xuex57NhQj1zTbhQvS8qbfMlIQZ
-         MVaqGVgd/Ehg/K6AKyF3hdYy8FHTZqxgbKULviPxfghLmpR5NNk96sZsm6pZfzVg4InO
-         rqUFKHADQxO/tFOOKMSnUuyY06x53E0QSbBGEpnfFtkIuc51BsaC7p6vp0IJFoq3h6Cq
-         VIhA==
-X-Forwarded-Encrypted: i=1; AJvYcCVa+CFsSOvNoJjYemC56hGJpJ/eZ4+10kujaX6JscUsIN5kSe5gpRiJbQD5OL4E0rCsh4vT9E8arpKo@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAVyJtWscJ1Xs8zSXLF+IOWDFjmrZYkK1Y+7WKqUXeHt17BaeB
-	d06M0rS0RlIf533lEvKQGY30fMuyshLKnpuj/gt3i2VOBvT0Q5klTGTB
-X-Gm-Gg: AY/fxX4XUgFcHT2DfV9KYQe445cT/5UchiQyXBge3sSyrhILAzbvON3+WnkiIrtlc0n
-	ZEAKO/2UnwJZR9dd6aQydqX424uBfGLXaM3kFUrVEfTtrJt6en30rawOR56taMl3UeW8oNYNs3A
-	XzDrpv6U/eQ8GNM/kBTiKTZI+W6TtJ3egxB6sk+Y/F7Cczv9Ze9smucjVn0FbtBQfrTrQbbSo8A
-	FirexlLBaESihePSNroBCYEp9GrbtMYi7Ny2jmho7breSmuURM2fdIBEyNnzUY2Toz0HquqHwXV
-	s4PF+UP7HqupItXvascTAxztN2uL5QEl/RBv3KeFgt4ZizD1urDIGY5Odzx++CufbhO3Jr6vyXN
-	J2BS3706kF9iYktChOleIimu2NaFn7Otki8j0fk6bnvhTOsQxvCejSpGd4gXwBB9FP1AkSZDO/N
-	4jCdlqex9tkJ0eRmvtWUxDYIsQg0NHkq6T
-X-Google-Smtp-Source: AGHT+IGr2nJFr0T7IhUA7WIZsjwAsp6TZX9YYkR4ycf2KPIvjWfeVIrCdbsDlrO+a6tFrYlEnslK9Q==
-X-Received: by 2002:a17:903:b8b:b0:298:2cdf:56c8 with SMTP id d9443c01a7336-2a2f2a565e3mr246004765ad.60.1767054810027;
-        Mon, 29 Dec 2025 16:33:30 -0800 (PST)
+        bh=h8GT9Ha1jA/0OeYqmx0KDJpRc2kzNe9zv0KeqP7AQN8=;
+        b=Sst7wYTzqe0nrdxEHK2QRiIc5auXEdniKEdj7v5lRAoJVgowX8qAcZOL3KkdBHyBdi
+         Lgc8BIGehswOYx6iioTQOg5LVOK70+iX8vPhTgw3qLq9NcsEISidk8mA1zQ3KX7DGZgx
+         MsE4I+q9RLkTPYIuDXCcLly2ZD21HMAKc9DNCES0f4aNBFp3QkuyYzvfzwEcwH1++Qye
+         JKxIMe9PuD1o99+MWgQlnD0mNg2E3QKbtAmJoCPBUTYUMVV+HX4cg9Tuxasn2HGAzkPg
+         gKkACOno7+YXQLV1gPasNzlHDHNgOK8SbAxI2akNGVwIrYPtYvspgUhguvM+he295Lca
+         xlRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX01YTx0q0ZySlw/mlvTdgXpTcxFWtc/DFBR3IRGjQeeT8cb5PKwJAJrkWxHLxs/1ucM56DvM9qJXf/@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbtEAAHqkJJRKlhy2+DPBbLw8fb3bHP4lenpNDhpVY6qwf9kls
+	vew00tWC1GA0QGTqQ8aNuv1EZun9ZGtlClLVh07R5jRBDwTZ5rte1wd1
+X-Gm-Gg: AY/fxX7RcqONqcH6clisLedlYBlbZnE82rpygUHXJmOnFVXB9+jaRGRexfAfs/9MDye
+	WSffLrbgIG1UBGoZ6EyIfg2mIiWiGAX21DmnOPOU8Gp+tpCM+mBxKjFLtUWWLv0KEso2YWBzujN
+	QVueCpPuTfk8XZx8YtvfzcDreytk8+FyUK4Sktafu9ynO5ONO2PUUYoWUtkC+aH6zIDqpJ57qcl
+	29YPMMtTbu56f/onlw5U3OG6oJnSO9kbjTcOuliyUlOiFS5sLIYzdahv6XTrD+Ga7o6ashYq6cE
+	2C5ZZdN8d4KKg1qJUC5bwJyCUV4UQv0i/gky4P3pXsm4klIc3oW40x61WRuqfoiUk1SAuBc00BW
+	vUs2C5hZoZktsjjBedKyVuf8MzSMT4STFknugOcQjH5gyFy18wK6eLNLls5K8dDhg5m7P55dHt7
+	mlnzf64Dp2QGMCWtXJDj/A4jiUT9SBOuY5
+X-Google-Smtp-Source: AGHT+IHYb88URjQs672V28Syx/JIuf5lE0zhX1nasVzffgjk5A/E2i1g8LowgnvI1JU0x6zqLRL3DA==
+X-Received: by 2002:a05:6a00:438d:b0:7e8:43f5:bd5a with SMTP id d2e1a72fcca58-7ff67852a95mr28023491b3a.70.1767054815436;
+        Mon, 29 Dec 2025 16:33:35 -0800 (PST)
 Received: from MRSPARKLE.localdomain ([150.228.155.85])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e8947a1sm30241562b3a.67.2025.12.29.16.33.25
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e8947a1sm30241562b3a.67.2025.12.29.16.33.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 16:33:29 -0800 (PST)
+        Mon, 29 Dec 2025 16:33:35 -0800 (PST)
 From: Jonathan Brophy <professorjonny98@gmail.com>
 To: lee Jones <lee@kernel.org>,
 	Pavel Machek <pavel@kernel.org>,
@@ -84,9 +84,9 @@ To: lee Jones <lee@kernel.org>,
 Cc: devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-leds@vger.kernel.org
-Subject: [PATCH v4 4/7] ABI: Add sysfs documentation for leds-group-virtualcolor
-Date: Tue, 30 Dec 2025 13:32:41 +1300
-Message-ID: <20251230003250.1197744-5-professorjonny98@gmail.com>
+Subject: [PATCH v4 5/7] leds: Add driver documentation for leds-group-virtualcolor
+Date: Tue, 30 Dec 2025 13:32:42 +1300
+Message-ID: <20251230003250.1197744-6-professorjonny98@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251230003250.1197744-1-professorjonny98@gmail.com>
 References: <20251230003250.1197744-1-professorjonny98@gmail.com>
@@ -96,207 +96,692 @@ List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 
 From: Jonathan Brophy <professor_jonny@hotmail.com>
 
-Document the sysfs ABI for the virtual LED group driver, including:
+Add comprehensive driver documentation covering:
 
-- mc/multi_intensity: Per-channel intensity control (0-255)
-- mc/multi_index: Channel-to-color-ID mapping (read-only)
-- mc/multi_multipliers: Per-channel scale factors (read-only)
-- brightness: Master brightness control with arbitration trigger
-- max_brightness: Maximum brightness value (mode-dependent)
+Architecture:
+- Winner-takes-all arbitration model
+- Priority-based selection with sequence number tie-breaking
+- Deterministic channel ordering by LED_COLOR_ID
+- Locking hierarchy to prevent deadlocks
 
-Channel ordering is deterministic, sorted by ascending LED_COLOR_ID
-value. For RGBW LEDs, white (ID=0) appears first, followed by RGB.
+Features:
+- Two operating modes (multicolor and standard)
+- Gamma correction support
+- Update batching for reduced bus traffic
+- Comprehensive debugfs interface (when CONFIG_DEBUG_FS enabled)
 
-The multi_intensity attribute is rate-limited to 100 updates/second
-per virtual LED by default, with counters visible in debugfs when
-CONFIG_DEBUG_FS is enabled.
+Configuration:
+- Device tree binding examples (RGB, RGBW, fixed-color)
+- Module parameters for tuning
+- Sysfs interface usage examples
+- Performance optimization guidelines
 
-Co-developed-by: Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-Signed-off-by: Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
+Troubleshooting:
+- Common issues and solutions
+- Debug logging instructions
+- Known limitations
+
+The documentation includes practical examples for channel ordering
+verification, priority arbitration scenarios, and debugfs monitoring.
+
 Signed-off-by: Jonathan Brophy <professor_jonny@hotmail.com>
 ---
- .../sysfs-class-led-driver-virtualcolor       | 168 ++++++++++++++++++
- 1 file changed, 168 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-class-led-driver-virtualcolor
+ .../leds/leds-group-virtualcolor.rst          | 641 ++++++++++++++++++
+ 1 file changed, 641 insertions(+)
+ create mode 100644 Documentation/leds/leds-group-virtualcolor.rst
 
-diff --git a/Documentation/ABI/testing/sysfs-class-led-driver-virtualcolor b/Documentation/ABI/testing/sysfs-class-led-driver-virtualcolor
+diff --git a/Documentation/leds/leds-group-virtualcolor.rst b/Documentation/leds/leds-group-virtualcolor.rst
 new file mode 100644
-index 000000000000..704f2e5f2af7
+index 000000000000..a885fc614840
 --- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-class-led-driver-virtualcolor
-@@ -0,0 +1,168 @@
-+What:		/sys/class/leds/<led>/mc/multi_intensity
-+Date:		December 2024
-+KernelVersion:	6.x
-+Contact:	Jonathan Brophy <professor_jonny@hotmail.com>
-+Description:
-+		Control the intensity values for each color channel in a
-+		virtual multicolor LED.
++++ b/Documentation/leds/leds-group-virtualcolor.rst
+@@ -0,0 +1,641 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+		Reading returns space-separated intensity values (0-255) for
-+		each configured color channel. Channel order is deterministic,
-+		sorted by ascending LED_COLOR_ID value. Use multi_index to
-+		determine which color corresponds to each position.
++=====================================================
++Virtual Grouped LED Driver with Multicolor ABI
++=====================================================
 +
-+		Writing accepts space-separated intensity values to set the
-+		per-channel intensities. The number of values must match the
-+		number of channels. Values must be ordered to match multi_index.
++:Author: Jonathan Brophy <professor_jonny@hotmail.com>
++:Version: 4
 +
-+		Channel ordering examples:
-+		  RGB LED (no white):
-+		    multi_index shows "1 2 3"
-+		    Order is: red (ID 1), green (ID 2), blue (ID 3)
++Overview
++========
 +
-+		  RGBW LED (with white):
-+		    multi_index shows "0 1 2 3"
-+		    Order is: white (ID 0), red (ID 1), green (ID 2), blue (ID 3)
-+		    Note: White comes FIRST because LED_COLOR_ID_WHITE = 0
++The ``leds-group-virtualcolor`` driver provides virtual LED devices that
++arbitrate control over shared physical LEDs based on priority. Multiple
++virtual LEDs can reference the same physical LEDs, with winner-takes-all
++arbitration determining which virtual LED controls the hardware.
 +
-+		Example (RGB LED with 3 channels):
-+		  $ cat /sys/class/leds/myled/mc/multi_index
-+		  1 2 3
-+		  $ cat /sys/class/leds/myled/mc/multi_intensity
-+		  255 128 0
-+		  $ echo "128 64 200" > /sys/class/leds/myled/mc/multi_intensity
++This enables complex lighting scenarios where different subsystems (e.g.,
++notifications, indicators, effects) can request LED control without explicit
++coordination. The driver handles arbitration automatically using a
++priority-based system with sequence number tiebreaking.
 +
-+		Note: In standard mode (led-mode = "standard"), intensity
-+		changes are rejected with -EPERM and the color is fixed by the
-+		channel multipliers defined in the device tree. In multicolor
-+		mode (led-mode = "multicolor", default), intensity can be
-+		freely modified.
++Key Features
++============
 +
-+		This attribute is rate-limited to prevent system overload
-+		(default: 100 updates/second per virtual LED). Excessive
-+		updates will be silently dropped with incremented rate limit
-+		counters (visible in debugfs when CONFIG_DEBUG_FS enabled).
++* **Winner-takes-all arbitration**: Only ONE virtual LED controls hardware at any time
++* **Priority-based selection**: Higher priority virtual LEDs win control
++* **Sequence-based tiebreaking**: Most recent update wins among equal priorities
++* **Multicolor ABI support**: Standard Linux multicolor LED interface
++* **Deterministic channel ordering**: Channels sorted by LED_COLOR_ID value
++* **Two operating modes**:
 +
-+What:		/sys/class/leds/<led>/mc/multi_index
-+Date:		December 2024
-+KernelVersion:	6.x
-+Contact:	Jonathan Brophy <professor_jonny@hotmail.com>
-+Description:
-+		Read-only attribute showing the LED color IDs for each channel
-+		in the virtual LED.
++  - Multicolor mode (dynamic color mixing with intensity control)
++  - Standard mode (fixed color multipliers, brightness-only control)
 +
-+		Returns space-separated LED_COLOR_ID_* values (integers)
-+		corresponding to each channel. Channels are ordered by
-+		ascending color ID value (0, 1, 2, 3, ...).
++* **Gamma correction**: Optional perceptual brightness correction
++* **Update batching**: Debounces rapid changes to reduce bus traffic
++* **Comprehensive debugfs**: Runtime statistics and diagnostics (when CONFIG_DEBUG_FS enabled)
++* **Power management**: Suspend/resume with state preservation
 +
-+		See include/dt-bindings/leds/common.h for color ID definitions.
++Hardware Support
++================
 +
-+		Common color ID values:
-+		  - 0: LED_COLOR_ID_WHITE
-+		  - 1: LED_COLOR_ID_RED
-+		  - 2: LED_COLOR_ID_GREEN
-+		  - 3: LED_COLOR_ID_BLUE
-+		  - 4: LED_COLOR_ID_AMBER
-+		  - 5: LED_COLOR_ID_VIOLET
-+		  - 6: LED_COLOR_ID_YELLOW
-+		  - 7: LED_COLOR_ID_IR
-+		  - 8: LED_COLOR_ID_MULTI
-+		  - 9: LED_COLOR_ID_RGB
-+		  - 10: LED_COLOR_ID_UV
++The driver works with any physical LED devices that expose the standard
++``led_classdev`` interface. Physical LEDs are referenced via device tree
++phandles and can be:
 +
-+		Example (RGB LED):
-+		  $ cat /sys/class/leds/myled/mc/multi_index
-+		  1 2 3
-+		  (Shows: red=1, green=2, blue=3)
++* GPIO LEDs (gpio-leds compatible)
++* PWM LEDs (pwm-leds compatible)
++* I2C-connected LED controllers
++* SPI-connected LED controllers
++* Any device using the Linux LED subsystem
 +
-+		Example (RGBW LED):
-+		  $ cat /sys/class/leds/myled/mc/multi_index
-+		  0 1 2 3
-+		  (Shows: white=0, red=1, green=2, blue=3)
++Architecture
++============
 +
-+		This attribute is essential for correctly indexing the
-+		multi_intensity and mc-channel-multipliers arrays, especially
-+		when white LEDs are present (which come first due to ID=0).
++Winner-Takes-All Arbitration
++-----------------------------
 +
-+What:		/sys/class/leds/<led>/mc/multi_multipliers
-+Date:		December 2024
-+KernelVersion:	6.x
-+Contact:	Jonathan Brophy <professor_jonny@hotmail.com>
-+Description:
-+		Read-only attribute showing the scale/multiplier values (0-255)
-+		for each color channel.
++The driver uses a winner-takes-all arbitration model:
 +
-+		Multipliers are defined in device tree via the
-+		"mc-channel-multipliers" property and must be ordered to match
-+		the channel order (sorted by LED_COLOR_ID).
++1. Only virtual LEDs with brightness > 0 participate in arbitration
++2. The virtual LED with the highest priority wins
++3. If priorities are equal, the most recently updated virtual LED wins (sequence number)
++4. The winner controls **ALL** physical LEDs
++5. Physical LEDs not used by the winner are turned off
 +
-+		In multicolor mode, these scale the intensity values:
-+		  final = (intensity * multiplier / 255) * brightness / max_brightness
++Each virtual LED has:
 +
-+		In standard mode, these define the fixed color mix:
-+		  final = multiplier * brightness / max_brightness
++* **Priority** (0 to INT_MAX): Higher values win arbitration
++* **Sequence number**: Atomic counter incremented on brightness changes
++* **Channel configuration**: Maps physical LEDs to color channels
 +
-+		Returns space-separated values (0-255), one per channel, in the
-+		same order as multi_index.
++Channel Ordering
++----------------
 +
-+		Example (RGB LED):
-+		  $ cat /sys/class/leds/myled/mc/multi_index
-+		  1 2 3
-+		  $ cat /sys/class/leds/myled/mc/multi_multipliers
-+		  255 200 150
-+		  (Shows: red=255, green=200, blue=150)
++Physical LEDs are automatically grouped into channels by their color property.
++**Channels are ordered by ascending LED_COLOR_ID value** (0, 1, 2, 3, ...).
 +
-+		Example (RGBW warm white):
-+		  $ cat /sys/class/leds/myled/mc/multi_index
-+		  0 1 2 3
-+		  $ cat /sys/class/leds/myled/mc/multi_multipliers
-+		  180 255 200 100
-+		  (Shows: white=180, red=255, green=200, blue=100)
++This ordering is deterministic and can be verified at runtime via the
++``multi_index`` sysfs attribute.
 +
-+What:		/sys/class/leds/<led>/brightness
-+Date:		December 2024
-+KernelVersion:	6.x
-+Contact:	Jonathan Brophy <professor_jonny@hotmail.com>
-+Description:
-+		Control the overall brightness of the virtual LED.
++Example color ID values:
 +
-+		This is the standard LED class attribute. For virtual grouped
-+		LEDs, this controls the master brightness that scales all
-+		physical LEDs assigned to this virtual LED after per-channel
-+		intensity and multipliers are applied.
++* LED_COLOR_ID_WHITE = 0
++* LED_COLOR_ID_RED = 1
++* LED_COLOR_ID_GREEN = 2
++* LED_COLOR_ID_BLUE = 3
++* LED_COLOR_ID_AMBER = 4
++* LED_COLOR_ID_VIOLET = 5
 +
-+		Writing brightness triggers the winner-takes-all arbitration
-+		engine which determines which virtual LED controls the hardware
-+		based on:
-+		  1. Priority (higher wins)
-+		  2. Sequence number (most recent wins on tie)
-+		  3. Only virtual LEDs with brightness > 0 participate
++For a virtual LED with ``leds = <&white>, <&red>, <&green>, <&blue>``:
 +
-+		The winner controls ALL physical LEDs. Physical LEDs not used
-+		by the winner are turned off.
++* Channel order: [0]=white (ID 0), [1]=red (ID 1), [2]=green (ID 2), [3]=blue (ID 3)
++* multi_index reports: "0 1 2 3"
++* multi_intensity order: white red green blue
 +
-+		Range: 0 to max_brightness (typically 0-255)
++For a virtual LED with ``leds = <&red>, <&green>, <&blue>`` (no white):
 +
-+		Reading returns the current brightness setting.
++* Channel order: [0]=red (ID 1), [1]=green (ID 2), [2]=blue (ID 3)
++* multi_index reports: "1 2 3"
++* multi_intensity order: red green blue
 +
-+		Example:
-+		  $ echo 128 > /sys/class/leds/myled/brightness
-+		  $ cat /sys/class/leds/myled/brightness
-+		  128
++Brightness Calculation
++----------------------
 +
-+What:		/sys/class/leds/<led>/max_brightness
-+Date:		December 2024
-+KernelVersion:	6.x
-+Contact:	Jonathan Brophy <professor_jonny@hotmail.com>
-+Description:
-+		Read-only attribute showing the maximum brightness value.
++Final physical LED brightness is calculated as::
 +
-+		For multicolor mode virtual LEDs, this is always 255 to provide
-+		full 8-bit resolution for color mixing.
++    channel_value = intensity * multiplier / 255  (in multicolor mode)
++                    multiplier                     (in standard mode)
 +
-+		For standard mode virtual LEDs, this is the minimum max_brightness
-+		among all physical LEDs referenced by the virtual LED.
++    scaled_value = channel_value * vled_brightness / vled_max_brightness
 +
-+		Example:
-+		  $ cat /sys/class/leds/myled/max_brightness
-+		  255
++    final_brightness = gamma_table[scaled_value]   (if gamma enabled)
++                       scaled_value                 (if gamma disabled)
++
++Locking Hierarchy
++-----------------
++
++To prevent deadlocks, locks must be acquired in this order:
++
++1. ``vcolor_controller.lock`` (per-controller, protects arbitration state)
++2. ``global_owner_rwsem`` (global, protects physical LED ownership)
++3. ``virtual_led.lock`` (per-vLED, protects channel data)
++
++Virtual LED locks are never held during arbitration. The driver copies
++channel state under lock, then releases before processing.
++
++Device Tree Bindings
++====================
++
++Controller Node
++---------------
++
++``compatible``
++    Must be "leds-group-virtualcolor"
++
++``#address-cells``
++    Must be 1
++
++``#size-cells``
++    Must be 0
++
++Child Node Properties (Virtual LEDs)
++-------------------------------------
++
++Each child node represents one virtual LED.
++
++``reg``
++    Unique index for this virtual LED (required)
++
++``color``
++    LED_COLOR_ID value (typically LED_COLOR_ID_MULTI for multicolor LEDs)
++
++``function``
++    LED function identifier (e.g., LED_FUNCTION_STATUS)
++
++``leds``
++    Phandle array referencing physical LED devices (required).
++    Physical LEDs are grouped by their color property into channels.
++    Channel order is determined by ascending LED_COLOR_ID value.
++
++``priority``
++    Integer priority value (0 to 2147483647). Higher values win
++    arbitration. Default: 0
++
++``led-mode``
++    Operating mode, either "multicolor" or "standard".
++    Default: "multicolor"
++
++    * **multicolor**: Intensity can be changed via multi_intensity sysfs
++    * **standard**: Color fixed by multipliers, only brightness control available
++
++``mc-channel-multipliers``
++    Array of u32 values (0-255), one per color channel. Optional.
++    Must be ordered to match the channel order (sorted by color ID).
++    Default: 255 for all channels
++
++    * In multicolor mode: Scales intensity values
++    * In standard mode: Defines fixed color mix (required)
++
++``linux,default-trigger``
++    Default LED trigger (e.g., "heartbeat", "none")
++
++Example Device Tree
++-------------------
++
++Basic RGB LED with Priority
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: dts
++
++    #include <dt-bindings/leds/common.h>
++
++    virtualcolor {
++        compatible = "leds-group-virtualcolor";
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        notification_led: virtual-led@0 {
++            reg = <0>;
++            color = <LED_COLOR_ID_MULTI>;
++            function = LED_FUNCTION_STATUS;
++            priority = <100>;
++            led-mode = "multicolor";
++            leds = <&red_led>, <&green_led>, <&blue_led>;
++            /* Channels: [0]=red (ID 1), [1]=green (ID 2), [2]=blue (ID 3) */
++        };
++
++        ambient_led: virtual-led@1 {
++            reg = <1>;
++            color = <LED_COLOR_ID_MULTI>;
++            function = LED_FUNCTION_STATUS;
++            priority = <10>;
++            led-mode = "multicolor";
++            leds = <&red_led>, <&green_led>, <&blue_led>;
++        };
++    };
++
++RGBW LED with White Channel
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: dts
++
++    virtualcolor {
++        compatible = "leds-group-virtualcolor";
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        status_led: virtual-led@0 {
++            reg = <0>;
++            color = <LED_COLOR_ID_MULTI>;
++            function = LED_FUNCTION_STATUS;
++            priority = <100>;
++            led-mode = "multicolor";
++            leds = <&red_led>, <&green_led>, <&blue_led>, <&white_led>;
++            /* Channels: [0]=white (ID 0), [1]=red, [2]=green, [3]=blue */
++            /* Note: White comes FIRST because LED_COLOR_ID_WHITE = 0 */
++        };
++    };
++
++Standard Mode with Fixed Color
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: dts
++
++    virtualcolor {
++        compatible = "leds-group-virtualcolor";
++        #address-cells = <1>;
++        #size-sizes = <0>;
++
++        warm_white: virtual-led@0 {
++            reg = <0>;
++            color = <LED_COLOR_ID_MULTI>;
++            function = LED_FUNCTION_STATUS;
++            priority = <50>;
++            led-mode = "standard";
++            leds = <&red_led>, <&green_led>, <&blue_led>;
++            mc-channel-multipliers = <255 180 100>;
++            /* Channels: [0]=red:255, [1]=green:180, [2]=blue:100 */
++            /* Creates warm white: full red, 70% green, 40% blue */
++        };
++    };
++
++Sysfs Interface
++===============
++
++Each virtual LED creates a standard LED class device at::
++
++    /sys/class/leds/<device>:<label>/
++
++Standard LED Attributes
++-----------------------
++
++``brightness``
++    RW, 0-max_brightness. Master brightness control.
++
++    Writing brightness triggers arbitration which determines which
++    virtual LED controls each physical LED based on priority and
++    sequence numbers.
++
++``max_brightness``
++    RO, maximum brightness value (typically 255 for multicolor mode).
++
++``trigger``
++    RW, LED trigger name (standard LED class).
++
++Multicolor Attributes (mc/ subdirectory)
++-----------------------------------------
++
++``mc/multi_intensity``
++    RW (multicolor mode), RO (standard mode)
++
++    Space-separated intensity values (0-255), one per channel.
++    Order matches the channel order shown in multi_index.
++
++    Example usage::
++
++        # Verify channel order first
++        $ cat /sys/class/leds/status:multi/mc/multi_index
++        1 2 3
++        # Shows [0]=red (ID 1), [1]=green (ID 2), [2]=blue (ID 3)
++
++        # Set RGB to 255, 128, 0 (orange)
++        $ echo "255 128 0" > /sys/class/leds/status:multi/mc/multi_intensity
++
++``mc/multi_index``
++    RO, space-separated LED_COLOR_ID values.
++    Shows the color ID for each channel position.
++
++``mc/multi_multipliers``
++    RO, space-separated multiplier values (0-255).
++    Shows the scale factors applied to each channel.
++
++Module Parameters
++=================
++
++``enable_debugfs`` (bool, default: y if CONFIG_DEBUG_FS)
++    Enable debugfs diagnostics interface at /sys/kernel/debug/leds-group-virtualcolor-*/
++
++``use_gamma_correction`` (bool, default: n)
++    Apply perceptual gamma correction (2.2) to brightness values.
++
++``update_delay_us`` (uint, default: 0)
++    Artificial delay in microseconds between physical LED updates.
++    Useful for rate-limiting slow buses (I2C). Max: 1000000 (1 second)
++
++``max_phys_leds`` (uint, default: 64)
++    Maximum number of unique physical LEDs per controller. Increase if you see
++    "Update buffer overflow" errors. Range: 1-1024
++
++``enable_update_batching`` (bool, default: n)
++    Enable update batching/debouncing with 10ms delay.
++    Reduces overhead for applications doing rapid brightness changes.
++
++Debugfs Interface
++=================
++
++When ``enable_debugfs=true`` and ``CONFIG_DEBUG_FS=y``, diagnostics are available at::
++
++    /sys/kernel/debug/leds-group-virtualcolor-<device>/
++
++Available Files
++---------------
++
++``stats``
++    RO, controller-level statistics:
++
++    * Arbitration cycle count
++    * LED update count
++    * Last update timestamp
++    * Error counters (allocation failures, buffer overflows, rate limits)
++    * Arbitration latency (min/max/average in nanoseconds)
++    * Configuration (gamma, batching, delays, max_phys_leds)
++    * Global sequence counter
++
++``vled_stats``
++    RO, per-virtual-LED statistics:
++
++    * Brightness set count
++    * Intensity update count
++    * Blink requests count
++    * Sequence number
++    * Arbitration participation/win/loss counts
++    * Win rate percentage
++    * Error counters (buffer failures, parse errors, rate limit drops)
++
++``phys_led_states``
++    RO, current state of each physical LED:
++
++    * LED name
++    * Chosen brightness
++    * Controlling priority
++    * Sequence number
++    * Winner virtual LED name
++
++``claimed_leds``
++    RO, total count of globally claimed physical LEDs across all controllers.
++
++``selftest``
++    RO, driver self-test output showing configuration and status.
++
++``stress_test``
++    WO, trigger stress test: ``echo <iterations> > stress_test``
++
++    Runs randomized brightness and intensity updates to test
++    arbitration under load. Max 10000 iterations.
++
++``rebuild``
++    WO, trigger physical LED list rebuild: ``echo 1 > rebuild``
++
++    Forces re-discovery of all physical LEDs. Useful for debugging.
++
++Example Usage
++=============
++
++Basic Control
++-------------
++
++.. code-block:: bash
++
++    # Set notification LED to red at full brightness
++    echo 255 > /sys/class/leds/platform:notification/brightness
++    echo "255 0 0" > /sys/class/leds/platform:notification/mc/multi_intensity
++
++    # Set ambient LED to blue at 50% brightness
++    echo 128 > /sys/class/leds/platform:ambient/brightness
++    echo "0 0 255" > /sys/class/leds/platform:ambient/mc/multi_intensity
++
++Verifying Channel Order
++------------------------
++
++.. code-block:: bash
++
++    # Check which color is which channel
++    $ cat /sys/class/leds/status:multi/mc/multi_index
++    0 1 2 3
++    # This means: [0]=white (ID 0), [1]=red (ID 1), [2]=green (ID 2), [3]=blue (ID 3)
++
++    # Set intensities in that order: white=100, red=255, green=0, blue=0
++    $ echo "100 255 0 0" > /sys/class/leds/status:multi/mc/multi_intensity
++
++Priority Arbitration Example
++-----------------------------
++
++.. code-block:: bash
++
++    # Both virtual LEDs reference the same physical red LED
++    # notification has priority=100, ambient has priority=10
++
++    # Turn on ambient (low priority)
++    echo 255 > /sys/class/leds/platform:ambient/brightness
++    echo "255 0 0" > /sys/class/leds/platform:ambient/mc/multi_intensity
++    # Red LED is on at 255
++
++    # Turn on notification (high priority) - it TAKES OVER
++    echo 200 > /sys/class/leds/platform:notification/brightness
++    echo "200 0 0" > /sys/class/leds/platform:notification/mc/multi_intensity
++    # Red LED changes to 200 (notification wins, ambient ignored)
++
++    # Turn off notification
++    echo 0 > /sys/class/leds/platform:notification/brightness
++    # Red LED returns to 255 (ambient regains control)
++
++Monitoring with Debugfs
++------------------------
++
++.. code-block:: bash
++
++    # Watch arbitration statistics
++    watch -n 1 cat /sys/kernel/debug/leds-group-virtualcolor-platform/stats
++
++    # Check which vLED is winning
++    cat /sys/kernel/debug/leds-group-virtualcolor-platform/phys_led_states
++
++    # Monitor per-LED stats
++    cat /sys/kernel/debug/leds-group-virtualcolor-platform/vled_stats
++
++Performance Tuning
++==================
++
++Buffer Sizing
++-------------
++
++If you see "Update buffer overflow" errors in dmesg:
++
++.. code-block:: bash
++
++    # Count unique physical LEDs referenced in your device tree
++    # Add 25% headroom and set max_phys_leds
++
++    sudo rmmod leds_group_virtualcolor
++    sudo modprobe leds_group_virtualcolor max_phys_leds=80
++
++Rate Limiting
++-------------
++
++For I2C LED controllers on slow buses:
++
++.. code-block:: bash
++
++    # Add 500µs delay between updates
++    sudo modprobe leds_group_virtualcolor update_delay_us=500
++
++    # Or enable update batching (10ms debounce)
++    sudo modprobe leds_group_virtualcolor enable_update_batching=1
++
++Gamma Correction
++----------------
++
++For LEDs used in human-visible applications:
++
++.. code-block:: bash
++
++    # Enable perceptual brightness correction (gamma 2.2)
++    sudo modprobe leds_group_virtualcolor use_gamma_correction=1
++
++Troubleshooting
++===============
++
++Common Issues
++-------------
++
++**"Update buffer overflow" errors**
++    Physical LED count exceeds max_phys_leds. Increase the module parameter
++    to match or exceed the number of unique physical LEDs in your device tree.
++
++**"Physical LED already claimed" warnings**
++    Another virtualcolor controller instance is already managing this LED.
++    Each physical LED can only be claimed by one controller instance.
++
++**Intensity updates rejected in standard mode**
++    This is expected behavior. Standard mode locks color to the multipliers
++    defined in device tree. Switch to multicolor mode if dynamic color
++    control is needed.
++
++**LEDs flicker rapidly during software PWM**
++    Enable update batching: ``enable_update_batching=1``
++
++**Slow LED response on I2C**
++    Add update delay: ``update_delay_us=500`` (adjust based on bus speed)
++
++**Linear brightness doesn't match perception**
++    Enable gamma correction: ``use_gamma_correction=1``
++
++**Wrong color appears for RGBW LED**
++    Check channel order with multi_index. White (ID=0) comes before RGB (IDs 1-3).
++
++    Example::
++
++        $ cat /sys/class/leds/myled/mc/multi_index
++        0 1 2 3
++        # Order is: white, red, green, blue
++
++        $ echo "0 255 0 0" > /sys/class/leds/myled/mc/multi_intensity
++        # This sets: white=0, red=255, green=0, blue=0
++
++Debug Logging
++-------------
++
++Enable driver debug messages:
++
++.. code-block:: bash
++
++    # Dynamic debug (if enabled in kernel)
++    echo "module leds_group_virtualcolor +p" > /sys/kernel/debug/dynamic_debug/control
++
++    # Check kernel messages
++    dmesg | grep virtualcolor
++
++Known Limitations
++=================
++
++* Physical LEDs cannot be shared between multiple virtualcolor controller
++  instances (enforced via global ownership tracking with global_owner_xa)
++
++* Maximum 1024 unique physical LEDs per controller (configurable via
++  ``max_phys_leds`` parameter)
++
++* Rate limiting on intensity changes may drop updates under extreme load
++  (>100 updates/second per vLED by default)
++
++* Update batching introduces 10ms latency (disable if real-time response
++  is critical)
++
++* Debugfs statistics are only available when CONFIG_DEBUG_FS is enabled
++  (struct sizes reduced by ~30% when disabled)
++
++Testing
++=======
++
++The driver includes built-in self-tests accessible via debugfs:
++
++.. code-block:: bash
++
++    # Run self-test
++    cat /sys/kernel/debug/leds-group-virtualcolor-platform/selftest
++
++    # Run stress test (1000 iterations)
++    echo 1000 > /sys/kernel/debug/leds-group-virtualcolor-platform/stress_test
++
++    # Watch dmesg for results
++    dmesg | tail -20
++
++Development and Debugging
++=========================
++
++Adding Instrumentation
++----------------------
++
++The driver uses conditional compilation for debug features. To add custom
++telemetry:
++
++.. code-block:: c
++
++    #ifdef CONFIG_DEBUG_FS
++    vled->my_custom_counter++;
++    #endif
++
++This ensures zero overhead in production builds when CONFIG_DEBUG_FS is
++disabled.
++
++Memory Layout
++-------------
++
++Key structures with memory optimization:
++
++* ``struct virtual_led``: ~200 bytes (non-debug), ~300 bytes (debug)
++* ``struct phys_led_entry``: ~120 bytes (non-debug), ~220 bytes (debug)
++* ``struct vcolor_controller``: ~400 bytes (non-debug), ~600 bytes (debug)
++
++Contributing
++============
++
++Patches should be sent to the LED subsystem maintainers:
++
++* Pavel Machek <pavel@ucw.cz>
++* Lee Jones <lee@kernel.org>
++* linux-leds@vger.kernel.org
++
++Ensure patches:
++
++1. Follow kernel coding style (checkpatch.pl --strict)
++2. Include appropriate Signed-off-by tags
++3. Update documentation if ABI/behavior changes
++4. Test with CONFIG_DEBUG_FS=y and =n
++5. Run sparse/smatch static analysis
++6. Test on actual hardware with multiple virtual LED configurations
++
++References
++==========
++
++* LED subsystem documentation: Documentation/leds/
++* Multicolor LED class: Documentation/leds/leds-class-multicolor.rst
++* Device tree bindings: Documentation/devicetree/bindings/leds/
++* LED device tree common properties: include/dt-bindings/leds/common.h
++
++License
++=======
++
++This driver is licensed under GPL v2. See COPYING for details.
 --
 2.43.0
 
