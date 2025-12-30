@@ -1,75 +1,77 @@
-Return-Path: <linux-leds+bounces-6483-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6484-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3583CE867D
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Dec 2025 01:33:13 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF262CE8683
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Dec 2025 01:33:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6CB2E300983C
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Dec 2025 00:33:12 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 2AEE230028BF
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Dec 2025 00:33:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53E552D97AA;
-	Tue, 30 Dec 2025 00:33:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACB9A2D9EF9;
+	Tue, 30 Dec 2025 00:33:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U4WZJ9QW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GeXINmzL"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC9D1519B4
-	for <linux-leds@vger.kernel.org>; Tue, 30 Dec 2025 00:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D532D97A4
+	for <linux-leds@vger.kernel.org>; Tue, 30 Dec 2025 00:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767054791; cv=none; b=KMSUN+L4pxpgDRzZssMAvrmSnGNeHxwHX/VBHIKM8n1/iEgd8sZIi4OTLbWpinWX01oOePYGENGxt9+QEP9BnH9+7opZ6clTvGBT94lQghi5LlX7kuOS40bJ/GC9jHv0cy4SCzEHF44J6t3qB6O4fN1iZHQ5p3h/pC6uoXPwtoA=
+	t=1767054796; cv=none; b=E9pB+gXE/5x87Bo1XhBTx/sTDVUtHpcF8KPbGdoQGlZusCMGSSagl+G0RilAObMYk9FNkUbyojMssVZ2cFlcB6p2n8i3RlivFBVDW2n3rHz+iWr1/2wT9c2TNLDKcV+EkEQhyyCPLFwMT+J16aECGuvGLigh1QcZhltca3XG2E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767054791; c=relaxed/simple;
-	bh=3y1NVc5vWTSx3MmvStySWn0mxLBSepomzp/r9o4iIeg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eIRhi53tUKNu76DBgG9agujv6U/ajoVSTw0G06XwudS+dC6hexjAn1/iLP8ePf88hroej6+k7HmWNGjB127jkjqZ4s+k/6Fjy050BDdhTxrt1YBBvZfErJL9K9FSCnsQi4eU+Z053Cz0SRiToNHGmJBxKouUnyDGehNqh3a15zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U4WZJ9QW; arc=none smtp.client-ip=209.85.210.175
+	s=arc-20240116; t=1767054796; c=relaxed/simple;
+	bh=fGf2+7rah7o8VIl3XrKMGN/1rQuHOlVs273H9WmWF5A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OgscmGRhpvGNEiAetd2GI30ZLNgNcmrueolg3l3NuAKFBYpVK9pWCzKRAaSbEs2j5A/9oNiFDWjVLxMLHKH/gAMYwodHwEi5FhmpyCm9JiQCC/0xOCqWR6lXIuYvxYROr5NZdrjTwApuUqtB/wPC569mBYsHEZ94cQpkS1cSLY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GeXINmzL; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7aae5f2633dso9686943b3a.3
-        for <linux-leds@vger.kernel.org>; Mon, 29 Dec 2025 16:33:09 -0800 (PST)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7b80fed1505so9576397b3a.3
+        for <linux-leds@vger.kernel.org>; Mon, 29 Dec 2025 16:33:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767054789; x=1767659589; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kYf7zCvIjBULgzq6jQ3x0ChfTPBHY+SYJeU7DZ2l1d0=;
-        b=U4WZJ9QW0Kws4f/Y2fiVgd3cRZEsFpDZr8G0CTYuO/yfVIotZ2k6XKppYTMUOGkbO9
-         IowtPI9GrpQh+mz7jhkId7wanzl6pbv62cwDK+BENKNFAYKr70dwcb8X7IwxVDpc+ddg
-         afxQied18lJTWMS7ECHGzMeKkA0qN0Ewo+szJkNAfE/tYYpI6+vZn6kQFh8M3nd2baNq
-         AsQjnBI9hKXjrgzofeqZTw17xJ+PXZDVE6nJUdWlpUL8D+YBHL+TSparUnn3YtNMNVEC
-         X5x5yJGJ78grEv8pIK/yMxi4AbXYqNlkLhXnZo5KMIubCwdJQZY1bor9BtiDoz5m4jJe
-         5h8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767054789; x=1767659589;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1767054794; x=1767659594; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kYf7zCvIjBULgzq6jQ3x0ChfTPBHY+SYJeU7DZ2l1d0=;
-        b=AhaHU/pPUfvZApSomxVRh1+MyX8w2ohMr7F5Y6cIfHx4GqEcA8Yb1bA80jJvbnBlkv
-         JisTRiVwaYLXqBsUfeLsD6jPUbLjt2L5W/isH7zpduTq5T/Ozx3Gk2jQxSmdFoWeG9nC
-         8WQBsLduan6NAkkEzK84fa7MXQTOJab5757SESvduqhZveUR5xcBQW/aPkgtTkrEXdu0
-         2uQDLe681V2P2epFosQUM44DJFA0KEgdhn4fumKJhORftXcvIHsz2Q47xxXdlqchfOy7
-         s0FhZEo3q48rQkDNzGKasgQGWo4f4lwXtoghHvxvb5B/uml7lbNAHwaR/WI11GviWB7R
-         q3Fg==
-X-Forwarded-Encrypted: i=1; AJvYcCW0EMtClw+rdT4+PYr8nx69g5SelK91ReL0n4oJCQ3aKQvaB8XyuGk63Db549Bu/1pMemTwSkhY+/Ul@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkMmwQj682/7Y6f1z71iMOnIN4R++pPJVSYkRwbKSrLCgEpt6R
-	JHerx+oeX7TMwYFgCNTbGHEgMe9acemUHDygHnTpUPN1wcaVcb4NKar8
-X-Gm-Gg: AY/fxX7xSJPObhUWEDUxYddBIAX74LNwbF7ahq03BuRcX9YiUpRJlAjULKrirPPdTx0
-	wuOuU369F8wTrbV+zywjwjiQEP3rTlopemjCa2lG8B0fT3UQHCiJyi+itl+ya2HlnpRA8OlMZET
-	gnsNmmPyNU8jUtQIObPAABvrAuDDbMAYFgslbQ/r2kt89i0wFLvrZU8WBw4lymDARTYsJYr0D7n
-	Cckfm9W1Qa3YSG1spbafb67rd0SOkgQoeqsH9c+0V3aLnkdgvG3oxeMBveJsivzRrNhzdxpCe45
-	xjVJWHYxUsLqptFUoaTcA6LgES482lzD/xUwpcH3jqSwlptQiCakSJYoINjtn7L0XoWetRhQXtX
-	d2WkJzEu/qqBpeHUrE2EqtZ5B2Q1K0siVv3c/Nfa2ZfqaRmx9nHvAUL7hqUOFL6HrrgSfbxX58U
-	9gmv1N9eZRLV6kOFjZ0kTpQwrdWhzOb5Zm
-X-Google-Smtp-Source: AGHT+IFWBwGON5rFBSn5eTP82qw9eZo63G+2uS0ADX0k9HKBZ1vIa62hb0xOdbLqWkBnpUg0QtrRfw==
-X-Received: by 2002:a05:6a00:44c4:b0:7fe:788e:4ef6 with SMTP id d2e1a72fcca58-7ff66d5fc38mr29639210b3a.62.1767054788992;
-        Mon, 29 Dec 2025 16:33:08 -0800 (PST)
+        bh=w+aoWuGKUE3COGr8tLv4S8keRb3mm8yhErb3FfXmO/0=;
+        b=GeXINmzLp9TxEbGCIVCbWtKichssigVNQJ//3qKTs+G+WNim29vWQyKkL2sddgLVeV
+         PFfyDGXM+SKiNLSiQ+uZk/Wk+wle+TmvS+FudlsSERhBOVPShCTbpvsKw6ysHtZTmHu3
+         4xerCfznqPPwQz0h9Y4XjTs2UHE84c1YrP39ALt5WZe1iGHtRed0l1gQ9FAcV3m+X6xi
+         DVlp0wF3dOGAAbvoon6C4JH/z5m/MrDYTgDRK5ldTwwnGqhVh3awaITtcXUF/Jdev3iF
+         Q4DghJnK8woQtLtCduaRobTgCi3CzogbK89DTFOIIa8y5abtksSTV1kcdtyGNi4knyFl
+         6j4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767054794; x=1767659594;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=w+aoWuGKUE3COGr8tLv4S8keRb3mm8yhErb3FfXmO/0=;
+        b=f9fQMsWhAACVhMEixQDJYSg4VsShxioMSWbB4yRM/AGftVFBzN/gXMK21e0gsd3348
+         GlipKWpZUci6Ivw/Jg9ZMdDN5+tQWyLIPhi+B4MOwPuuWKxxYaZCmj4GNaiT+R/5I2xp
+         BkcIkaOtFUdDuvzEDgC/e9swOueUS3Mmspbm/wIh0Lrx+wO+3tKnMxEuQrb8qY474HA7
+         uh0P3JHksALV/qXGap1K4xkB+m4e4TPm2ZBSeixjpF1SbQSiZ2NefbmJpTWtkp/PBe8m
+         fNNWn8frE3jJf/ezm5bfdaAKONLi4++kAXWlJh0v2gWXMllYayFtZJQ5YCWQU+uecbQ9
+         CiIg==
+X-Forwarded-Encrypted: i=1; AJvYcCXWIOJb+TeiknLGQTfEd9OcdPL2UjrQRRdZ8QrZZFRSQdPZR3Lf2xLEGXt+zmXXH05PVX849iLqASK4@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1BBFbjiaR7K+KbJfBfxajak7j3FP5yGSkADC05LdwBQ4aY4Oc
+	duuQiANtj6iYNyxGOAq408d5fSAZtQXA9+AiO3iSAXg4D/UT1ybZ9krG
+X-Gm-Gg: AY/fxX63hdnbbGyy70HvfGVLZCCpqlTetpM3sJeTe5GcsX2H6wVZxg+rUI7/FcieYtY
+	62rwTU7NBKmB6wMAYn2Ds99ZC4/Xr5DyfuYWWFZzKpJwtJPbmGp0G+pCpPvRbxbWzlnYfmSozZo
+	ctInUQdnRyoiJlIyOwISVkWHtZkXKI0RgC/pCM28tzlI2KPg7OGn/5tISNBYHtNWDniU6zj+hzp
+	46paDjb2TsOMzijy5/n1wbaxX6YUZJMI8JMFfdGKqqZIdM9xVUpC8HiMMwXM6TwLIoWII1W7pI0
+	IhL7E5exCsqnBemFawKxGy+/Vk77dRGUi+SjqzVSWbnU2VCretxdk9xOGPI7qLnzgFa/EcNTnNi
+	6bHnItAAuUYW0N4YvnAdtUyPsvw8KI/eU8CF7LaUkRQ62ytUinAzY75EjK1udeJse4ov5Bmyt7z
+	8P1qAgQ0p9WIEuTDw5QFKd47E7nhlprWuf
+X-Google-Smtp-Source: AGHT+IFbH+4hMlX8jR68jhxeA2GuQCXZA/rHynA6Og3i4DEdsBCk1t6PdYvdmO1Pt+LUzGmugFGZwQ==
+X-Received: by 2002:a05:6a00:e11:b0:7b8:8d43:fcd1 with SMTP id d2e1a72fcca58-7ff64215183mr25337015b3a.9.1767054794267;
+        Mon, 29 Dec 2025 16:33:14 -0800 (PST)
 Received: from MRSPARKLE.localdomain ([150.228.155.85])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e8947a1sm30241562b3a.67.2025.12.29.16.33.04
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e8947a1sm30241562b3a.67.2025.12.29.16.33.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 16:33:08 -0800 (PST)
+        Mon, 29 Dec 2025 16:33:14 -0800 (PST)
 From: Jonathan Brophy <professorjonny98@gmail.com>
 To: lee Jones <lee@kernel.org>,
 	Pavel Machek <pavel@kernel.org>,
@@ -82,10 +84,12 @@ To: lee Jones <lee@kernel.org>,
 Cc: devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-leds@vger.kernel.org
-Subject: [PATCH v4 0/7] leds: Add virtual LED group driver with priority arbitration
-Date: Tue, 30 Dec 2025 13:32:37 +1300
-Message-ID: <20251230003250.1197744-1-professorjonny98@gmail.com>
+Subject: [PATCH 1/7] dt-bindings: leds: add function virtual_status to led common properties
+Date: Tue, 30 Dec 2025 13:32:38 +1300
+Message-ID: <20251230003250.1197744-2-professorjonny98@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251230003250.1197744-1-professorjonny98@gmail.com>
+References: <20251230003250.1197744-1-professorjonny98@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -96,86 +100,27 @@ Content-Transfer-Encoding: 8bit
 
 From: Jonathan Brophy <professor_jonny@hotmail.com>
 
-This patch series introduces a new LED driver that implements virtual LED
-groups with priority-based arbitration for shared physical LEDs. The driver
-provides a multicolor LED interface while solving the problem of multiple
-subsystems needing to control the same physical LEDs.
+LED-FUNCTION-VIRTUAL-STATUS ID to the FUNCTION ID list for device tree
+bindings to suit virtual led drivers.
 
-Key features:
-- Winner-takes-all priority-based arbitration
-- Full multicolor LED ABI compliance
-- Two operating modes (multicolor and standard/fixed-color)
-- Deterministic channel ordering by LED_COLOR_ID
-- Comprehensive debugfs telemetry (when CONFIG_DEBUG_FS enabled)
-- Optimized memory footprint (~200 bytes per LED in production builds)
+Signed-off-by: Jonathan Brophy <professor_jonny@hotmail.com>
+---
+ include/dt-bindings/leds/common.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Use cases:
-- System status indicators with boot/error/update priority levels
-- RGB lighting with coordinated control
-- Multi-element LED arrays unified into single logical controls
+diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
+index 4f017bea0123..f03214ba28d5 100644
+--- a/include/dt-bindings/leds/common.h
++++ b/include/dt-bindings/leds/common.h
+@@ -63,6 +63,9 @@
+      "lp5523:{r,g,b}" (Nokia N900) */
+ #define LED_FUNCTION_STATUS "status"
 
-The series includes:
-1. New LED function identifier for virtual LEDs
-2. Device tree bindings for virtual LED class
-3. Device tree bindings for virtual LED group controller
-4. ABI documentation for sysfs interface
-5. Comprehensive driver documentation
-6. fwnode_led_get() helper for firmware-agnostic LED resolution
-7. Complete driver implementation
-
-Changes since last v3 commit
-- convert driver to pure fwnode
-- Multicolor LED ABI compliance - standard multi_intensity/multi_index attributes
-- Winner-takes-all arbitration - deterministic control with sequence-based tie-breaking
-- Proper LED reference management - fwnode_led_get() + led_put() prevents leaks
-- 30% memory reduction - conditional debug compilation
-- Global ownership tracking - prevents conflicts between multiple controllers
-- Hierarchical locking - documented 3-tier lock order prevents deadlocks
-- Lock-free hardware I/O - concurrent vLED updates during physical LED access
-- Dual operating modes - multicolor (dynamic) and standard (fixed-color) modes
-- Pre-allocated arbitration buffers - zero allocations in hot path
-- Comprehensive power management - suspend/resume with runtime PM support
-
-Additional highlights:
-
-Update batching for software PWM workloads
-Gamma correction for perceptual brightness
-Rate limiting for runaway updates
-Extensive debugfs telemetry with stress testing
-Deferred probe handling for late-probing LEDs
-Removal race prevention with atomic flags
-
-Testing:
-- Tested on ARM64 platform with GPIO and PWM LEDs
-- Stress tested with 10,000 iterations
-- Validated suspend/resume cycles
-- Memory leak detection passes
-
-Jonathan Brophy (7):
-  dt-bindings: leds: Add LED_FUNCTION_VIRTUAL_STATUS identifier
-  dt-bindings: leds: Add virtual LED class bindings
-  dt-bindings: leds: Add virtual LED group controller bindings
-  ABI: Add sysfs documentation for leds-group-virtualcolor
-  leds: Add driver documentation for leds-group-virtualcolor
-  leds: Add fwnode_led_get() for firmware-agnostic LED resolution
-  leds: Add virtual LED group driver with priority arbitration
-
- .../sysfs-class-led-driver-virtualcolor       |  168 +
- .../leds/leds-class-virtualcolor.yaml         |  197 +
- .../leds/leds-group-virtualcolor.yaml         |  170 +
- .../leds/leds-group-virtualcolor.rst          |  641 ++++
- drivers/leds/led-class.c                      |  136 +-
- drivers/leds/leds.h                           |  758 +++-
- drivers/leds/rgb/Kconfig                      |   17 +
- drivers/leds/rgb/Makefile                     |    1 +
- drivers/leds/rgb/leds-group-virtualcolor.c    | 3360 +++++++++++++++++
- include/dt-bindings/leds/common.h             |    3 +
- 10 files changed, 5399 insertions(+), 52 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-class-led-driver-virtualcolor
- create mode 100644 Documentation/devicetree/bindings/leds/leds-class-virtualcolor.yaml
- create mode 100644 Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml
- create mode 100644 Documentation/leds/leds-group-virtualcolor.rst
- create mode 100644 drivers/leds/rgb/leds-group-virtualcolor.c
++/* Used for virtual LED groups, multifunction RGB indicators or status LEDs */
++#define LED_FUNCTION_VIRTUAL_STATUS "virtual-status"
++
+ #define LED_FUNCTION_MICMUTE "micmute"
+ #define LED_FUNCTION_MUTE "mute"
 
 --
 2.43.0
