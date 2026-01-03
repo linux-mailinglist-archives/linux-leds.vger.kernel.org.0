@@ -1,500 +1,193 @@
-Return-Path: <linux-leds+bounces-6520-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6521-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9BDACEEF8E
-	for <lists+linux-leds@lfdr.de>; Fri, 02 Jan 2026 17:30:16 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C37CEFC9F
+	for <lists+linux-leds@lfdr.de>; Sat, 03 Jan 2026 09:22:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A04EB3012BD3
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Jan 2026 16:30:15 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 7E92C300B00D
+	for <lists+linux-leds@lfdr.de>; Sat,  3 Jan 2026 08:22:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B62F72C027C;
-	Fri,  2 Jan 2026 16:30:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23B0824503B;
+	Sat,  3 Jan 2026 08:22:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G1KLFj4+"
+	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="HYdaC01d"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azolkn19012018.outbound.protection.outlook.com [52.103.10.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26992BD597;
-	Fri,  2 Jan 2026 16:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767371414; cv=none; b=gZdN7EXGXtnhjw62essvUIfu7f2c1LXqBqIyo724mWP2/1xTAZaLzDl2mSayloMDwvlATaFQH0OsaB8UpGvSifxw9ea0kg15y6OrgilKm4NYwpzahyKJA2O/8TqCY6Zo10KfSqsG+cqFRO2IJgOZkR1Dh3SWKxLiDWFrJrQcUik=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767371414; c=relaxed/simple;
-	bh=IRInpJqroq/F2A+gZ7QtES8mLSb3Jy16nc8vmc2Kmi8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J2q5iPSTjeL+LjBPdll2zd+IWWPvPDMAJrBYN3wrokupOJZSSJeHA4KVW+ywmSSRR2xe515WhrGIxUai4Sy1gO+k05mCYCwklPHg4wf0oKkk89gVi+vur/mz2/R6tGzASteaKCGwiBTHV+xf66PVIPhL1+D4pnLNJlnPjZXNTSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G1KLFj4+; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767371412; x=1798907412;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IRInpJqroq/F2A+gZ7QtES8mLSb3Jy16nc8vmc2Kmi8=;
-  b=G1KLFj4+aLRPHtMde3yHXLqu2HhbpL5f99CQ+0FquIT9N4PMTejNBvfd
-   3bgBRk8D2wexRyL9Kn9Xo13B9Tcq/7aK2V44EsQkV0v35p4suAoucEQuv
-   NvMyrSyp2tcD04Kx6hDt4qn1RbxGmISD7RsiUYWZqJ3DVAvipkWaA3mIm
-   /xrJex74JMZqOm5kPOLY08ebgvDXJyPyUpybf+pqPiJ0+GPIX7pZDVJ17
-   1b7HRjLoV1ERdSum3egKKDnSKTlZ9uIC0pUv8GkAhtM1nPdGfEH+UYy2e
-   0B83G5UdpDK4156CKZ8m19zKHC84tpfrRjx3q2pWZqSt/Bs8ycJclV/gS
-   g==;
-X-CSE-ConnectionGUID: +kTX5TxHTm6XCYt2hplSMg==
-X-CSE-MsgGUID: G53n848nRGWEwxr7P/J/9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="79494912"
-X-IronPort-AV: E=Sophos;i="6.21,197,1763452800"; 
-   d="scan'208";a="79494912"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 08:30:11 -0800
-X-CSE-ConnectionGUID: uZXPFZG6ThOLepTmxztPTQ==
-X-CSE-MsgGUID: RkeilPCaQDyOEwsE4QZFrQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,197,1763452800"; 
-   d="scan'208";a="206332025"
-Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Jan 2026 08:30:07 -0800
-Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vbi2P-000000002Lx-0Y6Q;
-	Fri, 02 Jan 2026 16:30:05 +0000
-Date: Sat, 3 Jan 2026 00:29:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Brophy <professorjonny98@gmail.com>,
-	lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Andriy Shevencho <andriy.shevchenko@linux.intel.com>,
-	Jonathan Brophy <professor_jonny@hotmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v5 6/7] leds: Add fwnode_led_get() for firmware-agnostic
- LED resolution
-Message-ID: <202601030039.h0AHhZWb-lkp@intel.com>
-References: <20251230082336.3308403-7-professorjonny98@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A9D3FC9;
+	Sat,  3 Jan 2026 08:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.10.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767428531; cv=fail; b=QRQsvKb7d37CZXJ2HBst/ctuQ4lPEfXpb2qiffI6ufKMoXRA4AoBVQoaRLLLA9M4jMqC/+bcm/nm8OrZuCUF3ZJhL6qA9IdXeOkBS6LoaQD6pLd4GUFJxrzHFoZH/MAO4uBD7Sw0HmDKyg8EpQ2BPfprec1FiO7s8FQ/l1Pqv1I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767428531; c=relaxed/simple;
+	bh=51B09RM+8fNEB+vaJX8cxFhIpK6WZrn+9bmAYR+vAnw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=QgvZtOp1PsM8CKvWJIPLa6YQNJY53nVJox9VHU9bXxXi/qI+gc7FGX6pllcMq5YIc+WwpyRfCJwRIJGMHPOjzyWiqOjb1r9MPjzcPBBpO9G5Tdh4bL3EHHEpwsm3ZB3aLK8hOT0xGVeOFheJuevsh/lc4q58ud5cgIDE4VtTb7Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=HYdaC01d; arc=fail smtp.client-ip=52.103.10.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mn9mGg8+r+Kxw+d9KsNSHkyXdXDAE9qKWrO1rsg3SFOQwIR2ISu+1OvweWgsHxetCHr3ZyR9TAuZvWCXQ9Kn6MjAvm0QPIx55e/ILC7DTVeXOEipZRIlByvAWOzKktBD4n2h7ocJpGH9Y7kY4TfrkceFb7CAFD5xzebCJLnMioRxThDvZq37J017Q3nEJ2dPbyZXiwqu8WwAULJt6jonbu4i+I4VyBviouzxVEKQczHiCIm+R207WuuzvAFfHfFeuEdE0TOJIiQS2QBXWTeRs+E3rUiANalGEOBW+nkWhuweZwHyD9yrN/xQ/xEP3NfsL0ZaS+nVLrUWeJ5LG8cdUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TYwOQLwLilwEIp3+5fpjSEmuPLdXDTbPUCAqLmDOVDI=;
+ b=Y+S3V7BBQbkDMQ/W9iWVU27DZQqMclAAP2fp/pnK1//O8MeAWTxMeqeQafsi1DHd/y8Yt8EQeY1Q5Dziy5fIzjhkAJYRamclnzIO8Yw3ufo11SYY8clJcOqG6EJ7DmwGbfZ4n4ZHB8jdpnhrDd4xNVqQyBGZ0fwm6tRrbkDrfs+PFXjjhRNGcizYY6UjqFiF1hCijB1tQ+mfRpcUGlmmI/vedfUTLa3RW5m/E1j3qjQht1VJSj+ThpTx4bewq/lCZpG6vOzcH+bjs73SkipGsuWvDbyvs4e9wRLoZVd+RHfBvB3ffik1ApSb0TeByrNqgiqaGZOLVUwmpyGKoF0wew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TYwOQLwLilwEIp3+5fpjSEmuPLdXDTbPUCAqLmDOVDI=;
+ b=HYdaC01dq4QjDjNjAHfTp8bVtTT5XbW7fS+c6XZTxZDEM9pWh5kDFsrtyahcxvLEbHo8NhFYkQv8l7UmmArDk3FnbLoBUkSEvMHHf5ELGcxT2RonnM03l/UwpmC0e9znYkTUclZKTjBsjxnjWiUp6/W2jMBOdNlNqc6kxPEenMj5yYKtF9XPAuZ1rtzrZhYtNR32ZhC0Z0PCZxFVtK8LdbXe84IvdrDJkalURrTgFZDP6xJNEhWtuivUBfOuhuirGNyFmDIvg7u0ExhJhALqM9IVaJFy6FXROCQvZT4bLlLM6VTvinMI1zowpzhiXEkri+9B5jRF8YLxnlghkbLBMQ==
+Received: from DS0PR84MB3746.NAMPRD84.PROD.OUTLOOK.COM (2603:10b6:8:1aa::21)
+ by DM3PR84MB3428.NAMPRD84.PROD.OUTLOOK.COM (2603:10b6:0:46::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9478.4; Sat, 3 Jan 2026 08:22:08 +0000
+Received: from DS0PR84MB3746.NAMPRD84.PROD.OUTLOOK.COM
+ ([fe80::478a:57e4:fdbe:4a6c]) by DS0PR84MB3746.NAMPRD84.PROD.OUTLOOK.COM
+ ([fe80::478a:57e4:fdbe:4a6c%5]) with mapi id 15.20.9478.004; Sat, 3 Jan 2026
+ 08:22:07 +0000
+From: Jonathan Brophy <Professor_jonny@hotmail.com>
+To: Andriy Shevencho <andriy.shevchenko@linux.intel.com>, Jonathan Brophy
+	<professorjonny98@gmail.com>
+CC: lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Radoslav Tsvetkov <rtsvetkov@gradotech.eu>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH v5 7/7] leds: Add virtual LED group driver
+Thread-Topic: [PATCH v5 7/7] leds: Add virtual LED group driver
+Thread-Index: AQHcfIoMoYMxKqwIS0K1NiFRT0MeQQ==
+Date: Sat, 3 Jan 2026 08:22:06 +0000
+Message-ID:
+ <DS0PR84MB3746506E7740C032585F124F9FB8A@DS0PR84MB3746.NAMPRD84.PROD.OUTLOOK.COM>
+References: <20251230082336.3308403-1-professorjonny98@gmail.com>
+ <20251230082336.3308403-8-professorjonny98@gmail.com>
+ <aVPDUVNX95Hv13VU@smile.fi.intel.com>
+In-Reply-To: <aVPDUVNX95Hv13VU@smile.fi.intel.com>
+Accept-Language: en-NZ, en-US
+Content-Language: en-NZ
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS0PR84MB3746:EE_|DM3PR84MB3428:EE_
+x-ms-office365-filtering-correlation-id: 5f379939-4f97-4e59-1edb-08de4aa12ebf
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|8062599012|19110799012|8060799015|31061999003|15030799006|15080799012|51005399006|461199028|440099028|3412199025|40105399003|102099032;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?JLugJriYELWT1JVdN2gc4f/vSMi6Xy3pFH8LD+tzc6lyw1F8ggFRTCT31W?=
+ =?iso-8859-1?Q?M7Yjh/R4EQFIhY9KSyti+Sann0pxmH2ZRUoNdbTaRXXU0UFm2wc+vCKPpW?=
+ =?iso-8859-1?Q?Mr/b9nu+q+ZKgWLT7oYSi6qdySuebZ97cfOyewE7ZSXwpQXTyaxlJb1BWN?=
+ =?iso-8859-1?Q?gNtSD+dgcLotPhcAfCqwEeB5Y8+Nvnt4CjhGGLcQJ/Txt2j1QrGXEwoPbq?=
+ =?iso-8859-1?Q?OwbxgbRVXCX9kZkISzVpXrExZkVrLn6aM9gHJ9BSHmR3qru+tShxQwj2Pf?=
+ =?iso-8859-1?Q?cgr/8iHdFuZHr+K4N92fxkdJnqqSFtNti9JUho6aTT488gGODYfCGpjxoo?=
+ =?iso-8859-1?Q?iN4zKRT7E8fbZRi9bzl8ygWAtmJuyJxUqpnuhfAOcV8vGI8mrhi6eBfKlr?=
+ =?iso-8859-1?Q?LDLXWOyoXQFzaamefrMNF6POOLb5S2KucXO826SZxUBYMkxiExa1ACPwDx?=
+ =?iso-8859-1?Q?orwKp6d+l0qKBlvZfkq3bScjUp0+OPAx0MfjkLAU57RJ39wEbeIavcoc0g?=
+ =?iso-8859-1?Q?rLyEaWyFl/m/Ndl/7syNgeQ99uPcQAh82XggKOnTb2KrflhwtugSJuGmIE?=
+ =?iso-8859-1?Q?DxZfeywZbJNT98eYuyrxRYxinqcHhPg3t0I9wuGiIHVe99bVdrZZ8YHiR2?=
+ =?iso-8859-1?Q?3Bmr+LzSShQYC7yA5CdMh//xuYQ4wJHuHG+V7kImMx+Zk435ffEwHsOtzd?=
+ =?iso-8859-1?Q?FZdXDR9b2tevwDChJ52mX6hKldHEmRxL1vJCDV+HQa0IakigsEALygaPOF?=
+ =?iso-8859-1?Q?xViwglv8G4Ka9x9VgAMg4IjNxa4xt6m0uK0wWrvjc6wvVK3fOOHwWaWo6U?=
+ =?iso-8859-1?Q?p4NIX2Fdk/mlr73/q1wbHHTkbQ6TJOrYc4uWfzzKMZK8eaElhrsvolpLyn?=
+ =?iso-8859-1?Q?fRu9JHdIe5qxgAQszrpqNUkxP5UQP6Dvycczud7NAWRElmlOC6HJhQPo6B?=
+ =?iso-8859-1?Q?JSYlf0bOHLo7nQfLrponfmhJpM8+j2JYMIGRmc96yHhfMEGsrpiVT6lDrA?=
+ =?iso-8859-1?Q?1AKS6EFxS1Q8bC3mSVvfBASTNLSdT7LllCIaXuIetzE8hLvrh2Dw0MQOxL?=
+ =?iso-8859-1?Q?UXEIkoEHAi4V5sN3wCAut1ho9Ec017JWQKVM6Brg8MmcxJtL0XYTWPa1xk?=
+ =?iso-8859-1?Q?L4z82BkpZNyQ7WMtkVdv58ln+S3HNd+F7wYe92JiMj6+5FYQX0KQ2bplZ4?=
+ =?iso-8859-1?Q?otCTPN+qFtPPWpgLGJAglOO4Y8qLihiC438zLWksm0S/FfcpQUULpvnFsj?=
+ =?iso-8859-1?Q?/GUVeHm5oMvCM7Lxb2xw=3D=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?u+oQcrtj+lOy/SqNr6UmSDbY6lRTTc8g9FIMKo5H61Y7ZH78JKJjSTf+7L?=
+ =?iso-8859-1?Q?jdu7CTbIUXhjQH7GMqnta7AQCzv7Ud1McW84p9M7sEG4FkwR9fRZ4Uu9T9?=
+ =?iso-8859-1?Q?0Eov6xXyq88IjXpW8OZ54dBwLkxxKtOFqO/tfnjSfZn0jACM9d9PFEgYGp?=
+ =?iso-8859-1?Q?FxYA2zyoByWpJ33Wb6Jy8E54+20aVSk6KxVptPbPWLTI9nmwzqJE2dBHUW?=
+ =?iso-8859-1?Q?nV7EWzHDYynNvwIqOy8gWsv/PicF5bQ330+aB7iEoT6hTCybk0BbGJ3/JR?=
+ =?iso-8859-1?Q?Tqgs1DWEAiaYlJOKk9+gqxvh+yu13CyX/exYgriQUJls+rk8rni4pBtUVC?=
+ =?iso-8859-1?Q?0eeAOp3VKoLzA5ICqQoTc2oze1tKGNW5bqmyFO/N7HoLrycUI4qhoHUsW3?=
+ =?iso-8859-1?Q?ySouXg45pzK9Q1BfNK8BpciZQDKsY0XRXIEdE+MDeaa0mr0ZKwB4+LF/7T?=
+ =?iso-8859-1?Q?rkbhGSYrgMsOfHXHuPyCNxJIFvDpSfaL9EeisAOLMQX1KE1Lw0iG6yjmfO?=
+ =?iso-8859-1?Q?9h6Pt5OOIj3L9mrhqlODrccSAjFO5crIZICKYMQgEuWCeqH0NDxOeXJ6gv?=
+ =?iso-8859-1?Q?2Bk/M02UStSUXJpSAeotHLBCo1XVlsYqHGOjw76kyFDG+wjwt8J7Fp345n?=
+ =?iso-8859-1?Q?EfPE7uCayWcAJ1s9qSA5ncaoTQAGkf02GKpRNbr9lkB76MDsfoDlHYofsB?=
+ =?iso-8859-1?Q?MzqxqUocfIV+qQ9fQ95JmlcKVSfxXytJuxu68XyQRWjYZXGnG9pZguIjjj?=
+ =?iso-8859-1?Q?Pnx0LlREaREE29G6FyTAINyPtnndfb8Xk1Wk3ddUMd79xW8H2+evbTZB8i?=
+ =?iso-8859-1?Q?EZawodOoR1AaviA6HBNqFQJBy648yEwfYFhw+JscAaZ8vwNpmvRwUWQAGd?=
+ =?iso-8859-1?Q?2xBNd1kFpuG0dskyIDLA6ljoq0SqPiFmArbh7E6ecDtH44Rxcw+UDro6yH?=
+ =?iso-8859-1?Q?IFrIHTK56yDKXJ0ZNkMUhJlBh7pkkH48nIBtLv2wh2f+I7CaDDaSnBQUDv?=
+ =?iso-8859-1?Q?di7StAW+8SN5j8imYOa5Yt5/x5ZosMpPCcVVoQsT5g+i3Ea6rFYFcP3DoG?=
+ =?iso-8859-1?Q?9DveeOg6n3qqh0Yk/w9t76+a2jdTphc88hcak9XY/0jQajbiDucxPkgbFT?=
+ =?iso-8859-1?Q?kLo3+ho6jIQTy1e93DCg1BQWX0WZ1huNo9PHZnC2cWhudui6XoxHzUlPZz?=
+ =?iso-8859-1?Q?krzgmUnWFIFKq1ozjsOAiXHViZ0t7HRpib+TVXVezzxZWcQvDuKEyBO9sx?=
+ =?iso-8859-1?Q?I2HepYNb1l87XnD8E/nSJuzoCObGwOqz+iZdzcvcG8KsEOAF0soWPlYkV6?=
+ =?iso-8859-1?Q?R45hicdVTQSkgAVZJGOQgdBoGMyAI0y1+p3pva2iyLuzKh8+G+khIFwNgz?=
+ =?iso-8859-1?Q?TNooAHSV23SvYStjKgtTQr3JELWWgvGN9BsZYqBjhipcGFZ2SnOyKioPw8?=
+ =?iso-8859-1?Q?Ai4gff15NSxBArqmi5OJPibQqePbG19SKqFLXbETRe+2zC/DNFIhj6D1Jx?=
+ =?iso-8859-1?Q?8FuyAEm9Fk46fjgf6masH3?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251230082336.3308403-7-professorjonny98@gmail.com>
+X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-a21eb.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR84MB3746.NAMPRD84.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f379939-4f97-4e59-1edb-08de4aa12ebf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jan 2026 08:22:06.7541
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR84MB3428
 
-Hi Jonathan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on lee-leds/for-leds-next]
-[also build test ERROR on robh/for-next linus/master v6.19-rc3 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Brophy/dt-bindings-leds-add-function-virtual_status-to-led-common-properties/20251230-162857
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20251230082336.3308403-7-professorjonny98%40gmail.com
-patch subject: [PATCH v5 6/7] leds: Add fwnode_led_get() for firmware-agnostic LED resolution
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260103/202601030039.h0AHhZWb-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601030039.h0AHhZWb-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601030039.h0AHhZWb-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/leds/led-core.c: In function 'led_timer_function':
->> drivers/leds/led-core.c:73:17: error: implicit declaration of function 'led_set_brightness_nosleep'; did you mean 'led_set_brightness_sync'? [-Wimplicit-function-declaration]
-      73 |                 led_set_brightness_nosleep(led_cdev, LED_OFF);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 led_set_brightness_sync
->> drivers/leds/led-core.c:84:22: error: implicit declaration of function 'led_get_brightness'; did you mean 'led_set_brightness'? [-Wimplicit-function-declaration]
-      84 |         brightness = led_get_brightness(led_cdev);
-         |                      ^~~~~~~~~~~~~~~~~~
-         |                      led_set_brightness
-   drivers/leds/led-core.c: In function 'set_brightness_delayed':
->> drivers/leds/led-core.c:152:17: error: implicit declaration of function 'led_stop_software_blink' [-Wimplicit-function-declaration]
-     152 |                 led_stop_software_blink(led_cdev);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/leds/led-core.c: At top level:
-   drivers/leds/led-core.c:237:6: warning: no previous prototype for 'led_init_core' [-Wmissing-prototypes]
-     237 | void led_init_core(struct led_classdev *led_cdev)
-         |      ^~~~~~~~~~~~~
-   drivers/leds/led-core.c:296:6: warning: no previous prototype for 'led_stop_software_blink' [-Wmissing-prototypes]
-     296 | void led_stop_software_blink(struct led_classdev *led_cdev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/leds/led-core.c:296:6: warning: conflicting types for 'led_stop_software_blink'; have 'void(struct led_classdev *)'
-   drivers/leds/led-core.c:152:17: note: previous implicit declaration of 'led_stop_software_blink' with type 'void(struct led_classdev *)'
-     152 |                 led_stop_software_blink(led_cdev);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/leds/led-core.c:332:6: warning: no previous prototype for 'led_set_brightness_nopm' [-Wmissing-prototypes]
-     332 | void led_set_brightness_nopm(struct led_classdev *led_cdev, unsigned int value)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/leds/led-core.c:362:6: warning: no previous prototype for 'led_set_brightness_nosleep' [-Wmissing-prototypes]
-     362 | void led_set_brightness_nosleep(struct led_classdev *led_cdev, unsigned int value)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/leds/led-core.c:362:6: warning: conflicting types for 'led_set_brightness_nosleep'; have 'void(struct led_classdev *, unsigned int)'
-   drivers/leds/led-core.c:73:17: note: previous implicit declaration of 'led_set_brightness_nosleep' with type 'void(struct led_classdev *, unsigned int)'
-      73 |                 led_set_brightness_nosleep(led_cdev, LED_OFF);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/kobject.h:20,
-                    from include/linux/energy_model.h:7,
-                    from include/linux/device.h:16,
-                    from drivers/leds/led-class.c:10:
->> drivers/leds/led-class.c:87:32: error: 'led_trigger_read' undeclared here (not in a function); did you mean 'led_trigger_set'?
-      87 | static BIN_ATTR(trigger, 0644, led_trigger_read, led_trigger_write, 0);
-         |                                ^~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:341:17: note: in definition of macro '__BIN_ATTR'
-     341 |         .read = _read,                                                  \
-         |                 ^~~~~
-   drivers/leds/led-class.c:87:8: note: in expansion of macro 'BIN_ATTR'
-      87 | static BIN_ATTR(trigger, 0644, led_trigger_read, led_trigger_write, 0);
-         |        ^~~~~~~~
->> drivers/leds/led-class.c:87:50: error: 'led_trigger_write' undeclared here (not in a function); did you mean 'led_trigger_set'?
-      87 | static BIN_ATTR(trigger, 0644, led_trigger_read, led_trigger_write, 0);
-         |                                                  ^~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:342:18: note: in definition of macro '__BIN_ATTR'
-     342 |         .write = _write,                                                \
-         |                  ^~~~~~
-   drivers/leds/led-class.c:87:8: note: in expansion of macro 'BIN_ATTR'
-      87 | static BIN_ATTR(trigger, 0644, led_trigger_read, led_trigger_write, 0);
-         |        ^~~~~~~~
->> drivers/leds/led-class.c:93:22: error: initialization of 'const struct bin_attribute * const*' from incompatible pointer type 'struct bin_attribute **' [-Wincompatible-pointer-types]
-      93 |         .bin_attrs = led_trigger_bin_attrs,
-         |                      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/leds/led-class.c:93:22: note: (near initialization for 'led_trigger_group.bin_attrs')
-   drivers/leds/led-class.c: In function 'led_classdev_suspend':
->> drivers/leds/led-class.c:183:9: error: implicit declaration of function 'led_set_brightness_nopm'; did you mean 'led_set_brightness_sync'? [-Wimplicit-function-declaration]
-     183 |         led_set_brightness_nopm(led_cdev, 0);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         led_set_brightness_sync
-   drivers/leds/led-class.c: At top level:
-   drivers/leds/led-class.c:258:22: warning: no previous prototype for 'of_led_get' [-Wmissing-prototypes]
-     258 | struct led_classdev *of_led_get(struct device_node *np, int index)
-         |                      ^~~~~~~~~~
-   drivers/leds/led-class.c:303:22: warning: no previous prototype for 'fwnode_led_get' [-Wmissing-prototypes]
-     303 | struct led_classdev *fwnode_led_get(const struct fwnode_handle *fwnode,
-         |                      ^~~~~~~~~~~~~~
-   drivers/leds/led-class.c: In function 'fwnode_led_get':
->> drivers/leds/led-class.c:348:19: error: implicit declaration of function 'fwnode_get_next_parent_dev'; did you mean 'fwnode_get_next_parent'? [-Wimplicit-function-declaration]
-     348 |         led_dev = fwnode_get_next_parent_dev((struct fwnode_handle *)args.fwnode);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                   fwnode_get_next_parent
->> drivers/leds/led-class.c:348:17: error: assignment to 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     348 |         led_dev = fwnode_get_next_parent_dev((struct fwnode_handle *)args.fwnode);
-         |                 ^
-   drivers/leds/led-class.c: In function 'led_classdev_register_ext':
->> drivers/leds/led-class.c:647:21: error: 'leds_list_lock' undeclared (first use in this function); did you mean 'leds_lookup_lock'?
-     647 |         down_write(&leds_list_lock);
-         |                     ^~~~~~~~~~~~~~
-         |                     leds_lookup_lock
-   drivers/leds/led-class.c:647:21: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/leds/led-class.c:648:41: error: 'leds_list' undeclared (first use in this function); did you mean 'leds_class'?
-     648 |         list_add_tail(&led_cdev->node, &leds_list);
-         |                                         ^~~~~~~~~
-         |                                         leds_class
->> drivers/leds/led-class.c:656:9: error: implicit declaration of function 'led_init_core' [-Wimplicit-function-declaration]
-     656 |         led_init_core(led_cdev);
-         |         ^~~~~~~~~~~~~
-   drivers/leds/led-class.c: In function 'led_classdev_unregister':
->> drivers/leds/led-class.c:692:9: error: implicit declaration of function 'led_stop_software_blink' [-Wimplicit-function-declaration]
-     692 |         led_stop_software_blink(led_cdev);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/leds/led-class.c:704:21: error: 'leds_list_lock' undeclared (first use in this function); did you mean 'leds_lookup_lock'?
-     704 |         down_write(&leds_list_lock);
-         |                     ^~~~~~~~~~~~~~
-         |                     leds_lookup_lock
---
-   drivers/leds/led-triggers.c:36:9: warning: no previous prototype for 'led_trigger_write' [-Wmissing-prototypes]
-      36 | ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/leds/led-triggers.c:133:9: warning: no previous prototype for 'led_trigger_read' [-Wmissing-prototypes]
-     133 | ssize_t led_trigger_read(struct file *filp, struct kobject *kobj,
-         |         ^~~~~~~~~~~~~~~~
-   drivers/leds/led-triggers.c: In function 'led_trigger_set':
->> drivers/leds/led-triggers.c:189:17: error: implicit declaration of function 'led_stop_software_blink' [-Wimplicit-function-declaration]
-     189 |                 led_stop_software_blink(led_cdev);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/leds/led-triggers.c: In function 'led_trigger_register':
->> drivers/leds/led-triggers.c:341:20: error: 'leds_list_lock' undeclared (first use in this function); did you mean 'tasklist_lock'?
-     341 |         down_read(&leds_list_lock);
-         |                    ^~~~~~~~~~~~~~
-         |                    tasklist_lock
-   drivers/leds/led-triggers.c:341:20: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from include/linux/kernel.h:22,
-                    from drivers/leds/led-triggers.c:11:
->> drivers/leds/led-triggers.c:342:40: error: 'leds_list' undeclared (first use in this function); did you mean 'lru_list'?
-     342 |         list_for_each_entry(led_cdev, &leds_list, node) {
-         |                                        ^~~~~~~~~
-   include/linux/container_of.h:20:33: note: in definition of macro 'container_of'
-      20 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
-     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/leds/led-triggers.c:342:9: note: in expansion of macro 'list_for_each_entry'
-     342 |         list_for_each_entry(led_cdev, &leds_list, node) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/container_of.h:5:
-   include/linux/compiler_types.h:565:27: error: expression in static assertion is not an integer
-     565 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
-     609 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
-     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/leds/led-triggers.c:342:9: note: in expansion of macro 'list_for_each_entry'
-     342 |         list_for_each_entry(led_cdev, &leds_list, node) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/leds/led-triggers.c: In function 'led_trigger_unregister':
-   drivers/leds/led-triggers.c:367:20: error: 'leds_list_lock' undeclared (first use in this function); did you mean 'tasklist_lock'?
-     367 |         down_read(&leds_list_lock);
-         |                    ^~~~~~~~~~~~~~
-         |                    tasklist_lock
-   drivers/leds/led-triggers.c:368:40: error: 'leds_list' undeclared (first use in this function); did you mean 'lru_list'?
-     368 |         list_for_each_entry(led_cdev, &leds_list, node) {
-         |                                        ^~~~~~~~~
-   include/linux/container_of.h:20:33: note: in definition of macro 'container_of'
-      20 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
-     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/leds/led-triggers.c:368:9: note: in expansion of macro 'list_for_each_entry'
-     368 |         list_for_each_entry(led_cdev, &leds_list, node) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:565:27: error: expression in static assertion is not an integer
-     565 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
-     609 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
-     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/leds/led-triggers.c:368:9: note: in expansion of macro 'list_for_each_entry'
-     368 |         list_for_each_entry(led_cdev, &leds_list, node) {
-         |         ^~~~~~~~~~~~~~~~~~~
---
-   drivers/leds/leds-ns2.c: In function 'ns2_led_sata_store':
->> drivers/leds/leds-ns2.c:146:14: error: implicit declaration of function 'led_get_brightness'; did you mean 'led_set_brightness'? [-Wimplicit-function-declaration]
-     146 |         if (!led_get_brightness(led_cdev))
-         |              ^~~~~~~~~~~~~~~~~~
-         |              led_set_brightness
---
-   drivers/leds/trigger/ledtrig-oneshot.c: In function 'led_invert_store':
->> drivers/leds/trigger/ledtrig-oneshot.c:61:17: error: implicit declaration of function 'led_set_brightness_nosleep'; did you mean 'led_set_brightness_sync'? [-Wimplicit-function-declaration]
-      61 |                 led_set_brightness_nosleep(led_cdev, LED_FULL);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 led_set_brightness_sync
---
-   drivers/leds/trigger/ledtrig-heartbeat.c: In function 'led_heartbeat_function':
->> drivers/leds/trigger/ledtrig-heartbeat.c:44:17: error: implicit declaration of function 'led_set_brightness_nosleep'; did you mean 'led_set_brightness_sync'? [-Wimplicit-function-declaration]
-      44 |                 led_set_brightness_nosleep(led_cdev, LED_OFF);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 led_set_brightness_sync
---
-   drivers/leds/trigger/ledtrig-backlight.c: In function 'ledtrig_backlight_notify_blank':
->> drivers/leds/trigger/ledtrig-backlight.c:40:17: error: implicit declaration of function 'led_set_brightness_nosleep'; did you mean 'led_set_brightness_sync'? [-Wimplicit-function-declaration]
-      40 |                 led_set_brightness_nosleep(led, LED_OFF);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 led_set_brightness_sync
---
-   drivers/leds/trigger/ledtrig-gpio.c: In function 'gpio_trig_irq':
->> drivers/leds/trigger/ledtrig-gpio.c:33:25: error: implicit declaration of function 'led_set_brightness_nosleep'; did you mean 'led_set_brightness_sync'? [-Wimplicit-function-declaration]
-      33 |                         led_set_brightness_nosleep(gpio_data->led,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         led_set_brightness_sync
---
-   drivers/leds/trigger/ledtrig-activity.c: In function 'led_activity_function':
->> drivers/leds/trigger/ledtrig-activity.c:53:17: error: implicit declaration of function 'led_set_brightness_nosleep'; did you mean 'led_set_brightness_sync'? [-Wimplicit-function-declaration]
-      53 |                 led_set_brightness_nosleep(led_cdev, led_cdev->blink_brightness);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 led_set_brightness_sync
---
-   drivers/leds/trigger/ledtrig-default-on.c: In function 'defon_trig_activate':
->> drivers/leds/trigger/ledtrig-default-on.c:18:9: error: implicit declaration of function 'led_set_brightness_nosleep'; did you mean 'led_set_brightness_sync'? [-Wimplicit-function-declaration]
-      18 |         led_set_brightness_nosleep(led_cdev, led_cdev->max_brightness);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         led_set_brightness_sync
---
-   drivers/leds/trigger/ledtrig-transient.c: In function 'transient_timer_function':
->> drivers/leds/trigger/ledtrig-transient.c:39:9: error: implicit declaration of function 'led_set_brightness_nosleep'; did you mean 'led_set_brightness_sync'? [-Wimplicit-function-declaration]
-      39 |         led_set_brightness_nosleep(led_cdev, transient_data->restore_state);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         led_set_brightness_sync
-..
-
-
-vim +73 drivers/leds/led-core.c
-
-d4887af9c2b6ab Heiner Kallweit  2016-02-16   64  
-49404665b93544 Kees Cook        2017-10-25   65  static void led_timer_function(struct timer_list *t)
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   66  {
-41cb08555c4164 Ingo Molnar      2025-05-09   67  	struct led_classdev *led_cdev = timer_container_of(led_cdev, t,
-41cb08555c4164 Ingo Molnar      2025-05-09   68  							   blink_timer);
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   69  	unsigned long brightness;
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   70  	unsigned long delay;
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   71  
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   72  	if (!led_cdev->blink_delay_on || !led_cdev->blink_delay_off) {
-81fe8e5b73e3f4 Jacek Anaszewski 2015-10-07  @73  		led_set_brightness_nosleep(led_cdev, LED_OFF);
-a9c6ce57ec2f13 Hans de Goede    2016-11-08   74  		clear_bit(LED_BLINK_SW, &led_cdev->work_flags);
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   75  		return;
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   76  	}
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   77  
-a9c6ce57ec2f13 Hans de Goede    2016-11-08   78  	if (test_and_clear_bit(LED_BLINK_ONESHOT_STOP,
-a9c6ce57ec2f13 Hans de Goede    2016-11-08   79  			       &led_cdev->work_flags)) {
-a9c6ce57ec2f13 Hans de Goede    2016-11-08   80  		clear_bit(LED_BLINK_SW, &led_cdev->work_flags);
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   81  		return;
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   82  	}
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   83  
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  @84  	brightness = led_get_brightness(led_cdev);
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   85  	if (!brightness) {
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   86  		/* Time to switch the LED on. */
-eb1610b4c27337 Hans de Goede    2016-10-23   87  		if (test_and_clear_bit(LED_BLINK_BRIGHTNESS_CHANGE,
-eb1610b4c27337 Hans de Goede    2016-10-23   88  					&led_cdev->work_flags))
-eb1610b4c27337 Hans de Goede    2016-10-23   89  			brightness = led_cdev->new_blink_brightness;
-eb1610b4c27337 Hans de Goede    2016-10-23   90  		else
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   91  			brightness = led_cdev->blink_brightness;
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   92  		delay = led_cdev->blink_delay_on;
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   93  	} else {
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   94  		/* Store the current brightness value to be able
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   95  		 * to restore it when the delay_off period is over.
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   96  		 */
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   97  		led_cdev->blink_brightness = brightness;
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   98  		brightness = LED_OFF;
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28   99  		delay = led_cdev->blink_delay_off;
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  100  	}
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  101  
-81fe8e5b73e3f4 Jacek Anaszewski 2015-10-07  102  	led_set_brightness_nosleep(led_cdev, brightness);
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  103  
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  104  	/* Return in next iteration if led is in one-shot mode and we are in
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  105  	 * the final blink state so that the led is toggled each delay_on +
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  106  	 * delay_off milliseconds in worst case.
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  107  	 */
-a9c6ce57ec2f13 Hans de Goede    2016-11-08  108  	if (test_bit(LED_BLINK_ONESHOT, &led_cdev->work_flags)) {
-a9c6ce57ec2f13 Hans de Goede    2016-11-08  109  		if (test_bit(LED_BLINK_INVERT, &led_cdev->work_flags)) {
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  110  			if (brightness)
-a9c6ce57ec2f13 Hans de Goede    2016-11-08  111  				set_bit(LED_BLINK_ONESHOT_STOP,
-a9c6ce57ec2f13 Hans de Goede    2016-11-08  112  					&led_cdev->work_flags);
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  113  		} else {
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  114  			if (!brightness)
-a9c6ce57ec2f13 Hans de Goede    2016-11-08  115  				set_bit(LED_BLINK_ONESHOT_STOP,
-a9c6ce57ec2f13 Hans de Goede    2016-11-08  116  					&led_cdev->work_flags);
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  117  		}
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  118  	}
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  119  
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  120  	mod_timer(&led_cdev->blink_timer, jiffies + msecs_to_jiffies(delay));
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  121  }
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  122  
-fa15d8c69238b3 Hans de Goede    2023-05-10  123  static void set_brightness_delayed_set_brightness(struct led_classdev *led_cdev,
-fa15d8c69238b3 Hans de Goede    2023-05-10  124  						  unsigned int value)
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  125  {
-d33d1214a1ddf9 Lee Jones        2024-06-12  126  	int ret;
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  127  
-fa15d8c69238b3 Hans de Goede    2023-05-10  128  	ret = __led_set_brightness(led_cdev, value);
-d33d1214a1ddf9 Lee Jones        2024-06-12  129  	if (ret == -ENOTSUPP) {
-fa15d8c69238b3 Hans de Goede    2023-05-10  130  		ret = __led_set_brightness_blocking(led_cdev, value);
-d33d1214a1ddf9 Lee Jones        2024-06-12  131  		if (ret == -ENOTSUPP)
-d33d1214a1ddf9 Lee Jones        2024-06-12  132  			/* No back-end support to set a fixed brightness value */
-d33d1214a1ddf9 Lee Jones        2024-06-12  133  			return;
-d33d1214a1ddf9 Lee Jones        2024-06-12  134  	}
-d33d1214a1ddf9 Lee Jones        2024-06-12  135  
-d84d80f38f0ff4 Heiner Kallweit  2016-01-22  136  	/* LED HW might have been unplugged, therefore don't warn */
-d33d1214a1ddf9 Lee Jones        2024-06-12  137  	if (ret == -ENODEV && led_cdev->flags & LED_UNREGISTERING &&
-d33d1214a1ddf9 Lee Jones        2024-06-12  138  	    led_cdev->flags & LED_HW_PLUGGABLE)
-d33d1214a1ddf9 Lee Jones        2024-06-12  139  		return;
-d33d1214a1ddf9 Lee Jones        2024-06-12  140  
-d33d1214a1ddf9 Lee Jones        2024-06-12  141  	if (ret < 0)
-1afcadfcd184c3 Jacek Anaszewski 2015-10-19  142  		dev_err(led_cdev->dev,
-1afcadfcd184c3 Jacek Anaszewski 2015-10-19  143  			"Setting an LED's brightness failed (%d)\n", ret);
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  144  }
-757b06ae04b3b6 Jacek Anaszewski 2015-09-28  145  
-fa15d8c69238b3 Hans de Goede    2023-05-10  146  static void set_brightness_delayed(struct work_struct *ws)
-fa15d8c69238b3 Hans de Goede    2023-05-10  147  {
-fa15d8c69238b3 Hans de Goede    2023-05-10  148  	struct led_classdev *led_cdev =
-fa15d8c69238b3 Hans de Goede    2023-05-10  149  		container_of(ws, struct led_classdev, set_brightness_work);
-fa15d8c69238b3 Hans de Goede    2023-05-10  150  
-fa15d8c69238b3 Hans de Goede    2023-05-10  151  	if (test_and_clear_bit(LED_BLINK_DISABLE, &led_cdev->work_flags)) {
-fa15d8c69238b3 Hans de Goede    2023-05-10 @152  		led_stop_software_blink(led_cdev);
-fa15d8c69238b3 Hans de Goede    2023-05-10  153  		set_bit(LED_SET_BRIGHTNESS_OFF, &led_cdev->work_flags);
-fa15d8c69238b3 Hans de Goede    2023-05-10  154  	}
-fa15d8c69238b3 Hans de Goede    2023-05-10  155  
-fa15d8c69238b3 Hans de Goede    2023-05-10  156  	/*
-fa15d8c69238b3 Hans de Goede    2023-05-10  157  	 * Triggers may call led_set_brightness(LED_OFF),
-fa15d8c69238b3 Hans de Goede    2023-05-10  158  	 * led_set_brightness(LED_FULL) in quick succession to disable blinking
-fa15d8c69238b3 Hans de Goede    2023-05-10  159  	 * and turn the LED on. Both actions may have been scheduled to run
-fa15d8c69238b3 Hans de Goede    2023-05-10  160  	 * before this work item runs once. To make sure this works properly
-fa15d8c69238b3 Hans de Goede    2023-05-10  161  	 * handle LED_SET_BRIGHTNESS_OFF first.
-fa15d8c69238b3 Hans de Goede    2023-05-10  162  	 */
-2c70953b6f535f Remi Pommarel    2025-02-20  163  	if (test_and_clear_bit(LED_SET_BRIGHTNESS_OFF, &led_cdev->work_flags)) {
-fa15d8c69238b3 Hans de Goede    2023-05-10  164  		set_brightness_delayed_set_brightness(led_cdev, LED_OFF);
-2c70953b6f535f Remi Pommarel    2025-02-20  165  		/*
-2c70953b6f535f Remi Pommarel    2025-02-20  166  		 * The consecutives led_set_brightness(LED_OFF),
-2c70953b6f535f Remi Pommarel    2025-02-20  167  		 * led_set_brightness(LED_FULL) could have been executed out of
-2c70953b6f535f Remi Pommarel    2025-02-20  168  		 * order (LED_FULL first), if the work_flags has been set
-2c70953b6f535f Remi Pommarel    2025-02-20  169  		 * between LED_SET_BRIGHTNESS_OFF and LED_SET_BRIGHTNESS of this
-2c70953b6f535f Remi Pommarel    2025-02-20  170  		 * work. To avoid ending with the LED turned off, turn the LED
-2c70953b6f535f Remi Pommarel    2025-02-20  171  		 * on again.
-2c70953b6f535f Remi Pommarel    2025-02-20  172  		 */
-2c70953b6f535f Remi Pommarel    2025-02-20  173  		if (led_cdev->delayed_set_value != LED_OFF)
-2c70953b6f535f Remi Pommarel    2025-02-20  174  			set_bit(LED_SET_BRIGHTNESS, &led_cdev->work_flags);
-2c70953b6f535f Remi Pommarel    2025-02-20  175  	}
-fa15d8c69238b3 Hans de Goede    2023-05-10  176  
-fa15d8c69238b3 Hans de Goede    2023-05-10  177  	if (test_and_clear_bit(LED_SET_BRIGHTNESS, &led_cdev->work_flags))
-fa15d8c69238b3 Hans de Goede    2023-05-10  178  		set_brightness_delayed_set_brightness(led_cdev, led_cdev->delayed_set_value);
-22720a87d0a966 Hans de Goede    2023-05-10  179  
-22720a87d0a966 Hans de Goede    2023-05-10  180  	if (test_and_clear_bit(LED_SET_BLINK, &led_cdev->work_flags)) {
-22720a87d0a966 Hans de Goede    2023-05-10  181  		unsigned long delay_on = led_cdev->delayed_delay_on;
-22720a87d0a966 Hans de Goede    2023-05-10  182  		unsigned long delay_off = led_cdev->delayed_delay_off;
-22720a87d0a966 Hans de Goede    2023-05-10  183  
-22720a87d0a966 Hans de Goede    2023-05-10  184  		led_blink_set(led_cdev, &delay_on, &delay_off);
-22720a87d0a966 Hans de Goede    2023-05-10  185  	}
-fa15d8c69238b3 Hans de Goede    2023-05-10  186  }
-fa15d8c69238b3 Hans de Goede    2023-05-10  187  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+=0A=
+>I stopped with this, this patch is half-baked and unreviewable. Please, sp=
+lit=0A=
+>it to a few features and add one-by-one, for example:=0A=
+=0A=
+>- very basic sypport=0A=
+>- feature A=0A=
+>- ...=0A=
+>- debugfs=0A=
+=0A=
+>So I expect 3+ patches out of this one. And try to keep size of a change l=
+ess=0A=
+>than 1000 LoCs.=0A=
+=0A=
+Thanks Andy=0A=
+=0A=
+You have given me some things to fix and some great advice I'm a very junio=
+r dev and=0A=
+I know nothing of the led subsystem before this project.=0A=
+=0A=
+I think it may be best to use a function to generate a gamma table=A0I was =
+thinking a=0A=
+hard coded table may be a better idea for performance reasons with addressa=
+ble rgb=0A=
+strips that I plan to implement in the future.=0A=
+=0A=
+I planned to split the driver into several files is this what you mean?=0A=
+it would logically break into  files as part of the driver as follows:=0A=
+=0A=
+core.c=0A=
+arbitration.c=0A=
+phys.c=0A=
+vled.c=0A=
+debugfs.c=0A=
+virtualcolor.h=0A=
+=0A=
+Regards=0A=
+Jonathan Brophy=
 
