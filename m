@@ -1,180 +1,108 @@
-Return-Path: <linux-leds+bounces-6544-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6545-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C41ACFD495
-	for <lists+linux-leds@lfdr.de>; Wed, 07 Jan 2026 11:57:46 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8039ACFE100
+	for <lists+linux-leds@lfdr.de>; Wed, 07 Jan 2026 14:50:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 10CDB30019C9
-	for <lists+linux-leds@lfdr.de>; Wed,  7 Jan 2026 10:57:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F1D9D310FAE4
+	for <lists+linux-leds@lfdr.de>; Wed,  7 Jan 2026 13:40:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DD35242D95;
-	Wed,  7 Jan 2026 10:57:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D69332938D;
+	Wed,  7 Jan 2026 13:31:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EmeMcL22"
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="SnVdakAh";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="dNUaG0U0"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1172221257A;
-	Wed,  7 Jan 2026 10:57:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BFF328613;
+	Wed,  7 Jan 2026 13:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767783464; cv=none; b=a3fGQZ9GIsBTi1XAombe1ij3NoV2Td0KvFioIZ7Tv5wf8ly/8lcr8pHuWX2JxiDJITX1b9aiPrHVZo14UbGzpZ0RXF+TFG42RokuffycXwiP+xHLpeCShMgwVlIB2l1l/3U+Os1vU0rCm5x4tAytzcVBBq8D3VR/W7pvOSp3g5U=
+	t=1767792678; cv=none; b=Bv1iY2TGEqRlTrIA4HLSdM4hb5zQQPy9u+h6bfDzR2/ssSOYuJgz/yET1UFZK7rxkGXCEdNHxyGJLL+SFBYS0twxA9FDg3YMLGLVW0tvKFqw38SbL3TjRIJoKwQNBs6ove3/vc3MYOG6Z2kLCvV7cfG262R71tnW92cgQIVVNL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767783464; c=relaxed/simple;
-	bh=YkGPm2ALOTysYbdlwXEiQWln+LwZA8h1FVS3ZhZ7sts=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Vm7EjYOn3N6queNLm2W+Q+1ayLsLTQE3Bk86Ag3LjCBUphG8dkbJPGSuGPHFEYROMRlM4d2YZU2UMWBRIfRlO+c3AyX2VYBc5GqHVZ0M74mq9S3QhdAcnV5QPBz8g2Uk9KPXvyoNMU1nTUNZJCBzfi2NQRG9Z2Eiwt2cK3VG8ZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EmeMcL22; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AEE5C4CEF7;
-	Wed,  7 Jan 2026 10:57:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767783463;
-	bh=YkGPm2ALOTysYbdlwXEiQWln+LwZA8h1FVS3ZhZ7sts=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EmeMcL229qIuD5QzFN58ITBIhN7qo7WTMu2AN5PaCzBz3pUwFcCyKuVIUA291hbXb
-	 iuThPAHveu0I+4wfXv9HYZqPmNhatDxIVGY7INdTr8LJz0y7XaQHnXJHsyXi2dzw1k
-	 JeDfJDZQ0WR3rx2csKZD3U5plhATlVfhX2GplEUaDQ19pfiZHmItArUpNNc8Fn9u9l
-	 sfiBsKEfbR/6Lu8em7qRqr41OFPftpYVcYYCTQtzTy+2uNny7QVYq1NxSqaEGvJXf9
-	 vIN7yWB/eehTHeTEtMeO4/gKPcQ7ppFXEgf6dAnKwVa2C5djWgOh8hjXzPJ2z37k/Y
-	 O1B0nHLTkgLkA==
-Message-ID: <2d1893a8-81eb-4d7e-81df-060722c10c7d@kernel.org>
-Date: Wed, 7 Jan 2026 11:57:39 +0100
+	s=arc-20240116; t=1767792678; c=relaxed/simple;
+	bh=rcB91V+MiBBf1Gpy7LPeyro72nzwXi0iP2zCyDfwjuo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OCeC0/16NX3c+8MglQ9z3z9DXOsUQ1nWDuyM7LSMbsdJxRuQ4yfNFUn8ITE+nzZwDU6l0zmmeCRileL+9Lx0aBRlFlTjwPFUbwyrHtZ3mZ/4A2ct/cgUg3pcLXMb7bQwvsWgs/goEQUe0wJ75S2b8DuBO//GvLhWhBQuiL+mM3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=SnVdakAh; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=dNUaG0U0; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=To:Message-Id:Date:Subject:From; t=1767792672; bh=vMtYM0nxoHV7UFP+DHc4d1k
+	uhCTawZBNaLpGym/DqZ4=; b=SnVdakAhoU6HzvgW4pZ1w0mCi40Sil3JNbHQ7+pGEsWzXvmAfz
+	xAXo1u69dTJB52R+iuxaPvS77bsls5WqMl6sSmJuAMO5HevYmy4YIT0oeEq9Pv9uynxwGz4MM4S
+	I1c21Z4FgCC4qSgwWow2jK61pr86ZREIh70Atw0rOrhffEiUvn9R+szvNVNCemYpGwqsc69sJ20
+	R0cHkPwAOHlzAVIeTYMqLb+XpR/LJygrTIUGJHtDw9odG4DerqOE8Ki3wInxZM6FO2Akg/Owusx
+	uKRqAVfXwChoH5kKI2dt88Le/YNe5A60J9IXyYl4xHleRuJQ6uLsx3qgrhtXaM88rEg==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=To:Message-Id:Date:Subject:From; t=1767792672; bh=vMtYM0nxoHV7UFP+DHc4d1k
+	uhCTawZBNaLpGym/DqZ4=; b=dNUaG0U0yQauHAP7pjt3Xo4RkwNRErl12aVSeLQ0GAfYw6Mrrn
+	GekjNwxjK0vTtuif5RVBkQ6JDhC6nPoz+/Ag==;
+From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
+Subject: [PATCH 0/5] Fix PMI8950 WLED ovp values and more
+Date: Wed, 07 Jan 2026 14:31:04 +0100
+Message-Id: <20260107-pmi8950-wled-v1-0-5e52f5caa39c@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: leds: Document LTC3220 18 channel LED
- Driver
-To: "Escala, Edelweise" <Edelweise.Escala@analog.com>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20260106-ltc3220-driver-v1-0-73601d6f1649@analog.com>
- <20260106-ltc3220-driver-v1-1-73601d6f1649@analog.com>
- <20260106-crystal-ambrosial-wildebeest-0e35d6@quoll>
- <PH0PR03MB6525F2AB63E24564356ADE51ED84A@PH0PR03MB6525.namprd03.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <PH0PR03MB6525F2AB63E24564356ADE51ED84A@PH0PR03MB6525.namprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIABhgXmkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDQwNz3YLcTAtLUwPd8pzUFN0kA0MTU3OLNDPzRDMloJaCotS0zAqwcdG
+ xtbUASKq5+V4AAAA=
+X-Change-ID: 20260107-pmi8950-wled-b014578f67a6
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Kiran Gunda <quic_kgunda@quicinc.com>, Helge Deller <deller@gmx.de>, 
+ Luca Weiss <luca@lucaweiss.eu>, Konrad Dybcio <konradybcio@kernel.org>, 
+ Eugene Lepshy <fekz115@gmail.com>, Gianluca Boiano <morf3089@gmail.com>, 
+ Alejandro Tafalla <atafalla@dnyon.com>
+Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Daniel Thompson <daniel.thompson@linaro.org>, linux-arm-msm@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767792670; l=1163;
+ i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
+ bh=rcB91V+MiBBf1Gpy7LPeyro72nzwXi0iP2zCyDfwjuo=;
+ b=E8V7HXfevdmZ1qRo2dW+IMTQhXurrQZITpGXqcHNktfXQPqqV41b7b+5AtyG2xPU6tpEBfpQ1
+ 8mTY/CTvysACCBdSLUbvQIWNX56DSVU92oQqQOEj+XoG45V7Mc+dPbL
+X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
+ pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
 
-On 07/01/2026 10:52, Escala, Edelweise wrote:
->>
->>> +
->>> +  adi,force-cpo-level:
->>> +    $ref: /schemas/types.yaml#/definitions/string
->>> +    description: Forces the Charge Pump Output to a specified multiplier.
->>> +    enum:
->>> +      - "0" # Auto(default) - Automatically selects optimal charge pump mode
->>> +      - "1.5"
->>> +      - "2"
->>> +      - "1"
->>
->> Numbers are not a string, so choose appropriate number format. Also, oddly
->> sorted. I don't understand what this property is for so not sure what to
->> recommend.
-> 
-> It is arranged this way to match the value for the register.
+This patch series fixes supported ovp values related to pmi8950 wled
+and corrects wled related properties in xiaomi-daisy, xiaomi-land and
+in xiaomi-vince.
 
-Makes no sense. The order here does not matter for driver and registers
-at all.
+Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
+---
+Barnabás Czémán (5):
+      dt-bindings: backlight: qcom-wled: Document ovp values for PMI8950
+      backlight: qcom-wled: Support ovp values for PMI8950
+      arm64: dts: qcom: msm8953-xiaomi-vince: correct wled ovp value
+      arm64: dts: qcom: msm8937-xiaomi-land: correct wled ovp value
+      arm64: dts: qcom: msm8953-xiaomi-daisy: fix backlight
 
-> I plan to keep it as string and just do 
-> enum:
-> - auto
-> - 1.5x
-> - 2x
-> - 1x
-
-Still wrongly ordered and still I do not understand the purpose of this
-property.
-
-Datasheet mentions some sort of impedance. Impedance has units (see
-property units in dtschema), but you call it "level". Maybe you want to
-achieve some specific current on output? But for current we already have
-LED related properties.
-
-Also, "auto" is redundant unless lack of the property has a meaning?
-
-Why exactly this varies between boards?
-
-> 
->>
->>> +    default: "0"
->>> +
->>> +  adi,quick-write:
->>> +    type: boolean
->>> +    description: If present, LED 1 output becomes a master control that
->>> +      simultaneously updates all 18 LED outputs using the hardware's quick-
->> write
->>> +      mode. When enabled, led@1 must be defined in the device tree to
->> provide
->>> +      the control interface, even if no physical LED is connected to the D1
->>> +      output pin. When disabled or not present, LED 1 operates as a normal
->>> +      independent LED output.
->>
->> If there is no led@1 physically, you cannot add it to the DT. It seems you
->> described some sort of driver behavior, instead of hardware.
->>
-> 
-> This is also a hardware feature, when enabled a write to the LED 1
-> output register simultaneously updates all 18 LED output registers
-> to the same value.
-
-You still cannot add fake nodes to DT. Fake means there is no actual LED.
+ .../bindings/leds/backlight/qcom-wled.yaml         | 20 +++++++++--
+ arch/arm64/boot/dts/qcom/msm8937-xiaomi-land.dts   |  2 +-
+ arch/arm64/boot/dts/qcom/msm8953-xiaomi-daisy.dts  |  2 +-
+ arch/arm64/boot/dts/qcom/msm8953-xiaomi-vince.dts  |  2 +-
+ drivers/video/backlight/qcom-wled.c                | 41 ++++++++++++++++++++--
+ 5 files changed, 60 insertions(+), 7 deletions(-)
+---
+base-commit: f96074c6d01d8a5e9e2fccd0bba5f2ed654c1f2d
+change-id: 20260107-pmi8950-wled-b014578f67a6
 
 Best regards,
-Krzysztof
+-- 
+Barnabás Czémán <barnabas.czeman@mainlining.org>
+
 
