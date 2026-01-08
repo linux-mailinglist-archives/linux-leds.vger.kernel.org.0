@@ -1,98 +1,117 @@
-Return-Path: <linux-leds+bounces-6589-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6590-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E28D060EE
-	for <lists+linux-leds@lfdr.de>; Thu, 08 Jan 2026 21:29:30 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C60D066B5
+	for <lists+linux-leds@lfdr.de>; Thu, 08 Jan 2026 23:20:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A12713031A17
-	for <lists+linux-leds@lfdr.de>; Thu,  8 Jan 2026 20:29:09 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5876A3019E1F
+	for <lists+linux-leds@lfdr.de>; Thu,  8 Jan 2026 22:20:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27E0232BF5B;
-	Thu,  8 Jan 2026 20:29:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E33D8328B4B;
+	Thu,  8 Jan 2026 22:20:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ALXoTppO"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S//qes+3"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f201.google.com (mail-dy1-f201.google.com [74.125.82.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0423E32252D;
-	Thu,  8 Jan 2026 20:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3571FF61E
+	for <linux-leds@vger.kernel.org>; Thu,  8 Jan 2026 22:20:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767904149; cv=none; b=uwdP5AU2niBbN6DjOuFOHtfsOato33rzcxQIdJYvZFIqoagLBU6CXmf0oCf/rYCfJn/gH+FtV3wOsqa2xpxi6BPUUWjjm0m7KFuYMpdgKSXmQgZiLz0dDZuMJ65uQEFIruIBUu6Z6xJjK7GbmUV8Y72etuYOlPd1RmTEmaQYqV0=
+	t=1767910803; cv=none; b=kxCPIBbgP7OCroi96Xubly3A4uux+/hgXeeZC4/5QlgqvCVeSBmQkr+0/MlV++iYTuM4t4Rqr+uTAc524l1VsQSSJSzgRkEo9yMkZizMNC66N2LjsdYGPNXVdzuoMxPqNhIOapzQ9QpWXmbU8ka29icf6lAorlShNhHPvSr5p7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767904149; c=relaxed/simple;
-	bh=J5zgVl3LofNAIZuTJWaMznkSwxB14toCZtKNTVHOZsw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s1GhSLfHjeMZYNH9cMWJnhWhsZtnG3qHtWCBzdDH7hTva+xYHs8aNSVPLu0ZNJRlYglNQ9jBoiUXb3UjKbzqImKkFo86jqs8tO+eWW0fqefLlq05cWPE2L9y8CVgpwDBXY/NJK8iKx1dBmIQd9nyi93F2TwrsuXqeCOChkAizM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ALXoTppO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76E57C116C6;
-	Thu,  8 Jan 2026 20:29:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767904148;
-	bh=J5zgVl3LofNAIZuTJWaMznkSwxB14toCZtKNTVHOZsw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ALXoTppOivts3pFHK9soFhROljIcDOP2H3TLu65MzlQVXcBqjj4DuhcCWw4gyzMxk
-	 n1g5ZtGVqvvphzyBvzMJ1OUuPdgB/ZpYIX2wxrlO82+nXoltyU2FS8ZJKw6Tu691n9
-	 OvMkaP6qUIhcH3uNKHXPm97+jKagMpLC+8hjOlXsyG+snjxr+RWcJcyf6Ch+uM3bTM
-	 ctx3Q35oB0ffEuzYyiSuK1D3K2+ZDVPoQYGxALu4x/TRK0jRyyOn7mt2ZMfOffL6Os
-	 RBZdGJZdATwahMxFsekknJEKQ+Cy1H8S2nIHzFQB8cC4ZN5Bk6wBKS685BU/IALrXJ
-	 u6Vag8ErB5Qvw==
-Date: Thu, 8 Jan 2026 14:29:07 -0600
-From: Rob Herring <robh@kernel.org>
-To: Luka Kovacic <luka.kovacic@sartura.hr>
-Cc: linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, geert+renesas@glider.be,
-	Max.Merchel@tq-group.com, linux@rempel-privat.de, daniel@0x0f.com,
-	shawnguo@kernel.org, sam@ravnborg.org, arnd@arndb.de,
-	krzysztof.kozlowski@canonical.com, pavo.banicevic@sartura.hr,
-	corbet@lwn.net, lee.jones@linaro.org, pavel@ucw.cz,
-	linux@roeck-us.net, jdelvare@suse.com, goran.medic@sartura.hr,
-	luka.perkov@sartura.hr, robert.marko@sartura.hr
-Subject: Re: [PATCH v9 1/7] dt-bindings: Add IEI vendor prefix and IEI
- WT61P803 PUZZLE driver bindings
-Message-ID: <20260108202907.GA998297-robh@kernel.org>
-References: <20210824124438.14519-1-luka.kovacic@sartura.hr>
- <20210824124438.14519-2-luka.kovacic@sartura.hr>
+	s=arc-20240116; t=1767910803; c=relaxed/simple;
+	bh=5ITqXKWePSx2bg8bCdYwfMtYEz/2moH35vHlKOk6Vzo=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=gCKALO7KGo7XGtCEY9wPpYH2GUvwiot+KTmh1P0CG8JNV884apsEmTruFhNCOSqSsZvYvCziE7No8k3+FkvTn+OMBlRf0j6AMDlqiCLAlZWh5l5+240PdyMsO/4Le8J+UwhX4WUlqH6UYkqmc485ACfySrl3rwCP2zcdbmI2EzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ynaffit.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=S//qes+3; arc=none smtp.client-ip=74.125.82.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ynaffit.bounces.google.com
+Received: by mail-dy1-f201.google.com with SMTP id 5a478bee46e88-2b04f8c5e84so3388268eec.1
+        for <linux-leds@vger.kernel.org>; Thu, 08 Jan 2026 14:20:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1767910800; x=1768515600; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:user-agent:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bxjSRacv3w5er0RWgoAClaciiig1BHRL5ZKZktfUSLc=;
+        b=S//qes+3izWIiy7mVyFI1Q4CFPpihaZyLVxzi6DWWOFcTjKKckZ53wVNhw6bTx3XaU
+         dag2EoZn8Z8PC1ew92hKrPPFHPCCqtzECk3QRx5z2N4ODWEx9fE/3IZ3jfotkt4ISMph
+         jGwKqv6kFYxg/TG1XPTlcC+jBqcx6eCikGu35uTL6yaKJuVt0vN/dvVkItYpVgfZaCDf
+         x1hUo1CHp02mj6N7HkT8nv5o4HlUoo3wW18vnYa7aEFANf57USN3SKAow5zEX8xrnPNs
+         t11Nx70oZr862pNPaHp4uSsbOQNti5aOzSLGTiH8tCKMwtVShH44b/5YgIypxuhlnBMq
+         A5fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767910800; x=1768515600;
+        h=cc:to:from:subject:message-id:user-agent:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bxjSRacv3w5er0RWgoAClaciiig1BHRL5ZKZktfUSLc=;
+        b=vAHWH6KMJ1t4rF3dODjRjJsUCUH4AnuQF7FWRg5/I9YyeGar9ccRA+F9gMe5myk053
+         29hinBi+KI4FG0muH8+3ft1ExCN7WMPWjmV56l3LGovJEQL6YlIKwuKPByjsMGpQv8Zk
+         OGgDUQggk7U2Ztw3xSiU16r5p1D44WMpBCaZR0ZdMqtVJEdE4twjcYZWh/hiDDByoPgK
+         n4eT/m3zkd4IXYQPwG4/lH6UoC9hr6AvsK6H9YcCfnc3pJ2yhp61djaHrzINWwnPh8qK
+         tTM4VeE1xxSTLqJfM46HHEMiSguCAtlV7o9uPLNbuILVlPYYNo/y3UngryqBFdEeyqQY
+         IeZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVuoKB72M5a3Eu52xDe8LZkba3Cs/a87saHYgj9OdCK7AJhYsaxn6WZqXxHjcr15H9q/VQ4dcT5tHM+@vger.kernel.org
+X-Gm-Message-State: AOJu0YxoAJwiZ5UZ0hZbqJs2o6BpOmJmIIoafZrSgF4f9HenmO3AGW2f
+	sktsgtEA2nSTZrY3rdI/bSkFen/gpWQ0Y3l7/tgA+n419gB2IgHR72imbHTF3968OdXB++FV2Qx
+	uG3nVwU2yFQ==
+X-Google-Smtp-Source: AGHT+IF+v6/uWmIJwB0eceVf/qyBol3H7EALTIc3xqb2VHJl1Wpvfq7u2x1fIR/JLxi6HhB/9rju4EBWYyGJ
+X-Received: from dlbuy4.prod.google.com ([2002:a05:7022:1e04:b0:11f:3f33:f0a5])
+ (user=ynaffit job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:2385:b0:11b:c2fd:3960
+ with SMTP id a92af1059eb24-121f8b46199mr6271092c88.28.1767910800083; Thu, 08
+ Jan 2026 14:20:00 -0800 (PST)
+Date: Thu, 08 Jan 2026 14:19:58 -0800
+In-Reply-To: <20260108120348.GH302752@google.com> (Lee Jones's message of
+ "Thu, 8 Jan 2026 12:03:48 +0000")
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210824124438.14519-2-luka.kovacic@sartura.hr>
+Mime-Version: 1.0
+References: <20251231004510.1732543-2-ynaffit@google.com> <aVe7_7Jf_FWkBhqH@smile.fi.intel.com>
+ <20260108120348.GH302752@google.com>
+User-Agent: mu4e 1.12.12; emacs 30.1
+Message-ID: <dbx8344flpbl.fsf@ynaffit-andsys.c.googlers.com>
+Subject: Re: [PATCH 5.10,5.15,6.1,6.6 RESEND] leds: spi-byte: Initialize
+ device node before access
+From: Tiffany Yang <ynaffit@google.com>
+To: Lee Jones <lee@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, stable@vger.kernel.org, 
+	pchelkin@ispras.ru, linux-kernel@vger.kernel.org, kernel-team@android.com, 
+	Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-On Tue, Aug 24, 2021 at 02:44:32PM +0200, Luka Kovacic wrote:
-> Add the IEI WT61P803 PUZZLE Device Tree bindings for MFD, HWMON and LED
-> drivers. A new vendor prefix is also added accordingly for
-> IEI Integration Corp.
-> 
-> Signed-off-by: Luka Kovacic <luka.kovacic@sartura.hr>
-> Signed-off-by: Pavo Banicevic <pavo.banicevic@sartura.hr>
-> Cc: Luka Perkov <luka.perkov@sartura.hr>
-> Cc: Robert Marko <robert.marko@sartura.hr>
-> ---
->  .../hwmon/iei,wt61p803-puzzle-hwmon.yaml      | 53 ++++++++++++
->  .../leds/iei,wt61p803-puzzle-leds.yaml        | 39 +++++++++
->  .../bindings/mfd/iei,wt61p803-puzzle.yaml     | 82 +++++++++++++++++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
->  4 files changed, 176 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
->  create mode 100644 Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
->  create mode 100644 Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
+Lee Jones <lee@kernel.org> writes:
 
-I found this and applied it (with a couple of fixes for current checks). 
+> On Fri, 02 Jan 2026, Andy Shevchenko wrote:
 
-I guess working on the driver is abandoned, but we already have this 
-binding in use in armada-8040-puzzle-m801.dts. So it's either add the 
-schema or remove the nodes to fix the warnings.
+>> On Tue, Dec 30, 2025 at 04:45:11PM -0800, Tiffany Yang wrote:
+>> > Commit 7f9ab862e05c ("leds: spi-byte: Call of_node_put() on error  
+>> path")
+>> > was merged in 6.11 and then backported to stable trees through 5.10. It
+>> > relocates the line that initializes the variable 'child' to a later
+>> > point in spi_byte_probe().
+>> >
+>> > Versions < 6.9 do not have commit ccc35ff2fd29 ("leds: spi-byte: Use
+>> > devm_led_classdev_register_ext()"), which removes a line that reads a
+>> > property from 'child' before its new initialization point.  
+>> Consequently,
+>> > spi_byte_probe() reads from an uninitialized device node in stable
+>> > kernels 6.6-5.10.
 
-Or maybe the whole platform is not used and the entire .dts file can be 
-removed?
+>> I'm wondering if in long term the easier maintenance will be with that  
+>> patch
+>> also being backported rather than this being applied.
 
-Rob
+> Works for me.
+
+Makes sense to me too! Thanks everyone for taking a look, and thanks to
+Fedor for originally suggesting this :)
+
+-- 
+Tiffany Y. Yang
 
