@@ -1,107 +1,89 @@
-Return-Path: <linux-leds+bounces-6574-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6575-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D0C7D02AFB
-	for <lists+linux-leds@lfdr.de>; Thu, 08 Jan 2026 13:40:12 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E613D028DF
+	for <lists+linux-leds@lfdr.de>; Thu, 08 Jan 2026 13:13:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D33F5302F801
-	for <lists+linux-leds@lfdr.de>; Thu,  8 Jan 2026 12:36:35 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C2D0E33FDDEB
+	for <lists+linux-leds@lfdr.de>; Thu,  8 Jan 2026 11:52:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEBA645029A;
-	Thu,  8 Jan 2026 09:30:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1EE140B6D2;
+	Thu,  8 Jan 2026 10:10:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="bNmYW9mb";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="PBLmol3z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LzZZOBOH"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4355341E5D4;
-	Thu,  8 Jan 2026 09:30:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC593F076D;
+	Thu,  8 Jan 2026 10:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767864628; cv=none; b=sTqRL27ZD6f2teHe6S0wkfhSobDX8zNaV2sg1dhZRm634QTnjBEC3PNUTV0mZ/3f6uoXqupiu4qDt3l9FwVw9MnTKkzELeWhie6oPFinti4JiKHaqX54uEAP/aYvlyUqvvYsT/ZvfJobfY+P+FBWmGAhFaWrgvX59Rrq951S6+8=
+	t=1767867003; cv=none; b=UVZaN8EjTXGOSWvBTNV0iXVh1Eui/wGoGzXo1wQE9iQ3pwiKWzT6zdVuL1pdSYd/KtFsQbLzaHWOQADnxeh9bWcv0PL8TMGHK9OzVf4Vxerlf9q0BGjhblNb+5aYMhxZKNnhAg4dQaYORDVaWJZr0y0HDaHNgf+xH4iXZ4eTKGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767864628; c=relaxed/simple;
-	bh=R28py7aOUMSHDw9GTWXObj2zn8ywuQsBWDeYZtgNrFM=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=gzGmENtFj+uj8UaACztJw+Sm1C6aiP5K2bhc1AmgwiXZym4Jpc2anc/eZf3tyUJ35eXp2fqevV36olbAC/aDHA5Px/zlz3XIvq9xegxQPsYs08xHzNB3MlrFua7VqXQcaBhaCVGpzvp13nsxMMCL9H0dI3zGgZTpvaInI0Nt9Sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=bNmYW9mb; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=PBLmol3z; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1767864616; bh=+K11+gyj9g6pr1Fpatee6Fb
-	hZy6Ep79Tz865ZNh+y2o=; b=bNmYW9mb+hvjiXOEHgfKR388gGi1kaK5ew8+1VFhAz3409D1zl
-	Jby0ccPef2RHURAi4zCoDtZ02eNHBuoSxWQhI37IsKXjJHEO6+JyrRXf15Yn2xWsbfV4+LVnpn6
-	7SfQ/AOr8NL+j7Aec1JfwKI49sfaTdjKtfAJtidseDG8G5pJqu8F7ZT1twbMbTBsxxxG++PilFc
-	qUQco/aw6xKwQN9zFHABPuX5YAKofsgqe1JfCY6R2KmnPkdPTvitRZUZxyYNcM95+aBp5rsm3Tq
-	Pt0BLx0R9O1y+IL3qK2sHhK5SZ6wjkdXTBFIbPAMc4Py6DSvRZavArSllhar9NwlNqw==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1767864616; bh=+K11+gyj9g6pr1Fpatee6Fb
-	hZy6Ep79Tz865ZNh+y2o=; b=PBLmol3zo+INqRrInBMw5dF73Z7o/6UOGtR1zM5ijDZ0zRlzzv
-	3nMgGEK7kkBXP64oWTCvdMKxtMXFzIQLMzAQ==;
+	s=arc-20240116; t=1767867003; c=relaxed/simple;
+	bh=jhGglnHR79yKqzMve8kZuUJdzdwyNEoqDK2d7uLN0qk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qk7cxevvkzZH1t5sRNiG+En9ARtCZJPx1espBui81a60e3NkNOwGSBMf0KeLRDbrln6eQR8L7f+l+6PC8uACmq122EoVd8aYTggiMYORTaIZbkZufh+nRpTcE/aJt1eBsuHc9G6eyphzgwnaXU1YVoFkcBrLhsAOjDZBYh8z4Ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LzZZOBOH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62BF1C116C6;
+	Thu,  8 Jan 2026 10:10:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767867001;
+	bh=jhGglnHR79yKqzMve8kZuUJdzdwyNEoqDK2d7uLN0qk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LzZZOBOHwTd6nrl3/mbpOCHau0gCfmiYTDmWCyoFBGa4zofYuWFQz+EhZZL+46hGX
+	 bKrZAD4dVcQXwVVHAUS9Lf1fclm7MLcc7nuMWEHhn/bWIjO3zb3OBsF9VaWLAA59hz
+	 ioZoAOIPycOm3zpmADzhBEe+cMfNFw+VMNAuZjTxO8vmbhUs4sCuOFNub935V1fHSB
+	 wF/I3/cfExGbzozL6uhKb0aaD9Ou+linoMAj40L4CbOaFNbD6wzEUjz2T0uasVwU0E
+	 v0gqkJFm/Rxa/OR9Eclq2tXEuURfL+HxpFUlIkMpbrRY+rB/zVTlmudeGltnID8pC0
+	 4zlPsVHHIg5EQ==
+Date: Thu, 8 Jan 2026 11:09:59 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Kiran Gunda <quic_kgunda@quicinc.com>, 
+	Helge Deller <deller@gmx.de>, Luca Weiss <luca@lucaweiss.eu>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Eugene Lepshy <fekz115@gmail.com>, 
+	Gianluca Boiano <morf3089@gmail.com>, Alejandro Tafalla <atafalla@dnyon.com>, 
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>, 
+	linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v2 1/7] dt-bindings: backlight: qcom-wled: Document ovp
+ values for PMI8994
+Message-ID: <20260108-illustrious-original-harrier-e93aaf@quoll>
+References: <20260108-pmi8950-wled-v2-0-8687f23147d7@mainlining.org>
+ <20260108-pmi8950-wled-v2-1-8687f23147d7@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 08 Jan 2026 10:30:16 +0100
-From: barnabas.czeman@mainlining.org
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, Jingoo
- Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Kiran Gunda
- <quic_kgunda@quicinc.com>, Helge Deller <deller@gmx.de>, Luca Weiss
- <luca@lucaweiss.eu>, Konrad Dybcio <konradybcio@kernel.org>, Eugene Lepshy
- <fekz115@gmail.com>, Gianluca Boiano <morf3089@gmail.com>, Alejandro Tafalla
- <atafalla@dnyon.com>, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] dt-bindings: backlight: qcom-wled: Document ovp
- values for PMI8994
-In-Reply-To: <52778327-69bb-4f6c-8d64-094f33809480@oss.qualcomm.com>
-References: <20260108-pmi8950-wled-v2-0-8687f23147d7@mainlining.org>
- <20260108-pmi8950-wled-v2-1-8687f23147d7@mainlining.org>
- <45a2b510-c825-4191-975a-1389f4f18903@oss.qualcomm.com>
- <c7bca43b1b912a6a100d83229d78abde@mainlining.org>
- <52778327-69bb-4f6c-8d64-094f33809480@oss.qualcomm.com>
-Message-ID: <1d1601c3b871e67c76e4f3572400b2d7@mainlining.org>
-X-Sender: barnabas.czeman@mainlining.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260108-pmi8950-wled-v2-1-8687f23147d7@mainlining.org>
 
-On 2026-01-08 10:22, Konrad Dybcio wrote:
-> On 1/8/26 10:17 AM, barnabas.czeman@mainlining.org wrote:
->> On 2026-01-08 09:54, Konrad Dybcio wrote:
->>> On 1/8/26 4:43 AM, Barnabás Czémán wrote:
->>>> Document ovp values supported by wled found in PMI8994.
->>>> 
->>>> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>> 
->>> I reviewed a version of this that said PMI8950, which is very much
->>> not the same..
->>> 
->>> Let me try and get some more docs to confirm or deny what you're
->>> saying..
->> I have sent it for the previous revision msm-4.4 contains the 
->> documentation.
->> https://lore.kernel.org/all/95f7c89fdf9b856f567a498cc56ecfa5@mainlining.org/T/#u
-> 
-> Right, but I didn't send any reply acknowledging that.
-> 
-> On v1, my review tag meant "I concur this is the case for PMI8950"
-Yes, sorry. Since they are pretty much same i have considered it is a
-minor change i have only changed everything to pmi8994 because it
-was introduced before pmi8950 at upstream. I will be more careful next 
-time.
-> 
-> Because you carried it in v2, it appears as if I said "I concur this
-> is the case for PMI8994", which is not what I then said.
-> 
-> Konrad
+On Thu, Jan 08, 2026 at 04:43:19AM +0100, Barnab=C3=A1s Cz=C3=A9m=C3=A1n wr=
+ote:
+> Document ovp values supported by wled found in PMI8994.
+>=20
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Signed-off-by: Barnab=C3=A1s Cz=C3=A9m=C3=A1n <barnabas.czeman@mainlining=
+=2Eorg>
+> ---
+>  .../bindings/leds/backlight/qcom-wled.yaml         | 22 ++++++++++++++++=
+++++--
+>  1 file changed, 20 insertions(+), 2 deletions(-)
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+
+Best regards,
+Krzysztof
+
 
