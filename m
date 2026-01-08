@@ -1,168 +1,131 @@
-Return-Path: <linux-leds+bounces-6577-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6580-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FE0D04515
-	for <lists+linux-leds@lfdr.de>; Thu, 08 Jan 2026 17:23:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C9FD03F0A
+	for <lists+linux-leds@lfdr.de>; Thu, 08 Jan 2026 16:41:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1924932C4DD0
-	for <lists+linux-leds@lfdr.de>; Thu,  8 Jan 2026 15:14:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D18173457EF4
+	for <lists+linux-leds@lfdr.de>; Thu,  8 Jan 2026 15:20:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D772D37FF62;
-	Thu,  8 Jan 2026 10:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0604B4B07D6;
+	Thu,  8 Jan 2026 11:04:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b1duNlvX"
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="Iwv9hrq8";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XTV7vjqG"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36FE43563CB;
-	Thu,  8 Jan 2026 10:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D60492F14;
+	Thu,  8 Jan 2026 11:04:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767868897; cv=none; b=Iy59YpCKMEsynZLdYLFlEooJYNGKpVVXA1bjCtW3yoKOSlPY1paEllKh4HB5Bxw/yGw/JXtQhVldNTug3N2lGDh3WWs5dDxfwFhEm4lzI9SKeYnsBS9VqOdxg3YHhD0kRw3e0D8fWxh71Npyjo9bDK514X5Mx0OzdZAHMbcdNB8=
+	t=1767870277; cv=none; b=WX2KVyQw0wMRTEyVeP8z6ZRiy97Y1BUVnrT4b/tBHEJ5Mol3PjF3WRbXMKEytXHBk23pPJDU4/fQnnVEfMj90/ZLWGtFcCyjJ1trUV+zk+MaFpSetqDJkHjaFSaAhAqJGwU6Wm38kFCLlLf3xlmGjKlbEpWHTd/SED25NHwSQIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767868897; c=relaxed/simple;
-	bh=oHZOtwXfaR8E+Mz2vSai5/IfoL7j9kFgMJa2TXcZtXs=;
+	s=arc-20240116; t=1767870277; c=relaxed/simple;
+	bh=QLlc22KIbfYzAbBeEywRJ8VIBYX29aQwSPYL84hJjZo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hoh0IPoX5tYGjtzlcxzeOUHm9d9tJcpj4eqKRPWFg/PPyaIxGRqi6ov69+pYBh0HnBHiX9uOlTt5zI1V7czRgFNyd/MEVf9intn546qUC1vNIghuR2RzkJEApvJDIWs7QajXV0wk+M0Qwk9KoiZecCj1Vf+03D1iBpeF85pUgkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b1duNlvX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8A02C116C6;
-	Thu,  8 Jan 2026 10:41:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767868895;
-	bh=oHZOtwXfaR8E+Mz2vSai5/IfoL7j9kFgMJa2TXcZtXs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b1duNlvXcIeDbNE8BD9amAPgdJygBYKiUAYYZhGA0OCU71esvLzetO2FQNvZ4EfRX
-	 SDnK8JEpW4W+W2NEA/bd4W9V6grYbj350LMXDuujf2gsvnzwrSMKogNWZw2t4wAqVv
-	 SIzp7D7YW1wSHAkt0Fm+fiNxaKPvJcOQ7Ezjjg513HNhOBQ7TAC2UI3bL0EEV98FKv
-	 T5tbG1XlcomqeXpe9AwzwVFfzqeOgduxgo4oZdHquMUNjVe3VEMnbJnKG9Yh/Iqguw
-	 OrE8kXkgPkt/NNdu6F6QXs9c2ZqrqhJkVMduTo40g9XterNK78xEzSoUB8zu1ir0Yl
-	 gJTO4aSti6ZTw==
-Date: Thu, 8 Jan 2026 10:41:30 +0000
-From: Lee Jones <lee@kernel.org>
-To: Lukas Timmermann <linux@timmermann.space>
-Cc: pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v13 0/2] Support for Osram as3668 LED driver
-Message-ID: <20260108104130.GC302752@google.com>
-References: <20251201230601.285641-1-linux@timmermann.space>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pmrCNdp03y1ptONE61r3gko64t4GYLv+oIR9XtNoKe58tKvmpZIGSo9ab/YRE+JuKWkmhIAyXXPDvvFrJvsEWTBKygf2EJKWyHjwQnaSQY/h5dXnz2R+HcWjCWhBrLLIrP8EOnwushmQ3FHAATgPk+ogU5gUZHlC1KN2bTrG6n0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=Iwv9hrq8; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XTV7vjqG; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id C5BBFEC00DB;
+	Thu,  8 Jan 2026 06:04:23 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 08 Jan 2026 06:04:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1767870263; x=1767956663; bh=GGmG5lhQld
+	p0l9feTAOBwTWzeR8pLb202sDz4wlrlGI=; b=Iwv9hrq8AUmM1ZsxRB8YEPSVjt
+	wKT1aTPvLVQpzdh3OwyCNSezVnZfn/B1tlTx1WKtHRKlaYZLM3q/ML07OwdtfufI
+	lYbAYvBHx3ruPsLbkxOa+2FFF18aZvNbt8lgYEsi4Yfk3WL2tImWpgcc5n3kT7Ca
+	KQF7PBNA4pnsWl46ghdL2z/sUMhVB/l3zGtT/SP2Ozf+pAEHL8GYw60SsRLtSz7B
+	lCHp8iheaOD8XwDt9GqKBfkoNcw82L7a8Q3Mfmo57OGqSMbVhFiqwIkWVhFUHT+e
+	2OpiDauCIzFpLfDsRcKAJ4eBx+5Rrmv/uMLR4qwYiI29jxRB0J2U+j0zvMYg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1767870263; x=1767956663; bh=GGmG5lhQldp0l9feTAOBwTWzeR8pLb202sD
+	z4wlrlGI=; b=XTV7vjqGYv95ceLYUZzsdJ67J37YQkdSh+gJfzky/rU0hCYiU2o
+	XYXqAaV1LptMzafnEoOvi/xpMnoD2eZ7W9e12FRIkG4QAG1MZg1i306SNQmaIjIB
+	iNTUR6i5LHHM0l4fKWpXEDepPvmfHHkXRxCRF0yK9uliFxQVQRCcLrQUtv+jZ9ED
+	rEN2RsSLinzhXH3RTR+EI6msoMCs+Gn8nzJcPvcsrBLUEl1Zue8qzQ/yfYW1T4+5
+	lkjt5+Yv+FoIR90of/pCB/8FCZXYalMI9/MEOjB5xeSiDyXLtFSAWghVWJtnqm31
+	VMmg2H02OInVkWP0oHbhhpOxgVCSI95x95Q==
+X-ME-Sender: <xms:No9faQJNp-M3WMZG-LegAP8tnSi6aRGwHgzrEizmWtpzGbynFFAjsg>
+    <xme:No9fafbN-RvsOo9S-YF5LJX7Lns39FMffIiguf1IfRieYCE5vSV_tzyn8b30wU-YM
+    WO1FPUcW8naVBgGdS6-M-ngpGvKxaryAqHP-ohGgmFXwHEqPw>
+X-ME-Received: <xmr:No9faTiqjqWmD9AedtPvIR5OqhFvt7Oi2Wx8b0IQxEIHRj0pgyymJsrYZqVANhZpvl22hLLxvaCDD4Kw6FI8cy4UUnYQYb3N3irzig>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdehjeekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheegvdevvd
+    eljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefhgfehkeetnecuvehluhhsthgv
+    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrd
+    gtohhmpdhnsggprhgtphhtthhopedukedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    oheprghnughrihihrdhshhgvvhgthhgvnhhkoheslhhinhhugidrihhnthgvlhdrtghomh
+    dprhgtphhtthhopeihnhgrfhhfihhtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehs
+    thgrsghlvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehptghhvghlkh
+    hinhesihhsphhrrghsrdhruhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhg
+    vghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehkvghrnhgvlhdqthgvrghmsegrnh
+    gurhhoihgurdgtohhmpdhrtghpthhtohepphgrvhgvlhesuhgtfidrtgiipdhrtghpthht
+    oheplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqlhgvughsse
+    hvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:No9faU6hHqNnLiQuXQeF5Eb4FbQGFLgZkjKlaQo0i7pW_ET_0xClgw>
+    <xmx:No9faboKK4QUW5Q6LZR4AxtZpS98ftTZ9IqbX5twv153BMnNNLa58w>
+    <xmx:No9faRj8cf2cgRss0WO7TRVKtknB3RXZY44x82yE1GmX037-gRd1qg>
+    <xmx:No9faTvNOZE0dAbtufxRs4zk56Sppm2YLD5sQXJ2OphMsKk0nVk5UQ>
+    <xmx:N49fabzm9BXAtr9-zZqcgdC2X3_Oqb77m2eHBwxO8EXFQdKhfqCF7NK6>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 8 Jan 2026 06:04:22 -0500 (EST)
+Date: Thu, 8 Jan 2026 12:04:14 +0100
+From: Greg KH <greg@kroah.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Tiffany Yang <ynaffit@google.com>, stable@vger.kernel.org,
+	pchelkin@ispras.ru, linux-kernel@vger.kernel.org,
+	kernel-team@android.com, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org
+Subject: Re: [PATCH 5.10,5.15,6.1,6.6 RESEND] leds: spi-byte: Initialize
+ device node before access
+Message-ID: <2026010849-capricorn-backside-0a6e@gregkh>
+References: <20251231004510.1732543-2-ynaffit@google.com>
+ <aVe7_7Jf_FWkBhqH@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251201230601.285641-1-linux@timmermann.space>
+In-Reply-To: <aVe7_7Jf_FWkBhqH@smile.fi.intel.com>
 
-On Tue, 02 Dec 2025, Lukas Timmermann wrote:
+On Fri, Jan 02, 2026 at 02:37:19PM +0200, Andy Shevchenko wrote:
+> On Tue, Dec 30, 2025 at 04:45:11PM -0800, Tiffany Yang wrote:
+> > Commit 7f9ab862e05c ("leds: spi-byte: Call of_node_put() on error path")
+> > was merged in 6.11 and then backported to stable trees through 5.10. It
+> > relocates the line that initializes the variable 'child' to a later
+> > point in spi_byte_probe().
+> > 
+> > Versions < 6.9 do not have commit ccc35ff2fd29 ("leds: spi-byte: Use
+> > devm_led_classdev_register_ext()"), which removes a line that reads a
+> > property from 'child' before its new initialization point. Consequently,
+> > spi_byte_probe() reads from an uninitialized device node in stable
+> > kernels 6.6-5.10.
+> 
+> I'm wondering if in long term the easier maintenance will be with that patch
+> also being backported rather than this being applied.
 
-Running through checkpatch.pl
-total: 0 errors, 0 warnings, 86 lines checked
+I agree, that might be simplest.
 
-"[PATCH v13 1/2] dt-bindings: leds: Add new as3668 support" has no obvious style problems and is ready for submission.
-ERROR: Macros with complex values should be enclosed in parentheses
-#115: FILE: drivers/leds/leds-as3668.c:35:
-+#define AS3668_CURR_MODE_PACK(mode)	((mode) << 0) | \
-+					((mode) << 2) | \
-+					((mode) << 4) | \
-+					((mode) << 6)
+thanks,
 
-BUT SEE:
-
-   do {} while (0) advice is over-stated in a few situations:
-
-   The more obvious case is macros, like MODULE_PARM_DESC, invoked at
-   file-scope, where C disallows code (it must be in functions).  See
-   $exceptions if you have one to add by name.
-
-   More troublesome is declarative macros used at top of new scope,
-   like DECLARE_PER_CPU.  These might just compile with a do-while-0
-   wrapper, but would be incorrect.  Most of these are handled by
-   detecting struct,union,etc declaration primitives in $exceptions.
-
-   Theres also macros called inside an if (block), which "return" an
-   expression.  These cannot do-while, and need a ({}) wrapper.
-
-   Enjoy this qualification while we work to improve our heuristics.
-
-WARNING: please, no spaces at the start of a line
-#135: FILE: drivers/leds/leds-as3668.c:55:
-+    int ret;$
-
-WARNING: please, no spaces at the start of a line
-#136: FILE: drivers/leds/leds-as3668.c:56:
-+    u8 channel_modes;$
-
-WARNING: please, no spaces at the start of a line
-#138: FILE: drivers/leds/leds-as3668.c:58:
-+    ret = i2c_smbus_read_byte_data(led->chip->client, AS3668_CURR_MODE_REG);$
-
-WARNING: please, no spaces at the start of a line
-#139: FILE: drivers/leds/leds-as3668.c:59:
-+    if (ret < 0) {$
-
-ERROR: code indent should use tabs where possible
-#140: FILE: drivers/leds/leds-as3668.c:60:
-+        dev_err(led->cdev.dev, "failed to read channel modes\n");$
-
-WARNING: please, no spaces at the start of a line
-#140: FILE: drivers/leds/leds-as3668.c:60:
-+        dev_err(led->cdev.dev, "failed to read channel modes\n");$
-
-ERROR: code indent should use tabs where possible
-#141: FILE: drivers/leds/leds-as3668.c:61:
-+        return ret;$
-
-WARNING: please, no spaces at the start of a line
-#141: FILE: drivers/leds/leds-as3668.c:61:
-+        return ret;$
-
-WARNING: please, no spaces at the start of a line
-#142: FILE: drivers/leds/leds-as3668.c:62:
-+    }$
-
-WARNING: please, no spaces at the start of a line
-#143: FILE: drivers/leds/leds-as3668.c:63:
-+    channel_modes = (u8)ret;$
-
-WARNING: please, no spaces at the start of a line
-#145: FILE: drivers/leds/leds-as3668.c:65:
-+    channel_modes &= ~led->mode_mask;$
-
-WARNING: please, no spaces at the start of a line
-#146: FILE: drivers/leds/leds-as3668.c:66:
-+    channel_modes |= led->mode_mask & (AS3668_CURR_MODE_PACK(mode));$
-
-WARNING: please, no spaces at the start of a line
-#148: FILE: drivers/leds/leds-as3668.c:68:
-+    return i2c_smbus_write_byte_data(led->chip->client, AS3668_CURR_MODE_REG, channel_modes);$
-
-WARNING: line length of 104 exceeds 100 columns
-#247: FILE: drivers/leds/leds-as3668.c:167:
-+		return dev_err_probe(&client->dev, -EIO, "failed to set zero initial current levels\n");
-
-WARNING: DT compatible string "ams,as3668" appears un-documented -- check ./Documentation/devicetree/bindings/
-#264: FILE: drivers/leds/leds-as3668.c:184:
-+	{ .compatible = "ams,as3668" },
-
-total: 3 errors, 13 warnings, 235 lines checked
-
-NOTE: For some of the reported defects, checkpatch may be able to
-      mechanically convert to the typical style using --fix or --fix-inplace.
-
-NOTE: Whitespace errors detected.
-      You may wish to use scripts/cleanpatch or scripts/cleanfile
-
-"[PATCH v13 2/2] leds: as3668: Driver for the ams Osram 4-channel" has style problems, please review.
-
-NOTE: If any of the errors are false positives, please report
-      them to the maintainer, see CHECKPATCH in MAINTAINERS.
-
--- 
-Lee Jones [李琼斯]
+greg k-h
 
