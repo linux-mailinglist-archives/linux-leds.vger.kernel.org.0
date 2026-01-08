@@ -1,193 +1,123 @@
-Return-Path: <linux-leds+bounces-6587-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6588-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B145D05085
-	for <lists+linux-leds@lfdr.de>; Thu, 08 Jan 2026 18:35:56 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05CE2D05379
+	for <lists+linux-leds@lfdr.de>; Thu, 08 Jan 2026 18:54:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 779A936705DB
-	for <lists+linux-leds@lfdr.de>; Thu,  8 Jan 2026 17:29:25 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 2D1803010BE4
+	for <lists+linux-leds@lfdr.de>; Thu,  8 Jan 2026 17:53:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5196B2F5A32;
-	Thu,  8 Jan 2026 17:27:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N0FBovyG"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A84D72EC54D;
+	Thu,  8 Jan 2026 17:53:41 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBF02D8393;
-	Thu,  8 Jan 2026 17:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0DD23EAB4;
+	Thu,  8 Jan 2026 17:53:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767893264; cv=none; b=UAtbBT2HSc0BVxX6GNaFcGVvuOPGX7wrryVShUD0ualSY4M0qzZaD7uf1jK77OTKcBKZXwhWJMwez8ixov3kZD514CmeKqD5HmGsfFtDTg3ewA7WIuFOqA+LYn5paxi/POczZqE+aqi97+4BaVN+l2uYuITLnUnURglnawQ0MdY=
+	t=1767894821; cv=none; b=j7CQ2ipPZGdjXCZA26/JCRmIeIEv+59w5ag7TKT0ijqRqQV/tK2rpqXRyaAwCjSPzGp5yjURRz+Yf8WEuphtC/La/B0sMI6jMZSOUBABBpY47Q0nN10wd5bYfLfX56/uBY5iY12DPlAPTubiSQ2Gs5iyWtjLqhfFsGh7iOKBGzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767893264; c=relaxed/simple;
-	bh=APV5ntxxphrtGu3GlOx83NQKoLOGqOjtVFfujzMMhq4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fXRxKQTobV1mdIfFd7PZcuetylHr1s2CLB9SfAftksOfPX0ZQ89L21g/9MA6fRDoY7zgO7pDFW6P5nteXT8r3/JT67l1wIMIx4jq825k5WNzVEZe/joexItvMdMN/jRH/8Vw/hdoxW3grcB4wUYzkT/3rzdKhW5Xzz4iLxaceNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N0FBovyG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 815F9C19423;
-	Thu,  8 Jan 2026 17:27:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767893263;
-	bh=APV5ntxxphrtGu3GlOx83NQKoLOGqOjtVFfujzMMhq4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N0FBovyGKwCwkTIJuCh1zGkP/oWG4lKPf6IiQfeuU2LN4kc976awuf3/X2D2xAAB7
-	 LSKRUoCxbPJZIwaqYn+C4npMd37Ve+nIRHg2x+BDFN0At0t2CktFKPwzBLBBeLQs14
-	 n3zbghAwkPFw2OXWcSJbp91R2QPQSe87Rf0aJgVlP1/MyTdeF5Xv2r7qne0jGycf6B
-	 CZV2OqJ9uIgwqtWpFnstWl06+WZsSpMniCdMKfk/f6YfWFYJaUU09mlbR0KtTEjXr0
-	 MmDGdC8QT3RwC+ep6naAsPhVG3dMR/xxB2oHYfq13lE77IqkkhY+QrIL1ZVFf1Zxix
-	 Ebid9/i+qEKrA==
-Date: Thu, 8 Jan 2026 17:27:35 +0000
-From: Lee Jones <lee@kernel.org>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-rtc@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH RESEND v6 00/17] Support ROHM BD72720 PMIC
-Message-ID: <20260108172735.GK302752@google.com>
-References: <cover.1765804226.git.mazziesaccount@gmail.com>
+	s=arc-20240116; t=1767894821; c=relaxed/simple;
+	bh=KFMPtbgIBxu+Wla/QsqgOA/7d95SuEwC+NC9o34W3FQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tPV72yfYpZuXUGfiRhegXwIm+s7eYYGHXRI5Otg+6KWfc54EakOhEeWIvjyituaR3rTW0PmUSm4qYdLl1lF3fN8NAJhBMWY6LYWQ2bKtxH3FClCBCaxbrsh4ilq7CvYeefTiOCAejXuV7ZIoQq3Qog88ZISIIN8OuPoc0537aTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from DESKTOP-L0HPE2S (unknown [114.245.38.183])
+	by APP-01 (Coremail) with SMTP id qwCowAAXvWgQ719poJDSAw--.17665S2;
+	Fri, 09 Jan 2026 01:53:22 +0800 (CST)
+From: Haotian Zhang <vulab@iscas.ac.cn>
+To: lee@kernel.org,
+	pavel@kernel.org
+Cc: abel.vesa@linaro.org,
+	marijn.suijten@somainline.org,
+	sre@kernel.org,
+	andersson@kernel.org,
+	anjelique.melendez@oss.qualcomm.com,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haotian Zhang <vulab@iscas.ac.cn>
+Subject: [PATCH v2] leds: qcom-lpg: Check the return value of regmap_bulk_write()
+Date: Fri,  9 Jan 2026 01:51:33 +0800
+Message-ID: <20260108175133.638-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1.windows.1
+In-Reply-To: <20251204061728.124-1-vulab@iscas.ac.cn>
+References: <20251204061728.124-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1765804226.git.mazziesaccount@gmail.com>
+X-CM-TRANSID:qwCowAAXvWgQ719poJDSAw--.17665S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tFyUAr45GF4Dtw4xCF13twb_yoW8XFy7pa
+	y5CFW2kr4rAas5CayjvFWDJa4Yq3Wfta98GF95Ga4S9FnIvF1jqFyrtFy5tFWrJ3s3Ca1U
+	ArWYqFW8AF17ZFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+	1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+	7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+	1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
+	628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4
+	IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1r
+	MI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJV
+	WUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j
+	6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcS
+	sGvfC2KfnxnUUI43ZEXa7VUbGQ6JUUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwkBA2lfx8oXOQACsb
 
-On Mon, 15 Dec 2025, Matti Vaittinen wrote:
+The lpg_lut_store() function currently ignores the return value of
+regmap_bulk_write() and always returns 0. This can cause hardware write
+failures to go undetected, leading the caller to believe LUT programming
+succeeded when it may have failed.
 
-> Resending the v6
-> 
-> Series is same as v6 _except_ being rebased on v6.19-rc1 - and adding rb
-> tags which were replied to v6.
-> 
-> The ROHM BD72720 is a new power management IC for portable, battery
-> powered devices. It integrates 10 BUCKs and 11 LDOs, RTC, charger, LEDs,
-> GPIOs and a clock gate. To me the BD72720 seems like a successor to the
-> BD71828 and BD71815 PMICs.
-> 
-> This series depends on
-> 5bff79dad20a ("power: supply: Add bd718(15/28/78) charger driver")
-> which is in power-supply tree, for-next. Thus, the series is based on
-> it.
-> 
-> The testing since v4 has suffered some hardware-issues after I
-> accidentally enabled charging while the PMIC's battery pin was connected
-> to the I/O domain. Some heat was generated, not terribly lot smoke
-> though...
-> 
-> After the incident I've had occasional I2C failures. I, however, suspect
-> the root cause is HW damage in I/O lines.
-> 
-> Revision history:
->   v6 resend:
->   - Rebased on v6.19-rc1 and collected rb-tags from v6.
-> 
->   v5 => v6:
->   - MFD fixes as suggested by Lee
->     - Styling mostly
->     - New patch to Fix comment style for MFD driver
->   More accurate changelog in individual patches
-> 
->   v4 => v5:
->   - dt-binding fixes as discussed in v4 reviews.
->     - Drop rohm,vdr-battery.yaml and add vdr properties to battery.yaml
->     - Drop 'rohm,' -vendor-prefix from vdr properties
->   - Link to v4:
->     https://lore.kernel.org/all/cover.1763022807.git.mazziesaccount@gmail.com/
->   More accurate changelog in individual patches
-> 
->   v3 => v4:
->   - dt-binding fixes to the BD72720 MFD example and regulator bindings
->   More accurate changelog in individual patches
-> 
->   v2 => v3:
->   - rebased to power-supply/for-next as dependencies are merged to there
->   - plenty of dt-binding changes as suggested by reviewers
->   - add new patch to better document existing 'trickle-charging' property
->   More accurate changelog in individual patches
-> 
->   RFCv1 => v2:
->   - Drop RFC status
->   - Use stacked regmaps to hide secondary map from the sub-drivers
->   - Quite a few styling fixes and improvements as suggested by
->     reviewers. More accurate changelog in individual patches.
->   - Link to v1:
->     https://lore.kernel.org/all/cover.1759824376.git.mazziesaccount@gmail.com/
-> 
-> ---
-> 
-> Matti Vaittinen (17):
->   dt-bindings: regulator: ROHM BD72720
->   dt-bindings: battery: Clarify trickle-charge
->   dt-bindings: battery: Add trickle-charge upper limit
->   dt-bindings: battery: Voltage drop properties
->   dt-bindings: mfd: ROHM BD72720
->   dt-bindings: leds: bd72720: Add BD72720
->   mfd: rohm-bd71828: Use regmap_reg_range()
->   mfd: rohm-bd71828: Use standard file header format
->   mfd: rohm-bd71828: Support ROHM BD72720
->   regulator: bd71828: rename IC specific entities
->   regulator: bd71828: Support ROHM BD72720
->   gpio: Support ROHM BD72720 gpios
->   clk: clk-bd718x7: Support BD72720 clk gate
->   rtc: bd70528: Support BD72720 rtc
->   power: supply: bd71828: Support wider register addresses
->   power: supply: bd71828-power: Support ROHM BD72720
->   MAINTAINERS: Add ROHM BD72720 PMIC
-> 
->  .../bindings/leds/rohm,bd71828-leds.yaml      |    7 +-
->  .../bindings/mfd/rohm,bd72720-pmic.yaml       |  339 ++++++
->  .../bindings/power/supply/battery.yaml        |   33 +-
->  .../regulator/rohm,bd72720-regulator.yaml     |  148 +++
->  MAINTAINERS                                   |    2 +
->  drivers/clk/Kconfig                           |    4 +-
->  drivers/clk/clk-bd718x7.c                     |   10 +-
->  drivers/gpio/Kconfig                          |    9 +
->  drivers/gpio/Makefile                         |    1 +
->  drivers/gpio/gpio-bd72720.c                   |  281 +++++
->  drivers/mfd/Kconfig                           |   18 +-
->  drivers/mfd/rohm-bd71828.c                    |  555 ++++++++-
->  drivers/power/supply/bd71828-power.c          |  160 ++-
->  drivers/regulator/Kconfig                     |    8 +-
->  drivers/regulator/bd71828-regulator.c         | 1025 ++++++++++++++++-
->  drivers/rtc/Kconfig                           |    3 +-
->  drivers/rtc/rtc-bd70528.c                     |   21 +-
->  include/linux/mfd/rohm-bd72720.h              |  634 ++++++++++
->  include/linux/mfd/rohm-generic.h              |    1 +
->  19 files changed, 3127 insertions(+), 132 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/mfd/rohm,bd72720-pmic.yaml
->  create mode 100644 Documentation/devicetree/bindings/regulator/rohm,bd72720-regulator.yaml
->  create mode 100644 drivers/gpio/gpio-bd72720.c
->  create mode 100644 include/linux/mfd/rohm-bd72720.h
+Check the return value of regmap_bulk_write() in lpg_lut_store and return
+the error to the caller on failure.
 
-The MFD parts LGTM.
+Fixes: 24e2d05d1b68 ("leds: Add driver for Qualcomm LPG")
+Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
 
-What Acks are you waiting on?  What's the merge strategy?
+---
+Changes in v2:
+  - Fix indentation alignment.
+---
+ drivers/leds/rgb/leds-qcom-lpg.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-> -- 
-> 2.52.0
-> 
-
-
-
+diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+index 4f2a178e3d26..c33a49105dfc 100644
+--- a/drivers/leds/rgb/leds-qcom-lpg.c
++++ b/drivers/leds/rgb/leds-qcom-lpg.c
+@@ -369,7 +369,7 @@ static int lpg_lut_store(struct lpg *lpg, struct led_pattern *pattern,
+ {
+ 	unsigned int idx;
+ 	u16 val;
+-	int i;
++	int i, ret;
+ 
+ 	idx = bitmap_find_next_zero_area(lpg->lut_bitmap, lpg->lut_size,
+ 					 0, len, 0);
+@@ -379,8 +379,10 @@ static int lpg_lut_store(struct lpg *lpg, struct led_pattern *pattern,
+ 	for (i = 0; i < len; i++) {
+ 		val = pattern[i].brightness;
+ 
+-		regmap_bulk_write(lpg->map, lpg->lut_base + LPG_LUT_REG(idx + i),
+-				  &val, sizeof(val));
++		ret = regmap_bulk_write(lpg->map, lpg->lut_base + LPG_LUT_REG(idx + i),
++					&val, sizeof(val));
++		if (ret)
++			return ret;
+ 	}
+ 
+ 	bitmap_set(lpg->lut_bitmap, idx, len);
 -- 
-Lee Jones [李琼斯]
+2.50.1.windows.1
+
 
