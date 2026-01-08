@@ -1,54 +1,59 @@
-Return-Path: <linux-leds+bounces-6578-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6579-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EFD4D0283A
-	for <lists+linux-leds@lfdr.de>; Thu, 08 Jan 2026 12:58:50 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E25BD0273F
+	for <lists+linux-leds@lfdr.de>; Thu, 08 Jan 2026 12:41:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E5AEE31608F0
-	for <lists+linux-leds@lfdr.de>; Thu,  8 Jan 2026 11:41:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5F6723148950
+	for <lists+linux-leds@lfdr.de>; Thu,  8 Jan 2026 11:23:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CE3944A717;
-	Thu,  8 Jan 2026 10:43:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 603F338BF7F;
+	Thu,  8 Jan 2026 11:02:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NXyvnaNt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YOqzq6Pn"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B2A4921B8;
-	Thu,  8 Jan 2026 10:43:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F286A3A35C7;
+	Thu,  8 Jan 2026 11:02:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767868988; cv=none; b=X4Bpyw/7Jv5Xfnt+jLUZhj4kOJFZgRLZRa7fpwjZkktH8hfRln62PEQyzQsx+NgsLyngdaPVSR/SCaGirSyRB33ooFovw1Pe7AJ0zGQnJ3uJ7Wha61hRFJDGdd66R6/74i3mfINl5CJk8Ho+EwxEeisJcLjhgVUVystXFgr3Odo=
+	t=1767870143; cv=none; b=IbG+JDNGk/DO2Kttd7WD741LovBRWcXy7RJ99yHCjbeLmpSe4yoigJ+V4BsKaSKaRs5ZgHE6k24u92SMSaoz2Yeca0NytCkuZiE0IIj8nOQHv2Zie2jynXAAP4tRlGeVsEO2tXey7f8S85bHc/g59qYAZ7R+w9+rSKJlvBnY2oI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767868988; c=relaxed/simple;
-	bh=lzJcKNnVkFd6dKQeDFrT1No+Tn6LtyPpmkciRHBHnn4=;
+	s=arc-20240116; t=1767870143; c=relaxed/simple;
+	bh=j+m4pmahMPKTeJHv084pK40Ng7vT7Xd+DmVBZhi+jYo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Udkbisddstm0OslUbqak1J7S8SzQBei51aw6Ws9nI283KVyxDms3ZiswAtsgCPJ/TfvgnxOuiz/Oag81+MohHQpBMR8tOA4MOikNdAWjjDPenhn0sZah9tDVMHkn7n9E9l8VP4tfyoQikARWbmcJEpfYrDgJtmNniHU1crqZTVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NXyvnaNt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1821DC116C6;
-	Thu,  8 Jan 2026 10:43:04 +0000 (UTC)
+	 MIME-Version:Content-Type; b=LlEEm9mN0YuSlzFg8pFa6VnXt16IECg26ybJkwXkY7PvXi0qGK5J4FpgEPR6JNPp97dgT9ve/bymTwRIBtzYZvn049XsvxkwTgYENqpuwQeZb6hdhtnsPdpKhXva+OJr3C+NYCTwrpCgkYJlAq5OOJ7cP7DI8CAjvhOcHq4Vaew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YOqzq6Pn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BAE4C116C6;
+	Thu,  8 Jan 2026 11:02:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767868986;
-	bh=lzJcKNnVkFd6dKQeDFrT1No+Tn6LtyPpmkciRHBHnn4=;
+	s=k20201202; t=1767870142;
+	bh=j+m4pmahMPKTeJHv084pK40Ng7vT7Xd+DmVBZhi+jYo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=NXyvnaNt6CIhrayvqo8AubylKf9gZhPICQEWHBqjc5BSHsViMgxugrhfGnL9emD7W
-	 QG/BSHXtfOBrLtyj+vXzuHsj+ZUrde9OCC7te/9szmpz6XlQ1jFt0hLW4/oS6uKqYv
-	 oGzTFqkZEoXV1kzlQcr5A/6hH7Xj/2/ws+earaVH+NZyVZS4e2N/dXQ115e4mW5UhO
-	 ap1sT2GkLJ/l4nIBaLkdbqhrotEOP7k8nzCVgYHlaGRMgP/TUmDj5MgiAPxC7ao2mm
-	 nes9iaopuwKZKH7WYgQCZbjk/KhAFAnPfFvY8+2HA3UoHAZcRiqJKT1DqToS3DJwQR
-	 GhFQdQT0a5BIQ==
+	b=YOqzq6PnaT+cDFCwGsvnUPhhsiojSFyGw7S2cWyEgMv8hiZvJN2YzGX614CbeH8SK
+	 4rvAMSCrFig2CvVI/OrqXwt0SyrsldGYnESbFifm6AOyHeiIabeVk0YfdjwTrVISos
+	 i8Rs0dOQi4IQlPvBiWvig1L+3x6/Umj/CLhQVDKCBk8n2xvgYisSJj2JbwsmjjQHGF
+	 o5fbJx6bXOGYxKCQ3tAUTlma9mk3aeNSKYHP7mr+Z7/mDYi6iggm0qUywwQCfLPdDj
+	 IeEXrKpO24+QrPdyrObWALgAI5cHneSUTWie5XZmD7RBRhVIydCrcE7CQ+OOyijFhR
+	 ydnfGIsjnTREA==
 From: Lee Jones <lee@kernel.org>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20251201042612.2099239-1-vivek.balachandhar@gmail.com>
-References: <20251201042612.2099239-1-vivek.balachandhar@gmail.com>
-Subject: Re: (subset) [PATCH] leds: lm3692x: fix kernel-doc for struct
- lm3692x_led
-Message-Id: <176786898481.843981.9772484972862864512.b4-ty@kernel.org>
-Date: Thu, 08 Jan 2026 10:43:04 +0000
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Steffen Trumtrar <kernel@pengutronix.de>, Pavel Machek <pavel@kernel.org>, 
+ Mark Brown <broonie@kernel.org>, 
+ Steffen Trumtrar <s.trumtrar@pengutronix.de>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel@pengutronix.de, Jacek Anaszewski <jacek.anaszewski@gmail.com>
+In-Reply-To: <20251201-v6-14-topic-ti-lp5860-v6-0-be9a21218157@pengutronix.de>
+References: <20251201-v6-14-topic-ti-lp5860-v6-0-be9a21218157@pengutronix.de>
+Subject: Re: [PATCH v6 0/2] LED: Add basic LP5860 LED matrix driver
+Message-Id: <176787013936.860906.10157564091923679409.b4-ty@kernel.org>
+Date: Thu, 08 Jan 2026 11:02:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -59,23 +64,22 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.15-dev-52d38
 
-On Mon, 01 Dec 2025 04:26:12 +0000, Vivek BalachandharTN wrote:
-> Building with W=1 reports several kernel-doc warnings in
-> drivers/leds/leds-lm3692x.c:
+On Mon, 01 Dec 2025 12:19:46 +0100, Steffen Trumtrar wrote:
+> The lp5860 is a LED matrix driver with 18 constant current sinks and 11
+> scan switches which allows controlling up to 196 LED dots.
 > 
->   Warning: leds-lm3692x.c:122 struct member 'boost_ctrl'
->   not described in 'lm3692x_led'
->   Warning: leds-lm3692x.c:122 struct member 'brightness_ctrl'
->   not described in 'lm3692x_led'
->   Warning: leds-lm3692x.c:122 struct member 'enabled'
->   not described in 'lm3692x_led'
+> This series adds just the basic support for the device on the SPI bus.
+> It is also possible to use it on I2C. The interface can be
+> switched/selected via an interface select pin.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] leds: lm3692x: fix kernel-doc for struct lm3692x_led
-      commit: 101bc85a19436825e8c94a27e792cd9750aad708
+[1/2] dt-bindings: leds: add lp5860 LED controller
+      commit: 393d56d437c65e4619cadab9f2347167cde99906
+[2/2] leds: add support for TI LP5860 LED driver chip
+      commit: 97ee55eb5d33f6b0d2d72954a8ce8a61c15893c8
 
 --
 Lee Jones [李琼斯]
