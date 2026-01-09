@@ -1,117 +1,126 @@
-Return-Path: <linux-leds+bounces-6590-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6591-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C60D066B5
-	for <lists+linux-leds@lfdr.de>; Thu, 08 Jan 2026 23:20:13 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7369FD07679
+	for <lists+linux-leds@lfdr.de>; Fri, 09 Jan 2026 07:36:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5876A3019E1F
-	for <lists+linux-leds@lfdr.de>; Thu,  8 Jan 2026 22:20:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 78593301357B
+	for <lists+linux-leds@lfdr.de>; Fri,  9 Jan 2026 06:36:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E33D8328B4B;
-	Thu,  8 Jan 2026 22:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B43D52DB781;
+	Fri,  9 Jan 2026 06:36:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S//qes+3"
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="Z3k8rymC";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="WkmcQYPp"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-dy1-f201.google.com (mail-dy1-f201.google.com [74.125.82.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3571FF61E
-	for <linux-leds@vger.kernel.org>; Thu,  8 Jan 2026 22:20:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A8B28850E;
+	Fri,  9 Jan 2026 06:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767910803; cv=none; b=kxCPIBbgP7OCroi96Xubly3A4uux+/hgXeeZC4/5QlgqvCVeSBmQkr+0/MlV++iYTuM4t4Rqr+uTAc524l1VsQSSJSzgRkEo9yMkZizMNC66N2LjsdYGPNXVdzuoMxPqNhIOapzQ9QpWXmbU8ka29icf6lAorlShNhHPvSr5p7I=
+	t=1767940580; cv=none; b=hXuYaAXNP7mwfa43SQg9MiAnk1X3hxmdQZ9sjYEimkty6VTSdftQPi3nmjssf/wc5HAdaRjinb+FOe5f2W0roW8OnktGFNCo7ZRUAIVQ4OCdZHCflFCMFMcccj19IvgoM1gooE5TVwM3z3rCpb7zH3TQsPGDi56u2iNSKWxalrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767910803; c=relaxed/simple;
-	bh=5ITqXKWePSx2bg8bCdYwfMtYEz/2moH35vHlKOk6Vzo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=gCKALO7KGo7XGtCEY9wPpYH2GUvwiot+KTmh1P0CG8JNV884apsEmTruFhNCOSqSsZvYvCziE7No8k3+FkvTn+OMBlRf0j6AMDlqiCLAlZWh5l5+240PdyMsO/4Le8J+UwhX4WUlqH6UYkqmc485ACfySrl3rwCP2zcdbmI2EzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ynaffit.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=S//qes+3; arc=none smtp.client-ip=74.125.82.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ynaffit.bounces.google.com
-Received: by mail-dy1-f201.google.com with SMTP id 5a478bee46e88-2b04f8c5e84so3388268eec.1
-        for <linux-leds@vger.kernel.org>; Thu, 08 Jan 2026 14:20:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1767910800; x=1768515600; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:user-agent:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bxjSRacv3w5er0RWgoAClaciiig1BHRL5ZKZktfUSLc=;
-        b=S//qes+3izWIiy7mVyFI1Q4CFPpihaZyLVxzi6DWWOFcTjKKckZ53wVNhw6bTx3XaU
-         dag2EoZn8Z8PC1ew92hKrPPFHPCCqtzECk3QRx5z2N4ODWEx9fE/3IZ3jfotkt4ISMph
-         jGwKqv6kFYxg/TG1XPTlcC+jBqcx6eCikGu35uTL6yaKJuVt0vN/dvVkItYpVgfZaCDf
-         x1hUo1CHp02mj6N7HkT8nv5o4HlUoo3wW18vnYa7aEFANf57USN3SKAow5zEX8xrnPNs
-         t11Nx70oZr862pNPaHp4uSsbOQNti5aOzSLGTiH8tCKMwtVShH44b/5YgIypxuhlnBMq
-         A5fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767910800; x=1768515600;
-        h=cc:to:from:subject:message-id:user-agent:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bxjSRacv3w5er0RWgoAClaciiig1BHRL5ZKZktfUSLc=;
-        b=vAHWH6KMJ1t4rF3dODjRjJsUCUH4AnuQF7FWRg5/I9YyeGar9ccRA+F9gMe5myk053
-         29hinBi+KI4FG0muH8+3ft1ExCN7WMPWjmV56l3LGovJEQL6YlIKwuKPByjsMGpQv8Zk
-         OGgDUQggk7U2Ztw3xSiU16r5p1D44WMpBCaZR0ZdMqtVJEdE4twjcYZWh/hiDDByoPgK
-         n4eT/m3zkd4IXYQPwG4/lH6UoC9hr6AvsK6H9YcCfnc3pJ2yhp61djaHrzINWwnPh8qK
-         tTM4VeE1xxSTLqJfM46HHEMiSguCAtlV7o9uPLNbuILVlPYYNo/y3UngryqBFdEeyqQY
-         IeZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVuoKB72M5a3Eu52xDe8LZkba3Cs/a87saHYgj9OdCK7AJhYsaxn6WZqXxHjcr15H9q/VQ4dcT5tHM+@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoAJwiZ5UZ0hZbqJs2o6BpOmJmIIoafZrSgF4f9HenmO3AGW2f
-	sktsgtEA2nSTZrY3rdI/bSkFen/gpWQ0Y3l7/tgA+n419gB2IgHR72imbHTF3968OdXB++FV2Qx
-	uG3nVwU2yFQ==
-X-Google-Smtp-Source: AGHT+IF+v6/uWmIJwB0eceVf/qyBol3H7EALTIc3xqb2VHJl1Wpvfq7u2x1fIR/JLxi6HhB/9rju4EBWYyGJ
-X-Received: from dlbuy4.prod.google.com ([2002:a05:7022:1e04:b0:11f:3f33:f0a5])
- (user=ynaffit job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:2385:b0:11b:c2fd:3960
- with SMTP id a92af1059eb24-121f8b46199mr6271092c88.28.1767910800083; Thu, 08
- Jan 2026 14:20:00 -0800 (PST)
-Date: Thu, 08 Jan 2026 14:19:58 -0800
-In-Reply-To: <20260108120348.GH302752@google.com> (Lee Jones's message of
- "Thu, 8 Jan 2026 12:03:48 +0000")
+	s=arc-20240116; t=1767940580; c=relaxed/simple;
+	bh=k6nAvvx5UVSbHO88lKNTmQGUQoFtGy7kceT8JUpw8Go=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=ILf0ejMAdZBXFViN8jr9PYB08weYBeED6OkhUqn99V4yAc1Jy0b9XyKIdnRlTViHXJGahu6vNqxxNuMpAVy4m0mrPCuSdaY2NfgOFmwgqnOAtojhWxeZt4gTxYnmwrzwxytD8kAJfzZTZuKIo5hfNiR/u/ZxFjs3UmIWIqRqqBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=Z3k8rymC; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=WkmcQYPp; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1767940563; bh=KFBoG2fcIxheggmVM+AQApJ
+	yuE3iDl57EzYZzdHaxmg=; b=Z3k8rymCyRPCCIoyqZxbsyayVvG6CGqsrcdjyQLcc/LKkxIegQ
+	vPOzZnySkZG2C00gULRdqZb+Lajp/acC0LJkGFAZ4DgeJBloaNsOSvyT5t+ABWqJnJgqHjwckm5
+	P7LIszibYJqye37DKObXGq1Ih+0lv+0AZ8y0OYYB8dw0ZqrI6tVphU5bB1KOazs9c/KcUDiAr1O
+	DEjiR0PDR2hxgpPzYlL9ufH9LmvCXuqJuDREMPOhJ5RhxFLX45QhCwNAsRnEaSOF132tdVmS4VO
+	cE2RxtWUpIWFUZZURRfPCXFMKg9PtUJhpEO692b3YqMiK4ikZ5/6eO3Bm/AZmDKH67Q==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1767940563; bh=KFBoG2fcIxheggmVM+AQApJ
+	yuE3iDl57EzYZzdHaxmg=; b=WkmcQYPppQ+K2wEGm8QDA4IprDuJbg1u8P1XyGaIOvv7OO0LBh
+	TEfwfdosBtVkxS8JSsxAZ/SmM2HhGojcn4BA==;
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251231004510.1732543-2-ynaffit@google.com> <aVe7_7Jf_FWkBhqH@smile.fi.intel.com>
- <20260108120348.GH302752@google.com>
-User-Agent: mu4e 1.12.12; emacs 30.1
-Message-ID: <dbx8344flpbl.fsf@ynaffit-andsys.c.googlers.com>
-Subject: Re: [PATCH 5.10,5.15,6.1,6.6 RESEND] leds: spi-byte: Initialize
- device node before access
-From: Tiffany Yang <ynaffit@google.com>
-To: Lee Jones <lee@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, stable@vger.kernel.org, 
-	pchelkin@ispras.ru, linux-kernel@vger.kernel.org, kernel-team@android.com, 
-	Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+Date: Fri, 09 Jan 2026 07:36:03 +0100
+From: barnabas.czeman@mainlining.org
+To: Daniel Thompson <danielt@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Pavel
+ Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn
+ Andersson <andersson@kernel.org>, Kiran Gunda <quic_kgunda@quicinc.com>,
+ Helge Deller <deller@gmx.de>, Luca Weiss <luca@lucaweiss.eu>, Konrad Dybcio
+ <konradybcio@kernel.org>, Eugene Lepshy <fekz115@gmail.com>, Gianluca Boiano
+ <morf3089@gmail.com>, Alejandro Tafalla <atafalla@dnyon.com>,
+ dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Daniel Thompson
+ <daniel.thompson@linaro.org>, linux-arm-msm@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v2 2/7] backlight: qcom-wled: Support ovp values for
+ PMI8994
+In-Reply-To: <aV-UyhP7wllSBpYj@aspen.lan>
+References: <20260108-pmi8950-wled-v2-0-8687f23147d7@mainlining.org>
+ <20260108-pmi8950-wled-v2-2-8687f23147d7@mainlining.org>
+ <aV-UyhP7wllSBpYj@aspen.lan>
+Message-ID: <67acbe8ff2496e18a99165d794a7bae8@mainlining.org>
+X-Sender: barnabas.czeman@mainlining.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 
-Lee Jones <lee@kernel.org> writes:
-
-> On Fri, 02 Jan 2026, Andy Shevchenko wrote:
-
->> On Tue, Dec 30, 2025 at 04:45:11PM -0800, Tiffany Yang wrote:
->> > Commit 7f9ab862e05c ("leds: spi-byte: Call of_node_put() on error  
->> path")
->> > was merged in 6.11 and then backported to stable trees through 5.10. It
->> > relocates the line that initializes the variable 'child' to a later
->> > point in spi_byte_probe().
->> >
->> > Versions < 6.9 do not have commit ccc35ff2fd29 ("leds: spi-byte: Use
->> > devm_led_classdev_register_ext()"), which removes a line that reads a
->> > property from 'child' before its new initialization point.  
->> Consequently,
->> > spi_byte_probe() reads from an uninitialized device node in stable
->> > kernels 6.6-5.10.
-
->> I'm wondering if in long term the easier maintenance will be with that  
->> patch
->> also being backported rather than this being applied.
-
-> Works for me.
-
-Makes sense to me too! Thanks everyone for taking a look, and thanks to
-Fedor for originally suggesting this :)
-
--- 
-Tiffany Y. Yang
+On 2026-01-08 12:28, Daniel Thompson wrote:
+> On Thu, Jan 08, 2026 at 04:43:20AM +0100, Barnabás Czémán wrote:
+>> WLED4 found in PMI8994 supports different ovp values.
+>> 
+>> Fixes: 6fc632d3e3e0 ("video: backlight: qcom-wled: Add PMI8994 
+>> compatible")
+>> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
+>> ---
+>>  drivers/video/backlight/qcom-wled.c | 41 
+>> +++++++++++++++++++++++++++++++++++--
+>>  1 file changed, 39 insertions(+), 2 deletions(-)
+>> 
+>> diff --git a/drivers/video/backlight/qcom-wled.c 
+>> b/drivers/video/backlight/qcom-wled.c
+>> index a63bb42c8f8b..5decbd39b789 100644
+>> --- a/drivers/video/backlight/qcom-wled.c
+>> +++ b/drivers/video/backlight/qcom-wled.c
+>> @@ -1244,6 +1244,15 @@ static const struct wled_var_cfg wled4_ovp_cfg 
+>> = {
+>>  	.size = ARRAY_SIZE(wled4_ovp_values),
+>>  };
+>> 
+>> +static const u32 pmi8994_wled_ovp_values[] = {
+>> +	31000, 29500, 19400, 17800,
+>> +};
+>> +
+>> +static const struct wled_var_cfg pmi8994_wled_ovp_cfg = {
+>> +	.values = pmi8994_wled_ovp_values,
+>> +	.size = ARRAY_SIZE(pmi8994_wled_ovp_values),
+>> +};
+>> +
+> 
+> Do these *have* to be named after one of the two PMICs that implement
+> this OVP range.
+> 
+> Would something like wled4_alternative_ovp_values[] (and the same
+> throughout the patch) be more descriptive?
+I don't know. I don't like the PMIC naming either but at least it
+descriptive about wich PMIC is needing these values.
+I think PMIC naming would be fine if compatibles what representing the
+same configurations would be deprecated and used as a fallback 
+compatbile
+style.
+I mean we could kept the first added compatible for a configuration.
+Maybe they should be named diferently i don't know if WLEDs have 
+subversion.
+> 
+> 
+> Daniel.
 
