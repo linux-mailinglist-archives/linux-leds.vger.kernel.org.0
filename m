@@ -1,57 +1,67 @@
-Return-Path: <linux-leds+bounces-6595-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6596-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46781D083BC
-	for <lists+linux-leds@lfdr.de>; Fri, 09 Jan 2026 10:35:53 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E05D08410
+	for <lists+linux-leds@lfdr.de>; Fri, 09 Jan 2026 10:38:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id ABA613010578
-	for <lists+linux-leds@lfdr.de>; Fri,  9 Jan 2026 09:35:11 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 74CCD30022D8
+	for <lists+linux-leds@lfdr.de>; Fri,  9 Jan 2026 09:38:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D91E7358D1B;
-	Fri,  9 Jan 2026 09:35:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 389F33590DC;
+	Fri,  9 Jan 2026 09:38:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ELs1J/xO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m/J/ZksX"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C2E3563C8;
-	Fri,  9 Jan 2026 09:35:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BD5332EB8;
+	Fri,  9 Jan 2026 09:38:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767951308; cv=none; b=qCye/ooWfbYx55Jp8eCSh9u6RRwJ8im6GG7N8erP0wd3/GXIFUnSCDYN1t6KhR9pbexS5mtAZ74oChHrd/n2aUMyoBvuItYzamK8meIGMgSIZlxR/NKxHhGUNnzVCSlkuccA0pJPwMUF5VCs36Inw6b4NuaIgsBEatEZzcapgKY=
+	t=1767951519; cv=none; b=hgEd1c3U4TEmn4q/gbhu79lztcqgISHU6RSVsJ+EtiLZy/b3eiQA/F8ChFKeguEItWzpvStWx1437pjZtz5wYenhUbeqnSYWcK9sS8KcCfS/3t3r1svCCZPjaQDV/dHC96LVfMPRGpIxiYPb7lsbEMDeNhouJTJ+OFnv3Sma3tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767951308; c=relaxed/simple;
-	bh=BLyZo/dkd1iG7Ef2JVu0zskylPKhZ49BKz8mVO/zYL0=;
+	s=arc-20240116; t=1767951519; c=relaxed/simple;
+	bh=tegkIuDCR5AnbPfPf1lo3yVzsYelRzcYlX+qImnmmX0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pdj9kQmyLmlx0uPvm7eA4WvdMTvs8aE4shSi+KgI04C65dn6BzYkEegcFu1ZTc0knAfH7TkhE8h2Cx8ow1sgP/nT6GNC00G5VoQt/WI+uxZR4CAkHuF+/SfT0AWIQ/WU4gnO1lD7Eqy9FkVJ2lMxOVBm1mNInNDq91uRtc8Nsxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ELs1J/xO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 397F8C19422;
-	Fri,  9 Jan 2026 09:35:07 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=klQR4UYgq6Cx2ZnsM+W3gzJkoyzF4LY2OkvzwmFz0jZLkZWD336JirpQCYNYJxFpjXdNXHDQnLdIavWFYxVedFYMrHpfeyTlXDAtfZxmGB7NW0wAwDP6DaEbwr7GVzAMvXsNiwnPliDe1OJQzXajMgeAxrl4R4e2nyP+3UG2HxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m/J/ZksX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AE24C4CEF1;
+	Fri,  9 Jan 2026 09:38:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767951308;
-	bh=BLyZo/dkd1iG7Ef2JVu0zskylPKhZ49BKz8mVO/zYL0=;
+	s=k20201202; t=1767951518;
+	bh=tegkIuDCR5AnbPfPf1lo3yVzsYelRzcYlX+qImnmmX0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ELs1J/xOkGyBDNwvnXE8Kl+vE3nFa7GGeQhaGy1O94HlkS4oIWFFc+XicyGs9I5Q3
-	 vkndz2e/KPW00z5k9cR3ZOtU+CSKrJrAdTmS+cxTYtiZoLIycOtP2yD+8HZ7Kf+ydY
-	 RufOXU9g9Bx75p1n3JI9PPLHzvYKLqemfVpdOSYoFmQVfskExbkhPCeESracsyCwG0
-	 9rRlb5rxigstJUy8iyPre0xuN/amI4n+8uRVNuZ5Joqljc2lGCon5Tj/DvM3J9GGoG
-	 bfGNAEzq42GsM5PJEmfw4w0HK6kD2nXh+L3s4hKZPFI/3vkD3WYaPTdS5O/WRdVMY/
-	 xoj0WpApesi4Q==
-Date: Fri, 9 Jan 2026 09:35:04 +0000
+	b=m/J/ZksX1294b1CnoBjpds7r/vXco/NRKMCnf7lerTgIP6cy2wvdKzwS7836h6QgZ
+	 ZdgbesgtSbRuCWD4fjPwlbGgojP40UsAR/AEDhc0kf4EX5rMGgsHSK5wt0A/QFBse1
+	 DyA5Ts2PIexQTtS0tyu4OPecSGU4yw4IZ1JeRAuVjWxIvfOpgylsvmT689Wo6nDt2N
+	 H7qdZXwBvPy/dCqTZc0yCl1pK7NWCman+vnA84Ns/jimniuopXQ1kNiaFyZzvTZIgV
+	 8bGfwmtf5De9YE7yUQOjhXMRtF+8Qp2RTI0PkH2hSDZWIK9QcWm9xFZQQJuq9qi0Yr
+	 uQ/hhpnz3xg1g==
+Date: Fri, 9 Jan 2026 09:38:31 +0000
 From: Lee Jones <lee@kernel.org>
-To: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Cc: Sebastian Reichel <sre@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	linux-leds@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] leds: led-class: Only Add LED to leds_list when it is
- fully ready
-Message-ID: <20260109093504.GA1118061@google.com>
-References: <20251211163727.366441-1-johannes.goede@oss.qualcomm.com>
- <2bbtf7out2t52pge4hezfc7dryu6te2qstfm5kzez7zrw3dvqq@wxvqnjbulxc4>
- <585dc6a5-64e3-4f54-8ff3-9b9f1fc3d54d@oss.qualcomm.com>
- <20260108121142.GI302752@google.com>
- <70e4dec3-e4d9-409d-9ac3-aec814aec3bb@oss.qualcomm.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-rtc@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
+Subject: Re: [PATCH RESEND v6 00/17] Support ROHM BD72720 PMIC
+Message-ID: <20260109093831.GB1118061@google.com>
+References: <cover.1765804226.git.mazziesaccount@gmail.com>
+ <20260108172735.GK302752@google.com>
+ <63bc889a-b97e-43c3-9f46-9ca444873b70@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -61,103 +71,150 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <70e4dec3-e4d9-409d-9ac3-aec814aec3bb@oss.qualcomm.com>
+In-Reply-To: <63bc889a-b97e-43c3-9f46-9ca444873b70@gmail.com>
 
-On Thu, 08 Jan 2026, Hans de Goede wrote:
+Sebastian,
 
-> Hi Lee,
-> 
-> On 8-Jan-26 13:11, Lee Jones wrote:
-> > On Fri, 12 Dec 2025, Hans de Goede wrote:
+  Any thoughts?
+
+Matti,
+
+  If Sebastian doesn't reply, I can execute your plan next week.
+
+On Fri, 09 Jan 2026, Matti Vaittinen wrote:
+> On 08/01/2026 19:27, Lee Jones wrote:
+> > On Mon, 15 Dec 2025, Matti Vaittinen wrote:
 > > 
-> >> Hi,
-> >>
-> >> On 12-Dec-25 07:49, Sebastian Reichel wrote:
-> >>> Hi,
-> >>>
-> >>> On Thu, Dec 11, 2025 at 05:37:27PM +0100, Hans de Goede wrote:
-> >>>> Before this change the LED was added to leds_list before led_init_core()
-> >>>> gets called adding it the list before led_classdev.set_brightness_work gets
-> >>>> initialized.
-> >>>>
-> >>>> This leaves a window where led_trigger_register() of a LED's default
-> >>>> trigger will call led_trigger_set() which calls led_set_brightness()
-> >>>> which in turn will end up queueing the *uninitialized*
-> >>>> led_classdev.set_brightness_work.
-> >>>>
-> >>>> This race gets hit by the lenovo-thinkpad-t14s EC driver which registers
-> >>>> 2 LEDs with a default trigger provided by snd_ctl_led.ko in quick
-> >>>> succession. The first led_classdev_register() causes an async modprobe of
-> >>>> snd_ctl_led to run and that async modprobe manages to exactly hit
-> >>>> the window where the second LED is on the leds_list without led_init_core()
-> >>>> being called for it, resulting in:
-> >>>>
-> >>>>  ------------[ cut here ]------------
-> >>>>  WARNING: CPU: 11 PID: 5608 at kernel/workqueue.c:4234 __flush_work+0x344/0x390
-> >>>>  Hardware name: LENOVO 21N2S01F0B/21N2S01F0B, BIOS N42ET93W (2.23 ) 09/01/2025
-> >>>>  ...
-> >>>>  Call trace:
-> >>>>   __flush_work+0x344/0x390 (P)
-> >>>>   flush_work+0x2c/0x50
-> >>>>   led_trigger_set+0x1c8/0x340
-> >>>>   led_trigger_register+0x17c/0x1c0
-> >>>>   led_trigger_register_simple+0x84/0xe8
-> >>>>   snd_ctl_led_init+0x40/0xf88 [snd_ctl_led]
-> >>>>   do_one_initcall+0x5c/0x318
-> >>>>   do_init_module+0x9c/0x2b8
-> >>>>   load_module+0x7e0/0x998
-> >>>>
-> >>>> Close the race window by moving the adding of the LED to leds_list to
-> >>>> after the led_init_core() call.
-> >>>>
-> >>>> Cc: Sebastian Reichel <sre@kernel.org>
-> >>>> Cc: stable@vger.kernel.org
-> >>>> Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
-> >>>> ---
-> >>>
-> >>> heh, I've never hit this. But I guess that is not too surprising
-> >>> considering it is a race condition. The change looks good to me:
-> >>>
-> >>> Reviewed-by: Sebastian Reichel <sre@kernel.org>
-> >>
-> >> Thx.
-> >>  
-> >>>> Note no Fixes tag as this problem has been around for a long long time,
-> >>>> so I could not really find a good commit for the Fixes tag.
-> >>>
-> >>> My suggestion would be:
-> >>>
-> >>> Fixes: d23a22a74fde ("leds: delay led_set_brightness if stopping soft-blink")
-> >>
-> >> Ack, that works for me.
-> >>
-> >> Lee can you add this Fixes tag while merging ?
-> >>
-> >> Also (in case it is not obvious) this is a bugfix so it would be
-> >> nice if this could go in a fixes pull-request for 6.19.
+> > > Resending the v6
+> > > 
+> > > Series is same as v6 _except_ being rebased on v6.19-rc1 - and adding rb
+> > > tags which were replied to v6.
+> > > 
+> > > The ROHM BD72720 is a new power management IC for portable, battery
+> > > powered devices. It integrates 10 BUCKs and 11 LDOs, RTC, charger, LEDs,
+> > > GPIOs and a clock gate. To me the BD72720 seems like a successor to the
+> > > BD71828 and BD71815 PMICs.
+> > > 
+> > > This series depends on
+> > > 5bff79dad20a ("power: supply: Add bd718(15/28/78) charger driver")
+> > > which is in power-supply tree, for-next. Thus, the series is based on
+> > > it.
+> > > 
+> > > The testing since v4 has suffered some hardware-issues after I
+> > > accidentally enabled charging while the PMIC's battery pin was connected
+> > > to the I/O domain. Some heat was generated, not terribly lot smoke
+> > > though...
+> > > 
+> > > After the incident I've had occasional I2C failures. I, however, suspect
+> > > the root cause is HW damage in I/O lines.
+> > > 
+> > > Revision history:
+> > >    v6 resend:
+> > >    - Rebased on v6.19-rc1 and collected rb-tags from v6.
+> > > 
+> > >    v5 => v6:
+> > >    - MFD fixes as suggested by Lee
+> > >      - Styling mostly
+> > >      - New patch to Fix comment style for MFD driver
+> > >    More accurate changelog in individual patches
+> > > 
+> > >    v4 => v5:
+> > >    - dt-binding fixes as discussed in v4 reviews.
+> > >      - Drop rohm,vdr-battery.yaml and add vdr properties to battery.yaml
+> > >      - Drop 'rohm,' -vendor-prefix from vdr properties
+> > >    - Link to v4:
+> > >      https://lore.kernel.org/all/cover.1763022807.git.mazziesaccount@gmail.com/
+> > >    More accurate changelog in individual patches
+> > > 
+> > >    v3 => v4:
+> > >    - dt-binding fixes to the BD72720 MFD example and regulator bindings
+> > >    More accurate changelog in individual patches
+> > > 
+> > >    v2 => v3:
+> > >    - rebased to power-supply/for-next as dependencies are merged to there
+> > >    - plenty of dt-binding changes as suggested by reviewers
+> > >    - add new patch to better document existing 'trickle-charging' property
+> > >    More accurate changelog in individual patches
+> > > 
+> > >    RFCv1 => v2:
+> > >    - Drop RFC status
+> > >    - Use stacked regmaps to hide secondary map from the sub-drivers
+> > >    - Quite a few styling fixes and improvements as suggested by
+> > >      reviewers. More accurate changelog in individual patches.
+> > >    - Link to v1:
+> > >      https://lore.kernel.org/all/cover.1759824376.git.mazziesaccount@gmail.com/
+> > > 
+> > > ---
+> > > 
+> > > Matti Vaittinen (17):
+> > >    dt-bindings: regulator: ROHM BD72720
+> > >    dt-bindings: battery: Clarify trickle-charge
+> > >    dt-bindings: battery: Add trickle-charge upper limit
+> > >    dt-bindings: battery: Voltage drop properties
+> > >    dt-bindings: mfd: ROHM BD72720
+> > >    dt-bindings: leds: bd72720: Add BD72720
+> > >    mfd: rohm-bd71828: Use regmap_reg_range()
+> > >    mfd: rohm-bd71828: Use standard file header format
+> > >    mfd: rohm-bd71828: Support ROHM BD72720
+> > >    regulator: bd71828: rename IC specific entities
+> > >    regulator: bd71828: Support ROHM BD72720
+> > >    gpio: Support ROHM BD72720 gpios
+> > >    clk: clk-bd718x7: Support BD72720 clk gate
+> > >    rtc: bd70528: Support BD72720 rtc
+> > >    power: supply: bd71828: Support wider register addresses
+> > >    power: supply: bd71828-power: Support ROHM BD72720
+> > >    MAINTAINERS: Add ROHM BD72720 PMIC
+> > > 
+> > >   .../bindings/leds/rohm,bd71828-leds.yaml      |    7 +-
+> > >   .../bindings/mfd/rohm,bd72720-pmic.yaml       |  339 ++++++
+> > >   .../bindings/power/supply/battery.yaml        |   33 +-
+> > >   .../regulator/rohm,bd72720-regulator.yaml     |  148 +++
+> > >   MAINTAINERS                                   |    2 +
+> > >   drivers/clk/Kconfig                           |    4 +-
+> > >   drivers/clk/clk-bd718x7.c                     |   10 +-
+> > >   drivers/gpio/Kconfig                          |    9 +
+> > >   drivers/gpio/Makefile                         |    1 +
+> > >   drivers/gpio/gpio-bd72720.c                   |  281 +++++
+> > >   drivers/mfd/Kconfig                           |   18 +-
+> > >   drivers/mfd/rohm-bd71828.c                    |  555 ++++++++-
+> > >   drivers/power/supply/bd71828-power.c          |  160 ++-
+> > >   drivers/regulator/Kconfig                     |    8 +-
+> > >   drivers/regulator/bd71828-regulator.c         | 1025 ++++++++++++++++-
+> > >   drivers/rtc/Kconfig                           |    3 +-
+> > >   drivers/rtc/rtc-bd70528.c                     |   21 +-
+> > >   include/linux/mfd/rohm-bd72720.h              |  634 ++++++++++
+> > >   include/linux/mfd/rohm-generic.h              |    1 +
+> > >   19 files changed, 3127 insertions(+), 132 deletions(-)
+> > >   create mode 100644 Documentation/devicetree/bindings/mfd/rohm,bd72720-pmic.yaml
+> > >   create mode 100644 Documentation/devicetree/bindings/regulator/rohm,bd72720-regulator.yaml
+> > >   create mode 100644 drivers/gpio/gpio-bd72720.c
+> > >   create mode 100644 include/linux/mfd/rohm-bd72720.h
 > > 
-> > Yes, I can add the Fixes: tag and no, I have no plans to send this for
-> > -fixes.  As you rightly mentioned, this issue has been around for a long
-> > time already.  I tend to only send -fixes pull-requests for things that
-> > broke in -rc1 of the same release.
+> > The MFD parts LGTM.
 > 
-> Even though this has been around for a long time, it would be good
-> to get this in as a fix for 6.19-rc# because as described in the commit
-> msg the lenovo-thinkpad-t14s embedded-controller driver, which is new in
-> 6.19-rc1 manages to reliably trigger the race (for me, with a Fedora
-> kernel distconfig).
+> Thanks Lee!
 > 
-> I was surprised I could hit the race pretty reliably, but it did make
-> debugging this easier.
+> > What Acks are you waiting on?  What's the merge strategy?
 > 
-> Hitting the race also leads to a crash due to a NULL ptr deref after
-> the WARN(). I did not elaborate on this in the commit msg, because
-> the WARN() is the first sign of trying to use uninitialized mem.
+> I think everything else has been acked by maintainers, except the
+> power-supply parts. I think those have only been looked at by Andreas and
+> Linus W. Haven't heard anything from Sebastian :(
 > 
-> IMHO having a reproducable race which causes a crash is
-> a good reason to submit this as a fix for 6.19 .
-
-Noted.  Leave it with me.
+> I would love to see the patches 1 - 14 and 17 to be merged (via MFD?). I
+> could then re-spin the 15 and 16 to limited audience as I hope Sebastian had
+> time to take a look at them. However, I don't think any of the other patches
+> in the series depend on the last .
+> 
+> Yours,
+>  -- Matti.
+> 
+> 
+> ---
+> Matti Vaittinen
+> Linux kernel developer at ROHM Semiconductors
+> Oulu Finland
+> 
+> ~~ When things go utterly wrong vim users can always type :help! ~~
 
 -- 
 Lee Jones [李琼斯]
