@@ -1,160 +1,84 @@
-Return-Path: <linux-leds+bounces-6606-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6607-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 253E6D0B102
-	for <lists+linux-leds@lfdr.de>; Fri, 09 Jan 2026 16:54:54 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E324D0BB19
+	for <lists+linux-leds@lfdr.de>; Fri, 09 Jan 2026 18:35:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B7129301502B
-	for <lists+linux-leds@lfdr.de>; Fri,  9 Jan 2026 15:48:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9A903300379F
+	for <lists+linux-leds@lfdr.de>; Fri,  9 Jan 2026 17:25:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4A123385BC;
-	Fri,  9 Jan 2026 15:48:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E2FB365A1A;
+	Fri,  9 Jan 2026 17:25:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="QLxjpT8D";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="cTxe+DFS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ntVYkMVm"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF07D33C1B3;
-	Fri,  9 Jan 2026 15:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD5C364EB1;
+	Fri,  9 Jan 2026 17:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767973705; cv=none; b=uevjv4Y+FYZLSazUKo/T6UjRZvxTldadxiQ525R50JrlCX4t593+fRebizmSzOu0wXp3wOT6LTywFtaADAO9hPc9xvTw5qpAntnMMM96c/l0hJ2rtadkUukQsI0cAWqZ9bW93E5Tx2DdMwULy1eMds553TV0v2Ei1UsxF2WNL9Q=
+	t=1767979507; cv=none; b=Ea+9POLHlABW8JyiJpQpuBABGNVeoIzHycMZpsrnslukTAXo7sxQh3yAQhVyG2iIMGUCbh5JJoikQ7zS2TR+VL9M8ddss7AkU7yjVAumJQY5OgkDtX02zvA9Rc3DNsmL+6knSaxLXEXy84++0PksVja460VINkvsIh07rxfUp38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767973705; c=relaxed/simple;
-	bh=/Uw3GGnxPQUcEYWkRHwX0bPOI11uhcg+OxtQTIUpCfw=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=SOKKZv8vhh4bGHNjj2cPS4cHEgcJCvw5h1t/Q1UvVk6gKwy8LySZwJpjl/tHaQQSRQWvG1wtC92iAaM6BYQb9B7tE8pcNP0RatG94Ogkv1elfBX/DFOl8/RJoqqLZxOp+9Kc5YNWXemiS3F9znxf9Mp7uCn4m6opJIiWz5tCOwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=QLxjpT8D; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=cTxe+DFS; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1767973552; bh=kgvZjKseW7XXTgnrU98FYJ4
-	WNKjj7962wN9LQSN4pQU=; b=QLxjpT8Dbhd4TzBlDG75uESVugiOBVAoKrIZWZl3lJ9Ev8v+WC
-	dK001qV0uMX8X09R2aRjv2rwdeHqjexEyiwRRd0ncngJuhnrsUy52uklW1g5K3PgvpmcJYVmmQ+
-	X55Vzr8fxvAdyJYOYQozC3M1JwhIOxdKcZMx7fLeJr/xYiLZkmv56NqLml4HJUWrwSGcswXqmol
-	8Ny8YHrDyZPa+wpG4KU1Auc+BT7QBgFn+nxM1Ol6g+TgwUXXU+XutF073c0LtqSbEc6EHdHMuXr
-	IFpUi26VOcvux943bUcRj//X7qUdPGI4caDimixKdJOlVrOsJQ+GeZdFRprVn6ZgFkw==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1767973552; bh=kgvZjKseW7XXTgnrU98FYJ4
-	WNKjj7962wN9LQSN4pQU=; b=cTxe+DFSSiJPDx479bcskm4p/mkHkx+Mqh+oGQiFuhdZACZCLW
-	1RBJWE2fhFC791X49V2CyvO4ySJZpew74jBg==;
+	s=arc-20240116; t=1767979507; c=relaxed/simple;
+	bh=u0z8hE3jLPeC7ggCcA8xBcv4VLFbK5RbroxlgJSXdCM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=RCDrHLMWx8CqVLrZiRP1Wg6Q/TRgkSKYLjUjETvKtyDv02q52B+BUoV1JwchXdIMww2JgU8HleztNBtgW/8fwr5e8lXih7tT5x2bzKJJ9ZoZjFzpEAlRLBIjW6kIESAunE0FHJ7evx60rZNReJWPrPpRNLyr0zHSqppFr3hZ5i0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ntVYkMVm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D735C4CEF1;
+	Fri,  9 Jan 2026 17:25:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767979506;
+	bh=u0z8hE3jLPeC7ggCcA8xBcv4VLFbK5RbroxlgJSXdCM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ntVYkMVmAEib/zeFfAmiMLu0IPe8NNcPIwHdl1GfSk+9cloByob31bYyPzhaf+r9o
+	 /bz/P89dNBcabpMxuykqj6JrD2v1xLxCZRBA2YfmF6+KsUHNL/8AvQm3R9W7Gj+8k6
+	 z0JXTWqt2/Tm5gpVyVJYddK7OwUv1O2YSlbtmkndG0FOzSazqhtSVkronppgev+UyO
+	 28JoGYZVAUlaonubeJaJ8YrHz6wvJbJXqNBZQE07tckBalY3FmzNS4UN7jHEkuaMWP
+	 J3rypcCL5HApNeT4l5dn8UNskZQmKcSDxEmTVQ0y2t2W2nq5Hk3KWtK7IXZTNahQpY
+	 lWtYFZ0C9gVwg==
+From: Lee Jones <lee@kernel.org>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>, 
+ Pavel Machek <pavel@kernel.org>, 
+ =?utf-8?q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20260101-multi-led-v3-1-e29ca8dedd37@posteo.net>
+References: <20260101-multi-led-v3-1-e29ca8dedd37@posteo.net>
+Subject: Re: (subset) [PATCH v3] dt-bindings: leds: Allow differently named
+ multicolor leds
+Message-Id: <176797950401.1884223.13105930657262711602.b4-ty@kernel.org>
+Date: Fri, 09 Jan 2026 17:25:04 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 09 Jan 2026 16:45:52 +0100
-From: barnabas.czeman@mainlining.org
-To: Daniel Thompson <danielt@kernel.org>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Lee Jones
- <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Pavel Machek
- <pavel@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson
- <andersson@kernel.org>, Kiran Gunda <quic_kgunda@quicinc.com>, Helge Deller
- <deller@gmx.de>, Luca Weiss <luca@lucaweiss.eu>, Konrad Dybcio
- <konradybcio@kernel.org>, Eugene Lepshy <fekz115@gmail.com>, Gianluca Boiano
- <morf3089@gmail.com>, Alejandro Tafalla <atafalla@dnyon.com>,
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] backlight: qcom-wled: Support ovp values for
- PMI8994
-In-Reply-To: <00d0c357d31463272d786bcc9abfe295@mainlining.org>
-References: <20260108-pmi8950-wled-v2-0-8687f23147d7@mainlining.org>
- <20260108-pmi8950-wled-v2-2-8687f23147d7@mainlining.org>
- <aV-UyhP7wllSBpYj@aspen.lan>
- <67acbe8ff2496e18a99165d794a7bae8@mainlining.org>
- <0fe51f7f-9b77-4bff-ab1c-21c44a863a7a@oss.qualcomm.com>
- <aWEDr3O9T7bASnj9@aspen.lan>
- <00d0c357d31463272d786bcc9abfe295@mainlining.org>
-Message-ID: <886d98f40c8f99c7d6d236ddbec487be@mainlining.org>
-X-Sender: barnabas.czeman@mainlining.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-52d38
 
-On 2026-01-09 16:42, barnabas.czeman@mainlining.org wrote:
-> On 2026-01-09 14:33, Daniel Thompson wrote:
->> On Fri, Jan 09, 2026 at 12:09:11PM +0100, Konrad Dybcio wrote:
->>> On 1/9/26 7:36 AM, barnabas.czeman@mainlining.org wrote:
->>> > On 2026-01-08 12:28, Daniel Thompson wrote:
->>> >> On Thu, Jan 08, 2026 at 04:43:20AM +0100, Barnabás Czémán wrote:
->>> >>> WLED4 found in PMI8994 supports different ovp values.
->>> >>>
->>> >>> Fixes: 6fc632d3e3e0 ("video: backlight: qcom-wled: Add PMI8994 compatible")
->>> >>> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>> >>> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
->>> >>> ---
->>> >>>  drivers/video/backlight/qcom-wled.c | 41 +++++++++++++++++++++++++++++++++++--
->>> >>>  1 file changed, 39 insertions(+), 2 deletions(-)
->>> >>>
->>> >>> diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
->>> >>> index a63bb42c8f8b..5decbd39b789 100644
->>> >>> --- a/drivers/video/backlight/qcom-wled.c
->>> >>> +++ b/drivers/video/backlight/qcom-wled.c
->>> >>> @@ -1244,6 +1244,15 @@ static const struct wled_var_cfg wled4_ovp_cfg = {
->>> >>>      .size = ARRAY_SIZE(wled4_ovp_values),
->>> >>>  };
->>> >>>
->>> >>> +static const u32 pmi8994_wled_ovp_values[] = {
->>> >>> +    31000, 29500, 19400, 17800,
->>> >>> +};
->>> >>> +
->>> >>> +static const struct wled_var_cfg pmi8994_wled_ovp_cfg = {
->>> >>> +    .values = pmi8994_wled_ovp_values,
->>> >>> +    .size = ARRAY_SIZE(pmi8994_wled_ovp_values),
->>> >>> +};
->>> >>> +
->>> >>
->>> >> Do these *have* to be named after one of the two PMICs that implement
->>> >> this OVP range.
->>> >>
->>> >> Would something like wled4_alternative_ovp_values[] (and the same
->>> >> throughout the patch) be more descriptive?
->>> > I don't know. I don't like the PMIC naming either but at least it
->>> > descriptive about wich PMIC is needing these values.
->> 
->> It's the descriptive but wrong element I dislike (pmi8994_wled_ovp_cfg
->> is used by pmi8550).
-> No, pmi8950 is using pmi8994_wled_opts struct what is using 
-> pmi8994_wled_ovp_cfg.
-Maybe would be better move opts to compatible data.
->> 
->> I know these things crop up for "historical reasons" when is appears 
->> in
->> the same patchset I have to question the naming.
->> 
->> 
->>> > I think PMIC naming would be fine if compatibles what representing the
->>> > same configurations would be deprecated and used as a fallback compatbile
->>> > style.
->>> > I mean we could kept the first added compatible for a configuration.
->>> > Maybe they should be named diferently i don't know if WLEDs have subversion.
->>> 
->>> Every PMIC peripheral is versioned.
->>> 
->>> WLED has separate versioning for the digital and analog parts:
->>> 
->>> PMIC		ANA	DIG
->>> ---------------------------
->>> PMI8937		2.0	1.0 (also needs the quirk)
->>> PMI8950		2.0	1.0
->>> PMI8994		2.0	1.0
->>> PMI8996		2.1	1.0
->>> PMI8998		3.1	3.0
->>> PM660L		4.1	4.0
->>> 
->>> I don't know for sure if "PMIC4 with WLED ANA/DIG 3.x" a good
->>> discriminant though..
->> 
->> Peronally I'd prefer that to making them all use pmi8994 structures.
->> It's a much better link back to the docs (at least for those with the
->> power to read them ;-) ).
->> 
->> 
->> Daniel.
+On Thu, 01 Jan 2026 18:19:26 +0100, J. Neuschäfer wrote:
+> In some cases, for example when using multiple instances of
+> leds-group-multicolor, a board may have multiple multi-leds which can't
+> be distinguished by unit address. In such cases it should be possible to
+> name them differently, for example multi-led-0 and multi-led-1. This
+> patch adds another node name pattern to leds-class-multicolor.yaml to
+> allow such names.
+> 
+> [...]
+
+Applied, thanks!
+
+[1/1] dt-bindings: leds: Allow differently named multicolor leds
+      commit: df3cfc33b24dd238a85b7c51ec052ffcf00aaf09
+
+--
+Lee Jones [李琼斯]
+
 
