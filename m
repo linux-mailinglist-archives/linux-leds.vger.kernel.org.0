@@ -1,71 +1,70 @@
-Return-Path: <linux-leds+bounces-6610-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6611-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0932D0CF15
-	for <lists+linux-leds@lfdr.de>; Sat, 10 Jan 2026 05:20:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9CB1D0D959
+	for <lists+linux-leds@lfdr.de>; Sat, 10 Jan 2026 18:00:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3D50130060DD
-	for <lists+linux-leds@lfdr.de>; Sat, 10 Jan 2026 04:20:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CD286300E038
+	for <lists+linux-leds@lfdr.de>; Sat, 10 Jan 2026 17:00:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FC1F2853F3;
-	Sat, 10 Jan 2026 04:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CAD7288C20;
+	Sat, 10 Jan 2026 17:00:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G2ouBRuv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aVVHgStr"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC307223336
-	for <linux-leds@vger.kernel.org>; Sat, 10 Jan 2026 04:20:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE642877D6
+	for <linux-leds@vger.kernel.org>; Sat, 10 Jan 2026 17:00:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768018817; cv=none; b=YxyLGNkr89JJxFN1sN6LB8j8elRErHwJRlnIXFYvEs5gfzLGS+yrb3N9vSxkj0eqGctvK1YdCO52URnORkjvkvDMUNCVKtOPq5YCX3JX/bYT8H6mbLtNeyK1vzOqJckOEs0p1iYKXJZBpYLFpTgF/B8TdsO7hxrh0URMD6bN98o=
+	t=1768064412; cv=none; b=cQEfOs59+4nmDaveQ3MjD4UyH+TtPtlRSWh4P7D29Fu4OHeE/Xy/WTwBPG/CCo34mfVGj9SbY/YB2Cp2Q9gl71AClt3RYpDplJ7iljZPTFrP5S49IDiL4ubWDnr5xEyQpGlBqZ5KXQgjxa/zveZIcspMONMx5ittpIsw6DUfxtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768018817; c=relaxed/simple;
-	bh=io2f+hjhUrZYYXSQOBNN4czXpcELuAZnxKD2yFNNXSI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mWCIruVOKedw8jCI0DMu8HzSqd9w41Cc+N8WqVj2tFn79oDpO6FUgmzOlzUx/CwJ/yfXm9YEjin4ELm1aEkSeEO09zhlj9V3eTQsEzZdznAUD+41RNWUKg87eahMZR4LG16X6N0xoZ3BH2BAPbl8InCsQUWIk2F/g+JgYItk1Rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G2ouBRuv; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1768064412; c=relaxed/simple;
+	bh=p0YugLkQv+O8eko19EDS0oRLufX9cQFIDgl9UfmrZAo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hcW4LKrT7AYzkbL6w1P3ID76YViL1qLvRuOcNvOetNUj6NjwuuXislPirPEHJHAiEuPrXdELhY7VUaj1NMSaCV3tBb0oQfhepQ7sRBqBGpNsJXfIL+gqHJAZK6bv0QIJiViQYJH2pCP5f/RLbgieI+HUoZiXJ92QMIIBERlQSUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aVVHgStr; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768018814; x=1799554814;
+  t=1768064411; x=1799600411;
   h=date:from:to:cc:subject:message-id;
-  bh=io2f+hjhUrZYYXSQOBNN4czXpcELuAZnxKD2yFNNXSI=;
-  b=G2ouBRuv2SSOyupgWH6ipDPgirLPxryK/8RWgsQjJ8ILwm5I3xg0PV8T
-   AVafHuOOB6jc450F+JIfIlo5QPfsyJeZNsqra2zLwggz5BT7zrFwJSgTg
-   Pec5chAjeID2jY3jLnOLGgYo/gINiUBaOZZnl6TLSwMDtX0zybEZEMe9C
-   0JPkPFM7JKB7hUwGqI8z9NUhIGSmP7MtfD1Tb8i5kHK+LAaBj8Wjj+HUo
-   ieLVw7ytJ1/eYWA5xo12Q6DQlBIdr6KVpVYYLQs4+D1tPbQjVIRnTV25E
-   UwTj77dDQz3SKqPDqTTuLx9/+TD/rLt7RZPx1cFj695TyI+xtG+she7QA
-   Q==;
-X-CSE-ConnectionGUID: oOfxrae7QDi49ylVs9jD8g==
-X-CSE-MsgGUID: ISuZP4/QSyirvGJLgfk/NQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="69441311"
+  bh=p0YugLkQv+O8eko19EDS0oRLufX9cQFIDgl9UfmrZAo=;
+  b=aVVHgStrTsKm1xRXB8CXVcChFGeDrGYB13uE1dLSQdgHMzFnLln/2u9L
+   UoUvo7qU4mpCtTFRG+uVfeeuePSwXBEzkRRfzmEsVLXSa9028zQuH2KbC
+   P73N6kly+Z5Upm2U/7XiIqQ1oG8qBJIUfQxWCdm/yjUsUEwWZR6mQ/i55
+   JF+JvDsiZ899pPazAoLVMdowSwLWhfD8gc2cU99c3rV63XTF2P4y70xKV
+   5MEVgZPYTgy8su7cOtICqft+rzUlXZp4fRlW0EXHmwNIrDdtvqgkGxCf+
+   DMM12/VnzyeuSdIB7YD9D3hYZ4FRWfHvec7lLLSo7EitXtsXADOOJi4QU
+   A==;
+X-CSE-ConnectionGUID: 4Bcw7QXISjWqbu1kkhfxbw==
+X-CSE-MsgGUID: v2XxGv0CTXyA/q6V+pp4Yw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11667"; a="69146736"
 X-IronPort-AV: E=Sophos;i="6.21,215,1763452800"; 
-   d="scan'208";a="69441311"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 20:20:14 -0800
-X-CSE-ConnectionGUID: FSdRNF1pTbGzMnpSMumzRw==
-X-CSE-MsgGUID: 1R3rkbBjSA+6a1TujzGIGQ==
+   d="scan'208";a="69146736"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2026 09:00:10 -0800
+X-CSE-ConnectionGUID: TcZ+A14gTKS2szn9tB+PAQ==
+X-CSE-MsgGUID: e03bJ5XXQ3C/fdPg81GeBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,215,1763452800"; 
-   d="scan'208";a="208455510"
+   d="scan'208";a="208762365"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Jan 2026 20:20:12 -0800
+  by orviesa005.jf.intel.com with ESMTP; 10 Jan 2026 09:00:09 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1veQSQ-0000000083s-2HjO;
-	Sat, 10 Jan 2026 04:20:10 +0000
-Date: Sat, 10 Jan 2026 12:19:52 +0800
+	id 1vecJq-000000008tI-1Axv;
+	Sat, 10 Jan 2026 17:00:06 +0000
+Date: Sun, 11 Jan 2026 00:59:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
- Lee Jones <lee@kernel.org>
-Subject: [lee-leds:for-leds-next 3/10] ERROR: modpost:
- "lp5860_device_remove" [drivers/leds/rgb/leds-lp5860-spi.ko] undefined!
-Message-ID: <202601101239.ORkhfLpB-lkp@intel.com>
+To: Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next] BUILD REGRESSION
+ e257dc532c20bd93f0076c18cb5ffd739a5f0bb4
+Message-ID: <202601110018.iHp14xac-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
@@ -73,33 +72,367 @@ List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-head:   e257dc532c20bd93f0076c18cb5ffd739a5f0bb4
-commit: 51f7560294c911e9394357a903ffa28eebe4b253 [3/10] leds: Add support for TI LP5860 LED driver chip
-config: xtensa-randconfig-r071-20260110 (https://download.01.org/0day-ci/archive/20260110/202601101239.ORkhfLpB-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 11.5.0
-smatch version: v0.5.0-8985-g2614ff1a
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260110/202601101239.ORkhfLpB-lkp@intel.com/reproduce)
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+branch HEAD: e257dc532c20bd93f0076c18cb5ffd739a5f0bb4  leds: lp55xx: Simplify with scoped for each OF child loop
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601101239.ORkhfLpB-lkp@intel.com/
+Error/Warning (recently discovered and may have been fixed):
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+    https://lore.kernel.org/oe-kbuild-all/202601100247.wetiMFXE-lkp@intel.com
+    https://lore.kernel.org/oe-kbuild-all/202601101239.ORkhfLpB-lkp@intel.com
+    https://lore.kernel.org/oe-kbuild/202601101812.j6kBBCPY-lkp@intel.com
+    https://lore.kernel.org/oe-kbuild/202601102106.gMVy9BeS-lkp@intel.com
 
-ERROR: modpost: missing MODULE_LICENSE() in drivers/leds/rgb/leds-lp5860-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/rgb/leds-lp5860-core.o
->> ERROR: modpost: "lp5860_device_remove" [drivers/leds/rgb/leds-lp5860-spi.ko] undefined!
->> ERROR: modpost: "lp5860_device_init" [drivers/leds/rgb/leds-lp5860-spi.ko] undefined!
+    ERROR: modpost: "lp5860_device_init" [drivers/leds/rgb/leds-lp5860-spi.ko] undefined!
+    ERROR: modpost: "lp5860_device_remove" [drivers/leds/rgb/leds-lp5860-spi.ko] undefined!
+    drivers/leds/rgb/leds-lp5860-core.c:72:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+    drivers/leds/rgb/leds-lp5860-core.c:72:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for LEDS_LP5860_CORE
-   Depends on [n]: NEW_LEDS [=y] && LEDS_CLASS_MULTICOLOR [=m] && LEDS_CLASS [=y] && OF [=n]
-   Selected by [m]:
-   - LEDS_LP5860_SPI [=m] && NEW_LEDS [=y] && LEDS_CLASS_MULTICOLOR [=m] && SPI [=y]
+Unverified Error/Warning (likely false positive, kindly check if interested):
 
--- 
+    drivers/leds/rgb/leds-lp5860-spi.c:87:1: sparse: sparse: bad integer constant expression
+
+Error/Warning ids grouped by kconfigs:
+
+recent_errors
+|-- alpha-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- arc-allmodconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- arc-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- arm-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- arm64-allmodconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- csky-allmodconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- csky-randconfig-r133-20260110
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- hexagon-allmodconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- i386-allmodconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- i386-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- i386-randconfig-r071-20260110
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- loongarch-allmodconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- loongarch-randconfig-r073-20260110
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- m68k-allmodconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- m68k-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- microblaze-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- mips-allmodconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- mips-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- nios2-allmodconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- openrisc-allmodconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- openrisc-randconfig-r064-20260110
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- parisc-allmodconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- parisc-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- parisc-randconfig-002-20260111
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- parisc-randconfig-r073-20260110
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- powerpc-allmodconfig
+|   |-- ERROR:lp5860_device_init-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   |-- ERROR:lp5860_device_remove-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- riscv-allmodconfig
+|   |-- ERROR:lp5860_device_init-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   |-- ERROR:lp5860_device_remove-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- riscv-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- riscv-randconfig-r062-20260110
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- s390-allmodconfig
+|   |-- ERROR:lp5860_device_init-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   |-- ERROR:lp5860_device_remove-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- s390-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- sh-allmodconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- sh-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- sh-randconfig-r113-20260110
+|   |-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|   `-- drivers-leds-rgb-leds-lp5860-spi.c:sparse:sparse:bad-integer-constant-expression
+|-- sparc64-allmodconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- um-allmodconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- um-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- x86_64-allmodconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- x86_64-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- x86_64-randconfig-r123-20260110
+|   |-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|   `-- drivers-leds-rgb-leds-lp5860-spi.c:sparse:sparse:bad-integer-constant-expression
+|-- xtensa-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+`-- xtensa-randconfig-r071-20260110
+    |-- ERROR:lp5860_device_init-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+    |-- ERROR:lp5860_device_remove-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+    `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+
+elapsed time: 1497m
+
+configs tested: 236
+configs skipped: 2
+
+tested configs:
+alpha                            alldefconfig    gcc-15.2.0
+alpha                             allnoconfig    gcc-15.2.0
+alpha                            allyesconfig    gcc-15.2.0
+alpha                               defconfig    gcc-15.2.0
+arc                              allmodconfig    clang-16
+arc                               allnoconfig    gcc-15.2.0
+arc                              allyesconfig    clang-22
+arc                                 defconfig    gcc-15.2.0
+arc                        nsimosci_defconfig    gcc-15.2.0
+arc                 nsimosci_hs_smp_defconfig    clang-22
+arc                   randconfig-001-20260110    clang-22
+arc                   randconfig-001-20260110    gcc-13.4.0
+arc                   randconfig-002-20260110    clang-22
+arc                   randconfig-002-20260110    gcc-8.5.0
+arm                               allnoconfig    gcc-15.2.0
+arm                              allyesconfig    clang-16
+arm                         bcm2835_defconfig    clang-22
+arm                                 defconfig    gcc-15.2.0
+arm                           h3600_defconfig    clang-22
+arm                           imxrt_defconfig    gcc-15.2.0
+arm                          ixp4xx_defconfig    gcc-15.2.0
+arm                         orion5x_defconfig    clang-22
+arm                   randconfig-001-20260110    clang-22
+arm                   randconfig-002-20260110    clang-22
+arm                   randconfig-002-20260110    gcc-12.5.0
+arm                   randconfig-003-20260110    clang-22
+arm                   randconfig-003-20260110    gcc-8.5.0
+arm                   randconfig-004-20260110    clang-22
+arm                        vexpress_defconfig    gcc-15.2.0
+arm64                            allmodconfig    clang-22
+arm64                             allnoconfig    gcc-15.2.0
+arm64                               defconfig    gcc-15.2.0
+arm64                 randconfig-001-20260110    gcc-10.5.0
+arm64                 randconfig-001-20260110    gcc-15.2.0
+arm64                 randconfig-002-20260110    gcc-10.5.0
+arm64                 randconfig-003-20260110    gcc-10.5.0
+arm64                 randconfig-003-20260110    gcc-12.5.0
+arm64                 randconfig-004-20260110    gcc-10.5.0
+arm64                 randconfig-004-20260110    gcc-14.3.0
+csky                             allmodconfig    gcc-15.2.0
+csky                              allnoconfig    gcc-15.2.0
+csky                                defconfig    gcc-15.2.0
+csky                  randconfig-001-20260110    gcc-10.5.0
+csky                  randconfig-001-20260110    gcc-15.2.0
+csky                  randconfig-002-20260110    gcc-10.5.0
+csky                  randconfig-002-20260110    gcc-15.2.0
+hexagon                          allmodconfig    gcc-15.2.0
+hexagon                           allnoconfig    gcc-15.2.0
+hexagon                             defconfig    gcc-15.2.0
+hexagon               randconfig-001-20260110    clang-22
+hexagon               randconfig-002-20260110    clang-22
+i386                             allmodconfig    clang-20
+i386                              allnoconfig    gcc-15.2.0
+i386                             allyesconfig    clang-20
+i386        buildonly-randconfig-001-20260110    gcc-14
+i386        buildonly-randconfig-002-20260110    gcc-14
+i386        buildonly-randconfig-003-20260110    gcc-12
+i386        buildonly-randconfig-003-20260110    gcc-14
+i386        buildonly-randconfig-004-20260110    clang-20
+i386        buildonly-randconfig-004-20260110    gcc-14
+i386        buildonly-randconfig-005-20260110    gcc-14
+i386        buildonly-randconfig-006-20260110    gcc-14
+i386                                defconfig    gcc-15.2.0
+i386                  randconfig-001-20260110    gcc-12
+i386                  randconfig-001-20260110    gcc-14
+i386                  randconfig-002-20260110    gcc-14
+i386                  randconfig-003-20260110    gcc-12
+i386                  randconfig-003-20260110    gcc-14
+i386                  randconfig-004-20260110    clang-20
+i386                  randconfig-004-20260110    gcc-14
+i386                  randconfig-005-20260110    gcc-14
+i386                  randconfig-006-20260110    clang-20
+i386                  randconfig-006-20260110    gcc-14
+i386                  randconfig-007-20260110    gcc-14
+i386                  randconfig-011-20260110    clang-20
+i386                  randconfig-011-20260110    gcc-14
+i386                  randconfig-012-20260110    gcc-14
+i386                  randconfig-013-20260110    gcc-14
+i386                  randconfig-014-20260110    clang-20
+i386                  randconfig-014-20260110    gcc-14
+i386                  randconfig-015-20260110    clang-20
+i386                  randconfig-015-20260110    gcc-14
+i386                  randconfig-016-20260110    clang-20
+i386                  randconfig-016-20260110    gcc-14
+i386                  randconfig-017-20260110    clang-20
+i386                  randconfig-017-20260110    gcc-14
+loongarch                        allmodconfig    clang-22
+loongarch                         allnoconfig    gcc-15.2.0
+loongarch                           defconfig    clang-19
+loongarch             randconfig-001-20260110    clang-22
+loongarch             randconfig-002-20260110    clang-22
+m68k                             allmodconfig    gcc-15.2.0
+m68k                              allnoconfig    gcc-15.2.0
+m68k                             allyesconfig    clang-16
+m68k                                defconfig    clang-19
+microblaze                        allnoconfig    gcc-15.2.0
+microblaze                       allyesconfig    gcc-15.2.0
+microblaze                          defconfig    clang-19
+mips                             allmodconfig    gcc-15.2.0
+mips                              allnoconfig    gcc-15.2.0
+mips                             allyesconfig    gcc-15.2.0
+mips                       bmips_be_defconfig    gcc-15.2.0
+mips                          eyeq6_defconfig    gcc-15.2.0
+mips                malta_qemu_32r6_defconfig    gcc-15.2.0
+nios2                            allmodconfig    clang-22
+nios2                             allnoconfig    clang-22
+nios2                               defconfig    clang-19
+nios2                 randconfig-001-20260110    clang-22
+nios2                 randconfig-001-20260110    gcc-8.5.0
+nios2                 randconfig-002-20260110    clang-22
+nios2                 randconfig-002-20260110    gcc-11.5.0
+openrisc                         allmodconfig    clang-22
+openrisc                          allnoconfig    clang-22
+openrisc                            defconfig    gcc-15.2.0
+parisc                           allmodconfig    gcc-15.2.0
+parisc                            allnoconfig    clang-22
+parisc                           allyesconfig    clang-19
+parisc                              defconfig    gcc-15.2.0
+parisc                generic-64bit_defconfig    clang-22
+parisc                randconfig-001-20260110    gcc-14.3.0
+parisc                randconfig-002-20260110    gcc-13.4.0
+parisc                randconfig-002-20260110    gcc-14.3.0
+parisc64                            defconfig    clang-19
+powerpc                          allmodconfig    gcc-15.2.0
+powerpc                           allnoconfig    clang-22
+powerpc                      katmai_defconfig    clang-22
+powerpc               randconfig-001-20260110    gcc-14.3.0
+powerpc               randconfig-001-20260110    gcc-8.5.0
+powerpc               randconfig-002-20260110    gcc-10.5.0
+powerpc               randconfig-002-20260110    gcc-14.3.0
+powerpc                     taishan_defconfig    gcc-15.2.0
+powerpc                     tqm5200_defconfig    gcc-15.2.0
+powerpc64             randconfig-001-20260110    gcc-14.3.0
+powerpc64             randconfig-002-20260110    clang-22
+powerpc64             randconfig-002-20260110    gcc-14.3.0
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    clang-22
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    gcc-15.2.0
+riscv                 randconfig-001-20260110    clang-22
+riscv                 randconfig-001-20260110    gcc-15.2.0
+riscv                 randconfig-002-20260110    clang-22
+riscv                 randconfig-002-20260110    gcc-15.2.0
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.2.0
+s390                                defconfig    gcc-15.2.0
+s390                  randconfig-001-20260110    gcc-15.2.0
+s390                  randconfig-001-20260110    gcc-9.5.0
+s390                  randconfig-002-20260110    clang-22
+s390                  randconfig-002-20260110    gcc-15.2.0
+sh                               allmodconfig    gcc-15.2.0
+sh                                allnoconfig    clang-22
+sh                               allyesconfig    clang-19
+sh                                  defconfig    gcc-14
+sh                            hp6xx_defconfig    gcc-15.2.0
+sh                    randconfig-001-20260110    gcc-15.2.0
+sh                    randconfig-002-20260110    gcc-12.5.0
+sh                    randconfig-002-20260110    gcc-15.2.0
+sh                          rsk7203_defconfig    gcc-15.2.0
+sh                   rts7751r2dplus_defconfig    clang-22
+sh                          sdk7786_defconfig    gcc-15.2.0
+sh                           sh2007_defconfig    gcc-15.2.0
+sh                        sh7785lcr_defconfig    gcc-15.2.0
+sh                            titan_defconfig    clang-22
+sparc                             allnoconfig    clang-22
+sparc                               defconfig    gcc-15.2.0
+sparc                 randconfig-001-20260110    clang-22
+sparc                 randconfig-001-20260110    gcc-14.3.0
+sparc                 randconfig-002-20260110    clang-22
+sparc                 randconfig-002-20260110    gcc-15.2.0
+sparc64                          allmodconfig    clang-22
+sparc64                             defconfig    gcc-14
+sparc64               randconfig-001-20260110    clang-22
+sparc64               randconfig-002-20260110    clang-22
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-15.2.0
+um                                  defconfig    gcc-14
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20260110    clang-22
+um                    randconfig-001-20260110    gcc-14
+um                    randconfig-002-20260110    clang-22
+um                    randconfig-002-20260110    gcc-14
+um                           x86_64_defconfig    gcc-14
+x86_64                           allmodconfig    clang-20
+x86_64                            allnoconfig    clang-22
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20260110    gcc-14
+x86_64      buildonly-randconfig-002-20260110    clang-20
+x86_64      buildonly-randconfig-002-20260110    gcc-14
+x86_64      buildonly-randconfig-003-20260110    clang-20
+x86_64      buildonly-randconfig-003-20260110    gcc-14
+x86_64      buildonly-randconfig-004-20260110    gcc-14
+x86_64      buildonly-randconfig-005-20260110    gcc-14
+x86_64      buildonly-randconfig-006-20260110    gcc-14
+x86_64                              defconfig    gcc-14
+x86_64                                  kexec    clang-20
+x86_64                randconfig-001-20260110    clang-20
+x86_64                randconfig-002-20260110    clang-20
+x86_64                randconfig-002-20260110    gcc-14
+x86_64                randconfig-003-20260110    clang-20
+x86_64                randconfig-004-20260110    clang-20
+x86_64                randconfig-005-20260110    clang-20
+x86_64                randconfig-005-20260110    gcc-14
+x86_64                randconfig-006-20260110    clang-20
+x86_64                randconfig-011-20260110    clang-20
+x86_64                randconfig-012-20260110    clang-20
+x86_64                randconfig-012-20260110    gcc-14
+x86_64                randconfig-013-20260110    clang-20
+x86_64                randconfig-013-20260110    gcc-14
+x86_64                randconfig-014-20260110    clang-20
+x86_64                randconfig-015-20260110    clang-20
+x86_64                randconfig-015-20260110    gcc-14
+x86_64                randconfig-016-20260110    clang-20
+x86_64                randconfig-071-20260110    clang-20
+x86_64                randconfig-072-20260110    clang-20
+x86_64                randconfig-073-20260110    clang-20
+x86_64                randconfig-074-20260110    clang-20
+x86_64                randconfig-075-20260110    clang-20
+x86_64                randconfig-075-20260110    gcc-14
+x86_64                randconfig-076-20260110    clang-20
+x86_64                randconfig-076-20260110    gcc-14
+x86_64                               rhel-9.4    clang-20
+x86_64                           rhel-9.4-bpf    gcc-14
+x86_64                          rhel-9.4-func    clang-20
+x86_64                    rhel-9.4-kselftests    clang-20
+x86_64                         rhel-9.4-kunit    gcc-14
+x86_64                           rhel-9.4-ltp    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    clang-22
+xtensa                           allyesconfig    clang-22
+xtensa                randconfig-001-20260110    clang-22
+xtensa                randconfig-001-20260110    gcc-10.5.0
+xtensa                randconfig-002-20260110    clang-22
+xtensa                randconfig-002-20260110    gcc-15.2.0
+
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
