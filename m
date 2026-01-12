@@ -1,252 +1,175 @@
-Return-Path: <linux-leds+bounces-6620-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6621-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 080C7D10BBD
-	for <lists+linux-leds@lfdr.de>; Mon, 12 Jan 2026 07:44:56 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CFED115D8
+	for <lists+linux-leds@lfdr.de>; Mon, 12 Jan 2026 10:00:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id F21253007E57
-	for <lists+linux-leds@lfdr.de>; Mon, 12 Jan 2026 06:44:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 58C603009430
+	for <lists+linux-leds@lfdr.de>; Mon, 12 Jan 2026 09:00:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56B9D3168E4;
-	Mon, 12 Jan 2026 06:44:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0515E346AD6;
+	Mon, 12 Jan 2026 09:00:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ekpFp9zO"
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="yOTljhOm"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0AA31619D
-	for <linux-leds@vger.kernel.org>; Mon, 12 Jan 2026 06:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F41346776;
+	Mon, 12 Jan 2026 09:00:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768200292; cv=none; b=DSZJrO+BHIlYK1cldT2cCaQFaml0RvDMiRzf3xwqLPUsmWmDY/oj805SooEGRZxDCiRHDnmdq3W+feSpa/5cJ/zeUHK9zx6koiBWACDuHAjInQr0ykfRvicZ0vhNA2y4ASWYIs5SA2yJkkOzILvNif/rSlskenjDhiTUn1RYgxk=
+	t=1768208409; cv=none; b=h+AAyDVnD3gAPmg2QeVN4AkeWzcFSncWieZU2LRSnsfakr9HjpQLpiSrOSsXOriFU3975uS/0Bfkh8VYQFCx+EMOoxk/8a/AHmf54v1Bv9lXe31DXf7YSQBg0c6VuSfY/jr4/qYQGnnresXFK5/r9+rAxWPfZfHqNj4O/5h1vGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768200292; c=relaxed/simple;
-	bh=zfdNkIcBOiVr8OwilGFhJRlfsq+4+153/P8cpC2UC2U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EMKlUZ8mYjUkNe0mNkDoqkH1G5rRXvOVCwGDuRIhX6uOgkgD3tZZqtSF1Jp97qhSKbwpig3Hc+GOEjo90KD+JxxzN6sf9qytc/9vx3ZSfzfgiXr4fEjTPct6kNxkWboBpOUsV3Jen7GVa+I66dyonwFxzvueGF0zRV6aZRTzyFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ekpFp9zO; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-59b78886454so4309030e87.2
-        for <linux-leds@vger.kernel.org>; Sun, 11 Jan 2026 22:44:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768200289; x=1768805089; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=V+aTDpJKFzih88kCdAP65ssAJslh2uJxvPnVKQWLfIA=;
-        b=ekpFp9zOcdu8v6aU0U9qa9Mm/f7r+Bn1amGsgFLCvHW2yI8bnxUNLuDZZrRf4VzDDM
-         fZ91lEH6HhSZoiAd0lBCaYCxWXh/9P18F1MlXF8j2XFPJ3XAIYaw28u7e+QnlwP1u2QP
-         AYxh9LkIO01LpWs7RI7NOJoKvuIwwq/gsDiR/vaBEjLNy2ch54vt0L+elO7BdjXdXrJ4
-         lj+gxLks5cHckI67bsjR78eU9SlVI4alZC+GROEv3wlcaZ2hbguQVXv78DZJ1CwOwvWY
-         51Zg7rPX1yVNIvjSP0AM51CJYvz8pPxo0K629v1XWg1OmVBvLrNlNYb+ozI+jBKO7vI0
-         2EDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768200289; x=1768805089;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V+aTDpJKFzih88kCdAP65ssAJslh2uJxvPnVKQWLfIA=;
-        b=pDP0f+vsmqD93HDkIzQ6FCOWQINKB54D54WeinU1Dmr441LPmu9qGC4e+ewBul8QH5
-         kwPNgkgKHb8FPhwBQDMjH4XiInyAlK3clvcJmbcMqXXm+aajtb7KxEavLJaxIgYzem8j
-         HDmfNEthD0YdxrJDwXO9Mi51lYEDbt/gS9QYHLqiwjk/TuvbA3giJLR2eE6vUkSA2oX/
-         hW7aFAy2YEWgbSOYhZudNABeHpMgGRpwjCeWFBeo9WQU6jGKprH7HOTGD3AyEJKiXBKI
-         TNR4XF/K0C4wSgLBbEzSLXCqfHSDDueniXDOzVnsv+ygfcr3pNzGWCZOuDtFPphejW5d
-         JVaA==
-X-Forwarded-Encrypted: i=1; AJvYcCWUU1juloUIKWdS4jTptjnd/bGvPlClmbqbFmIl6BRa8pSQQExlvmKOHD26iZtrRxkxnUcov12dFKd2@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaDiEPq+ANElVrAyKhLYst8bTTNc07SwKJc78WiN8YlYoxqXiM
-	/aIE9tWSMU08UezfWLULDdGOZGU6X0xY1e7AR9usTi8ysB/+zbkevzQz
-X-Gm-Gg: AY/fxX7yotPP9mJnCZzCBcLhNDCgq/sHnF30Ll9NtMPfENCmDg/W7oqFwtJ2iehF7ZS
-	WdAHp0F/S8k+MAryAt6mhB9Oy8wUUbAf4boEwUZJrm7hnBddzWryMg0GPp1T4RIHn0NnejTIYDX
-	AjMs7wmeASKdhsopzkRaauANFYETp/vPxwj3X7Iy8tlM+AX09iRXlmnrP/H0fUqPcitxtXchZ6S
-	E8u9dvoIUkAsg7+6rMNvuVsS8juSDCqQWnfMtMrzs6TD5fH4sgHM++U1KRMKFXFgDlERIroqzX7
-	erzH5v0WLhtsBj9VGVAvOEv6bFCfuyUl06brClrsXeE4oY8n8Nxf/dCU5Ae8RmwviwotL5zICro
-	V1QIcTfZt5v6Tp8v6Z0/D2nmMZ/PG+J09DWeeovt6jVj4dqAorVXPTVBb+m6RLvA+bABaAGhTaf
-	kPgOG7HqIDJcZamX0HrzBDGkEeYbr1eHFrkvU0H2rQFEU7bS9Al5qddYgxHBqu/AkoZJJt
-X-Google-Smtp-Source: AGHT+IHpuxr8uDmHUpBx93Hk8o3UZa27eBQvlaVc9Y5wYrI/nFTMdUIo/B+CoBNRsZZ57UO1DmaH1w==
-X-Received: by 2002:a05:651c:30c9:b0:37b:967e:d73 with SMTP id 38308e7fff4ca-382ff8115efmr56528091fa.29.1768200288212;
-        Sun, 11 Jan 2026 22:44:48 -0800 (PST)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-382eb8e0e29sm37899581fa.35.2026.01.11.22.44.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Jan 2026 22:44:47 -0800 (PST)
-Message-ID: <33787eea-f0e0-4041-b9e6-102209af5138@gmail.com>
-Date: Mon, 12 Jan 2026 08:44:45 +0200
+	s=arc-20240116; t=1768208409; c=relaxed/simple;
+	bh=eKpgJNDjppYUS2d5G+U+kXwkrdmfy7DNup/waw54YCI=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=iP8nkm7RibusUFMAHFYPf1RPLfISrRI8EGsbhto97w+5ev+NZW85MYN8aEL01URL8Z+GGbRIGUxei4JaVNADoJT8EgC1KoqHmcPOhudYXP5gAwf15hdqy5POb1PM4DRCzXmITW10AWUrnLN+/PLsML8lMYvl35ZzHsDkZAS/93o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=yOTljhOm; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60C6FTac3797043;
+	Mon, 12 Jan 2026 04:00:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=eye8L581vv9XQT1J36MU9sVHftr
+	8BusJWpnp0/mEOmI=; b=yOTljhOmK2+txaoti0w6OpNOQt1cVHObu01Jitbip6g
+	7D9SeZltlmey1mtDftzNbyLg0JUUUeShed2luqdnCWNLhk8Z8dqUir66HoKSGF8+
+	E/zsABxbKrxJWCn6R7GGaIpxV9hI4pg6/Io1rflPBLx7h5SIbt4IQfcIeSR7dcZ4
+	qe22UA64CvyaJpEYe/LAg5QdmNHuksvmc2IIksGXUy9m0+rMY8cXEbJt47LWYCai
+	zHzpmYhnkYVWvwTaxPomymNxfpretCHICEeCk2MondM2DAFIYQjANybV5QxHnu55
+	ysNIzHVgJNnn+JwxGPM20kIbkYAO2xq3q02cCdLNh8A==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4bmuhcrxa7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 12 Jan 2026 04:00:02 -0500 (EST)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 60C901ZQ016126
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 12 Jan 2026 04:00:01 -0500
+Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
+ ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Mon, 12 Jan 2026 04:00:01 -0500
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Mon, 12 Jan 2026 04:00:01 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Mon, 12 Jan 2026 04:00:01 -0500
+Received: from HYB-7P5GeKnsiiX.ad.analog.com (HYB-dSnw7wZQW59.ad.analog.com [10.118.4.152] (may be forged))
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 60C8xn3D027902;
+	Mon, 12 Jan 2026 03:59:52 -0500
+From: Edelweise Escala <edelweise.escala@analog.com>
+Subject: [PATCH v2 0/2] Add Support for LTC3220 18 Channel LED Driver V2
+Date: Mon, 12 Jan 2026 16:55:53 +0800
+Message-ID: <20260112-ltc3220-driver-v2-0-d043058fc4df@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v6 16/17] power: supply: bd71828-power: Support
- ROHM BD72720
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-rtc@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
-References: <cover.1765804226.git.mazziesaccount@gmail.com>
- <fb74c0cab3dfe534135d26dbbb9c66699678c2de.1765804226.git.mazziesaccount@gmail.com>
- <aWRERf70jg-IzqIx@venus>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <aWRERf70jg-IzqIx@venus>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABm3ZGkC/3WMQQ7CIBBFr9LMWgzQBoMr72G6QBjaSWoxQ0M0D
+ XcXu3f5/s97O2RkwgzXbgfGQpnS2kCfOvCzWycUFBqDltpIJY1YNt9rLUVgKsgiWvcw3tugcIA
+ mvRgjvY/gfWw8U94Sf45+Ub/1b6ooIcWlb18wUZnB3tzqljSdfXrCWGv9AlmedhytAAAA
+X-Change-ID: 20260106-ltc3220-driver-f9ab6cc9d1e4
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>
+CC: <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Edelweise Escala
+	<edelweise.escala@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768208389; l=2081;
+ i=edelweise.escala@analog.com; s=20260106; h=from:subject:message-id;
+ bh=eKpgJNDjppYUS2d5G+U+kXwkrdmfy7DNup/waw54YCI=;
+ b=LWLxEqSH46jlXAjaXGssFWRBMUXmvdSs3ralcBoRH+I118I8vF7HlFkjSnq6hrJ5CYIPsb4b5
+ +9RmVEYQDhQCmeOacZLRrdRkHewciX9Yh8EaNUt1vBJwLMFlo34tAH+
+X-Developer-Key: i=edelweise.escala@analog.com; a=ed25519;
+ pk=lf5HLFe8ZeQjXZgkBkFMK+u9qH5/tqZhCIushTKduNQ=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Authority-Analysis: v=2.4 cv=dOOrWeZb c=1 sm=1 tr=0 ts=6964b812 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=gAnH3GRIAAAA:8 a=oNZzZGKLbrry4k1XXYEA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: bFIS4GR1sgmBsRkploOMrIg1vsibCbrD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTEyMDA3MCBTYWx0ZWRfXzCQEBc/rRUhj
+ LmFiTXGzEbNhXzTmv933lxkYrF2LGTmUG/faTKkDV+uYBCSiCkWIFjCnEwzSUEkW0gLF1Q12MZf
+ b8GMheIv2FKZny+Nira1BOgOcd3EutgoFfs1VH+fAxxNilGB36H87RYLzY4MFJ6MrMG+teim1cH
+ zSS49NVnEzlO+TFCVKMliuvsaFFZW3jfmceZs7CgBZvCkwJQAoDxNIf/kYDroebWYJaPvToTccF
+ JBFimA71MVN8TlnT0i3RPTXdmco4A5VqyQanwE+mfAb+3PVAcwDoWw+/uuOnswser5tHM/LEgZ5
+ q6AiM1+TWW25PEPva0NkxbPxW0oIaEr+YFv0FhsoT787rmwlORPyg8SwC1o/S5r1CZ6poQLqjzK
+ Pu1SJ+FP5RPpVMChBbYhUmBXqSCG9ypunRmOcwu3gpsKArbZkAZ7ti294n8HJsbIYoAJrMvoOBm
+ pXCR+g6YjfXxWrbai9A==
+X-Proofpoint-ORIG-GUID: bFIS4GR1sgmBsRkploOMrIg1vsibCbrD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-12_02,2026-01-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 spamscore=0 priorityscore=1501 clxscore=1015 phishscore=0
+ impostorscore=0 adultscore=0 bulkscore=0 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601120070
 
-On 12/01/2026 02:51, Sebastian Reichel wrote:
-> Hi,
-> 
-> On Mon, Dec 15, 2025 at 03:21:19PM +0200, Matti Vaittinen wrote:
->> From: Matti Vaittinen <mazziesaccount@gmail.com>
->>
->> The ROHM BD72720 is a power management IC with a charger and coulomb
->> counter block which is closely related to the charger / coulomb counter
->> found from the BD71815, BD71828, BD71879 which are all supported by the
->> bd71828-power driver. Due to the similarities it makes sense to support
->> also the BD72720 with the same driver.
->>
->> Add basic support for the charger logic on ROHM BD72720.
->>
->> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
->>
->> ---
->> Revision history:
->>   v2 => :
->>   - No changes
->>
->>   RFCv1 => v2:
->>   - Support using 9-bit register addresses (offset of 0x100) with the
->>     BD72720
->>   - Simplify probe and IC data as we don't need two regmaps
->>   - Drop two BD72720 specific functions as we no longer need different
->>     regmap for it.
->>
->> Note: This patch depends on the series: "power: supply: add charger for
->> BD71828" by Andreas:
->> https://lore.kernel.org/all/20250918-bd71828-charger-v5-0-851164839c28@kemnade.info/
-> 
-> That should be in v6.19?
+The LTC3220/LTC3220-1 is a multi-display LED driver, which contains a
+high-efficiency, low-noise charge pump to provide power to up to
+18 LED current sources. The LEDs are individually configurable to
+64-step linear brightness control, blinking and gradation control
+via 2-wire I2C interface. The blinking and gradation configuration
+is shared across all LED.
 
-Ah, right. As Andreas also stated, yes. This is no longer relevant. I 
-simply forgot to clean-up the note from this patch.
+LTC3220 has a quick write function which allows changing the brightness
+on all LEDS simultaneously when the brightness is changed on led 1.
+For this we made quick write a device property which user can set on the 
+device tree. We would like to know if this approach is alright?
+Another way we might want to know is, is it alright to just make a
+virtual led for the quick write function. Changing brightness on 
+the virtual led will change the brightness for all.
 
->> @@ -958,21 +1043,27 @@ static int bd71828_power_probe(struct platform_device *pdev)
->>   	struct power_supply_config ac_cfg = {};
->>   	struct power_supply_config bat_cfg = {};
->>   	int ret;
->> -	struct regmap *regmap;
->> -
->> -	regmap = dev_get_regmap(pdev->dev.parent, NULL);
->> -	if (!regmap) {
->> -		dev_err(&pdev->dev, "No parent regmap\n");
->> -		return -EINVAL;
->> -	}
->>   
->>   	pwr = devm_kzalloc(&pdev->dev, sizeof(*pwr), GFP_KERNEL);
->>   	if (!pwr)
->>   		return -ENOMEM;
->>   
->> -	pwr->regmap = regmap;
->> -	pwr->dev = &pdev->dev;
->> +	/*
->> +	 * The BD72720 MFD device registers two regmaps. Power-supply driver
->> +	 * uses the "wrap-map", which provides access to both of the I2C slave
->> +	 * addresses used by the BD72720
->> +	 */
->>   	pwr->chip_type = platform_get_device_id(pdev)->driver_data;
->> +	if (pwr->chip_type != ROHM_CHIP_TYPE_BD72720)
->> +		pwr->regmap = dev_get_regmap(pdev->dev.parent, NULL);
->> +	else
->> +		pwr->regmap = dev_get_regmap(pdev->dev.parent, "wrap-map");
->> +	if (!pwr->regmap) {
->> +		dev_err(&pdev->dev, "No parent regmap\n");
->> +		return -EINVAL;
->> +	}
-> 
-> return dev_err_probe(&pdev->dev, -EINVAL, "No parent regmap\n");
-> 
-> Otherwise LGTM.
+V2 Changelog:
+leds-ltc3220.yaml changes
+-Fix wrapping on description
+-Improve description and commit messge to describe hardware
+-Drop ltc3220-1
+-Drop charge pump
+ltc3220.c changes
+-Fix wrapping
+-Drop ltc3220-1
+-Drop devname_mandatory 
 
-Thanks Sebastian! I appreciate the review!
-
-This driver uses dev_err_probe() only in cases where the error to be 
-returned is not hard-coded. The design dates back to when I was first 
-introduced to the dev_err_probe() - and using pattern like:
-
-ret = -EINVAL;
-if (ret == -EPROBE_DEFER)
-  ...
-
-(which results from calling the dev_err_probe with hard-coded error) 
-felt very repulsive to me.
-
-I have since quit resisting the 'use dev_err_probe() for all probe error 
-paths' -policy (since Resistance is futile - and because there are other 
-benefits besides the deferred probe handling) - but I suppose we should 
-clean-up also the other similar cases in this driver (I see at least one 
-other occurrence in the chip_type-check below). Is it Ok to merge this 
-as is, and do a follow-up patch to clean-up all the occurrences? If yes, 
-then this might go "as-is" via MFD, together with the other stuff, right?
-
-I can also re-spin this with the print fixed and:
-  - add new patch to fix the other occurrence.
-  - meld the fix for existing print in this patch.
-
-Just please let me know your preference.
-
-
-
->>   	switch (pwr->chip_type) {
->>   	case ROHM_CHIP_TYPE_BD71828:
->> @@ -985,6 +1076,12 @@ static int bd71828_power_probe(struct platform_device *pdev)
->>   		pwr->get_temp = bd71815_get_temp;
->>   		pwr->regs = &pwr_regs_bd71815;
->>   		break;
->> +	case ROHM_CHIP_TYPE_BD72720:
->> +		pwr->bat_inserted = bd71828_bat_inserted;
->> +		pwr->regs = &pwr_regs_bd72720;
->> +		pwr->get_temp = bd71828_get_temp;
->> +		dev_dbg(pwr->dev, "Found ROHM BD72720\n");
->> +		break;
->>   	default:
->>   		dev_err(pwr->dev, "Unknown PMIC\n");
->>   		return -EINVAL;
-
-The other occurrence --^
-
->> @@ -1030,6 +1127,7 @@ static int bd71828_power_probe(struct platform_device *pdev)
->>   static const struct platform_device_id bd71828_charger_id[] = {
->>   	{ "bd71815-power", ROHM_CHIP_TYPE_BD71815 },
->>   	{ "bd71828-power", ROHM_CHIP_TYPE_BD71828 },
->> +	{ "bd72720-power", ROHM_CHIP_TYPE_BD72720 },
->>   	{ },
->>   };
->>   MODULE_DEVICE_TABLE(platform, bd71828_charger_id);
->> -- 
->> 2.52.0
-
-Yours,
-	-- Matti
-
-
--- 
+Signed-off-by: Edelweise Escala <edelweise.escala@analog.com>
 ---
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
+Changes in v2:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v1: https://lore.kernel.org/r/20260106-ltc3220-driver-v1-0-73601d6f1649@analog.com
 
-~~ When things go utterly wrong vim users can always type :help! ~~
+---
+Edelweise Escala (2):
+      dt-bindings: leds: Add LTC3220 18 channel LED Driver
+      leds: ltc3220: Add Support for LTC3220 18 channel LED Driver
+
+ .../devicetree/bindings/leds/leds-ltc3220.yaml     | 120 ++++++
+ MAINTAINERS                                        |   8 +
+ drivers/leds/Kconfig                               |  10 +
+ drivers/leds/Makefile                              |   1 +
+ drivers/leds/leds-ltc3220.c                        | 440 +++++++++++++++++++++
+ 5 files changed, 579 insertions(+)
+---
+base-commit: 8856d7fe1758937ac528770f552ec58c388c255b
+change-id: 20260106-ltc3220-driver-f9ab6cc9d1e4
+
+Best regards,
+-- 
+Edelweise Escala <edelweise.escala@analog.com>
+
 
