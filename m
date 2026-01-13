@@ -1,82 +1,121 @@
-Return-Path: <linux-leds+bounces-6635-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6636-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68A18D18B74
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Jan 2026 13:30:19 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC8BD18ED5
+	for <lists+linux-leds@lfdr.de>; Tue, 13 Jan 2026 13:52:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 39474303C2AC
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Jan 2026 12:29:49 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3714A3137794
+	for <lists+linux-leds@lfdr.de>; Tue, 13 Jan 2026 12:42:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D90F538F24F;
-	Tue, 13 Jan 2026 12:29:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA1B638FEE8;
+	Tue, 13 Jan 2026 12:40:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r6oVvW1b"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aoompz+7"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B671038F24C;
-	Tue, 13 Jan 2026 12:29:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C9B38F94A;
+	Tue, 13 Jan 2026 12:40:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768307388; cv=none; b=Y9wCxpHliNIaUhwdzZt3j5/2FTVMx4XqS1s41fWYBBElgor5LlNtMjBU0pxkOxaHZofGrNJp1fy69DkcRekXgMUqSkacKjvAYSfZaIF1MFx+MJnL/eE7Wea7UGL/yfnv921lM/jr2e80b9/QagrtvHQpU7OC4l8+wKoon4w8GYc=
+	t=1768308059; cv=none; b=SZerxjX5p12F2UHYaMjAA0VdOntbwkzIrvsvEIJnk1ZsOMLi/5fYDpuKrHc6KX4zC2owW1E1axA57s5F/mkIwLlWvxsI2h5ceUml0ZGaB1TppqiBKiLAdIPd0Wk+9BM6aUvoyydQCni0QuWDUXKAcFQJDwDk5YZCnVt7mh6OEoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768307388; c=relaxed/simple;
-	bh=LD9cuGtLZv0WbQw7pIlBAvGTjrjoxa43XGOeJ3o9DP8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HuRC6XXti7C23WtKg9+P5ejLBZxvDFdQ/dxULRqgpkcfDZs5oC6gLE53IQvgLeeapgwYtb3RUNYpMHKKq3VUT4gJa4MKa+wE8DK9ltyxkml7KqoWv6et39TymsecyIC0d0ydVh0YirngtYvtXLDxHEM2b3EgLS5UzEy3XNSETOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r6oVvW1b; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42C67C19422;
-	Tue, 13 Jan 2026 12:29:46 +0000 (UTC)
+	s=arc-20240116; t=1768308059; c=relaxed/simple;
+	bh=M7burtfJlClOlU3DcfcIqf7/Ur1TzdjES5S11p9zNs4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M2AroSwuAHOKtYwOadtUpxwC3k09BD0EgHdK1pcFPJrXMQMOFg3/Zo6WgAzsIN8UUNGmIz9UpEyv+LrUoAycJLywdb3HnrqmMUF46VqwEpGaPg7khbVW+7CnNTlAi0gY9nRNzAhCt0+3n2+fh10gu+JaZ05oQJaz3fDPRqOzkUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aoompz+7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81D49C116C6;
+	Tue, 13 Jan 2026 12:40:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768307388;
-	bh=LD9cuGtLZv0WbQw7pIlBAvGTjrjoxa43XGOeJ3o9DP8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=r6oVvW1b3YIc/m1LUylMsiwiANBO6PT4oXcWgR0SLeFyGOZCVEbvOlaCbvOsgmC6K
-	 /qLfh0ZwDQXccRIViXa96ex2W0njfiq/xplAkRXxIVH4cb3XPn2V4tcHpRLT3cwAMC
-	 0RpwqIn4ciqkLKfWqc5wfkmtScQBeawpQR9Ww33iyJhKb/YEZ6WHoFUS+Ml4GVb4V9
-	 Swlcf2o1REIWpcSvrusohIePkaHpJPWCXsZAaYfQ+7Sda0Wqdhb8dia45N+s6At1Vr
-	 kzdJb+y8R8Lm7XjvLXWqH+OeQC66eRMk3mihTHwkDzeRs9/vkFIJJ4F9dIIp4xi3C+
-	 Sj7SEBg8Q+kgw==
+	s=k20201202; t=1768308059;
+	bh=M7burtfJlClOlU3DcfcIqf7/Ur1TzdjES5S11p9zNs4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aoompz+7ntCp25xkW0wQnxzLMW2PnBW/G7A1gi6p37Zju6fbQhq/sMDsd+yI6ixzs
+	 8SSNgUl879NzoUfWSDZwbHx8VOei6brQouUXzoZ3Vwfir40ZxxA6pk5hR3hllcRSYI
+	 NJAaPL85RwPhDzhkVl1LPhx+6+chQCpXu/vGVw6c2F4FiVSQGeZY0q9+7e8vc6mlgv
+	 xeI4vhnewP7/Sw8p3MOsq9AOXvLB0dNtosO8+Oan75SsDZq53iPVdHl8b6rjcb/+Ae
+	 X1syMf/3O1FIQ9t6L99ZflHD3HeQRcMLUhUAcmIjoEVdQ7j+JFkTbDRehfciI5epxf
+	 4lkQZivlFwpIw==
+Date: Tue, 13 Jan 2026 12:40:53 +0000
 From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org, pavel@kernel.org, Haotian Zhang <vulab@iscas.ac.cn>
-Cc: abel.vesa@linaro.org, marijn.suijten@somainline.org, sre@kernel.org, 
- andersson@kernel.org, anjelique.melendez@oss.qualcomm.com, 
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260108175133.638-1-vulab@iscas.ac.cn>
-References: <20260108175133.638-1-vulab@iscas.ac.cn>
-Subject: Re: (subset) [PATCH v2] leds: qcom-lpg: Check the return value of
- regmap_bulk_write()
-Message-Id: <176830738601.2840040.12406208881450047670.b4-ty@kernel.org>
-Date: Tue, 13 Jan 2026 12:29:46 +0000
+To: Nam Tran <trannamatk@gmail.com>
+Cc: pavel@kernel.org, gregkh@linuxfoundation.org, rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr, krzk+dt@kernel.org, robh@kernel.org,
+	conor+dt@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v21 0/3] leds: add new LED driver for TI LP5812
+Message-ID: <20260113124053.GA2842980@google.com>
+References: <20260111135519.28112-1-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-52d38
+In-Reply-To: <20260111135519.28112-1-trannamatk@gmail.com>
 
-On Fri, 09 Jan 2026 01:51:33 +0800, Haotian Zhang wrote:
-> The lpg_lut_store() function currently ignores the return value of
-> regmap_bulk_write() and always returns 0. This can cause hardware write
-> failures to go undetected, leading the caller to believe LUT programming
-> succeeded when it may have failed.
+On Sun, 11 Jan 2026, Nam Tran wrote:
+
+> This patch series adds initial support for the TI LP5812,
+> a 4x3 matrix RGB LED driver with autonomous engine control.
+> This version provides a minimal, clean implementation focused
+> on core functionality only. The goal is to upstream a solid
+> foundation, with the expectation that additional features can
+> be added incrementally in future patches.
 > 
-> Check the return value of regmap_bulk_write() in lpg_lut_store and return
-> the error to the caller on failure.
+> The driver integrates with the LED multicolor framework and
+> supports a set of basic sysfs interfaces for LED control and
+> chip management.
 > 
-> [...]
+> Signed-off-by: Nam Tran <trannamatk@gmail.com>
 
-Applied, thanks!
+Still does not apply - which branch did you rebase this to?
 
-[1/1] leds: qcom-lpg: Check the return value of regmap_bulk_write()
-      commit: 33e822f6f4eba2cfbd09ffd080af221cf8c542b2
+---
 
---
+Applied patch Documentation/devicetree/bindings/leds/ti,lp5812.yaml cleanly.
+Applied patch MAINTAINERS cleanly.
+warning: squelched 137 whitespace errors
+warning: 142 lines add whitespace errors.
+Falling back to patching base and 3-way merge...
+Auto-merging MAINTAINERS
+No changes -- Patch already applied.
+Applying: leds: add basic support for TI/National Semiconductor LP5812 LED Driver
+Using index info to reconstruct a base tree...
+M	MAINTAINERS
+M	drivers/leds/rgb/Kconfig
+M	drivers/leds/rgb/Makefile
+Checking patch MAINTAINERS...
+Checking patch drivers/leds/rgb/Kconfig...
+Checking patch drivers/leds/rgb/Makefile...
+Checking patch drivers/leds/rgb/leds-lp5812.c...
+Checking patch drivers/leds/rgb/leds-lp5812.h...
+Applied patch MAINTAINERS cleanly.
+Applied patch drivers/leds/rgb/Kconfig cleanly.
+Applied patch drivers/leds/rgb/Makefile cleanly.
+Applied patch drivers/leds/rgb/leds-lp5812.c cleanly.
+Applied patch drivers/leds/rgb/leds-lp5812.h cleanly.
+Falling back to patching base and 3-way merge...
+error: Your local changes to the following files would be overwritten by merge:
+	MAINTAINERS
+	drivers/leds/rgb/Kconfig
+	drivers/leds/rgb/Makefile
+Please commit your changes or stash them before you merge.
+error: The following untracked working tree files would be overwritten by merge:
+	drivers/leds/rgb/leds-lp5812.c
+	drivers/leds/rgb/leds-lp5812.h
+Please move or remove them before you merge.
+Aborting
+error: Failed to merge in the changes.
+Patch failed at 0002 leds: add basic support for TI/National Semiconductor LP5812 LED Driver
+
+-- 
 Lee Jones [李琼斯]
-
 
