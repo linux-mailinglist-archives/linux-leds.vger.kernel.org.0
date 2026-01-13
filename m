@@ -1,129 +1,101 @@
-Return-Path: <linux-leds+bounces-6637-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6638-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78AADD1915F
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Jan 2026 14:22:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9655D1A6C8
+	for <lists+linux-leds@lfdr.de>; Tue, 13 Jan 2026 17:53:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7755C3016920
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Jan 2026 13:22:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AA88E30319DC
+	for <lists+linux-leds@lfdr.de>; Tue, 13 Jan 2026 16:53:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D0E138F94B;
-	Tue, 13 Jan 2026 13:22:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83E5834DCEC;
+	Tue, 13 Jan 2026 16:53:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jXBBPzW5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JmKTPS4O"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2366638A9D6
-	for <linux-leds@vger.kernel.org>; Tue, 13 Jan 2026 13:22:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E31234DB48;
+	Tue, 13 Jan 2026 16:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768310574; cv=none; b=U+D2tOKAPoHD7j3YznYxHOG5CkUmYg25BcQ2yBv6t+s0v+Bu+URaU9am/Oi6xeNFcmjoKVKwotMbXthaUt5W50b8YrSV+4C/ijMFyRNnX+YJrLjhmJxYR3azeRNygTbSUFD40bq1jLmsVWPD8S+xtdeGZZJK1x/0wPR4ti43M6M=
+	t=1768323198; cv=none; b=GXaw1Nad9O2nc/QVX3nvqEWYr8yAHVuBIk/12FLw72o4x+am4ekBLPYmqEmIT+SN9AA/9dtgZfQzfafquTh0jb+rFfTfxClzSSkW7cOIf92wxGKHuLslJTqHDTYPQ0p4k9+PPUFSy4VpwXb2ZBS4+uPYtFeBL4kM7HkuBwOgrT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768310574; c=relaxed/simple;
-	bh=9Mgbd6hLYyZUvA5ylRuwiz+22RngeE/5EJiRoxjavak=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=CiD5Z/zahzn9AeYLAcv1WehlVu450toW4wht28scc9SMmhyMX6R84sa/VKHYsjv/rO43syAKfvHL6B6t4IGBS1kSbvB/k+WzW9vM4sZPewLVOanvJ3R6SKSN6N1dhi0ieSa5+BD4jZqI/oJ1fC7n6lu+NGovMmo1hYnGg7OlOpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jXBBPzW5; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-29f102b013fso69849855ad.2
-        for <linux-leds@vger.kernel.org>; Tue, 13 Jan 2026 05:22:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768310572; x=1768915372; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8f9VuSjE116pi7iG6Wpon5XwC0RbZghgrAlkmtN02HE=;
-        b=jXBBPzW5Yf8IPx0L5ejxvjyIki75WjK0Gq31WyosO6nnSLTLydhS+oIsMZLQD9tRtA
-         b62Ga5dS3I8874W36Y/zO6nX10XV71+80pPjAqXwlN2gqav23C7TeYe7Xl07SbMz+8KZ
-         uSXxUKZbEBUZ0vcyEr0jSmxcBC6jMtcABtg3YUD76UP8ff54R9A5Uh1wEFJr1zGO9xj0
-         xAmxtpqA8o6bH10+NEQwD0kyTvNwKwPCAKLQSRVXhAAkhnxQOdBTFZCOA+tQ3c7iLis/
-         4zhR+k12lvlkfTNE2ji5obJ4C0zrQaWXeY7/JVULM9193+KlGEEB2Q9TmgmogaJKRTfz
-         6KZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768310572; x=1768915372;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8f9VuSjE116pi7iG6Wpon5XwC0RbZghgrAlkmtN02HE=;
-        b=tciixcf4u+clgtBI46evD0X0HGTcLVtV7moAx1F2ebx2MOK4gGKPvUgGSa51B1ZERT
-         5bgmIdIwUnpW2+Y/uDpGDhvYU/y76ekMOI3jrzktYDjQbUvyDFV1bS0XwwH6ZfQ53yxL
-         xBQGKu9d2zxXpz7CV91qo/2wkbDQpdHFcI97B64ih8OpVFZaqAMssr06Lkvi9kUPGel+
-         hHtOeTSSIMV85dZli9l1CbBOYueStcL2ZYrfeKzZXGlbBrvO1MTx1vbVhZs2CnYERs/9
-         ZEDKj7zDJgGL6fo5TldwCmN08O2fb9SIvJFc7XJG/VObfSK1UR1QZ4YL2yk6lWPUN4sf
-         aJDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUVs2GL2h8nBRgRoUKvzKvZ1Ep3hAdNspq3LPdOO1bgVDHm2TVRkagUbgNEvxGcpFdw0mZr9XnUMNRw@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeWJhVkBa2woctbogfqP2Snr7OWH5UkVmCdLi5sCTvGDi8ThZD
-	Zf1CcHDgtqKAG4WJfoomy+klqD7VyGxdJOtBw6tS07UWHAzdcTsNMafM
-X-Gm-Gg: AY/fxX4cMiUSeWYsCBaeNkCAXSyCS32A0W5qtaaJQxDD++Kb4Oc/N/rUHGc6c/OG/ta
-	j0AfVC7k2un26yTnxDobdBMjsWd79fgan6pDF5VrQoSXo4TrR3JEihs0VVYkNkBMF+85JEs7/iL
-	RYmu68n7SfDPoEJ+JbPdZ40FZkyIPPJJEbgCnSuAuhILvz7oMfXH1ex4sb2x6f3WlhioEzO3+ky
-	fKIei/o3hZ3nF+iz+litLZV1SYBsRdgehj1gHMpRSBNqicYshrD1evLRkD6M447soa5wGQbN1XP
-	C4fxfCBYH5EZ4u19SSXLxkpPA0b4PWnDaYuW6hV68F/NY6S/Uk+LkSYix/LKtMfL9Y/5nXAtcr7
-	hw90w+G0SW05sX7v2dwqJ4XXPCAnpuTq4/qwW/e181laImQzAsdPZWZVu+wJRmGnWUF415Sd74f
-	HrFRQ2gO5R77aVfPVPDNp8TPk7ZpvchQ==
-X-Google-Smtp-Source: AGHT+IEcabzDD5xlxV58lCKg2Qmkv0o5BSmhphbdVWQ6X70iZBjm/abogdhIEaKVgg6QLlTaimW3PQ==
-X-Received: by 2002:a17:902:cecb:b0:2a0:8972:d8ca with SMTP id d9443c01a7336-2a3ee491c20mr198647775ad.35.1768310572390;
-        Tue, 13 Jan 2026 05:22:52 -0800 (PST)
-Received: from DESKTOP-P76LG1N.lan ([113.23.51.12])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3c48be5sm203841475ad.30.2026.01.13.05.22.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 05:22:51 -0800 (PST)
-From: Nam Tran <trannamatk@gmail.com>
-To: lee@kernel.org
-Cc: gregkh@linuxfoundation.org,
-	pavel@kernel.org,
-	rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v21 0/3] leds: add new LED driver for TI LP5812
-Date: Tue, 13 Jan 2026 20:22:47 +0700
-Message-Id: <20260113132247.36012-1-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260113124053.GA2842980@google.com>
-References: <20260113124053.GA2842980@google.com>
+	s=arc-20240116; t=1768323198; c=relaxed/simple;
+	bh=rC0OyhL77kmNXl+KEp08CoigsLjuWii0z/bE8OWzVqY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=FtL2YgePOHLwWs7WdvCTTmlwaiUHDdPxvsxmlE6Pg1cRF7C5dOm9iPRPWJYgSMTS1aWfhnB0EU74aqJK9+ijCO7yqKStMXtgdmhAICcMLDs79ummGMw4HFQAgAZ7zNcuxUvWQ8XvUBlNe1a808WNDoKZUgCRfY4hBDF6cRcVCLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JmKTPS4O; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9B3BC19422;
+	Tue, 13 Jan 2026 16:53:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768323198;
+	bh=rC0OyhL77kmNXl+KEp08CoigsLjuWii0z/bE8OWzVqY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=JmKTPS4OJL9DejfJmLT4WPvm6tN062qXjFMCp4Yi7U+HasK7WGiEuFQvrg2+X49ub
+	 dlrZ+gjC8O4TRtQQF/Pf0U71LkBZAsXO8Uhw0lu6cJvl2o1/VbSRynhTsi2b22Hu6/
+	 9ZBQebfWGJrdriJkjT6C6HIBr/GCWjYA+eYB9+jKvImzpW9yiY/o2o1w+tY0YSdL9G
+	 BsYbLOzC4ZqniwrX8DZPGuB0FjG4LhDpzr1Z7FlYFQM/SoAX2yRVJSgb74Neha36++
+	 kqnf1SUv0W7LptxhZdcWGBzRx/Q3L/tXlZaOwTE0m5gthnfpSf0Fuiy4kwBktwAblG
+	 Xc5FCgJx2qNlg==
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 8425D5FC5C;
+	Wed, 14 Jan 2026 00:53:14 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+ linux-leds@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ Guo Ren <guoren@kernel.org>, Jisheng Zhang <jszhang@kernel.org>, 
+ John Watts <contact@jookia.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Maksim Kiselev <bigunclemax@gmail.com>, 
+ Marc Kleine-Budde <mkl@pengutronix.de>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, 
+ Trevor Woerner <twoerner@gmail.com>, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20231029212738.7871-1-samuel@sholland.org>
+References: <20231029212738.7871-1-samuel@sholland.org>
+Subject: Re: (subset) [PATCH v8 0/5] leds: Allwinner A100 LED controller
+ support
+Message-Id: <176832319449.634309.16923738719016027897.b4-ty@kernel.org>
+Date: Wed, 14 Jan 2026 00:53:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-On Tue, 13 Jan 2026, Lee Jones wrote:
-
-> On Sun, 11 Jan 2026, Nam Tran wrote:
+On Sun, 29 Oct 2023 16:26:54 -0500, Samuel Holland wrote:
+> This series adds bindings and a driver for the RGB LED controller found
+> in some Allwinner SoCs, starting with A100. The hardware in the R329 and
+> D1 SoCs appears to be identical.
 > 
-> > This patch series adds initial support for the TI LP5812,
-> > a 4x3 matrix RGB LED driver with autonomous engine control.
-> > This version provides a minimal, clean implementation focused
-> > on core functionality only. The goal is to upstream a solid
-> > foundation, with the expectation that additional features can
-> > be added incrementally in future patches.
-> > 
-> > The driver integrates with the LED multicolor framework and
-> > supports a set of basic sysfs interfaces for LED control and
-> > chip management.
-> > 
-> > Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> This series was tested on the Nezha board (one onboard LED) and the
+> Dongshan Nezha STU board (with an external strip of 16/32/48 LEDs, also
+> with gaps in the LED addresses).
 > 
-> Still does not apply - which branch did you rebase this to?
+> [...]
 
-I rebased this set onto linux-next, specifically:
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git (master).
+Applied to sunxi/dt-for-6.20 in local tree, thanks!
 
-Please let me know if you would prefer it rebased onto a different branch.
+[3/5] arm64: dts: allwinner: a100: Add LED controller node
+      commit: 4d9af1e12cd6462c53aa91b6a0b6af7861e1c0ce
+[4/5] riscv: dts: allwinner: d1: Add LED controller node
+      commit: c8e75e0cecd277fb585d4491a6eeaaff64546f10
+[5/5] riscv: dts: allwinner: d1: Add RGB LEDs to boards
+      commit: f8ad8bbb8827c5bfd83bdf5e1ab512d2dc5db643
 
 Best regards,
-Nam Tran
+-- 
+Chen-Yu Tsai <wens@kernel.org>
+
 
