@@ -1,60 +1,55 @@
-Return-Path: <linux-leds+bounces-6634-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6635-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A04D189C3
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Jan 2026 13:01:03 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A18D18B74
+	for <lists+linux-leds@lfdr.de>; Tue, 13 Jan 2026 13:30:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 2D1133002962
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Jan 2026 12:01:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 39474303C2AC
+	for <lists+linux-leds@lfdr.de>; Tue, 13 Jan 2026 12:29:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22E7E38E5D3;
-	Tue, 13 Jan 2026 12:00:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D90F538F24F;
+	Tue, 13 Jan 2026 12:29:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UCrFxAeE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r6oVvW1b"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F264629A2;
-	Tue, 13 Jan 2026 12:00:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B671038F24C;
+	Tue, 13 Jan 2026 12:29:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768305659; cv=none; b=SKik4xeF3K2GESzr+jBupBbgYb6s4pDrtfNkXtpdHz2x41c4bK6s85OSRONGJf9VW52MPSo6EmI/CbtCmOQVFI6ZfB/77jNXhDj7aocg3c/R1wDnhTvyS8+0d+jTQYwUYjgnng6HUG3zSC9oXUiHfnSzix52O9ZQUpEPtf66Kkg=
+	t=1768307388; cv=none; b=Y9wCxpHliNIaUhwdzZt3j5/2FTVMx4XqS1s41fWYBBElgor5LlNtMjBU0pxkOxaHZofGrNJp1fy69DkcRekXgMUqSkacKjvAYSfZaIF1MFx+MJnL/eE7Wea7UGL/yfnv921lM/jr2e80b9/QagrtvHQpU7OC4l8+wKoon4w8GYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768305659; c=relaxed/simple;
-	bh=mqeFINh0lcaoGMDWtCok1S/caE3mdnBWa3OQ+vMRNWI=;
+	s=arc-20240116; t=1768307388; c=relaxed/simple;
+	bh=LD9cuGtLZv0WbQw7pIlBAvGTjrjoxa43XGOeJ3o9DP8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bUCvwgblcnodWZ7x3S2U7YbV9QyUzlN3ArgTILcuhXW0IXyNqZ3lYvs/Lbn3rZXXwHC/VQV/k6ycVRoh8LzB+spV1cYIg6JW0BsyMG+Zd8p4+1XFGD24J6EDkreftFZtk1akFJnBZVp2eWYAILC2Rafc9rFp9i5npvqyr5xbQu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UCrFxAeE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DA2EC116C6;
-	Tue, 13 Jan 2026 12:00:55 +0000 (UTC)
+	 MIME-Version:Content-Type; b=HuRC6XXti7C23WtKg9+P5ejLBZxvDFdQ/dxULRqgpkcfDZs5oC6gLE53IQvgLeeapgwYtb3RUNYpMHKKq3VUT4gJa4MKa+wE8DK9ltyxkml7KqoWv6et39TymsecyIC0d0ydVh0YirngtYvtXLDxHEM2b3EgLS5UzEy3XNSETOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r6oVvW1b; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42C67C19422;
+	Tue, 13 Jan 2026 12:29:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768305658;
-	bh=mqeFINh0lcaoGMDWtCok1S/caE3mdnBWa3OQ+vMRNWI=;
+	s=k20201202; t=1768307388;
+	bh=LD9cuGtLZv0WbQw7pIlBAvGTjrjoxa43XGOeJ3o9DP8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=UCrFxAeEwYhNR+Cw8ssn+5DxmDhdqdtmOj8feiHhM7eN02t7dTuU6fBzJUyWPtye5
-	 Ae04SFhU0VjhIAdqvzZ7OlzMamxWEPIpO5CSxbgVgZEBRcjfP4V5m3pFQI/NDjtm2U
-	 aXLREFubOpcyEj1JwqdTcScRz3hPRluaKv04+waeh3xMv794PTzm+v9WiUJPKqE1DL
-	 FPbs2W6fsllkSh+kYxhHpP0n9AdHVmUAT3mEkwWdOoXgiHJLbQfwrfDVf//zDfPapV
-	 jqVBugu4Vw5HP/42DHT9b4DmgNQ/byYYtGuyPkOtciZ9sRJtcvMF/of16+Xv2qrxS1
-	 EondEb136XNCg==
+	b=r6oVvW1b3YIc/m1LUylMsiwiANBO6PT4oXcWgR0SLeFyGOZCVEbvOlaCbvOsgmC6K
+	 /qLfh0ZwDQXccRIViXa96ex2W0njfiq/xplAkRXxIVH4cb3XPn2V4tcHpRLT3cwAMC
+	 0RpwqIn4ciqkLKfWqc5wfkmtScQBeawpQR9Ww33iyJhKb/YEZ6WHoFUS+Ml4GVb4V9
+	 Swlcf2o1REIWpcSvrusohIePkaHpJPWCXsZAaYfQ+7Sda0Wqdhb8dia45N+s6At1Vr
+	 kzdJb+y8R8Lm7XjvLXWqH+OeQC66eRMk3mihTHwkDzeRs9/vkFIJJ4F9dIIp4xi3C+
+	 Sj7SEBg8Q+kgw==
 From: Lee Jones <lee@kernel.org>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Fenglin Wu <quic_fenglinw@quicinc.com>, 
- Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- aiqun.yu@oss.qualcomm.com, kamal.wadhwa@oss.qualcomm.com, 
- yijie.yang@oss.qualcomm.com, jingyi.wang@oss.qualcomm.com
-In-Reply-To: <20251215-knp-pmic-leds-v3-0-5e583f68b0e5@oss.qualcomm.com>
-References: <20251215-knp-pmic-leds-v3-0-5e583f68b0e5@oss.qualcomm.com>
-Subject: Re: [PATCH v3 0/2] dt-bindings: leds: Add bindings for Kaanapali
- PMIC peripherals
-Message-Id: <176830565503.2820182.11923707151729950479.b4-ty@kernel.org>
-Date: Tue, 13 Jan 2026 12:00:55 +0000
+To: lee@kernel.org, pavel@kernel.org, Haotian Zhang <vulab@iscas.ac.cn>
+Cc: abel.vesa@linaro.org, marijn.suijten@somainline.org, sre@kernel.org, 
+ andersson@kernel.org, anjelique.melendez@oss.qualcomm.com, 
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260108175133.638-1-vulab@iscas.ac.cn>
+References: <20260108175133.638-1-vulab@iscas.ac.cn>
+Subject: Re: (subset) [PATCH v2] leds: qcom-lpg: Check the return value of
+ regmap_bulk_write()
+Message-Id: <176830738601.2840040.12406208881450047670.b4-ty@kernel.org>
+Date: Tue, 13 Jan 2026 12:29:46 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -65,17 +60,21 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.15-dev-52d38
 
-On Mon, 15 Dec 2025 16:41:03 +0530, Jishnu Prakash wrote:
-> Add bindings for flash led and PWM devices present on Kaanapali PMICs.
+On Fri, 09 Jan 2026 01:51:33 +0800, Haotian Zhang wrote:
+> The lpg_lut_store() function currently ignores the return value of
+> regmap_bulk_write() and always returns 0. This can cause hardware write
+> failures to go undetected, leading the caller to believe LUT programming
+> succeeded when it may have failed.
 > 
+> Check the return value of regmap_bulk_write() in lpg_lut_store and return
+> the error to the caller on failure.
 > 
+> [...]
 
 Applied, thanks!
 
-[1/2] dt-bindings: leds: leds-qcom-lpg: Add support for PMH0101 PWM
-      commit: b0235d5724851d223d347b16630b6db304a1b15d
-[2/2] dt-bindings: leds: qcom,spmi-flash-led: Add PMH0101 compatible
-      commit: a19ae77cf3c71379188b71aacdc3ed906f84f22b
+[1/1] leds: qcom-lpg: Check the return value of regmap_bulk_write()
+      commit: 33e822f6f4eba2cfbd09ffd080af221cf8c542b2
 
 --
 Lee Jones [李琼斯]
