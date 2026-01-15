@@ -1,74 +1,76 @@
-Return-Path: <linux-leds+bounces-6650-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6651-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D692BD259D9
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Jan 2026 17:10:34 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB585D25A18
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Jan 2026 17:12:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id EA87C30087B8
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Jan 2026 16:10:30 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 26D1A301C571
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Jan 2026 16:10:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2CE13AE718;
-	Thu, 15 Jan 2026 16:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 544AC3B9605;
+	Thu, 15 Jan 2026 16:10:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mWwQYfVN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rfy9NSzF"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0F11D8E01
-	for <linux-leds@vger.kernel.org>; Thu, 15 Jan 2026 16:10:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652C03B5311
+	for <linux-leds@vger.kernel.org>; Thu, 15 Jan 2026 16:10:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768493426; cv=none; b=WLy4BvE65yNG4JIfxpHqGiEb2AQWy+cl1txqeEP7bcKCOXdVVXKuq14BIYS3faIIJfbZ3MNrCFa6JPDCgseXkYKiyoeYvML+4bKQ+GPwf5qoMiE2ZdJ96BBnV+QxtMqVnjr25yaC9Bwm4qBma84f3aHIztAJ+6SSMV/r7D6Hb+c=
+	t=1768493434; cv=none; b=h2flhWuV9ijUJ7+HEaFRDgYIUcDVoJYfaM7j/tw4UYqJK8J83HtqTLJj7i9rpERnjbGnGX4VT9J1hjNxMU4QM7ftHo8CgaMnWx85ItbAOjMjZIjGyGvVzqQdKjt1GqOln2m33R8HiqSI5Xv/zIg7zZC0pwn+0TCE7EAl8AaeLZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768493426; c=relaxed/simple;
-	bh=4ukEu6Htb08KeJpFPdqBiNp0aFZktOCLUSGBYIRzOmw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LGUE+gDbdzBGCUNGzfWXJ4olXganQYOtS9tqvV0qJxnGGaFJ2FP7H8eaW56Oanes47EhWQMadjPxw0fWgeb+T6fLFMhrjzafQ9D2Avm9xA1IJfKCzZRoC3qCPLOSDgV9nvYzSsFnz6Raleg/Hc/auyrQN6uCWAQf/AhTftJyJ+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mWwQYfVN; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1768493434; c=relaxed/simple;
+	bh=BNx1XhU+/MTPLVyU08JJZZlmhcplEJqO14E9bHR0PqI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=in138OD7IdcRTf7LfVpxAK508GdbT2yAECLDxPY6dPypVjerukFwEMJOOZbQEMJVxV6s7+cAtTReHxI0f4PROFXmSjv1mfWQTJjntTE/EWaX5O1ZJlBw9hH47s9vcTVssPtHCtGehz4fbJTVcLYKErbFh3qMCvZUGgrvP9CDR8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rfy9NSzF; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a110548cdeso7827415ad.0
-        for <linux-leds@vger.kernel.org>; Thu, 15 Jan 2026 08:10:21 -0800 (PST)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-29f102b013fso10625085ad.2
+        for <linux-leds@vger.kernel.org>; Thu, 15 Jan 2026 08:10:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768493421; x=1769098221; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zkxDR5udwN4n/Bv1rkRa8kZ2WADSPaLS60MQgSZ2YU0=;
-        b=mWwQYfVNO0DSk6+fzD4AhgxQznp/z1Xd6SDJ9wStNseEBuY6nqo861rJHl83dRD/vF
-         3q4LWreg4jF59UNtETRTb8tqb9Qg7ddbazpNE25z8rtRI/GIL+wn/f3Q0qAy9vWsOz44
-         h6F1GsSZXr5Su80xm/fPaRn28k0sK424izO7y1y2pjjLUz1Y6/8vUVF1dFNICmi1kjJP
-         eYKJXKVP3X0XTmMr9Ruum9E3lEoaejv7OGSZDJ3XL1KoBdoEvtGHfx5l8D2AkiYPxe8G
-         x8qvdvF2XJrnntudwlmOie+oX57XLv/C9ng3kmHjyzEeA5FrvE8a0+DrhgPfeZ5rSG2s
-         5fog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768493421; x=1769098221;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1768493427; x=1769098227; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zkxDR5udwN4n/Bv1rkRa8kZ2WADSPaLS60MQgSZ2YU0=;
-        b=ruBoPNead1FAlfibjnJFRFumwWAe6+3ymUruv3oLpZBuc7Zh18HTBtbgR1Xv06U9Lq
-         1rMMIzv5IDO8wS6RdMFONgdVDEvfW+p/7+WPuOie9fjmG8Ln8r7kSevzxt7YVIO9wuma
-         KvthMFrUSJO8cCbAhkDBNfvDU1Q7z325EIIqy2DbQucc0XssjfIvHTjDxhPUz3TC2UuF
-         WAhzyVjTjz5kDiDRitF7Rma5MSAf/XcEbIIhv67GmeYnD87zyB7GkFl3ITeB8bsderWd
-         qEL7mU04zUHBoSz204NEGV6JqotvMzCiTOcScinslJh6aYrS30jfECIIPqiqsm7Uawp3
-         LnEA==
-X-Forwarded-Encrypted: i=1; AJvYcCXlf/6lTtQrenWIGR0MLwuTXjFE42TJE+V64MzaWp8MiVYOinryA0ftGEhevqXXhyjCxE6jPHkHoofE@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXPBAG2Upv/aAh5UDy8YJ45JQEqp8K/7VScQthx4paVPOAuqOc
-	kyG9rYE/eGjEumiPaPdwHATW3f7VhrxVJyY5q80dDh/KEUNOy6S7H6A6
-X-Gm-Gg: AY/fxX5iDA1feaApfdXwGwXZZlCXuTTsXH1m5SXgz0iUmjVUn3eu829VWzxdBR48O1o
-	3f886eaYnLKkN9P8+Kdw+9BWkvfiSri64g4mPeFDjLodPEYeAo7yT0ttLznsZb0JYJr2mcM2vJt
-	S1CFe3agsBn3aPpSMZ4UsO5Zani0p+E3I1Pas+kVLKOJHvocVZ7eJn+VOCKjKe7shiGnRf0AJlA
-	hYvZDZ/wH2LqtWRL4HJ0KjEVtIUchItkVzGmfW2Lkrwx+RBKjuOfnRih+g8TEqZmFfYScVmojnV
-	MWewDrblzU8jYC6LgTZWfJaGQ00uFgvmPTSomtggKlSHGEwsqO21qDGxwn9mreMBj8/bwUmOHd/
-	TCXn4fa6znTVZhxhr9YMA8R7I6FztP0mXMjYK/O7i2XV0PctMNbKvElVY8GH7lAZTXrWwvdjvmx
-	nZG5WeoA6SupbC+o0xQCkQCvv4iKsH4A6e
-X-Received: by 2002:a17:903:41cd:b0:2a0:ba6d:d101 with SMTP id d9443c01a7336-2a717537551mr346625ad.21.1768493421190;
-        Thu, 15 Jan 2026 08:10:21 -0800 (PST)
+        bh=aRocFfIl7+MuoAewpZaUFx4l2JaU6dE3Ej6ZZ+PiJKc=;
+        b=Rfy9NSzFCa4ZeQw46FGXT5g4+fhwDn3cRM9msdYPfFdfVQ0bfrHdQUBiPfc5w3KoWC
+         7Myp67BVV1z1DwfPOn6H+cZX+k6yeDC/gqpxLkJsjDMU7hvZwAP3oc6oYfOBsjsvb3Cg
+         zhe+u8HeWvxyhuRI2c5pjb1AHCP8Y+rULxctL+dgBDSYmbwpVcfioA9Exsy4l6I3HRrO
+         H5e99IT2da3A9qbiKH6Z305Wm3Ne7TCfidklyF+mgmueaXthQQLiinHnfg0CqcIFMmvL
+         +JyM0WGAZGsn/s8GAncsaKenNd6gWK/rL8Mj3Wl9AaOb7bcV+Y4AqibQqq87Fw4fC5e2
+         p4Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768493427; x=1769098227;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=aRocFfIl7+MuoAewpZaUFx4l2JaU6dE3Ej6ZZ+PiJKc=;
+        b=I1HM/hHE5U7DaKreMnkhWVhNWJXCvpMbCRZ29Q4ByirmnXJ/sUVuFoTvDgCYAV/HpV
+         GBEtUoMzzV/IMbyXajiTxS3RZmj5jVo3Ua+XJGgH2oGDxsl7y82NMajGjpH/dbWlgsqG
+         GvqDNCLcF6EgpsdlD6zvvB0M7f3qoEm8KtXgI4XriIh6g5hHk7EqWBbZfJqrwNKrD9bm
+         if4enZK93RUTDKpUbbMf3O6fxLXiFxPHvOviHiLIuuCBLy83I7BDsJSEEkXx/NInXCiM
+         leGPu8I1tBt69miR6EJNJTtTYQA4YYIVSWSp8ctQ07aes4TDJG0w6CKRPfxH8BbYElkE
+         3Cnw==
+X-Forwarded-Encrypted: i=1; AJvYcCUzahv2HQFypH9R75K6qn+whjIDksJGYK8/Rm1HJzMvya/vu3uxjxbqnVfTotdZdZ7SF40WhT5jbFt3@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEnzf78r9mvqPUjqzOjEhHwsK2zEON56zPTNgvZnJYvmyFeNzB
+	u+1wArB8Sy3ARJlivgW08pd+AlUneJOBXXLtvGB4+Px4OoWjozaOfLp0
+X-Gm-Gg: AY/fxX4b7GjWXDMoyouXtKAEBzv2ypMkJ2tq1tSDnYv1K/Vnjd7iqF8vMpkzoN5SA/g
+	mX11e0AuQXWS4WjXg9ipdo7QAOKbYCBU2WN2fplEyx02yQ1sAAp8PE/4KZPLCgiIMN2hXv45G5k
+	Du/G4BuUXfq9hkG5ObIE0HznfvTCsfb6chQiXiiznTEWJYaDU3xZZ1O0jQwpbZ+K4yawruyiUL/
+	nSXPC/1dZuifqvBKtPLq85FKuK9beVV9GWxgfX1/ZxwQx2Kgvh439NTr6Cz8dbKA4+N74TH41Vl
+	7/F3Y++AyAT9XLSC0tkGDe6p+T+0uNectO9W0iqU4biBFm5Dn5/w/dtByYH1QQSGrQFc8TRrZCQ
+	SP9zDafSPTVcIlr9Dcww7n26RHIFHj4hV5OTPyP6NcayrPoqedFDZ1+YuGZ7M/sevkcwcaCxpQx
+	6799wPvv9Ub6/vjSQTTNXvVg==
+X-Received: by 2002:a17:902:cf48:b0:2a0:8358:88f8 with SMTP id d9443c01a7336-2a71750d7d0mr262085ad.22.1768493426877;
+        Thu, 15 Jan 2026 08:10:26 -0800 (PST)
 Received: from DESKTOP-P76LG1N.lan ([42.114.215.169])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cb2d88sm258523195ad.52.2026.01.15.08.10.17
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cb2d88sm258523195ad.52.2026.01.15.08.10.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jan 2026 08:10:20 -0800 (PST)
+        Thu, 15 Jan 2026 08:10:26 -0800 (PST)
 From: Nam Tran <trannamatk@gmail.com>
 To: lee@kernel.org
 Cc: pavel@kernel.org,
@@ -84,210 +86,919 @@ Cc: pavel@kernel.org,
 	devicetree@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	Nam Tran <trannamatk@gmail.com>
-Subject: [PATCH v22 0/2] leds: add new LED driver for TI LP5812
-Date: Thu, 15 Jan 2026 23:10:11 +0700
-Message-Id: <20260115161013.40706-1-trannamatk@gmail.com>
+Subject: [PATCH v22 1/2] leds: add basic support for TI/National Semiconductor LP5812 LED Driver
+Date: Thu, 15 Jan 2026 23:10:12 +0700
+Message-Id: <20260115161013.40706-2-trannamatk@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260115161013.40706-1-trannamatk@gmail.com>
+References: <20260115161013.40706-1-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This patch series adds initial support for the TI LP5812,
-a 4x3 matrix RGB LED driver with autonomous engine control.
-This version provides a minimal, clean implementation focused
-on core functionality only. The goal is to upstream a solid
-foundation, with the expectation that additional features can
-be added incrementally in future patches.
+The LP5812 is a 4x3 matrix RGB LED driver with an autonomous animation
+engine and time-cross-multiplexing (TCM) support for up to 12 LEDs or
+4 RGB LEDs. Each LED can be configured through the related registers
+to realize vivid and fancy lighting effects.
 
-The driver integrates with the LED multicolor framework and
-supports a set of basic sysfs interfaces for LED control and
-chip management.
-
-This version contains only the remaining driver and documentation
-patches. The DT binding patch included in earlier versions has
-already been applied to for-leds-next.
-
-The series is rebased onto:
-https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git (for-leds-next)
+This patch adds minimal driver support for the LP5812, implementing
+only the essential functionality: I2C communication with the device,
+LED registration, brightness control in manual mode, and basic sysfs
+interfaces for LED configuration and fault monitoring.
 
 Signed-off-by: Nam Tran <trannamatk@gmail.com>
 ---
-Changes in v22:
-- Rebased onto for-leds-next. No functional changes.
-- Dropped the DT binding patch (already applied)
-- Link to v21: https://lore.kernel.org/linux-leds/20260111135519.28112-1-trannamatk@gmail.com/
-
-Changes in v21:
-- Rebased onto Linux Next. No functional changes.
-- Link to v20: https://lore.kernel.org/linux-leds/20251221041950.4631-1-trannamatk@gmail.com/
-
-Changes in v20:
-- Rebase on v6.19-rc1
-- Link to v19: https://lore.kernel.org/linux-leds/20251130153956.241375-1-trannamatk@gmail.com/
-
-Changes in v19:
-- DT bindings: Reverted to v17, as making `label` required in v18 was incorrect.
-- Driver: Drop validation code enforcing parsing of the optional `label` property.
-- Driver: Renamed unions for clarity: replaced u_scan_order { s_scan_order, scan_order_val} with
-  lp5812_scan_order { bits, val }. Applied the same pattern to the drive-mode union.
-- Driver: Updated all code to use the new `bits` and `val` fields.
-- Documentation: Fix links (remove backticks, add `.rst`) and make attribute formatting consistent.
-- Link to v18: https://lore.kernel.org/linux-leds/20251123191042.116917-1-trannamatk@gmail.com/
-
-Changes in v18:
-- Mark `label` as required for all LED nodes for proper sysfs naming, including single-color
-  (led@[0-3]) and multi-color parent nodes (multi-led@[4-7]); remove previous Reviewed-by tag.
-- Simplified parse_drive_mode() logic: replaced nested if checks with continue to reduce indentation.
-- Use leds[i] instead of each in lp5812_register_leds() for clarity.
-- Remove wrapper function lp5812_auto_dc()
-- Define all magic numbers.
-- Handle parsing properties safely and removed unnecessary pre-initialization.
-- Rename lp5812_of_populate_pdata() to lp5812_of_probe().
-- Save chip in i2c_set_clientdata(), not led; use leds instead of led for the array in lp5812_probe().
-- Remove chip register map structure; use register addresses directly.
-- Minor formatting, blank line, comment clean-ups, and add email to MODULE_AUTHOR().
-- Link to v17: https://lore.kernel.org/linux-leds/20251021155927.140929-1-trannamatk@gmail.com/
-
-Changes in v17:
-- Dropped direct_mode from ti,scan-mode property.
-- Updated logic so that omitting ti,scan-mode now implies direct-drive mode by default.
-- Refactor lp5812_parse_led_channel() to simplify function arguments.
-- Mark lp5812_cfg as const since it contains only static configuration data.
-- Link to v16: https://lore.kernel.org/linux-leds/20251013173551.108205-1-trannamatk@gmail.com/
-
-Changes in v16:
-- Renamed property 'ti,operation-mode' to 'ti,scan-mode'.
-- Simplified allowed values using regex pattern instead of long enum list.
-- Updated description accordingly and noted 'direct_mode' as default.
-- Updated core driver to match the binding change.
-- Link to v15: https://lore.kernel.org/linux-leds/20251005153337.94025-1-trannamatk@gmail.com/
-
-Changes in v15:
-- Removed all custom sysfs attributes; driver now fully relies on standard LED multicolor class interfaces.
-- Added new device tree property `ti,operation-mode` to configure direct, TCM, and mix scan modes.
-- Dropped previous Reviewed-by tag from the binding patch due to property addition.
-- Removed ABI documentation since no new sysfs entries are created.
-- Updated lp5812.rst documentation accordingly.
-- Link to v14: https://lore.kernel.org/linux-leds/20250907160944.149104-1-trannamatk@gmail.com/
-
-Changes in v14:
-- Replaced inline constants with proper macros for readability and maintainability.
-- Refactored lp5812_read() and lp5812_write() to simplify logic and improve clarity.
-- Updated lp5812_fault_clear() to use switch() instead of if/else chain.
-- Refactored parse_drive_mode() for cleaner logic, removed string parsing of concatenated data.
-- Updated activate_store() and led_current_store() to replace strsep()/kstrtoint() parsing with sscanf().
-- Removed redundant comments and renamed variables for better clarity.
-- Link to v13: https://lore.kernel.org/lkml/20250818012654.143058-1-trannamatk@gmail.com/
-
-Changes in v13:
-- Fixes build warnings reported by kernel test robot:
-  - Inconsistent indent in lp5812_probe()
-  - Uninitialized variable 'ret' in lp5812_multicolor_brightness()
-- Drop of_match_ptr() and directly assign of_match_table, as the driver is DT-only.
-- Link to v12: https://lore.kernel.org/lkml/20250728065814.120769-1-trannamatk@gmail.com/
-
-Changes in v12:
-- Reordered helper functions above lp5812_probe() for better structure.
-- Clarified DT-only support by removing fallback paths and i2c_device_id table.
-- Directly assign platform_data to the correct pointer instead of relying on
-  string comparisons (LP5812_SC_LED, LP5812_MC_LED) and container_of() casting.
-  This simplifies the logic and avoids unnecessary type checks.
-- Removed redundant messages.
-- Update ABI documentation to reflect reduced feature set.
-- Link to v11: https://lore.kernel.org/lkml/20250714172355.84609-1-trannamatk@gmail.com/
-
-Changes in v11:
-- Drop autonomous animation and other advanced features; reduce driver to core functionality only.
-- Simplify LED parsing to use a unified path.
-- Clean up and streamline code
-  - Use alphabetically ordered includes
-  - Remove redundant comments
-  - Fix style issues (e.g., comment capitalization, code placement)
-- Update ABI documentation to reflect reduced feature set.
-- Link to v10: https://lore.kernel.org/lkml/20250618183205.113344-1-trannamatk@gmail.com/
-
-Changes in v10:
-- Address feedback on v9 regarding missing Reviewed-by tag
-- Added explanation: binding structure changed significantly to integrate
-  with the standard leds-class-multicolor.yaml schema and support multi-led@
-  nodes with nested led@ subnodes. This change introduced a new patternProperties
-  hierarchy and removed the previous flat led@ layout used in the earlier versions.
-  So the Reviewed-by tag was dropped out of caution.
-- Address binding document feedback
-  - Use consistent quotes
-  - Replace 'max-cur' with the standard 'led-max-microamp'
-  - Remove 'led-cur' property
-  - Fix mixed indentation
-- Updated core driver to align with the updated binding schema.
-- Address core driver feedback
-  - Use for_each_available_child_of_node_scoped() to simplify the code
-  - Add a return checks for lp5812_write() and lp5812_read()
-  - Remove unneeded trailing commas
-  - Fix unsafe usage of stack-allocated strings
-- Link to v9: https://lore.kernel.org/lkml/20250617154020.7785-1-trannamatk@gmail.com/
-
-Changes in v9:
-- Move driver back to drivers/leds/rgb/
-- Integrate with LED multicolor framework
-- Refactor and simplify custom sysfs handling
-- Extend Device Tree binding to support multi-led@ nodes using leds-class-multicolor.yaml
-- Update documentation to reflect the updated sysfs.
-- Link to v8: https://lore.kernel.org/lkml/20250427082447.138359-1-trannamatk@gmail.com/
-
-Changes in v8:
-- Move driver to drivers/auxdisplay/ instead of drivers/leds/.
-- Rename files from leds-lp5812.c/.h to lp5812.c/.h.
-- Move ti,lp5812.yaml binding to auxdisplay/ directory,
-  and update the title and $id to match new path.
-- No functional changes to the binding itself (keep Reviewed-by).
-- Update commit messages and patch titles to reflect the move.
-- Link to v7: https://lore.kernel.org/linux-leds/20250422190121.46839-1-trannamatk@gmail.com/
-
-Changes in v7:
-- Mark `chip_leds_map` as const.
-- Use consistent `ret` initialization.
-- Simplify the function `set_mix_sel_led()`.
-- Refactor `dev_config_show()` and `led_auto_animation_show()` to avoid temp buffer, malloc/free.
-- Simplify the code and ensure consistent use of mutex lock/unlock in show/store functions.
-- Remove `total_leds` and `total_aeu`.
-- Link to v6: https://lore.kernel.org/linux-leds/20250419184333.56617-1-trannamatk@gmail.com/
-
-Changes in v6:
-- Add `vcc-supply` property to describe the LP5812 power supply.
-- Remove `chan-name` property and entire LED subnodes, as they are not needed.
-- Update LP5812 LED driver node to Raspberry Pi 4 B Device Tree, based on updated binding.
-- Link to v5: https://lore.kernel.org/linux-leds/20250414145742.35713-1-trannamatk@gmail.com/
-
-Changes in v5:
-- Rebase on v6.15-rc2
-- Removed unused functions (lp5812_dump_regs, lp5812_update_bit).
-- Address Krzysztof's review comments
-- Link to v4: https://lore.kernel.org/linux-leds/20250405183246.198568-1-trannamatk@gmail.com/
----
-
-Nam Tran (2):
-  leds: add basic support for TI/National Semiconductor LP5812 LED
-    Driver
-  docs: leds: Document TI LP5812 LED driver
-
- Documentation/leds/index.rst       |   1 +
- Documentation/leds/leds-lp5812.rst |  50 +++
- MAINTAINERS                        |   5 +
- drivers/leds/rgb/Kconfig           |  13 +
- drivers/leds/rgb/Makefile          |   1 +
- drivers/leds/rgb/leds-lp5812.c     | 642 +++++++++++++++++++++++++++++
- drivers/leds/rgb/leds-lp5812.h     | 172 ++++++++
- 7 files changed, 884 insertions(+)
- create mode 100644 Documentation/leds/leds-lp5812.rst
+ MAINTAINERS                    |   4 +
+ drivers/leds/rgb/Kconfig       |  13 +
+ drivers/leds/rgb/Makefile      |   1 +
+ drivers/leds/rgb/leds-lp5812.c | 642 +++++++++++++++++++++++++++++++++
+ drivers/leds/rgb/leds-lp5812.h | 172 +++++++++
+ 5 files changed, 832 insertions(+)
  create mode 100644 drivers/leds/rgb/leds-lp5812.c
  create mode 100644 drivers/leds/rgb/leds-lp5812.h
 
-
-base-commit: 33e822f6f4eba2cfbd09ffd080af221cf8c542b2
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e9f5325e841a..8d840b34c924 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -25841,6 +25841,10 @@ M:	Nam Tran <trannamatk@gmail.com>
+ L:	linux-leds@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/leds/ti,lp5812.yaml
++F:	drivers/leds/rgb/Kconfig
++F:	drivers/leds/rgb/Makefile
++F:	drivers/leds/rgb/leds-lp5812.c
++F:	drivers/leds/rgb/leds-lp5812.h
+ 
+ TEXAS INSTRUMENTS' LB8864 LED BACKLIGHT DRIVER
+ M:	Alexander Sverdlin <alexander.sverdlin@siemens.com>
+diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
+index d362d1532096..6c5ff1259ca9 100644
+--- a/drivers/leds/rgb/Kconfig
++++ b/drivers/leds/rgb/Kconfig
+@@ -26,6 +26,19 @@ config LEDS_KTD202X
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called leds-ktd202x.
+ 
++config LEDS_LP5812
++	tristate "LED support for Texas Instruments LP5812"
++	depends on I2C
++	help
++	  If you say Y here you get support for TI LP5812 LED driver.
++	  The LP5812 is a 4x3 matrix RGB LED driver with autonomous
++	  animation engine control.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called leds-lp5812.
++
++	  If unsure, say N.
++
+ config LEDS_LP5860_CORE
+ 	tristate "Core Driver for TI LP5860"
+ 	depends on LEDS_CLASS
+diff --git a/drivers/leds/rgb/Makefile b/drivers/leds/rgb/Makefile
+index 9a4daca5f2ac..f3b365ea082d 100644
+--- a/drivers/leds/rgb/Makefile
++++ b/drivers/leds/rgb/Makefile
+@@ -2,6 +2,7 @@
+ 
+ obj-$(CONFIG_LEDS_GROUP_MULTICOLOR)	+= leds-group-multicolor.o
+ obj-$(CONFIG_LEDS_KTD202X)		+= leds-ktd202x.o
++obj-$(CONFIG_LEDS_LP5812)		+= leds-lp5812.o
+ obj-$(CONFIG_LEDS_LP5860_CORE)		+= leds-lp5860-core.o
+ obj-$(CONFIG_LEDS_LP5860_SPI)		+= leds-lp5860-spi.o
+ obj-$(CONFIG_LEDS_NCP5623)		+= leds-ncp5623.o
+diff --git a/drivers/leds/rgb/leds-lp5812.c b/drivers/leds/rgb/leds-lp5812.c
+new file mode 100644
+index 000000000000..ce6d703641e8
+--- /dev/null
++++ b/drivers/leds/rgb/leds-lp5812.c
+@@ -0,0 +1,642 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * LP5812 LED driver
++ *
++ * Copyright (C) 2025 Texas Instruments
++ *
++ * Author: Jared Zhou <jared-zhou@ti.com>
++ */
++
++#include <linux/delay.h>
++#include <linux/i2c.h>
++#include <linux/init.h>
++#include <linux/kernel.h>
++#include <linux/led-class-multicolor.h>
++#include <linux/leds.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/sysfs.h>
++#include <linux/types.h>
++
++#include "leds-lp5812.h"
++
++static const struct lp5812_mode_mapping chip_mode_map[] = {
++	{"direct_mode", 0, 0, 0, 0, 0, 0},
++	{"tcm:1:0", 1, 0, 0, 0, 0, 0},
++	{"tcm:1:1", 1, 1, 0, 0, 0, 0},
++	{"tcm:1:2", 1, 2, 0, 0, 0, 0},
++	{"tcm:1:3", 1, 3, 0, 0, 0, 0},
++	{"tcm:2:0:1", 2, 0, 1, 0, 0, 0},
++	{"tcm:2:0:2", 2, 0, 2, 0, 0, 0},
++	{"tcm:2:0:3", 2, 0, 3, 0, 0, 0},
++	{"tcm:2:1:2", 2, 1, 2, 0, 0, 0},
++	{"tcm:2:1:3", 2, 1, 3, 0, 0, 0},
++	{"tcm:2:2:3", 2, 2, 3, 0, 0, 0},
++	{"tcm:3:0:1:2", 3, 0, 1, 2, 0, 0},
++	{"tcm:3:0:1:3", 3, 0, 1, 3, 0, 0},
++	{"tcm:3:0:2:3", 3, 0, 2, 3, 0, 0},
++	{"tcm:4:0:1:2:3", 4, 0, 1, 2, 3, 0},
++	{"mix:1:0:1", 5, 1, 0, 0, 0, 0},
++	{"mix:1:0:2", 5, 2, 0, 0, 0, 0},
++	{"mix:1:0:3", 5, 3, 0, 0, 0, 0},
++	{"mix:1:1:0", 5, 0, 0, 0, 0, 1},
++	{"mix:1:1:2", 5, 2, 0, 0, 0, 1},
++	{"mix:1:1:3", 5, 3, 0, 0, 0, 1},
++	{"mix:1:2:0", 5, 0, 0, 0, 0, 2},
++	{"mix:1:2:1", 5, 1, 0, 0, 0, 2},
++	{"mix:1:2:3", 5, 3, 0, 0, 0, 2},
++	{"mix:1:3:0", 5, 0, 0, 0, 0, 3},
++	{"mix:1:3:1", 5, 1, 0, 0, 0, 3},
++	{"mix:1:3:2", 5, 2, 0, 0, 0, 3},
++	{"mix:2:0:1:2", 6, 1, 2, 0, 0, 0},
++	{"mix:2:0:1:3", 6, 1, 3, 0, 0, 0},
++	{"mix:2:0:2:3", 6, 2, 3, 0, 0, 0},
++	{"mix:2:1:0:2", 6, 0, 2, 0, 0, 1},
++	{"mix:2:1:0:3", 6, 0, 3, 0, 0, 1},
++	{"mix:2:1:2:3", 6, 2, 3, 0, 0, 1},
++	{"mix:2:2:0:1", 6, 0, 1, 0, 0, 2},
++	{"mix:2:2:0:3", 6, 0, 3, 0, 0, 2},
++	{"mix:2:2:1:3", 6, 1, 3, 0, 0, 2},
++	{"mix:2:3:0:1", 6, 0, 1, 0, 0, 3},
++	{"mix:2:3:0:2", 6, 0, 2, 0, 0, 3},
++	{"mix:2:3:1:2", 6, 1, 2, 0, 0, 3},
++	{"mix:3:0:1:2:3", 7, 1, 2, 3, 0, 0},
++	{"mix:3:1:0:2:3", 7, 0, 2, 3, 0, 1},
++	{"mix:3:2:0:1:3", 7, 0, 1, 3, 0, 2},
++	{"mix:3:3:0:1:2", 7, 0, 1, 2, 0, 3}
++};
++
++static int lp5812_write(struct lp5812_chip *chip, u16 reg, u8 val)
++{
++	struct device *dev = &chip->client->dev;
++	struct i2c_msg msg;
++	u8 buf[LP5812_DATA_LENGTH];
++	u8 reg_addr_bit8_9;
++	int ret;
++
++	/* Extract register address bits 9 and 8 for Address Byte 1 */
++	reg_addr_bit8_9 = (reg >> LP5812_REG_ADDR_HIGH_SHIFT) & LP5812_REG_ADDR_BIT_8_9_MASK;
++
++	/* Prepare payload: Address Byte 2 (bits [7:0]) and value to write */
++	buf[LP5812_DATA_BYTE_0_IDX] = (u8)(reg & LP5812_REG_ADDR_LOW_MASK);
++	buf[LP5812_DATA_BYTE_1_IDX] = val;
++
++	/* Construct I2C message for a write operation */
++	msg.addr = (chip->client->addr << LP5812_CHIP_ADDR_SHIFT) | reg_addr_bit8_9;
++	msg.flags = 0;
++	msg.len = sizeof(buf);
++	msg.buf = buf;
++
++	ret = i2c_transfer(chip->client->adapter, &msg, 1);
++	if (ret == 1)
++		return 0;
++
++	dev_err(dev, "I2C write error, ret=%d\n", ret);
++	return ret < 0 ? ret : -EIO;
++}
++
++static int lp5812_read(struct lp5812_chip *chip, u16 reg, u8 *val)
++{
++	struct device *dev = &chip->client->dev;
++	struct i2c_msg msgs[LP5812_READ_MSG_LENGTH];
++	u8 ret_val;
++	u8 reg_addr_bit8_9;
++	u8 converted_reg;
++	int ret;
++
++	/* Extract register address bits 9 and 8 for Address Byte 1 */
++	reg_addr_bit8_9 = (reg >> LP5812_REG_ADDR_HIGH_SHIFT) & LP5812_REG_ADDR_BIT_8_9_MASK;
++
++	/* Lower 8 bits go in Address Byte 2 */
++	converted_reg = (u8)(reg & LP5812_REG_ADDR_LOW_MASK);
++
++	/* Prepare I2C write message to set register address */
++	msgs[LP5812_MSG_0_IDX].addr =
++		(chip->client->addr << LP5812_CHIP_ADDR_SHIFT) | reg_addr_bit8_9;
++	msgs[LP5812_MSG_0_IDX].flags = 0;
++	msgs[LP5812_MSG_0_IDX].len = 1;
++	msgs[LP5812_MSG_0_IDX].buf = &converted_reg;
++
++	/* Prepare I2C read message to retrieve register value */
++	msgs[LP5812_MSG_1_IDX].addr =
++		(chip->client->addr << LP5812_CHIP_ADDR_SHIFT) | reg_addr_bit8_9;
++	msgs[LP5812_MSG_1_IDX].flags = I2C_M_RD;
++	msgs[LP5812_MSG_1_IDX].len = 1;
++	msgs[LP5812_MSG_1_IDX].buf = &ret_val;
++
++	ret = i2c_transfer(chip->client->adapter, msgs, LP5812_READ_MSG_LENGTH);
++	if (ret == LP5812_READ_MSG_LENGTH) {
++		*val = ret_val;
++		return 0;
++	}
++
++	dev_err(dev, "I2C read error, ret=%d\n", ret);
++	*val = 0;
++	return ret < 0 ? ret : -EIO;
++}
++
++static int lp5812_read_tsd_config_status(struct lp5812_chip *chip, u8 *reg_val)
++{
++	return lp5812_read(chip, LP5812_TSD_CONFIG_STATUS, reg_val);
++}
++
++static int lp5812_update_regs_config(struct lp5812_chip *chip)
++{
++	u8 reg_val;
++	int ret;
++
++	ret = lp5812_write(chip, LP5812_CMD_UPDATE, LP5812_UPDATE_CMD_VAL);
++	if (ret)
++		return ret;
++
++	ret = lp5812_read_tsd_config_status(chip, &reg_val);
++	if (ret)
++		return ret;
++
++	return reg_val & LP5812_CFG_ERR_STATUS_MASK;
++}
++
++static ssize_t parse_drive_mode(struct lp5812_chip *chip, const char *str)
++{
++	int i;
++
++	chip->drive_mode.bits.mix_sel_led_0 = false;
++	chip->drive_mode.bits.mix_sel_led_1 = false;
++	chip->drive_mode.bits.mix_sel_led_2 = false;
++	chip->drive_mode.bits.mix_sel_led_3 = false;
++
++	if (sysfs_streq(str, LP5812_MODE_DIRECT_NAME)) {
++		chip->drive_mode.bits.led_mode = LP5812_MODE_DIRECT_VALUE;
++		return 0;
++	}
++
++	for (i = 0; i < ARRAY_SIZE(chip_mode_map); i++) {
++		if (!sysfs_streq(str, chip_mode_map[i].mode_name))
++			continue;
++
++		chip->drive_mode.bits.led_mode = chip_mode_map[i].mode;
++		chip->scan_order.bits.order0 = chip_mode_map[i].scan_order_0;
++		chip->scan_order.bits.order1 = chip_mode_map[i].scan_order_1;
++		chip->scan_order.bits.order2 = chip_mode_map[i].scan_order_2;
++		chip->scan_order.bits.order3 = chip_mode_map[i].scan_order_3;
++
++		switch (chip_mode_map[i].selection_led) {
++		case LP5812_MODE_MIX_SELECT_LED_0:
++			chip->drive_mode.bits.mix_sel_led_0 = true;
++			break;
++		case LP5812_MODE_MIX_SELECT_LED_1:
++			chip->drive_mode.bits.mix_sel_led_1 = true;
++			break;
++		case LP5812_MODE_MIX_SELECT_LED_2:
++			chip->drive_mode.bits.mix_sel_led_2 = true;
++			break;
++		case LP5812_MODE_MIX_SELECT_LED_3:
++			chip->drive_mode.bits.mix_sel_led_3 = true;
++			break;
++		default:
++			return -EINVAL;
++		}
++
++		return 0;
++	}
++
++	return -EINVAL;
++}
++
++static int lp5812_set_drive_mode_scan_order(struct lp5812_chip *chip)
++{
++	u8 val;
++	int ret;
++
++	val = chip->drive_mode.val;
++	ret = lp5812_write(chip, LP5812_DEV_CONFIG1, val);
++	if (ret)
++		return ret;
++
++	val = chip->scan_order.val;
++	ret = lp5812_write(chip, LP5812_DEV_CONFIG2, val);
++
++	return ret;
++}
++
++static int lp5812_set_led_mode(struct lp5812_chip *chip, int led_number,
++			       enum control_mode mode)
++{
++	u8 reg_val;
++	u16 reg;
++	int ret;
++
++	/*
++	 * Select device configuration register.
++	 * Reg3 for LED_0–LED_3, LED_A0–A2, LED_B0
++	 * Reg4 for LED_B1–B2, LED_C0–C2, LED_D0–D2
++	 */
++	if (led_number < LP5812_NUMBER_LED_IN_REG)
++		reg = LP5812_DEV_CONFIG3;
++	else
++		reg = LP5812_DEV_CONFIG4;
++
++	ret = lp5812_read(chip, reg, &reg_val);
++	if (ret)
++		return ret;
++
++	if (mode == LP5812_MODE_MANUAL)
++		reg_val &= ~(LP5812_ENABLE << (led_number % LP5812_NUMBER_LED_IN_REG));
++	else
++		reg_val |= (LP5812_ENABLE << (led_number % LP5812_NUMBER_LED_IN_REG));
++
++	ret = lp5812_write(chip, reg, reg_val);
++	if (ret)
++		return ret;
++
++	ret = lp5812_update_regs_config(chip);
++
++	return ret;
++}
++
++static int lp5812_manual_dc_pwm_control(struct lp5812_chip *chip, int led_number,
++					u8 val, enum dimming_type dimming_type)
++{
++	u16 led_base_reg;
++	int ret;
++
++	if (dimming_type == LP5812_DIMMING_ANALOG)
++		led_base_reg = LP5812_MANUAL_DC_BASE;
++	else
++		led_base_reg = LP5812_MANUAL_PWM_BASE;
++
++	ret = lp5812_write(chip, led_base_reg + led_number, val);
++
++	return ret;
++}
++
++static int lp5812_multicolor_brightness(struct lp5812_led *led)
++{
++	struct lp5812_chip *chip = led->chip;
++	int ret, i;
++
++	guard(mutex)(&chip->lock);
++	for (i = 0; i < led->mc_cdev.num_colors; i++) {
++		ret = lp5812_manual_dc_pwm_control(chip, led->mc_cdev.subled_info[i].channel,
++						   led->mc_cdev.subled_info[i].brightness,
++						   LP5812_DIMMING_PWM);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
++static int lp5812_led_brightness(struct lp5812_led *led)
++{
++	struct lp5812_chip *chip = led->chip;
++	struct lp5812_led_config *led_cfg;
++	int ret;
++
++	led_cfg = &chip->led_config[led->chan_nr];
++
++	guard(mutex)(&chip->lock);
++	ret = lp5812_manual_dc_pwm_control(chip, led_cfg->led_id[0],
++					   led->brightness, LP5812_DIMMING_PWM);
++
++	return ret;
++}
++
++static int lp5812_set_brightness(struct led_classdev *cdev,
++				 enum led_brightness brightness)
++{
++	struct lp5812_led *led = container_of(cdev, struct lp5812_led, cdev);
++
++	led->brightness = (u8)brightness;
++
++	return lp5812_led_brightness(led);
++}
++
++static int lp5812_set_mc_brightness(struct led_classdev *cdev,
++				    enum led_brightness brightness)
++{
++	struct led_classdev_mc *mc_dev = lcdev_to_mccdev(cdev);
++	struct lp5812_led *led = container_of(mc_dev, struct lp5812_led, mc_cdev);
++
++	led_mc_calc_color_components(&led->mc_cdev, brightness);
++
++	return lp5812_multicolor_brightness(led);
++}
++
++static int lp5812_init_led(struct lp5812_led *led, struct lp5812_chip *chip, int chan)
++{
++	struct device *dev = &chip->client->dev;
++	struct mc_subled *mc_led_info;
++	struct led_classdev *led_cdev;
++	int i, ret;
++
++	if (chip->led_config[chan].name) {
++		led->cdev.name = chip->led_config[chan].name;
++	} else {
++		led->cdev.name = devm_kasprintf(dev, GFP_KERNEL, "%s:channel%d",
++						chip->label ? : chip->client->name, chan);
++		if (!led->cdev.name)
++			return -ENOMEM;
++	}
++
++	if (!chip->led_config[chan].is_sc_led) {
++		mc_led_info = devm_kcalloc(dev, chip->led_config[chan].num_colors,
++					   sizeof(*mc_led_info), GFP_KERNEL);
++		if (!mc_led_info)
++			return -ENOMEM;
++
++		led_cdev = &led->mc_cdev.led_cdev;
++		led_cdev->name = led->cdev.name;
++		led_cdev->brightness_set_blocking = lp5812_set_mc_brightness;
++		led->mc_cdev.num_colors = chip->led_config[chan].num_colors;
++
++		for (i = 0; i < led->mc_cdev.num_colors; i++) {
++			mc_led_info[i].color_index = chip->led_config[chan].color_id[i];
++			mc_led_info[i].channel = chip->led_config[chan].led_id[i];
++		}
++
++		led->mc_cdev.subled_info = mc_led_info;
++	} else {
++		led->cdev.brightness_set_blocking = lp5812_set_brightness;
++	}
++
++	led->chan_nr = chan;
++
++	if (chip->led_config[chan].is_sc_led) {
++		ret = devm_led_classdev_register(dev, &led->cdev);
++		if (ret == 0)
++			led->cdev.dev->platform_data = led;
++	} else {
++		ret = devm_led_classdev_multicolor_register(dev, &led->mc_cdev);
++		if (ret == 0)
++			led->mc_cdev.led_cdev.dev->platform_data = led;
++	}
++
++	return ret;
++}
++
++static int lp5812_register_leds(struct lp5812_led *leds, struct lp5812_chip *chip)
++{
++	struct lp5812_led *led;
++	int num_channels = chip->num_channels;
++	u8 reg_val;
++	u16 reg;
++	int ret, i, j;
++
++	for (i = 0; i < num_channels; i++) {
++		led = &leds[i];
++		ret = lp5812_init_led(led, chip, i);
++		if (ret)
++			goto err_init_led;
++
++		led->chip = chip;
++
++		for (j = 0; j < chip->led_config[i].num_colors; j++) {
++			ret = lp5812_write(chip,
++					   LP5812_AUTO_DC_BASE + chip->led_config[i].led_id[j],
++					   chip->led_config[i].max_current[j]);
++			if (ret)
++				goto err_init_led;
++
++			ret = lp5812_manual_dc_pwm_control(chip, chip->led_config[i].led_id[j],
++							   chip->led_config[i].max_current[j],
++							   LP5812_DIMMING_ANALOG);
++			if (ret)
++				goto err_init_led;
++
++			ret = lp5812_set_led_mode(chip, chip->led_config[i].led_id[j],
++						  LP5812_MODE_MANUAL);
++			if (ret)
++				goto err_init_led;
++
++			reg = (chip->led_config[i].led_id[j] < LP5812_NUMBER_LED_IN_REG) ?
++				LP5812_LED_EN_1 : LP5812_LED_EN_2;
++
++			ret = lp5812_read(chip, reg, &reg_val);
++			if (ret)
++				goto err_init_led;
++
++			reg_val |= (LP5812_ENABLE << (chip->led_config[i].led_id[j] %
++				LP5812_NUMBER_LED_IN_REG));
++
++			ret = lp5812_write(chip, reg, reg_val);
++			if (ret)
++				goto err_init_led;
++		}
++	}
++
++	return 0;
++
++err_init_led:
++	return ret;
++}
++
++static int lp5812_init_device(struct lp5812_chip *chip)
++{
++	int ret;
++
++	usleep_range(LP5812_WAIT_DEVICE_STABLE_MIN, LP5812_WAIT_DEVICE_STABLE_MAX);
++
++	ret = lp5812_write(chip, LP5812_REG_ENABLE, LP5812_ENABLE);
++	if (ret) {
++		dev_err(&chip->client->dev, "failed to enable LP5812 device\n");
++		return ret;
++	}
++
++	ret = lp5812_write(chip, LP5812_DEV_CONFIG12, LP5812_LSD_LOD_START_UP);
++	if (ret) {
++		dev_err(&chip->client->dev, "failed to configure device safety thresholds\n");
++		return ret;
++	}
++
++	ret = parse_drive_mode(chip, chip->scan_mode);
++	if (ret)
++		return ret;
++
++	ret = lp5812_set_drive_mode_scan_order(chip);
++	if (ret)
++		return ret;
++
++	ret = lp5812_update_regs_config(chip);
++	if (ret) {
++		dev_err(&chip->client->dev, "failed to apply configuration updates\n");
++		return ret;
++	}
++
++	return 0;
++}
++
++static void lp5812_deinit_device(struct lp5812_chip *chip)
++{
++	lp5812_write(chip, LP5812_LED_EN_1, LP5812_DISABLE);
++	lp5812_write(chip, LP5812_LED_EN_2, LP5812_DISABLE);
++	lp5812_write(chip, LP5812_REG_ENABLE, LP5812_DISABLE);
++}
++
++static int lp5812_parse_led_channel(struct device_node *np,
++				    struct lp5812_led_config *cfg,
++				    int color_number)
++{
++	int color_id, reg, ret;
++	u32 max_cur;
++
++	ret = of_property_read_u32(np, "reg", &reg);
++	if (ret)
++		return ret;
++
++	cfg->led_id[color_number] = reg;
++
++	ret = of_property_read_u32(np, "led-max-microamp", &max_cur);
++	if (ret)
++		max_cur = 0;
++	/* Convert microamps to driver units */
++	cfg->max_current[color_number] = max_cur / 100;
++
++	ret = of_property_read_u32(np, "color", &color_id);
++	if (ret)
++		color_id = 0;
++	cfg->color_id[color_number] = color_id;
++
++	return 0;
++}
++
++static int lp5812_parse_led(struct device_node *np,
++			    struct lp5812_led_config *cfg,
++			    int led_index)
++{
++	int num_colors, ret;
++
++	of_property_read_string(np, "label", &cfg[led_index].name);
++
++	ret = of_property_read_u32(np, "reg", &cfg[led_index].chan_nr);
++	if (ret)
++		return ret;
++
++	num_colors = 0;
++	for_each_available_child_of_node_scoped(np, child) {
++		ret = lp5812_parse_led_channel(child, &cfg[led_index], num_colors);
++		if (ret)
++			return ret;
++
++		num_colors++;
++	}
++
++	if (num_colors == 0) {
++		ret = lp5812_parse_led_channel(np, &cfg[led_index], 0);
++		if (ret)
++			return ret;
++
++		num_colors = 1;
++		cfg[led_index].is_sc_led = true;
++	} else {
++		cfg[led_index].is_sc_led = false;
++	}
++
++	cfg[led_index].num_colors = num_colors;
++
++	return 0;
++}
++
++static int lp5812_of_probe(struct device *dev,
++			   struct device_node *np,
++			   struct lp5812_chip *chip)
++{
++	struct lp5812_led_config *cfg;
++	int num_channels, i = 0, ret;
++
++	num_channels = of_get_available_child_count(np);
++	if (num_channels == 0) {
++		dev_err(dev, "no LED channels\n");
++		return -EINVAL;
++	}
++
++	cfg = devm_kcalloc(dev, num_channels, sizeof(*cfg), GFP_KERNEL);
++	if (!cfg)
++		return -ENOMEM;
++
++	chip->led_config = &cfg[0];
++	chip->num_channels = num_channels;
++
++	for_each_available_child_of_node_scoped(np, child) {
++		ret = lp5812_parse_led(child, cfg, i);
++		if (ret)
++			return -EINVAL;
++		i++;
++	}
++
++	ret = of_property_read_string(np, "ti,scan-mode", &chip->scan_mode);
++	if (ret)
++		chip->scan_mode = LP5812_MODE_DIRECT_NAME;
++
++	of_property_read_string(np, "label", &chip->label);
++
++	return 0;
++}
++
++static int lp5812_probe(struct i2c_client *client)
++{
++	struct lp5812_chip *chip;
++	struct device_node *np = dev_of_node(&client->dev);
++	struct lp5812_led *leds;
++	int ret;
++
++	if (!np)
++		return -EINVAL;
++
++	chip = devm_kzalloc(&client->dev, sizeof(*chip), GFP_KERNEL);
++	if (!chip)
++		return -ENOMEM;
++
++	ret = lp5812_of_probe(&client->dev, np, chip);
++	if (ret)
++		return ret;
++
++	leds = devm_kcalloc(&client->dev, chip->num_channels, sizeof(*leds), GFP_KERNEL);
++	if (!leds)
++		return -ENOMEM;
++
++	chip->client = client;
++	mutex_init(&chip->lock);
++	i2c_set_clientdata(client, chip);
++
++	ret = lp5812_init_device(chip);
++	if (ret)
++		return ret;
++
++	ret = lp5812_register_leds(leds, chip);
++	if (ret)
++		goto err_out;
++
++	return 0;
++
++err_out:
++	lp5812_deinit_device(chip);
++	return ret;
++}
++
++static void lp5812_remove(struct i2c_client *client)
++{
++	struct lp5812_chip *chip = i2c_get_clientdata(client);
++
++	lp5812_deinit_device(chip);
++}
++
++static const struct of_device_id of_lp5812_match[] = {
++	{ .compatible = "ti,lp5812" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, of_lp5812_match);
++
++static struct i2c_driver lp5812_driver = {
++	.driver = {
++		.name   = "lp5812",
++		.of_match_table = of_lp5812_match,
++	},
++	.probe		= lp5812_probe,
++	.remove		= lp5812_remove,
++};
++module_i2c_driver(lp5812_driver);
++
++MODULE_DESCRIPTION("Texas Instruments LP5812 LED Driver");
++MODULE_AUTHOR("Jared Zhou <jared-zhou@ti.com>");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/leds/rgb/leds-lp5812.h b/drivers/leds/rgb/leds-lp5812.h
+new file mode 100644
+index 000000000000..d8728ecd90b3
+--- /dev/null
++++ b/drivers/leds/rgb/leds-lp5812.h
+@@ -0,0 +1,172 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * LP5812 Driver Header
++ *
++ * Copyright (C) 2025 Texas Instruments
++ *
++ * Author: Jared Zhou <jared-zhou@ti.com>
++ */
++
++#ifndef _LP5812_H_
++#define _LP5812_H_
++
++#include <linux/delay.h>
++#include <linux/i2c.h>
++#include <linux/kernel.h>
++#include <linux/led-class-multicolor.h>
++#include <linux/leds.h>
++#include <linux/mutex.h>
++#include <linux/sysfs.h>
++#include <linux/types.h>
++
++#define LP5812_REG_ENABLE				0x0000
++#define LP5812_REG_RESET				0x0023
++#define LP5812_DEV_CONFIG0				0x0001
++#define LP5812_DEV_CONFIG1				0x0002
++#define LP5812_DEV_CONFIG2				0x0003
++#define LP5812_DEV_CONFIG3				0x0004
++#define LP5812_DEV_CONFIG4				0x0005
++#define LP5812_DEV_CONFIG5				0x0006
++#define LP5812_DEV_CONFIG6				0x0007
++#define LP5812_DEV_CONFIG7				0x0008
++#define LP5812_DEV_CONFIG8				0x0009
++#define LP5812_DEV_CONFIG9				0x000A
++#define LP5812_DEV_CONFIG10				0x000B
++#define LP5812_DEV_CONFIG11				0x000c
++#define LP5812_DEV_CONFIG12				0x000D
++#define LP5812_CMD_UPDATE				0x0010
++#define LP5812_LED_EN_1					0x0020
++#define LP5812_LED_EN_2					0x0021
++#define LP5812_FAULT_CLEAR				0x0022
++#define LP5812_MANUAL_DC_BASE				0x0030
++#define LP5812_AUTO_DC_BASE				0x0050
++#define LP5812_MANUAL_PWM_BASE				0x0040
++
++#define LP5812_TSD_CONFIG_STATUS			0x0300
++#define LP5812_LOD_STATUS				0x0301
++#define LP5812_LSD_STATUS				0x0303
++
++#define LP5812_ENABLE					0x01
++#define LP5812_DISABLE					0x00
++#define FAULT_CLEAR_ALL					0x07
++#define TSD_CLEAR_VAL					0x04
++#define LSD_CLEAR_VAL					0x02
++#define LOD_CLEAR_VAL					0x01
++#define LP5812_RESET					0x66
++#define LP5812_DEV_CONFIG12_DEFAULT			0x08
++
++#define LP5812_UPDATE_CMD_VAL				0x55
++#define LP5812_REG_ADDR_HIGH_SHIFT			8
++#define LP5812_REG_ADDR_BIT_8_9_MASK			0x03
++#define LP5812_REG_ADDR_LOW_MASK			0xFF
++#define LP5812_CHIP_ADDR_SHIFT				2
++#define LP5812_DATA_LENGTH				2
++#define LP5812_DATA_BYTE_0_IDX				0
++#define LP5812_DATA_BYTE_1_IDX				1
++
++#define LP5812_READ_MSG_LENGTH				2
++#define LP5812_MSG_0_IDX				0
++#define LP5812_MSG_1_IDX				1
++#define LP5812_CFG_ERR_STATUS_MASK			0x01
++#define LP5812_CFG_TSD_STATUS_SHIFT			1
++#define LP5812_CFG_TSD_STATUS_MASK			0x01
++
++#define LP5812_FAULT_CLEAR_LOD				0
++#define LP5812_FAULT_CLEAR_LSD				1
++#define LP5812_FAULT_CLEAR_TSD				2
++#define LP5812_FAULT_CLEAR_ALL				3
++#define LP5812_NUMBER_LED_IN_REG			8
++
++#define LP5812_WAIT_DEVICE_STABLE_MIN			1000
++#define LP5812_WAIT_DEVICE_STABLE_MAX			1100
++
++#define LP5812_LSD_LOD_START_UP				0x0B
++#define LP5812_MODE_NAME_MAX_LEN			20
++#define LP5812_MODE_DIRECT_NAME				"direct_mode"
++#define LP5812_MODE_DIRECT_VALUE			0
++#define LP5812_MODE_MIX_SELECT_LED_0			0
++#define LP5812_MODE_MIX_SELECT_LED_1			1
++#define LP5812_MODE_MIX_SELECT_LED_2			2
++#define LP5812_MODE_MIX_SELECT_LED_3			3
++
++enum control_mode {
++	LP5812_MODE_MANUAL = 0,
++	LP5812_MODE_AUTONOMOUS
++};
++
++enum dimming_type {
++	LP5812_DIMMING_ANALOG,
++	LP5812_DIMMING_PWM
++};
++
++union lp5812_scan_order {
++	struct {
++		u8 order0:2;
++		u8 order1:2;
++		u8 order2:2;
++		u8 order3:2;
++	} bits;
++	u8 val;
++};
++
++union lp5812_drive_mode {
++	struct {
++		u8 mix_sel_led_0:1;
++		u8 mix_sel_led_1:1;
++		u8 mix_sel_led_2:1;
++		u8 mix_sel_led_3:1;
++		u8 led_mode:3;
++		u8 pwm_fre:1;
++	} bits;
++	u8 val;
++};
++
++struct lp5812_reg {
++	u16 addr;
++	union {
++		u8 val;
++		u8 mask;
++		u8 shift;
++	};
++};
++
++struct lp5812_mode_mapping {
++	char mode_name[LP5812_MODE_NAME_MAX_LEN];
++	u8 mode;
++	u8 scan_order_0;
++	u8 scan_order_1;
++	u8 scan_order_2;
++	u8 scan_order_3;
++	u8 selection_led;
++};
++
++struct lp5812_led_config {
++	bool is_sc_led;
++	const char *name;
++	u8 color_id[LED_COLOR_ID_MAX];
++	u32 max_current[LED_COLOR_ID_MAX];
++	int chan_nr;
++	int num_colors;
++	int led_id[LED_COLOR_ID_MAX];
++};
++
++struct lp5812_chip {
++	u8 num_channels;
++	struct i2c_client *client;
++	struct mutex lock; /* Protects register access */
++	struct lp5812_led_config *led_config;
++	const char *label;
++	const char *scan_mode;
++	union lp5812_scan_order scan_order;
++	union lp5812_drive_mode drive_mode;
++};
++
++struct lp5812_led {
++	u8 brightness;
++	int chan_nr;
++	struct led_classdev cdev;
++	struct led_classdev_mc mc_cdev;
++	struct lp5812_chip *chip;
++};
++
++#endif /*_LP5812_H_*/
 -- 
 2.25.1
 
