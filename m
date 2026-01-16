@@ -1,110 +1,203 @@
-Return-Path: <linux-leds+bounces-6662-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6659-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53A87D2CFDA
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Jan 2026 08:12:12 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF1DED2CF69
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Jan 2026 08:10:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2F38A3026BD5
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Jan 2026 07:10:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 268AF3087794
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Jan 2026 07:08:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C67334F46F;
-	Fri, 16 Jan 2026 07:10:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47A5C34F259;
+	Fri, 16 Jan 2026 07:08:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="VaBEPpYY";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="CoGRshCl"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ePD5Vn6h"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87A334D90C;
-	Fri, 16 Jan 2026 07:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 036AE34D926
+	for <linux-leds@vger.kernel.org>; Fri, 16 Jan 2026 07:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768547437; cv=none; b=YZ64DxgD7M1RdBzfoFvAI+vN7bMkFBNuNq8ipnHt/DQb/M8XqMBiAg40Arcx288qD/mYBOIgCr2zU9Sgn1wRNobCX75mL5f4mhUXCLggSHiP9W2AmKvfPCE9yT6KcdZF4OpmFaM7k3jEeLB0IcYDq2gTKkjzy+SV4eGyEAP/uVE=
+	t=1768547310; cv=none; b=WhkGZGnJI0fu3oqouoZE60+QUyaQm+nRl48in9Mz96kdTnkS6HpCYpn0qXbnbeX9TaDFa2EF/pKYjjj4Q22LRH89Ka8Z62nR4inBPcskEXHpbQzdXXPby8sSnVZfoLdU21lkeyzGXhplAtW8mcqiEQYLPl0QZhYNDas+Qker9Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768547437; c=relaxed/simple;
-	bh=zbsGn2Qvn3aara0EHz4uPK0rPp25zn+kle3Iajn6Cwc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZzPSAf+20qs/u0lNx/qNOLDMtFAz9VR7CapwgmxTjC3HeKFnPxQ5fmdv/riy19qKru3DfrOqV3QAMRb6jpvxQxm6ENfagP43Ut4Fy/B76jNq7rvh7wuZHDqy9oVoUFSCtWwWvyn4BFgARKSr8HQgRXdi1RCyBLu5YTkL+djtduM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=VaBEPpYY; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=CoGRshCl; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=To:Message-Id:Subject:Date:From; t=1768547283; bh=Qq6InsqVKyZMyL8BBK8OAsI
-	lvW+EJdyNiC2eOxhaapI=; b=VaBEPpYYGV0aitRRLPWrwe7ifNmDNF7jo9f7xRPRh/F8wIzRrD
-	BFR7NwMc6497hME5ZvUzF7Zby3HEB4hUCtGbFmlN6E6t/E5AkTiLZA3rVk/2BNlxXIa0LXg1H21
-	FjWI4Qls3Ad8nGqAFAwIJ/VUh4dYxMZJukaoLDdzEKbtyXqEsz7mwQU5gUfJRFhIdNrxt6kffOV
-	XG3GD7iXiSY6adVNz50uD3Xz08b2z+ucPql+wfW49JVvdD1S3LmKqdKL8ckLuAoRPLew3IVRjlB
-	qasejZ9h8at2wFPoKuws5/DSDt14P6TkzeiU5iW4qKBAn9wQ2pz4luRLAV8br/bhwvQ==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=To:Message-Id:Subject:Date:From; t=1768547283; bh=Qq6InsqVKyZMyL8BBK8OAsI
-	lvW+EJdyNiC2eOxhaapI=; b=CoGRshClAhUsSwLdMkAUbhVsUGtifY6wsj/5581V9ZqidaiTab
-	80QumbT1nBtOdt5Wes+Kb4DEC4TjJzadEyCg==;
-From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
-Date: Fri, 16 Jan 2026 08:07:39 +0100
-Subject: [PATCH v3 7/7] arm64: dts: qcom: msm8953-xiaomi-daisy: fix
- backlight
+	s=arc-20240116; t=1768547310; c=relaxed/simple;
+	bh=2qbze2vG4GkljdlYia7bGU4A6StztMWJlZ+y3rJr8CU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dsMMKZ6IQXhXcsQC2Rb1QfLLp4sopsC/4fbb+TzNUGegYLFxii3wRwNbwRHGRhzA+VfbwDLTZqhBR4z5F8m+KR0ucI14RYNQdQPqIB12GaTsWndk3qBIoaJI6Ap0hUYshTfHk1sw16FV1n4tXKWnLmR+DcUw8xGRnX4qeZ0yiPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ePD5Vn6h; arc=none smtp.client-ip=91.218.175.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Fri, 16 Jan 2026 08:08:13 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768547296;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lX8Quj5zLIwlBRCtydms5VODe9H7C/DISErb8QOSaWs=;
+	b=ePD5Vn6hxhqRLbPfaTMwFetHnEhOOX+IYE+T3Z1W59nUPUFU9tbpHJWsKbM7OhC/9kUWJI
+	yDMXG1VKTbtd8Mlkk27siqfAgPR7vTfbUVfWbnTfDD1XoG0DIDGHgl3Yfpp0ixXEOdSkAd
+	ISEiEkrLDygWQYZ0Z8tVfBcseMqP0fY=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-leds@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
+Subject: Re: [PATCH v10 0/8] Add strobe duration and strobe output enable
+ v4l2 ctrl
+Message-ID: <w43pelg4dzxxswklhnlpmql5snvyjfvvc2hzl4ihvjkklvg2ei@6veozvnjc7pw>
+References: <20251209-ov9282-flash-strobe-v10-0-0117cab82e2d@linux.dev>
+ <h4ecxwe27hzelohvwhhosvdz5b6ybi25yopicatp54prrkaaai@sir4kskvxza5>
+ <lwib4og3xnpmqrvmkenp5m6qywuzwmzilpdh74ugx2jfbm2s2o@zyvplzxtkepo>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260116-pmi8950-wled-v3-7-e6c93de84079@mainlining.org>
-References: <20260116-pmi8950-wled-v3-0-e6c93de84079@mainlining.org>
-In-Reply-To: <20260116-pmi8950-wled-v3-0-e6c93de84079@mainlining.org>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Kiran Gunda <quic_kgunda@quicinc.com>, Helge Deller <deller@gmx.de>, 
- Luca Weiss <luca@lucaweiss.eu>, Konrad Dybcio <konradybcio@kernel.org>, 
- Eugene Lepshy <fekz115@gmail.com>, Gianluca Boiano <morf3089@gmail.com>, 
- Alejandro Tafalla <atafalla@dnyon.com>
-Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Daniel Thompson <daniel.thompson@linaro.org>, linux-arm-msm@vger.kernel.org, 
- linux-fbdev@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768547276; l=1000;
- i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
- bh=zbsGn2Qvn3aara0EHz4uPK0rPp25zn+kle3Iajn6Cwc=;
- b=jXbi9hS+qCYPyUIO2MjLpEkGwVCUg8dMlehD6gtjnFtgUbq6vXrFPPH7hLzQkhTcdONIl1uRu
- lA95BhCL5LXBZMCPRSwew6pW4uyOlHbhFPmk8n77fx1VbxFJFxAK0Yz
-X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
- pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
+In-Reply-To: <lwib4og3xnpmqrvmkenp5m6qywuzwmzilpdh74ugx2jfbm2s2o@zyvplzxtkepo>
+X-Migadu-Flow: FLOW_OUT
 
-The backlight on this device is connected via 3 strings. Currently,
-the DT claims only two are present, which results in visible stripes
-on the display (since every third backlight string remains unconfigured).
+Hi Sakari, Hi Laurent,
 
-Fix the number of strings to avoid that.
+first of all, happy new year 2026 to all of you.
+I hope you had a good start to the new year?
 
-Fixes: 38d779c26395 ("arm64: dts: qcom: msm8953: Add device tree for Xiaomi Mi A2 Lite")
-Signed-off-by: Barnab√°s Cz√©m√°n <barnabas.czeman@mainlining.org>
----
- arch/arm64/boot/dts/qcom/msm8953-xiaomi-daisy.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Regarding this series: Perhaps you've made it your New Year's resolution
+to give it another round of review? ;-) Would be great to get some more
+feedback (or Reviewed-By's).
 
-diff --git a/arch/arm64/boot/dts/qcom/msm8953-xiaomi-daisy.dts b/arch/arm64/boot/dts/qcom/msm8953-xiaomi-daisy.dts
-index ddd7af616794..59f873a06e4d 100644
---- a/arch/arm64/boot/dts/qcom/msm8953-xiaomi-daisy.dts
-+++ b/arch/arm64/boot/dts/qcom/msm8953-xiaomi-daisy.dts
-@@ -157,7 +157,7 @@ &pm8953_resin {
- 
- &pmi8950_wled {
- 	qcom,current-limit-microamp = <20000>;
--	qcom,num-strings = <2>;
-+	qcom,num-strings = <3>;
- 
- 	status = "okay";
- };
+regards;rl
 
--- 
-2.52.0
-
+On Tue, Dec 30, 2025 at 11:09:02AM +0100, Richard Leitner wrote:
+> Hi again,
+> 
+> just wanted to mention that I'll be doing a short (10 min) talk on this
+> topic at FOSDEM 2026 in the Embedded, Mobile and Automotive devroom on
+> sunday: https://fosdem.org/2026/schedule/event/A7P7XE-v4l2-flash-control/
+> 
+> Would be great if I could get some more - maybe final ;) - review on
+> this series before FOSDEM. Thanks!
+> 
+> regards;rl
+> 
+> On Thu, Dec 18, 2025 at 08:22:53AM +0100, Richard Leitner wrote:
+> > Hi everybody,
+> > 
+> > just a friendly ping before the holiday season kicks in :-)
+> > 
+> > regards;rl
+> > 
+> > On Tue, Dec 09, 2025 at 11:44:35PM +0100, Richard Leitner wrote:
+> > > This series adds two new v4l2 controls:
+> > > - V4L2_CID_FLASH_DURATION: "Strobe duration": This control enables
+> > >   setting a desired flash/strobe length/duration in µs.
+> > > - V4L2_CID_FLASH_STROBE_OE: "Strobe output enable": This
+> > >   control enables the hardware strobe output signal of a v4l2 device.
+> > > 
+> > > As a first user of these new controls add basic flash/strobe support
+> > > for ov9282 sensors using their "hardware strobe output". The duration
+> > > calculation is only interpolated from various measurements, as no
+> > > documentation was found.
+> > > 
+> > > Further flash/strobe-related controls as well as a migration to v4l2-cci
+> > > helpers for ov9282 will likely be implemented in future series.
+> > > 
+> > > All register addresses/values are based on the OV9281 datasheet v1.53
+> > > (january 2019). This series was tested using an ov9281 VisionComponents
+> > > camera module.
+> > > 
+> > > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> > > ---
+> > > Changes in v10:
+> > > - Avoid bitwise or on error codes in ov9282_set_ctrl_flash_duration() (Thanks Sakari)
+> > > - Link to v9: https://patch.msgid.link/20251120-ov9282-flash-strobe-v9-0-6c9e3a4301d7@linux.dev
+> > > 
+> > > Changes in v9:
+> > > - Avoid needless multiplication/division in ov9282.c (Thanks Sakari)
+> > > - Avoid possible u32 overflow in ov9282.c (Thanks Sakari)
+> > > - Link to v8: https://patch.msgid.link/20251104-ov9282-flash-strobe-v8-0-b91dfef1c65a@linux.dev
+> > > 
+> > > Changes in v8:
+> > > - Minor styling changes across the set
+> > > - Add missing error handling for ov9282 strobe_frame_span writing
+> > > - Rename V4L2_CID_FLASH_HW_STROBE_SIGNAL to V4L2_CID_FLASH_STROBE_OE
+> > > - Drop 02/10: FLASH_DURATION handling in v4l2-flash
+> > > - Drop 08/10: strobe_source in ov9282
+> > > - Link to v7: https://lore.kernel.org/r/20250901-ov9282-flash-strobe-v7-0-d58d5a694afc@linux.dev
+> > > 
+> > > Changes in v7:
+> > > - Improved v4l2 uAPI documentation (thanks Sakari)
+> > > - Link to v6: https://lore.kernel.org/r/20250716-ov9282-flash-strobe-v6-0-934f12aeff33@linux.dev
+> > > 
+> > > Changes in v6:
+> > > - Fix "Alignment should match open parenthesis" by Media-CI bot in v4l2-flash-led-class.c
+> > > - Fix "format string contains non-ascii character (µ)" by Media-CI bot in ov9282.c
+> > > - Introduce new V4L2_CID_FLASH_HW_STROBE_SIGNAL control (as suggested by Sakari)
+> > > - Implement V4L2_CID_FLASH_HW_STROBE_SIGNAL instead of
+> > >   V4L2_CID_FLASH_LED_MODE in ov9282.c (as suggested by Sakari)
+> > > - Drop "media: v4l2-flash: fix flash_timeout comment" as this was
+> > >   applied (thanks Lee)
+> > > - Link to v5: https://lore.kernel.org/r/20250617-ov9282-flash-strobe-v5-0-9762da74d065@linux.dev
+> > > 
+> > > Changes in v5:
+> > > - Improve try_ctrl for flash_duration by using DIV_ROUND_UP() and abs() (thanks Sakari)
+> > > - Drop "leds: flash: Add support for flash/strobe duration" as this was applied upstream
+> > > - Add "media: i2c: ov9282: dynamic flash_duration maximum" (thanks Sakari)
+> > > - Link to v4: https://lore.kernel.org/r/20250507-ov9282-flash-strobe-v4-0-72b299c1b7c9@linux.dev
+> > > 
+> > > Changes in v4:
+> > > - Fix FLASH_DURATION implementation in v4l2-flash-led-class.c by adding a
+> > >   missing brace and enum entry (thanks Sakari)
+> > > - Fix format of multiline comment in ov9282.c (thanks Sakari)
+> > > - Add missing NULL check in ov9282.c (thanks Sakari)
+> > > - Adapt nr_of_controls_hint for v4l2 handler in ov9282.c (thanks Sakari)
+> > > - Add patch for implementing try_ctrl for strobe_duration (thanks Sakari)
+> > > - Link to v3: https://lore.kernel.org/r/20250429-ov9282-flash-strobe-v3-0-2105ce179952@linux.dev
+> > > 
+> > > Changes in v3:
+> > > - create separate patch for leds driver changes (thanks Lee)
+> > > - Link to v2: https://lore.kernel.org/r/20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev
+> > > 
+> > > Changes in v2:
+> > > - remove not needed controls in struct ov9282 (thanks Dave)
+> > > - Fix commit message of 3/3 regarding framerate get/set (thanks Dave)
+> > > - Add V4L2_CID_FLASH_STROBE_SOURCE impementation to ov9282
+> > > - Add new V4L2_CID_FLASH_DURATION control (as suggested by Laurent)
+> > > - Use FLASH_DURATION instead of FLASH_TIMEOUT for ov9282
+> > > - Link to v1: https://lore.kernel.org/r/20250303-ov9282-flash-strobe-v1-0-0fd57a1564ba@linux.dev
+> > > 
+> > > ---
+> > > Richard Leitner (8):
+> > >       media: v4l: ctrls: add a control for flash/strobe duration
+> > >       media: v4l: ctrls: add a control for enabling strobe output
+> > >       Documentation: uAPI: media: add V4L2_CID_FLASH_{DURATION,STROBE_OE}
+> > >       media: i2c: ov9282: add output enable register definitions
+> > >       media: i2c: ov9282: add strobe output enable v4l2 control
+> > >       media: i2c: ov9282: add strobe_duration v4l2 control
+> > >       media: i2c: ov9282: implement try_ctrl for strobe_duration
+> > >       media: i2c: ov9282: dynamic flash_duration maximum
+> > > 
+> > >  .../userspace-api/media/v4l/ext-ctrls-flash.rst    |  42 +++++
+> > >  drivers/media/i2c/ov9282.c                         | 174 ++++++++++++++++++++-
+> > >  drivers/media/v4l2-core/v4l2-ctrls-defs.c          |   3 +
+> > >  include/uapi/linux/v4l2-controls.h                 |   2 +
+> > >  4 files changed, 215 insertions(+), 6 deletions(-)
+> > > ---
+> > > base-commit: 2f112b1c25da9f5346c2261ed35c5b1e0b906471
+> > > change-id: 20250303-ov9282-flash-strobe-ac6bd00c9de6
+> > > 
+> > > Best regards,
+> > > --  
+> > > Richard Leitner <richard.leitner@linux.dev>
+> > > 
+> > > 
 
