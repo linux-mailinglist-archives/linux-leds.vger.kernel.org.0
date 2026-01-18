@@ -1,99 +1,79 @@
-Return-Path: <linux-leds+bounces-6665-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6666-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5DED2F4C4
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Jan 2026 11:09:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87EB1D39819
+	for <lists+linux-leds@lfdr.de>; Sun, 18 Jan 2026 17:48:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BC45830D0A6A
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Jan 2026 10:08:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 117603009839
+	for <lists+linux-leds@lfdr.de>; Sun, 18 Jan 2026 16:48:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AAD035F8B4;
-	Fri, 16 Jan 2026 10:08:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ABD522FE0E;
+	Sun, 18 Jan 2026 16:48:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FJwTJJGg";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BWtQcUd+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QZmroWXG"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2E135CBAC
-	for <linux-leds@vger.kernel.org>; Fri, 16 Jan 2026 10:08:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8200221F20
+	for <linux-leds@vger.kernel.org>; Sun, 18 Jan 2026 16:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768558083; cv=none; b=iIEuvjRXdOrm48O/g2t2nHLRZZFnhlvhAFV/NU/WUU7OfpVFIAbcOBEmnkKrQUcCwXuklqh4fxqi7J+lvW69LHUUF0bK0t5bXywaxetVk8nCsA4Mb/jjndgm+PF+3xHehYaybM+xlVCWU5dqP8D40ulSOvonJ/+ZIWbvxnSpg34=
+	t=1768754894; cv=none; b=ai/9rbX8pRqXQq6d3tYap7LTcXH+ikltk8W2ZvWLkRFhrsFmcMAcAwg3yYOHha13bSAbWG9JS9XrAjgkePkSPYlA+2XqFo2tUSYM0xx9V+gGlUw6j5ksGW7wHzwAFHCbASLEZDmYKTvgRKRrQlVDts21XWQxqLXHjqvOhfFKMPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768558083; c=relaxed/simple;
-	bh=4QebrYHi8s49B6sj+XuT+a7lSGj2d/XpXHh/yb6bJ8A=;
+	s=arc-20240116; t=1768754894; c=relaxed/simple;
+	bh=ObBNgYmI7km2QNXCjpehnGoXCANLUlsMEgFWywznUhs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DW9JejRX2h/4j1H67iPqcj190SRvb0R4rw0ov0BhXe2PpVEn5QUTdi6djPPQRnTbq1Vpp303oV3TpobVRiGFeXhRADEbgo/NK1PeaQD0sRR8EWASODPuUrB8xeJ4a7yCi87ZlHjbNXf6+cHpe8uwmUOsMZ1ZFZ3QRpdHv5IduuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FJwTJJGg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BWtQcUd+; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60G8IKsR2615163
-	for <linux-leds@vger.kernel.org>; Fri, 16 Jan 2026 10:08:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	gMp21ney8bm54p1fps9Pw9iiGOGyYYMunTK1tTna0vY=; b=FJwTJJGgW7eFqUaI
-	6GTfqzIUGeKJva8mYQ4CVVPw6t0zLMsTCiZZKCkfHsi3cbvl2mQdJ5oq+t8mYnPq
-	wY8cD7SvhiT1K3pMBK810jXv382zUkBCW9Js8ZxE+9Ot274WqpxhD1eNAMtM9VCV
-	C2faTy3nsHxuLLb1MpBhVnKEamC9ZRxWK+ydhrrdLsBogMYmspZ8YBIq4+mnqE3X
-	fiUCq4sY0KJuIVFZoQqR9BI+jcSVJMs4C5W4Qr13hXCOmTQfT7GBemWVRnPt7Cgj
-	b8cG/XzCI8Giifi7jz4SX+gAfjDSGqZB8rbXFW/SzztNmhzPTZtu6ivTK6yRVplF
-	t85RWg==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bq977sshf-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-leds@vger.kernel.org>; Fri, 16 Jan 2026 10:08:00 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8c52de12a65so46372185a.2
-        for <linux-leds@vger.kernel.org>; Fri, 16 Jan 2026 02:08:00 -0800 (PST)
+	 In-Reply-To:Content-Type; b=M8gPOBqoWOMyVgrjCuuQw3W6U7OOxRjy9d8XPjB+xOkthY38OHHZlNhdz1bySR/AL68H1jr3uVIME1VdfHsQgQlL+b7ETNoSPdP+ukUsDHUPqudUy6YqMYoONxVdVTnzmeNtSKGmVdOGh7FqDnEmZvsPfZ4lOeU34luRngr/47E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QZmroWXG; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2a0fe77d141so23458025ad.1
+        for <linux-leds@vger.kernel.org>; Sun, 18 Jan 2026 08:48:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1768558080; x=1769162880; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768754893; x=1769359693; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=gMp21ney8bm54p1fps9Pw9iiGOGyYYMunTK1tTna0vY=;
-        b=BWtQcUd+9ibywMpnJZCz/MJMAQvGJj3JrrznDDqCstsA3Zmx/ALgfrLPsFyX7XQ/SC
-         euBaDdPEXVS+/frgXqz4yi15o9iccPQ0p8ni2pJUrRniSE5cKNpXvoUcwRSFTOl/ew/4
-         nnvGCn/82gGtTODWbEAv8l8H4sYN6E6+YSRZa3ETrft7wJFshXRxtiCSJ/666/Dr7f4u
-         3ncI3cpdFZe/OFHTatFWvSOxDMzBxakrP2f5mDU4mSzOJZmkTSSGW5vzoPEyKa0aNJeK
-         Gm435Wm6lhCX7cRQs85kLDONEt6lxp4hShuxdjzId7XZwMvYTb1N1KtJvZ/bOY59+Qry
-         14ew==
+        bh=X0twtbtNGNQIp4HwkKCyjxkTPom6wsw2QrSPQrsy5co=;
+        b=QZmroWXGE2ruM9WWPVMd5Mce81h1MzxLNb1GU2Y88ANcqBMiCbfAvudkzw5F6thdSA
+         vTpwCuadlDcbqtWRwRws1YPx8LEChH0aSro75GGoOrdZGv6IgERwWpt327lE99aPAKnb
+         VbEshIC/mA3s9Wih+XOrIitoKa8xUL19DBZhJFE06S6Av0lxu5Gr6NzXtc6l5UkcV4Fm
+         YmenxwTZ09K1BfQktlGa4wcCibAv8oBNKOk1OxIhchOsN+bFQvQxXjVvcC2nyY5CJFVW
+         rT61hvktJ6wuyGTNZRFff/1bdHhbtkT24b/1DV8ptMuqvhTt1KgD3jgIxM+J8cVIEEoB
+         b1bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768558080; x=1769162880;
+        d=1e100.net; s=20230601; t=1768754893; x=1769359693;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gMp21ney8bm54p1fps9Pw9iiGOGyYYMunTK1tTna0vY=;
-        b=ctoPV/Kuq4Pm9MfXddFoZuZ7726bGEinYrE0Y7NuV06YgFc4atEWefD/jmzTCNQSZB
-         Y0bwe1rwasn6Cvm0tIAVuRUClUIRKNZlK4rWE553efGltfF89TZ5ahYZ8yksb5CWYulM
-         de/+lezPcIJO2EbJw8NkLg0X5MUCXvxMfFz7qiPhNnu4Zh1cU8DEFEKQlJurBU56R7hf
-         yUgooASkao//PxfljJ2a/ij7UVTKNg23cp34oqM8mNz+FDjpFkzYTuXS0gG2Y0+QiK4Z
-         awEz0A21GazzQCw0ni+MZkwaFA2qLekYZfzGCFxJ+jPgjKATwU/TdrAn1y3k8SW52nja
-         Ql5w==
-X-Forwarded-Encrypted: i=1; AJvYcCVvdc7whk4Pz9Z2fRMbUdqoSlime3g0wQnwGv55+8JOvIB3p2CWtYgxdB80Zr4IYACZe95i8JxGTcWj@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjEf18V5vPjjXq0gwtLwsTNsjcRHJKzrJ/RwE2rFfyDibFr4OV
-	Q6iuGvuqOCi1OzXzmnJpatous01Frpg//P8SZVxoDF+CF+HOFlEXZtDPNWXXx/YCo9GWk6RDZXV
-	MIuFdNgr4FWwpgM+agDUk1BMqVbdIE64LY0uVL9dGfQ4Moxd7jZ9DzOX79hxnmDOa
-X-Gm-Gg: AY/fxX7AgQRNirJGjs71r5pLAJAZnZ8+Vnb9cVGER5zevnchbXrrUu3yCac5aRyncL7
-	aVC9ViG9IedbJXUosA2iR9z60Ew/31RdlwLukwFEf2x9NkhIo1uOY9J4/K9jhx1NaRBjLuLAhbQ
-	Vs2yvy8+CmC+FUpkToUpZGtYvUyuviq7WZGjBPltkEZ2pcvbKJvYr+32COVJK4P2IzcEG/7tTna
-	C03M9hV1pkXcOxrMe5lpv3a7wOwJnQozXy1Dy1ULKhOyaQeONGY4CRIJREESMcLjdxpB/i/HGYm
-	gy5NPfZLUWowRas1+lK3BthN2UvQpWQBRNGU6uPN+MQoqlwBzrTEWlRXedONYQgQKnl/kseFp16
-	7t5NQZdKTUtodp/z5b+ij88MuG2iT6ppucWj3FAodvT5mYORRne/MQn0NReyrjK5QQwE=
-X-Received: by 2002:a05:620a:4111:b0:8b1:fa2a:702f with SMTP id af79cd13be357-8c6a670cca8mr237361685a.3.1768558079682;
-        Fri, 16 Jan 2026 02:07:59 -0800 (PST)
-X-Received: by 2002:a05:620a:4111:b0:8b1:fa2a:702f with SMTP id af79cd13be357-8c6a670cca8mr237358785a.3.1768558079218;
-        Fri, 16 Jan 2026 02:07:59 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-654534c8c82sm2074279a12.29.2026.01.16.02.07.57
+        bh=X0twtbtNGNQIp4HwkKCyjxkTPom6wsw2QrSPQrsy5co=;
+        b=Bd4TO6zpzI6lGH8VO9TY0SzAIsYe3ovUDw2Q1j36z0HblWfjwDaDCIf8xdDPZy7N/S
+         zL0YPCL06N3m7b1iFhvUwcCmavdzdHTPDw1jRpfg5GoqxMwymtbQVcv+1g824L5vlkBe
+         xAlyLg1kMeQHgodf7ZnDnA1FICnoizgkLWdpWB6W+VK69Od7vR9LK9pFK/xJ3jBmnReN
+         e8zDNCfh5lML2LCReuD8DxYEepMTjKItLo0TeTkrztM57INRVLA2mG3s6N+FRdfN1W85
+         EZ0rPL4G8rqeF8fRqlHCsIniZDzXjYD0/YuCTAPr8Z+0uo5kJxjOWqXplM5vONVhendB
+         QzKA==
+X-Forwarded-Encrypted: i=1; AJvYcCW1Xuost4MJhPjPP2b8+PUeEXCUmVI4VjnEQMrLtBxBtk/reJSnBH43GDH0+8xbWNuPDQcmP7o6Zg/8@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZ0XHKNkL9F9x/46lHzblA0/pD5nvq8bOIX6cA6hv8BYXG0jKj
+	xp09OL27LBq80Et4x183FMf+BmJQBPDd/CY2eDz1dxKiwLzejDJSMK6h
+X-Gm-Gg: AY/fxX7H/SaOBS1PDsfuzCYlNUbm3id2Y3Y+EmEDQSpc7tjdnhnnVPZlcH1qH766AzE
+	YMF7O5E5efx5oS2CJL8cnDW4fQNY+03mY6oB9RRG8Ml6mQbtWaH22tkisY4IqtF8PxXxu2aT3G8
+	iqMhW4jV1kcDxC/dWDieCNJ3g8R+TzVYC+gKNZ5RFg7iTv33k22i5x2PcE21esRXvnzR//u/eYu
+	b87/PlP1QBf7L9G1mxHJTXPAG2Q0NrGWj1sUbj5mIqoAPctTQpN/q3+ZzM07iy4cQrNvU2U5jFv
+	75lh/KXACuvWUH+0+uARcQKFpaOhPcoE6qK4FZNcJOP25Bb+YWvw7IMWQWjvDNXJ4ppYXnOBfHg
+	KZy1tJjitEoc6nXBIzUyOITETFCyq8Zd22PmLFgvYp1yFfhhUt5R/dl9SlKScU0NypUAg4nSsSz
+	LHRaCIv0mMMsDXEZ4TrsccfQ6Ip1Mup00dI5A=
+X-Received: by 2002:a17:903:124d:b0:29e:76b8:41e5 with SMTP id d9443c01a7336-2a7175be718mr92063215ad.30.1768754892810;
+        Sun, 18 Jan 2026 08:48:12 -0800 (PST)
+Received: from [192.168.31.239] ([167.103.54.94])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a7193dbbf5sm70904105ad.47.2026.01.18.08.48.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jan 2026 02:07:58 -0800 (PST)
-Message-ID: <66a1716a-47f1-42ce-a72d-8c69d29410d3@oss.qualcomm.com>
-Date: Fri, 16 Jan 2026 11:07:56 +0100
+        Sun, 18 Jan 2026 08:48:12 -0800 (PST)
+Message-ID: <95a49665-f379-48a7-a2b5-d288cdfdc0a8@gmail.com>
+Date: Sun, 18 Jan 2026 22:18:32 +0530
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -101,69 +81,91 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 7/7] arm64: dts: qcom: msm8953-xiaomi-daisy: fix
- backlight
-To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
-        Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Kiran Gunda <quic_kgunda@quicinc.com>, Helge Deller <deller@gmx.de>,
-        Luca Weiss <luca@lucaweiss.eu>, Konrad Dybcio <konradybcio@kernel.org>,
-        Eugene Lepshy <fekz115@gmail.com>,
-        Gianluca Boiano <morf3089@gmail.com>,
-        Alejandro Tafalla <atafalla@dnyon.com>
-Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org
-References: <20260116-pmi8950-wled-v3-0-e6c93de84079@mainlining.org>
- <20260116-pmi8950-wled-v3-7-e6c93de84079@mainlining.org>
+Subject: Re: [PATCH v1 1/2] dt-bindings: backlight: gpio-backlight: allow
+ multiple GPIOs
+To: Daniel Thompson <daniel@riscstar.com>
+Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+ pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260105085120.230862-1-tessolveupstream@gmail.com>
+ <20260105085120.230862-2-tessolveupstream@gmail.com>
+ <aVuKdAyXfWLs-WJI@aspen.lan> <c182df66-8503-49cf-8d1d-7da17214b843@gmail.com>
+ <aWe7_hFpmO0E2sJe@aspen.lan>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260116-pmi8950-wled-v3-7-e6c93de84079@mainlining.org>
+From: tessolveupstream@gmail.com
+In-Reply-To: <aWe7_hFpmO0E2sJe@aspen.lan>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: ibjC_jpgm0Je2u5x7bBrGVCp1oRY58NP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDA3NSBTYWx0ZWRfXxCmFk/ke/Nk7
- 5kKvVpY/iCtxIU0xGtP2yllyzuc4LQrmVrjCtsJ9Y5IY/bvc8vbuWgdCsXJ9lNT/2YW0v5V2vHq
- fdQEo5/A0IZqb9eEOExDlBPzvqVmdeuVuwg/klatureoDXjCBjvA9qByjzHcYk8xKl9P8Drz5EX
- pB4sQotRBiaXwVjkFCSFuhFflxx4KuTLjtT9/Fi4TY1N09VmGRBGVgir9AJ5NzILExkSKwtVMv9
- PiGZjrZT3jcm6/0v3VDKNQwtma1GLI/ZzdB3Wa8gBMOI167Zg8hgEjHpW9QglH11EW+mnMc3no6
- O9OpMnDxM3OMg7Ry1eYujAoTh53z92VAPDVO4WsVL5GPZc1CFkt+rdr3efEB3qnTbsnU/qKbC8z
- ybCXPp2tweIUHTSWavOPRCXeGN/CLi9dfYK2k+AkBvkzKRAvGOHcVH0BMuoXOCor2/c1aNwCweo
- HYVDG12iL5+jh5d47sA==
-X-Proofpoint-GUID: ibjC_jpgm0Je2u5x7bBrGVCp1oRY58NP
-X-Authority-Analysis: v=2.4 cv=dbiNHHXe c=1 sm=1 tr=0 ts=696a0e00 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=OuZLqq7tAAAA:8 a=EUspDBNiAAAA:8
- a=HVKn8-F_4eW3eUG8FJoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=zZCYzV9kfG8A:10 a=NFOGd7dJGGMPyQGDc5-O:22 a=AKGiAy9iJ-JzxKVHQNES:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-16_03,2026-01-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 bulkscore=0 malwarescore=0 priorityscore=1501
- phishscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601160075
+Content-Transfer-Encoding: 7bit
 
-On 1/16/26 8:07 AM, Barnabás Czémán wrote:
-> The backlight on this device is connected via 3 strings. Currently,
-> the DT claims only two are present, which results in visible stripes
-> on the display (since every third backlight string remains unconfigured).
+
+
+On 14-01-2026 21:23, Daniel Thompson wrote:
+> On Tue, Jan 13, 2026 at 10:15:53AM +0530, tessolveupstream@gmail.com wrote:
+>>
+>>
+>> On 05-01-2026 15:25, Daniel Thompson wrote:
+>>> On Mon, Jan 05, 2026 at 02:21:19PM +0530, Sudarshan Shetty wrote:
+>>>> Update the gpio-backlight binding to support configurations that require
+>>>> more than one GPIO for enabling/disabling the backlight.
+>>>>
+>>>> Signed-off-by: Sudarshan Shetty <tessolveupstream@gmail.com>
+>>>> ---
+>>>>  .../bindings/leds/backlight/gpio-backlight.yaml      | 12 +++++++++++-
+>>>>  1 file changed, 11 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+>>>> index 584030b6b0b9..1483ce4a3480 100644
+>>>> --- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+>>>> +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+>>>> @@ -17,7 +17,8 @@ properties:
+>>>>
+>>>>    gpios:
+>>>>      description: The gpio that is used for enabling/disabling the backlight.
+>>>> -    maxItems: 1
+>>>> +    minItems: 1
+>>>> +    maxItems: 2
+>>>
+>>> Why 2?
+>>>
+>>
+>> In the current design, the LVDS panel has a single backlight that
+>> is controlled by two GPIOs. Initially, It described as two separate
+>> backlight devices using the same gpio-backlight driver, since the
+>> existing driver supports only one GPIO per instance.
+>>
+>> So the maintainer suggested to extend the gpio-backlight driver
+>> and bindings to support multiple GPIOs.
+>> https://lore.kernel.org/all/q63bdon55app4gb2il5e7skyc6z2amcnaiqbqlhen7arkxphtb@3jejbelji2ti/
 > 
-> Fix the number of strings to avoid that.
+> Right. So, once we support multiple GPIOs then why limit it to 2?
 > 
-> Fixes: 38d779c26395 ("arm64: dts: qcom: msm8953: Add device tree for Xiaomi Mi A2 Lite")
-> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
-> ---
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Okay, got the point. I'm removing the maxItems constraint entirely 
+to allow any number of GPIOs as below:
 
-Konrad
+diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+index 1483ce4a3480..82698519daff 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+@@ -16,9 +16,11 @@ properties:
+     const: gpio-backlight
+
+   gpios:
+-    description: The gpio that is used for enabling/disabling the backlight.
++    description: |
++      The gpio that is used for enabling/disabling the backlight.
++      Multiple GPIOs can be specified for panels that require several
++      enable signals.
+     minItems: 1
+-    maxItems: 2
+
+   default-on:
+     description: enable the backlight at boot.
+
+Does this approach work for you?
+> 
+> Daniel.
 
 
