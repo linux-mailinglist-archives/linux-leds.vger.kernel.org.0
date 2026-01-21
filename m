@@ -1,177 +1,354 @@
-Return-Path: <linux-leds+bounces-6692-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6693-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OKAOHqv3b2m+UQAAu9opvQ
-	(envelope-from <linux-leds+bounces-6692-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 20 Jan 2026 22:46:19 +0100
+	id wInUE1iOcGkaYgAAu9opvQ
+	(envelope-from <linux-leds+bounces-6693-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Jan 2026 09:29:12 +0100
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id F084F4C79C
-	for <lists+linux-leds@lfdr.de>; Tue, 20 Jan 2026 22:46:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04695392C
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Jan 2026 09:29:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 97D63AC3474
-	for <lists+linux-leds@lfdr.de>; Tue, 20 Jan 2026 20:00:20 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9C93F709EA5
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Jan 2026 08:23:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B525D3D3010;
-	Tue, 20 Jan 2026 19:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45ACB44D03C;
+	Wed, 21 Jan 2026 08:22:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MtR1Ow2B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EslCDNft"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86889350293;
-	Tue, 20 Jan 2026 19:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF5A477E3B
+	for <linux-leds@vger.kernel.org>; Wed, 21 Jan 2026 08:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768938969; cv=none; b=VylsZ3Qw2WSEyQAliyU32gM1uKbKsNZe1rgpVS7341vyM8zXPYEmZSL4CipnvFfjiEach2AnK2sxAV5B12DgowxDWt7RcdCYrQlcWrIFUNptSxxWyInpTvGX64YLeJN7rVEMcMRxTDybhfwN08X5+Xhjae3lgNUnNNRwoq9vsZE=
+	t=1768983767; cv=none; b=EKOQrM6xZBh7Mk+/v4wspU/XE5XXiqsk8Pp3ZX+kmTPG+kMQSgjourbCLg3PKiAued9YA5DjCFzmFlLk54Q+s4+DUp0VdIxW1eJoCDF9lCFVrJnQD1Sw0jN3l6AjGH+IP0dJOZgtGv32mBqDAdiyFcEiNy5coPAUVIQx5KvlaiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768938969; c=relaxed/simple;
-	bh=oRP0a3osRmBmz0bppPgFf0JtbYUvuf/0ZaeMJohJHpA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cWeKtLLNKcqJfsxcKgMSB/Ro9v77RzSLTgf/Jn1UqQh0os/DAHZyweiZScLpjz2Egw3/NfF9j3cgHus9dWXQuXo6tHqyLjiUIra9CXrEgkUCRoHWJeIMNmkdyiT4+HWWDQL6P6Qfuent4wBzSOP9z0spsXLq5k3d9tjL5teDpjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MtR1Ow2B; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2123CC16AAE;
-	Tue, 20 Jan 2026 19:56:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768938966;
-	bh=oRP0a3osRmBmz0bppPgFf0JtbYUvuf/0ZaeMJohJHpA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MtR1Ow2B2AJeUnKNipZfPq1CiuSYZDB2bdZ22NdO1hGzQJsPkQXvtD/ftz8yIcCV0
-	 q+XizZ/pj2r0GI3FaJB4hRMuruTBY4z1uPjQGVuZh92TRtzzpIeoJh3XFPmSUNXuWr
-	 jCKcK7PQLs+wYQ9z+zIS+11/OsjmC4wEFh0ZTFVPlEnQKQzkPsLnn5ox8yLHDOui13
-	 9ghUDkGZmGOUA8XLgv0a7xF87JZs6Q9FVUA71WYW2GwaSmrIKkHy6+3WaJMOqO6q/e
-	 1/XVOtE3X+4n58zhpOb3lo/Gmca+Ezxg1hiewldKCYs2CKYP/hodSlqyQ9qT6Quf7+
-	 UBiKyTY6AzYjw==
-Date: Tue, 20 Jan 2026 19:56:02 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Edelweise Escala <edelweise.escala@analog.com>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: leds: Add LTC3220 18 channel LED
- Driver
-Message-ID: <20260120-magenta-emission-2aacd7e1772c@spud>
-References: <20260120-ltc3220-driver-v3-0-fef612ec4faa@analog.com>
- <20260120-ltc3220-driver-v3-1-fef612ec4faa@analog.com>
+	s=arc-20240116; t=1768983767; c=relaxed/simple;
+	bh=0sMgvUBJAIm9FU9BnrtXfHlSDWdO8GIuEICEaF2gHiY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rKzb0aG1VDGloxtumf7tqpCoxw3LQalNscRrGBqpulcyhxQFfJSTTaSWA3HWVLu5kjDXzUOpDuW3Fbw0PZ+xXJ/mNXFZrSLC7lcjE/irGT8ks4a+6S8JaI8AlJFnUReaQcDANvV87GWlcAfGfvz+lw9rFm/JIjdJtg8lzhlaM9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EslCDNft; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768983765; x=1800519765;
+  h=date:from:to:cc:subject:message-id;
+  bh=0sMgvUBJAIm9FU9BnrtXfHlSDWdO8GIuEICEaF2gHiY=;
+  b=EslCDNft3j52BbOTwQzOLrSUUL911BKCbl7E2oK3k+Nbg/trNFuXLhOW
+   0SGt8qrznLj6YWbXDD/1Sh+lpb3hhcq7TdkwTiduACCwKX1zLeaqHWQ4b
+   Fv61X9s2+55bNEqVrWLoFLhbrdmAk9/CAGQVukwCFPRk1MbAjVeanUSaY
+   AuMMJauSjXCwi34b99cve0bJrNIVwbacvrXwNRxlE5LZhXa5ermpGELVx
+   ek3KvpCamYllwUEljJBLAXH8Ri/z7BcJSjMb9k6xXDJnaur502qS2rti7
+   M1rkDDURRkPTnCNKIVdwqYe9tmpCHnCY4PeFskii8w5sUTGj4eSSw/JL4
+   A==;
+X-CSE-ConnectionGUID: lUXZxipeRuegn3ijqUrOvQ==
+X-CSE-MsgGUID: kAoI+YPHSGG4jJmDnYQL7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="70178303"
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="70178303"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 00:22:45 -0800
+X-CSE-ConnectionGUID: ypcvd/uxRo6w++0cJWcRFQ==
+X-CSE-MsgGUID: OQqNa18JT0q+sHVh4I6nUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="237055027"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 21 Jan 2026 00:22:43 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1viTU8-00000000QA1-2zTZ;
+	Wed, 21 Jan 2026 08:22:40 +0000
+Date: Wed, 21 Jan 2026 16:21:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next] BUILD REGRESSION
+ 974d724e58fd2eee0fe46299901deae6fa9ebad1
+Message-ID: <202601211640.IPAC4b7w-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hsQjSgQnmzY/B+re"
-Content-Disposition: inline
-In-Reply-To: <20260120-ltc3220-driver-v3-1-fef612ec4faa@analog.com>
-X-Spamd-Result: default: False [-3.56 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-0.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6692-lists,linux-leds=lfdr.de];
-	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-6693-lists,linux-leds=lfdr.de];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-leds@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_POLICY_ALLOW(0.00)[intel.com,none];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
+	TAGGED_RCPT(0.00)[linux-leds];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-leds@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[analog.com:email,analog.com:url,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,devicetree.org:url,microchip.com:email]
-X-Rspamd-Queue-Id: F084F4C79C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo]
+X-Rspamd-Queue-Id: D04695392C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+branch HEAD: 974d724e58fd2eee0fe46299901deae6fa9ebad1  docs: leds: Document TI LP5812 LED driver
 
---hsQjSgQnmzY/B+re
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Error/Warning (recently discovered and may have been fixed):
 
-On Tue, Jan 20, 2026 at 01:35:06PM +0800, Edelweise Escala wrote:
-> Document device tree bindings for the LTC3220 18-channel LED driver
-> with I2C interface, individual brightness control, and hardware-assisted
-> blink/gradation features.
->=20
-> Signed-off-by: Edelweise Escala <edelweise.escala@analog.com>
-> ---
->  .../devicetree/bindings/leds/leds-ltc3220.yaml     | 120 +++++++++++++++=
-++++++
->  MAINTAINERS                                        |   7 ++
->  2 files changed, 127 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/leds/leds-ltc3220.yaml b/D=
-ocumentation/devicetree/bindings/leds/leds-ltc3220.yaml
-> new file mode 100644
-> index 000000000000..6274c6c6ad79
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-ltc3220.yaml
+    https://lore.kernel.org/oe-kbuild-all/202601100247.wetiMFXE-lkp@intel.com
+    https://lore.kernel.org/oe-kbuild-all/202601101239.ORkhfLpB-lkp@intel.com
 
-filename should match the compatible, so s/leds-/adi,/
+    ERROR: modpost: "lp5860_device_init" [drivers/leds/rgb/leds-lp5860-spi.ko] undefined!
+    ERROR: modpost: "lp5860_device_remove" [drivers/leds/rgb/leds-lp5860-spi.ko] undefined!
+    drivers/leds/rgb/leds-lp5860-core.c:72:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+    drivers/leds/rgb/leds-lp5860-core.c:72:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
 
-Otherwise, this looks pretty okay to me. With that changed,
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: changes-requested
+Error/Warning ids grouped by kconfigs:
 
-Cheers,
-Conor.
+recent_errors
+|-- arc-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- arm64-allmodconfig
+|   |-- ERROR:lp5860_device_init-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   |-- ERROR:lp5860_device_remove-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- i386-allmodconfig
+|   |-- ERROR:lp5860_device_init-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   |-- ERROR:lp5860_device_remove-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- i386-allyesconfig
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- loongarch-allmodconfig
+|   |-- ERROR:lp5860_device_init-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   |-- ERROR:lp5860_device_remove-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- riscv-allmodconfig
+|   |-- ERROR:lp5860_device_init-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   |-- ERROR:lp5860_device_remove-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+|-- x86_64-allmodconfig
+|   |-- ERROR:lp5860_device_init-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   |-- ERROR:lp5860_device_remove-drivers-leds-rgb-leds-lp5860-spi.ko-undefined
+|   `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
+`-- x86_64-allyesconfig
+    `-- drivers-leds-rgb-leds-lp5860-core.c:warning:variable-ret-set-but-not-used
 
-> @@ -0,0 +1,120 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-ltc3220.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Analog Devices LTC3220 LED Driver
-> +
-> +maintainers:
-> +  - Edelweise Escala <edelweise.escala@analog.com>
-> +
-> +description:
-> +  The LTC3220 is a multi-display LED driver, which contains a high-effic=
-iency,
-> +  low-noise charge pump to provide power to up to 18 LED current sources.
-> +  The LEDs are individually configurable to 64-step linear brightness co=
-ntrol,
-> +  blinking and gradation control via 2-wire I2C interface.
-> +
-> +  For more product information please see the link below
-> +    https://www.analog.com/en/products/ltc3220.html
-> +
-> +properties:
-> +  compatible:
-> +    const: adi,ltc3220
+elapsed time: 902m
 
---hsQjSgQnmzY/B+re
-Content-Type: application/pgp-signature; name="signature.asc"
+configs tested: 190
+configs skipped: 1
 
------BEGIN PGP SIGNATURE-----
+tested configs:
+alpha                            alldefconfig    gcc-15.2.0
+alpha                             allnoconfig    gcc-15.2.0
+alpha                            allyesconfig    gcc-15.2.0
+alpha                               defconfig    gcc-15.2.0
+arc                              allmodconfig    clang-16
+arc                               allnoconfig    gcc-15.2.0
+arc                              allyesconfig    clang-22
+arc                              allyesconfig    gcc-15.2.0
+arc                                 defconfig    gcc-15.2.0
+arc                   randconfig-001-20260121    clang-18
+arc                   randconfig-002-20260121    clang-18
+arm                               allnoconfig    gcc-15.2.0
+arm                              allyesconfig    clang-16
+arm                          collie_defconfig    gcc-15.2.0
+arm                                 defconfig    gcc-15.2.0
+arm                         mv78xx0_defconfig    gcc-15.2.0
+arm                        neponset_defconfig    gcc-15.2.0
+arm                         orion5x_defconfig    gcc-15.2.0
+arm                   randconfig-001-20260121    clang-18
+arm                   randconfig-002-20260121    clang-18
+arm                   randconfig-003-20260121    clang-18
+arm                   randconfig-004-20260121    clang-18
+arm64                            allmodconfig    clang-19
+arm64                            allmodconfig    clang-22
+arm64                             allnoconfig    gcc-15.2.0
+arm64                               defconfig    gcc-15.2.0
+arm64                 randconfig-001-20260121    gcc-15.2.0
+arm64                 randconfig-002-20260121    gcc-15.2.0
+arm64                 randconfig-003-20260121    gcc-15.2.0
+arm64                 randconfig-004-20260121    gcc-15.2.0
+csky                             allmodconfig    gcc-15.2.0
+csky                              allnoconfig    gcc-15.2.0
+csky                                defconfig    gcc-15.2.0
+csky                  randconfig-001-20260121    gcc-15.2.0
+csky                  randconfig-002-20260121    gcc-15.2.0
+hexagon                          allmodconfig    gcc-15.2.0
+hexagon                           allnoconfig    gcc-15.2.0
+hexagon                             defconfig    gcc-15.2.0
+hexagon               randconfig-001-20260121    gcc-15.2.0
+hexagon               randconfig-002-20260121    gcc-15.2.0
+i386                             allmodconfig    clang-20
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-15.2.0
+i386                             allyesconfig    clang-20
+i386                             allyesconfig    gcc-14
+i386        buildonly-randconfig-001-20260121    clang-20
+i386        buildonly-randconfig-002-20260121    clang-20
+i386        buildonly-randconfig-003-20260121    clang-20
+i386        buildonly-randconfig-004-20260121    clang-20
+i386        buildonly-randconfig-005-20260121    clang-20
+i386        buildonly-randconfig-006-20260121    clang-20
+i386                                defconfig    gcc-15.2.0
+i386                  randconfig-001-20260121    clang-20
+i386                  randconfig-002-20260121    clang-20
+i386                  randconfig-003-20260121    clang-20
+i386                  randconfig-004-20260121    clang-20
+i386                  randconfig-005-20260121    clang-20
+i386                  randconfig-006-20260121    clang-20
+i386                  randconfig-007-20260121    clang-20
+i386                  randconfig-011-20260121    gcc-14
+i386                  randconfig-012-20260121    gcc-14
+i386                  randconfig-013-20260121    gcc-14
+i386                  randconfig-014-20260121    gcc-14
+i386                  randconfig-015-20260121    gcc-14
+i386                  randconfig-016-20260121    gcc-14
+i386                  randconfig-017-20260121    gcc-14
+loongarch                        allmodconfig    clang-19
+loongarch                        allmodconfig    clang-22
+loongarch                         allnoconfig    gcc-15.2.0
+loongarch                           defconfig    clang-19
+loongarch                loongson64_defconfig    gcc-15.2.0
+loongarch             randconfig-001-20260121    gcc-15.2.0
+loongarch             randconfig-002-20260121    gcc-15.2.0
+m68k                             allmodconfig    gcc-15.2.0
+m68k                              allnoconfig    gcc-15.2.0
+m68k                             allyesconfig    clang-16
+m68k                                defconfig    clang-19
+m68k                        mvme16x_defconfig    gcc-15.2.0
+m68k                           sun3_defconfig    gcc-15.2.0
+microblaze                        allnoconfig    gcc-15.2.0
+microblaze                       allyesconfig    gcc-15.2.0
+microblaze                          defconfig    clang-19
+mips                             allmodconfig    gcc-15.2.0
+mips                              allnoconfig    gcc-15.2.0
+mips                             allyesconfig    gcc-15.2.0
+mips                          ath79_defconfig    gcc-15.2.0
+mips                         rt305x_defconfig    gcc-15.2.0
+mips                   sb1250_swarm_defconfig    gcc-15.2.0
+nios2                            allmodconfig    clang-22
+nios2                             allnoconfig    clang-22
+nios2                               defconfig    clang-19
+nios2                 randconfig-001-20260121    gcc-15.2.0
+nios2                 randconfig-002-20260121    gcc-15.2.0
+openrisc                         allmodconfig    clang-22
+openrisc                          allnoconfig    clang-22
+parisc                           allmodconfig    gcc-15.2.0
+parisc                            allnoconfig    clang-22
+parisc                           allyesconfig    clang-19
+parisc                randconfig-001-20260121    gcc-9.5.0
+parisc                randconfig-002-20260121    gcc-9.5.0
+parisc64                            defconfig    clang-19
+powerpc                    adder875_defconfig    gcc-15.2.0
+powerpc                          allmodconfig    gcc-15.2.0
+powerpc                           allnoconfig    clang-22
+powerpc                 linkstation_defconfig    gcc-15.2.0
+powerpc                 mpc8313_rdb_defconfig    gcc-15.2.0
+powerpc                     powernv_defconfig    gcc-15.2.0
+powerpc                         ps3_defconfig    gcc-15.2.0
+powerpc               randconfig-001-20260121    gcc-9.5.0
+powerpc               randconfig-002-20260121    gcc-9.5.0
+powerpc                     taishan_defconfig    gcc-15.2.0
+powerpc64             randconfig-001-20260121    gcc-9.5.0
+powerpc64             randconfig-002-20260121    gcc-9.5.0
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    clang-22
+riscv                            allyesconfig    clang-16
+riscv                 randconfig-001-20260121    clang-16
+riscv                 randconfig-002-20260121    clang-16
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.2.0
+s390                  randconfig-001-20260121    clang-16
+s390                  randconfig-002-20260121    clang-16
+sh                               allmodconfig    gcc-15.2.0
+sh                                allnoconfig    clang-22
+sh                               allyesconfig    clang-19
+sh                         apsh4a3a_defconfig    gcc-15.2.0
+sh                                  defconfig    gcc-14
+sh                    randconfig-001-20260121    clang-16
+sh                    randconfig-002-20260121    clang-16
+sh                          rsk7201_defconfig    gcc-15.2.0
+sh                           se7343_defconfig    gcc-15.2.0
+sparc                             allnoconfig    clang-22
+sparc                 randconfig-001-20260121    gcc-8.5.0
+sparc                 randconfig-002-20260121    gcc-8.5.0
+sparc                       sparc64_defconfig    gcc-15.2.0
+sparc64                          allmodconfig    clang-22
+sparc64                             defconfig    gcc-14
+sparc64               randconfig-001-20260121    gcc-8.5.0
+sparc64               randconfig-002-20260121    gcc-8.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-15.2.0
+um                                  defconfig    gcc-14
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20260121    gcc-8.5.0
+um                    randconfig-002-20260121    gcc-8.5.0
+um                           x86_64_defconfig    gcc-14
+x86_64                           allmodconfig    clang-20
+x86_64                            allnoconfig    clang-22
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20260121    clang-20
+x86_64      buildonly-randconfig-002-20260121    clang-20
+x86_64      buildonly-randconfig-003-20260121    clang-20
+x86_64      buildonly-randconfig-004-20260121    clang-20
+x86_64      buildonly-randconfig-005-20260121    clang-20
+x86_64      buildonly-randconfig-006-20260121    clang-20
+x86_64                              defconfig    gcc-14
+x86_64                                  kexec    clang-20
+x86_64                randconfig-001-20260121    clang-20
+x86_64                randconfig-002-20260121    clang-20
+x86_64                randconfig-003-20260121    clang-20
+x86_64                randconfig-004-20260121    clang-20
+x86_64                randconfig-005-20260121    clang-20
+x86_64                randconfig-006-20260121    clang-20
+x86_64                randconfig-011-20260121    gcc-14
+x86_64                randconfig-012-20260121    gcc-14
+x86_64                randconfig-013-20260121    gcc-14
+x86_64                randconfig-014-20260121    gcc-14
+x86_64                randconfig-015-20260121    gcc-14
+x86_64                randconfig-016-20260121    gcc-14
+x86_64                randconfig-071-20260121    clang-20
+x86_64                randconfig-072-20260121    clang-20
+x86_64                randconfig-073-20260121    clang-20
+x86_64                randconfig-074-20260121    clang-20
+x86_64                randconfig-075-20260121    clang-20
+x86_64                randconfig-076-20260121    clang-20
+x86_64                               rhel-9.4    clang-20
+x86_64                           rhel-9.4-bpf    gcc-14
+x86_64                          rhel-9.4-func    clang-20
+x86_64                    rhel-9.4-kselftests    clang-20
+x86_64                         rhel-9.4-kunit    gcc-14
+x86_64                           rhel-9.4-ltp    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    clang-22
+xtensa                           allyesconfig    clang-22
+xtensa                       common_defconfig    gcc-15.2.0
+xtensa                randconfig-001-20260121    gcc-8.5.0
+xtensa                randconfig-002-20260121    gcc-8.5.0
+xtensa                    smp_lx200_defconfig    gcc-15.2.0
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaW/d0gAKCRB4tDGHoIJi
-0gUyAQCWAPo8Dt3NliH1MAzmvp/xpo/IfCW99+trjIoV/TKPMQEAir67IMOAbPO4
-kcuJhCTf7Iv4Fp8gZLeuDLflE58JQgg=
-=cSCa
------END PGP SIGNATURE-----
-
---hsQjSgQnmzY/B+re--
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
