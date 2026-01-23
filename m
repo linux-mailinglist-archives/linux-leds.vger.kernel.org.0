@@ -1,59 +1,59 @@
-Return-Path: <linux-leds+bounces-6720-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6721-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aHhPG3XGc2lZygAAu9opvQ
-	(envelope-from <linux-leds+bounces-6720-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 20:05:25 +0100
+	id 2PHxIJXGc2lZygAAu9opvQ
+	(envelope-from <linux-leds+bounces-6721-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 20:05:57 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2573F79F85
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 20:05:25 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F53779FBF
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 20:05:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6E247300AC1F
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 19:05:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DC6953067378
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 19:05:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF658254B03;
-	Fri, 23 Jan 2026 19:05:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D470B280A58;
+	Fri, 23 Jan 2026 19:05:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="cyuPjdTf"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="gqjUnrdf"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C822273D84
-	for <linux-leds@vger.kernel.org>; Fri, 23 Jan 2026 19:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC76D23817E
+	for <linux-leds@vger.kernel.org>; Fri, 23 Jan 2026 19:05:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769195117; cv=none; b=b3/YiodPA4FP1U+XLfQ7uco9R5YeiNX1qMnzt9PWZlgPBWo9AxfPJMbh88Jf17JIMym92WVfxSF3jJNDhFHE3SGADYAGQBK4GP4vNRP5L/Ngbse2Qcm3N/9GofPj0yjozUnpOpFnn4UVtAsjFB1LHphjARAhOje8rJCguJdBUaM=
+	t=1769195118; cv=none; b=JWvFHfRe4HDgrH3BB+zq7++Zbz4m5VlyXzOERfc/AUAsr5ojUoNioXbqVnkoCF/b0pivizh+FLXOhIIjHWDsskVIv0rpe5JbHT/QsrujUIek+rfJPsqcpPYUxIJeAOMMxcFCQD/djP9np6wAakdB/8u4AXQNH/cpysRfmEtxsLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769195117; c=relaxed/simple;
-	bh=vJx339Ptvd6Q5seAb2UMkuQR2g1wHB5bKZGiaTR8zJU=;
+	s=arc-20240116; t=1769195118; c=relaxed/simple;
+	bh=ODz8ncLmCsNqsZxfTe8GooISjKiG+okr6st5hrKOOTM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eEbCyeBYbOZdHeeVx2KHXzYthongHNymFTeB7lbpZapJw9EHCC8pbmh0pBiecw/wqcywWHcZad+6wCZCVA8NJ5ngxMzpaQKfQDD/hKsxVNFcDo4Bk1LFYQ/2nkPX65qGZB2A93NymFk1bxfD6j4O5i7DDf00K0621WGgLWtBqM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=cyuPjdTf; arc=none smtp.client-ip=185.67.36.65
+	 In-Reply-To:To:Cc; b=MWLQl80Z7jM0LVOLn7PWVyjusnxgZgB93gHzL4J6CkzwVKk2eE2gCunnR7JcX7k+a7oJN2T8kRe+0Arx6hNK9xMxRHwz6IQ2jnPOpoaXFwJCDHTrAtk7tyYSFVmUFgFxj/J6RifE3O8fwgU6TIdsaadoI2zyWKj+jrCwLd3TlXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=gqjUnrdf; arc=none smtp.client-ip=185.67.36.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id ACD5B24002B
-	for <linux-leds@vger.kernel.org>; Fri, 23 Jan 2026 20:05:07 +0100 (CET)
+	by mout02.posteo.de (Postfix) with ESMTPS id 7E68E240103
+	for <linux-leds@vger.kernel.org>; Fri, 23 Jan 2026 20:05:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1769195107; bh=3PwA9Be/c+sx6J+yRmqghf0UKZNH9XiqJmvIn3+haiw=;
+	t=1769195109; bh=DCJCsmVs7zPkbt9Qd39SgzPBMeFXDWwMJcLHezKPmqE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
-	b=cyuPjdTfSUK2citue4Pa2YeNMaIEsxhdRC481ac371gMEZ5Q/K+3AhaQzf7573wUr
-	 29hsVDCVptXRdNY7VrD7+jQAJ7/Y2E2wWEJzhwK9pDajOlxSH9L1UpW1hy7gVxArrz
-	 YALc/DV4QpX9GC+7F8WkTV4ykbEdwKKvAnWsBMlc0+eyr4/DMCx5FFIP+b9efqkVoU
-	 mbPF1gH4NwYJ3KtvOnXEpNMZ0SSxDsg1nJ9InawXpKrUIOSiY5EtgoMI+A1k8isucd
-	 1HheVBKmflm+iMtcQA0H3R5xDtmtzqLT7Iiq0kTIpXgYT//UuDD9FWJ9Oy9MlOewO1
-	 fVgeTjoKYoz/g==
+	b=gqjUnrdfyzBP6JRzrEvRadLzO/JiLHUSWkfAKkNFq3P4BJ6KE70Iku6LsZS7Zc2gC
+	 2eH3qZ/j7zwbnXhMfh0yPfFcpylLCGCck02/Paus7PiXCJIEMgJGGXzvDUyRf2fcjY
+	 nUspAkSh7FRBJ52XFO7uXVs54233k3e+mhLZAADuWZ3eOvn6PN5gz9NhA6ibNM/0F9
+	 E2pJ0t6QslxAZTAMXdBkzR2hc/9husPoODAOaOTkEqMcxJJ+i0NdY6VoSqYFW1wJzd
+	 NUmPgrSFAQ5JnUMaS2RQ2T0qt3si/jSJQ4WX/XXz+7/C6fFQJw6PlfagXC9410hBl0
+	 wIia2V7hijdZA==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4dyS6n1qTFz9rxD;
-	Fri, 23 Jan 2026 20:05:05 +0100 (CET)
+	by submission (posteo.de) with ESMTPSA id 4dyS6p6nMcz9rxM;
+	Fri, 23 Jan 2026 20:05:06 +0100 (CET)
 From: Markus Probst <markus.probst@posteo.de>
-Date: Fri, 23 Jan 2026 19:05:06 +0000
-Subject: [PATCH RFC 2/4] leds: dt-bindings: add disk trigger for each ata
- port
+Date: Fri, 23 Jan 2026 19:05:08 +0000
+Subject: [PATCH RFC 3/4] leds: add delay_on, delay_off and invert
+ attributes to disk trigger
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -62,7 +62,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260123-ledtrig_disk_-v1-2-07004756467b@posteo.de>
+Message-Id: <20260123-ledtrig_disk_-v1-3-07004756467b@posteo.de>
 References: <20260123-ledtrig_disk_-v1-0-07004756467b@posteo.de>
 In-Reply-To: <20260123-ledtrig_disk_-v1-0-07004756467b@posteo.de>
 To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
@@ -77,21 +77,21 @@ Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org, 
  Markus Probst <markus.probst@posteo.de>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1066;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6628;
  i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=vJx339Ptvd6Q5seAb2UMkuQR2g1wHB5bKZGiaTR8zJU=;
- b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBpc8ZWtlbOWbS5hsTqlnvVj2v7vNUp7PZ2LZjiO
- +ABaSuq9WiJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaXPGVhsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMSwyLDIACgkQNHYf+OetQ9LzQw/8DfqEIKdxy51MSLnBaF8SLYMeYmvrLhW
- 7nTwXHjGZ3BT9Z3rWQOl3GCgLCOtUvtqnMTqb2Q7EzGOoiG4vDOU/PeR5wnsAzxXAJPF0459w8n
- nnO/89iO3rOc8ENWpHjqp0A0VguB7uAEZUYhdvu3ZVjWLak7oRHUgET1wtwhody0MqjpYr8kHQA
- qqIU5itLDZOPpmQtLV4QFNXOj/YQATTKbO8mIlKuVgM5xXC/NFlWPzdf8W/NzvkMggYA+jqLfIi
- KGJfeKljMgQtaMYiVjbgpylit6bWdiJixKjLvrse6Cp457e5kgTWmnNYSV0ZYKI262ZVblBQhMJ
- /yW9/4239A0uVHPrsVJsQ0UObvQ8qIr+7l2Rro0h2GC9mksn248DJvVHMrOhTWunWFlPjTsnFtg
- NCvvu4eef7stz87GeKQhuSzd3pbuj0eMVcA9Bpc2T88YZU8t1UOd+nOnsnWXb8/Yvz3S8VDFwr4
- ue8+IPHJMlUqQBw6oXHISIf/BJ8xduvDkUSTIo/R2jX85NSk6xkBhdShFoF1eOSm8p1bgoogyRW
- Br4UpR+ka5WL+3o/aNczR6AD6OjGvyQ8TkMDM5ccl+nqbw9friYqMvDt9ku5/kOOa9uyntVF0z+
- CoIxaZXzE1ErPS9kkFJVXtr4/0rqBRS4nXP4gd0vcaXePB4Ir3Pk=
+ bh=ODz8ncLmCsNqsZxfTe8GooISjKiG+okr6st5hrKOOTM=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBpc8ZYMDkrYNhe896XM9Iuw4ttMEZEt2iKXxYky
+ M5UrfrXrjyJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaXPGWBsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMSwyLDIACgkQNHYf+OetQ9K4hw/+J5eHm48CkUqLgJU52DgEZ6pH/AqAqjk
+ /WgURvz5O/3Hwtwb3b0/fzgDg92/ew619EECAcmdMi8SqjAxsyenM0VGTbmqlKaRT4e8Fl7GhM9
+ vZkANj5fmGds8wsmIqtZ5Pv+yzdqwwNNT6GiKLARRL0MmNwbh2bUGw9+5x17FkfkMUQfnIvK3hh
+ ydlDopjVY4Ds9Z69W3iPSt6nDDFNRqD81rwt0yhR+96txWhH8t7tm+Wlt8w5Hqk6jVwj7biPdxb
+ KqwjXP5GhBK6I6+tzx7qYesAb/OGeGszpqpgDpd2LoPQdt0cABMk3uQu9YHtXxYMfuFd/5wemiw
+ C10EQ/JeTbCe6QKwquBWU7n4FQEepso6aJd56oIc5+A37kn4ebeO+zOM+6AwJPpA8SbwIwrL3z0
+ beZhDEPmE8PZouEje4HUlPieYLZGaZ+o0OF2cJIkHP8iCriNgB7igiJFQkJ6NMfjqpLxeAKq60F
+ dT9p6TvXl+ME8foaNDvkqTlvOZ8vROfLbr6pBH722hG0m2f7wEBvw6Blvm3odbaWImbM2pxJCbf
+ g+yddPRv6AuIZJTCMxS2nLeWO6niETADyiIKbDxCzvbjIgYM3s3rsVgt2NDXAJljok8x5YqMw5B
+ H0AOtVXXszF0OexPy22GCT1MBWvWgA4o0neuTfKS/R3gkr+dtN4I=
 X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
  fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
 Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
@@ -142,11 +142,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[posteo.de,none];
 	R_DKIM_ALLOW(-0.20)[posteo.de:s=2017];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6720-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6721-lists,linux-leds=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,gmail.com,oracle.com,huawei.com,HansenPartnership.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -154,46 +154,247 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[posteo.de:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[markus.probst@posteo.de,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
+	NEURAL_HAM(-0.00)[-0.996];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 2573F79F85
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2F53779FBF
 X-Rspamd-Action: no action
 
-Document disk trigger showing only disk activity for one specific ata
-port.
+Add delay_on, delay_off and invert device attributes to leds using the
+disk trigger.
 
 Signed-off-by: Markus Probst <markus.probst@posteo.de>
 ---
- Documentation/devicetree/bindings/leds/common.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/leds/trigger/ledtrig-disk.c | 194 +++++++++++++++++++++++++++++++++---
+ 1 file changed, 182 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-index d0f2fee7622c..ca51eeadfad0 100644
---- a/Documentation/devicetree/bindings/leds/common.yaml
-+++ b/Documentation/devicetree/bindings/leds/common.yaml
-@@ -136,6 +136,12 @@ properties:
-       - pattern: "^mmc[0-9]+$"
-         # LED is triggered by WLAN activity
-       - pattern: "^phy[0-9]+tx$"
-+        # LED indicates disk activity for a specific ata port
-+      - pattern: "^.*-ata[0-9]+-disk-activity$"
-+        # LED indicates disk read activity for a specific ata port
-+      - pattern: "^.*-ata[0-9]+-disk-read$"
-+        # LED indicates disk write activity for a specific ata port
-+      - pattern: "^.*-ata[0-9]+-disk-write$"
+diff --git a/drivers/leds/trigger/ledtrig-disk.c b/drivers/leds/trigger/ledtrig-disk.c
+index e9b87ee944f2..ed5ef83a5b35 100644
+--- a/drivers/leds/trigger/ledtrig-disk.c
++++ b/drivers/leds/trigger/ledtrig-disk.c
+@@ -9,31 +9,201 @@
  
-   led-pattern:
-     description: |
+ #include <linux/kernel.h>
+ #include <linux/init.h>
++#include <linux/list.h>
+ #include <linux/leds.h>
++#include "../leds.h"
+ 
+-#define BLINK_DELAY 30
++#define DEFAULT_BLINK_DELAY 30
+ 
+-DEFINE_LED_TRIGGER(ledtrig_disk);
+-DEFINE_LED_TRIGGER(ledtrig_disk_read);
+-DEFINE_LED_TRIGGER(ledtrig_disk_write);
++struct ledtrig_disk_data {
++	unsigned long delay_on;
++	unsigned long delay_off;
++	unsigned int invert;
++};
++
++static ssize_t led_delay_on_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct led_classdev *led_cdev = led_trigger_get_led(dev);
++	struct ledtrig_disk_data *disk_data = led_get_trigger_data(led_cdev);
++
++	return sprintf(buf, "%lu\n", disk_data->delay_on);
++}
++
++static ssize_t led_delay_on_store(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t size)
++{
++	struct led_classdev *led_cdev = led_trigger_get_led(dev);
++	struct ledtrig_disk_data *disk_data = led_get_trigger_data(led_cdev);
++	unsigned long state;
++	ssize_t ret;
++
++	ret = kstrtoul(buf, 10, &state);
++	if (ret)
++		return ret;
++
++	disk_data->delay_on = state;
++
++	return size;
++}
++
++static ssize_t led_delay_off_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct led_classdev *led_cdev = led_trigger_get_led(dev);
++	struct ledtrig_disk_data *disk_data = led_get_trigger_data(led_cdev);
++
++	return sprintf(buf, "%lu\n", disk_data->delay_off);
++}
++
++static ssize_t led_delay_off_store(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t size)
++{
++	struct led_classdev *led_cdev = led_trigger_get_led(dev);
++	struct ledtrig_disk_data *disk_data = led_get_trigger_data(led_cdev);
++	unsigned long state;
++	ssize_t ret;
++
++	ret = kstrtoul(buf, 10, &state);
++	if (ret)
++		return ret;
++
++	disk_data->delay_off = state;
++
++	return size;
++}
++
++static ssize_t led_invert_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct ledtrig_disk_data *disk_data =
++		led_trigger_get_drvdata(dev);
++
++	return sprintf(buf, "%u\n", disk_data->invert);
++}
++
++static ssize_t led_invert_store(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t size)
++{
++	struct led_classdev *led_cdev = led_trigger_get_led(dev);
++	struct ledtrig_disk_data *disk_data = led_get_trigger_data(led_cdev);
++	unsigned long state;
++	int ret;
++
++	ret = kstrtoul(buf, 0, &state);
++	if (ret)
++		return ret;
++
++	led_set_brightness_nosleep(led_cdev, state ? LED_FULL : LED_OFF);
++	disk_data->invert = !!state;
++
++	return size;
++}
++
++static DEVICE_ATTR(delay_on, 0644, led_delay_on_show, led_delay_on_store);
++static DEVICE_ATTR(delay_off, 0644, led_delay_off_show, led_delay_off_store);
++static DEVICE_ATTR(invert, 0644, led_invert_show, led_invert_store);
++
++static struct attribute *ledtrig_disk_attrs[] = {
++	&dev_attr_delay_on.attr,
++	&dev_attr_delay_off.attr,
++	&dev_attr_invert.attr,
++	NULL
++};
++ATTRIBUTE_GROUPS(ledtrig_disk);
++
++static void pattern_init(struct led_classdev *led_cdev, struct ledtrig_disk_data *disk_data)
++{
++	unsigned int size = 0;
++
++	u32 *pattern __free(kfree) = led_get_default_pattern(led_cdev, &size);
++	if (!pattern)
++		return;
++
++	if (size != 3) {
++		dev_warn(led_cdev->dev,
++			 "Expected 3 but got %u values for delays + invert pattern\n",
++			 size);
++		return;
++	}
++
++	disk_data->delay_on = pattern[0];
++	disk_data->delay_off = pattern[1];
++	disk_data->invert = !!pattern[2];
++}
++
++static int ledtrig_disk_activate(struct led_classdev *led_cdev)
++{
++	struct ledtrig_disk_data *disk_data;
++
++	disk_data = kzalloc(sizeof(*disk_data), GFP_KERNEL);
++	if (!disk_data)
++		return -ENOMEM;
++
++	disk_data->delay_on = DEFAULT_BLINK_DELAY;
++	disk_data->delay_off = DEFAULT_BLINK_DELAY;
++
++	led_set_trigger_data(led_cdev, disk_data);
++
++	if (led_cdev->flags & LED_INIT_DEFAULT_TRIGGER) {
++		pattern_init(led_cdev, disk_data);
++		/*
++		 * Mark as initialized even on pattern_init() error because
++		 * any consecutive call to it would produce the same error.
++		 */
++		led_cdev->flags &= ~LED_INIT_DEFAULT_TRIGGER;
++	}
++
++	led_set_brightness_nosleep(led_cdev, disk_data->invert ? LED_FULL : LED_OFF);
++
++	return 0;
++}
++
++static struct led_trigger ledtrig_disk = {
++	.name = "disk-activity",
++	.activate = ledtrig_disk_activate,
++	.groups = ledtrig_disk_groups,
++};
++static struct led_trigger ledtrig_disk_read = {
++	.name = "disk-read",
++	.activate = ledtrig_disk_activate,
++	.groups = ledtrig_disk_groups,
++};
++static struct led_trigger ledtrig_disk_write = {
++	.name = "disk-write",
++	.activate = ledtrig_disk_activate,
++	.groups = ledtrig_disk_groups,
++};
++
++static void ledtrig_disk_blink_oneshot(struct led_trigger *trig)
++{
++	struct led_classdev *led_cdev;
++	struct ledtrig_disk_data *disk_data;
++
++	rcu_read_lock();
++	list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list) {
++		disk_data = led_get_trigger_data(led_cdev);
++		led_blink_set_oneshot(led_cdev, &disk_data->delay_on, &disk_data->delay_off,
++				      disk_data->invert);
++	}
++	rcu_read_unlock();
++}
+ 
+ void ledtrig_disk_activity(bool write)
+ {
+-	led_trigger_blink_oneshot(ledtrig_disk, BLINK_DELAY, BLINK_DELAY, 0);
++	ledtrig_disk_blink_oneshot(&ledtrig_disk);
+ 	if (write)
+-		led_trigger_blink_oneshot(ledtrig_disk_write,
+-					  BLINK_DELAY, BLINK_DELAY, 0);
++		ledtrig_disk_blink_oneshot(&ledtrig_disk_write);
+ 	else
+-		led_trigger_blink_oneshot(ledtrig_disk_read,
+-					  BLINK_DELAY, BLINK_DELAY, 0);
++		ledtrig_disk_blink_oneshot(&ledtrig_disk_read);
+ }
+ EXPORT_SYMBOL(ledtrig_disk_activity);
+ 
+ static int __init ledtrig_disk_init(void)
+ {
+-	led_trigger_register_simple("disk-activity", &ledtrig_disk);
+-	led_trigger_register_simple("disk-read", &ledtrig_disk_read);
+-	led_trigger_register_simple("disk-write", &ledtrig_disk_write);
++	led_trigger_register(&ledtrig_disk);
++	led_trigger_register(&ledtrig_disk_read);
++	led_trigger_register(&ledtrig_disk_write);
+ 
+ 	return 0;
+ }
 
 -- 
 2.52.0
