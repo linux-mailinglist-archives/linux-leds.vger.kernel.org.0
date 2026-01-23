@@ -1,59 +1,58 @@
-Return-Path: <linux-leds+bounces-6721-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6722-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2PHxIJXGc2lZygAAu9opvQ
-	(envelope-from <linux-leds+bounces-6721-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 20:05:57 +0100
+	id KPaKM97Gc2lZygAAu9opvQ
+	(envelope-from <linux-leds+bounces-6722-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 20:07:10 +0100
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F53779FBF
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 20:05:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E14D7A022
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 20:07:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DC6953067378
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 19:05:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 835C930AEEC9
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 19:05:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D470B280A58;
-	Fri, 23 Jan 2026 19:05:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AE4F2C08C4;
+	Fri, 23 Jan 2026 19:05:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="gqjUnrdf"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="Uo7L9vAw"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC76D23817E
-	for <linux-leds@vger.kernel.org>; Fri, 23 Jan 2026 19:05:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D391118A6A7
+	for <linux-leds@vger.kernel.org>; Fri, 23 Jan 2026 19:05:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769195118; cv=none; b=JWvFHfRe4HDgrH3BB+zq7++Zbz4m5VlyXzOERfc/AUAsr5ojUoNioXbqVnkoCF/b0pivizh+FLXOhIIjHWDsskVIv0rpe5JbHT/QsrujUIek+rfJPsqcpPYUxIJeAOMMxcFCQD/djP9np6wAakdB/8u4AXQNH/cpysRfmEtxsLY=
+	t=1769195121; cv=none; b=CA77Lz0RX5/7el6+vH/bRWLAMJ98bFmzbPZn9dOBZryC2CuA+dJP5VZhrkjZvW4OdXYgVyuZ3mshFm57DTUSaneu+KcMaHPFSFD1fd/t6Tul6ETKJf+iuIdr0U77HJ05ssKT6sejYanu5r/NrrAjhotzP6ba4q56p+G3hWiqoiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769195118; c=relaxed/simple;
-	bh=ODz8ncLmCsNqsZxfTe8GooISjKiG+okr6st5hrKOOTM=;
+	s=arc-20240116; t=1769195121; c=relaxed/simple;
+	bh=yHrnIhZKWe4aGD+KAtqFNtnxQQuW2y+OccQYipFK/7I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MWLQl80Z7jM0LVOLn7PWVyjusnxgZgB93gHzL4J6CkzwVKk2eE2gCunnR7JcX7k+a7oJN2T8kRe+0Arx6hNK9xMxRHwz6IQ2jnPOpoaXFwJCDHTrAtk7tyYSFVmUFgFxj/J6RifE3O8fwgU6TIdsaadoI2zyWKj+jrCwLd3TlXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=gqjUnrdf; arc=none smtp.client-ip=185.67.36.66
+	 In-Reply-To:To:Cc; b=iVwZPrvKL6KwrbTk8TRugzxrCuEgfzxOSbBID+A4bZ8CGUJMzUtUSPQCqQ6Z8XB1YO586CjOFrsyAfkhNnnh4CTSco6MICHi32nGSn5B1ZdAkW9tvtQ+fHbjDOaZs5ksRKfjOj8EAivM3/yDuDCMbYfcDvrbAdrdYk5+ZVVSZBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=Uo7L9vAw; arc=none smtp.client-ip=185.67.36.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 7E68E240103
-	for <linux-leds@vger.kernel.org>; Fri, 23 Jan 2026 20:05:09 +0100 (CET)
+	by mout01.posteo.de (Postfix) with ESMTPS id 40DF624002D
+	for <linux-leds@vger.kernel.org>; Fri, 23 Jan 2026 20:05:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1769195109; bh=DCJCsmVs7zPkbt9Qd39SgzPBMeFXDWwMJcLHezKPmqE=;
+	t=1769195111; bh=rGNtFbWYd64mUfi+ig+LOirZBXBy+lx6XwWx6CydM4I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
-	b=gqjUnrdfyzBP6JRzrEvRadLzO/JiLHUSWkfAKkNFq3P4BJ6KE70Iku6LsZS7Zc2gC
-	 2eH3qZ/j7zwbnXhMfh0yPfFcpylLCGCck02/Paus7PiXCJIEMgJGGXzvDUyRf2fcjY
-	 nUspAkSh7FRBJ52XFO7uXVs54233k3e+mhLZAADuWZ3eOvn6PN5gz9NhA6ibNM/0F9
-	 E2pJ0t6QslxAZTAMXdBkzR2hc/9husPoODAOaOTkEqMcxJJ+i0NdY6VoSqYFW1wJzd
-	 NUmPgrSFAQ5JnUMaS2RQ2T0qt3si/jSJQ4WX/XXz+7/C6fFQJw6PlfagXC9410hBl0
-	 wIia2V7hijdZA==
+	b=Uo7L9vAwSMoxyAKYyh9SHIoaO3zJA5Q8J0XI3Yv390lKrlM6xQA3D9lWsz4hDpkzR
+	 JWc8crxB2qnmtSg7GGTPotWOxy8mMjWCJqqYazW3xgdJ6WFKvgQq0G71h3GPj3cZa3
+	 prFBqevNirydIwpR7TwStZye3hYRf906004my9q3x1vC4KFvvDZr8iDmQ8wMuJUzg/
+	 8Yvwy+EuvgySgKYVQmJZyVJIGnGDZeImcG+dumfkzjgjJ6jnF1M2Sh7eBNNS0slTTv
+	 lrdnYsX6p0Pvh8zIOcSawerTkijEzA0Yreu8pCI4QWaERh7Do5G0wQBdHq7ezlakZH
+	 vytgA1fafJwfQ==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4dyS6p6nMcz9rxM;
-	Fri, 23 Jan 2026 20:05:06 +0100 (CET)
+	by submission (posteo.de) with ESMTPSA id 4dyS6r5DVYz9rxG;
+	Fri, 23 Jan 2026 20:05:08 +0100 (CET)
 From: Markus Probst <markus.probst@posteo.de>
-Date: Fri, 23 Jan 2026 19:05:08 +0000
-Subject: [PATCH RFC 3/4] leds: add delay_on, delay_off and invert
- attributes to disk trigger
+Date: Fri, 23 Jan 2026 19:05:10 +0000
+Subject: [PATCH RFC 4/4] leds: add disk trigger for each ata port
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -62,7 +61,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260123-ledtrig_disk_-v1-3-07004756467b@posteo.de>
+Message-Id: <20260123-ledtrig_disk_-v1-4-07004756467b@posteo.de>
 References: <20260123-ledtrig_disk_-v1-0-07004756467b@posteo.de>
 In-Reply-To: <20260123-ledtrig_disk_-v1-0-07004756467b@posteo.de>
 To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
@@ -77,21 +76,21 @@ Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org, 
  Markus Probst <markus.probst@posteo.de>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6628;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10395;
  i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=ODz8ncLmCsNqsZxfTe8GooISjKiG+okr6st5hrKOOTM=;
- b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBpc8ZYMDkrYNhe896XM9Iuw4ttMEZEt2iKXxYky
- M5UrfrXrjyJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaXPGWBsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMSwyLDIACgkQNHYf+OetQ9K4hw/+J5eHm48CkUqLgJU52DgEZ6pH/AqAqjk
- /WgURvz5O/3Hwtwb3b0/fzgDg92/ew619EECAcmdMi8SqjAxsyenM0VGTbmqlKaRT4e8Fl7GhM9
- vZkANj5fmGds8wsmIqtZ5Pv+yzdqwwNNT6GiKLARRL0MmNwbh2bUGw9+5x17FkfkMUQfnIvK3hh
- ydlDopjVY4Ds9Z69W3iPSt6nDDFNRqD81rwt0yhR+96txWhH8t7tm+Wlt8w5Hqk6jVwj7biPdxb
- KqwjXP5GhBK6I6+tzx7qYesAb/OGeGszpqpgDpd2LoPQdt0cABMk3uQu9YHtXxYMfuFd/5wemiw
- C10EQ/JeTbCe6QKwquBWU7n4FQEepso6aJd56oIc5+A37kn4ebeO+zOM+6AwJPpA8SbwIwrL3z0
- beZhDEPmE8PZouEje4HUlPieYLZGaZ+o0OF2cJIkHP8iCriNgB7igiJFQkJ6NMfjqpLxeAKq60F
- dT9p6TvXl+ME8foaNDvkqTlvOZ8vROfLbr6pBH722hG0m2f7wEBvw6Blvm3odbaWImbM2pxJCbf
- g+yddPRv6AuIZJTCMxS2nLeWO6niETADyiIKbDxCzvbjIgYM3s3rsVgt2NDXAJljok8x5YqMw5B
- H0AOtVXXszF0OexPy22GCT1MBWvWgA4o0neuTfKS/R3gkr+dtN4I=
+ bh=yHrnIhZKWe4aGD+KAtqFNtnxQQuW2y+OccQYipFK/7I=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBpc8ZaPwsoDdqRRAKFR+lVPd/tLwEGbvuG7GXz0
+ bvv9OS6Sc+JAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaXPGWhsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMSwyLDIACgkQNHYf+OetQ9Ij0hAAqypk3zrACIIaIXHLmkRxaSAH163Chhu
+ siD1Rli4m3YMcxnNm1gX2VT3jGiAGYitcNHYtU8FwxePRpAlnBhnhf5aF0ANZ81U/iOVc91FG53
+ rm9SDymDK0lH+CeHa0NBIN9Ww1K/71T3XMvjInDCSUaLFWdSivQtkKUbixlXa/gFSe7+e117IxU
+ wObiOCPprT39M87K+YgQWnlfwUqSk4sm/6hZnn1+qaEE+zyjIDW4QYu7vZNA6YcCEo4yIODpw0P
+ t7cm0WzXU4rSuaNXkZ+nuMwfmombRCkxUVp7nnVv/zYudct/huhkxYBDs2gu34qP6hQToIM4wMm
+ yO+A0vemQJ3rx78dJTy+sfXkNsRki+a63oSsJYtnV/Jph2c8t2EnEUwRvTQ5XKMUTyFxT8EHy/k
+ qntNIbl20GAy7tAvsNWAhgK/6tqFK82QODZLT3k0LvUUOP7tO+9vdIZi8C73ntriDw3R5VtbP7Y
+ pl8JiIHp7oK/oFme/7NO93NkAmAHDyGaWRGAYSdCGZcWsH+iU7LLWJWHZiklSjyF8wVW1NeRabr
+ PS5D9cYHO3UxQSev+5PngXhGEKogYiUlnwGnuOPkX8YldlmWmLXxJuZKeyKGeNYBDa+Ivykc9lh
+ Q0wnaoJZgc7auaK/sDpTGiLiWjR1PntdKxMmKSMO+t7NR/C0ntBo=
 X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
  fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
 Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
@@ -146,7 +145,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6721-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6722-lists,linux-leds=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,gmail.com,oracle.com,huawei.com,HansenPartnership.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -165,236 +164,344 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 2F53779FBF
+	DBL_BLOCKED_OPENRESOLVER(0.00)[posteo.de:email,posteo.de:dkim,posteo.de:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 6E14D7A022
 X-Rspamd-Action: no action
 
-Add delay_on, delay_off and invert device attributes to leds using the
-disk trigger.
+Register a disk trigger for each ata port. This trigger will only show
+the activity for the ata port it has been registered for.
+
+This allows individual leds to be mapped to one ata port.
+This is especially useful for NAS devices, which have an own led for each
+disk slot.
 
 Signed-off-by: Markus Probst <markus.probst@posteo.de>
 ---
- drivers/leds/trigger/ledtrig-disk.c | 194 +++++++++++++++++++++++++++++++++---
- 1 file changed, 182 insertions(+), 12 deletions(-)
+ drivers/ata/libata-core.c           |  22 +++++-
+ drivers/leds/trigger/ledtrig-disk.c | 144 ++++++++++++++++++++++++++++++------
+ drivers/scsi/libsas/sas_ata.c       |   3 +-
+ include/linux/leds.h                |  16 +++-
+ include/linux/libata.h              |   6 +-
+ 5 files changed, 161 insertions(+), 30 deletions(-)
 
+diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
+index 09d8c035fcdf..796c46449298 100644
+--- a/drivers/ata/libata-core.c
++++ b/drivers/ata/libata-core.c
+@@ -4921,8 +4921,10 @@ void ata_qc_complete(struct ata_queued_cmd *qc)
+ 	struct ata_device *dev = qc->dev;
+ 	struct ata_eh_info *ehi = &dev->link->eh_info;
+ 
++#ifdef CONFIG_LEDS_TRIGGER_DISK
+ 	/* Trigger the LED (if available) */
+-	ledtrig_disk_activity(!!(qc->tf.flags & ATA_TFLAG_WRITE));
++	ledtrig_disk_activity(ap->led_trigger, !!(qc->tf.flags & ATA_TFLAG_WRITE));
++#endif
+ 
+ 	/*
+ 	 * In order to synchronize EH with the regular execution path, a qc that
+@@ -5538,10 +5540,13 @@ int sata_link_init_spd(struct ata_link *link)
+  *	LOCKING:
+  *	Inherited from calling layer (may sleep).
+  */
+-struct ata_port *ata_port_alloc(struct ata_host *host)
++struct ata_port *ata_port_alloc(struct ata_host *host, int port_no)
+ {
+ 	struct ata_port *ap;
+ 	int id;
++#ifdef CONFIG_LEDS_TRIGGER_DISK
++	char name[32];
++#endif
+ 
+ 	ap = kzalloc(sizeof(*ap), GFP_KERNEL);
+ 	if (!ap)
+@@ -5557,6 +5562,7 @@ struct ata_port *ata_port_alloc(struct ata_host *host)
+ 	ap->print_id = id;
+ 	ap->host = host;
+ 	ap->dev = host->dev;
++	ap->port_no = port_no;
+ 
+ 	mutex_init(&ap->scsi_scan_mutex);
+ 	INIT_DELAYED_WORK(&ap->hotplug_task, ata_scsi_hotplug);
+@@ -5579,6 +5585,11 @@ struct ata_port *ata_port_alloc(struct ata_host *host)
+ 
+ 	ata_force_pflags(ap);
+ 
++#ifdef CONFIG_LEDS_TRIGGER_DISK
++	if (snprintf(name, sizeof(name), "%s-ata%d", dev_name(host->dev), port_no) < sizeof(name))
++		ap->led_trigger = ledtrig_disk_trigger_register(name);
++#endif
++
+ 	return ap;
+ }
+ EXPORT_SYMBOL_GPL(ata_port_alloc);
+@@ -5588,6 +5599,10 @@ void ata_port_free(struct ata_port *ap)
+ 	if (!ap)
+ 		return;
+ 
++#ifdef CONFIG_LEDS_TRIGGER_DISK
++	ledtrig_disk_trigger_unregister(ap->led_trigger);
++#endif
++
+ 	kfree(ap->pmp_link);
+ 	kfree(ap->slave_link);
+ 	ida_free(&ata_ida, ap->print_id);
+@@ -5690,11 +5705,10 @@ struct ata_host *ata_host_alloc(struct device *dev, int n_ports)
+ 	for (i = 0; i < n_ports; i++) {
+ 		struct ata_port *ap;
+ 
+-		ap = ata_port_alloc(host);
++		ap = ata_port_alloc(host, i);
+ 		if (!ap)
+ 			goto err_out;
+ 
+-		ap->port_no = i;
+ 		host->ports[i] = ap;
+ 	}
+ 
 diff --git a/drivers/leds/trigger/ledtrig-disk.c b/drivers/leds/trigger/ledtrig-disk.c
-index e9b87ee944f2..ed5ef83a5b35 100644
+index ed5ef83a5b35..fd25b4e45fb4 100644
 --- a/drivers/leds/trigger/ledtrig-disk.c
 +++ b/drivers/leds/trigger/ledtrig-disk.c
-@@ -9,31 +9,201 @@
+@@ -159,20 +159,22 @@ static int ledtrig_disk_activate(struct led_classdev *led_cdev)
+ 	return 0;
+ }
  
- #include <linux/kernel.h>
- #include <linux/init.h>
-+#include <linux/list.h>
- #include <linux/leds.h>
-+#include "../leds.h"
+-static struct led_trigger ledtrig_disk = {
+-	.name = "disk-activity",
+-	.activate = ledtrig_disk_activate,
+-	.groups = ledtrig_disk_groups,
+-};
+-static struct led_trigger ledtrig_disk_read = {
+-	.name = "disk-read",
+-	.activate = ledtrig_disk_activate,
+-	.groups = ledtrig_disk_groups,
+-};
+-static struct led_trigger ledtrig_disk_write = {
+-	.name = "disk-write",
+-	.activate = ledtrig_disk_activate,
+-	.groups = ledtrig_disk_groups,
++static struct ledtrig_disk_trigger ledtrig_disk = {
++	.all = {
++		.name = "disk-activity",
++		.activate = ledtrig_disk_activate,
++		.groups = ledtrig_disk_groups,
++	},
++	.read = {
++		.name = "disk-read",
++		.activate = ledtrig_disk_activate,
++		.groups = ledtrig_disk_groups,
++	},
++	.write = {
++		.name = "disk-write",
++		.activate = ledtrig_disk_activate,
++		.groups = ledtrig_disk_groups,
++	},
+ };
  
--#define BLINK_DELAY 30
-+#define DEFAULT_BLINK_DELAY 30
+ static void ledtrig_disk_blink_oneshot(struct led_trigger *trig)
+@@ -189,21 +191,121 @@ static void ledtrig_disk_blink_oneshot(struct led_trigger *trig)
+ 	rcu_read_unlock();
+ }
  
--DEFINE_LED_TRIGGER(ledtrig_disk);
--DEFINE_LED_TRIGGER(ledtrig_disk_read);
--DEFINE_LED_TRIGGER(ledtrig_disk_write);
-+struct ledtrig_disk_data {
-+	unsigned long delay_on;
-+	unsigned long delay_off;
-+	unsigned int invert;
-+};
-+
-+static ssize_t led_delay_on_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct led_classdev *led_cdev = led_trigger_get_led(dev);
-+	struct ledtrig_disk_data *disk_data = led_get_trigger_data(led_cdev);
-+
-+	return sprintf(buf, "%lu\n", disk_data->delay_on);
-+}
-+
-+static ssize_t led_delay_on_store(struct device *dev,
-+		struct device_attribute *attr, const char *buf, size_t size)
-+{
-+	struct led_classdev *led_cdev = led_trigger_get_led(dev);
-+	struct ledtrig_disk_data *disk_data = led_get_trigger_data(led_cdev);
-+	unsigned long state;
-+	ssize_t ret;
-+
-+	ret = kstrtoul(buf, 10, &state);
-+	if (ret)
-+		return ret;
-+
-+	disk_data->delay_on = state;
-+
-+	return size;
-+}
-+
-+static ssize_t led_delay_off_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct led_classdev *led_cdev = led_trigger_get_led(dev);
-+	struct ledtrig_disk_data *disk_data = led_get_trigger_data(led_cdev);
-+
-+	return sprintf(buf, "%lu\n", disk_data->delay_off);
-+}
-+
-+static ssize_t led_delay_off_store(struct device *dev,
-+		struct device_attribute *attr, const char *buf, size_t size)
-+{
-+	struct led_classdev *led_cdev = led_trigger_get_led(dev);
-+	struct ledtrig_disk_data *disk_data = led_get_trigger_data(led_cdev);
-+	unsigned long state;
-+	ssize_t ret;
-+
-+	ret = kstrtoul(buf, 10, &state);
-+	if (ret)
-+		return ret;
-+
-+	disk_data->delay_off = state;
-+
-+	return size;
-+}
-+
-+static ssize_t led_invert_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct ledtrig_disk_data *disk_data =
-+		led_trigger_get_drvdata(dev);
-+
-+	return sprintf(buf, "%u\n", disk_data->invert);
-+}
-+
-+static ssize_t led_invert_store(struct device *dev,
-+		struct device_attribute *attr, const char *buf, size_t size)
-+{
-+	struct led_classdev *led_cdev = led_trigger_get_led(dev);
-+	struct ledtrig_disk_data *disk_data = led_get_trigger_data(led_cdev);
-+	unsigned long state;
-+	int ret;
-+
-+	ret = kstrtoul(buf, 0, &state);
-+	if (ret)
-+		return ret;
-+
-+	led_set_brightness_nosleep(led_cdev, state ? LED_FULL : LED_OFF);
-+	disk_data->invert = !!state;
-+
-+	return size;
-+}
-+
-+static DEVICE_ATTR(delay_on, 0644, led_delay_on_show, led_delay_on_store);
-+static DEVICE_ATTR(delay_off, 0644, led_delay_off_show, led_delay_off_store);
-+static DEVICE_ATTR(invert, 0644, led_invert_show, led_invert_store);
-+
-+static struct attribute *ledtrig_disk_attrs[] = {
-+	&dev_attr_delay_on.attr,
-+	&dev_attr_delay_off.attr,
-+	&dev_attr_invert.attr,
-+	NULL
-+};
-+ATTRIBUTE_GROUPS(ledtrig_disk);
-+
-+static void pattern_init(struct led_classdev *led_cdev, struct ledtrig_disk_data *disk_data)
-+{
-+	unsigned int size = 0;
-+
-+	u32 *pattern __free(kfree) = led_get_default_pattern(led_cdev, &size);
-+	if (!pattern)
-+		return;
-+
-+	if (size != 3) {
-+		dev_warn(led_cdev->dev,
-+			 "Expected 3 but got %u values for delays + invert pattern\n",
-+			 size);
-+		return;
-+	}
-+
-+	disk_data->delay_on = pattern[0];
-+	disk_data->delay_off = pattern[1];
-+	disk_data->invert = !!pattern[2];
-+}
-+
-+static int ledtrig_disk_activate(struct led_classdev *led_cdev)
-+{
-+	struct ledtrig_disk_data *disk_data;
-+
-+	disk_data = kzalloc(sizeof(*disk_data), GFP_KERNEL);
-+	if (!disk_data)
-+		return -ENOMEM;
-+
-+	disk_data->delay_on = DEFAULT_BLINK_DELAY;
-+	disk_data->delay_off = DEFAULT_BLINK_DELAY;
-+
-+	led_set_trigger_data(led_cdev, disk_data);
-+
-+	if (led_cdev->flags & LED_INIT_DEFAULT_TRIGGER) {
-+		pattern_init(led_cdev, disk_data);
-+		/*
-+		 * Mark as initialized even on pattern_init() error because
-+		 * any consecutive call to it would produce the same error.
-+		 */
-+		led_cdev->flags &= ~LED_INIT_DEFAULT_TRIGGER;
-+	}
-+
-+	led_set_brightness_nosleep(led_cdev, disk_data->invert ? LED_FULL : LED_OFF);
-+
-+	return 0;
-+}
-+
-+static struct led_trigger ledtrig_disk = {
-+	.name = "disk-activity",
-+	.activate = ledtrig_disk_activate,
-+	.groups = ledtrig_disk_groups,
-+};
-+static struct led_trigger ledtrig_disk_read = {
-+	.name = "disk-read",
-+	.activate = ledtrig_disk_activate,
-+	.groups = ledtrig_disk_groups,
-+};
-+static struct led_trigger ledtrig_disk_write = {
-+	.name = "disk-write",
-+	.activate = ledtrig_disk_activate,
-+	.groups = ledtrig_disk_groups,
-+};
-+
-+static void ledtrig_disk_blink_oneshot(struct led_trigger *trig)
-+{
-+	struct led_classdev *led_cdev;
-+	struct ledtrig_disk_data *disk_data;
-+
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list) {
-+		disk_data = led_get_trigger_data(led_cdev);
-+		led_blink_set_oneshot(led_cdev, &disk_data->delay_on, &disk_data->delay_off,
-+				      disk_data->invert);
-+	}
-+	rcu_read_unlock();
-+}
- 
- void ledtrig_disk_activity(bool write)
+-void ledtrig_disk_activity(bool write)
++static void ledtrig_disk_trigger_activity(struct ledtrig_disk_trigger *trig, bool write)
  {
--	led_trigger_blink_oneshot(ledtrig_disk, BLINK_DELAY, BLINK_DELAY, 0);
-+	ledtrig_disk_blink_oneshot(&ledtrig_disk);
+-	ledtrig_disk_blink_oneshot(&ledtrig_disk);
++	if (IS_ERR_OR_NULL(trig))
++		return;
++	ledtrig_disk_blink_oneshot(&trig->all);
  	if (write)
--		led_trigger_blink_oneshot(ledtrig_disk_write,
--					  BLINK_DELAY, BLINK_DELAY, 0);
-+		ledtrig_disk_blink_oneshot(&ledtrig_disk_write);
+-		ledtrig_disk_blink_oneshot(&ledtrig_disk_write);
++		ledtrig_disk_blink_oneshot(&trig->write);
  	else
--		led_trigger_blink_oneshot(ledtrig_disk_read,
--					  BLINK_DELAY, BLINK_DELAY, 0);
-+		ledtrig_disk_blink_oneshot(&ledtrig_disk_read);
+-		ledtrig_disk_blink_oneshot(&ledtrig_disk_read);
++		ledtrig_disk_blink_oneshot(&trig->read);
++}
++
++void ledtrig_disk_activity(struct ledtrig_disk_trigger *port, bool write)
++{
++	ledtrig_disk_trigger_activity(&ledtrig_disk, write);
++	ledtrig_disk_trigger_activity(port, write);
  }
  EXPORT_SYMBOL(ledtrig_disk_activity);
  
++struct ledtrig_disk_trigger *ledtrig_disk_trigger_register(const char *name)
++{
++	struct ledtrig_disk_trigger *trigger = kzalloc(sizeof(*trigger), GFP_KERNEL);
++	int ret, n;
++
++	if (!trigger)
++		return ERR_PTR(-ENOMEM);
++
++	trigger->all.name = kzalloc(TRIG_NAME_MAX, GFP_KERNEL);
++	if (!trigger->all.name) {
++		ret = -ENOMEM;
++		goto err1;
++	}
++
++	n = snprintf((char *)trigger->all.name, TRIG_NAME_MAX, "%s-disk-activity", name);
++	if (n >= TRIG_NAME_MAX) {
++		ret = -E2BIG;
++		goto err1;
++	}
++
++	trigger->all.activate = ledtrig_disk_activate;
++	trigger->all.groups = ledtrig_disk_groups;
++
++	ret = led_trigger_register(&trigger->all);
++	if (ret)
++		goto err1;
++
++	trigger->read.name = kzalloc(TRIG_NAME_MAX, GFP_KERNEL);
++	if (!trigger->read.name) {
++		ret = -ENOMEM;
++		goto err2;
++	}
++
++	n = snprintf((char *)trigger->read.name, TRIG_NAME_MAX, "%s-disk-read", name);
++	if (n >= TRIG_NAME_MAX) {
++		ret = -E2BIG;
++		goto err2;
++	}
++
++	trigger->read.activate = ledtrig_disk_activate;
++	trigger->read.groups = ledtrig_disk_groups;
++
++	ret = led_trigger_register(&trigger->read);
++	if (ret)
++		goto err2;
++
++	trigger->write.name = kzalloc(TRIG_NAME_MAX, GFP_KERNEL);
++	if (!trigger->write.name) {
++		ret = -ENOMEM;
++		goto err3;
++	}
++
++	n = snprintf((char *)trigger->write.name, TRIG_NAME_MAX, "%s-disk-write", name);
++	if (n >= TRIG_NAME_MAX) {
++		ret = -E2BIG;
++		goto err3;
++	}
++
++	trigger->write.activate = ledtrig_disk_activate;
++	trigger->write.groups = ledtrig_disk_groups;
++
++	ret = led_trigger_register(&trigger->write);
++	if (ret)
++		goto err3;
++
++	return trigger;
++
++err3:
++	led_trigger_unregister(&trigger->read);
++err2:
++	led_trigger_unregister(&trigger->all);
++err1:
++	kfree(trigger->all.name);
++	kfree(trigger->read.name);
++	kfree(trigger->write.name);
++	kfree(trigger);
++
++	return ERR_PTR(ret);
++}
++EXPORT_SYMBOL(ledtrig_disk_trigger_register);
++
++void ledtrig_disk_trigger_unregister(struct ledtrig_disk_trigger *trig)
++{
++	if (IS_ERR_OR_NULL(trig))
++		return;
++
++	led_trigger_unregister(&trig->all);
++	led_trigger_unregister(&trig->read);
++	led_trigger_unregister(&trig->write);
++}
++EXPORT_SYMBOL(ledtrig_disk_trigger_unregister);
++
  static int __init ledtrig_disk_init(void)
  {
--	led_trigger_register_simple("disk-activity", &ledtrig_disk);
--	led_trigger_register_simple("disk-read", &ledtrig_disk_read);
--	led_trigger_register_simple("disk-write", &ledtrig_disk_write);
-+	led_trigger_register(&ledtrig_disk);
-+	led_trigger_register(&ledtrig_disk_read);
-+	led_trigger_register(&ledtrig_disk_write);
+-	led_trigger_register(&ledtrig_disk);
+-	led_trigger_register(&ledtrig_disk_read);
+-	led_trigger_register(&ledtrig_disk_write);
++	led_trigger_register(&ledtrig_disk.all);
++	led_trigger_register(&ledtrig_disk.read);
++	led_trigger_register(&ledtrig_disk.write);
  
  	return 0;
  }
+diff --git a/drivers/scsi/libsas/sas_ata.c b/drivers/scsi/libsas/sas_ata.c
+index bcecb4911da9..8841850684f7 100644
+--- a/drivers/scsi/libsas/sas_ata.c
++++ b/drivers/scsi/libsas/sas_ata.c
+@@ -587,14 +587,13 @@ int sas_ata_init(struct domain_device *found_dev)
+ 
+ 	ata_host_init(ata_host, ha->dev, &sas_sata_ops);
+ 
+-	ap = ata_port_alloc(ata_host);
++	ap = ata_port_alloc(ata_host, 0);
+ 	if (!ap) {
+ 		pr_err("ata_port_alloc failed.\n");
+ 		rc = -ENODEV;
+ 		goto free_host;
+ 	}
+ 
+-	ap->port_no = 0;
+ 	ap->pio_mask = ATA_PIO4;
+ 	ap->mwdma_mask = ATA_MWDMA2;
+ 	ap->udma_mask = ATA_UDMA6;
+diff --git a/include/linux/leds.h b/include/linux/leds.h
+index b16b803cc1ac..3221be97e9c0 100644
+--- a/include/linux/leds.h
++++ b/include/linux/leds.h
+@@ -619,10 +619,22 @@ enum led_trigger_netdev_modes {
+ };
+ 
+ /* Trigger specific functions */
++struct ledtrig_disk_trigger {
++	struct led_trigger all;
++	struct led_trigger read;
++	struct led_trigger write;
++};
+ #ifdef CONFIG_LEDS_TRIGGER_DISK
+-void ledtrig_disk_activity(bool write);
++struct ledtrig_disk_trigger *ledtrig_disk_trigger_register(const char *name);
++void ledtrig_disk_trigger_unregister(struct ledtrig_disk_trigger *trig);
++void ledtrig_disk_activity(struct ledtrig_disk_trigger *port, bool write);
+ #else
+-static inline void ledtrig_disk_activity(bool write) {}
++static inline struct ledtrig_disk_trigger *ledtrig_disk_trigger_register(const char *name)
++{
++	return ERR_PTR(-EOPNOTSUPP);
++}
++static inline void ledtrig_disk_trigger_unregister(struct ledtrig_disk_trigger *trig) {}
++static inline void ledtrig_disk_activity(struct ledtrig_disk_trigger *port, bool write) {}
+ #endif
+ 
+ #ifdef CONFIG_LEDS_TRIGGER_MTD
+diff --git a/include/linux/libata.h b/include/linux/libata.h
+index 39534fafa36a..50124d170d13 100644
+--- a/include/linux/libata.h
++++ b/include/linux/libata.h
+@@ -940,6 +940,10 @@ struct ata_port {
+ #ifdef CONFIG_ATA_ACPI
+ 	struct ata_acpi_gtm	__acpi_init_gtm; /* use ata_acpi_init_gtm() */
+ #endif
++
++#ifdef CONFIG_LEDS_TRIGGER_DISK
++	struct ledtrig_disk_trigger *led_trigger;
++#endif
+ };
+ 
+ /* The following initializer overrides a method to NULL whether one of
+@@ -1307,7 +1311,7 @@ extern int sata_link_scr_lpm(struct ata_link *link, enum ata_lpm_policy policy,
+ 			     bool spm_wakeup);
+ extern int ata_slave_link_init(struct ata_port *ap);
+ extern void ata_port_probe(struct ata_port *ap);
+-extern struct ata_port *ata_port_alloc(struct ata_host *host);
++extern struct ata_port *ata_port_alloc(struct ata_host *host, int port_no);
+ extern void ata_port_free(struct ata_port *ap);
+ extern int ata_tport_add(struct device *parent, struct ata_port *ap);
+ extern void ata_tport_delete(struct ata_port *ap);
 
 -- 
 2.52.0
