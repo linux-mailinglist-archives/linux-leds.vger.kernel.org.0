@@ -1,58 +1,59 @@
-Return-Path: <linux-leds+bounces-6719-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6720-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mBGeDYXGc2lZygAAu9opvQ
-	(envelope-from <linux-leds+bounces-6719-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 20:05:41 +0100
+	id aHhPG3XGc2lZygAAu9opvQ
+	(envelope-from <linux-leds+bounces-6720-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 20:05:25 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D292D79FAA
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 20:05:40 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2573F79F85
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 20:05:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 077E8301C17F
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 19:05:18 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6E247300AC1F
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Jan 2026 19:05:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B8C6264617;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF658254B03;
 	Fri, 23 Jan 2026 19:05:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="MusFJj2H"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="cyuPjdTf"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD1425A354
-	for <linux-leds@vger.kernel.org>; Fri, 23 Jan 2026 19:05:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C822273D84
+	for <linux-leds@vger.kernel.org>; Fri, 23 Jan 2026 19:05:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769195116; cv=none; b=q2WewzkwwzewjQjHH+8eLwLv9C/M0N9Z87baFOlNpnhjNDNCSSNzrTmiOa4XUXIyhzu2MrkAFXnTHEJpVMQ7OxL9Baei5d5qtRpPQcy8h/l6gjy/CIx+FXX37E3PUKURuggsHrpnra7SZt/PtHNCjZGRdmQa7M20m23OvWJZhnw=
+	t=1769195117; cv=none; b=b3/YiodPA4FP1U+XLfQ7uco9R5YeiNX1qMnzt9PWZlgPBWo9AxfPJMbh88Jf17JIMym92WVfxSF3jJNDhFHE3SGADYAGQBK4GP4vNRP5L/Ngbse2Qcm3N/9GofPj0yjozUnpOpFnn4UVtAsjFB1LHphjARAhOje8rJCguJdBUaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769195116; c=relaxed/simple;
-	bh=NTXD2dcEzWIMhNd3dWb85Qxfc5baEhubK3Fr0N/cMl4=;
+	s=arc-20240116; t=1769195117; c=relaxed/simple;
+	bh=vJx339Ptvd6Q5seAb2UMkuQR2g1wHB5bKZGiaTR8zJU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KWYRWnG5OPidtBTlL8T86b3myMSQI+u1YXlQ879WxF/crcHqPgC6+nTlAqK1SSjSaudQQl6HIbuSnu6TrvxcxH21f7BpDUvErrT1EgF3bzyP1AwpoWHBB/xGbFDBPSCBg8JqZjj+31tJWci0xeRxtYE3UYtNp6zACEBaMsmSMEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=MusFJj2H; arc=none smtp.client-ip=185.67.36.65
+	 In-Reply-To:To:Cc; b=eEbCyeBYbOZdHeeVx2KHXzYthongHNymFTeB7lbpZapJw9EHCC8pbmh0pBiecw/wqcywWHcZad+6wCZCVA8NJ5ngxMzpaQKfQDD/hKsxVNFcDo4Bk1LFYQ/2nkPX65qGZB2A93NymFk1bxfD6j4O5i7DDf00K0621WGgLWtBqM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=cyuPjdTf; arc=none smtp.client-ip=185.67.36.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id D8822240029
-	for <linux-leds@vger.kernel.org>; Fri, 23 Jan 2026 20:05:05 +0100 (CET)
+	by mout01.posteo.de (Postfix) with ESMTPS id ACD5B24002B
+	for <linux-leds@vger.kernel.org>; Fri, 23 Jan 2026 20:05:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1769195105; bh=eR+mCvij9lfyPAlc5P6O/K+lwN3cH0GPU/UHog51yF0=;
+	t=1769195107; bh=3PwA9Be/c+sx6J+yRmqghf0UKZNH9XiqJmvIn3+haiw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
-	b=MusFJj2HgXL3cvgX+9dHmjBMTd3I9OFQ9YbMQL9QRb8bQn8k2UmGfVKz7jlrmYWLA
-	 rwhW3qZpt4K4G78vIitqivGSj/jYxzgTkcXD+WKHF7VY4K/l+GFyrsGHIT+0VimIyN
-	 1urDltytqUO1iiW11b4lgQop5fSuURhqTELnJftQPEyb3+DyQVD8wvyZdxrkYVhCNP
-	 5QleNweYOk6JVCGRlDm1FtKl7T69Ig9kLb9Bjc7yWybok8Ld6Fxd9G9gdmkN57L0nZ
-	 AsIbLSK88owE+UaZGMRem5zNyBta2bDo8GFns9pKk9Zw3L+gg71BhXpQxrp4la7wkn
-	 VOzzuMw1C/0nQ==
+	b=cyuPjdTfSUK2citue4Pa2YeNMaIEsxhdRC481ac371gMEZ5Q/K+3AhaQzf7573wUr
+	 29hsVDCVptXRdNY7VrD7+jQAJ7/Y2E2wWEJzhwK9pDajOlxSH9L1UpW1hy7gVxArrz
+	 YALc/DV4QpX9GC+7F8WkTV4ykbEdwKKvAnWsBMlc0+eyr4/DMCx5FFIP+b9efqkVoU
+	 mbPF1gH4NwYJ3KtvOnXEpNMZ0SSxDsg1nJ9InawXpKrUIOSiY5EtgoMI+A1k8isucd
+	 1HheVBKmflm+iMtcQA0H3R5xDtmtzqLT7Iiq0kTIpXgYT//UuDD9FWJ9Oy9MlOewO1
+	 fVgeTjoKYoz/g==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4dyS6l2lG3z9rxN;
-	Fri, 23 Jan 2026 20:05:03 +0100 (CET)
+	by submission (posteo.de) with ESMTPSA id 4dyS6n1qTFz9rxD;
+	Fri, 23 Jan 2026 20:05:05 +0100 (CET)
 From: Markus Probst <markus.probst@posteo.de>
-Date: Fri, 23 Jan 2026 19:05:05 +0000
-Subject: [PATCH RFC 1/4] leds: dt-bindings: add disk trigger led pattern
+Date: Fri, 23 Jan 2026 19:05:06 +0000
+Subject: [PATCH RFC 2/4] leds: dt-bindings: add disk trigger for each ata
+ port
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -61,7 +62,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260123-ledtrig_disk_-v1-1-07004756467b@posteo.de>
+Message-Id: <20260123-ledtrig_disk_-v1-2-07004756467b@posteo.de>
 References: <20260123-ledtrig_disk_-v1-0-07004756467b@posteo.de>
 In-Reply-To: <20260123-ledtrig_disk_-v1-0-07004756467b@posteo.de>
 To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
@@ -76,21 +77,21 @@ Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org, 
  Markus Probst <markus.probst@posteo.de>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1225;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1066;
  i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=NTXD2dcEzWIMhNd3dWb85Qxfc5baEhubK3Fr0N/cMl4=;
- b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBpc8ZUJyVTI3wgCmX8cgUF/vrC3l1nvDXjBSPkp
- wXIpfTPwbmJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaXPGVBsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMSwyLDIACgkQNHYf+OetQ9Jzug/9HI3turLaHDuw44TYXNP2JNrRmBluex0
- Yl39vwUJKJ1QcDp6/CUTLenB5PmqP+53xLkGdbpVZUAxk9qvgnOvcbaqlL0fM4+E9a4I9BckzPb
- qF+FF4C7e6Ew2zicXW3gwKdouNwhdakTJqB+LGQ2vb65BTY4oE/4CzgNgwfouLxdZCp8abFwOIs
- PjZTdTnYr3stZfzHYtkd6dWBHceTgBIbBTztJp6eurLoZeiYP3+GXq33Vd4BKOYRG2Jl+nc3GUH
- RESI/BdG0CazUgzcUP6k22B6+1HRc9pSHgxwYcjwa9pBrn4rJBszA/hlFyzY851YfzmzT6s2Mhq
- K6j5EO+hTOBYXICvB6K6Y4c5bevuWuYHRKkYkZX8D/wUkaaNhKl68JDECcFy76Bt707JuWlDn76
- vQKMxdwU5wemZm5bNVYyb+dFbqXodClpJieflPJ1Og+ekqwfkOxGPYqZybMysf6w5HrEAlRoERC
- 43ycqrxMBuelFQ6Nuc39zQTDvUGpBCCtVoIIO/zKT5oHmEcYWNYkhdh5wSCMkKFCW5rnf4E1bV2
- wILHSzWZC4EpRV50Y/1j8/P6tCRutTS26B/2m15zkq9KLP4HQzwrN5vY7QcOvGa523X3WrpRA/a
- Ws2pQDHLBWgd+8NuOqx9T8zgH68uN9jI6rj8kJlOnEDtNACuczcY=
+ bh=vJx339Ptvd6Q5seAb2UMkuQR2g1wHB5bKZGiaTR8zJU=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBpc8ZWtlbOWbS5hsTqlnvVj2v7vNUp7PZ2LZjiO
+ +ABaSuq9WiJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaXPGVhsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMSwyLDIACgkQNHYf+OetQ9LzQw/8DfqEIKdxy51MSLnBaF8SLYMeYmvrLhW
+ 7nTwXHjGZ3BT9Z3rWQOl3GCgLCOtUvtqnMTqb2Q7EzGOoiG4vDOU/PeR5wnsAzxXAJPF0459w8n
+ nnO/89iO3rOc8ENWpHjqp0A0VguB7uAEZUYhdvu3ZVjWLak7oRHUgET1wtwhody0MqjpYr8kHQA
+ qqIU5itLDZOPpmQtLV4QFNXOj/YQATTKbO8mIlKuVgM5xXC/NFlWPzdf8W/NzvkMggYA+jqLfIi
+ KGJfeKljMgQtaMYiVjbgpylit6bWdiJixKjLvrse6Cp457e5kgTWmnNYSV0ZYKI262ZVblBQhMJ
+ /yW9/4239A0uVHPrsVJsQ0UObvQ8qIr+7l2Rro0h2GC9mksn248DJvVHMrOhTWunWFlPjTsnFtg
+ NCvvu4eef7stz87GeKQhuSzd3pbuj0eMVcA9Bpc2T88YZU8t1UOd+nOnsnWXb8/Yvz3S8VDFwr4
+ ue8+IPHJMlUqQBw6oXHISIf/BJ8xduvDkUSTIo/R2jX85NSk6xkBhdShFoF1eOSm8p1bgoogyRW
+ Br4UpR+ka5WL+3o/aNczR6AD6OjGvyQ8TkMDM5ccl+nqbw9friYqMvDt9ku5/kOOa9uyntVF0z+
+ CoIxaZXzE1ErPS9kkFJVXtr4/0rqBRS4nXP4gd0vcaXePB4Ir3Pk=
 X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
  fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
 Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
@@ -141,11 +142,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[posteo.de,none];
 	R_DKIM_ALLOW(-0.20)[posteo.de:s=2017];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6719-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6720-lists,linux-leds=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,gmail.com,oracle.com,huawei.com,HansenPartnership.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -153,7 +154,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[posteo.de:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
@@ -164,39 +165,35 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D292D79FAA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2573F79F85
 X-Rspamd-Action: no action
 
-Document the disk trigger led pattern.
+Document disk trigger showing only disk activity for one specific ata
+port.
 
 Signed-off-by: Markus Probst <markus.probst@posteo.de>
 ---
- Documentation/devicetree/bindings/leds/common.yaml | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/leds/common.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-index f4e44b33f56d..d0f2fee7622c 100644
+index d0f2fee7622c..ca51eeadfad0 100644
 --- a/Documentation/devicetree/bindings/leds/common.yaml
 +++ b/Documentation/devicetree/bindings/leds/common.yaml
-@@ -144,6 +144,8 @@ properties:
-       Each trigger may parse this property differently:
-         - one-shot : two numbers specifying delay on and delay off (in ms),
-         - timer : two numbers specifying delay on and delay off (in ms),
-+        - disk : three numbers specifying delay on, delay off (in ms)
-+          and invert (0 or 1),
-         - pattern : the pattern is given by a series of tuples, of
-           brightness and duration (in ms).  The exact format is
-           described in:
-@@ -151,7 +153,7 @@ properties:
-     $ref: /schemas/types.yaml#/definitions/uint32-matrix
-     items:
-       minItems: 2
--      maxItems: 2
-+      maxItems: 3
+@@ -136,6 +136,12 @@ properties:
+       - pattern: "^mmc[0-9]+$"
+         # LED is triggered by WLAN activity
+       - pattern: "^phy[0-9]+tx$"
++        # LED indicates disk activity for a specific ata port
++      - pattern: "^.*-ata[0-9]+-disk-activity$"
++        # LED indicates disk read activity for a specific ata port
++      - pattern: "^.*-ata[0-9]+-disk-read$"
++        # LED indicates disk write activity for a specific ata port
++      - pattern: "^.*-ata[0-9]+-disk-write$"
  
-   led-max-microamp:
-     description:
+   led-pattern:
+     description: |
 
 -- 
 2.52.0
