@@ -1,81 +1,81 @@
-Return-Path: <linux-leds+bounces-6735-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6736-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SCELMYk0dmkQNgEAu9opvQ
-	(envelope-from <linux-leds+bounces-6735-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sun, 25 Jan 2026 16:19:37 +0100
+	id eAUbIf03dmmTNgEAu9opvQ
+	(envelope-from <linux-leds+bounces-6736-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sun, 25 Jan 2026 16:34:21 +0100
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1955E81263
-	for <lists+linux-leds@lfdr.de>; Sun, 25 Jan 2026 16:19:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2973A813EF
+	for <lists+linux-leds@lfdr.de>; Sun, 25 Jan 2026 16:34:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 81FCA3000FF9
-	for <lists+linux-leds@lfdr.de>; Sun, 25 Jan 2026 15:19:36 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 921FB3001003
+	for <lists+linux-leds@lfdr.de>; Sun, 25 Jan 2026 15:34:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A69D19B5A3;
-	Sun, 25 Jan 2026 15:19:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C76419D065;
+	Sun, 25 Jan 2026 15:34:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="je5DuxN0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eaaUvFuB"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59401405F7
-	for <linux-leds@vger.kernel.org>; Sun, 25 Jan 2026 15:19:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1375C1DB375
+	for <linux-leds@vger.kernel.org>; Sun, 25 Jan 2026 15:34:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769354373; cv=none; b=Ajo+TWV4/7V/BviYZW9DnfM9TfU0AwMhsWFOnRdN1p/5TSKrRqizHmmyikB24SUrFhYQ+VjgYkNqC8PiPVgPQJ6Ck6acTeFi+Wv5+eYwibZEb4U+QITzAjvaaUe4+EhsfE8EzfiqAEQ2zpSjuvc2TMs+t3VxzjOmZUDk8qM5OrI=
+	t=1769355259; cv=none; b=oA10hI8SD+SrD0vZeKER9xMaAkOalmxPvGpSzZV4KwzfHhEi/x9abFLdAgs5z243ZKZcMLXy6/EGSKBmxIXhviIENrdDFCxrm5BCzyF2BDTIN14iOMQcTeNk8R1OAlTejlCInvlJ1v/bCCAVRXnehcF5bMBl1inyvcc+djOM9KQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769354373; c=relaxed/simple;
-	bh=SNf2NU+hs+ZIS4XXchD9gc1LEk0khnpy5wXM0ouJBNM=;
+	s=arc-20240116; t=1769355259; c=relaxed/simple;
+	bh=E7A9c27yUqkUqACBSnmKRI2cuBoHgawSFZnfB30gBd0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Fj8RFZZpgypUdx+J4uIJjKAcc1qh28putw7Ok+5xs4UjZpMKMrJQbiL0jBYkA3b8E8fKihmiB37ptd0DwCHw+UTlmZSPSgRRHKBkgs8nTKIjIafGuQUZu0mLdZ/xNRgPmSE3QZWq9kAQoXgOVf/Kv5YKaTn5KJ25jCY5MmSTomk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=je5DuxN0; arc=none smtp.client-ip=209.85.208.178
+	 MIME-Version; b=coWrQq8ZPKa0ehvt+fx/NixZu3MnNOyaHrNlK6ze4toE4Mz8inZGvM79Y1gjzleMT10r2NbAJ80jHGR6qEskSpw3Rc/KpTa1wB/bE/EJ4hu5QpZCyJa0MwZ44Epo0yxx3WdCsh6K9QWh1yoXKlkXQUkkrz2qh6QQcE+pou9xHjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eaaUvFuB; arc=none smtp.client-ip=209.85.208.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-385baa8afaaso32311201fa.2
-        for <linux-leds@vger.kernel.org>; Sun, 25 Jan 2026 07:19:32 -0800 (PST)
+Received: by mail-ed1-f67.google.com with SMTP id 4fb4d7f45d1cf-64d02c01865so6055101a12.1
+        for <linux-leds@vger.kernel.org>; Sun, 25 Jan 2026 07:34:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769354370; x=1769959170; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1769355256; x=1769960056; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fXpwpGUeOVZ6gd5Z9uZtu+VcPr504HYG8KCye/qyxZo=;
-        b=je5DuxN0Z1HLE3EuIWj+nM2HI1GiWcfBUDxjz0oQVjmY+Z8eF0KFeTV9I9YxFugUHN
-         mB5Bddu+2ABT4iT+VEm1cMFDxzPMPiTDS48nQF9zaL7qRAKGa2xDs4yunlLZ2mjOpS1s
-         0qmxvmTXn9ieYiYsO67JwD8yCF58NbFafIf8BBrmSaBJK8XRkrJA31z5em+3WJV9UgSh
-         eNny/iP7xEk6TgXXgESJKSsbDL0FVLSXvtR0LMIAinFMeJ2ByQdgNE2vagt0m7U9ub3D
-         nvlR8Z09tywSbz4RbGKfNhzfScrbAiipciJUELPaWblh3Ju4y7sx2Nkh7uopjqjipH/+
-         4EQQ==
+        bh=opwAzXZXGpL/t9kjdWql8KWUaKqEP4kujq0iT4W20S8=;
+        b=eaaUvFuBqFNX/Qpz14m/OO1TB0UBbpgQLyB37FyXqBRqMLHDtGEthOrJqp7+/L5BRz
+         SUW8kMAkl+IPmzSt8xFOwkcQszkrmYAcV8vlE1V2NyeYR93xlyuncnBJhBlEetqToVLz
+         rNAeBeP83x4LrmPdpJbGd/nLvowx1GhgX3m4ubnGrTvW2Zi7pGdlxyfFYMRJiox+wfbj
+         2olCkJF45Z812JMQm3JltY5eaOYKvs2gX8eQsfGQdPKgOi1xfuZnfmWq2ZiL1YvPTGNc
+         w0bRAWmg0RuWSj2TfMW/QPtWTm+ERJ0K0Zumats7dsnG7U0DIuZ+dBtobpfB6z9uCX8C
+         LUhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769354370; x=1769959170;
+        d=1e100.net; s=20230601; t=1769355256; x=1769960056;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=fXpwpGUeOVZ6gd5Z9uZtu+VcPr504HYG8KCye/qyxZo=;
-        b=o6+dY9+lzxi2BE2D8hy97A3MIzG/HfmQomjAS4lr6dWX6GV4rGGC8JMV10+zEU89TL
-         VZdBD+POfC3ManWnQQqW3vgFBqgm2pZWQDJFBQpztj2pDvL6nWa3+8DIhMOEI+6qvP3Q
-         K6a3XCcTqayikA2L5F/N1312nyzsIzcfW2qulybnMWh+YuKBWC5P5dSXJG6F63xsFjz9
-         xskBHWrhVirBwJS8mTkgzaWILyiRnraPuCB0rshmWqSG3O/AkHSWrl+/62RaxjxpF/u2
-         8X6NK6CYhtQgoiCcGnxI4f1XfmHOUr3XYRST2xfeoXL2J+k1jsX0E3zWjrx24+RlGAPF
-         DapA==
-X-Forwarded-Encrypted: i=1; AJvYcCXkO5S1ybmapa52aBMi8X1RO8d8DJ42kSep0kSsQVzqOX0hJ38fmd3tVpo2V8z3K0iHchxPpCuftCLt@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhJxxItcd6z8Lne3nG+hwaKQE7aNW/N98velr43uW9jsfZnX0G
-	tBn8bK7FGPFzLDlPRNM478BJV3Bxd+H3zwpf0M2WFWUPBDtcYlZyGAdsqUYN0w==
-X-Gm-Gg: AZuq6aLFR4kVLIUzv18bGMm3jSmB8WINql3rV7uiOoUuND0rO4UbTDn5uKtKNisxhEb
-	84aUIvNWNniZtTbhj69F/3QncgLPzXOSBQ8wM/T+i1khknCKlNA/vRKarxwaCOprZ6spMjjmYdn
-	YTvUMWo1TY979BDuqbP2ol8JcZxdz/zifHviByDgp3FYolx8NnTtvq1ZOGkQbCSyFTZDifaDnxw
-	91++pSKF7BpB2NK4/bvfZ3FYph6FLw/Qz/hBSawBaf+5vZfrSz6y4Kg1ZWeKJT8k1+lw0HZYsLf
-	1bhmhzPYHiKi44am8PC5q79OpV3dwlzGYG/UsqE7W+prHYhUwfqDE/jqfSGJss+/BGVNdGHk3P1
-	KEBhmIeY08jalW5xmhUinatp5GsFCDnk171E1s5qGSLSsLlOOILLxNM/+m8mUZ8t7NeH+GfED84
-	Ly
-X-Received: by 2002:a05:6000:2403:b0:430:f97a:6f42 with SMTP id ffacd0b85a97d-435ca39c59bmr3398601f8f.54.1769348598831;
-        Sun, 25 Jan 2026 05:43:18 -0800 (PST)
+        bh=opwAzXZXGpL/t9kjdWql8KWUaKqEP4kujq0iT4W20S8=;
+        b=t5UW/ZZgy/xfIjv7L1jI0418iAiJdhKuB1e22YCvFHzt8u7ZrAFgiZRjRGK/+kZLbY
+         /hmwY75B9P5AlOjAsC4/a/pDbu3qeHXajLUgBEImwNtGV+sz8GPRm+q7uNnc1fg/St0q
+         AParFBvOVWPTLPChL1y7Y3SXiym8X3h+0dvEkoXr+K2vfVEQ4WYAksamjhxQDOTvtIVW
+         aSjfZ14slp3DaDjVy4QLS4a3hlruVtIYxwmh6nwYiib0Zuue1ukne48gJduC02Wc5gbz
+         fLVI97uG3fjah9oAvYJJ2cTi3sdmur8wtDWowq+Hppm2hjxhcCWyl1oSM3SXRw4iZvsY
+         6h1A==
+X-Forwarded-Encrypted: i=1; AJvYcCUYKO2l0F6oKcYe3FGbrFjHVNE6UEB5wTR19t+5Xv9AgEwyq/32F5ZwWPKF/8ORgWEbdPTZ6bjXlpWy@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4wbP7c9agnRN6J023c450w4JVwkNeWItUIsMSqOyDDICznbhT
+	gER9VrBe+NzOddlI3VnpESIHTLR9d6q6LPopToyGbaeYyFOi/nFjDeF/1mkX+JsW
+X-Gm-Gg: AZuq6aLVd72Qxx/GdfHEZ0eJoMkMyrNoCohPSXyIBMeMPH5peb8y5TvkoGzFG7/M2xo
+	DcWL4n0NkP0R95xpIFBw+S9AAhC2IXGqO68aT+QNEjBGPMoT2WICAux+bBe0/A19lLFCcvdRhVl
+	FQ2VONiq/83FPDCU0jPbx5KRDElQM/Wx3d/+D00UOMsFZhjSCArsA3yb+2hhJnsYai5ZFmyXjoT
+	r7MRG9cPF3p7eKGq4M+X7ToDr7QwpNiKcJqFM+d13+oCNss3riVCID1u9W7iIMXM24ZUWWevLHs
+	RAURy+ijyZzeRVQINV1j2Pvlrb4FKVG3twDdz0lFy0aI2h2YhsNr1VlBM7AvKT+dgMRSNeXCvmy
+	XAV4A5eINcYNIhRcZo86pzluNfuNBVz3RonJBDyjB0M/Q9d4UecMO6/5NXfDT8CEF4Q1KDf+hfi
+	Wu
+X-Received: by 2002:a05:6000:2483:b0:435:bdc0:48e9 with SMTP id ffacd0b85a97d-435ca1ab666mr2383866f8f.55.1769348600123;
+        Sun, 25 Jan 2026 05:43:20 -0800 (PST)
 Received: from xeon ([188.163.112.49])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1c246ecsm22459688f8f.10.2026.01.25.05.43.17
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1c246ecsm22459688f8f.10.2026.01.25.05.43.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Jan 2026 05:43:18 -0800 (PST)
+        Sun, 25 Jan 2026 05:43:19 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Jonathan Cameron <jic23@kernel.org>,
 	David Lechner <dlechner@baylibre.com>,
@@ -99,9 +99,9 @@ Cc: linux-iio@vger.kernel.org,
 	linux-input@vger.kernel.org,
 	linux-leds@vger.kernel.org,
 	linux-rtc@vger.kernel.org
-Subject: [PATCH v1 06/10] dt-bindings: rtc: cpcap-rtc: convert to schema
-Date: Sun, 25 Jan 2026 15:42:58 +0200
-Message-ID: <20260125134302.45958-7-clamor95@gmail.com>
+Subject: [PATCH v1 07/10] dt-bindings: input: cpcap-pwrbutton: convert to schema
+Date: Sun, 25 Jan 2026 15:42:59 +0200
+Message-ID: <20260125134302.45958-8-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260125134302.45958-1-clamor95@gmail.com>
 References: <20260125134302.45958-1-clamor95@gmail.com>
@@ -127,7 +127,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-6735-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6736-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[22];
 	FREEMAIL_TO(0.00)[kernel.org,baylibre.com,analog.com,gmail.com,bootlin.com,atomide.com];
@@ -141,59 +141,61 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[devicetree.org:url,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 1955E81263
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,devicetree.org:url]
+X-Rspamd-Queue-Id: 2973A813EF
 X-Rspamd-Action: no action
 
-Convert RTC devicetree bindings for the Motorola CPCAP MFD from TXT to
-YAML format. This patch does not change any functionality; the bindings
-remain the same.
+Convert power button devicetree bindings for the Motorola CPCAP MFD from
+TXT to YAML format. This patch does not change any functionality; the
+bindings remain the same.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- .../devicetree/bindings/rtc/cpcap-rtc.txt     | 18 -----------
- .../bindings/rtc/motorola,cpcap-rtc.yaml      | 32 +++++++++++++++++++
- 2 files changed, 32 insertions(+), 18 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
- create mode 100644 Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml
+ .../bindings/input/cpcap-pwrbutton.txt        | 20 ------------
+ .../input/motorola,cpcap-pwrbutton.yaml       | 32 +++++++++++++++++++
+ 2 files changed, 32 insertions(+), 20 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt
+ create mode 100644 Documentation/devicetree/bindings/input/motorola,cpcap-pwrbutton.yaml
 
-diff --git a/Documentation/devicetree/bindings/rtc/cpcap-rtc.txt b/Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
+diff --git a/Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt b/Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt
 deleted file mode 100644
-index 45750ff3112d..000000000000
---- a/Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
+index 0dd0076daf71..000000000000
+--- a/Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt
 +++ /dev/null
-@@ -1,18 +0,0 @@
--Motorola CPCAP PMIC RTC
-------------------------
+@@ -1,20 +0,0 @@
+-Motorola CPCAP on key
 -
 -This module is part of the CPCAP. For more details about the whole
 -chip see Documentation/devicetree/bindings/mfd/motorola-cpcap.txt.
 -
--Requires node properties:
--- compatible: should contain "motorola,cpcap-rtc"
--- interrupts: An interrupt specifier for alarm and 1 Hz irq
+-This module provides a simple power button event via an Interrupt.
+-
+-Required properties:
+-- compatible: should be one of the following
+-   - "motorola,cpcap-pwrbutton"
+-- interrupts: irq specifier for CPCAP's ON IRQ
 -
 -Example:
 -
 -&cpcap {
--	cpcap_rtc: rtc {
--		compatible = "motorola,cpcap-rtc";
--		interrupts = <39 IRQ_TYPE_NONE>, <26 IRQ_TYPE_NONE>;
+-	cpcap_pwrbutton: pwrbutton {
+-		compatible = "motorola,cpcap-pwrbutton";
+-		interrupts = <23 IRQ_TYPE_NONE>;
 -	};
 -};
-diff --git a/Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml b/Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml
+diff --git a/Documentation/devicetree/bindings/input/motorola,cpcap-pwrbutton.yaml b/Documentation/devicetree/bindings/input/motorola,cpcap-pwrbutton.yaml
 new file mode 100644
-index 000000000000..bf2efd432a23
+index 000000000000..643f6b2b1f13
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml
++++ b/Documentation/devicetree/bindings/input/motorola,cpcap-pwrbutton.yaml
 @@ -0,0 +1,32 @@
 +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/rtc/motorola,cpcap-rtc.yaml#
++$id: http://devicetree.org/schemas/input/motorola,cpcap-pwrbutton.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Motorola CPCAP PMIC RTC
++title: Motorola CPCAP PMIC power key
 +
 +maintainers:
 +  - Svyatoslav Ryhel <clamor95@gmail.com>
@@ -201,16 +203,16 @@ index 000000000000..bf2efd432a23
 +description:
 +  This module is part of the Motorola CPCAP MFD device. For more details
 +  see Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml. The
-+  RTC is represented as a sub-node of the PMIC node on the device tree.
++  power key is represented as a sub-node of the PMIC node on the device
++  tree.
 +
 +properties:
 +  compatible:
-+    const: motorola,cpcap-rtc
++    const: motorola,cpcap-pwrbutton
 +
 +  interrupts:
-+    items:
-+      - description: alarm interrupt
-+      - description: 1 Hz interrupt
++    minItems: 1
++    description: CPCAP's ON interrupt
 +
 +required:
 +  - compatible
