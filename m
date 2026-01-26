@@ -1,70 +1,93 @@
-Return-Path: <linux-leds+bounces-6771-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6772-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mCLHHnW6d2lGkgEAu9opvQ
-	(envelope-from <linux-leds+bounces-6771-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Jan 2026 20:03:17 +0100
+	id iMlKO3LDd2nckgEAu9opvQ
+	(envelope-from <linux-leds+bounces-6772-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Jan 2026 20:41:38 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F36248C4E7
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Jan 2026 20:03:16 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 691238CAFC
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Jan 2026 20:41:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id F1E41301C6D7
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Jan 2026 19:03:15 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C5D9A300647D
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Jan 2026 19:41:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B003E271468;
-	Mon, 26 Jan 2026 19:03:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 045B82868B0;
+	Mon, 26 Jan 2026 19:41:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TkB5ybek"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="derieL3L"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8865E26C3B0;
-	Mon, 26 Jan 2026 19:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05AA01F4CBC;
+	Mon, 26 Jan 2026 19:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769454194; cv=none; b=NC9Iu4qHyUIP3IN+m9qTRVjI+oamFC6dvsdlRkR6Zwv19rylS9WeCv39HTWHeYR86lDwGmlzFh5+9Qsi2coNRkTsshOjYXyDhZK0zcdazlcV1J1SNi6IHtoYZCxUMT4gQi6n8Y2eL05z8IbbKn2NACiMSnhA/jyaaZGig+MojYI=
+	t=1769456496; cv=none; b=tszCGxiEoTzYg61xJlPEzeb6XugsR7Vegh9nw9wQWDnq3YCTQ9DN3Ohl9j9RbNoDTgwyBX/p73KYojGsvA/g9WDUC2MxapSdiXfGho6O4uew3d+OTZvjzVPPyc1m4tk2Q86bom3z62IXsMG0j44HLALPKGc57Cm/syfDPFdm7Hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769454194; c=relaxed/simple;
-	bh=N/WsB+lHMeUrnKNoJy/1g1XZHLjTsW0GrEvtmfQmX+0=;
+	s=arc-20240116; t=1769456496; c=relaxed/simple;
+	bh=uQFMWGnGGz/UkepHe6qNZM7ssltN76ODEap8qFaeK2s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KOOUDexRkLCCDrZVn2TRkp14+N9weDf5NjDRgatBK1wB4wTVYV2CJR5KQd3ODy0kq/FffW6voVH0oWFXA9kq3ttfAY+DjUp6VQOkvc0uB6HgFahSCCqerTdjGrBMSohomJ8o3coIH6c7swj7hmpUYKLopx3BdBWffd0SPdRNCNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TkB5ybek; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 642B3C116C6;
-	Mon, 26 Jan 2026 19:03:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769454194;
-	bh=N/WsB+lHMeUrnKNoJy/1g1XZHLjTsW0GrEvtmfQmX+0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TkB5ybekNqICpPvj6Qyif4arPpZZMMpUX1EpRKRgi3QtGe/sDPr79BuSAZHB7Ll8x
-	 Js3strJf11DSVobT659M1nYrI45keisGlImOB4B1fpZ5QyooIq9A++BEXyYjDNtnXO
-	 ouPIHvHoRTBYK3gnV2UjtIO2n09+Kl0AelF8J7WEgCfUW9uLQb2Rv5OESjcIHIhpPV
-	 8ZQuzrIwfilyQ2jA41GNlC+5s+EwHonanG2XUncZ3GKCm0TAZybtBpu0/s1sawYX8a
-	 zMU8K7txDpdkTRl3D9AhUrBf3DM7NDVpFrqm58nIPA6h/qK4LQvcd6zyvmiNjBFLe2
-	 uGPaecP5MvQ/A==
-Date: Mon, 26 Jan 2026 20:03:07 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Ian Pilcher <arequipeno@gmail.com>
-Cc: Markus Probst <markus.probst@posteo.de>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=MaxGYJjD8+uW8iVU+S8U47p4FCiAG158GQF6LzqqlT0RdjfdzTU4ffibIZ/LJNc8n/AtfYuw8821aoPy/uBcBlLnhWILXJlaYOr+xgvnGWb5IzGLKJ5CNq65qZ9X0zs++m32J7MPAbYLypJ5eJ9ArWZkN5k/sKVDVb2wL9i7gcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=derieL3L; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769456494; x=1800992494;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uQFMWGnGGz/UkepHe6qNZM7ssltN76ODEap8qFaeK2s=;
+  b=derieL3LLtDdLkKo62F/2aghx7RorjhNNvIFNM3y62aJ5uFizAoBe8iu
+   1At6KcH7MVaWC7f/J+n5FVM/nDFpxINAXVofD5cCafOk34W7ylQgBcjRW
+   YQVSKVx/lor3hPrirIzN3FEn8vcMQ70p81nBdw9hpC4gLSzKew0HVXj/o
+   bcjRpAOnEghYpq3zBCpNZzkICk/a9HgkVNRoeCrocxC/Zd/+Bf4u6aApH
+   3PxnOh6h1iQXCcj3EVp8F7SU9ZyXuzS6x3t3jmXz4+t3gUsNXPhJhhRns
+   ElT6aYmdgP1MDzLOoppsA72Bx99NFD6xO8ARm30znAx8xzKbk6Ht1QXTj
+   Q==;
+X-CSE-ConnectionGUID: iROUj1cSSs2gn1LuTof2hQ==
+X-CSE-MsgGUID: cdogRa0CQ4Gqx2hPytNR1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70545872"
+X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
+   d="scan'208";a="70545872"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 11:41:33 -0800
+X-CSE-ConnectionGUID: n0esMp9ySU+Mz1YRzxo6RQ==
+X-CSE-MsgGUID: jseCndPdQO2p/ZZbLSbXCg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
+   d="scan'208";a="206992580"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 26 Jan 2026 11:41:28 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vkSSj-00000000XdK-0FbY;
+	Mon, 26 Jan 2026 19:41:25 +0000
+Date: Tue, 27 Jan 2026 03:41:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	John Garry <john.g.garry@oracle.com>,
-	Jason Yan <yanaijie@huawei.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org
-Subject: Re: [PATCH RFC 0/4] leds: extend disk trigger
-Message-ID: <aXe6a7X6QZmEZHjI@ryzen>
-References: <20260123-ledtrig_disk_-v1-0-07004756467b@posteo.de>
- <aXctPaaXFYemV20T@ryzen>
- <03a91568-d1a0-4779-a465-2788f4765a42@gmail.com>
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Kaustabh Chakraborty <kauschluss@disroot.org>
+Subject: Re: [PATCH v2 06/12] mfd: sec: add support for S2MU005 PMIC
+Message-ID: <202601270307.Ds4yus7I-lkp@intel.com>
+References: <20260126-s2mu005-pmic-v2-6-78f1a75f547a@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -73,70 +96,107 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <03a91568-d1a0-4779-a465-2788f4765a42@gmail.com>
+In-Reply-To: <20260126-s2mu005-pmic-v2-6-78f1a75f547a@disroot.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-6772-lists,linux-leds=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[19];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6771-lists,linux-leds=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[cassel@kernel.org,linux-leds@vger.kernel.org];
-	FREEMAIL_CC(0.00)[posteo.de,kernel.org,gmail.com,oracle.com,huawei.com,hansenpartnership.com,ucw.cz,vger.kernel.org];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
 	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: F36248C4E7
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email,intel.com:dkim,intel.com:mid]
+X-Rspamd-Queue-Id: 691238CAFC
 X-Rspamd-Action: no action
 
-Hello Ian,
+Hi Kaustabh,
 
-On Mon, Jan 26, 2026 at 10:19:07AM -0600, Ian Pilcher wrote:
-> On 1/26/26 3:00 AM, Niklas Cassel wrote:
-> > But I'm not a fan of making the driver more complex.
-> > If we want something more complex than what is already there, then it
-> > is probably much better handled in user space, considering the amount
-> > of possible configuration options.
-> > 
-> > Basically the same argument as used in:
-> > https://lore.kernel.org/linux-nvme/20220227234258.24619-1-ematsumiya@suse.de/T/#u
-> 
-> Niklas -
-> 
-> Can you provide some links on how this might be done in userspace?
+kernel test robot noticed the following build errors:
 
-See the link to the thread above.
+[auto build test ERROR on ca3a02fda4da8e2c1cb6baee5d72352e9e2cfaea]
 
-Ming suggests "tracking iostat in a fixed period, and triggering one
-led activity if any read/write IO happens during 0.5sec."
+url:    https://github.com/intel-lab-lkp/linux/commits/Kaustabh-Chakraborty/dt-bindings-leds-document-Samsung-S2M-series-PMIC-flash-LED-device/20260126-031457
+base:   ca3a02fda4da8e2c1cb6baee5d72352e9e2cfaea
+patch link:    https://lore.kernel.org/r/20260126-s2mu005-pmic-v2-6-78f1a75f547a%40disroot.org
+patch subject: [PATCH v2 06/12] mfd: sec: add support for S2MU005 PMIC
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260127/202601270307.Ds4yus7I-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601270307.Ds4yus7I-lkp@intel.com/reproduce)
 
-There is also a link to an nvme-led-daemon in the thread:
-https://github.com/scarlion1/nvme-led-daemon
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601270307.Ds4yus7I-lkp@intel.com/
 
-But considering that it is using:
-https://www.kernel.org/doc/Documentation/block/stat.txt
+All errors (new ones prefixed by >>):
 
-I don't see why it can't be used for any block device.
+>> drivers/mfd/sec-irq.c:218:7: error: expression is not an integer constant expression
+           case irqf_regs[0]:
+                ^~~~~~~~~~~~
+   drivers/mfd/sec-irq.c:218:7: note: initializer of 'irqf_regs' is not a constant expression
+   drivers/mfd/sec-irq.c:204:21: note: declared here
+           const unsigned int irqf_regs[] = {
+                              ^
+   drivers/mfd/sec-irq.c:220:7: error: expression is not an integer constant expression
+           case mask_regs[0]:
+                ^~~~~~~~~~~~
+   drivers/mfd/sec-irq.c:220:7: note: initializer of 'mask_regs' is not a constant expression
+   drivers/mfd/sec-irq.c:210:21: note: declared here
+           const unsigned int mask_regs[] = {
+                              ^
+   2 errors generated.
 
 
-Kind regards,
-Niklas
+vim +218 drivers/mfd/sec-irq.c
+
+   200	
+   201	static unsigned int s2mu005_irq_get_reg(struct regmap_irq_chip_data *data,
+   202						unsigned int base, int index)
+   203	{
+   204		const unsigned int irqf_regs[] = {
+   205			S2MU005_REG_CHGR_INT1,
+   206			S2MU005_REG_FLED_INT1,
+   207			S2MU005_REG_MUIC_INT1,
+   208			S2MU005_REG_MUIC_INT2,
+   209		};
+   210		const unsigned int mask_regs[] = {
+   211			S2MU005_REG_CHGR_INT1M,
+   212			S2MU005_REG_FLED_INT1M,
+   213			S2MU005_REG_MUIC_INT1M,
+   214			S2MU005_REG_MUIC_INT2M,
+   215		};
+   216	
+   217		switch (base) {
+ > 218		case irqf_regs[0]:
+   219			return irqf_regs[index];
+   220		case mask_regs[0]:
+   221			return mask_regs[index];
+   222		}
+   223	
+   224		return base;
+   225	}
+   226	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
