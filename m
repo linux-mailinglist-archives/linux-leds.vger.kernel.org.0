@@ -1,67 +1,67 @@
-Return-Path: <linux-leds+bounces-6764-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6765-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +KtKOco+d2mMdQEAu9opvQ
-	(envelope-from <linux-leds+bounces-6764-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Jan 2026 11:15:38 +0100
+	id uFrpEmY+d2mMdQEAu9opvQ
+	(envelope-from <linux-leds+bounces-6765-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Jan 2026 11:13:58 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62845869A5
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Jan 2026 11:15:38 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F5186829
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Jan 2026 11:13:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A67B03053BA1
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Jan 2026 10:11:31 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E4F5C3002D3C
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Jan 2026 10:13:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BF1F330305;
-	Mon, 26 Jan 2026 10:11:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D39032ED4C;
+	Mon, 26 Jan 2026 10:13:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S6PEMxGs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IHhE+Q5i"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC42E3064AF;
-	Mon, 26 Jan 2026 10:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4240E30BF79;
+	Mon, 26 Jan 2026 10:13:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769422288; cv=none; b=ig3pmOQfwogQS1AWyP5FyyO0yj5XGKz7Byl7FJAm6uuML3QkyCS5S57AAsGYvz/N2wPhJ7wvlZR1+NaYz7Q0VRadHVCC68mPrlNeOyfs4RrwRYjD0cyW+gOz/XLlXRMEi77U50ABfVmc3wF541QJ8c7A9gqdXfWPsEMMKFJjxuQ=
+	t=1769422419; cv=none; b=Efmv6lJ9gv7wEmzROSK1AhuREkOemHXb5ZQDLpvDwFd3nrFKmvDQn3JoScNmhzU6uNVB7HUOQA+m2TQNN/LLlbK1TIP+Z6CffTk1a0rdZHSm79oF0gVByA7hMhaiYoXELln5TEonTQ5ZodBfRI9wsCZ5XmfQl6PGrFcilskC37s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769422288; c=relaxed/simple;
-	bh=Pmr/8bMfIURHj4kvuP+Z5tCsiw6ufGUR1THBYRM6fnI=;
+	s=arc-20240116; t=1769422419; c=relaxed/simple;
+	bh=bxAsgAI1bcwqUPWb9MMZ6DfQMOVlA+K8LCl1jZgHiIU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I2d/K8W0QxkKQaJ6gK9yRl9PLb7yyol4uJ6lFhjHqqT41KCsVcDa4NZVU9CgUZ2YKtNUHdKeuAuMfgrObB1CsBUBf47bAh9Uh7ztqak0KAP2CdK9saxDUu8/FWvszDn+LLbeHi1M6mzB8OYN1pJCUEicYlXRB9X2fERVGLWOumQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S6PEMxGs; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=YKxW9rMmwFAnDC2mSDD7+8mOfhSnRLjhcAQUiXWnZNY8Dj4BCGXw9Ua8eNtJ34KnUYKZzEJqJcvAlIq5g3aYuH34nvCrb7RW/7AMIuldMqB45oifNpM0/rxrVE+rCcAHW/ar6gN+f4WVqaqNiPtcVWHE9DWUoYcCPY2TWeLnT6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IHhE+Q5i; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769422287; x=1800958287;
+  t=1769422417; x=1800958417;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Pmr/8bMfIURHj4kvuP+Z5tCsiw6ufGUR1THBYRM6fnI=;
-  b=S6PEMxGsmuDV5U+XJJSYgEtMgu/LN2KANetS13thAPKaC6kpvz01W9hj
-   wlRjf2NBOQSgbgVmvdp4KORr0RdqS/ESo2AkiPXVELdaP7MEyfGNnc/q2
-   o64jdFDXfXEv+EJSaTqjlhQlpj6a6VGKUJfJ/8MVBPKVGl3tSSsepkvK0
-   q23heSPf2Ta0UB7XMaknaJ39Sy32cs7FxLp7e+5e3bRsLRlNfIp8eN9/i
-   CKpLbouWWyTvwymq3E5Hiut4LP3vfUVBoZb6HK2kplfp1vJ32cEzbwdZp
-   mSMssYMYWYl01Om5u+cKugJ5J9EjdYQeFUuZduy11/Ze185TiL/4b3qYf
-   w==;
-X-CSE-ConnectionGUID: kX6DYKA4RHufK/4IPvoD7Q==
-X-CSE-MsgGUID: JhSWxA2gSY2p0mmRDkScpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="74226710"
+  bh=bxAsgAI1bcwqUPWb9MMZ6DfQMOVlA+K8LCl1jZgHiIU=;
+  b=IHhE+Q5idfwXa8hviBbGwueVAX07CdwbyVL2ZuwjceO79V9Wktz1Rt2s
+   9dsHiy0R8HdNPpc/NnHTmT8K+GxiKf5ZJZVl+Lnba/vsWXujIGklTBoaV
+   JPvtjRRwgCjEP1rZdUnZl3kdm/zCclNz2z/sYE3rjGouGGP0c6JXP3Jbs
+   F44H2THIFjUPTdXkJ3CDaU5zx/nWGF2I1M4S+x+7x157GYgwwmV8bJrG6
+   tbG0wzCb+7l/SsZgZfJAPj0jK2nGNwGV1frKOJ0238ICLOdqPX5P8QmG1
+   ne0AuD3C2eQbokCDirUYnYknNyWeswFtEXffBZH/MnG0E9s7pG7xF60QX
+   g==;
+X-CSE-ConnectionGUID: ijvVfCWKTXKuMKY3YaoHig==
+X-CSE-MsgGUID: 6MrvQwnfRKW+jX8nEQOKtg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="74439626"
 X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
-   d="scan'208";a="74226710"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 02:11:26 -0800
-X-CSE-ConnectionGUID: I6229W/iQKCOPsGa4oMNMQ==
-X-CSE-MsgGUID: a0bMpN71QlKz83jXby+wtg==
+   d="scan'208";a="74439626"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 02:13:36 -0800
+X-CSE-ConnectionGUID: Sbn7hhujTT2n2mu8LbYuKw==
+X-CSE-MsgGUID: xGI3w2RgTCiNPUKvpvI9rQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
-   d="scan'208";a="206760843"
+   d="scan'208";a="207892953"
 Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.122])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 02:11:21 -0800
-Date: Mon, 26 Jan 2026 12:11:18 +0200
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 02:13:32 -0800
+Date: Mon, 26 Jan 2026 12:13:30 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: Jonathan Cameron <jic23@kernel.org>,
@@ -80,10 +80,11 @@ Cc: Jonathan Cameron <jic23@kernel.org>,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
 	linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v1 04/10] iio: adc: cpcap-adc: add support for Mot ADC
-Message-ID: <aXc9xnUfvLg3diRR@smile.fi.intel.com>
+Subject: Re: [PATCH v1 09/10] mfd: motorola-cpcap: diverge configuration
+ per-board
+Message-ID: <aXc-Sklb6QTWLvcE@smile.fi.intel.com>
 References: <20260125134302.45958-1-clamor95@gmail.com>
- <20260125134302.45958-5-clamor95@gmail.com>
+ <20260125134302.45958-10-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -92,7 +93,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260125134302.45958-5-clamor95@gmail.com>
+In-Reply-To: <20260125134302.45958-10-clamor95@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Rspamd-Server: lfdr
@@ -101,12 +102,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_CC(0.00)[kernel.org,baylibre.com,analog.com,gmail.com,bootlin.com,atomide.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-6764-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6765-lists,linux-leds=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
 	RCPT_COUNT_TWELVE(0.00)[22];
@@ -123,22 +124,51 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[smile.fi.intel.com:mid,intel.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 62845869A5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,smile.fi.intel.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 94F5186829
 X-Rspamd-Action: no action
 
-On Sun, Jan 25, 2026 at 03:42:56PM +0200, Svyatoslav Ryhel wrote:
-> Add support for ADC found in Motorola Mot board, used as a base for
-> Atrix 4G and Droid X2 smartphones.
+On Sun, Jan 25, 2026 at 03:43:01PM +0200, Svyatoslav Ryhel wrote:
+> MFD have rigid subdevice structure which does not allow flexible dynamic
+> subdevice linking. Address this by diverging CPCAP subdevice composition
+> to take into account board specific configuration.
+> 
+> Create a common default subdevice composition, rename existing subdevice
+> composition into cpcap_mapphone_mfd_devices since it targets mainly
+> Mapphone board.
 
 ...
 
-> -	{ }
+> +#include <linux/of.h>
+
+Why?
+
+
+...
+
+> +	cpcap->cdata = of_device_get_match_data(&spi->dev);
+
+device_get_match_data() from property.h.
+
+> +	if (!cpcap->cdata)
+> +		return -ENODEV;
+> +
+
+...
+
+> +static const struct of_device_id cpcap_of_match[] = {
+> +	{ .compatible = "motorola,cpcap", .data = &cpcap_default_data },
+> +	{ .compatible = "st,6556002", .data = &cpcap_default_data },
+> +	{ .compatible = "motorola,mapphone-cpcap", .data = &cpcap_mapphone_data	},
+
 > +	{ /* sentinel */ },
 
-Stray change.
+No trailing comma for sentinel.
+
+> +};
+> +MODULE_DEVICE_TABLE(of, cpcap_of_match);
 
 -- 
 With Best Regards,
