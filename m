@@ -1,51 +1,51 @@
-Return-Path: <linux-leds+bounces-6778-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6779-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cJWtM1jheWm50gEAu9opvQ
-	(envelope-from <linux-leds+bounces-6778-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Jan 2026 11:13:44 +0100
+	id YGKrCqTheWm50gEAu9opvQ
+	(envelope-from <linux-leds+bounces-6779-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Jan 2026 11:15:00 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3320E9F4BD
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Jan 2026 11:13:44 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B05B9F51E
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Jan 2026 11:14:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 59FE630071ED
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Jan 2026 10:11:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0B1EB302AF11
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Jan 2026 10:14:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAD6F2D7398;
-	Wed, 28 Jan 2026 10:11:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2FC92D46B2;
+	Wed, 28 Jan 2026 10:14:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TSKHQeAa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rt++YOd+"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873D7280CF6;
-	Wed, 28 Jan 2026 10:11:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6B52DC33F;
+	Wed, 28 Jan 2026 10:14:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769595098; cv=none; b=MEWewb6woIgU5SW0KnNFwJvoFytkyWHFsv9w70QjVaSDYnWBtfWca5FBMvhvz8L3YP62kH2rCUY3mS846VpOpHFtbRgEAxjqu+nKX6xQP8fB99rDLsNAxvNxJTy7cVl7EBTUOuB62JLvkdjfg/7O2BPP96vS7RqsGe/xYLfkJFo=
+	t=1769595266; cv=none; b=eMeiK6peJ2bdw52UwghcUbfgCxo/IFYK1nebiP+ti5SwnSmz5l0kXt7qdIuW5T3pb2PDXbehfqFsftPRndQKRa3HMCR9hqTaeBdCpPUGwZg3+eP9cQAdEgDSU39SeNGjuBlMVNDbL0o39APGhj98UgRn6GAcF4z8Uk7pCVULJk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769595098; c=relaxed/simple;
-	bh=/7iKJZCZoHs1YwMeYq4ekxV0CY5gX14lgEXa5PnEbSQ=;
+	s=arc-20240116; t=1769595266; c=relaxed/simple;
+	bh=4OWfhnYD2xIoJP/oYLpREJGUH7ShEHWsA3ATbPvp9sg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FPb6mO92MCOd09zgK+qtFF5gEsQbsQe2TR0HhPt6E9AFQVqLE89gJZkFm0U0SFlKmU5Wrom+CzYITYmDhU1TnksEXhSD0w5+jYEprhDVAmCUtahKVI4zETBA4qGcoI60l5cvBYxCkHwu6hwK5hFNRRdAmNClcKBlrQenQ9/zG3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TSKHQeAa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4207CC4CEF1;
-	Wed, 28 Jan 2026 10:11:35 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=O1PEfqvSeAk396bqX95lecVrOzEXne4ATQ0HF4Os+wK3XWuXWnaLw4MPPgWBAjwxwhyN5vtPuNgyczRkS6E5xtBkmiAtKqvs0HEWIk5cyPAQyf6qQux//973KHR8Da+BQWc08hFUrcbW05BtNaVU4yQq+2REkHZCaqxKYsLSrSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rt++YOd+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A494C16AAE;
+	Wed, 28 Jan 2026 10:14:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769595098;
-	bh=/7iKJZCZoHs1YwMeYq4ekxV0CY5gX14lgEXa5PnEbSQ=;
+	s=k20201202; t=1769595266;
+	bh=4OWfhnYD2xIoJP/oYLpREJGUH7ShEHWsA3ATbPvp9sg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TSKHQeAaPJ4t++802gREcxoHTtkLt7JGs2ZmwkV8eB9AYKu+pGdXI7R2YdIrL5hG3
-	 EmUDzi24HRiSvD8cB2Dqr/UR7Me4XRMe6Aa4xwIsi+RqR4xBXQwqekE30ueC92RD9z
-	 pikO3URPRqbgDeB2JelJ2x6xw4Q8v+kkcfTWqaP+wsbTG1JzZ7kGgPuKGrNmvrLQWh
-	 T/GdZ98Kdp/IvtSsA7+YQKmRSl+9xfnO6GClGyc6Z4FGwVP9DI6KLDMgpCulBaYxxo
-	 zIi+naVeGytozHrjfaSMbcjnx6WW7X2hMjbB6hmCMnHoDpDQqCuQBRjGcAGpmRLEK/
-	 hPnDvT4oD9KIg==
-Message-ID: <500b603d-5abc-4c45-8d56-bbc88fc85b83@kernel.org>
-Date: Wed, 28 Jan 2026 11:11:33 +0100
+	b=rt++YOd+C4NUVRt2vuKCPAMReK7DRcFwepu1MTh9dUvzIPKqtZzazctknpKApIQXZ
+	 xJOS1/gJtY5uj9gxcYenbGN4oZwD4qMNdb9VO6iW6i6TT14POXPS6dJ9JBgObGpVhy
+	 XFpbvH1sRNLCtV/M/i0WHsh3HhGqt/SHgqOdk4C950DAOA3ii0LW5e9U/IUWXLN3OF
+	 Bn/tc2x7X76d/ZT6dMRDGRMW5UQ1bRkBe3MBuYxqko/zxBRJfSirw4G9A4eFF9b4ga
+	 Tiw/sHdNq5SPgf1cbYW+sBvYMlfiKVHwb0lofWvB+UybKpQWJVKZ1NgifAhTu5RVaJ
+	 CexKoFbRERkxw==
+Message-ID: <14c04d1d-f42f-4ac9-a887-ed37cedb4913@kernel.org>
+Date: Wed, 28 Jan 2026 11:14:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -65,6 +65,7 @@ References: <20260120125036.2203995-1-tessolveupstream@gmail.com>
  <20260120125036.2203995-2-tessolveupstream@gmail.com>
  <3f3c47ea-1660-4bd4-ab89-3bdf58217995@kernel.org>
  <54d156ba-e177-4059-a808-2505983b4e2e@gmail.com>
+ <5f78fbe8-288d-4b0a-af57-e834bd1186ba@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -110,20 +111,20 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <54d156ba-e177-4059-a808-2505983b4e2e@gmail.com>
+In-Reply-To: <5f78fbe8-288d-4b0a-af57-e834bd1186ba@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6778-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6779-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
@@ -131,8 +132,8 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	TO_DN_NONE(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-leds@vger.kernel.org];
@@ -140,98 +141,104 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3320E9F4BD
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 8B05B9F51E
 X-Rspamd-Action: no action
 
-On 23/01/2026 12:11, tessolveupstream@gmail.com wrote:
+On 27/01/2026 13:46, tessolveupstream@gmail.com wrote:
 > 
 > 
-> On 20-01-2026 20:01, Krzysztof Kozlowski wrote:
->> On 20/01/2026 13:50, Sudarshan Shetty wrote:
->>> Update the gpio-backlight binding to support configurations that require
->>> more than one GPIO for enabling/disabling the backlight.
+> On 23-01-2026 16:41, tessolveupstream@gmail.com wrote:
 >>
 >>
->> Why? Which devices need it? How a backlight would have three enable
->> GPIOs? I really do not believe, so you need to write proper hardware
->> justification.
->>
-> 
-> To clarify our hardware setup: 
-> the panel requires one GPIO for the backlight enable signal, and it 
-> also has a PWM input. Since the QCS615 does not provide a PWM controller 
-> for this use case, the PWM input is connected to a GPIO that is driven 
-> high to provide a constant 100% duty cycle, as explained in the link 
-> below.
-> https://lore.kernel.org/all/20251028061636.724667-1-tessolveupstream@gmail.com/T/#m93ca4e5c7bf055715ed13316d91f0cd544244cf5
-
-That's not an enable gpio, but PWM.
-
-You write bindings for this device, not for something else - like your
-board.
-
-
->  
+>> On 20-01-2026 20:01, Krzysztof Kozlowski wrote:
+>>> On 20/01/2026 13:50, Sudarshan Shetty wrote:
+>>>> Update the gpio-backlight binding to support configurations that require
+>>>> more than one GPIO for enabling/disabling the backlight.
 >>>
->>> Signed-off-by: Sudarshan Shetty <tessolveupstream@gmail.com>
->>> ---
->>>  .../leds/backlight/gpio-backlight.yaml        | 24 +++++++++++++++++--
->>>  1 file changed, 22 insertions(+), 2 deletions(-)
 >>>
->>> diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
->>> index 584030b6b0b9..4e4a856cbcd7 100644
->>> --- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
->>> +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
->>> @@ -16,8 +16,18 @@ properties:
->>>      const: gpio-backlight
->>>  
->>>    gpios:
->>> -    description: The gpio that is used for enabling/disabling the backlight.
->>> -    maxItems: 1
->>> +    description: |
->>> +      The gpio that is used for enabling/disabling the backlight.
->>> +      Multiple GPIOs can be specified for panels that require several
->>> +      enable signals. All GPIOs are controlled together.
->>> +    type: array
+>>> Why? Which devices need it? How a backlight would have three enable
+>>> GPIOs? I really do not believe, so you need to write proper hardware
+>>> justification.
+>>>
 >>
->> There is no such syntax in the bindings, from where did you get it? Type
->> is already defined.
+>> To clarify our hardware setup: 
+>> the panel requires one GPIO for the backlight enable signal, and it 
+>> also has a PWM input. Since the QCS615 does not provide a PWM controller 
+>> for this use case, the PWM input is connected to a GPIO that is driven 
+>> high to provide a constant 100% duty cycle, as explained in the link 
+>> below.
+>> https://lore.kernel.org/all/20251028061636.724667-1-tessolveupstream@gmail.com/T/#m93ca4e5c7bf055715ed13316d91f0cd544244cf5
+>>  
+>>>>
+>>>> Signed-off-by: Sudarshan Shetty <tessolveupstream@gmail.com>
+>>>> ---
+>>>>  .../leds/backlight/gpio-backlight.yaml        | 24 +++++++++++++++++--
+>>>>  1 file changed, 22 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+>>>> index 584030b6b0b9..4e4a856cbcd7 100644
+>>>> --- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+>>>> +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+>>>> @@ -16,8 +16,18 @@ properties:
+>>>>      const: gpio-backlight
+>>>>  
+>>>>    gpios:
+>>>> -    description: The gpio that is used for enabling/disabling the backlight.
+>>>> -    maxItems: 1
+>>>> +    description: |
+>>>> +      The gpio that is used for enabling/disabling the backlight.
+>>>> +      Multiple GPIOs can be specified for panels that require several
+>>>> +      enable signals. All GPIOs are controlled together.
+>>>> +    type: array
+>>>
+>>> There is no such syntax in the bindings, from where did you get it? Type
+>>> is already defined.
+>>>
+>>> items:
+>>>   minItems: 1
+>>>   maxItems: 3
+>>>
+>>>
+>>>> +    minItems: 1
+>>>> +    items:
+>>>> +      type: array
+>>>> +      minItems: 3
+>>>> +      maxItems: 3
+>>>> +      items:
+>>>> +        type: integer
+>>>
+>>> All this is some odd stuff - just to be clear, don't send us LLM output.
+>>> I don't want to waste my time to review microslop.
+>>>
+>>> Was it done with help of Microslop?
+>>>
 >>
->> items:
->>   minItems: 1
->>   maxItems: 3
->>
->>
->>> +    minItems: 1
->>> +    items:
->>> +      type: array
->>> +      minItems: 3
->>> +      maxItems: 3
->>> +      items:
->>> +        type: integer
->>
->> All this is some odd stuff - just to be clear, don't send us LLM output.
->> I don't want to waste my time to review microslop.
->>
->> Was it done with help of Microslop?
+>> I understand now that the schema changes I proposed were not correct, 
+>> and I will address this in the next patch series. My intention was to 
+>> check whether the gpio-backlight binding could support more than one 
+>> enable-type GPIO. 
+>> Could you please advise what would be an appropriate maximum number of 
+>> GPIOs for gpio-backlight in such a scenario? For example, would allowing 
+>> 2 GPIOs be acceptable, or should this case be handled in a different way?
 >>
 > 
-> I understand now that the schema changes I proposed were not correct, 
+> In line with Daniel’s suggestion, I am planning to adopt a fixed upper 
+> limit for the number of backlight GPIOs. The current hardware only 
+> requires two GPIOs, so the maxItems can be set to 2.
+> 
+> If future platforms or customers require support for a higher number 
+> of GPIOs, this limit can be increased and the driver can be 
+> updated accordingly.
+> 
+> Kindly advise if this solution aligns with your expectations, or if 
+> you prefer an alternative maximum value.
 
-How such code could be even created... Just in case, do you understand
-that Microslop and LLM is waste of our time?
 
-> and I will address this in the next patch series. My intention was to 
-> check whether the gpio-backlight binding could support more than one 
-> enable-type GPIO. 
-> Could you please advise what would be an appropriate maximum number of 
-> GPIOs for gpio-backlight in such a scenario? For example, would allowing 
-> 2 GPIOs be acceptable, or should this case be handled in a different way?
-We have plenty of examples for this, but anyway you won't need it
-because this is not an enable GPIO.
+You have entire commit msg to explain the hardware and explain WHY you
+are doing this. In a concise and readable way. I will not be going
+through 2 different email threads with 20 messages to figure that out.
 
 Best regards,
 Krzysztof
