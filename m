@@ -1,69 +1,78 @@
-Return-Path: <linux-leds+bounces-6790-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6791-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +IZZOzmGe2lOFQIAu9opvQ
-	(envelope-from <linux-leds+bounces-6790-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Jan 2026 17:09:29 +0100
+	id oNuhHvw3fWlMQwIAu9opvQ
+	(envelope-from <linux-leds+bounces-6791-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sat, 31 Jan 2026 00:00:12 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46580B1DA9
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Jan 2026 17:09:29 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19AD3BF451
+	for <lists+linux-leds@lfdr.de>; Sat, 31 Jan 2026 00:00:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 157D13070784
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Jan 2026 16:04:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3111C3049255
+	for <lists+linux-leds@lfdr.de>; Fri, 30 Jan 2026 22:59:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 108BD3382D2;
-	Thu, 29 Jan 2026 16:04:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F50535CB92;
+	Fri, 30 Jan 2026 22:59:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2Wf2Hxo"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="FsTQr4L2"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3DF133554F;
-	Thu, 29 Jan 2026 16:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EBB35B627;
+	Fri, 30 Jan 2026 22:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769702659; cv=none; b=iBLo5YdRTwmGWxQwEl8pYVIxunaACaJy0MMmjiNyeaPnOVwqlJc6iRPLEXdBIpgun1kG7vGAk/PcAZTiHtZxNkEMUmysSSuZt84hfVkCs2xOoaYWBvlvQoGsMpnFphxtGM9hWbNn71olZtQvabXWoQlJN5cfuUtNOm+N+7+c9ts=
+	t=1769813977; cv=none; b=nJNE7GLv5f+4id8bx3W+7MPh2rf5KXgaJ3oHfN2C3vQTz851iqka4gKTU9UQju1AHhcwIAQ0aag/ZG2fvEiUVe3UPW7b8qwOGi1TxrIoVJ5r4pko2sLPo5Q7PGxmJleOHaaM/qd/86Sr4d3KczX4PbJwGwBpr2NY8lSXOx4yPog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769702659; c=relaxed/simple;
-	bh=Hsz8qVupp8+NBvqtE7ko8C6bGpcKwwmmGaTx6H1EiqQ=;
+	s=arc-20240116; t=1769813977; c=relaxed/simple;
+	bh=+EHRlhrVR76ytnY6PWLG2xjyqeAdxe3SlaPmnPD3eZk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V71V+EuK34ywenuEmdLWUAo5oUfgZC+JbJBhJ+DGq+/r6z4M++FkqYySaTFSqSghGfFol+mZuMLwa4dfUwSWBc6buat9j2YV+kB0JsBm4ZDA2IorKXEL3ptYpdMcBl5GT3tDga1kxevdDzDl0hkhSoSGdFHZtFDtTv3GCUi/UrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2Wf2Hxo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26058C4CEF7;
-	Thu, 29 Jan 2026 16:04:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769702659;
-	bh=Hsz8qVupp8+NBvqtE7ko8C6bGpcKwwmmGaTx6H1EiqQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U2Wf2Hxot7/wQdQ5EAONpILruPThqD+wOYp/fN1PpHt88KkuuorOZTojO7L5poDY8
-	 METdail+riAgkkvuD0gAroqSaI8QQNjwz/qSOMvTVpNJokFQdPP7pnqkTHf5IvgeLO
-	 UVvc+Q9ZrQ+GffeGowBZR5rL9JDiY8vHUXITndav8S+n6yoL0HqkaNmYyh/vz0TgGS
-	 XSK5SLepAeymWT9vncwNV1IItUnWKrnyjv1a59Ccjy49lM9Mynt1g+H7SqRUoaHjDx
-	 mObKP5HvV9nUMNzIF7NtYee/UVLTQGDBXucglYobu4YCggqM5edPDiq7F1cWJIbS/L
-	 gxxnHFQm88yGg==
-Date: Thu, 29 Jan 2026 10:04:18 -0600
-From: Rob Herring <robh@kernel.org>
-To: Maud Spierings <maudspierings@gocontroll.com>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZGCgCEUrSJTrIKi8QxwhCwGCm9BAYiq81qKfzSFAxPa7JBcS4jDsKuh42i7sXco5ENmWpcQULQmieT/EO2ibao9tW0YfPc3KjvFBprYul3NM8Jmxfzy0+zVBIu2LrXnuamn+tFDylLc4PIC/pGIEVLOXr9cZmD1zBFpOGgyffxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=FsTQr4L2; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id BF5311A2B4A;
+	Fri, 30 Jan 2026 22:59:31 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8925E6075A;
+	Fri, 30 Jan 2026 22:59:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 67B9D119A88EC;
+	Fri, 30 Jan 2026 23:59:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1769813970; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=V8/wK0gpIonOYlq25IjVFqB/T4q9qNCsR8JA2Xof+Mg=;
+	b=FsTQr4L2a3lze89V3zbOYach8O66v4irn3L0ekVYq3aeFQkszl7x5gEGL/orRfRhOybLN7
+	h7MriZgDHzpoIqxgq/EoH1MxSPcVYNKjMrQDuZsL5Gz2GbY42Xf0F+LCmvnQgAUcnhTgic
+	aMj37f/hh8/VJ7L9iclI16wNwDfHOyV2SzilMzyugxNWSixY/RdbcHGblmtF6KpdHGB7y+
+	xAc1WvhpsLyFPwExzw+li5J5tonIbLMX9lHWU7bks4Fr9wDPs9iEFwrigPIMZNZ5j9EiJG
+	Zh+4Mv44aYrjRUhMplzxJidxu3kD7Hr4Fpx//3NzQprByfQNyewNfiDVZNrw1A==
+Date: Fri, 30 Jan 2026 23:59:25 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v7 1/4] dt-bindings: backlight: Add max25014 support
-Message-ID: <20260129160418.GA1100798-robh@kernel.org>
-References: <20260123-max25014-v7-0-15e504b9acc7@gocontroll.com>
- <20260123-max25014-v7-1-15e504b9acc7@gocontroll.com>
+	Mark Brown <broonie@kernel.org>,
+	Dixit Parmar <dixitparmar19@gmail.com>,
+	Tony Lindgren <tony@atomide.com>,
+	Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org
+Subject: Re: (subset) [PATCH v1 06/10] dt-bindings: rtc: cpcap-rtc: convert
+ to schema
+Message-ID: <176981393517.2222240.5285023713229862241.b4-ty@bootlin.com>
+References: <20260125134302.45958-1-clamor95@gmail.com>
+ <20260125134302.45958-7-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -72,93 +81,58 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260123-max25014-v7-1-15e504b9acc7@gocontroll.com>
+In-Reply-To: <20260125134302.45958-7-clamor95@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,gmx.de,pengutronix.de,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.infradead.org];
-	TAGGED_FROM(0.00)[bounces-6790-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-6791-lists,linux-leds=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,baylibre.com,analog.com,gmail.com,atomide.com];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[bootlin.com:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[devicetree.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 46580B1DA9
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexandre.belloni@bootlin.com,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:dkim,bootlin.com:url,bootlin.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 19AD3BF451
 X-Rspamd-Action: no action
 
-On Fri, Jan 23, 2026 at 12:31:30PM +0100, Maud Spierings wrote:
-> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
-> with integrated boost controller.
+On Sun, 25 Jan 2026 15:42:58 +0200, Svyatoslav Ryhel wrote:
+> Convert RTC devicetree bindings for the Motorola CPCAP MFD from TXT to
+> YAML format. This patch does not change any functionality; the bindings
+> remain the same.
 > 
-> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
 > 
-> ---
-> 
-> In the current implementation the control registers for channel 1,
-> control all channels. So only one led subnode with led-sources is
-> supported right now. If at some point the driver functionality is
-> expanded the bindings can be easily extended with it.
-> ---
->  .../bindings/leds/backlight/maxim,max25014.yaml    | 91 ++++++++++++++++++++++
->  MAINTAINERS                                        |  5 ++
->  2 files changed, 96 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> new file mode 100644
-> index 000000000000..c499e6224a8f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> @@ -0,0 +1,91 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Maxim max25014 backlight controller
-> +
-> +maintainers:
-> +  - Maud Spierings <maudspierings@gocontroll.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - maxim,max25014
-> +
-> +  reg:
-> +    maxItems: 1
-> +
 
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
+Applied, thanks!
 
-No child nodes (with addresses), so these should be dropped. And in the 
-example.
+[06/10] dt-bindings: rtc: cpcap-rtc: convert to schema
+        https://git.kernel.org/abelloni/c/96a77ec577d4
 
-With that,
+Best regards,
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
