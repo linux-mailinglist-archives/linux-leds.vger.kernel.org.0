@@ -1,213 +1,207 @@
-Return-Path: <linux-leds+bounces-6814-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6815-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iJRKOWKkf2k6vAIAu9opvQ
-	(envelope-from <linux-leds+bounces-6814-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sun, 01 Feb 2026 20:07:14 +0100
+	id iDM8A/N9gGnE8wIAu9opvQ
+	(envelope-from <linux-leds+bounces-6815-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 02 Feb 2026 11:35:31 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86D4C7054
-	for <lists+linux-leds@lfdr.de>; Sun, 01 Feb 2026 20:07:13 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2590CCB0BE
+	for <lists+linux-leds@lfdr.de>; Mon, 02 Feb 2026 11:35:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4F01730011B6
-	for <lists+linux-leds@lfdr.de>; Sun,  1 Feb 2026 19:07:11 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id AB645302D323
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Feb 2026 10:28:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C076B29ACF0;
-	Sun,  1 Feb 2026 19:07:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EE103596FF;
+	Mon,  2 Feb 2026 10:28:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jc6joXMO"
+	dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="Q5H3M+Rd"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02C0289824;
-	Sun,  1 Feb 2026 19:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726B9307492
+	for <linux-leds@vger.kernel.org>; Mon,  2 Feb 2026 10:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769972829; cv=none; b=EQ08FJE5v++P9/tz4Oe+Eh5cxxeaAo3KNjQmbKeBukJeK8f3Qa0uAxkexYZxRo90EczG91xcTweeM1fHwiu3w5EnNW2JVgPuQIfMR7jIKTQcOWCN+hfincU4AWeoC46J8FQQWXgcKKpAY1LOqj8QXip7LAaHIG8zxGE4yslNeuQ=
+	t=1770028126; cv=none; b=Is/PLzOPdC03OVDrZgDdf2GRLcTW2RPJ2r5y/sw1QuJy434/5KSkk0YRnA2hPbDvt6LTTLnwe+mWkaVDVT3CuREew5A8zGx8ZrcOrTIXsp+2PIlTW0/7ZzITMDhHIv2cwyE6z1NLj66cPYgoFIH9eSY9+OD68azIN44php7iY1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769972829; c=relaxed/simple;
-	bh=HDc8MgK94VWVzVgRm9d6Qx3vZrZMN40UDaueJ4l3KF8=;
+	s=arc-20240116; t=1770028126; c=relaxed/simple;
+	bh=CGixetDr5XeqnxjJDvhNpPyZj8eg9DUKX5ATtM82gGg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WY7nE3M+wrPY2LMmJ+ZjFF+k4V8JDzVQ/T6F1krh4i7alvmslzVVlMGcuIqsVHbO8Z3XrBUQHuoSSUlxTOe/e42ow4ki/VUadLFKHXCp0nUrIY9/a5BPQI5aQrrRPUpDHPbReibXPmNhFxMK8YmqK6KXue7oMtEfGHuvArT4zGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jc6joXMO; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769972828; x=1801508828;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HDc8MgK94VWVzVgRm9d6Qx3vZrZMN40UDaueJ4l3KF8=;
-  b=jc6joXMOwKjngwzSKhU1Qi1MXSQdRKDA5aKu/mo4sZOd5cNkURzANHZ0
-   KpfhoSU5YUOsxNqb1UvQ92n88rKSAcxFj56diAHvhn7O+A45md85k3KqM
-   cAf88pVAhpfgvFHmwyXzNZk5R62hlGnNUwjKO1ypa97jwkj1Db8BV3E13
-   fLaAfR5QxUlulIMAlKTmt4EXrhuTEkLbgArPvzrDbE6eus9j1wnJQaXJW
-   Yn7lMRQQEYxVQC70yrreU0RV9nodRrHbVK8HdkdPVcJEkDDTX/+dj5IVT
-   cA2bvevdzmDOXhor6LxW2b2GoVbKXrfce3QNDsAnOcM+5Qnvz2346lmOw
-   g==;
-X-CSE-ConnectionGUID: Q8KiqOVVTxWQvxtT3JHJtg==
-X-CSE-MsgGUID: EiFBfhOkT/+z9VKu7HB1xA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="82255926"
-X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="82255926"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 11:07:07 -0800
-X-CSE-ConnectionGUID: ugA4nLfWSjyZvYiWt2l5kQ==
-X-CSE-MsgGUID: 7tL4sXaqRAS0Y96Yzv4Lsg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="209116615"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 01 Feb 2026 11:07:02 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vmcmh-00000000eye-2ywo;
-	Sun, 01 Feb 2026 19:06:59 +0000
-Date: Mon, 2 Feb 2026 03:06:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-	Ion Agorria <ion@agorria.com>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v1 4/9] mfd: Add driver for Asus Transformer embedded
- controller
-Message-ID: <202602020344.ZGXToDMx-lkp@intel.com>
-References: <20260201104343.79231-5-clamor95@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=kQ5irhpLZ9kCYQjwf+KsjzFJs5zEgl/U64mRl2msNrKjsWMeX/koYIpyVY0qbN0n+Whvpcb3zqkIjSzK3ahoObHG0/X365eFZUjt8w21sf8OS8Og5oM5/bqdmfqzPS2Tre9n+nEY7iQj7AWHCwmMYfBcu6/Ikjz5/90yJq59bIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b=Q5H3M+Rd; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-482f2599980so13647085e9.0
+        for <linux-leds@vger.kernel.org>; Mon, 02 Feb 2026 02:28:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1770028123; x=1770632923; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=CGixetDr5XeqnxjJDvhNpPyZj8eg9DUKX5ATtM82gGg=;
+        b=Q5H3M+Rd1Rl0brN8K/nBJ30PSRxA6VsPhcF5MCwCck++PNaluTZGT/KBinDazDWC75
+         lANgybPLnn79TsnOBvywJIJeQkCD8aws8CYjBFos2MpgGOR2+VRwG55v+doItsWLx51s
+         lJsZZFhTQcqbfqDZ+eCINoQ6NbDMDDGZoeqxSLOb6H//ocSvMNfXW9+G+rVaqhPnlv3/
+         SXeFVRv2k6JM6wwYTKiQqrUl/x7bcFffKr5ei6HfGZkbagFT7LUx7/vfjblc20VSpvA6
+         zhoGGgfg8X9jvquzzSiIfOQS1ZCnniWhJNesOnJamYQwfJvcT5nSiUv1XzXJcIPz2nTI
+         sg/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770028123; x=1770632923;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CGixetDr5XeqnxjJDvhNpPyZj8eg9DUKX5ATtM82gGg=;
+        b=JGEEmZJyDUyT20x2HYfoPhQAiOYKeyLSpUzfuH5jslAcSWpVfrZ9MMYXP3P6MhZyda
+         F8iqIuwOOiiAu4yczut/nXNLqLeYfOP/qqeT32zVIRQJvMiq2qVnVsfUbSAksMi+tcCe
+         prC+TIRwW6Ztkxy0heQ9Pgp7XvjxdFaTqpBtAJIT7UXDHh0D/a06Gze+u7rycWtUzAD2
+         vGsWvHstlfAN22oYpZySJYH1R5XGpN2X4sx7QJX135HhyVOWrN2wD9altod1fW/ipmCq
+         rSDZvoo6QyPznvPUPCyPtaBtDxYYGjdejxr+RyVMcz0fzvfoKKEeOs9eHkxzHB2G6l8t
+         utVw==
+X-Forwarded-Encrypted: i=1; AJvYcCXG5QSdbXytnUkYPgsBD1SVJI8zglc45sxtV/oanEzidGftvkSmwsVuiBicOlvG/VvnixpFwoA0GA91@vger.kernel.org
+X-Gm-Message-State: AOJu0YweUBkTXA/t8jIfGOJUbT3jumMTW8pfyBdhIbYEeROD5mg5+14w
+	p/v+CMmrVQThHn/3HF1pu0l8mNchhZtZc7uc+8DEibh9cq+WSlWB8Lq/D+D0v2czTXE=
+X-Gm-Gg: AZuq6aJU6ZjJIK6VdJqZLbKTYP2eM740u8fmSSRejvhuhNRsk4m4hffOHEWGepLRVpL
+	RnsWLm53yQ8IheOgR/oj80RTbwO+VSVCqKCHU9rwMtEq3nQjVtuOZOlu387B/kxrREsVVXOixGv
+	Q+SiUQsIOw7KPSXWB36rNybry3gxpHv+o0vS6C53DCfbPID8segVo8hSH4rp33lYkuqnXJL9iMC
+	GDLGO67prsVpeMwuagqU0Ksfc0OrqrveE6INRQrvCwq2DGF4BcGGXaApQCQC4oMlNa1gMXzVeiO
+	xRafR9U/uLT3T7nGBQUN0BrnwaW4iHO2fve6Bj9UmoMz+Cfhi4IZ2l5b/OTWsLTxOaKFawiWMcV
+	yktu2qjmi1DAJYhvu2xh80NwNEJX03vbHgWJGQeIGxB6iI2YChe0ffN0q6x2cJTHl9xKs3eG+xB
+	3/A7tC7hh1ZNGKHWH1KkZNOKvfULBfOqG+GHnseEL+BDdLB8LWQW86Ni+JQr0Tzgfx0nKCzwCVf
+	VGi2Nf9xnrtbbOkFm0EGhT2+K/WV4SqXdHLFmtVNPiXZEOoSKIueH1WgfbXm6Entba9a5JIcQqJ
+	ruP4sbw=
+X-Received: by 2002:a05:600c:34ca:b0:480:3b4e:41ba with SMTP id 5b1f17b1804b1-482db48d595mr129371045e9.18.1770028122637;
+        Mon, 02 Feb 2026 02:28:42 -0800 (PST)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-480705956f1sm350132565e9.11.2026.02.02.02.28.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Feb 2026 02:28:42 -0800 (PST)
+Date: Mon, 2 Feb 2026 10:28:40 +0000
+From: Daniel Thompson <daniel@riscstar.com>
+To: tessolveupstream@gmail.com
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, lee@kernel.org,
+	danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+	pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: backlight: gpio-backlight: allow
+ multiple GPIOs
+Message-ID: <aYB8WPTUXHqfZpyH@aspen.lan>
+References: <20260120125036.2203995-1-tessolveupstream@gmail.com>
+ <20260120125036.2203995-2-tessolveupstream@gmail.com>
+ <3f3c47ea-1660-4bd4-ab89-3bdf58217995@kernel.org>
+ <54d156ba-e177-4059-a808-2505983b4e2e@gmail.com>
+ <500b603d-5abc-4c45-8d56-bbc88fc85b83@kernel.org>
+ <aXnxGPNtk5BwoJOu@aspen.lan>
+ <304ef935-e82b-4556-be3c-6ec4f57cf68c@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260201104343.79231-5-clamor95@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <304ef935-e82b-4556-be3c-6ec4f57cf68c@gmail.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [-0.06 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[riscstar-com.20230601.gappssmtp.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[riscstar.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-6815-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6814-lists,linux-leds=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,arndb.de,linuxfoundation.org,rere.qmqm.pl,agorria.com];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,gmx.de,lists.freedesktop.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
+	DKIM_TRACE(0.00)[riscstar-com.20230601.gappssmtp.com:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,git-scm.com:url,intel.com:email,intel.com:dkim,intel.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E86D4C7054
+	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[daniel@riscstar.com,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 2590CCB0BE
 X-Rspamd-Action: no action
 
-Hi Svyatoslav,
+On Thu, Jan 29, 2026 at 11:11:34AM +0530, tessolveupstream@gmail.com wrote:
+> On 28-01-2026 16:50, Daniel Thompson wrote:
+> > On Wed, Jan 28, 2026 at 11:11:33AM +0100, Krzysztof Kozlowski wrote:
+> >> On 23/01/2026 12:11, tessolveupstream@gmail.com wrote:
+> >>>
+> >>>
+> >>> On 20-01-2026 20:01, Krzysztof Kozlowski wrote:
+> >>>> On 20/01/2026 13:50, Sudarshan Shetty wrote:
+> >>>>> Update the gpio-backlight binding to support configurations that require
+> >>>>> more than one GPIO for enabling/disabling the backlight.
+> >>>>
+> >>>>
+> >>>> Why? Which devices need it? How a backlight would have three enable
+> >>>> GPIOs? I really do not believe, so you need to write proper hardware
+> >>>> justification.
+> >>>>
+> >>>
+> >>> To clarify our hardware setup:
+> >>> the panel requires one GPIO for the backlight enable signal, and it
+> >>> also has a PWM input. Since the QCS615 does not provide a PWM controller
+> >>> for this use case, the PWM input is connected to a GPIO that is driven
+> >>> high to provide a constant 100% duty cycle, as explained in the link
+> >>> below.
+> >>> https://lore.kernel.org/all/20251028061636.724667-1-tessolveupstream@gmail.com/T/#m93ca4e5c7bf055715ed13316d91f0cd544244cf5
+> >>
+> >> That's not an enable gpio, but PWM.
+> >>
+> >> You write bindings for this device, not for something else - like your
+> >> board.
+> >
+> > Sudarshan: I believe at one point the intent was to model this hardware
+> > as a pwm-backlight (using enables GPIOs to drive the enable pin)
+> > attached to a pwm-gpio (to drive the PWM pin). Did this approach work?
+> >
+>
+> Yes, the original plan was to model this using pwm‑gpio, and that
+> setup worked. But on the SOC there’s no actual PWM controller available
+> for this path— the LED_PWM line is just tied to a GPIO that’s driven
+> high (effectively a fixed 100% duty cycle). Because of that, describing
+> it as a PWM in DT was flagged as incorrect.
+>
+> As pointed out during the SoC DTS review, the correct path forward is
+> to extend gpio‑backlight to handle multiple GPIOs, rather than
+> representing them as multiple separate backlight devices.
 
-kernel test robot noticed the following build warnings:
+That not quite what I got from the link above. There is a suggestion to
+use gpio-backlight, but the reason it was flagged is because pwm-gpio
+was unused... it was not referenced by a pwm-backlight.
 
-[auto build test WARNING on next-20260130]
-[also build test WARNING on linus/master v6.19-rc7]
-[cannot apply to lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes dtor-input/next dtor-input/for-linus sre-power-supply/for-next v6.19-rc7 v6.19-rc6 v6.19-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Having said that I suspect it is better to model this backlight controller
+on this board as a gpio-backlight because from a backlight controller
+point of this that is physically what the controller is composed of
+(assuming there is not sufficient capacitance on the signal for a
+software PWM to work at anything other than 0% and 100%). Even if those
+GPIO signals are connected to the panel's PWM input I'm not sure that's
+relevant because none of the backlight controller bindings model the
+panel anyway.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-misc-document-ASUS-Transformers-EC-Dockram/20260201-184740
-base:   next-20260130
-patch link:    https://lore.kernel.org/r/20260201104343.79231-5-clamor95%40gmail.com
-patch subject: [PATCH v1 4/9] mfd: Add driver for Asus Transformer embedded controller
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260202/202602020344.ZGXToDMx-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260202/202602020344.ZGXToDMx-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602020344.ZGXToDMx-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/printk.h:620,
-                    from include/asm-generic/bug.h:31,
-                    from arch/alpha/include/asm/bug.h:23,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/current.h:6,
-                    from ./arch/alpha/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12,
-                    from include/linux/delay.h:13,
-                    from drivers/mfd/asus-ec.c:7:
-   drivers/mfd/asus-ec.c: In function 'asus_ec_read':
->> drivers/mfd/asus-ec.c:107:35: warning: field width specifier '*' expects argument of type 'int', but argument 4 has type 'long unsigned int' [-Wformat=]
-     107 |         dev_dbg(&priv->self->dev, "EC read: %*ph, ret = %d%s\n",
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:231:29: note: in definition of macro '__dynamic_func_call_cls'
-     231 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:261:9: note: in expansion of macro '_dynamic_func_call_cls'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:284:9: note: in expansion of macro '_dynamic_func_call'
-     284 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/mfd/asus-ec.c:107:9: note: in expansion of macro 'dev_dbg'
-     107 |         dev_dbg(&priv->self->dev, "EC read: %*ph, ret = %d%s\n",
-         |         ^~~~~~~
-   drivers/mfd/asus-ec.c:107:46: note: format string is defined here
-     107 |         dev_dbg(&priv->self->dev, "EC read: %*ph, ret = %d%s\n",
-         |                                             ~^~
-         |                                              |
-         |                                              int
+Whatever route you select, you do need to make it clear in the patch
+description *why* it is correct to model the system as a gpio-backlight.
+Deferring to (potentially ambiguous) review comments is not sufficient
+to explain why changing the gpio-backlight bindings are an improvement.
 
 
-vim +107 drivers/mfd/asus-ec.c
-
-   100	
-   101	static int asus_ec_read(struct asus_ec_data *priv, bool in_irq)
-   102	{
-   103		int ret = i2c_smbus_read_i2c_block_data(priv->self, 0x6A,
-   104							sizeof(priv->ec_data),
-   105							priv->ec_data);
-   106	
- > 107		dev_dbg(&priv->self->dev, "EC read: %*ph, ret = %d%s\n",
-   108			sizeof(priv->ec_data), priv->ec_data,
-   109			ret, in_irq ? "; in irq" : "");
-   110	
-   111		return ret;
-   112	}
-   113	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Daniel.
 
