@@ -1,188 +1,257 @@
-Return-Path: <linux-leds+bounces-6837-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6838-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2CPBC2U+g2kPkQMAu9opvQ
-	(envelope-from <linux-leds+bounces-6837-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 04 Feb 2026 13:41:09 +0100
+	id oAuIIYlVg2mJlQMAu9opvQ
+	(envelope-from <linux-leds+bounces-6838-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 04 Feb 2026 15:19:53 +0100
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7586E5EDD
-	for <lists+linux-leds@lfdr.de>; Wed, 04 Feb 2026 13:41:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7C5E6F91
+	for <lists+linux-leds@lfdr.de>; Wed, 04 Feb 2026 15:19:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DBEE7300D15B
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Feb 2026 12:40:58 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C4E0B3044D28
+	for <lists+linux-leds@lfdr.de>; Wed,  4 Feb 2026 14:17:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9C373F23A0;
-	Wed,  4 Feb 2026 12:40:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4909A41324D;
+	Wed,  4 Feb 2026 14:17:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XgxOCnFp"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bsGX0+oe"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93BDB3876D2
-	for <linux-leds@vger.kernel.org>; Wed,  4 Feb 2026 12:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770208856; cv=pass; b=qBBfh4LAFv47ncjA5tTEKNe7/m/QnRLRCjy8jsZUbW07kDLrLhxBLbdwz1h1A1c18TNhrM60LQYhtKaf4lAxyH+YjYGUoxtYK5Y57YYr/PExrVOTcWcCxb2CQ+F4BoYFqVawoWIL21TP387jv/shkxvrY2+J035ytB2cfGW/FWQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770208856; c=relaxed/simple;
-	bh=VVoqN1cbo7saKNRizaznTRjcFiDowh+PjgHqkK04EXg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pMjgyLBvYhvICc8QtOpRWrZGHo1GmsyBxaPALhImlHdKNRwpHS0JqpABqGY+kMpbD6ItpPXxRn8RF3dTAOn0DY+kBUF+aTQN2oPbO+5tOMOuRJxZ+Dt+fKMbgi5AdoG1YdpY4cjFX+6N+mdABNFG9oJHDzJJ8TGFemoUQfOZOIE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XgxOCnFp; arc=pass smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-42fbc305914so6104444f8f.0
-        for <linux-leds@vger.kernel.org>; Wed, 04 Feb 2026 04:40:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770208855; cv=none;
-        d=google.com; s=arc-20240605;
-        b=iObnnJH5dEwI4haoyy2bEDdDqvaIDUyMWV4am8BSAaO3hCAK5kGauACmaK84JcPKSx
-         LsHezSSqpruVH6ofoAT+B//brXVxzDaRmEqLHrGfGwPO+XT9tlKQH2QvT5RHkeYO+Sml
-         tlXIyYbfazZOBkY0hY/TiEAEG9KFHWtjMbot9Vh3ExGHI9Cmdiw8Bl6r3IvLwUOeKtOG
-         cf5wxz/I6b9zI3Lsr3z60zRTe1lX5dfB6PticSTzTyF4tPNMXfpeju00IGgxxkww+lCm
-         NfjYovgKPFmnlQM9AOHigCN408dxdM7ukgLGLEoM0W5PNDyovjbO14AYsIujxgKTtcju
-         YzUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=m/zIsfoECBdgIZPuFNRz333Sc6yOkWK7EWk2qzyAS08=;
-        fh=g28qFObOA4M03dsmJR7kA8d2fc3CTwOfW6sMaC9/Uyw=;
-        b=jRJoM05tmPpjLvzkFwrU3iizB4yS7Za6IPdpdY20hRT0DTOxsFOWGNbqwzNsH18a9I
-         75O/FgKfx5kJ8ZDLTPEju6ip0XXPYe6+p+hoEg3dw1ALsHr7/LgDeJW2aI5fjSn5Q0BD
-         hsHK9CsuXKniofpbn1DymJHo88cVtPSId5AmQvPif+VvWZGUz/ZtB+mxhnE2vNVp0FLA
-         YpfmoUUPfY65ym8Du98dMxWCrQeGf3utegpV4u4PwBUz2wVxc8+rZpw3AeqLmtmYDPAX
-         aJUixHPnUb+6zRFxUC0c83CteGDGfU0IAD06ayqnkOMGLiHsgujOES8MxYzDJH56OSc2
-         Xs1A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C348941323C
+	for <linux-leds@vger.kernel.org>; Wed,  4 Feb 2026 14:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770214641; cv=none; b=FDHFjRkOiz5YbOyDDpq9eul2Br3OryStoxfZFVM2kG0qDWgyXc8vw09COGn+Q8bsmRZRpTedZSyHE7q88MhW2DKgS3eVcj5tI6Hx4aJYnqKgpfG1A77EfMa9cYTD4CxcqpoRvOgu1kUHyiidp7R/OpA+QS86Xv0+YidMnpYcxjA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770214641; c=relaxed/simple;
+	bh=fqK/sV1/SV/2SRm0hf98CdMaH9ntyCY9/h5a4/cBf9g=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FzsCM5caVRXXXAubDPNgs/MzZ8sLUVYjHLcsjqXxXI3Xoko2Ap3OOOMYoYJtNms/xWD+1SfcEvVRF9jmNFAKODslNaHsMmp+5VSqNZR5Nqe4g9Wh22wZN0OdiKAori7mXA6CQjyt/PbFcBavKDJ6XFt1QOnp1kJ+bM0glKSOX88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bsGX0+oe; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b8860d6251bso1042891566b.3
+        for <linux-leds@vger.kernel.org>; Wed, 04 Feb 2026 06:17:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770208855; x=1770813655; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m/zIsfoECBdgIZPuFNRz333Sc6yOkWK7EWk2qzyAS08=;
-        b=XgxOCnFpLIcB14A1aqEtxqTxGYRcjFq2R+iF1g/G5VUZLLl4achDnCyhdFu/2VotNv
-         LY9MiT9k8Wicu+tPAzFZyowDFRtmAbjsOAcqM66SIJZhT4kJEd29ilyOsreQ/H5f6XQs
-         /cc3ApU/IfhiZYMgbwF7uCnjd9/t5aA43XjucmuSNE6UkG+Gy8ClfhS4JX0CADP/YNP2
-         uXEd6w/MNVVlDGqklHl/H5uCrmyGfGJHw4ETON6HTPIbv2OjvZVm1xaiXmsYs31a5XTU
-         IPDe0+IG98N/866vOVNahnRtXxTavtQxwwO+xalzKfes4S37JBAiS6WdbUj++rcS9CaS
-         pRuw==
+        d=linaro.org; s=google; t=1770214639; x=1770819439; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Tf4Ir5IFLu+SmMvPSgo65r/HAkUdr4ohgIhUVdFKVQ0=;
+        b=bsGX0+oe2f6kv1WuWDGyQq47Hdrkes/K8kavT53wP9EcH4dF4drmeiFGOx+QezlfhL
+         yDQjdFEp6vjBFkNX2wUXPEl/X+yJmAo6H9BMcC54fRPWClUb0MwejiDUX83I904oq8u0
+         hh1sQA/yVGKoIgVrhZ0rCEbqMxEqR2gJLpFc2onS7bvZWCyjPOWTF9MQnXm4tOvfzzMM
+         Bo+ooU702vGUm1uVlM7Q9+wtf5H9d0Bf+ruq7qi/4d4zX2ab2hVrIZgHNykm7l2mMl9k
+         ZHd5wsIInLssCDc/cCAjQtCZyvan7OO4WTZT+Ws/Ocw8kwgjGieMnsdz0GyGC6G7w51O
+         kCgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770208855; x=1770813655;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=m/zIsfoECBdgIZPuFNRz333Sc6yOkWK7EWk2qzyAS08=;
-        b=eyrMiJKyrfnCSV/Mh6hHFj+12vsvTIXsNtoJ9iGSbkDHdBlfh86BW/d4G5u11LfPE2
-         RQJc8gdTBfLNkU0G+4BiVzJvBSSsjEVw0+VI1ADmg1YWsec4d+kffLtMS7Oh+DzuOtw/
-         QKI3uc2yMWHForkDb8+/i7zElClDoDwXrcseIOS9rkuu9Fybi0tyVFARnjvCqoIEZIkL
-         o1c8AQeD1cFKk/nI6TDGcymbyTONijib4FotQttutEYkij3cz5yBJdgxtN/NIOf6WZSS
-         2s3EXPG6gzbMbXs3GLga1DZHcwI64tKHf6vOqsNhuYJTS6EUalL+o32EQ3zQRnnfrFSW
-         LRDw==
-X-Forwarded-Encrypted: i=1; AJvYcCVNt9CVsypKFC5NM5/BAzjhvAzn6QIUB8AYi8wRgtz2uEefNHWKTwM18frVZLm5SVP9J6G3ur8Dt79z@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBTdoHXmUEnSeDWcWrYuX0dDFqLpdBBRg6ckrHNLWBRigrkU82
-	cRypRjSIs7OGUAlxeEV4qFfXNhn2/NcRwHrFb2wBPdAhbkZtuol4O/yaZild44Voq6mQQumFNt/
-	sh/cPcWBI9BYAckZPtxhbbzCo10vRI1Q=
-X-Gm-Gg: AZuq6aItcipfEToA6e4wPzWM0SpVSrLzuMcMDRmxw9YySmXw7WW0Qyox6a1P04DvGc/
-	Vhwkyvopupn4b0MFH3g6gfuqJOG3aTVXZpF1PKq8ozmt8Cm/UCcb5WlugtbY9YFwImIvOeREvsw
-	R/9vM4kSkVtCXwhXKG05st9h/+tZvKdaUZRWg1w56vPXoZOqMg+vkDTiLhzKtM5SlL5V+EdfoYq
-	uSmQ9jC6p30HMKnXUj8xvk3r/qEVSEpskDrBbQDRh5zGu5tf8avs/O2Iz2P7QGK961Fn9ma
-X-Received: by 2002:a05:6000:238a:b0:431:38f:8bc4 with SMTP id
- ffacd0b85a97d-4361805fbf4mr4039864f8f.61.1770208854743; Wed, 04 Feb 2026
- 04:40:54 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770214639; x=1770819439;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tf4Ir5IFLu+SmMvPSgo65r/HAkUdr4ohgIhUVdFKVQ0=;
+        b=WsfQSSNt63oTEkUvy4+y0KwR0gLlFClwSb03J8CLGngb1GBXsdyO4hhWZPoqK0/c0h
+         q65xpFO6x4FADKFqjb8FmIMSPwf4XrmSNJ1H67z3lsfkds2grEO/JSjYV5Ym7WtrNwmV
+         caXTi71gg+EFuJkRrGiEii7903EhVYYCH+NvSZqfbJCxz00AVFSqh/QCDDNNGPtsPkl/
+         kyK4fKGyw/fPn46xzeZ46JOeXMQlOD+lLSXHGPrfE+V5GT1OxR+MceAP+AwyVFPUkQ8T
+         GIqG01h9RHP0nhY+G2r4XA0vuI/7L2VgKnwMXrVS4+IKANCU9Rxtddd3JSk7LTDXX6xX
+         P9ww==
+X-Gm-Message-State: AOJu0YzEOZGvy5wgIanariw3vQPidD7oBxOQ0cocu0AWwIUg+KZKtSqL
+	8Mm9o+Z00VFtmZJJDQJSu7GgxcxG2WvJAJ3lu0DZqsIDbtY3Bucgm0Of0yUel4NkoG8=
+X-Gm-Gg: AZuq6aK07/lx4RAxnrdLkuyRXqS5DebjDSbPnTE1zav0c2awv/q+ejBwyEQZ1vAki9O
+	H7dpVoKgEY5iEiT9kKoEUajAtatkJ4uUavzFp2Vyuvxxfb96aw8OCKqSiWjK9GRFbMtGknOmmsZ
+	eBy45x4P69IvVte+lOwBpJ8s8rUy05bAPsV7KPfQ3Bf+JAIbFPAjdJSazCYPTeoPZaE3AsMbmGd
+	0k71KiDK/E8zzyq0vd3RYkKGrcDDyD9q87ouJPG4O7y5jXNg20FLKGFqo6rwVsUl3DUI3YyB25C
+	usijNgoxiU4PoWBTCObdIcvSN0Hrnc3EkbStf8avrDw9njio9HHzXvAEBAYWJStXndf10qL89rl
+	Xl18CRLqhjJGNCo14k42ROXcmebS3Z3g9B+OciGec8Gk59f+LtCgEX+So0ZenLB6vpifC5TQr7a
+	eNAjk1TCZAWCqbDfpE9w==
+X-Received: by 2002:a17:907:72d0:b0:b87:6:371d with SMTP id a640c23a62f3a-b8e9f42bb01mr227190666b.49.1770214639112;
+        Wed, 04 Feb 2026 06:17:19 -0800 (PST)
+Received: from draszik.lan ([212.129.76.169])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8ea0044a09sm125346166b.56.2026.02.04.06.17.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Feb 2026 06:17:18 -0800 (PST)
+Message-ID: <f6d1340062448cf52e4c034d250524e030877898.camel@linaro.org>
+Subject: Re: [PATCH v2 07/12] mfd: sec: store hardware revision in
+ sec_pmic_dev and add S2MU005 support
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>, Lee Jones
+ <lee@kernel.org>,  Pavel Machek <pavel@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo
+ Choi	 <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Jonathan Corbet	 <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Date: Wed, 04 Feb 2026 14:17:35 +0000
+In-Reply-To: <20260126-s2mu005-pmic-v2-7-78f1a75f547a@disroot.org>
+References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
+	 <20260126-s2mu005-pmic-v2-7-78f1a75f547a@disroot.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-2+build4 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260201104343.79231-1-clamor95@gmail.com> <20260201104343.79231-3-clamor95@gmail.com>
- <2026020350-unrevised-humming-7a42@gregkh> <CAPVz0n35NkEXjur-oJhW6Yxwme_KMLdYCnRAtjHEWSPEVrSUXQ@mail.gmail.com>
- <2026020346-ashamed-campfire-b483@gregkh> <CAPVz0n2HmLwdif5ry+y56LB8Gpwh2o9_gJ7K2jhcZVR=rPgfPA@mail.gmail.com>
- <2026020314-humbling-mobility-c24a@gregkh> <CAPVz0n0TMOCYnMiVUZ7xx-1SqrXuaVCOY-o4-x9L=f-xSMDj8g@mail.gmail.com>
- <2026020347-mushy-lunar-d12d@gregkh>
-In-Reply-To: <2026020347-mushy-lunar-d12d@gregkh>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Wed, 4 Feb 2026 14:40:43 +0200
-X-Gm-Features: AZwV_Qgnx8Hqpc3gLtz5e76GzgExX_xLHyQNYXgz5FpI0RojQ_lqa8cEDXcBX9o
-Message-ID: <CAPVz0n0jrRxPQD-g7Pq-koDTW1Wr_FxNZc-SmY2-eE71dfei+Q@mail.gmail.com>
-Subject: Re: [PATCH v1 2/9] misc: Support Asus Transformer's EC access device
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Sebastian Reichel <sre@kernel.org>, 
-	=?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, 
-	Ion Agorria <ion@agorria.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6837-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,arndb.de,rere.qmqm.pl,agorria.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-6838-lists,linux-leds=lfdr.de];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andre.draszik@linaro.org,linux-leds@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,linuxfoundation.org:email]
-X-Rspamd-Queue-Id: A7586E5EDD
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:mid,linaro.org:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,disroot.org:email]
+X-Rspamd-Queue-Id: 3D7C5E6F91
 X-Rspamd-Action: no action
 
-=D0=B2=D1=82, 3 =D0=BB=D1=8E=D1=82. 2026=E2=80=AF=D1=80. =D0=BE 18:58 Greg =
-Kroah-Hartman <gregkh@linuxfoundation.org> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Tue, Feb 03, 2026 at 06:50:01PM +0200, Svyatoslav Ryhel wrote:
-> > > debugfs allows you to do much much more than simple stuff like
-> > > BIN_ATTR_RW().  Go wild there, but don't put debugging stuff in sysfs=
-,
-> > > that is NOT what it is there for at all, but rather, that is exactly
-> > > what debugfs is for.
-> > >
-> >
-> > I am removing said stuff from sysfs, that is not what I am asking.
-> > Debugs does not allow to upload register values in a form of binary
-> > block. It allows only dumping via debugfs_create_blob or
-> > debugfs_create_regset32 but not writing. If you know examples of
-> > reading and writing register sets as binary data, please point me to
-> > it.
->
-> You can easily write your own given that debugfs allows you to use what
-> ever file operations you want to use for a file.  Why not just use that?
->
-> > I am asking if it is possible only to preserve dockram_read/write
-> > functions in the code, without exposing it to sysfs.
->
-> Why would you want to do that?
->
+Hi Kaustabh,
 
-Nevermind, everything is good. I have figured it out hopefully.
+On Mon, 2026-01-26 at 00:37 +0530, Kaustabh Chakraborty wrote:
+> The device revision matters in cases when in some PMICs, the correct
+> register offsets very in different revisions. Instead of just debug
 
-> confused,
->
-> greg k-h
+s/very/vary
+
+> printing the value, store it in the driver data struct.
+
+Please mention that you're not doing that for s2mpg1x, though.
+
+>=20
+> Unlike other devices, S2MU005 has its hardware revision ID in register
+> offset 0x73. Allow handling different devices and add support for S2MU005=
+.
+>=20
+> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+> ---
+> =C2=A0drivers/mfd/sec-common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 41 ++++++++++++++++++++++++++++++----------
+> =C2=A0include/linux/mfd/samsung/core.h |=C2=A0 1 +
+> =C2=A02 files changed, 32 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/mfd/sec-common.c b/drivers/mfd/sec-common.c
+> index bc2a1f2c6dc7a..069a1ba9aa1f1 100644
+> --- a/drivers/mfd/sec-common.c
+> +++ b/drivers/mfd/sec-common.c
+> @@ -16,6 +16,7 @@
+> =C2=A0#include <linux/mfd/samsung/irq.h>
+> =C2=A0#include <linux/mfd/samsung/s2mps11.h>
+> =C2=A0#include <linux/mfd/samsung/s2mps13.h>
+> +#include <linux/mfd/samsung/s2mu005.h>
+> =C2=A0#include <linux/module.h>
+> =C2=A0#include <linux/of.h>
+> =C2=A0#include <linux/pm.h>
+> @@ -111,17 +112,38 @@ static const struct mfd_cell s2mu005_devs[] =3D {
+> =C2=A0	MFD_CELL_OF("s2mu005-rgb", NULL, NULL, 0, 0, "samsung,s2mu005-rgb"=
+),
+> =C2=A0};
+> =C2=A0
+> -static void sec_pmic_dump_rev(struct sec_pmic_dev *sec_pmic)
+> +static int sec_pmic_store_rev(struct sec_pmic_dev *sec_pmic)
+> =C2=A0{
+> -	unsigned int val;
+> +	unsigned int reg, mask, shift;
+> +	int ret;
+> =C2=A0
+> -	/* For s2mpg1x, the revision is in a different regmap */
+> -	if (sec_pmic->device_type =3D=3D S2MPG10)
+> -		return;
+> +	switch (sec_pmic->device_type) {
+> +	case S2MPG10:
+> +		/* For s2mpg1x, the revision is in a different regmap */
+> +		return 0;
+> +	case S2MU005:
+> +		reg =3D S2MU005_REG_ID;
+> +		mask =3D S2MU005_ID_MASK;
+> +		shift =3D S2MU005_ID_SHIFT;
+> +		break;
+> +	default:
+> +		/* For other device types, the REG_ID is always the first register. */
+> +		reg =3D S2MPS11_REG_ID;
+> +		mask =3D ~0;
+> +		shift =3D 0;
+> +	}
+> +
+> +	ret =3D regmap_read(sec_pmic->regmap_pmic, reg, &sec_pmic->revision);
+> +	if (ret) {
+> +		dev_err(sec_pmic->dev, "Failed to read PMIC revision (%d)\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	sec_pmic->revision &=3D mask;
+> +	sec_pmic->revision >>=3D shift;
+> =C2=A0
+> -	/* For each device type, the REG_ID is always the first register */
+> -	if (!regmap_read(sec_pmic->regmap_pmic, S2MPS11_REG_ID, &val))
+> -		dev_dbg(sec_pmic->dev, "Revision: 0x%x\n", val);
+> +	dev_dbg(sec_pmic->dev, "Revision: 0x%x\n", sec_pmic->revision);
+> +	return 0;
+> =C2=A0}
+> =C2=A0
+> =C2=A0static void sec_pmic_configure(struct sec_pmic_dev *sec_pmic)
+> @@ -262,9 +284,8 @@ int sec_pmic_probe(struct device *dev, int device_typ=
+e, unsigned int irq,
+> =C2=A0		return ret;
+> =C2=A0
+> =C2=A0	sec_pmic_configure(sec_pmic);
+> -	sec_pmic_dump_rev(sec_pmic);
+> =C2=A0
+> -	return ret;
+> +	return sec_pmic_store_rev(sec_pmic);
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL_GPL(sec_pmic_probe);
+> =C2=A0
+> diff --git a/include/linux/mfd/samsung/core.h b/include/linux/mfd/samsung=
+/core.h
+> index 43e0c5e55f5d3..56aa33d7e3d60 100644
+> --- a/include/linux/mfd/samsung/core.h
+> +++ b/include/linux/mfd/samsung/core.h
+> @@ -70,6 +70,7 @@ struct sec_pmic_dev {
+> =C2=A0
+> =C2=A0	int device_type;
+> =C2=A0	int irq;
+> +	unsigned int revision;
+
+kerneldoc needs to be updated.
+
+Given the LED driver is the only driver & device so far which needs the
+PMIC revision, maybe for now that driver could determine the revision
+itself instead of adding this new member for everybody?
+
+Cheers,
+Andre'
+
+> =C2=A0};
+> =C2=A0
+> =C2=A0struct sec_platform_data {
 
