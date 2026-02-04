@@ -1,136 +1,130 @@
-Return-Path: <linux-leds+bounces-6834-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6835-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yNhPCvcqgmlFQAMAu9opvQ
-	(envelope-from <linux-leds+bounces-6834-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 03 Feb 2026 18:05:59 +0100
+	id IPzuEvEeg2nWhwMAu9opvQ
+	(envelope-from <linux-leds+bounces-6835-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 04 Feb 2026 11:26:57 +0100
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BCF3DC7D5
-	for <lists+linux-leds@lfdr.de>; Tue, 03 Feb 2026 18:05:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A024E4787
+	for <lists+linux-leds@lfdr.de>; Wed, 04 Feb 2026 11:26:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 08C4B311C36B
-	for <lists+linux-leds@lfdr.de>; Tue,  3 Feb 2026 16:58:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id ABAC430086C4
+	for <lists+linux-leds@lfdr.de>; Wed,  4 Feb 2026 10:26:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90C063D34A1;
-	Tue,  3 Feb 2026 16:58:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BA3D3D9045;
+	Wed,  4 Feb 2026 10:26:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rYl1AoQa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G0XacNdi"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6223D3D3497;
-	Tue,  3 Feb 2026 16:58:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB40E3A1E90;
+	Wed,  4 Feb 2026 10:26:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770137925; cv=none; b=NS/0QjHHXJzW+MNiGWD/S0KkO7XsVaogyliDodgI4AYaq4SBAcEujPShLNRxa/ryjXAYY4SFW2Y656NPTKUsSmxPa2Hz8+WNDUUPnaFVMiwE3+2y/k1kZ5vJfW2dX23AGttYjWlGIRiiqErNVrYmc/MXZkgqaNLxN90EuNZ71+I=
+	t=1770200789; cv=none; b=qQ7NiTZkOkas91Rq74TUNm4lH0knzopzRmMNQu3RSKmyPrSnvm2CWfsJEGHGPtRWNuQnJo32SM5ON3M6Fcb07VMNesYqYiI/1xDpQaOrgpF81jPHx8qlwuesINAypbuvkVHze7CA4bZrAUYRFDJ0NeehDT4eAefF4yLwuBWScps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770137925; c=relaxed/simple;
-	bh=AUsFA+Sb2+W06GKLkOjSvEgqjMflS321Gm7pHcuGYUg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ETdCJ+LRhf002avHDC4cqboxpGmUSqrppRhp5kNe9WdypfSZv8adGe8hornJAEghAV7cPFgnBZXlW+cOSMnpeH3xPalD3WHQN4WwYoylKwxhSmu8O7R4KNdQIDW3CrGaUWx1OeCJJO2gTM95f10j9S+5evg5i2ktBl3/1WrbvnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rYl1AoQa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C46DC116D0;
-	Tue,  3 Feb 2026 16:58:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770137925;
-	bh=AUsFA+Sb2+W06GKLkOjSvEgqjMflS321Gm7pHcuGYUg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rYl1AoQaEsSRdwQQRbNPgP+W62Z0FpsKIjvhawQ1ABhBcV3vrcS9ZJrgrm6NSFNIO
-	 jdt8V8XWarMXDJtDefbDyWuIHSEkOYGnO0eiPQJHLxexv8vLshrvug7p6ewGWfLFqx
-	 kTsOGSp9I91+nQebK3gKPaRnjDM6yFull1cFpxck=
-Date: Tue, 3 Feb 2026 17:58:42 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Sebastian Reichel <sre@kernel.org>,
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-	Ion Agorria <ion@agorria.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v1 2/9] misc: Support Asus Transformer's EC access device
-Message-ID: <2026020347-mushy-lunar-d12d@gregkh>
-References: <20260201104343.79231-1-clamor95@gmail.com>
- <20260201104343.79231-3-clamor95@gmail.com>
- <2026020350-unrevised-humming-7a42@gregkh>
- <CAPVz0n35NkEXjur-oJhW6Yxwme_KMLdYCnRAtjHEWSPEVrSUXQ@mail.gmail.com>
- <2026020346-ashamed-campfire-b483@gregkh>
- <CAPVz0n2HmLwdif5ry+y56LB8Gpwh2o9_gJ7K2jhcZVR=rPgfPA@mail.gmail.com>
- <2026020314-humbling-mobility-c24a@gregkh>
- <CAPVz0n0TMOCYnMiVUZ7xx-1SqrXuaVCOY-o4-x9L=f-xSMDj8g@mail.gmail.com>
+	s=arc-20240116; t=1770200789; c=relaxed/simple;
+	bh=d2ORjAFYDx26CCy9qL6CmpUxNx4yL0rMuIyF+swd47c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=sFJzP1vzVEqYVEILQkPpaTs6aHmr7mvOaCrezWaH/0dK8ch7ztwZOLEepHpZLe3PFSyzd65K/XRwR2UHIRfGYoMgSxgQBONnS0XX3gtfZ8aYAXgetbz8ifJhZNTMVI5ywN054GE9VdhkgKk6WjLe4ULw248bJxxA/qg3hETa+Uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G0XacNdi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10194C4CEF7;
+	Wed,  4 Feb 2026 10:26:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770200788;
+	bh=d2ORjAFYDx26CCy9qL6CmpUxNx4yL0rMuIyF+swd47c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=G0XacNdiA2sPN9bZfD51gtADbKtxQu8R/qTGNkZr4YjYt0KUY7g9bp0m6ZNanmclc
+	 xKqjqGs/2VMC0xVXm5Sc7pi1K5NgSsT6oKaK0ukJeSa4Sm8cdf1HECNIergdRekhDd
+	 MzJxZo+h95odzHjxCQjaVeMYWdYOUIU1aIfOBfSo1JbF6YgUjCBH31ZlIjhCB3kcEv
+	 xD7TRJuUF4SpuJengb7BJeXKLzqH4Yt601kU9y7AFCqg2aSCmd+N2qVbQv46YrYAnB
+	 TV3WUjV/IwbCj+f8TMSCnw4ejCN4AyKKqAHrI6Ej6KKBhYDUqpXXAOAVcSOQs7FTfP
+	 lBDFotNRjA1Zw==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Kiran Gunda <quic_kgunda@quicinc.com>, Helge Deller <deller@gmx.de>, 
+ Luca Weiss <luca@lucaweiss.eu>, Konrad Dybcio <konradybcio@kernel.org>, 
+ Eugene Lepshy <fekz115@gmail.com>, Gianluca Boiano <morf3089@gmail.com>, 
+ Alejandro Tafalla <atafalla@dnyon.com>, 
+ =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
+Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Daniel Thompson <daniel.thompson@linaro.org>, linux-arm-msm@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260116-pmi8950-wled-v3-0-e6c93de84079@mainlining.org>
+References: <20260116-pmi8950-wled-v3-0-e6c93de84079@mainlining.org>
+Subject: Re: (subset) [PATCH v3 0/7] Fix PMI8994 WLED ovp values and more
+Message-Id: <177020078282.1122108.15047767273354321830.b4-ty@kernel.org>
+Date: Wed, 04 Feb 2026 10:26:22 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPVz0n0TMOCYnMiVUZ7xx-1SqrXuaVCOY-o4-x9L=f-xSMDj8g@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-52d38
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [3.84 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
-	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6834-lists,linux-leds=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-6835-lists,linux-leds=lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,quicinc.com,gmx.de,lucaweiss.eu,dnyon.com,mainlining.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,linux-leds@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,arndb.de,rere.qmqm.pl,agorria.com,vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linuxfoundation.org:dkim]
-X-Rspamd-Queue-Id: 6BCF3DC7D5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 9A024E4787
 X-Rspamd-Action: no action
 
-On Tue, Feb 03, 2026 at 06:50:01PM +0200, Svyatoslav Ryhel wrote:
-> > debugfs allows you to do much much more than simple stuff like
-> > BIN_ATTR_RW().  Go wild there, but don't put debugging stuff in sysfs,
-> > that is NOT what it is there for at all, but rather, that is exactly
-> > what debugfs is for.
-> >
+On Fri, 16 Jan 2026 08:07:32 +0100, Barnabás Czémán wrote:
+> This patch series fixes supported ovp values related to pmi8994 wled
+> and set same configuration for pmi8950 wled.
+> It also corrects wled related properties in xiaomi-daisy, xiaomi-land and
+> in xiaomi-vince.
 > 
-> I am removing said stuff from sysfs, that is not what I am asking.
-> Debugs does not allow to upload register values in a form of binary
-> block. It allows only dumping via debugfs_create_blob or
-> debugfs_create_regset32 but not writing. If you know examples of
-> reading and writing register sets as binary data, please point me to
-> it.
+> 
 
-You can easily write your own given that debugfs allows you to use what
-ever file operations you want to use for a file.  Why not just use that?
+Applied, thanks!
 
-> I am asking if it is possible only to preserve dockram_read/write
-> functions in the code, without exposing it to sysfs.
+[1/7] dt-bindings: backlight: qcom-wled: Document ovp values for PMI8994
+      commit: 02031064bb8f387d81988a8abb211f1366d87582
+[2/7] backlight: qcom-wled: Support ovp values for PMI8994
+      commit: f29f972a6e7e3f187ea4d89b98a76c1981ca4d53
+[3/7] dt-bindings: backlight: qcom-wled: Document ovp values for PMI8950
+      commit: b2df6cf10d5242bfef2cc957d83738ccb560ed9f
+[4/7] backlight: qcom-wled: Change PM8950 WLED configurations
+      commit: 83333aa97441ba7ce32b91e8a007c72d316a1c67
 
-Why would you want to do that?
+--
+Lee Jones [李琼斯]
 
-confused,
-
-greg k-h
 
