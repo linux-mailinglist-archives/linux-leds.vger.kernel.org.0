@@ -1,184 +1,115 @@
-Return-Path: <linux-leds+bounces-6844-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6845-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OIFNAzu4hGnG4wMAu9opvQ
-	(envelope-from <linux-leds+bounces-6844-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 05 Feb 2026 16:33:15 +0100
+	id SHMpB8O7hGnG4wMAu9opvQ
+	(envelope-from <linux-leds+bounces-6845-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 05 Feb 2026 16:48:19 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77909F4A8D
-	for <lists+linux-leds@lfdr.de>; Thu, 05 Feb 2026 16:33:14 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C664CF4C21
+	for <lists+linux-leds@lfdr.de>; Thu, 05 Feb 2026 16:48:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 613033021986
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Feb 2026 15:33:10 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 60426300382C
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Feb 2026 15:48:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B6644218A0;
-	Thu,  5 Feb 2026 15:33:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79B66426EB8;
+	Thu,  5 Feb 2026 15:48:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="brUCCggK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q/pc6UkG"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496443E8C51;
-	Thu,  5 Feb 2026 15:33:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C96428847
+	for <linux-leds@vger.kernel.org>; Thu,  5 Feb 2026 15:48:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770305589; cv=none; b=topdOd64QHXC6E9WJkRyPM+GgGXOROxadyxyc6laWdqJMEtKQbsXLdxKaxk5K+yCrKteYZYMGwUODIR+PgcvIvu7jTMr3PV6h8DP9TcWqf6YxW2WxC08AHiDYVJ0EcYGeYm7fUvM4TzDYzMZIVlmK64sijVHacGF/QHdQLEo7DM=
+	t=1770306497; cv=none; b=vAbx2N9haqmPvP9GMEwwtL+WqkZtrKNmrW7JiBmh5lzokth2bE+XSctMfnKKa/I9WwtxKo+yLaqFiYzAtVt1XvjL0eJ7zO125rtDpN0b4CWj4I+L2z6O1wP+c81JjIGLF20usFry10YSAmo98znGEB8zOtj87HbpnY4d/uU50+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770305589; c=relaxed/simple;
-	bh=d/ARjMgSP9G3NH4cyP+2JNA1MGSoHi33QTSADO5xKvU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=g5AGMeT0jG1lPS/MOpBNzDcidLQ6+rX9Snxh7VSOYYPQOkUj5MaB63/EEOaDYjUmMjHO3tAs4vXQAHZ4BvVhjO9a7j+2vBxIlnyzBsPOzkJdtv5+0gYaf6mwbT78ZBXfsdX6XeAkHLsGfMMeUXqhGN1/FTrmqcVPgKnoRGtAWMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=brUCCggK; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id AEE6D267E6;
-	Thu,  5 Feb 2026 16:32:59 +0100 (CET)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id SU4LjUO_09gW; Thu,  5 Feb 2026 16:32:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1770305579; bh=d/ARjMgSP9G3NH4cyP+2JNA1MGSoHi33QTSADO5xKvU=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To;
-	b=brUCCggKgzGG2eNnDc1T6EUWCHaax+pAh8pB1BwkFnmuIDMARX++5ODah3INRlgiR
-	 f331TSaZ/H9w6Bt3+4K8CIsWFb/wSeIve10yAmp+vnucHfqHslmoLq8hs9tkyH5fUl
-	 d1E7H0wUjrTujU2pZmCgVuDlTxKrV+BstniJrH/wr59Z6fdwokOyysn67W6oBBh9va
-	 GrkD5/2tlC+Rca16Yq3YL/rI1sg20I2gn7kSJgPEK3Zqr2pGzwiqR+RyBw74vtUiye
-	 3jGaaupHcjyMIvo86AlYcKN3v9XSHVP6+Tfg+ZxPyBBUUMLBLKU57KqYWj+GWk2kXQ
-	 szIlacAlk2Lgg==
+	s=arc-20240116; t=1770306497; c=relaxed/simple;
+	bh=dOcnKunkIWuJXFH2ZWZlVgs1g6L49KmURwl1igmBcXk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=U9t2sKF4vkpZ8PxZqCofZnuOUJxl25ipL/mVhhVwYN8Xn4z9QKroxiSI8UVrmaTPZ2XPL24Sf/Jc1dm8Xo/z3cVVoekow064Ed91U9km2cIAXj8h5x4udOM3hEQFo04arJ8Jjl9WRuJZktGNo5TjCPDS+PHCFAUBas9yIGbodMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q/pc6UkG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B584C116D0;
+	Thu,  5 Feb 2026 15:48:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770306496;
+	bh=dOcnKunkIWuJXFH2ZWZlVgs1g6L49KmURwl1igmBcXk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Q/pc6UkGIYlq2QjCTX0Pt59n7UnBCHLhFlz+JquEbfOTBSkQkyddzjXBaY1yDNrPr
+	 4piL8LfJrKd2R2+j1iNdk3nl4jdRKDy9RgFliUJidpLrQQWeEDHYQF4VlezLHhW2RD
+	 gDKTUJTcUFehDy4Bsw8wvha8HO0sajEI++grABt11L+39xyCdq6EGzu8Ksn7hASg6d
+	 nHRUvwwMqTGOslo9PRe3anbAfH7cn/i5Gw1dV3Sg7lWNoQX+Tb4bLPsPJ/3tTaIgSz
+	 hedH2r0YcEvrwqXvbZaq/1Smv57Y19wgg3UKaIMOzFDAGfE8BYAW8TrUXL3yAiBdCQ
+	 CrlA96DxhdbIA==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Michael Tretter <m.tretter@pengutronix.de>
+Cc: linux-leds@vger.kernel.org, kernel@pengutronix.de, 
+ Thorsten Schmelzer <tschmelzer@topcon.com>
+In-Reply-To: <20260123-leds-class-convert-brightness-value-v1-1-ae9d3ae4224b@pengutronix.de>
+References: <20260123-leds-class-convert-brightness-value-v1-1-ae9d3ae4224b@pengutronix.de>
+Subject: Re: (subset) [PATCH] leds: led-class: detect brightness conversion
+ base from string
+Message-Id: <177030649514.1673459.109305643284556954.b4-ty@kernel.org>
+Date: Thu, 05 Feb 2026 15:48:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 05 Feb 2026 21:02:41 +0530
-Message-Id: <DG74Y3QSCLIO.32Q8ZKCTISXXB@disroot.org>
-Cc: <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 06/12] mfd: sec: add support for S2MU005 PMIC
-From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
-To: =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, "Kaustabh
- Chakraborty" <kauschluss@disroot.org>, "Lee Jones" <lee@kernel.org>, "Pavel
- Machek" <pavel@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "MyungJoo Ham" <myungjoo.ham@samsung.com>, "Chanwoo Choi"
- <cw00.choi@samsung.com>, "Sebastian Reichel" <sre@kernel.org>, "Krzysztof
- Kozlowski" <krzk@kernel.org>, "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>
-References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
- <20260126-s2mu005-pmic-v2-6-78f1a75f547a@disroot.org>
- <69e2c1b1a2f3d2ed5e5da995cc5ee49bb3627597.camel@linaro.org>
-In-Reply-To: <69e2c1b1a2f3d2ed5e5da995cc5ee49bb3627597.camel@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-52d38
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[disroot.org,reject];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[disroot.org:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6844-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	TAGGED_FROM(0.00)[bounces-6845-lists,linux-leds=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[disroot.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kauschluss@disroot.org,linux-leds@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	NEURAL_HAM(-0.00)[-0.997];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[disroot.org:email,disroot.org:dkim,disroot.org:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 77909F4A8D
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-leds];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C664CF4C21
 X-Rspamd-Action: no action
 
-On 2026-02-04 15:23 +00:00, Andr=C3=A9 Draszik wrote:
-> Hi,
->
-> On Mon, 2026-01-26 at 00:37 +0530, Kaustabh Chakraborty wrote:
->> Samsung's S2MU005 PMIC includes subdevices for a charger, an MUIC (Micro
->> USB Interface Controller), and flash and RGB LED controllers.
->>=20
->> S2MU005's interrupt registers can be properly divided into three regmap
->> IRQ chips, one each for the charger, flash LEDs, and the MUIC.
->>=20
->> Add initial support for S2MU005 in the PMIC driver, along with it's thre=
-e
->> interrupt chips.
->>=20
->> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->> ---
->> =C2=A0drivers/mfd/sec-common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 16 ++
->> =C2=A0drivers/mfd/sec-i2c.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 12 ++
->> =C2=A0drivers/mfd/sec-irq.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 74 ++++++++
->> =C2=A0include/linux/mfd/samsung/core.h=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1=
- +
->> =C2=A0include/linux/mfd/samsung/irq.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 66=
- ++++++++
->> =C2=A0include/linux/mfd/samsung/s2mu005.h | 328 ++++++++++++++++++++++++=
-++++++++++++
->> =C2=A06 files changed, 497 insertions(+)
->>=20
+On Fri, 23 Jan 2026 10:57:26 +0100, Michael Tretter wrote:
+> sysfs-class-led doesn't specify the number format for the brightness,
+> but the class only accepts base 10 numbers.
+> 
+> Use the automatic base detection of kstrtoul and accept the brightness
+> as hex value as well.
+> 
+> 
+> [...]
 
-[...]
+Applied, thanks!
 
->> diff --git a/drivers/mfd/sec-i2c.c b/drivers/mfd/sec-i2c.c
->> index 3132b849b4bc4..3f1d70cc3292b 100644
->> --- a/drivers/mfd/sec-i2c.c
->> +++ b/drivers/mfd/sec-i2c.c
->> @@ -17,6 +17,7 @@
->> =C2=A0#include <linux/mfd/samsung/s2mps14.h>
->> =C2=A0#include <linux/mfd/samsung/s2mps15.h>
->> =C2=A0#include <linux/mfd/samsung/s2mpu02.h>
->> +#include <linux/mfd/samsung/s2mu005.h>
->> =C2=A0#include <linux/mfd/samsung/s5m8767.h>
->> =C2=A0#include <linux/mod_devicetable.h>
->> =C2=A0#include <linux/module.h>
->> @@ -130,6 +131,11 @@ static const struct regmap_config s2mpu05_regmap_co=
-nfig =3D {
->> =C2=A0	.val_bits =3D 8,
->> =C2=A0};
->> =C2=A0
->> +static const struct regmap_config s2mu005_regmap_config =3D {
->> +	.reg_bits =3D 8,
->> +	.val_bits =3D 8,
->> +};
->
-> No cache? And what is the .max_register value?
->
+[1/1] leds: led-class: detect brightness conversion base from string
+      commit: 07da045a49bd4cb17678d74efbdd600c71b136d4
 
-This was in the previous revision, but I ended up removing it because
-(at least I thought at that time) interfered with interrupts firing in
-some way. The actual issue was unrelated, so I will add it back.
+--
+Lee Jones [李琼斯]
 
-However, there is also another thing I see in logs:
-
-sec-pmic-i2c 2-003d: using zero-initialized flat cache, this may cause unex=
-pected behavior
-
-This is due to REGCACHE_FLAT, I am not sure if I should just ignore
-this.
 
