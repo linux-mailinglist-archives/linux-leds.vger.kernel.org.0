@@ -1,255 +1,181 @@
-Return-Path: <linux-leds+bounces-6848-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6849-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aC2yFyzFhGk45QMAu9opvQ
-	(envelope-from <linux-leds+bounces-6848-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 05 Feb 2026 17:28:28 +0100
+	id eM9wKdA/hWme+gMAu9opvQ
+	(envelope-from <linux-leds+bounces-6849-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 06 Feb 2026 02:11:44 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D374FF53AA
-	for <lists+linux-leds@lfdr.de>; Thu, 05 Feb 2026 17:28:27 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18870F8E05
+	for <lists+linux-leds@lfdr.de>; Fri, 06 Feb 2026 02:11:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DC9E23004225
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Feb 2026 16:26:26 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 698EE3003618
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Feb 2026 01:11:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53E1843637D;
-	Thu,  5 Feb 2026 16:26:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27A7422D4D3;
+	Fri,  6 Feb 2026 01:11:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="f0Pbr3yS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mhSProag"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70CC0392814;
-	Thu,  5 Feb 2026 16:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A26B2264C0
+	for <linux-leds@vger.kernel.org>; Fri,  6 Feb 2026 01:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770308786; cv=none; b=uee30+yfvq3ff6xxrYI/Y/0KhOawkaC5NosZTjaYtvVseZAETuTVcQCAgZWP4Ni1UFFLUHBBLMghHFvlZEATwZdw+kJVFRxg/O3EnWO4sTwHd5b1k3EyG79Q6fQYjT5ZQrJsNscDdVaLSZjYL4LDGPSStkRBwYG4tp7gY0Vpdj8=
+	t=1770340301; cv=none; b=XiCZcSIUaj15S3IOwuEO1btxRKDRVGKiQHIwP/RCHI6iDjJipqYnqcXboC0NNcS7FOq0B8WwCLHwVw8/dvRWnE87JE6wjavIETnOkYVVEYvNVeV2TP5Dy8lrXBHABI/4/Ck/bPy5wRlZLDFyLUqW6lSO9+gKgdQ8pfxUvuPBnzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770308786; c=relaxed/simple;
-	bh=KXMU8vm2s788X7BoVkEDHomQesKLcsAueBWcMpywyIk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=RDIla/2ByOLH1Dknb3F6cpjcAKJ3T8ubTXUPSacuafA+t5BmQUOAoSCtGgNmSQv0G3KzqM9968tcJsnOzltUaeaHA68LW/2V1u5NR7xJqgGVDXxOThL3Xzk85FhpF8AFG7cuPwq6tdawQ79s1ETLLEUwlZx5PUva+qa4JMb2P4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=f0Pbr3yS; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id 02DFF26500;
-	Thu,  5 Feb 2026 17:26:24 +0100 (CET)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id O10XIGeS0c6f; Thu,  5 Feb 2026 17:26:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1770308783; bh=KXMU8vm2s788X7BoVkEDHomQesKLcsAueBWcMpywyIk=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To;
-	b=f0Pbr3ySc7YFgI3Ouz8AdCoamV6SAlvwNv1okHqPmVa//1DLGDgARy21RWuARGNa8
-	 qmSbdCIBtVrMcRwumIuABS1BW9G202oJJlT7IORxQw/S4/nVIT/uX5nSZSrCHuRfTn
-	 qevOySS8blRynzLP3tL/M6qxV41KraxGovGZoNX1BYWvqBtoicAsILBaSxZQMr98qf
-	 5gWxWvVgGf/ARrFpyFThlk/K9aK5fJgzI6HJPRALt4HzEKW4hkD8g9+hOwbxuvjW6N
-	 NxBb5QN1YHfRFjLIoTuVOBiCm+oLZoCCyaYgQ77KCctuMhfK8BSH+yKUmvhnu/x6KS
-	 wn1PKRtlq1y5Q==
+	s=arc-20240116; t=1770340301; c=relaxed/simple;
+	bh=HFlABrmHq3Spf6ueBFfSIZEq7M+AMpMdM+Gi/bJK2fw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=e3MZsKIo72jC+bv4R17aK0PeL0UP43N+3pW0xszye74Qy33c9v2kp7WkY3AAHkznro8gHXn3sV97TZvjrLWsvyxt7gEmsufk8mNM/ryguE/LSIyfRcOhbe///H9UxI6tvENaK9KiAIQ9HrWclrpM+QDRtgD9uJVz3Y3hySeWJKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mhSProag; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770340301; x=1801876301;
+  h=date:from:to:cc:subject:message-id;
+  bh=HFlABrmHq3Spf6ueBFfSIZEq7M+AMpMdM+Gi/bJK2fw=;
+  b=mhSProagSaSJQsxdPmZiraCM34+Jd83LpC9EG3+qoVxr028xJyoyxAb5
+   3hFzqP3YcMd0QyROEpX1+tIeTN2anMTUX1XIr6xSaTTvDANai934rIwkO
+   Dknb5eEp0XhiN1/X2cdiNkBEOMDSXVYxcvmw2KwuUVKxKDQ4QBhuO6K1/
+   LKEmY4uwkoa7z02l41rGKZV+xDF5LTTibqxCQE8K7EoAJp7M4I3Yj3IDM
+   sU847trLgMYNsxLmyk1zNbiGJzZWhg9hW3fWMzNntEdH89AI474brNWj4
+   rncOVeoGFjWb8JCVSqVlMjekSHsK3+Z9dyX2MkTbXepr1fjLT91Hdvy2N
+   g==;
+X-CSE-ConnectionGUID: fS0T4AeHRRGRZVFr0+1xBw==
+X-CSE-MsgGUID: PXdXI4TkQXqJP+RRcs+mxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="71542670"
+X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
+   d="scan'208";a="71542670"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 17:11:40 -0800
+X-CSE-ConnectionGUID: MDHOuRBHSNmW9qNv8Lh3iA==
+X-CSE-MsgGUID: mca4p+D7Tu+0sAYuJthacg==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 05 Feb 2026 17:11:38 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1voANk-00000000kLA-1ZaS;
+	Fri, 06 Feb 2026 01:11:36 +0000
+Date: Fri, 06 Feb 2026 09:11:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Michael Tretter <m.tretter@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+ Lee Jones <lee@kernel.org>
+Subject: [lee-leds:for-leds-next-next 19/19]
+ include/linux/compiler_types.h:630:45: error: call to
+ '__compiletime_assert_186' declared with attribute error:
+ min(intensity_value[i], led_cdev->max_brightness) signedness error
+Message-ID: <202602060923.xIgdQXjI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 05 Feb 2026 21:56:07 +0530
-Message-Id: <DG7630P5V7QZ.1FLAW5QKEV4BZ@disroot.org>
-Cc: <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 07/12] mfd: sec: store hardware revision in
- sec_pmic_dev and add S2MU005 support
-From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
-To: "Kaustabh Chakraborty" <kauschluss@disroot.org>,
- =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, "Lee Jones"
- <lee@kernel.org>, "Pavel Machek" <pavel@kernel.org>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "MyungJoo Ham" <myungjoo.ham@samsung.com>,
- "Chanwoo Choi" <cw00.choi@samsung.com>, "Sebastian Reichel"
- <sre@kernel.org>, "Krzysztof Kozlowski" <krzk@kernel.org>, "Alexandre
- Belloni" <alexandre.belloni@bootlin.com>, "Jonathan Corbet"
- <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>
-References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
- <20260126-s2mu005-pmic-v2-7-78f1a75f547a@disroot.org>
- <f6d1340062448cf52e4c034d250524e030877898.camel@linaro.org>
- <DG69QZBG97G3.1458CJYT0YG9C@disroot.org>
-In-Reply-To: <DG69QZBG97G3.1458CJYT0YG9C@disroot.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [0.95 / 15.00];
+	LONG_SUBJ(1.60)[214];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[disroot.org,reject];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[disroot.org:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6848-lists,linux-leds=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[disroot.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kauschluss@disroot.org,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	NEURAL_HAM(-0.00)[-0.999];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-6849-lists,linux-leds=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCPT_COUNT_THREE(0.00)[4];
+	TAGGED_RCPT(0.00)[linux-leds];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[disroot.org:email,disroot.org:dkim,disroot.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D374FF53AA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email,intel.com:dkim,intel.com:mid]
+X-Rspamd-Queue-Id: 18870F8E05
 X-Rspamd-Action: no action
 
-On 2026-02-04 20:35 +05:30, Kaustabh Chakraborty wrote:
-> On 2026-02-04 14:17 +00:00, Andr=C3=A9 Draszik wrote:
->> Hi Kaustabh,
->>
->> On Mon, 2026-01-26 at 00:37 +0530, Kaustabh Chakraborty wrote:
->>> The device revision matters in cases when in some PMICs, the correct
->>> register offsets very in different revisions. Instead of just debug
->>
->> s/very/vary
->>
->>> printing the value, store it in the driver data struct.
->>
->> Please mention that you're not doing that for s2mpg1x, though.
->>
->>>=20
->>> Unlike other devices, S2MU005 has its hardware revision ID in register
->>> offset 0x73. Allow handling different devices and add support for S2MU0=
-05.
->>>=20
->>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->>> ---
->>> =C2=A0drivers/mfd/sec-common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 41 ++++++++++++++++++++++++++++++----------
->>> =C2=A0include/linux/mfd/samsung/core.h |=C2=A0 1 +
->>> =C2=A02 files changed, 32 insertions(+), 10 deletions(-)
->>>=20
->>> diff --git a/drivers/mfd/sec-common.c b/drivers/mfd/sec-common.c
->>> index bc2a1f2c6dc7a..069a1ba9aa1f1 100644
->>> --- a/drivers/mfd/sec-common.c
->>> +++ b/drivers/mfd/sec-common.c
->>> @@ -16,6 +16,7 @@
->>> =C2=A0#include <linux/mfd/samsung/irq.h>
->>> =C2=A0#include <linux/mfd/samsung/s2mps11.h>
->>> =C2=A0#include <linux/mfd/samsung/s2mps13.h>
->>> +#include <linux/mfd/samsung/s2mu005.h>
->>> =C2=A0#include <linux/module.h>
->>> =C2=A0#include <linux/of.h>
->>> =C2=A0#include <linux/pm.h>
->>> @@ -111,17 +112,38 @@ static const struct mfd_cell s2mu005_devs[] =3D {
->>> =C2=A0	MFD_CELL_OF("s2mu005-rgb", NULL, NULL, 0, 0, "samsung,s2mu005-rg=
-b"),
->>> =C2=A0};
->>> =C2=A0
->>> -static void sec_pmic_dump_rev(struct sec_pmic_dev *sec_pmic)
->>> +static int sec_pmic_store_rev(struct sec_pmic_dev *sec_pmic)
->>> =C2=A0{
->>> -	unsigned int val;
->>> +	unsigned int reg, mask, shift;
->>> +	int ret;
->>> =C2=A0
->>> -	/* For s2mpg1x, the revision is in a different regmap */
->>> -	if (sec_pmic->device_type =3D=3D S2MPG10)
->>> -		return;
->>> +	switch (sec_pmic->device_type) {
->>> +	case S2MPG10:
->>> +		/* For s2mpg1x, the revision is in a different regmap */
->>> +		return 0;
->>> +	case S2MU005:
->>> +		reg =3D S2MU005_REG_ID;
->>> +		mask =3D S2MU005_ID_MASK;
->>> +		shift =3D S2MU005_ID_SHIFT;
->>> +		break;
->>> +	default:
->>> +		/* For other device types, the REG_ID is always the first register. =
-*/
->>> +		reg =3D S2MPS11_REG_ID;
->>> +		mask =3D ~0;
->>> +		shift =3D 0;
->>> +	}
->>> +
->>> +	ret =3D regmap_read(sec_pmic->regmap_pmic, reg, &sec_pmic->revision);
->>> +	if (ret) {
->>> +		dev_err(sec_pmic->dev, "Failed to read PMIC revision (%d)\n", ret);
->>> +		return ret;
->>> +	}
->>> +
->>> +	sec_pmic->revision &=3D mask;
->>> +	sec_pmic->revision >>=3D shift;
->>> =C2=A0
->>> -	/* For each device type, the REG_ID is always the first register */
->>> -	if (!regmap_read(sec_pmic->regmap_pmic, S2MPS11_REG_ID, &val))
->>> -		dev_dbg(sec_pmic->dev, "Revision: 0x%x\n", val);
->>> +	dev_dbg(sec_pmic->dev, "Revision: 0x%x\n", sec_pmic->revision);
->>> +	return 0;
->>> =C2=A0}
->>> =C2=A0
->>> =C2=A0static void sec_pmic_configure(struct sec_pmic_dev *sec_pmic)
->>> @@ -262,9 +284,8 @@ int sec_pmic_probe(struct device *dev, int device_t=
-ype, unsigned int irq,
->>> =C2=A0		return ret;
->>> =C2=A0
->>> =C2=A0	sec_pmic_configure(sec_pmic);
->>> -	sec_pmic_dump_rev(sec_pmic);
->>> =C2=A0
->>> -	return ret;
->>> +	return sec_pmic_store_rev(sec_pmic);
->>> =C2=A0}
->>> =C2=A0EXPORT_SYMBOL_GPL(sec_pmic_probe);
->>> =C2=A0
->>> diff --git a/include/linux/mfd/samsung/core.h b/include/linux/mfd/samsu=
-ng/core.h
->>> index 43e0c5e55f5d3..56aa33d7e3d60 100644
->>> --- a/include/linux/mfd/samsung/core.h
->>> +++ b/include/linux/mfd/samsung/core.h
->>> @@ -70,6 +70,7 @@ struct sec_pmic_dev {
->>> =C2=A0
->>> =C2=A0	int device_type;
->>> =C2=A0	int irq;
->>> +	unsigned int revision;
->>
->> kerneldoc needs to be updated.
->
-> Seems like it needs cleanup anyway, I will send a patch for that
-> separately (if this patch gets dropped in the next rev, see below).
->
->>
->> Given the LED driver is the only driver & device so far which needs the
->> PMIC revision, maybe for now that driver could determine the revision
->> itself instead of adding this new member for everybody?
->
-> Hmm, implementing that would make this patch redundant. I'll do so.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next-next
+head:   129f82752bcecd554936209aac4dbdd888e92224
+commit: 129f82752bcecd554936209aac4dbdd888e92224 [19/19] leds: multicolor: Limit intensity to max_brightness of LED
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260206/202602060923.xIgdQXjI-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602060923.xIgdQXjI-lkp@intel.com/reproduce)
 
-It however seems weird to not handle it here; we're already reading the
-revision value; it also makes sense to store it in the MFD driver
-itself.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602060923.xIgdQXjI-lkp@intel.com/
 
-Either way, the patch won't be redundant, because the reading part at
-least needs to be implemented here.
+All errors (new ones prefixed by >>):
 
->
->>
->> Cheers,
->> Andre'
->>
->>> =C2=A0};
->>> =C2=A0
->>> =C2=A0struct sec_platform_data {
+   In file included from <command-line>:
+   drivers/leds/led-class-multicolor.c: In function 'multi_intensity_store':
+>> include/linux/compiler_types.h:630:45: error: call to '__compiletime_assert_186' declared with attribute error: min(intensity_value[i], led_cdev->max_brightness) signedness error
+     630 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:611:25: note: in definition of macro '__compiletime_assert'
+     611 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:630:9: note: in expansion of macro '_compiletime_assert'
+     630 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/leds/led-class-multicolor.c:51:38: note: in expansion of macro 'min'
+      51 |                 intensity_value[i] = min(intensity_value[i],
+         |                                      ^~~
 
+
+vim +/__compiletime_assert_186 +630 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  616  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  617  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  618  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  619  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  620  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  621   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  622   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  623   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  624   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  625   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  626   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  627   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  628   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  629  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @630  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  631  
+
+:::::: The code at line 630 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
