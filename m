@@ -1,212 +1,176 @@
-Return-Path: <linux-leds+bounces-6890-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6891-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eIeTOjiKiGlbqwQAu9opvQ
-	(envelope-from <linux-leds+bounces-6890-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sun, 08 Feb 2026 14:06:00 +0100
+	id 6F8MM6OgiGnSsgQAu9opvQ
+	(envelope-from <linux-leds+bounces-6891-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sun, 08 Feb 2026 15:41:39 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6455C108B04
-	for <lists+linux-leds@lfdr.de>; Sun, 08 Feb 2026 14:06:00 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7306D108F32
+	for <lists+linux-leds@lfdr.de>; Sun, 08 Feb 2026 15:41:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 04BAD3008526
-	for <lists+linux-leds@lfdr.de>; Sun,  8 Feb 2026 13:05:59 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C190C3004D02
+	for <lists+linux-leds@lfdr.de>; Sun,  8 Feb 2026 14:41:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03EBF2749E0;
-	Sun,  8 Feb 2026 13:05:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67EA43587A1;
+	Sun,  8 Feb 2026 14:41:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J7EhQkTh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iuSFG1Rp"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E06E258CDF
-	for <linux-leds@vger.kernel.org>; Sun,  8 Feb 2026 13:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD482D0C95
+	for <linux-leds@vger.kernel.org>; Sun,  8 Feb 2026 14:41:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770555954; cv=none; b=JQRmJ9ZiOQ46aDiP/pVGMgAl3k1eK5zJC/sDjBNOa95tFJnaUuEwwdx2CU9jOpIB+ZMemGAkMpGjUlmuWxPo0km4AA5N201xc55gnuLUzhAAUzHYeEByBO/i7dkDWQs+naC0zAMTUUoHxzGAvlI1rKRBqWXL9Qu1o/nSd4ZKwnw=
+	t=1770561696; cv=none; b=XOh/oz8i1jAm9VwDmVIj3ka5dIGt++7luFFp88VioIYu8e7MWNxLbaXo9yQmV+q+qWa4Df6vxI1T3RT5nJkZCj9DEu4SJXo5pdxB3azyy68zI6AMwUCdaKiu0Xd7AQ3mlIK2suXVJocG10AALlab/Eq1W9KvZldtW67QJg2y2GY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770555954; c=relaxed/simple;
-	bh=osT0EUva0gXZ1pK88EukUzwSiu7f4mThiV/KwigTGzQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LkseUiRZ2SapQ19qIFxgyZ1qL8r/0k2Zqp4YetK99+J1Y4l8M1aI0Xn5QDEn0ctSh9cxI21oB/u6E3zv6AzKZXC1hfGg9dg2ATwNKMmw3SC7VuRQAVzjAJlwSDEZ8mbFYgzR98uzzScVG04avAeO2pFDOngYNJZIj9Kz6njZIe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J7EhQkTh; arc=none smtp.client-ip=209.85.128.65
+	s=arc-20240116; t=1770561696; c=relaxed/simple;
+	bh=CZs6W4qtgovICtv3aQ4MI/35xymWjYMW9FmKLgGvuPQ=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=B0gO7KjU8dp1uBwBo/S9NsFLCo9w7sIeou7bjdRjsTpeCNsfDCaCH8VrMFc06TkjEcOjnYdN9XW8FVIE3H1oYlcIAcjXt52juVuoY9I8gOlbRSDnLqD5pyufXt0dzv0PkDZ2wigIoVdzHXh8jXs//4SG3Bkdd0mkX9i5hGnzEjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iuSFG1Rp; arc=none smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-47ee3a63300so39467885e9.2
-        for <linux-leds@vger.kernel.org>; Sun, 08 Feb 2026 05:05:54 -0800 (PST)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59ddf02b00aso4312872e87.0
+        for <linux-leds@vger.kernel.org>; Sun, 08 Feb 2026 06:41:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770555953; x=1771160753; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=S6ZaHSw9LpRz01vg6acbUDvWM+cc8+yuVQwbsTXMnoc=;
-        b=J7EhQkThA2l+rof3AOzI/crRVbSKPsQ3H1oU5Cl77W8vHcmN64O4AW36/L0bBRuYao
-         QA1NJCRLmSI7GzB51Sz1funRAp2CG3svzIxhcwGgnGFkx51hK+drRRm6aEagZYEZvBh8
-         FgoJFbogl6kj7vZ88/Qg+r2GfszxFt2Eh5YPT7L2rZbtll8h5oEOuJT2pWOQuBX5dniJ
-         W+3ZgdEuSqtruad4O3g75HBhtOWYQFXCfUzp9oyaGfkpmpEyDhmgEvNNSulny1rj5vd3
-         xlLpRusLQNtvNGtiDwAr6zWXveOzhbRNtCmvfGKLeQugIS1CWKAk/6BdjmBR/a4ZFE4A
-         TzTQ==
+        d=gmail.com; s=20230601; t=1770561694; x=1771166494; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=rYIWPdf9Ppa+RCJ5xZ0bnUhEJapRTVibnTDn3MDdLKE=;
+        b=iuSFG1Rp7qDdoQS1exGm06yTiEKE8Ut9Sby3ZZLF/zCWH4LkssqaC3tX0QAvid2tDZ
+         VnSHPoGkzaL+5sn2ZUpiaMdEjLhk53Nm2u2SyT1u1KyMVFz8swBc8zQz7RVPbK/fOJ56
+         pEQOvQFR+dfhtTOTfHVmo2apfkd8UMJD7IajkDhVKME/rByfKkbfB9mle0n8li2B+E6P
+         DPi7HGy3NVWGdWqFeGnjQkxhq2ZhzNR3xPl0lifC556ugcm0En8cd7ia7TAXTqjv9Pf7
+         xnk/ay0/30ZjEGbiUoa+ejygg92xWM6xypLs/rRzgWt9C/856NQMTxWCoYnEPNpZLJWM
+         c1Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770555953; x=1771160753;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S6ZaHSw9LpRz01vg6acbUDvWM+cc8+yuVQwbsTXMnoc=;
-        b=DcEk/wvLjY4iC29bNFqbAEQNv909jeyaxp06erOGOtzPGBpHjeVRhF5e9JgJ3nkOEe
-         xGFuRIbcoDceQbKJxHZHDzdVA2zHOU/59U27+lHChJboYJCymAHbHWu1YRQoL4UvPcgS
-         WjJHLFYZD6aKOSczz7co/7lGUzOZH3T8qPlb8EQT5EHrkkqnOKuXxdHpONaJjcgYtZ4o
-         RWbADboVNWKuXXBjUiLqUmWyrBLYVpbeaE2kDGQRiF0J5iFmLcelbC58lBxwKJG14yHs
-         5ycui3d3F/Yxd+0l6npC8gR0BEVpPplqitNj+FS4Ltb2+8qCuo4Win28dQTsGszXaeSf
-         ZLQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdlDV/9/YzyWP4g3ftxL9SmPOWGgRKgwH8xPK3SzjEQxIQhpvW1zLMvkWCYrgChpYLqUphkfww8nGI@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcFFIW39yNil7zilLj2bY2dwypkByrunGASr/EOLjyfN7xQqKw
-	g2rr0GGIkAw1aaZbaerwlnDek3f6YC+Sq+FRxlCSSnImcWr+Tr9gW/oj
-X-Gm-Gg: AZuq6aIiXB4fiF7OA2wQJ5X9isjU+by7eOt1lmbVcmXPNcCTLmWZE8a6c8vDuxj3xuK
-	7BiXHDBqzRol5rxE2xvhmC+6pKeiNQ/2ltBp8LZi2Vb6jQR9k9LtWcPcWGMJn2hYYDuwVF30Uiv
-	xewgied6H/n1hTcfycFgbuPiisWyO1FQWQGWsLKgPr8rbJhVeEAwrFB9Nj7cLgd9foYcY/hI/sS
-	AdXgli+JzxX81VXJe1n2/Jb6ZN95KT3RMJYmDaaIRvet73BwlgmNVMaGLFeIdqh/c8EDn5sqjDI
-	G0NmHeh3/mzqmTVKR1sOVQ8Wc0gFHbROx4eN80qUIu6fYO38h1LNiM9QnAe7Sk2B7MpoRU2eBSI
-	7xe6jqxoPrMWOtd0hVPfCQU6JyVcOu4d62SiXjCOwoXkAJ9O9Dfgnax0oznQvPvu3gjQHurnWqj
-	Jx1GtKjoxVR2WE/SBazPjSUsE=
-X-Received: by 2002:a05:600c:4f54:b0:47d:403e:9cd5 with SMTP id 5b1f17b1804b1-4832020df4emr103964445e9.11.1770555952781;
-        Sun, 08 Feb 2026 05:05:52 -0800 (PST)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296b2110sm19201164f8f.3.2026.02.08.05.05.51
+        d=1e100.net; s=20230601; t=1770561694; x=1771166494;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rYIWPdf9Ppa+RCJ5xZ0bnUhEJapRTVibnTDn3MDdLKE=;
+        b=gDUtSrAoKdzegPBU/EEdjRDW/rmYjKTAn50oq39WFFWhNIbNxicdHXu4CxuWzcdAkP
+         EiwvojON3nl9o2S5QAFMijkf+Bes3dSHBzsDRWkyGRJfQhX5M7nQj/yyO8qySkUO0ZAh
+         7kM2QEFyKdixeSu81qCQAjs5BFgKtB4CN6g9NgivAeOmueQvPiQIARExZbm0tRx3cQBy
+         MbeNjZGP06GpHG8il6CTlqU94Rc0NsBJShGZcMw1+8LOg+2lIBJJT4AiODpAK8J9Unep
+         P7j7apX5dPdQ8yrX5jzDeHMzQD65hABbEP4APzBnHfGDdt1RySfbM08gzvLUyxmCJlrf
+         Z6Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCWAeC2Nyrpxw9DWZGgaQEJ6zFMXyh4yyRcrkgpyiywbmv57683QbXEcLlx+nMARLWUDJNhJ9T+SACQL@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbmbvuojA/5YJJgce3dABEdMBl4GkF3Uw9tmddU5fOBlc/0LId
+	HltyD1PSIbHo6apNqJuchvg4hNZIiGM8+xqzwl4Fzdo3YRJqefsXzZH3
+X-Gm-Gg: AZuq6aKV28OO2hvIxESDtdo4+3zMjo8b86wGp7wtjr8edNi5hJKSXf8daUewTc3VdQp
+	wQEkmJ5EmUdRWMdbQ8l5VPv02UJsrCyL77JZCgHif0aUyigWAGg3BD7oc+HJYzUEM0f0gZzZqiA
+	oug9Rqrl2XimWWcN8PQOWuUqxnZu7SSwGXj3xBVi9VWgM2rTJipkcFg19SfrS4dLApJ6olqaNxT
+	CSTA4qIUTSJmcLs5bRiuvPmSrALbOESbH76BcoSBLC6l7IyxitHlRi6yUH5syeitcMb4Fn4o1iM
+	lVYq8jWSdBwSh2YtQykHPjBQ+YL7qpYjjqnhMaV43F3t5RjlKNf/L3ARjVF6QnJyOipF37xh7lr
+	qDD9CRNeE8zkRItwps5knyDJvz2gEO+z8AyMc+HytD1HTx7PZbyvU7MzjZv1djhgRMX4hvqFknH
+	/NYbEyqflmHv1rvQDDRJ5z6GehFtlHtTA=
+X-Received: by 2002:a05:6512:1302:b0:59e:39af:a70f with SMTP id 2adb3069b0e04-59e45156d7emr2557460e87.35.1770561693903;
+        Sun, 08 Feb 2026 06:41:33 -0800 (PST)
+Received: from ehlo.thunderbird.net ([178.137.246.208])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e44cfd475sm1948495e87.29.2026.02.08.06.41.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Feb 2026 05:05:52 -0800 (PST)
-Message-ID: <0033b0b2-1eb3-4486-abe4-62d25f10b22c@gmail.com>
-Date: Sun, 8 Feb 2026 14:05:50 +0100
+        Sun, 08 Feb 2026 06:41:33 -0800 (PST)
+Date: Sun, 08 Feb 2026 16:41:32 +0200
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+CC: Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
+ =?ISO-8859-1?Q?Nuno_S=E1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Dixit Parmar <dixitparmar19@gmail.com>,
+ Tony Lindgren <tony@atomide.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_11/11=5D_mfd=3A_motorola-cpca?=
+ =?US-ASCII?Q?p=3A_add_support_for_Mot_CPCAP_composition?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <aYiH8iwetvRfWxGI@smile.fi.intel.com>
+References: <20260206172845.145407-1-clamor95@gmail.com> <20260206172845.145407-12-clamor95@gmail.com> <aYiH8iwetvRfWxGI@smile.fi.intel.com>
+Message-ID: <39B7F089-5B4A-47F7-B2EA-A526B290FA77@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/12] dt-bindings: leds: document Samsung S2M series
- PMIC RGB LED device
-To: Kaustabh Chakraborty <kauschluss@disroot.org>,
- Rob Herring <robh@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
- <20260126-s2mu005-pmic-v2-2-78f1a75f547a@disroot.org>
- <20260206133837.GA157817-robh@kernel.org>
- <DG7XJ6T9I7HU.1UVHH2QWX31O1@disroot.org>
-Content-Language: en-US
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <DG7XJ6T9I7HU.1UVHH2QWX31O1@disroot.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	SUBJ_EXCESS_QP(1.20)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6890-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,baylibre.com,analog.com,gmail.com,atomide.com,vger.kernel.org];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	TAGGED_FROM(0.00)[bounces-6891-lists,linux-leds=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacekanaszewski@gmail.com,linux-leds@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.993];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,disroot.org:email]
-X-Rspamd-Queue-Id: 6455C108B04
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 7306D108F32
 X-Rspamd-Action: no action
 
-Hi Kaustabh,
 
-On 2/6/26 14:56, Kaustabh Chakraborty wrote:
-> On 2026-02-06 07:38 -06:00, Rob Herring wrote:
->> On Mon, Jan 26, 2026 at 12:37:09AM +0530, Kaustabh Chakraborty wrote:
->>> Certain Samsung S2M series PMICs have a three-channel LED device with
->>> independent brightness control for each channel, typically used as
->>> status indicators in mobile phones. Document the devicetree schema from
->>> this device.
->>>
->>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->>> ---
->>>   .../bindings/leds/samsung,s2mu005-rgb.yaml         | 34 ++++++++++++++++++++++
->>>   1 file changed, 34 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/leds/samsung,s2mu005-rgb.yaml b/Documentation/devicetree/bindings/leds/samsung,s2mu005-rgb.yaml
->>> new file mode 100644
->>> index 0000000000000..6806b6d869ff7
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/leds/samsung,s2mu005-rgb.yaml
->>> @@ -0,0 +1,34 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/leds/samsung,s2mu005-rgb.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: RGB LED Controller for Samsung S2M series PMICs
->>> +
->>> +maintainers:
->>> +  - Kaustabh Chakraborty <kauschluss@disroot.org>
->>> +
->>> +description: |
->>> +  The Samsung S2M series PMIC RGB LED is a three-channel LED device with
->>> +  8-bit brightness control for each channel, typically used as status
->>> +  indicators in mobile phones.
->>> +
->>> +  This is a part of device tree bindings for S2M and S5M family of Power
->>> +  Management IC (PMIC).
->>> +
->>> +  See also Documentation/devicetree/bindings/mfd/samsung,s2mps11.yaml for
->>> +  additional information and example.
->>> +
->>> +allOf:
->>> +  - $ref: common.yaml#
->>
->> This looks a bit lacking. Don't you need 3 child nodes for each or
->> reference to the multi-color schema?
-> 
-> 	rgb {
-> 		compatible = "samsung,s2mu005-rgb";
-> 		label = "notification:rgb:indicator";
-> 		color = <LED_COLOR_ID_RGB>;
-> 		function = LED_FUNCTION_INDICATOR;
-> 		linux,default-trigger = "pattern";
-> 	};
 
-Having label together with color and function doesn't make sense.
-Please read label documentation in [0].
+8 =D0=BB=D1=8E=D1=82=D0=BE=D0=B3=D0=BE 2026=E2=80=AF=D1=80=2E 14:56:18 GMT=
++02:00, Andy Shevchenko <andriy=2Eshevchenko@intel=2Ecom> =D0=BF=D0=B8=D1=
+=88=D0=B5:
+>On Fri, Feb 06, 2026 at 07:28:45PM +0200, Svyatoslav Ryhel wrote:
+>> Add a MFD subdevice composition used in Tegra20 based Mot board
+>> (Motorola Atrix 4G and Droid X2)=2E
+>
+>=2E=2E=2E
+>
+>>  	{ =2Ename =3D "cpcap", },
+>>  	{ =2Ename =3D "6556002", },
+>>  	{ =2Ename =3D "mapphone-cpcap", },
+>> +	{ =2Ename =3D "mot-cpcap", },
+>
+>Drop inner trailing comma=2E
+>
 
-[0] Documentation/devicetree/bindings/leds/common.yaml
+That would be a stray change, wouldn't it?
 
--- 
-Best regards,
-Jacek Anaszewski
+>>  	{},
+>
+>Drop a comma at the terminator=2E
+>
 
+That would be a stray change as well, wouldn't it?
+
+>>  };
+>>  MODULE_DEVICE_TABLE(spi, cpcap_spi_ids);
+>
+>This can be done in the patch that adds driver data=2E
+>
+
+Then lets move there=2E
 
