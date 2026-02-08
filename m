@@ -1,159 +1,165 @@
-Return-Path: <linux-leds+bounces-6887-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6888-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id h9zuNfqBh2l7YwQAu9opvQ
-	(envelope-from <linux-leds+bounces-6887-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sat, 07 Feb 2026 19:18:34 +0100
+	id cL2LAK2HiGmGqgQAu9opvQ
+	(envelope-from <linux-leds+bounces-6888-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sun, 08 Feb 2026 13:55:09 +0100
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EFDD106D4F
-	for <lists+linux-leds@lfdr.de>; Sat, 07 Feb 2026 19:18:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E8C2108A54
+	for <lists+linux-leds@lfdr.de>; Sun, 08 Feb 2026 13:55:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C8200301571D
-	for <lists+linux-leds@lfdr.de>; Sat,  7 Feb 2026 18:18:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BABD23010BA3
+	for <lists+linux-leds@lfdr.de>; Sun,  8 Feb 2026 12:55:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33B6A2E6CDF;
-	Sat,  7 Feb 2026 18:18:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E04BC21770B;
+	Sun,  8 Feb 2026 12:55:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ITEeLNaP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B+76nWCg"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF83322339
-	for <linux-leds@vger.kernel.org>; Sat,  7 Feb 2026 18:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8B7207A32;
+	Sun,  8 Feb 2026 12:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770488312; cv=none; b=J1YGHtYhXcaBCobUGV02XK13CbQiJxF8qHMaNkYrMSmj9JnAp8kF6IO+eDxnlnXE1kmK2VvNQ5APYNcSwNoEjt4demZpvmQIVEfdQSUdj5yvdxMvumDGUuX53A6ahQ6WeDMsrCAzmexWLxJqtUze3pW0tjiuUjDVWcZK4OHHjjQ=
+	t=1770555301; cv=none; b=YjPs9txF8Lx8YgdRL9wO37REKLZXsFRU8EyiZUYI3kIBWySgZjWiyZojT37f+M6hpcp9sdJcsKQGgBhOhH2ayx7y+I2mlc2AinS6KpxaDdWmcU64M2jq86gzbjYv3S9eZ0VPzTut1ali2y77sxNoLDtXMDs9QNVI25vfmnfa1no=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770488312; c=relaxed/simple;
-	bh=xukVw7rOVqVqFsLaPZt2sF+XCk3KwgRAWOUCu7Rsvz4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ubi6HlgWoBfSlTzpIBhIMxGxtbB2wW5wOmWCx7QXBzB3WoMdtRtj45tlQS2CgoiXaBs3aYU+FuKlr8LiH7Gkg9871lhfbfLrwmyoJbcs5jm+2eT3MSivZYzk5bzzNR9vt8ukvYAJcLizDxJ4V6paqa/+0Lu7t8BizPryXya29do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ITEeLNaP; arc=none smtp.client-ip=209.85.219.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-89473dca8aaso24687096d6.0
-        for <linux-leds@vger.kernel.org>; Sat, 07 Feb 2026 10:18:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770488311; x=1771093111; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WYGpfm4hXts4C0qtHNdzMK2oXFuEFzsNugVdlbkRCPI=;
-        b=ITEeLNaPVt+nkr22Ux3hpS4JpyQT3dy+9IRA3Hv+T+uqKb7Rr/wPCChEv8UJ1ZnGrD
-         ENtGVDKOZLOzyfrojhUgV0SbLUXoytVeMWyK34JSYdt1txvZ92ASic86SZwwGUBipgix
-         fI612H6EXwit06m9NfVs6tJkTDybpF3hkxokA11RzyCblAzztwurkwCDeXSX9sXyKbLU
-         qCA0pCYo+NDR9NcocU3Lu97dGe94pkpH8x0wGcV3NSU8DzyzHxC3qGaXsBWNYzjHKZDh
-         MEDaZogj4fWpyR+EGMAEcHozxRbI0+YpmoQ1nFP8VDtIaD++wm6tkxxh9NXrD4FS1O5c
-         nqrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770488311; x=1771093111;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WYGpfm4hXts4C0qtHNdzMK2oXFuEFzsNugVdlbkRCPI=;
-        b=W/Q4kwd48uYqzkOnUPtULvfGJ5bpNCqlS7OWZnuVQ0KT9BHatUCrW/7wG1W0p+Y/1D
-         NzIUE2sKW1kqGsABFocPP6X+SLUG2CPt+uhTjzJjj15JLj41FbxDEgHvB+5c+OYkGLbX
-         vYfC7bko6LmpFpL3VQ7dPXyvqaqesj44U6LjFAGp5qSzg1scwCDLqoc/2Ksb9x+IOKLc
-         yEaBNpF+QGJtXQYAUXgTNC4emMUSLUn/NG7gpa43JPN/nidyMbqhmRUO084YxEylg9rx
-         kd/+pDR0oCZNl8zmvGoEezV2GkRvTGah6ID3wAk1e4Bg3pmu0hjbsuMbgSVdvuJgQH1l
-         mJiw==
-X-Gm-Message-State: AOJu0YykKx9YezMWNW1Fuj1gOUBSE+faAJwkHxvz60Q1BYNPGM+j87z1
-	eIuzIkO+H1b2mv41cbXcQ/AJ03vkR8Ifv1L2DZ1Cu9WcgE5zXN+sMeJA
-X-Gm-Gg: AZuq6aI9AkvVN5fBICYeTtxEiEMweCOoBul15aM8zGEC6hLbfQ7SuNjrhHSuQe/WOj3
-	q0HwIQMBu5vHewOBZ0qzxhCpTxN7x6NIrzUFj5/kXu0veOU645gVFq7XZQr3lwhPxMAiGHRsUZz
-	kxnZjh7U+VEOXBBzBhn9AMTYtZA+SudWe3yYrOgK4ZLFg1iHIZ92z+HcVd7O9iLqDqVz7+OnMCF
-	fSDqBy4+2uO+BWWmu59MOu9v1mibZmjne5jHOrtg/O6vXWbs32AHTRJX5znA2nvB/D9qCmItyfg
-	3P7NVijtl+oW+jlvG89ipTW8U8WysPGNXf5Gxkpa4AmemozEVxL7U8I3hv2oQRzET7KrmjHiAS9
-	8+gfRK/N5sVZNgElrNra74T2QHGaNId/WV7d2JeWDt01FAbPYp5ksrU8BY1Veo4p9ydrhhK6xCE
-	2CcxtK7HsnVX5UoYihxolSaPiTahlbLiLZUrpSuh1Z
-X-Received: by 2002:a05:6214:29ca:b0:88a:2de5:c824 with SMTP id 6a1803df08f44-8953cd8a136mr102440466d6.54.1770488310748;
-        Sat, 07 Feb 2026 10:18:30 -0800 (PST)
-Received: from localhost.localdomain ([50.21.71.60])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8953bf35102sm42450666d6.10.2026.02.07.10.18.29
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 07 Feb 2026 10:18:29 -0800 (PST)
-From: Neel Bullywon <neelb2403@gmail.com>
-To: lee@kernel.org,
-	pavel@kernel.org
-Cc: linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Neel Bullywon <neelb2403@gmail.com>
-Subject: [PATCH v1] leds: lp5569: Use sysfs_emit instead of sprintf()
-Date: Sat,  7 Feb 2026 13:18:25 -0500
-Message-ID: <20260207181825.13481-1-neelb2403@gmail.com>
-X-Mailer: git-send-email 2.44.0
+	s=arc-20240116; t=1770555301; c=relaxed/simple;
+	bh=AZx6c9CoMFID8DnP0rl6XsK8kOpriozdjmvOXiHwRKU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dSXqslNuE7lwEVT3aCSq+0Svpb2NVLdlQ1Xg4Xc+97Emt9eUXVCyQH1O/wfoni3LHTgfqLIVekczgoy5O5UeTo2uVrASLIDrFhvaj5GDIpo+OQ4Xfu3eou8DzaK4Z/6Pn4bj8Fz4T23NK48pS8E+wy7asCbg0mkjW0/oVUbqwqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B+76nWCg; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770555302; x=1802091302;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AZx6c9CoMFID8DnP0rl6XsK8kOpriozdjmvOXiHwRKU=;
+  b=B+76nWCgWrAkv0M3EwjUMaQxI8ttASk6yRX+e6dyUufEiTzbSgvrT7ay
+   gUvgiJ7rRsh8+Ls0n1nf7b4hp/ENTELo33q9XHTT/iJ5TNat/e5RPO7VC
+   bFu+yfziVVtX5/+6ZW0YhVIanhDE2adkUYFkqFAi009ItllLbJJiMqk6e
+   OXwvusYt6r87lRdGqSpC9ji4CMpOo2yZyRS05X2wQdi7XOwn0uMjFBQd5
+   d/wINEShwb6cCjE7oYEHpTCW6oJfpR0gGHHuZhy/KkKj9xj233Fh48zw6
+   I15K4x1i6xYTiawO/sMVx1tL6sUC5oGgiYwa+XWmR5d4Fkc/drmbwv4xr
+   A==;
+X-CSE-ConnectionGUID: Hg29sWpYQnefaqNAnRNMOA==
+X-CSE-MsgGUID: HST9Dgc2SMeFc65ltegGIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11694"; a="71592387"
+X-IronPort-AV: E=Sophos;i="6.21,280,1763452800"; 
+   d="scan'208";a="71592387"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 04:55:01 -0800
+X-CSE-ConnectionGUID: 4MbOHrcZSQiwHI+rxB0+oQ==
+X-CSE-MsgGUID: g1ZOGS5fSEOAMt/iI2BNzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,280,1763452800"; 
+   d="scan'208";a="216314342"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.245.100])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 04:54:56 -0800
+Date: Sun, 8 Feb 2026 14:54:53 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Dixit Parmar <dixitparmar19@gmail.com>,
+	Tony Lindgren <tony@atomide.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 10/11] mfd: motorola-cpcap: diverge configuration
+ per-board
+Message-ID: <aYiHnUW93AB0ARJH@smile.fi.intel.com>
+References: <20260206172845.145407-1-clamor95@gmail.com>
+ <20260206172845.145407-11-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260206172845.145407-11-clamor95@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-6887-lists,linux-leds=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,baylibre.com,analog.com,gmail.com,atomide.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-6888-lists,linux-leds=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[neelb2403@gmail.com,linux-leds@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-leds@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-leds];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 2EFDD106D4F
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,smile.fi.intel.com:mid]
+X-Rspamd-Queue-Id: 9E8C2108A54
 X-Rspamd-Action: no action
 
-Replace sprintf() with sysfs_emit(), which is the modern standard for
-formatting sysfs output.
+On Fri, Feb 06, 2026 at 07:28:44PM +0200, Svyatoslav Ryhel wrote:
+> MFD have rigid subdevice structure which does not allow flexible dynamic
+> subdevice linking. Address this by diverging CPCAP subdevice composition
+> to take into account board specific configuration.
+> 
+> Create a common default subdevice composition, rename existing subdevice
+> composition into cpcap_mapphone_mfd_devices since it targets mainly
+> Mapphone board.
 
-This change aligng with the kernel's best practices and ensures usage of
-the most up to date API.
+...
 
-Signed-off-by: Neel Bullywon <neelb2403@gmail.com>
----
- drivers/leds/leds-lp5569.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> -static const struct of_device_id cpcap_of_match[] = {
+> -	{ .compatible = "motorola,cpcap", },
+> -	{ .compatible = "st,6556002", },
+> -	{},
+> -};
+> -MODULE_DEVICE_TABLE(of, cpcap_of_match);
+> -
+>  static const struct spi_device_id cpcap_spi_ids[] = {
+>  	{ .name = "cpcap", },
+>  	{ .name = "6556002", },
+> +	{ .name = "mapphone-cpcap", },
+>  	{},
+>  };
 
-diff --git a/drivers/leds/leds-lp5569.c b/drivers/leds/leds-lp5569.c
-index 786f2aa35319..a252ba6c455d 100644
---- a/drivers/leds/leds-lp5569.c
-+++ b/drivers/leds/leds-lp5569.c
-@@ -410,12 +410,12 @@ static ssize_t lp5569_selftest(struct device *dev,
- 	/* Test LED Open */
- 	pos = lp5569_led_open_test(led, buf);
- 	if (pos < 0)
--		return sprintf(buf, "FAIL\n");
-+		return sysfs_emit(buf, "FAIL\n");
- 
- 	/* Test LED Shorted */
- 	pos += lp5569_led_short_test(led, buf);
- 	if (pos < 0)
--		return sprintf(buf, "FAIL\n");
-+		return sysfs_emit(buf, "FAIL\n");
- 
- 	for (i = 0; i < chip->pdata->num_channels; i++) {
- 		/* Restore current */
+This  also needs to be converted to use driver data.
+
+>  MODULE_DEVICE_TABLE(spi, cpcap_spi_ids);
+
 -- 
-2.44.0
+With Best Regards,
+Andy Shevchenko
+
 
 
