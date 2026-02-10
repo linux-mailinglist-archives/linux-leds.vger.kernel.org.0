@@ -1,51 +1,51 @@
-Return-Path: <linux-leds+bounces-6927-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6928-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eLM7AmMci2nSPwAAu9opvQ
-	(envelope-from <linux-leds+bounces-6927-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Feb 2026 12:54:11 +0100
+	id sCMKLDopi2kbQgAAu9opvQ
+	(envelope-from <linux-leds+bounces-6928-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Feb 2026 13:48:58 +0100
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7654A11A6BE
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Feb 2026 12:54:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319F311AFF5
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Feb 2026 13:48:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 65CDF3014C51
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Feb 2026 11:54:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 591F9303BA46
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Feb 2026 12:48:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CEA73271F2;
-	Tue, 10 Feb 2026 11:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96FAC311C11;
+	Tue, 10 Feb 2026 12:48:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I+8epu/o"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="riTIzdQs"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3651A283FE5;
-	Tue, 10 Feb 2026 11:54:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7211628727E;
+	Tue, 10 Feb 2026 12:48:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770724448; cv=none; b=a0Gpkt0p5w9gBhaeElMZW65VKHmKJp73wwp5cmSyGlcSg58G1tu0dzxkiuJ3X6shVAvcDI+b+RMWsY3U1MDgJqHY9EY2CgdPLyrlJsVtJgrXsHScYH6UPFsgeqh1Bsc89r5IHx7pq/p7DS0zLYL+z4Ar+KakPzurWe+DhvtQK4w=
+	t=1770727731; cv=none; b=WxJWWqL52GUxwl85wAbqILv3xqfW80qkZmbGVuDzeNX93ONxNRFQbWY3lIDImrlLIdoeu7V2/kJ84iyectnCPRenhCMYIm3VMABVPvFJZBMlRzX1ThWl4UO6HKTpE+hfhsQYqFJGr+oooE9MLi0W+AAxBfjrPGsyIeEAO7GgvYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770724448; c=relaxed/simple;
-	bh=lmDdD2WeTv3lwci6Ykf/RIhBMheOxhbiTk1zUMfWMzg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r1r5kQOm7+++n5A2cjN2agoYezABo6V87OD7bXgYsym85hjrX4lAC0FYOiqkWkYeQndvfnyyUbScwAKUFnB1leHq2Jv4gQ+OsdvVBrPOt1VCxIdR7eGzuY6zuIOSICA+1jdttLW/AAS9SZiFvdkrKaWgqWoQKzwR0Gw9ACSay3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I+8epu/o; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9582DC116C6;
-	Tue, 10 Feb 2026 11:54:03 +0000 (UTC)
+	s=arc-20240116; t=1770727731; c=relaxed/simple;
+	bh=vvnvUwyQSeRgCBnsUrcVrKGgV+yxucGObqDmZnndIzI=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=OuPTYAAixUPE+wN0G07kVQqJ/SjQYK6A0K0arnH82Ng0P+3xPM12ra8WlZni7o5KWaUKegiYZVY2XMl7nqws4LXGOwQszpp8VP60tbf0StyxmIJQRO1SbXlVnoCXQhF1tlfckJo1t9+qZOzdKIolYTEqWpbMQexPfXDefmxXSdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=riTIzdQs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0729C116C6;
+	Tue, 10 Feb 2026 12:48:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770724447;
-	bh=lmDdD2WeTv3lwci6Ykf/RIhBMheOxhbiTk1zUMfWMzg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=I+8epu/oy1hLJdp8OpelQL+5iw0fu9QUgheRbyAnpYB4742UkoL165ZL6tb4hlX5c
-	 S40T5nSnMYJfDnDJJtzg1efRP5Hk6rzNFbVP0ungZVzkv89kqY26DdEUnD8T3/HLvW
-	 jEumig+ItJiE8KgSYH5f2Hn07dGaPIzaVnixoSb4WfMU4bXLpTR450VkXVCq1Kuooa
-	 TAkc5yzySPmVMIHQppmGMWm/vV2Y0Cm9+0OQS89YkUpgzau4M8/dGBhW0oy6YzpnFu
-	 4vAl5oogxfoDANrXkA0teUKLuTvQMsibCkCuHtO66Nm2x+pZEGyEeHz5JDzvd1nlRI
-	 wzBNM/feiz7sA==
-Message-ID: <ec3b39d6-51ec-429d-b083-e5af2b4a9c65@kernel.org>
-Date: Tue, 10 Feb 2026 12:54:01 +0100
+	s=k20201202; t=1770727731;
+	bh=vvnvUwyQSeRgCBnsUrcVrKGgV+yxucGObqDmZnndIzI=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=riTIzdQssYR8g2NzGUGuJiD/6H2GGiVWLCyloWQblfYjGzJqo4lPuEYXCsLhz81Yh
+	 8lxBRMhZM8bZ7PDfwYQQRRtd3cwJ/ccbu795+X3kwEf68kVwnpA2ecX/fDCvUArgzb
+	 wSLYYvrA5qp9D4C+/QX6pW8DvIIpLhP4XGvdJuKpn++709gQaylMhwDemCjf3INE0J
+	 jm1WsHAb4QLFhHHYdems2/OIOrnu2oXYRhHGLhwfSyMXzG9UAQiGc/D5Nacv0AfZza
+	 9+IKpBQqnni90saBsi5Of+XqLMJxKDH57SM+uVNl8ZUD30YFK9DDIoGojs3fx9zp9X
+	 t8ZWNtwSF9RjA==
+Message-ID: <9dcc308d-f87d-4706-90ae-df3669aea224@kernel.org>
+Date: Tue, 10 Feb 2026 13:48:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -54,6 +54,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 3/9] dt-bindings: mfd: document ASUS Transformer EC
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -75,7 +76,7 @@ References: <20260209104407.116426-1-clamor95@gmail.com>
  <CAPVz0n0O_uSAPYFtg8s+Ni0buyGJys6d0jEMob6SNWx-aeKUEw@mail.gmail.com>
  <dc7acd1e-91e8-492c-8665-cb680c6164fd@kernel.org>
  <CAPVz0n0u_0ZukcKXt0QpiyCMhWsg2VE-dE19wDCbRQvBvVOf+A@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <ec3b39d6-51ec-429d-b083-e5af2b4a9c65@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -120,7 +121,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <CAPVz0n0u_0ZukcKXt0QpiyCMhWsg2VE-dE19wDCbRQvBvVOf+A@mail.gmail.com>
+In-Reply-To: <ec3b39d6-51ec-429d-b083-e5af2b4a9c65@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
@@ -133,7 +134,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6927-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6928-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -152,45 +153,49 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 7654A11A6BE
+X-Rspamd-Queue-Id: 319F311AFF5
 X-Rspamd-Action: no action
 
-On 10/02/2026 12:40, Svyatoslav Ryhel wrote:
+On 10/02/2026 12:54, Krzysztof Kozlowski wrote:
+> On 10/02/2026 12:40, Svyatoslav Ryhel wrote:
+>>>>
+>>>> So you propose introduce a compatible for every single ec used in
+>>>> transformers instead of simply disable unpopulated functions? And how
+>>>> then battery and charger can reach monitored cell if they have no
+>>>> dedicated node?
 >>>
->>> So you propose introduce a compatible for every single ec used in
->>> transformers instead of simply disable unpopulated functions? And how
->>> then battery and charger can reach monitored cell if they have no
->>> dedicated node?
+>>> Just like for other bindings for nodes without resources, fold into
+>>> parent. This is already explained in writing bindings, so you could have
+>>> just read that. I will pass with answering more questions till you read
+>>> that doc.
+>>>
 >>
->> Just like for other bindings for nodes without resources, fold into
->> parent. This is already explained in writing bindings, so you could have
->> just read that. I will pass with answering more questions till you read
->> that doc.
+>> Unfolding asus,ec-pad and asus,ec-dock will result in this list:
 >>
+>> asus,tf101-dock-ec
+>> asus,tf101g-dock-ec
+>> asus,sl101-pad-ec
+>> asus,tf201-pad-ec
+>> asus,tf201-dock-ec
+>> asus,tf300t-pad-ec
+>> asus,tf300t-dock-ec
+>> asus,tf300tg-pad-ec
+>> asus,tf300tg-dock-ec
+>> asus,tf300tl-pad-ec
+>> asus,tf300tl-dock-ec
+>> asus,tf600t-pad-ec
+>> asus,tf700t-pad-ec
+>> asus,tf700t-dock-ec
+>> asus,tf701t-pad-ec
+>> asus,p1801-t-pad-ec
+>>
+>> with minor variations in populated cells. Is this acceptible?
 > 
-> Unfolding asus,ec-pad and asus,ec-dock will result in this list:
 > 
-> asus,tf101-dock-ec
-> asus,tf101g-dock-ec
-> asus,sl101-pad-ec
-> asus,tf201-pad-ec
-> asus,tf201-dock-ec
-> asus,tf300t-pad-ec
-> asus,tf300t-dock-ec
-> asus,tf300tg-pad-ec
-> asus,tf300tg-dock-ec
-> asus,tf300tl-pad-ec
-> asus,tf300tl-dock-ec
-> asus,tf600t-pad-ec
-> asus,tf700t-pad-ec
-> asus,tf700t-dock-ec
-> asus,tf701t-pad-ec
-> asus,p1801-t-pad-ec
-> 
-> with minor variations in populated cells. Is this acceptible?
+> Yes, this looks correct.
 
-
-Yes, this looks correct.
+Update: with fallback-expressed compatibility when same interface and/or
+superset of features.
 
 Best regards,
 Krzysztof
