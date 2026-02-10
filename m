@@ -1,202 +1,253 @@
-Return-Path: <linux-leds+bounces-6928-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6929-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sCMKLDopi2kbQgAAu9opvQ
-	(envelope-from <linux-leds+bounces-6928-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Feb 2026 13:48:58 +0100
+	id 8LeVHBt7i2nTUgAAu9opvQ
+	(envelope-from <linux-leds+bounces-6929-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Feb 2026 19:38:19 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319F311AFF5
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Feb 2026 13:48:54 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C56B311E592
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Feb 2026 19:38:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 591F9303BA46
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Feb 2026 12:48:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B3F0530338B2
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Feb 2026 18:38:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96FAC311C11;
-	Tue, 10 Feb 2026 12:48:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FA78328608;
+	Tue, 10 Feb 2026 18:38:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="riTIzdQs"
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="QJaR+wE+"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7211628727E;
-	Tue, 10 Feb 2026 12:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F362DAFDD;
+	Tue, 10 Feb 2026 18:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770727731; cv=none; b=WxJWWqL52GUxwl85wAbqILv3xqfW80qkZmbGVuDzeNX93ONxNRFQbWY3lIDImrlLIdoeu7V2/kJ84iyectnCPRenhCMYIm3VMABVPvFJZBMlRzX1ThWl4UO6HKTpE+hfhsQYqFJGr+oooE9MLi0W+AAxBfjrPGsyIeEAO7GgvYQ=
+	t=1770748695; cv=none; b=YoCdDMcA0TlzM5H/YH6Gy/Kp7M6ngcdyqmZAKj6G9ow6UCOgR0oyTqwZLRNgixIKJ8dipROHKrFBh295YFQU/EXUQNn2zxCIK4d80TUyw38ql+245Kg14AikS++8q5eQ7CkreooazNTbvV7o1bDSsfqaX5nM8xUGWh0bG0aelfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770727731; c=relaxed/simple;
-	bh=vvnvUwyQSeRgCBnsUrcVrKGgV+yxucGObqDmZnndIzI=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=OuPTYAAixUPE+wN0G07kVQqJ/SjQYK6A0K0arnH82Ng0P+3xPM12ra8WlZni7o5KWaUKegiYZVY2XMl7nqws4LXGOwQszpp8VP60tbf0StyxmIJQRO1SbXlVnoCXQhF1tlfckJo1t9+qZOzdKIolYTEqWpbMQexPfXDefmxXSdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=riTIzdQs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0729C116C6;
-	Tue, 10 Feb 2026 12:48:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770727731;
-	bh=vvnvUwyQSeRgCBnsUrcVrKGgV+yxucGObqDmZnndIzI=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=riTIzdQssYR8g2NzGUGuJiD/6H2GGiVWLCyloWQblfYjGzJqo4lPuEYXCsLhz81Yh
-	 8lxBRMhZM8bZ7PDfwYQQRRtd3cwJ/ccbu795+X3kwEf68kVwnpA2ecX/fDCvUArgzb
-	 wSLYYvrA5qp9D4C+/QX6pW8DvIIpLhP4XGvdJuKpn++709gQaylMhwDemCjf3INE0J
-	 jm1WsHAb4QLFhHHYdems2/OIOrnu2oXYRhHGLhwfSyMXzG9UAQiGc/D5Nacv0AfZza
-	 9+IKpBQqnni90saBsi5Of+XqLMJxKDH57SM+uVNl8ZUD30YFK9DDIoGojs3fx9zp9X
-	 t8ZWNtwSF9RjA==
-Message-ID: <9dcc308d-f87d-4706-90ae-df3669aea224@kernel.org>
-Date: Tue, 10 Feb 2026 13:48:45 +0100
+	s=arc-20240116; t=1770748695; c=relaxed/simple;
+	bh=0S3RJow1qD7PFdkhzxVnh4+LwnKI1lU+DZNFvWp386o=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=IEMU4ezDBk+Vbxh/DBdeT43dXi0lGeDejK/E2XZFs+34CtvYMdyQwhA9lDpI6FyW8irZHco7BmovELi7LWOwWPQxA1TAKGtbsILUhRMQiQCzqS1QEMMavSBGY4SubMFmDSsv5rdvEVBcEEq/8yLE9T3A3Okw/ldy9xHT0WnT0+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=QJaR+wE+; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id 65D9826E45;
+	Tue, 10 Feb 2026 19:38:05 +0100 (CET)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id hxMFZOdYNC1j; Tue, 10 Feb 2026 19:38:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1770748684; bh=0S3RJow1qD7PFdkhzxVnh4+LwnKI1lU+DZNFvWp386o=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To;
+	b=QJaR+wE+1zXkxKP4PgxVfqx8aPct1wMFu6bp0neQIu2LEWMCyFNZBTq6TEW5EAsMu
+	 e1JBYnTsrnXckubEcRNki6Jci1tPDUrr+DLpjDmNaIBJc3AIqgNnI2j0bOtqMyjliQ
+	 3Mq2G1Vl/K6xwoGHbmkN+Ar/re1/CKwQZUaGbnBlu1Yai9OOBhvk+l9zrmEOt0SnCU
+	 o8dU44CF7kTCn8xQ92CFCmUob9CxQ5r+XYzYDGs9xTLCUj6RwUHeEZB252FDEDVAXC
+	 Ds+Mc89LfdcrpXGs+nqEexg1J/p5qoe5b7tW3XprZQSUuvJbUPBGWK41S959DanCBF
+	 4ZkcqIcVWvGPA==
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/9] dt-bindings: mfd: document ASUS Transformer EC
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Pavel Machek <pavel@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sre@kernel.org>, =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?=
- <mirq-linux@rere.qmqm.pl>, Ion Agorria <ion@agorria.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-pm@vger.kernel.org
-References: <20260209104407.116426-1-clamor95@gmail.com>
- <20260209104407.116426-4-clamor95@gmail.com>
- <20260210-sexy-grumpy-sambar-44edd2@quoll>
- <CAPVz0n3fizf=r58Fr4YQ6pnjHq5p-7yFz95obss6w6x0bfgnDg@mail.gmail.com>
- <d1973810-d3f5-4ed7-ba0f-6bf93c1c7f3d@kernel.org>
- <CAPVz0n1foyy9g7MAurSAyLCUHTzrPPu0ceqy9YpcDA9uzgjGng@mail.gmail.com>
- <cb91898e-10f1-4d64-bace-41bbed08179b@kernel.org>
- <CAPVz0n0O_uSAPYFtg8s+Ni0buyGJys6d0jEMob6SNWx-aeKUEw@mail.gmail.com>
- <dc7acd1e-91e8-492c-8665-cb680c6164fd@kernel.org>
- <CAPVz0n0u_0ZukcKXt0QpiyCMhWsg2VE-dE19wDCbRQvBvVOf+A@mail.gmail.com>
- <ec3b39d6-51ec-429d-b083-e5af2b4a9c65@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <ec3b39d6-51ec-429d-b083-e5af2b4a9c65@kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Wed, 11 Feb 2026 00:07:50 +0530
+Message-Id: <DGBI0L4E59ZY.24OGXR0XUDH4Z@disroot.org>
+Cc: <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 08/12] leds: flash: add support for Samsung S2M
+ series PMIC flash LED device
+From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
+To: =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, "Kaustabh
+ Chakraborty" <kauschluss@disroot.org>, "Lee Jones" <lee@kernel.org>, "Pavel
+ Machek" <pavel@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "MyungJoo Ham" <myungjoo.ham@samsung.com>, "Chanwoo Choi"
+ <cw00.choi@samsung.com>, "Sebastian Reichel" <sre@kernel.org>, "Krzysztof
+ Kozlowski" <krzk@kernel.org>, "Alexandre Belloni"
+ <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>
+References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
+ <20260126-s2mu005-pmic-v2-8-78f1a75f547a@disroot.org>
+ <e34d429e27392eba894b9592724a77fa82fc8009.camel@linaro.org>
+ <DG75VP6IIUXD.1VA6YSMNTPJQ6@disroot.org>
+ <9dad174d88c814d3ad2086a31e8dfc222fd431e4.camel@linaro.org>
+In-Reply-To: <9dad174d88c814d3ad2086a31e8dfc222fd431e4.camel@linaro.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[disroot.org,reject];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[disroot.org:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6928-lists,linux-leds=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	TAGGED_FROM(0.00)[bounces-6929-lists,linux-leds=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-leds@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,arndb.de,linuxfoundation.org,rere.qmqm.pl,agorria.com,vger.kernel.org];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 319F311AFF5
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kauschluss@disroot.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[disroot.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C56B311E592
 X-Rspamd-Action: no action
 
-On 10/02/2026 12:54, Krzysztof Kozlowski wrote:
-> On 10/02/2026 12:40, Svyatoslav Ryhel wrote:
->>>>
->>>> So you propose introduce a compatible for every single ec used in
->>>> transformers instead of simply disable unpopulated functions? And how
->>>> then battery and charger can reach monitored cell if they have no
->>>> dedicated node?
->>>
->>> Just like for other bindings for nodes without resources, fold into
->>> parent. This is already explained in writing bindings, so you could have
->>> just read that. I will pass with answering more questions till you read
->>> that doc.
->>>
->>
->> Unfolding asus,ec-pad and asus,ec-dock will result in this list:
->>
->> asus,tf101-dock-ec
->> asus,tf101g-dock-ec
->> asus,sl101-pad-ec
->> asus,tf201-pad-ec
->> asus,tf201-dock-ec
->> asus,tf300t-pad-ec
->> asus,tf300t-dock-ec
->> asus,tf300tg-pad-ec
->> asus,tf300tg-dock-ec
->> asus,tf300tl-pad-ec
->> asus,tf300tl-dock-ec
->> asus,tf600t-pad-ec
->> asus,tf700t-pad-ec
->> asus,tf700t-dock-ec
->> asus,tf701t-pad-ec
->> asus,p1801-t-pad-ec
->>
->> with minor variations in populated cells. Is this acceptible?
-> 
-> 
-> Yes, this looks correct.
+On 2026-02-10 10:03 +00:00, Andr=C3=A9 Draszik wrote:
+> On Thu, 2026-02-05 at 21:46 +0530, Kaustabh Chakraborty wrote:
+>> On 2026-02-04 16:55 +00:00, Andr=C3=A9 Draszik wrote:
+>> > Hi,
+>> >=20
+>> > On Mon, 2026-01-26 at 00:37 +0530, Kaustabh Chakraborty wrote:
+>> > > Add support for flash LEDs found in certain Samsung S2M series PMICs=
+.
+>> > > The device has two channels for LEDs, typically for the back and fro=
+nt
+>> > > cameras in mobile devices. Both channels can be independently
+>> > > controlled, and can be operated in torch or flash modes.
+>> > >=20
+>> > > The driver includes initial support for the S2MU005 PMIC flash LEDs.
+>> > >=20
+>> > > Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+>> > > ---
+>> > > =C2=A0drivers/leds/flash/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 12 ++
+>> > > =C2=A0drivers/leds/flash/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+>> > > =C2=A0drivers/leds/flash/leds-s2m-flash.c | 410 ++++++++++++++++++++=
+++++++++++++++++
+>> > > =C2=A03 files changed, 423 insertions(+)
+>> > >=20
+>> > > diff --git a/drivers/leds/flash/Kconfig b/drivers/leds/flash/Kconfig
+>> > > index 5e08102a67841..be62e05277429 100644
+>> > > --- a/drivers/leds/flash/Kconfig
+>> > > +++ b/drivers/leds/flash/Kconfig
+>> > > @@ -114,6 +114,18 @@ config LEDS_RT8515
+>> > > =C2=A0	=C2=A0 To compile this driver as a module, choose M here: the=
+ module
+>> > > =C2=A0	=C2=A0 will be called leds-rt8515.
+>> > > =C2=A0
+>> > > +config LEDS_S2M_FLASH
+>> > > +	tristate "Samsung S2M series PMICs flash/torch LED support"
+>> > > +	depends on LEDS_CLASS
+>> > > +	depends on MFD_SEC_CORE
+>> > > +	depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
+>> > > +	select REGMAP_IRQ
+>> > > +	help
+>> > > +	=C2=A0 This option enables support for the flash/torch LEDs found =
+in
+>> > > +	=C2=A0 certain Samsung S2M series PMICs, such as the S2MU005. It h=
+as
+>> > > +	=C2=A0 a LED channel dedicated for every physical LED. The LEDs ca=
+n
+>> > > +	=C2=A0 be controlled in flash and torch modes.
+>> > > +
+>> > > =C2=A0config LEDS_SGM3140
+>> > > =C2=A0	tristate "LED support for the SGM3140"
+>> > > =C2=A0	depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
+>> > > diff --git a/drivers/leds/flash/Makefile b/drivers/leds/flash/Makefi=
+le
+>> > > index 712fb737a428e..44e6c1b4beb37 100644
+>> > > --- a/drivers/leds/flash/Makefile
+>> > > +++ b/drivers/leds/flash/Makefile
+>> > > @@ -10,6 +10,7 @@ obj-$(CONFIG_LEDS_MAX77693)	+=3D leds-max77693.o
+>> > > =C2=A0obj-$(CONFIG_LEDS_QCOM_FLASH)	+=3D leds-qcom-flash.o
+>> > > =C2=A0obj-$(CONFIG_LEDS_RT4505)	+=3D leds-rt4505.o
+>> > > =C2=A0obj-$(CONFIG_LEDS_RT8515)	+=3D leds-rt8515.o
+>> > > +obj-$(CONFIG_LEDS_S2M_FLASH)	+=3D leds-s2m-flash.o
+>> > > =C2=A0obj-$(CONFIG_LEDS_SGM3140)	+=3D leds-sgm3140.o
+>> > > =C2=A0obj-$(CONFIG_LEDS_SY7802)	+=3D leds-sy7802.o
+>> > > =C2=A0obj-$(CONFIG_LEDS_TPS6131X)	+=3D leds-tps6131x.o
+>> > > diff --git a/drivers/leds/flash/leds-s2m-flash.c b/drivers/leds/flas=
+h/leds-s2m-flash.c
+>> > > new file mode 100644
+>> > > index 0000000000000..1be2745c475bf
+>> > > --- /dev/null
+>> > > +++ b/drivers/leds/flash/leds-s2m-flash.c
+>> > > @@ -0,0 +1,410 @@
+>> > > +// SPDX-License-Identifier: GPL-2.0
+>> > > +/*
+>> > > + * Flash and Torch LED Driver for Samsung S2M series PMICs.
+>> > > + *
+>> > > + * Copyright (c) 2015 Samsung Electronics Co., Ltd
+>> > > + * Copyright (c) 2025 Kaustabh Chakraborty <kauschluss@disroot.org>
+>> > > + */
+>> > > +
+>> > > +#include <linux/container_of.h>
+>> > > +#include <linux/led-class-flash.h>
+>> > > +#include <linux/mfd/samsung/core.h>
+>> > > +#include <linux/mfd/samsung/s2mu005.h>
+>> > > +#include <linux/module.h>
+>> > > +#include <linux/of.h>
+>> > > +#include <linux/platform_device.h>
+>> > > +#include <linux/regmap.h>
+>> > > +#include <media/v4l2-flash-led-class.h>
+>> > > +
+>> > > +#define MAX_CHANNELS	2
+>> > > +
+>> > > +struct s2m_fled {
+>> > > +	struct device *dev;
+>> > > +	struct regmap *regmap;
+>> > > +	struct led_classdev_flash cdev;
+>> > > +	struct v4l2_flash *v4l2_flash;
+>> > > +	struct mutex lock;
+>> >=20
+>> > Please add a (brief) comment describing what the mutex protects.
+>>=20
+>> The mutex object prevents the concurrent access of flash control
+>> registers by the LED and V4L2 subsystems. -- will add this.
+>>=20
+>> > > +
+>> > > +	/*
+>> > > +	 * Get the LED enable register address. Revision EVT0 has the
+>> > > +	 * register at CTRL4, while EVT1 and higher have it at CTRL6.
+>> > > +	 */
+>> > > +	if (priv->pmic_revision =3D=3D 0)
+>> > > +		reg_enable =3D S2MU005_REG_FLED_CTRL4;
+>> > > +	else
+>> > > +		reg_enable =3D S2MU005_REG_FLED_CTRL6;
+>> >=20
+>> > You could REG_FIELD() and friends for this and everywhere else with
+>> > similar if / else.
+>> >=20
+>>=20
+>> REG_FIELD(), from what I understood, is for selecting a bit field inside
+>> a single register. However this code chooses between two separate
+>> registers. I believe your interpretation was incorrect? Please clarify.
+>
+> The first argument to REG_FIELD is the register itself, so reg fields can
+> be used to describe this difference. See e.g. drivers/leds/rgb/leds-mt637=
+0-rgb.c
+> Of course, you could have a member variable instead to hold the register
+> index if all bits are the same in both revisions. Either way would avoid
+> having to constantly check the revision during runtime.
 
-Update: with fallback-expressed compatibility when same interface and/or
-superset of features.
+Wow, this is a great way of abstraction, thanks. I will try to implement
+this in all drivers, let's see.
 
-Best regards,
-Krzysztof
+>
+> Cheers,
+> Andre'
+
 
