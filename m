@@ -1,393 +1,192 @@
-Return-Path: <linux-leds+bounces-6946-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6947-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uB0gD7m6kGm8cgEAu9opvQ
-	(envelope-from <linux-leds+bounces-6946-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sat, 14 Feb 2026 19:11:05 +0100
+	id UG0BHufJkGnbcwEAu9opvQ
+	(envelope-from <linux-leds+bounces-6947-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sat, 14 Feb 2026 20:15:51 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE6413CB6E
-	for <lists+linux-leds@lfdr.de>; Sat, 14 Feb 2026 19:11:03 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89EAA13D028
+	for <lists+linux-leds@lfdr.de>; Sat, 14 Feb 2026 20:15:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 43E7630268B2
-	for <lists+linux-leds@lfdr.de>; Sat, 14 Feb 2026 18:10:40 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 67A123004619
+	for <lists+linux-leds@lfdr.de>; Sat, 14 Feb 2026 19:15:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 978653101CE;
-	Sat, 14 Feb 2026 18:10:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D9532FF148;
+	Sat, 14 Feb 2026 19:15:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iyvz/SZB"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="GVmiJqi+"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04CC7311975
-	for <linux-leds@vger.kernel.org>; Sat, 14 Feb 2026 18:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C13D38FA3;
+	Sat, 14 Feb 2026 19:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771092629; cv=none; b=Up/cCK1lZKbFJiKHyUf9C3GBYDn3ffjk0o1ttuKG+MZdkGZ7+Jy7nCVsO8YWp0glXXn9/xjATLbZPElYfwzIqhokxz9dLmiHH9FaTJW/k2fDJCdxtP0OD5fBatqoT9ca2E6DsqgJH5Mprhyvu+nHam3bpcJltFpPI5wKlj5Irtc=
+	t=1771096546; cv=none; b=WbdmgxNvaLv0zTcFbqbSh4phGSyldKE1oItm6rspEB4eJgE+oud+CFav3OZ5BQkofeLy592A4BEOykoYgFXpfrPDuOjHaSC3RmeD4k+Cu5N6xxQmemVfeeMkw8dPVWg+2yYNizQJKwD2H/QEvigGyIAdVtawfARyCqlgNlLgEP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771092629; c=relaxed/simple;
-	bh=kH6IxGWU9/YPnlpdIv152C9oL2JnvfglKibkmH2D9yc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MtccMAQJpbwYrMaz5oD6AJLMQdmpW2rqmA4sdOg9ozFj4gz2SrSHo9sz2nm/ntR81YE62exQA4KNWYticPqRIgEy89+rW7dRQ54AqLq3aNfmNVAJS7uLhBBQt3qE8mwiDnAltNt95hxNNUqvkY2vUenP0dVWWBRgC7bH+C+ueTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iyvz/SZB; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b883787268fso232319866b.3
-        for <linux-leds@vger.kernel.org>; Sat, 14 Feb 2026 10:10:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771092624; x=1771697424; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o3TwQJXKVq1pyC7HWfeudplW5CQQTbeaEyQZUhCqwB8=;
-        b=Iyvz/SZBiCjDWamqDjlo3av+apwColhoc0S7i31A7HLFbyoWbWuHb5/M4zAQq1UWyC
-         smNlwq17qZsAKlIHhrwI1SevBaO4RfWql6WIif0Kw8wKNDc42r/t4nrxtck1ntTHWCQ4
-         43X5be5Ieaao2UUfgO/Ju9l7vZF9pz2HmrCOfr2Ip3nF/1rs/ChARMsZYnBMsdW/+NNM
-         127D+ytH88aRFS/+meAfyK2XHzO73MPfp54FTsoxJMBr76ULQUu9yQslWc9mBlZ5CLEp
-         eAuevvPvsv/7yoQ7DvSuk6ObkWjUCBARNPal2c07sf2sqywtyxE4raWwan0GSwf7jpCK
-         zoWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771092624; x=1771697424;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=o3TwQJXKVq1pyC7HWfeudplW5CQQTbeaEyQZUhCqwB8=;
-        b=d5on8UlrKxxe7x+oRZBNXxiHR59Z1/T/H3sudFjL1DK4K33kskXsVObeAmvjpIEs53
-         c0WRt+SPBkw33joetL766gwplc+0gScAOFYwk3VuDhGNia/kJaF379ztB6UgvdDeSZLx
-         pwxICjQ8rsIiuTTRG0vkIuGlocIltcVYVNEIxUL/XLrQ3QRQRVjEosR5KC6xTXtheNfa
-         UTVdjLeq9P5iHHOMLm99ZvKjR/EEApqrcxCTRlDoixuw+jX3UIne9QAvRBUnatikTO2i
-         QjNL1HbgL99zRucAN247O0A+/ZLTbYo+ZjP6raBvueGhnBiTjf1eHbbbrEECieLCh/Rl
-         OsuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXbIEXOHwDckTdBovYmncmP/K0SYCWxjLpuEYmPaoF8XQOHySJtZbFOO76/YeFdtUBDyeDRwLMYM9IP@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEqqFrOAKE1t+2pO/16R1CXsOqb5dVuQFgbU8vh65OUdtD/vbk
-	C8dCGpffoZivmI0wjXjd18mcV2bG1+HzL133x5P/UGHVtAs79f6SoKqF
-X-Gm-Gg: AZuq6aL8CDxlOEtdA+4nLELL+DqMzucLOk+/czVfUCAfaZ68uRhP+aGnZ36McaYiCwZ
-	O55MtlS1zROiHMTEsLcWhZtEXaB1lfKWXerwaU0kEIjrmpRXDLqAsU8dsb+7dlmbQuZ0/XHHUo0
-	ubjs7HXj6mE5QpMd3hp8ZU7RGr3AoKhL3EYrWqoedqhguX+gUOOyZNgYG7LsWzNb/V5BoJwcHrk
-	W0sYSFw/B7H8L2B+qusjt/04rq/j8ztBvmVgOVN3zdZimAwolq3UI3gq45elSoZa/XIA5dvdRkr
-	t/pe1QDuywP6+x2hBj8DSZRd4QB8X+190BR0CtYK3cO5TQplSeflFAlJ03xTWrlr8YbqpTlDNAx
-	qkwoQBSkhCCQrKIgeCMsQ2TxUIBYC/du8K25GQunlUTLDEaTHu4hmryb0UflU269PTz+sgZJrmh
-	z9oODLBNFbmBIu
-X-Received: by 2002:a17:907:970b:b0:b89:fb0b:65e3 with SMTP id a640c23a62f3a-b8fc3ced714mr139976766b.47.1771092624151;
-        Sat, 14 Feb 2026 10:10:24 -0800 (PST)
-Received: from xeon ([188.163.112.48])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8fc735e506sm88122066b.11.2026.02.14.10.10.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Feb 2026 10:10:23 -0800 (PST)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Svyatoslav Ryhel <clamor95@gmail.com>,
-	Ion Agorria <ion@agorria.com>,
-	=?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Cc: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: [PATCH v3 7/7] power: supply: Add charger driver for Asus Transformers
-Date: Sat, 14 Feb 2026 20:09:59 +0200
-Message-ID: <20260214180959.30714-8-clamor95@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260214180959.30714-1-clamor95@gmail.com>
-References: <20260214180959.30714-1-clamor95@gmail.com>
+	s=arc-20240116; t=1771096546; c=relaxed/simple;
+	bh=m0ZaTeu+irKaJeGYYOp+BkFqiwgOOJSuUuaydMXsoSk=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=cmvUblApcIhJZ7F3UJcf6HnSdeKknQWv/1ziKN++UW4XDN1pYQBrDpBjlQTEBElddW1FvhgXfCG1WIWZogAGQNfTuwmnfu453ywo0NsLNKOu9UXyGXzj2lCkEOoUnZ/OT6xJkiEoa6/0XlMTVXRXPX+dicTfcYMuOck+QLhowIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=GVmiJqi+; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1771096541; x=1771701341; i=w_armin@gmx.de;
+	bh=m0ZaTeu+irKaJeGYYOp+BkFqiwgOOJSuUuaydMXsoSk=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:From:Subject:
+	 Cc:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=GVmiJqi+z7nbYwcLLL9k6k9frgOfOcDPnwLvzUh4jboJ4rOP5afLh7yaO2v49LTg
+	 WO/Gtc47yIoP92KyBWgjMUtxAOuAQNoQldsPQANQZI6FmJD2o67exDKzxG6LvNvcu
+	 fUPtDbCsAQTGUKN4352+u1BEu7JSxXUDpewjylqRCWbz+/746kLyk2s/ISKoz1aGH
+	 NtTkHnFyF9/dARCus/it0HaHJFZ2xiYeA/J++lGfnMi8g3H/V+U6cn7ZReKOq0WE0
+	 NAGjQYuGhd5tViczU4bbSheOgkh6m//uUJw8n5fTaEJkU7U5XVBLzuTwZ/2FKv1aT
+	 C69inGD/qNe6dta/nQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.69] ([93.202.242.224]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MGQnP-1vzMOm13DJ-00BMMW; Sat, 14
+ Feb 2026 20:15:41 +0100
+Message-ID: <2d91a44e-fce2-42dc-b529-133ab4a191f0@gmx.de>
+Date: Sat, 14 Feb 2026 20:15:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: linux-leds@vger.kernel.org, Werner Sembach <wse@tuxedocomputers.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+Subject: Maximum values for multi_intensity sysfs attribute
+Cc: LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:sYl2XdDpkB7zUcF9et54UryR0XTgk/3V/mMjap3ssbVWvcuR8zP
+ D2WNeTEK7FnORQ0AvuCCuVLLsiP22UBhwWsdx7MnPNEj4X+Aby8h4j3sAK4YMWm7bSeBSI4
+ lLn3hPcE0G97/NJ6AI5FwjYOeBITqBD77QfJzIgoaBDiPlJCVrn4s3b4jECpFgGYvvorjh4
+ 6lEvTmyFHkfNbBOlTctiA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:tsFceOTLX3k=;XSm24XI1/AOuoc/MwbNqN1vk3sO
+ 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
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmx.de,quarantine];
+	R_DKIM_ALLOW(-0.20)[gmx.de:s=s31663417];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-6946-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6947-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,agorria.com,rere.qmqm.pl];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FREEMAIL_FROM(0.00)[gmx.de];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[W_Armin@gmx.de,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmx.de:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qmqm.pl:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9CE6413CB6E
+	TAGGED_RCPT(0.00)[linux-leds];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:mid,gmx.de:dkim]
+X-Rspamd-Queue-Id: 89EAA13D028
 X-Rspamd-Action: no action
 
-From: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+Hello,
 
-Add support for charger detection capabilities found in the embedded
-controller of ASUS Transformer devices.
+i am currently adding support for RGB keyboard backlight control to the uniwill-laptop
+driver, and want to use the multicolor LED class for that. However the hardware interface
+is a bit exotic:
 
-Suggested-by: Maxim Schwalm <maxim.schwalm@gmail.com>
-Suggested-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- drivers/power/supply/Kconfig                  |  11 +
- drivers/power/supply/Makefile                 |   1 +
- .../supply/asus-transformer-ec-charger.c      | 193 ++++++++++++++++++
- 3 files changed, 205 insertions(+)
- create mode 100644 drivers/power/supply/asus-transformer-ec-charger.c
+- 5 global brightness levels
+- 50 intensity levels for each R/G/B channel
 
-diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
-index 3c46b412632d..56800aab82f9 100644
---- a/drivers/power/supply/Kconfig
-+++ b/drivers/power/supply/Kconfig
-@@ -497,6 +497,17 @@ config CHARGER_88PM860X
- 	help
- 	  Say Y here to enable charger for Marvell 88PM860x chip.
- 
-+config CHARGER_ASUS_TRANSFORMER_EC
-+	tristate "Asus Transformer's charger driver"
-+	depends on MFD_ASUS_TRANSFORMER_EC
-+	help
-+	  Say Y here to enable support AC plug detection on Asus Transformer
-+	  Dock.
-+
-+	  This sub-driver supports charger detection mechanism found in Asus
-+	  Transformer tablets and mobile docks and controlled by special
-+	  embedded controller.
-+
- config CHARGER_PF1550
- 	tristate "NXP PF1550 battery charger driver"
- 	depends on MFD_PF1550
-diff --git a/drivers/power/supply/Makefile b/drivers/power/supply/Makefile
-index aa5e6b05b018..24679f09bb61 100644
---- a/drivers/power/supply/Makefile
-+++ b/drivers/power/supply/Makefile
-@@ -68,6 +68,7 @@ obj-$(CONFIG_CHARGER_RT9471)	+= rt9471.o
- obj-$(CONFIG_CHARGER_RT9756)	+= rt9756.o
- obj-$(CONFIG_BATTERY_TWL4030_MADC)	+= twl4030_madc_battery.o
- obj-$(CONFIG_CHARGER_88PM860X)	+= 88pm860x_charger.o
-+obj-$(CONFIG_CHARGER_ASUS_TRANSFORMER_EC)	+= asus-transformer-ec-charger.o
- obj-$(CONFIG_CHARGER_PF1550)	+= pf1550-charger.o
- obj-$(CONFIG_BATTERY_RX51)	+= rx51_battery.o
- obj-$(CONFIG_AB8500_BM)		+= ab8500_bmdata.o ab8500_charger.o ab8500_fg.o ab8500_btemp.o ab8500_chargalg.o
-diff --git a/drivers/power/supply/asus-transformer-ec-charger.c b/drivers/power/supply/asus-transformer-ec-charger.c
-new file mode 100644
-index 000000000000..de01f0bf2fd7
---- /dev/null
-+++ b/drivers/power/supply/asus-transformer-ec-charger.c
-@@ -0,0 +1,193 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+#include <linux/err.h>
-+#include <linux/mfd/asus-transformer-ec.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/power_supply.h>
-+#include <linux/property.h>
-+
-+struct asus_ec_charger_data {
-+	struct notifier_block nb;
-+	const struct asusec_info *ec;
-+	struct power_supply *psy;
-+	struct power_supply_desc psy_desc;
-+};
-+
-+static enum power_supply_property asus_ec_charger_properties[] = {
-+	POWER_SUPPLY_PROP_USB_TYPE,
-+	POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR,
-+	POWER_SUPPLY_PROP_ONLINE,
-+	POWER_SUPPLY_PROP_MODEL_NAME,
-+};
-+
-+static int asus_ec_charger_get_property(struct power_supply *psy,
-+					enum power_supply_property psp,
-+					union power_supply_propval *val)
-+{
-+	struct asus_ec_charger_data *priv = power_supply_get_drvdata(psy);
-+	enum power_supply_usb_type psu;
-+	int ret;
-+	u64 ctl;
-+
-+	ret = asus_ec_get_ctl(priv->ec, &ctl);
-+	if (ret)
-+		return ret;
-+
-+	switch (ctl & (ASUSEC_CTL_FULL_POWER_SOURCE | ASUSEC_CTL_DIRECT_POWER_SOURCE)) {
-+	case ASUSEC_CTL_FULL_POWER_SOURCE:
-+		psu = POWER_SUPPLY_USB_TYPE_CDP;	/* DOCK */
-+		break;
-+	case ASUSEC_CTL_DIRECT_POWER_SOURCE:
-+		psu = POWER_SUPPLY_USB_TYPE_SDP;	/* USB */
-+		break;
-+	case 0:
-+		psu = POWER_SUPPLY_USB_TYPE_UNKNOWN;	/* no power source connected */
-+		break;
-+	default:
-+		psu = POWER_SUPPLY_USB_TYPE_ACA;	/* power adapter */
-+		break;
-+	}
-+
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_ONLINE:
-+		val->intval = psu != POWER_SUPPLY_USB_TYPE_UNKNOWN;
-+		return 0;
-+
-+	case POWER_SUPPLY_PROP_USB_TYPE:
-+		val->intval = psu;
-+		return 0;
-+
-+	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
-+		if (ctl & ASUSEC_CTL_TEST_DISCHARGE)
-+			val->intval = POWER_SUPPLY_CHARGE_BEHAVIOUR_FORCE_DISCHARGE;
-+		else if (ctl & ASUSEC_CTL_USB_CHARGE)
-+			val->intval = POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO;
-+		else
-+			val->intval = POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE;
-+		return 0;
-+
-+	case POWER_SUPPLY_PROP_MODEL_NAME:
-+		val->strval = priv->ec->model;
-+		return 0;
-+
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int asus_ec_charger_set_property(struct power_supply *psy,
-+					enum power_supply_property psp,
-+					const union power_supply_propval *val)
-+{
-+	struct asus_ec_charger_data *priv = power_supply_get_drvdata(psy);
-+
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
-+		switch ((enum power_supply_charge_behaviour)val->intval) {
-+		case POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO:
-+			return asus_ec_update_ctl(priv->ec,
-+				ASUSEC_CTL_TEST_DISCHARGE | ASUSEC_CTL_USB_CHARGE,
-+				ASUSEC_CTL_USB_CHARGE);
-+
-+		case POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE:
-+			return asus_ec_clear_ctl_bits(priv->ec,
-+				ASUSEC_CTL_TEST_DISCHARGE | ASUSEC_CTL_USB_CHARGE);
-+
-+		case POWER_SUPPLY_CHARGE_BEHAVIOUR_FORCE_DISCHARGE:
-+			return asus_ec_update_ctl(priv->ec,
-+				ASUSEC_CTL_TEST_DISCHARGE | ASUSEC_CTL_USB_CHARGE,
-+				ASUSEC_CTL_TEST_DISCHARGE);
-+		default:
-+			return -EINVAL;
-+		}
-+
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int asus_ec_charger_property_is_writeable(struct power_supply *psy,
-+						 enum power_supply_property psp)
-+{
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static const struct power_supply_desc asus_ec_charger_desc = {
-+	.name = "asus-ec-charger",
-+	.type = POWER_SUPPLY_TYPE_USB,
-+	.charge_behaviours = BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO) |
-+			     BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE) |
-+			     BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_FORCE_DISCHARGE),
-+	.usb_types = BIT(POWER_SUPPLY_USB_TYPE_UNKNOWN) |
-+		     BIT(POWER_SUPPLY_USB_TYPE_SDP) |
-+		     BIT(POWER_SUPPLY_USB_TYPE_CDP) |
-+		     BIT(POWER_SUPPLY_USB_TYPE_ACA),
-+	.properties = asus_ec_charger_properties,
-+	.num_properties = ARRAY_SIZE(asus_ec_charger_properties),
-+	.get_property = asus_ec_charger_get_property,
-+	.set_property = asus_ec_charger_set_property,
-+	.property_is_writeable = asus_ec_charger_property_is_writeable,
-+	.no_thermal = true,
-+};
-+
-+static int asus_ec_charger_notify(struct notifier_block *nb,
-+				  unsigned long action, void *data)
-+{
-+	struct asus_ec_charger_data *priv =
-+		container_of(nb, struct asus_ec_charger_data, nb);
-+
-+	switch (action) {
-+	case ASUSEC_SMI_ACTION(POWER_NOTIFY):
-+	case ASUSEC_SMI_ACTION(ADAPTER_EVENT):
-+		power_supply_changed(priv->psy);
-+		break;
-+	}
-+
-+	return NOTIFY_DONE;
-+}
-+
-+static int asus_ec_charger_probe(struct platform_device *pdev)
-+{
-+	struct asus_ec_charger_data *priv;
-+	struct device *dev = &pdev->dev;
-+	struct power_supply_config cfg = { };
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, priv);
-+	priv->ec = cell_to_ec(pdev);
-+
-+	cfg.fwnode = dev_fwnode(dev->parent);
-+	cfg.drv_data = priv;
-+
-+	memcpy(&priv->psy_desc, &asus_ec_charger_desc, sizeof(priv->psy_desc));
-+	priv->psy_desc.name = devm_kasprintf(dev, GFP_KERNEL, "%s-charger",
-+					     priv->ec->name);
-+
-+	priv->psy = devm_power_supply_register(dev, &priv->psy_desc, &cfg);
-+	if (IS_ERR(priv->psy))
-+		return dev_err_probe(dev, PTR_ERR(priv->psy),
-+				     "Failed to register power supply\n");
-+
-+	priv->nb.notifier_call = asus_ec_charger_notify;
-+
-+	return devm_asus_ec_register_notifier(pdev, &priv->nb);
-+}
-+
-+static struct platform_driver asus_ec_charger_driver = {
-+	.driver.name = "asus-transformer-ec-charger",
-+	.probe = asus_ec_charger_probe,
-+};
-+module_platform_driver(asus_ec_charger_driver);
-+
-+MODULE_AUTHOR("Michał Mirosław <mirq-linux@rere.qmqm.pl>");
-+MODULE_DESCRIPTION("ASUS Transformer Pad battery charger driver");
-+MODULE_LICENSE("GPL");
--- 
-2.51.0
+I am now asking myself how this should be mapped onto the multi_intensity sysfs attribute.
+Should i set max_brightness to 5 and reject intensity values larger that 50? Or should
+i set max_brightness to 50 and interpolate? What is the input range of intensity values?
+
+Thanks,
+Armin Wolf
 
 
