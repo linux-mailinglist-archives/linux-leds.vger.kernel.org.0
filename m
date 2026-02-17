@@ -1,144 +1,198 @@
-Return-Path: <linux-leds+bounces-6966-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6968-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QMNVENKKlGnTFQIAu9opvQ
-	(envelope-from <linux-leds+bounces-6966-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Feb 2026 16:35:46 +0100
+	id cEMtGmiOlGn6FQIAu9opvQ
+	(envelope-from <linux-leds+bounces-6968-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Feb 2026 16:51:04 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE3514D995
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Feb 2026 16:35:45 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6C1114DB5C
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Feb 2026 16:51:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A7B1630055EC
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Feb 2026 15:35:36 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 2EECE300DEC5
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Feb 2026 15:51:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9134336CDF1;
-	Tue, 17 Feb 2026 15:35:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07F3B36CE0C;
+	Tue, 17 Feb 2026 15:51:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MNw6hdMT"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6BE36B04D
-	for <linux-leds@vger.kernel.org>; Tue, 17 Feb 2026 15:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69D736C581;
+	Tue, 17 Feb 2026 15:51:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771342530; cv=none; b=PnJVyDNLp9qdqUZqPbnWda2FRx3JrBbV2I3RYTz1IYmXTzmjj17celyXyDRjgnmjd9zxbvRm1/PdsznaLxhKJoPKpHy46JEw23s0Z0VbSBBec9joYRX7Oojk8kRREW4uxuX3aYCTAyU8gijMvf2A8KiVpponbWpzkfIkVz/iig4=
+	t=1771343460; cv=none; b=AprBNymwSdDQ9qTeldNRF4bKuV931ZROgI5hZ2+ddC/2F5mYdcgsQCryw7RrW/3D74gnrZMpIjCVkX1kJ6DBOrKn2en6Fm/GCLE6qAyfVkPqnKwTEhH6P9iwt+IOSI8MSRndgEog+C9cfwobJkpx/wzzlUQOFWBtdjDEo3ONJRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771342530; c=relaxed/simple;
-	bh=G9W/WwvH/cZgvoHOUuCzymt2TsfUyNC0gH1UFBKLnwU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Jhj25qnw/vgVwDVZddq9VhY0RHKzIWRT7zRSqOfgMxmQ+S07alJzBU+4BzqKNcRO2UDXrcxZEhRn2yqfzj/bfYosrMZlfy4DR2jDWKBpCgHxdMO3TypGUg8KE1QzFgm28zilfXVX2jbYHR3vxeGmGZwbboNEIfjW4wulbulIy9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=ratatoskr.trumtrar.info)
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <s.trumtrar@pengutronix.de>)
-	id 1vsN6l-00024r-MM; Tue, 17 Feb 2026 16:35:27 +0100
-From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Date: Tue, 17 Feb 2026 16:35:17 +0100
-Subject: [PATCH 2/2] leds: rgb: lp5860: add enable-gpio
+	s=arc-20240116; t=1771343460; c=relaxed/simple;
+	bh=F3tr3dTMqJx3SD92fKDrGHKnROwGZ6bJ78jeAepD7a4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ejh9EoALS2prHLwkHifzDq0Q5GNqY5OXTAYrhQbZgQB6zrR42gmwii/IP0AVNj3eKIhbdmz2e0klMFNaq683dmutODDv93BX9urwjimZb0PMiWsFCphtfRXK4TmTDsLumgNgnNLkAO4f4pbW/W1wbpH0LPiGESPZGbdyVuz3OOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MNw6hdMT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84071C4CEF7;
+	Tue, 17 Feb 2026 15:50:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771343460;
+	bh=F3tr3dTMqJx3SD92fKDrGHKnROwGZ6bJ78jeAepD7a4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MNw6hdMTPCx7nqnz+wvSOwxVvNZ0I/reKjeODpt36xYllBHz1Rh+MlQhUAz0HzUtA
+	 m5rSpqP1FNE1yBLk3SRm1RhvmDF3wHln9KJO3y4YxVgajtf72Ogl+dHANCqKy0VU3R
+	 O2h42mALLS/iDwxKS6KYIIt+OncvDeRY0IyK2Lz7ODueiYx6NvsSEoi49UkYo5xggX
+	 94Sm+1a79cVVqV+5bRpVdgbfQU6bO0n0b7Jd7YV9vRPLcQTvbKQ0R7xozwS1UsLO4l
+	 h0PTRTUhuos5CSJqQVm7MW+lJqvedInn/xifPZAo1qyOjlDpHPZ/sMQ6sbkGxHefpp
+	 bmq+P0cIoNCxQ==
+Date: Tue, 17 Feb 2026 15:50:55 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>, Ion Agorria <ion@agorria.com>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH v3 1/7] dt-bindings: embedded-controller: document ASUS
+ Transformer EC
+Message-ID: <20260217-tableful-arbitrate-169030e4fb11@spud>
+References: <20260216-sprung-scallop-de7b64bf528c@spud>
+ <CAPVz0n06+uLCSfY_bYS9v7KJ-hXotye7ej-rze6-Q8_JAF7XVA@mail.gmail.com>
+ <20260216-plunder-defense-de11cf56dd3d@spud>
+ <CAPVz0n0-LbTUZBCaO=oN3PpPLpwAqzNo29r687pKY8NbEE9giA@mail.gmail.com>
+ <20260217-vowed-botany-b1c47c7e40b8@spud>
+ <55C30023-4175-48F2-BCB0-12EC23C48F01@gmail.com>
+ <1519143e-4fc3-490d-ab8d-e65edd2c4eec@kernel.org>
+ <81844CC9-5355-4B1D-AEBD-6DD67FB8C81B@gmail.com>
+ <20260217-dig-husked-8a59b6a19aee@spud>
+ <CAPVz0n0u7uhL8_FQFiuB7DrnL++ecbaEKEoV7N2PgTVRBVECkw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260217-v6-19-topic-ti-lp5860-enable-gpio-v1-2-f5e8edeb5d74@pengutronix.de>
-References: <20260217-v6-19-topic-ti-lp5860-enable-gpio-v1-0-f5e8edeb5d74@pengutronix.de>
-In-Reply-To: <20260217-v6-19-topic-ti-lp5860-enable-gpio-v1-0-f5e8edeb5d74@pengutronix.de>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Steffen Trumtrar <kernel@pengutronix.de>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Steffen Trumtrar <s.trumtrar@pengutronix.de>
-X-Mailer: b4 0.14.3
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: s.trumtrar@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="CFX4Gs6NaZQ9iQTz"
+Content-Disposition: inline
+In-Reply-To: <CAPVz0n0u7uhL8_FQFiuB7DrnL++ecbaEKEoV7N2PgTVRBVECkw@mail.gmail.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.46 / 15.00];
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	DMARC_NA(0.00)[pengutronix.de];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[s.trumtrar@pengutronix.de,linux-leds@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	R_DKIM_NA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6966-lists,linux-leds=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: AFE3514D995
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-6968-lists,linux-leds=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-leds@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,agorria.com,rere.qmqm.pl,vger.kernel.org];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E6C1114DB5C
 X-Rspamd-Action: no action
 
-The VIO_EN pin can either be connected with VIO power supply or GPIO.
-Get the GPIO from DT if provided and set it on chip enable and disable.
 
-Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
----
- drivers/leds/rgb/leds-lp5860-core.c       | 10 ++++++++++
- include/linux/platform_data/leds-lp5860.h |  1 +
- 2 files changed, 11 insertions(+)
+--CFX4Gs6NaZQ9iQTz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/leds/rgb/leds-lp5860-core.c b/drivers/leds/rgb/leds-lp5860-core.c
-index 28b4d86e11f1a..1f349aa53f7a9 100644
---- a/drivers/leds/rgb/leds-lp5860-core.c
-+++ b/drivers/leds/rgb/leds-lp5860-core.c
-@@ -61,6 +61,9 @@ static int lp5860_set_mc_brightness(struct led_classdev *cdev,
- 
- static int lp5860_chip_enable_toggle(struct lp5860 *led, int enable)
- {
-+	if (led->enable_gpiod)
-+		gpiod_direction_output(led->enable_gpiod, enable);
-+
- 	return regmap_write(led->regmap, LP5860_REG_CHIP_EN, enable);
- }
- 
-@@ -170,6 +173,13 @@ int lp5860_device_init(struct device *dev)
- 	struct lp5860 *lp = dev_get_drvdata(dev);
- 	int ret;
- 
-+	lp->enable_gpiod = devm_gpiod_get_optional(lp->dev, "enable", GPIOD_ASIS);
-+	if (IS_ERR(lp->enable_gpiod))
-+		return PTR_ERR(lp->enable_gpiod);
-+
-+	if (lp->enable_gpiod)
-+		gpiod_set_consumer_name(lp->enable_gpiod, "LP5860 VIO enable");
-+
- 	ret = lp5860_chip_enable_toggle(lp, LP5860_CHIP_ENABLE);
- 	if (ret)
- 		return ret;
-diff --git a/include/linux/platform_data/leds-lp5860.h b/include/linux/platform_data/leds-lp5860.h
-index 7bc69a7a550dd..7258d0674ce59 100644
---- a/include/linux/platform_data/leds-lp5860.h
-+++ b/include/linux/platform_data/leds-lp5860.h
-@@ -257,6 +257,7 @@ struct lp5860_led {
- struct lp5860 {
- 	struct device *dev;
- 	struct regmap *regmap;
-+	struct gpio_desc *enable_gpiod;
- 	unsigned int leds_count;
- 
- 	DECLARE_FLEX_ARRAY(struct lp5860_led, leds);
+On Tue, Feb 17, 2026 at 04:29:59PM +0200, Svyatoslav Ryhel wrote:
+> =D0=B2=D1=82, 17 =D0=BB=D1=8E=D1=82. 2026=E2=80=AF=D1=80. =D0=BE 16:03 Co=
+nor Dooley <conor@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+> > On Tue, Feb 17, 2026 at 01:34:01PM +0200, Svyatoslav Ryhel wrote:
+> > > 17 =D0=BB=D1=8E=D1=82=D0=BE=D0=B3=D0=BE 2026=E2=80=AF=D1=80. 13:32:26=
+ GMT+02:00, Krzysztof Kozlowski <krzk@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
 
--- 
-2.51.0
+> > > >> properties:
+> > > >>   compatible:
+> > > >>       - items:
+> > > >>           - enum:
+> > > >>               - asus,p1801-t-ec-pad
+> > > >>               - asus,sl101-ec-dock
+> > > >>               - asus,tf101-ec-dock
+> > > >>               - asus,tf101g-ec-dock
+> > > >>               - asus,tf201-ec-dock
+> > > >>               - asus,tf201-ec-pad
+> > > >>               - asus,tf300t-ec-dock
+> > > >>               - asus,tf300t-ec-pad
+> > > >>               - asus,tf300tg-ec-dock
+> > > >>               - asus,tf300tg-ec-pad
+> > > >>               - asus,tf300tl-ec-dock
+> > > >>               - asus,tf300tl-ec-pad
+> > > >>               - asus,tf700t-ec-dock
+> > > >>               - asus,tf700t-ec-pad
+> > > >>               - asus,tf600t-ec-pad
+> > > >>               - asus,tf701t-ec-pad
+> > > >>           - const: asus,transformer-ec
+> > > >>
+> > > >> And them schema name will match the genetic compatible.
+> > > >
+> > > >Then what does the generic compatible express?
+> > > >
+> > >
+> > > Then enum it is
+> >
+> >
+> > Why would you do that, instead of what I posted earlier in the thread?
+> > If you send a flat enum with all devices listed, I'm gonna just be there
+> > telling you to consolidate into one device-specific fallback compatible
+> > per programming model.
+>=20
+> There is no one device-specific fallback compatible! Schema describes
+> HARDWARE not drivers no? I will not use random device compatible from
+> the list as a fallback compatible for a different random unrelated
+> device, that is plain wrong.
 
+Which is why I am not mentioning drivers at all, and instead talking about
+programming models. Fallback compatibles represent similarities in
+programming model, even if the laptop that these devices are contained
+in are different, so whatever device compatible you pick might be random
+(but going chronologically is usually my recommendation) but it won't be
+unrelated.
+
+> Discuss this with Krzysztof and come up with something meaningful please.
+
+If you don't consider my reviews to be meaningful, you're welcome to
+carry a Nacked-by: Conor Dooley <conor.dooley@microchip.com> with a link
+to this discussion instead.
+
+Thanks,
+Conor.
+
+--CFX4Gs6NaZQ9iQTz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaZSOXwAKCRB4tDGHoIJi
+0lKEAQCMn1RQWiz2XuWSwPyIQrFeNcdgS1xJdgNETKYUnIvdvAD/a48ii+2SjLok
+p8k8vgDRIULg8VXMLV8Zc8SI2pGg9QA=
+=w/4u
+-----END PGP SIGNATURE-----
+
+--CFX4Gs6NaZQ9iQTz--
 
