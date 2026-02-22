@@ -1,172 +1,109 @@
-Return-Path: <linux-leds+bounces-6982-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6983-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iG0MOmgCm2nPpgMAu9opvQ
-	(envelope-from <linux-leds+bounces-6982-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sun, 22 Feb 2026 14:19:36 +0100
+	id yCsbFD8em2kMtAMAu9opvQ
+	(envelope-from <linux-leds+bounces-6983-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sun, 22 Feb 2026 16:18:23 +0100
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF5016F2F5
-	for <lists+linux-leds@lfdr.de>; Sun, 22 Feb 2026 14:19:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A761A16F7F1
+	for <lists+linux-leds@lfdr.de>; Sun, 22 Feb 2026 16:18:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5CB4D30421EC
-	for <lists+linux-leds@lfdr.de>; Sun, 22 Feb 2026 13:17:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 28EA730057A7
+	for <lists+linux-leds@lfdr.de>; Sun, 22 Feb 2026 15:18:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5FFF2836A6;
-	Sun, 22 Feb 2026 13:17:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 825A6248F6F;
+	Sun, 22 Feb 2026 15:18:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=abscue.de header.i=@abscue.de header.b="sqjpUWst"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="29miffq7"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from srv01.abscue.de (abscue.de [89.58.28.240])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF622773CA;
-	Sun, 22 Feb 2026 13:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.58.28.240
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF7078F26;
+	Sun, 22 Feb 2026 15:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771766228; cv=none; b=FXjPYqyQ+qS+KfPa9+mDxRGuwVnbeSeM8uBl7g97THFtsBRq4nahASLBn8ZgKXmZNwAFMRRO4GtdM9J/WpwqfeuYu0SsqVWXPXjBKXeYZei2NYTuOEBAd824R3uiqjVGwEjAPhny7I/2pNOyvpai/QChrmD+JcA8c/Tbq6ysK3Y=
+	t=1771773500; cv=none; b=YLGL0GG2e+u8HDBKbm+Q15xe/HNdqsISdFDHhF6IJzFflB10KXoJceJ9RclzfVE612Mk1dzg5OTNNLJ7F6d8o/CxxHrqvZAUrHjaWgoSfoFtP6/EFxGIiS4CFchDhHXkjUppCffYQdlXCMzWgWDEc6BBFZJnZVmXzZYqox52z6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771766228; c=relaxed/simple;
-	bh=+iiQLnW9mFrlM8Se0IaHaqflFlLXdAb5S9n2UY3+Ri0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Gi6C7EPrdvgY8mlgOal6T7lk/b8ChqPP5Ej18LhxPj6yfKtaElr2c8mjoy4dG1qmzA6Mb9L46UDtZMDPq5uWwUsJ2HlEQEfpwJmLASof9BE9SmWHOJdB/eIXuF0FPWYa83rxrzEu6KQmskP55h9v2z4stRH0lC6up9BtpLQ3CMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=abscue.de; spf=pass smtp.mailfrom=abscue.de; dkim=fail (0-bit key) header.d=abscue.de header.i=@abscue.de header.b=sqjpUWst reason="key not found in DNS"; arc=none smtp.client-ip=89.58.28.240
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=abscue.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=abscue.de
-Received: from fluffy-mammal.metal.fwg-cag.de (unknown [IPv6:2001:9e8:cde0:3300:edee:770f:8e03:a80])
-	by srv01.abscue.de (Postfix) with ESMTPSA id 6B3871C01BC;
-	Sun, 22 Feb 2026 14:16:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=abscue.de; s=dkim;
-	t=1771766218;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3WZzDsqMTn4PgLVYK/X6oARz+antdMzU7A7JyMHz9eM=;
-	b=sqjpUWstGkAXS9lSW54pvtd8Hx410gzYAnwn7ngJyHoAlmwPB0irmOUoMKIolkwjQnphOl
-	43HvLZ9RDnQD4j8U7hu9CV82z73a32NAunJyrh9yzK0FCkU/UcaK94mbqzvQm9P2okV8gY
-	uhXkxH4/4PYzFjvCtAF20dArUdTrB5vOuLGtnn5lOg3/ZnztmN+zFoN3FeiQyK1tM5VCk8
-	+7izwuTo6crcY/OfkG66k8s5GoTrPayWix+HshRLE8VKgpMd0gutYZ9VO8nXBamdz6iBKx
-	YWEuPLPhx3sEA+Xlg/UU7HRFOTWpuLnZZz26jUqgsGFJYml6R4fHAjwVdW98Lw==
-From: =?utf-8?q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>
-Date: Sun, 22 Feb 2026 14:16:50 +0100
-Subject: [PATCH 6/6] regulator: sc2731: Add platform_device_id table
+	s=arc-20240116; t=1771773500; c=relaxed/simple;
+	bh=2y5d/Bf5e9BEtbiAfPqtVfDwMU+WXaxd/jOmJ82inlY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J/hH/JnbD1BTgATSkBwv1FYswhrU3cYC48GR8Lr8YWUwyDSdOfCUfw5j6quHT+ZKxbHM1EpQcR3lEKFTCSRnyScOpsHHqNGff/S5Vtml3IEgUf9ccoY2ljaWg0cmq8VP/A69DxG8RN1WMm7uO+fRhoDNvaTvOyChhEdOhG3/r9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=29miffq7; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=ms9fqXqBFGh8yg9aTsPRKP1U58T3HV5wRi+ksAALCOs=; b=29miffq7FfUbHB/uzHHT3mc8JL
+	Ezf/jHnFEAa5cF2ZK3pYMMU8hS43bqNA6rmuNC1DZbs6+eksrD8IXb0EdlnsHf+Vk8emw5PQT3ySM
+	pdmydESFP7nrT/Ah9f1u1wXsTCJj4f+ovjlqqVOHgR+Cn/IWntHoaEGa6AoImxW+erEs=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vuBDp-008IhS-Pr; Sun, 22 Feb 2026 16:18:13 +0100
+Date: Sun, 22 Feb 2026 16:18:13 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Shiji Yang <yangshiji66@outlook.com>
+Cc: davem@davemloft.net, edumazet@google.com, horms@kernel.org,
+	kuba@kernel.org, lee@kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, netdev@vger.kernel.org,
+	pabeni@redhat.com, pavel@kernel.org
+Subject: Re: [BUG] AB-BA deadlock between net and led-trigger module
+Message-ID: <39823b1a-5848-421b-84c8-ffb628cf2ae8@lunn.ch>
+References: <a592f471-fe5d-47c0-a5f6-305fbdcf686f@lunn.ch>
+ <OS7PR01MB13602E8AA4E5ADE00E7441B6CBC76A@OS7PR01MB13602.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260222-sc27xx-mfd-cells-v1-6-69526fe74c77@abscue.de>
-References: <20260222-sc27xx-mfd-cells-v1-0-69526fe74c77@abscue.de>
-In-Reply-To: <20260222-sc27xx-mfd-cells-v1-0-69526fe74c77@abscue.de>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>
-Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
- linux-pm@vger.kernel.org, 
- =?utf-8?q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <OS7PR01MB13602E8AA4E5ADE00E7441B6CBC76A@OS7PR01MB13602.jpnprd01.prod.outlook.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[lunn.ch,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[lunn.ch:s=20171124];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6982-lists,linux-leds=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[abscue.de];
-	FREEMAIL_TO(0.00)[bootlin.com,kernel.org,gmail.com,linux.alibaba.com];
-	R_DKIM_PERMFAIL(0.00)[abscue.de:s=dkim];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[abscue.de:~];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[otto.pflueger@abscue.de,linux-leds@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-6983-lists,linux-leds=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[outlook.com];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[lunn.ch:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andrew@lunn.ch,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.548];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,abscue.de:mid,abscue.de:email,config.dev:url]
-X-Rspamd-Queue-Id: 4FF5016F2F5
+	TAGGED_RCPT(0.00)[linux-leds];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lunn.ch:mid,lunn.ch:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A761A16F7F1
 X-Rspamd-Action: no action
 
-Make the regulator driver for the SC2731 PMIC probe automatically. Using
-a platform_device_id table instead of DT compatible matching avoids the
-need for a separate compatible property in the "regulators" node, which
-simplifies the DT bindings and makes the parent MFD device responsible
-for selecting the correct regulator driver for the PMIC.
+> I backported this patch to the 6.12 kernel and it did actually
+> fix the deadlock issue for me. And the phy triggers are still
+> working properly. Thanks for your quick fix. Nice work!
 
-However, this means that the regulator device is not automatically
-associated with the "regulators" node. Tell the regulator core to
-perform device tree lookups using the parent MFD device instead of
-the regulator sub-device and set the .regulators_node member in all
-regulator definitions so that the "regulators" sub-node is used.
+Great. I will post it officially, and it would be good if you can add
+a Tested-by: for it.
 
-Signed-off-by: Otto Pflüger <otto.pflueger@abscue.de>
----
- drivers/regulator/sc2731-regulator.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+https://docs.kernel.org/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
 
-diff --git a/drivers/regulator/sc2731-regulator.c b/drivers/regulator/sc2731-regulator.c
-index 5447e1a47d15..93c8156c5110 100644
---- a/drivers/regulator/sc2731-regulator.c
-+++ b/drivers/regulator/sc2731-regulator.c
-@@ -131,6 +131,7 @@ static const struct regulator_ops sc2731_regu_linear_ops = {
- 			  vstep, vmin, vmax) {			\
- 	.name			= #_id,				\
- 	.of_match		= of_match_ptr(#_id),		\
-+	.regulators_node	= of_match_ptr("regulators"),	\
- 	.ops			= &sc2731_regu_linear_ops,	\
- 	.type			= REGULATOR_VOLTAGE,		\
- 	.id			= SC2731_##_id,			\
-@@ -226,7 +227,7 @@ static int sc2731_regulator_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	config.dev = &pdev->dev;
-+	config.dev = pdev->dev.parent;
- 	config.regmap = regmap;
- 
- 	for (i = 0; i < ARRAY_SIZE(regulators); i++) {
-@@ -242,12 +243,19 @@ static int sc2731_regulator_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static const struct platform_device_id sc2731_regulator_id_table[] = {
-+	{ "sc2731-regulator" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(platform, sc2731_regulator_id_table);
-+
- static struct platform_driver sc2731_regulator_driver = {
- 	.driver = {
- 		.name = "sc27xx-regulator",
- 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
- 	},
- 	.probe = sc2731_regulator_probe,
-+	.id_table = sc2731_regulator_id_table,
- };
- 
- module_platform_driver(sc2731_regulator_driver);
-
--- 
-2.51.0
-
+	Andrew
 
