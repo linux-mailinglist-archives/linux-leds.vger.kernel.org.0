@@ -1,81 +1,81 @@
-Return-Path: <linux-leds+bounces-6995-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-6996-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sMwVIkP2m2lI+QMAu9opvQ
-	(envelope-from <linux-leds+bounces-6995-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Feb 2026 07:40:03 +0100
+	id gDLWMFn2m2lI+QMAu9opvQ
+	(envelope-from <linux-leds+bounces-6996-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Feb 2026 07:40:25 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8A3172383
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Feb 2026 07:40:03 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E83A91723B0
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Feb 2026 07:40:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9C4C430312CF
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Feb 2026 06:39:28 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4EF793022591
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Feb 2026 06:39:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B54F634A783;
-	Mon, 23 Feb 2026 06:39:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A693934B1B4;
+	Mon, 23 Feb 2026 06:39:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GBJOJ18f"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q2eMHGEA"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4403491C7
-	for <linux-leds@vger.kernel.org>; Mon, 23 Feb 2026 06:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2869234A3D0
+	for <linux-leds@vger.kernel.org>; Mon, 23 Feb 2026 06:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771828755; cv=none; b=uWiZ/6NsmNFsqGaruQVuGzcgT1SFXogOpDIvzI0DQMZd2OsGRk2D4kP7rcjpEsRbPANjI0swp5AABQ7pOICyZyX0nTE2VXekv5s2IENR5FdYeWp5Zzx8JwGNJfkouDyUEWjVlRrnNyMv2J3GNop+nBVXd7eoRq7eEMyvJvw/3Fg=
+	t=1771828757; cv=none; b=ldao9Ts5OGUYaTMsXjixydXanMgK1OonwLKxCz/elxZ/OAErg6kBIS7QMVjkPdky1xWi8PGQfkZ2/fqe5+z2L5C9TNujk46OjE6zSvzEt3DGw1+x+LBEXE4ZnpjVK9ova+5LI+BRRI0HK/5qIT6V/gdRFJzH0pzBbVr+5WmhJoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771828755; c=relaxed/simple;
-	bh=zo3qgbBbFWF30eK7I25eO1l+g4Zmu3OeutXGZXBp6hE=;
+	s=arc-20240116; t=1771828757; c=relaxed/simple;
+	bh=DrNGeBlRxTjZoXBtwt3WHPiWKByZ7OZ+6oYAQENqEx8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dgkupCpk4EF/Yj6K+l9cnQNxaw8SFKNLtKpaazw1/op9uldBQ3wTRfhorRWVXTViPTRHqOkAExzsyTSikka92z7pAcw3VeLVqMnqvPyAYQcHGbG2t74MZbDq9FbZUVKqmKyQhnRo+kxA/xbs/hZe+1goGXN+58at289gEzS+7Nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GBJOJ18f; arc=none smtp.client-ip=209.85.167.52
+	 MIME-Version; b=exi2J+lNC3g6hTZkPJZQvRb504O8x/idFnNb+HRcsTt0zIpeQgNFkHK/Kbbj19LO0VUlZ4i4UcaxDsLfSm7ALQu2U4qC1eE5nmg68pKhKPwiekmEdknjikLLr+LuTi1izzMStod/VqbqzncAZ6ReaHOOvVJ0Y/uR9cR8jnvGzpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q2eMHGEA; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-59e6b736b84so3751759e87.1
-        for <linux-leds@vger.kernel.org>; Sun, 22 Feb 2026 22:39:13 -0800 (PST)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-59e5ea93a1aso3226961e87.1
+        for <linux-leds@vger.kernel.org>; Sun, 22 Feb 2026 22:39:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771828752; x=1772433552; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1771828753; x=1772433553; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0Jf5C8PE1lxuMTJXxYUiUAeT9CSKhU2v7EHDew7zpbQ=;
-        b=GBJOJ18fKKAkPv7cNn8ZnxPOKzRj08N4uKxLvBypH4HNlZuL2ViiPSgHeDexJ+s7Lv
-         hx48/d/dRVecvesisduNpmZidU022G0H60c294U+CQrpQkpsa5+F3F4micwZRTYQm8Gg
-         3kvYRCPSGNMuLz3MHWy6XFzC8yxHZTbgtjvD7mhE7BaqWf3QkUyYniPtbepL2do6dyYO
-         GKI0Pmoo2dEEx3u9krc70QItEf5Kbot0mphle8NV175PG7erTuiCkGl5wDN0Mep1Va2c
-         8wVA9IwmoORYebigIHUmI513AAGZfbSjobheOlHyO3b2REwvLKYTiNHNzAtDDYXFRT0G
-         lJLA==
+        bh=KFT7mMG9k0k/BXen8CQg8hnB8vdYe60xOPZB+uYBrVs=;
+        b=Q2eMHGEABW0iPZncMKAdkd/FmCqkRsgrq8iKs/P5IyiMmfzC4OjuDStGC0l+hbv0Ap
+         EqqiH/SUXaSsOdQBMxDFN40lH+kPKWJRJeexa1NTfu/kj66h0DLri/2veEDU/n+iFuAC
+         xkBdXb8zz9RX5koHzXHltOHkkV7NgmBdJe0G9ZMmJCYVIRYu4GwqT8LOI9pxJ98sU8HM
+         ejG2pL57FDeX31NiW12ahjNr07GbwJIOormjukC5FVd8lrXJPfcmCP58lVDcWdYpA+y0
+         w07Ae2EVaKOxqhkgD8pdbS3fRBAV0VmJ4fcvcbUxv5OTNxb9HS3JNi5UI1UgceC4Fw/W
+         M/0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771828752; x=1772433552;
+        d=1e100.net; s=20230601; t=1771828753; x=1772433553;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0Jf5C8PE1lxuMTJXxYUiUAeT9CSKhU2v7EHDew7zpbQ=;
-        b=PgTnak7AAE4nC4Yk94gNstF25Lm+OsoJwLs3RvdWTMmVEor4PLsYew8e8CwMBJ4y5e
-         Obpxucneq9oo8N/MnOMdVBJipZ2wuZ/pcCtZl656YKmEix9/gg2PIVMg+O/Bq+RhEQVB
-         xiYOYTDcuvwRkwrLAzq5/QrDswzmKX9Oz+WS2Hgn1IZwZzK78pECAQaOLFS7J3fjV0zI
-         Y6gmIK1nThNcFgh6KswStM8lGPaQH6hvevVf22Iy+CF7bimiXbKFt5151+63x2CBeHOT
-         tiDLTcFdfm/IiB7mDO2EyyDTVvZeSjkRfTD0DAAbjQ1HSDVaq/2cBxF0zpQ0mfkxlRYv
-         2xXw==
-X-Forwarded-Encrypted: i=1; AJvYcCWAqeIa45SBd/9hbGTjPCBFiwis96FC9q0wswA4zgATp5M1gdWHOsquK4A4LXMsVuWJ4TJzDq5jMemc@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyCzz/BLHkPO1lagcoNY/ohEAbMUV/YcnjqtITvQENhAVJz5xj
-	ePqd3Tw075BfQUtBmodU3VQ0iidj6YtaZJXZTARMC5AO15lGzZ01G2ov
-X-Gm-Gg: AZuq6aJ4GHTwJAzC6JDRSwUmEJvh/6PyCRtN64xJsfS3OnVY5XT7B6LZrTgCx5MhOk5
-	XmOrqJ4PCI3IoZbT7VEMhPeU7ugLsZkGE7yQzlAexbv/Ydsc9a2TmcbnR+981WhHCodM2NZCv8T
-	qisEKCezRruyVFRikCa+gK+oPeud00Y089kutq7Dfn2PTGCwMpGaB613llc4q8AwUmyf29b3wV6
-	uEEX5a0PZw77nZgpBsUa2UAhR2VQdvTOseY8Ljf0TvCI8j3rPndJy+TIb4ydg6jqwvswPeP6vau
-	pqCFv4MRDjGPK2KeftQ82fB5B3rVa6Jgeb8UNwt/NeKq7mQa321poupXE0qPsRpBoQ3YSbK2tye
-	uMyZhJrVIMvpyDKHA2H90IfWhuAmu6FNsFbGlzFb5H+/dWFk9FeA3FCd91ozssoktEtOMTPZMKS
-	NyKDFJzsUkRElQK59v45uC21E=
-X-Received: by 2002:a05:6512:b8e:b0:59e:4eb2:2b81 with SMTP id 2adb3069b0e04-5a0ed883b90mr2170214e87.11.1771828752213;
-        Sun, 22 Feb 2026 22:39:12 -0800 (PST)
+        bh=KFT7mMG9k0k/BXen8CQg8hnB8vdYe60xOPZB+uYBrVs=;
+        b=MHVM2Pfp7+2yHPO45HiUBT19CCSeknO7AZEDGH4TjjOFEF35yXVTxS7JChFU0emQml
+         ZizJEaP43lJOoNSE6j+svKrxYYBmMTrz0RrHgcbM4lKNiE6fL/ozN4Tm4GVKNFQAZacK
+         2TgYAw18O1P/8vXAQv1AYLZWs9CJGUudQfTx8efTApHTlDgyTtrVboFBcuFQp1naJmmN
+         Qx6rpZP7MKl51jk4r+yVPw32wA+FICmKhFvcKf8BwptjYJrp4nOoLcTDToDjHzZMfl1h
+         B6tZNhTytFHx194z/h5WCZ60xlIDdxVdRz1Kc7+FBo2f2lGmoHQasdW7ysLjeS8RkjnX
+         Crjw==
+X-Forwarded-Encrypted: i=1; AJvYcCXovSH04/xTk8Eus4s3fYmYoOaJ05mUM8oVLSimh/o0dxic/KpH4SKnv0iNlJiQ030MpVL02vv5mxEj@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzn2hazCQdxNWq1NSznwRzn3JweRxs0RFeoReGO9CzxicjpbvCf
+	Caaa2InRlMm/hbKGfgk3Rct/JRJeSyiKNPM/wKbe8GAv7LbwOVIXBnzU
+X-Gm-Gg: AZuq6aLQNNv+2pEaW3pEP41P07VxhUFbOKK3ky5yEfZGOoeUd+hhp2zlhZ3zJAueC/t
+	vWqqkx0eHJEhZFz+t3PFJhnI0anp3AwoxS2qlFrLPPSiBLelVjfKdHVYWGfjBWcMDK7gextzg7E
+	k8fhdQmYLgnsfXbhIPQPfhTNMp/z66m4QcJknCO0BAlQt0VkENDrACEVvn3nNq2e5ASlwlWCDbH
+	QJ5hCSYKs2r3lnYL8gg0AENtMrFHDMmlwOmcW/5aQZGohihxMwD8RE7PIXzcVNohheBBHd4qmdN
+	RwanoJQVTGNFxt7f5pMocw0+CrsWtn0h5oFgyo3EDRj28Dud4veD8lmCMTCXSrIGQtZc3D0gSrX
+	uUvjboJCCcMR8LjuTHTv8PqaV2t27hQh1/8iidUn2dkg5ljJ3PgFKa4dRx8FMM4OKUIKjyNSNYY
+	wu4NoUFLXE8BjN
+X-Received: by 2002:a05:6512:39c6:b0:59f:6e82:dcfc with SMTP id 2adb3069b0e04-5a0ed99d476mr2557597e87.39.1771828753224;
+        Sun, 22 Feb 2026 22:39:13 -0800 (PST)
 Received: from xeon ([188.163.112.76])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a0eeb13abbsm1369626e87.23.2026.02.22.22.39.11
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a0eeb13abbsm1369626e87.23.2026.02.22.22.39.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Feb 2026 22:39:11 -0800 (PST)
+        Sun, 22 Feb 2026 22:39:12 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Rob Herring <robh@kernel.org>,
@@ -92,9 +92,9 @@ Cc: linux-input@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-leds@vger.kernel.org
-Subject: [PATCH v3 3/9] regulator: cpcap-regulator: add support for Mot regulators
-Date: Mon, 23 Feb 2026 08:38:52 +0200
-Message-ID: <20260223063858.12208-4-clamor95@gmail.com>
+Subject: [PATCH v3 4/9] dt-bindings: leds: leds-cpcap: convert to DT schema
+Date: Mon, 23 Feb 2026 08:38:53 +0200
+Message-ID: <20260223063858.12208-5-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260223063858.12208-1-clamor95@gmail.com>
 References: <20260223063858.12208-1-clamor95@gmail.com>
@@ -112,7 +112,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -120,7 +120,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-6995-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6996-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[15];
 	FREEMAIL_TO(0.00)[gmail.com,kernel.org,baylibre.com,atomide.com];
@@ -133,157 +133,108 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3E8A3172383
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,devicetree.org:url]
+X-Rspamd-Queue-Id: E83A91723B0
 X-Rspamd-Action: no action
 
-Add support for regulator set used in Motorola Mot board, used as a base
-for Atrix 4G and Droid X2 smartphones.
+Convert LEDs devicetree bindings for the Motorola CPCAP MFD from TXT to
+YAML format. This patch does not change any functionality; the bindings
+remain the same.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- drivers/regulator/cpcap-regulator.c | 105 ++++++++++++++++++++++++++++
- 1 file changed, 105 insertions(+)
+ .../devicetree/bindings/leds/leds-cpcap.txt   | 29 -------------
+ .../bindings/leds/motorola,cpcap-leds.yaml    | 42 +++++++++++++++++++
+ 2 files changed, 42 insertions(+), 29 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-cpcap.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/motorola,cpcap-leds.yaml
 
-diff --git a/drivers/regulator/cpcap-regulator.c b/drivers/regulator/cpcap-regulator.c
-index 6958d154442b..63f5c90ddf50 100644
---- a/drivers/regulator/cpcap-regulator.c
-+++ b/drivers/regulator/cpcap-regulator.c
-@@ -261,6 +261,30 @@ static const struct regulator_ops cpcap_regulator_ops = {
- };
- 
- static const unsigned int unknown_val_tbl[] = { 0, };
-+static const unsigned int sw_mot_val_tbl[] =  { 600000, 612500, 625000,
-+						637500, 650000, 662500,
-+						675000, 687500, 700000,
-+						712500, 725000, 737500,
-+						750000, 762500, 775000,
-+						787500, 800000, 812500,
-+						825000, 837500, 850000,
-+						862500, 875000, 887500,
-+						900000, 912500, 925000,
-+						937500, 950000, 962500,
-+						975000, 987500, 1000000,
-+						1012500, 1025000, 1037500,
-+						1050000, 1062500, 1075000,
-+						1087500, 1100000, 1112500,
-+						1125000, 1137500, 1150000,
-+						1162500, 1175000, 1187500,
-+						1200000, 1212500, 1225000,
-+						1237500, 1250000, 1262500,
-+						1275000, 1287500, 1300000,
-+						1312500, 1325000, 1337500,
-+						1350000, 1362500, 1375000,
-+						1387500, 1400000, 1412500,
-+						1425000, 1437500, 1450000,
-+						1462500, 1475000, };
- static const unsigned int sw2_sw4_val_tbl[] = { 612500, 625000, 637500,
- 						650000, 662500, 675000,
- 						687500, 700000, 712500,
-@@ -284,6 +308,7 @@ static const unsigned int sw2_sw4_val_tbl[] = { 612500, 625000, 637500,
- 						1362500, 1375000, 1387500,
- 						1400000, 1412500, 1425000,
- 						1437500, 1450000, 1462500, };
-+static const unsigned int sw3_val_tbl[] = { 1350000, 1800000, 1850000, 1875000, };
- static const unsigned int sw5_val_tbl[] = { 0, 5050000, };
- static const unsigned int vcam_val_tbl[] = { 2600000, 2700000, 2800000,
- 					     2900000, };
-@@ -402,6 +427,82 @@ static const struct cpcap_regulator omap4_regulators[] = {
- 	{ /* sentinel */ },
- };
- 
-+static const struct cpcap_regulator mot_regulators[] = {
-+	CPCAP_REG(SW1, CPCAP_REG_S1C1, CPCAP_REG_ASSIGN2,
-+		  CPCAP_BIT_SW1_SEL, sw_mot_val_tbl,
-+		  0x6f00, 0x7f, 0x6800, 0, 0),
-+	CPCAP_REG(SW2, CPCAP_REG_S2C1, CPCAP_REG_ASSIGN2,
-+		  CPCAP_BIT_SW2_SEL, sw_mot_val_tbl,
-+		  0x6f00, 0x7f, 0x4804, 0, 0),
-+	CPCAP_REG(SW3, CPCAP_REG_S3C, CPCAP_REG_ASSIGN2,
-+		  CPCAP_BIT_SW3_SEL, sw3_val_tbl,
-+		  0x578, 0x3, 0x043c, 0, 0),
-+	CPCAP_REG(SW4, CPCAP_REG_S4C1, CPCAP_REG_ASSIGN2,
-+		  CPCAP_BIT_SW4_SEL, sw_mot_val_tbl,
-+		  0x6f00, 0x7f, 0x4909, 0, 0),
-+	CPCAP_REG(SW5, CPCAP_REG_S5C, CPCAP_REG_ASSIGN2,
-+		  CPCAP_BIT_SW5_SEL, sw5_val_tbl,
-+		  0x28, 0, 0x20, 0, 0),
-+	CPCAP_REG(SW6, CPCAP_REG_S6C, CPCAP_REG_ASSIGN2,
-+		  CPCAP_BIT_SW6_SEL, unknown_val_tbl,
-+		  0, 0, 0, 0, 0),
-+	CPCAP_REG(VCAM, CPCAP_REG_VCAMC, CPCAP_REG_ASSIGN2,
-+		  CPCAP_BIT_VCAM_SEL, vcam_val_tbl,
-+		  0x87, 0x30, 0x7, 0, 420),
-+	CPCAP_REG(VCSI, CPCAP_REG_VCSIC, CPCAP_REG_ASSIGN3,
-+		  CPCAP_BIT_VCSI_SEL, vcsi_val_tbl,
-+		  0x47, 0x10, 0x7, 0, 350),
-+	CPCAP_REG(VDAC, CPCAP_REG_VDACC, CPCAP_REG_ASSIGN3,
-+		  CPCAP_BIT_VDAC_SEL, vdac_val_tbl,
-+		  0x87, 0x30, 0x0, 0, 420),
-+	CPCAP_REG(VDIG, CPCAP_REG_VDIGC, CPCAP_REG_ASSIGN2,
-+		  CPCAP_BIT_VDIG_SEL, vdig_val_tbl,
-+		  0x87, 0x30, 0x0, 0, 420),
-+	CPCAP_REG(VFUSE, CPCAP_REG_VFUSEC, CPCAP_REG_ASSIGN3,
-+		  CPCAP_BIT_VFUSE_SEL, vfuse_val_tbl,
-+		  0xa0, 0xf, 0x0, 0, 420),
-+	CPCAP_REG(VHVIO, CPCAP_REG_VHVIOC, CPCAP_REG_ASSIGN3,
-+		  CPCAP_BIT_VHVIO_SEL, vhvio_val_tbl,
-+		  0x17, 0, 0x2, 0, 0),
-+	CPCAP_REG(VSDIO, CPCAP_REG_VSDIOC, CPCAP_REG_ASSIGN2,
-+		  CPCAP_BIT_VSDIO_SEL, vsdio_val_tbl,
-+		  0x87, 0x38, 0x2, 0, 420),
-+	CPCAP_REG(VPLL, CPCAP_REG_VPLLC, CPCAP_REG_ASSIGN3,
-+		  CPCAP_BIT_VPLL_SEL, vpll_val_tbl,
-+		  0x47, 0x18, 0x1, 0, 420),
-+	CPCAP_REG(VRF1, CPCAP_REG_VRF1C, CPCAP_REG_ASSIGN3,
-+		  CPCAP_BIT_VRF1_SEL, vrf1_val_tbl,
-+		  0xac, 0x2, 0, 0, 10),
-+	CPCAP_REG(VRF2, CPCAP_REG_VRF2C, CPCAP_REG_ASSIGN3,
-+		  CPCAP_BIT_VRF2_SEL, vrf2_val_tbl,
-+		  0x23, 0x8, 0, 0, 10),
-+	CPCAP_REG(VRFREF, CPCAP_REG_VRFREFC, CPCAP_REG_ASSIGN3,
-+		  CPCAP_BIT_VRFREF_SEL, vrfref_val_tbl,
-+		  0x23, 0x8, 0, 0, 420),
-+	CPCAP_REG(VWLAN1, CPCAP_REG_VWLAN1C, CPCAP_REG_ASSIGN3,
-+		  CPCAP_BIT_VWLAN1_SEL, vwlan1_val_tbl,
-+		  0x47, 0x10, 0x5, 0, 420),
-+	CPCAP_REG(VWLAN2, CPCAP_REG_VWLAN2C, CPCAP_REG_ASSIGN3,
-+		  CPCAP_BIT_VWLAN2_SEL, vwlan2_val_tbl,
-+		  0x20c, 0xc0, 0xd, 0, 420),
-+	CPCAP_REG(VSIM, CPCAP_REG_VSIMC, CPCAP_REG_ASSIGN3,
-+		  0xffff, vsim_val_tbl,
-+		  0x23, 0x8, 0, 0, 420),
-+	CPCAP_REG(VSIMCARD, CPCAP_REG_VSIMC, CPCAP_REG_ASSIGN3,
-+		  0xffff, vsimcard_val_tbl,
-+		  0x1e80, 0x8, 0x1e00, 0, 420),
-+	CPCAP_REG(VVIB, CPCAP_REG_VVIBC, CPCAP_REG_ASSIGN3,
-+		  CPCAP_BIT_VVIB_SEL, vvib_val_tbl,
-+		  0x1, 0xc, 0x1, 0, 500),
-+	CPCAP_REG(VUSB, CPCAP_REG_VUSBC, CPCAP_REG_ASSIGN3,
-+		  CPCAP_BIT_VUSB_SEL, vusb_val_tbl,
-+		  0x11c, 0x40, 0xc, 0, 0),
-+	CPCAP_REG(VAUDIO, CPCAP_REG_VAUDIOC, CPCAP_REG_ASSIGN4,
-+		  CPCAP_BIT_VAUDIO_SEL, vaudio_val_tbl,
-+		  0x16, 0x1, 0x5, 0, 0),
-+	{ /* sentinel */ }
-+};
+diff --git a/Documentation/devicetree/bindings/leds/leds-cpcap.txt b/Documentation/devicetree/bindings/leds/leds-cpcap.txt
+deleted file mode 100644
+index ebf7cdc7f70c..000000000000
+--- a/Documentation/devicetree/bindings/leds/leds-cpcap.txt
++++ /dev/null
+@@ -1,29 +0,0 @@
+-Motorola CPCAP PMIC LEDs
+-------------------------
+-
+-This module is part of the CPCAP. For more details about the whole
+-chip see Documentation/devicetree/bindings/mfd/motorola-cpcap.txt.
+-
+-Requires node properties:
+-- compatible: should be one of
+-   * "motorola,cpcap-led-mdl"		(Main Display Lighting)
+-   * "motorola,cpcap-led-kl"		(Keyboard Lighting)
+-   * "motorola,cpcap-led-adl"		(Aux Display Lighting)
+-   * "motorola,cpcap-led-red"		(Red Triode)
+-   * "motorola,cpcap-led-green"		(Green Triode)
+-   * "motorola,cpcap-led-blue"		(Blue Triode)
+-   * "motorola,cpcap-led-cf"		(Camera Flash)
+-   * "motorola,cpcap-led-bt"		(Bluetooth)
+-   * "motorola,cpcap-led-cp"		(Camera Privacy LED)
+-- label: see Documentation/devicetree/bindings/leds/common.txt
+-- vdd-supply: A phandle to the regulator powering the LED
+-
+-Example:
+-
+-&cpcap {
+-	cpcap_led_red: red-led {
+-		compatible = "motorola,cpcap-led-red";
+-		label = "cpcap:red";
+-		vdd-supply = <&sw5>;
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/leds/motorola,cpcap-leds.yaml b/Documentation/devicetree/bindings/leds/motorola,cpcap-leds.yaml
+new file mode 100644
+index 000000000000..c8e7b88a05cc
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/motorola,cpcap-leds.yaml
+@@ -0,0 +1,42 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/motorola,cpcap-leds.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- static const struct cpcap_regulator xoom_regulators[] = {
- 	CPCAP_REG(SW1, CPCAP_REG_S1C1, CPCAP_REG_ASSIGN2,
- 		  CPCAP_BIT_SW1_SEL, unknown_val_tbl,
-@@ -486,6 +587,10 @@ static const struct of_device_id cpcap_regulator_id_table[] = {
- 		.compatible = "motorola,mapphone-cpcap-regulator",
- 		.data = omap4_regulators,
- 	},
-+	{
-+		.compatible = "motorola,mot-cpcap-regulator",
-+		.data = mot_regulators,
-+	},
- 	{
- 		.compatible = "motorola,xoom-cpcap-regulator",
- 		.data = xoom_regulators,
++title: Motorola CPCAP PMIC LEDs
++
++maintainers:
++  - Svyatoslav Ryhel <clamor95@gmail.com>
++
++description:
++  This module is part of the Motorola CPCAP MFD device. For more details
++  see Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml. LEDs are
++  represented as sub-nodes of the PMIC node on the device tree.
++
++allOf:
++  - $ref: /schemas/leds/common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - motorola,cpcap-led-adl # Display Lighting
++      - motorola,cpcap-led-blue # Blue Triode
++      - motorola,cpcap-led-bt # Bluetooth
++      - motorola,cpcap-led-cf # Camera Flash
++      - motorola,cpcap-led-cp # Camera Privacy LED
++      - motorola,cpcap-led-green # Green Triode
++      - motorola,cpcap-led-kl # Keyboard Lighting
++      - motorola,cpcap-led-mdl # Main Display Lighting
++      - motorola,cpcap-led-red # Red Triode
++
++  vdd-supply: true
++
++required:
++  - compatible
++  - label
++  - vdd-supply
++
++unevaluatedProperties: false
++
++...
 -- 
 2.51.0
 
