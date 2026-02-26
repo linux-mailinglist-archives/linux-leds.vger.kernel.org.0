@@ -1,130 +1,116 @@
-Return-Path: <linux-leds+bounces-7032-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7033-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oMIIErG+n2lOdgQAu9opvQ
-	(envelope-from <linux-leds+bounces-7032-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Feb 2026 04:32:01 +0100
+	id mPkuNYP7n2n3fAQAu9opvQ
+	(envelope-from <linux-leds+bounces-7033-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Feb 2026 08:51:31 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBEDB1A092F
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Feb 2026 04:31:59 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A221A2159
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Feb 2026 08:51:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 7ED7B3002B4D
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Feb 2026 03:31:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6384D301C891
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Feb 2026 07:51:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B1293126AD;
-	Thu, 26 Feb 2026 03:31:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E4203815D1;
+	Thu, 26 Feb 2026 07:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h96dgHq6"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA7B33A9DB;
-	Thu, 26 Feb 2026 03:31:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1AF2D7386;
+	Thu, 26 Feb 2026 07:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772076716; cv=none; b=hbHRcTZGCQwcuqkLzchnH7CrEvwVyQ6mU9aK8H14gEgJOHYASPLn8IchYHCG0wpCl05Ahw7qaBMFP+crFgG7EU+gl74sG7XhBn2UAYZKFH4TEhLVzf+wwxubgschN9ff+KPE11eWRLibJmOqophItTSkFCt26uiEB2y3ozCTXYs=
+	t=1772092287; cv=none; b=j442BRl93/NUOyOaEsSmL8LZO+8lsZ7aBEDgwAWG+lH4GH2pwkGotBq8W+9Or3aJ8mWkTBy6TVIx1xR6Q5hgheYHk0PlhiRbp6a6d123heVep1Yts29XhT92FOHv38CLbdP74YtF4YpHjPR7nwj+efj7eLWZGMZZFRAkbrp5sjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772076716; c=relaxed/simple;
-	bh=/HllHoku34vzgV3UbGVvoyvjay2A6uPUQkNlhhhygv4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=B8EahV+xR0z3t0sihL+/P+kp5wfxcTyMZUI2opGM6/rldfyIf3lzVu4jJSyPPz+0rXwclCFGIrqcl9g0KOk8BjGuzs063DURBH6MsP0ZqKfx5Au297urmT8XDTZxCeWV+ytuRUGkUrN4K6uPSyj5aqZNDRTnfeOfyLFrDoxVLK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-01 (Coremail) with SMTP id qwCowAA332qlvp9pyXzCCA--.29586S2;
-	Thu, 26 Feb 2026 11:31:49 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: pavel@kernel.org
-Cc: lee@kernel.org,
-	brgl@kernel.org,
-	linusw@kernel.org,
-	andy.shevchenko@gmail.com,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] leds: lgm-sso: Remove duplicate assignments for priv->mmap
-Date: Thu, 26 Feb 2026 11:30:48 +0800
-Message-Id: <20260226033048.3715915-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1772092287; c=relaxed/simple;
+	bh=853EE6JswtL146QPlx0xKJwmaPwSVMEPY+7ZFJPHw8Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IPYnpLFm4aHxstff1FdLOmA08U7pP/J/sWEHjHYQESEVS3qdY0Ahhn7EzGgYEnT16rgrpLA1FHiYmckla1LXCUjOV8hMwoMgA8P5zUfsaZihLa/wE704XEoRRdG5IKCRtwnjW1cuLQg59D1fuYE9OaPzvJilWsCqlhi7MrjGsPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h96dgHq6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 492DFC19422;
+	Thu, 26 Feb 2026 07:51:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772092286;
+	bh=853EE6JswtL146QPlx0xKJwmaPwSVMEPY+7ZFJPHw8Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h96dgHq6uDpjTwC9DhcsgikND4HsHry77CIHiqyyBGvDugPykCFJOgqSg8hYVQ15E
+	 IfODci0b11FRoVgL1ug+B0KbnpZoYSsaYWY4VJeTwXTnUr48pwTROSsETiskG6otXf
+	 XP50fObZBFdwjGCuajvMxGAT4A99JRJbaEFEG6BgA66kkpKczqQo5xl8IPuie20VTO
+	 ajUkQ+HGmFtrduFIlVcrrm+kgkCCOZ2TL0A3scIFlDasyUwcmeeoIJkbFrtqnQStCF
+	 fIqVnF8Rg/S5MQuSEGA4NNcr6KL6dVv/Bg8IyFJJeMe/vDwQmkYxPCZKV5IZwLB40z
+	 m/KsF+NHYe6Aw==
+Date: Thu, 26 Feb 2026 08:51:24 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: leds: sun50i-a100: Add compatible for
+ Allwinner A523 SoC
+Message-ID: <20260226-heavenly-silver-nyala-557ede@quoll>
+References: <20260225160828.1687643-1-wens@kernel.org>
+ <20260225160828.1687643-2-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAA332qlvp9pyXzCCA--.29586S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKF1kZFWkWryrZr45KF1Utrb_yoW3Kwc_Cr
-	43AFW7tFy7ursaya90vrWj9r1FkF18Zr1xCa129FW3KasxAF1rXrWqvw43Z347AF4DCryS
-	93WUZry8ur1fWjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbsAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-	Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
-	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	Jw0_GFylc2xSY4AK67AK6r48MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
-	4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
-	67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
-	x0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
-	z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
-	UI43ZEXa7VUjm9aPUUUUU==
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260225160828.1687643-2-wens@kernel.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[iscas.ac.cn];
+	TAGGED_FROM(0.00)[bounces-7033-lists,linux-leds=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7032-lists,linux-leds=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org,iscas.ac.cn];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nichen@iscas.ac.cn,linux-leds@vger.kernel.org];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.991];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: EBEDB1A092F
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 61A221A2159
 X-Rspamd-Action: no action
 
-Remove duplicate assignments for priv->mmap in intel_sso_led_probe().
+On Thu, Feb 26, 2026 at 12:08:24AM +0800, Chen-Yu Tsai wrote:
+> The Allwinner A523 SoC family features an identical LED controller as
+> found on the A100.
+> 
+> Add a SoC-specific compatible for it, with fallback to the A100 one.
+> 
+> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+> ---
+>  .../devicetree/bindings/leds/allwinner,sun50i-a100-ledc.yaml     | 1 +
+>  1 file changed, 1 insertion(+)
 
-Fixes: fba8a6f2263b ("leds: lgm-sso: Fix clock handling")
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- drivers/leds/blink/leds-lgm-sso.c | 2 --
- 1 file changed, 2 deletions(-)
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-diff --git a/drivers/leds/blink/leds-lgm-sso.c b/drivers/leds/blink/leds-lgm-sso.c
-index 8923d2df4704..3d9ef9a54805 100644
---- a/drivers/leds/blink/leds-lgm-sso.c
-+++ b/drivers/leds/blink/leds-lgm-sso.c
-@@ -808,8 +808,6 @@ static int intel_sso_led_probe(struct platform_device *pdev)
- 
- 	priv->fpid_clkrate = clk_get_rate(priv->clocks[1].clk);
- 
--	priv->mmap = syscon_node_to_regmap(dev->of_node);
--
- 	priv->mmap = syscon_node_to_regmap(dev->of_node);
- 	if (IS_ERR(priv->mmap)) {
- 		dev_err(dev, "Failed to map iomem!\n");
--- 
-2.25.1
+Best regards,
+Krzysztof
 
 
