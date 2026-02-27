@@ -1,317 +1,198 @@
-Return-Path: <linux-leds+bounces-7047-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7048-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gILFAOfroWlDxQQAu9opvQ
-	(envelope-from <linux-leds+bounces-7047-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Feb 2026 20:09:27 +0100
+	id uEjPAhPtoWlDxQQAu9opvQ
+	(envelope-from <linux-leds+bounces-7048-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 27 Feb 2026 20:14:27 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8012F1BC78C
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Feb 2026 20:09:26 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81CF71BC87E
+	for <lists+linux-leds@lfdr.de>; Fri, 27 Feb 2026 20:14:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5E86230E8A3A
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Feb 2026 19:07:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 67939319DFA4
+	for <lists+linux-leds@lfdr.de>; Fri, 27 Feb 2026 19:09:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36A4D3ACEE6;
-	Fri, 27 Feb 2026 19:07:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AC94393DF4;
+	Fri, 27 Feb 2026 19:09:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="iMVRizpU"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="v9GDKfbK"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D459E3ACA75;
-	Fri, 27 Feb 2026 19:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772219249; cv=pass; b=NT8byINMMGUmkgJO/AV9uc3EyelT3MeNAD+KAFIHBJmpCjV+7Rqsc6KbEo70L0LLBYlyQ0uHFW++Gg1XCQNDTLB5KKphgW11H8iGJm40IwJfT5e694NpD82dG0B+jmKpRv7/PJEDklyI3VgLfLgc5RqapaLcQ2l/2Lybr6bEyCo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772219249; c=relaxed/simple;
-	bh=LHdlgbZdlT4nP6fQoLCZOUarUM7jZ8R1s47iOhbszmY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mdMkNRmfhMLdFpxZ9T7AZFR9coD/0C8qjPVYBFGiF3L147tcIMuIecuhCM4tHu700WcZKxQJttkytXriKJ6H4WahZghjHrDA3LbazkFa1oj4q3ueccamto4Cd+dbok8HIskA/T0dDmirmUFu7GnBT6pfWiTgrrfi5y4eu+4ix8I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=iMVRizpU; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
-ARC-Seal: i=1; a=rsa-sha256; t=1772219229; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=bypRroFizliXTlL+3DwxNDvTi+uaA/T627nGOVuWCEXjaV6DLS7E9xdHXEgfuoskeBgLtRV1aAJhrk1dHAJwWAVYZPvkU/uLAsi8tVd4fCsG0ZAlQKug9opc0cg0GfSAOrVQjqoXsVwyiwsxbE9LUtwN+ZNptu7wBqrEumdQK4E=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772219229; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=8wOh/AymQVXYTDItmjH7CdiSiuTr2WE8bT2ZCK9KUvk=; 
-	b=fjNdjaow6ZQVAbBJOPVtRR8krApYC693HnPV4p8Uf//fhR92qID/UOv72yMdv5IBoLVw3KcZeqXMEykft+GPj/6p73f+5sODllZ13jji637f3Z47RVdRdjoXGpxbYlSOTLlbCgn251h4alLOb9AOL52woFcA5Cevjg40OVnJJIU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772219229;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=8wOh/AymQVXYTDItmjH7CdiSiuTr2WE8bT2ZCK9KUvk=;
-	b=iMVRizpURyijzScdidaH3jeC5uqhkd6dDRb8NDDZf9M3zmLvMEvc5IgzD0GZpKgt
-	nJv4f1jGI/u6n17pCb/6umcf9/FfcW5pwghoVt2vmBJVWWUwYKWMUesMcROdRrMLSuU
-	0lWABWXOyKR0+Zh64d72F38zFlk8KNKllMQPZUvoP/6bCfxmNJRYq7o7gtCc9PvGL6Y
-	v+HDXTVJbEFjAdb1vjbYicHngaw8fZxFRWZy2H+jVnbcXVrEPAqCTVXQV+PiP8NOtA0
-	ETTriz5gWKTn6xyOR9bQkBeUeJ/ww/aH0wT/m/EFocY4LrOg+Uvk36p0q4TWWtYjLOr
-	Q3vy2BUykw==
-Received: by mx.zohomail.com with SMTPS id 1772219227158191.8325362377376;
-	Fri, 27 Feb 2026 11:07:07 -0800 (PST)
-From: Rong Zhang <i@rong.moe>
-To: Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	"Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Ike Panhc <ikepanhc@gmail.com>
-Cc: Rong Zhang <i@rong.moe>,
-	Vishnu Sankar <vishnuocv@gmail.com>,
-	vsankar@lenovo.com,
-	linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org
-Subject: [RFC PATCH 9/9] platform/x86: ideapad-laptop: Fully support auto kbd backlight
-Date: Sat, 28 Feb 2026 03:06:06 +0800
-Message-ID: <20260227190617.271388-10-i@rong.moe>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260227190617.271388-1-i@rong.moe>
-References: <20260227190617.271388-1-i@rong.moe>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FAA3859CB;
+	Fri, 27 Feb 2026 19:09:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772219354; cv=none; b=iFdQ62TmIIcrkW0ouoJPGpJMkO3TSBmjSC6XajiVYs6r4r6sl7yGG7l7KXq5ddN5E6N8zhdhoC7TvDpe+/E4pUaG3QdovNaJfLrzKGAL/P9tvjKB2+ICmu+03E7tsJKa+Q8lwi/Ghl7mhKZo5URsX0pXvCY4eYdtNrYDD/3w01Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772219354; c=relaxed/simple;
+	bh=D9Dez1DpIdZx5d3CPZh/vD0rwfn3cer5kJkfvXaBqQc=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=OR8K8pKPkdfeoDpI/40OKBVG1NOC0vh4eH76wDBdyyPmUL6D1jSSjdRYYN1k354UEw6ll80tYTCXzg41h+2e4UQmZb9W19aGGxOhxoo3d2ma4ZRCvbhSwHZ4ZYjJZ4fLx4HZqoUW+Dfz6LQ53fwdJZpZ4fqGFoFrwqg+BSvOqMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=v9GDKfbK; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1772219351; x=1772824151; i=markus.elfring@web.de;
+	bh=E6Ta+FHby0/5FaAJCH39Lgkr/1Dlo/eysdDHn9aouoU=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=v9GDKfbK7hFGTOD2GKDqa9N6axTx20xVFX5t7RVk1C/mw0+CgR1wVJzBhzyf5rre
+	 ppvt6AYEK5KU5qYeBiZ3pK4POT5D5YjVxMExpfpMhhs/bi42nwOvCBn2oqZt01zVQ
+	 HYIFCUIvIWdcD1jPaaGK/dDETBK0rFx4tCV6LRWjrQPltcwxHaaxzps4IGq1ycQsX
+	 P9HuoAkCvpUrnyVG0RWgbct/Kd3UxuJUqFVORx79yrSI/c6gvDBZuKRqKqRWKDcBx
+	 7npwRAOEFDluxb6F2G0U3y5VhpNcG7G7sauUFukXS0zJlqnTnww8kHLOwbUrHjKms
+	 l3fcGMw0zvxFNw9U0w==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from client.hidden.invalid by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MEUW8-1vuNBs3Eba-00C1cx; Fri, 27
+ Feb 2026 20:09:10 +0100
+Message-ID: <12de09d0-e321-4ab1-9dec-89d781d05d8b@web.de>
+Date: Fri, 27 Feb 2026 20:09:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+To: Chen Ni <nichen@iscas.ac.cn>, linux-leds@vger.kernel.org,
+ Pavel Machek <pavel@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Bartosz Golaszewski <brgl@kernel.org>, Lee Jones <lee@kernel.org>,
+ Linus Walleij <linusw@kernel.org>
+References: <20260226033048.3715915-1-nichen@iscas.ac.cn>
+Subject: Re: [PATCH] leds: lgm-sso: Remove duplicate assignments for
+ priv->mmap
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20260226033048.3715915-1-nichen@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:Nd759Y3R/nPUyFHkGJIcO0cILJj846FYOhc+i/1vR/aEi3qnoGe
+ eakjpMN9MtPNfEnNzoMjDmMQT55GUdlDQgW5pBYAwQEuvHY9ErgRPOzPMam3/RnQGzcuXl2
+ NfV58IZPrpsJrkVy+AGFOFZiVlXbtnF22oibECBWmB5UU4pk4ija2YVe6+NqpJZB5PEf5FV
+ v+IOVE9qTrisS6hvQCSvQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:RTXazj5o9kM=;hNt1zyrhq3xQNddAJe8nz6S0Py+
+ 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
+ 1vbMjdKw=
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[rong.moe,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
-	R_DKIM_ALLOW(-0.20)[rong.moe:s=zmail2048];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[web.de,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[web.de:s=s29768273];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7047-lists,linux-leds=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[kernel.org,weissschuh.net,chromium.org,squebb.ca,gmail.com,linux.intel.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[rong.moe:+];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[i@rong.moe,linux-leds@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-7048-lists,linux-leds=lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[rong.moe,gmail.com,lenovo.com,vger.kernel.org,lists.linux.dev];
-	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-leds];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[web.de:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FREEMAIL_FROM(0.00)[web.de];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Markus.Elfring@web.de,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,rong.moe:mid,rong.moe:dkim,rong.moe:email]
-X-Rspamd-Queue-Id: 8012F1BC78C
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 81CF71BC87E
 X-Rspamd-Action: no action
 
-Currently, the auto brightness mode of keyboard backlight maps to
-brightness=0 in LED classdev. The only method to switch to such a mode
-is by pressing the manufacturer-defined shortcut (Fn+Space). However, 0
-is a multiplexed brightness value; writing 0 simply results in the
-backlight being turned off.
+> Remove duplicate assignments for priv->mmap in intel_sso_led_probe().
 
-With brightness processing code decoupled from LED classdev, we can now
-fully support the auto brightness mode. In this mode, the keyboard
-backlight is controlled by the EC according to the ambient light sensor
-(ALS).
+                   assignment?
 
-To utilize this, a private hw control trigger "ideapad-auto" is added,
-with the event handling procedure calling the
-led_trigger_notify_hw_control_changed() interface to activate/deactivate
-the private trigger according to the current LED trigger state.
 
-Meanwhile, block brightness changes on exit to prevent the side effect
-of LED device unregistration when the private trigger is active from
-resetting the brightness to zero, so that we can retain the state of
-auto mode among boots.
+See also once more:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/stable-kernel-rules.rst?h=v7.0-rc1#n34
 
-Signed-off-by: Rong Zhang <i@rong.moe>
----
- drivers/platform/x86/lenovo/Kconfig          |  1 +
- drivers/platform/x86/lenovo/ideapad-laptop.c | 86 ++++++++++++++++++--
- 2 files changed, 79 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/platform/x86/lenovo/Kconfig b/drivers/platform/x86/lenovo/Kconfig
-index f885127b007f1..626180370add4 100644
---- a/drivers/platform/x86/lenovo/Kconfig
-+++ b/drivers/platform/x86/lenovo/Kconfig
-@@ -16,6 +16,7 @@ config IDEAPAD_LAPTOP
- 	select INPUT_SPARSEKMAP
- 	select NEW_LEDS
- 	select LEDS_CLASS
-+	select LEDS_TRIGGERS
- 	help
- 	  This is a driver for Lenovo IdeaPad netbooks contains drivers for
- 	  rfkill switch, hotkey, fan control and backlight control.
-diff --git a/drivers/platform/x86/lenovo/ideapad-laptop.c b/drivers/platform/x86/lenovo/ideapad-laptop.c
-index b9af0294fc933..99cdd18cc1a5d 100644
---- a/drivers/platform/x86/lenovo/ideapad-laptop.c
-+++ b/drivers/platform/x86/lenovo/ideapad-laptop.c
-@@ -26,6 +26,7 @@
- #include <linux/kernel.h>
- #include <linux/leds.h>
- #include <linux/module.h>
-+#include <linux/mutex.h>
- #include <linux/platform_device.h>
- #include <linux/platform_profile.h>
- #include <linux/power_supply.h>
-@@ -166,6 +167,8 @@ enum {
- 	KBD_BL_TRISTATE_AUTO = 3,
- };
- 
-+#define KBD_BL_AUTO_MODE_HW_BRIGHTNESS	3
-+
- #define KBD_BL_QUERY_TYPE		0x1
- #define KBD_BL_TRISTATE_TYPE		0x5
- #define KBD_BL_TRISTATE_AUTO_TYPE	0x7
-@@ -1620,8 +1623,9 @@ static int ideapad_kbd_bl_brightness_parse(struct ideapad_private *priv,
- 	if (hw_brightness <= priv->kbd_bl.led.max_brightness)
- 		return hw_brightness;
- 
--	/* Auto, report as off */
--	if (hw_brightness == priv->kbd_bl.led.max_brightness + 1)
-+	/* Auto (controlled by EC according to ALS), report as off */
-+	if (priv->kbd_bl.type == KBD_BL_TRISTATE_AUTO &&
-+	    hw_brightness == KBD_BL_AUTO_MODE_HW_BRIGHTNESS)
- 		return 0;
- 
- 	/* Unknown value */
-@@ -1709,9 +1713,39 @@ static int ideapad_kbd_bl_led_cdev_brightness_set(struct led_classdev *led_cdev,
- {
- 	struct ideapad_private *priv = container_of(led_cdev, struct ideapad_private, kbd_bl.led);
- 
-+	/*
-+	 * When deinitializing: It must be the side effect of led_cdev
-+	 * unregistration when our private trigger is active. We've set
-+	 * LED_RETAIN_AT_SHUTDOWN to retain led_cdev brightness level. To do the
-+	 * same for auto mode, gate changes and return early.
-+	 */
-+	if (unlikely(!priv->kbd_bl.initialized))
-+		return 0;
-+
- 	return ideapad_kbd_bl_brightness_set(priv, brightness);
- }
- 
-+static int ideapad_kbd_bl_auto_trigger_activate(struct led_classdev *led_cdev)
-+{
-+	struct ideapad_private *priv = container_of(led_cdev, struct ideapad_private, kbd_bl.led);
-+
-+	return ideapad_kbd_bl_hw_brightness_set(priv, KBD_BL_AUTO_MODE_HW_BRIGHTNESS);
-+}
-+
-+static bool ideapad_kbd_bl_auto_trigger_offloaded(struct led_classdev *led_cdev)
-+{
-+	return true;
-+}
-+
-+static struct led_hw_trigger_type ideapad_kbd_bl_auto_trigger_type;
-+
-+static struct led_trigger ideapad_kbd_bl_auto_trigger = {
-+	.name = "ideapad-auto",
-+	.trigger_type = &ideapad_kbd_bl_auto_trigger_type,
-+	.activate = ideapad_kbd_bl_auto_trigger_activate,
-+	.offloaded = ideapad_kbd_bl_auto_trigger_offloaded,
-+};
-+
- static void ideapad_kbd_bl_notify_known(struct ideapad_private *priv, unsigned int brightness)
- {
- 	if (brightness == priv->kbd_bl.last_brightness)
-@@ -1724,12 +1758,23 @@ static void ideapad_kbd_bl_notify_known(struct ideapad_private *priv, unsigned i
- 
- static void ideapad_kbd_bl_notify(struct ideapad_private *priv)
- {
--	int brightness;
-+	int hw_brightness, brightness;
- 
- 	if (!priv->kbd_bl.initialized)
- 		return;
- 
--	brightness = ideapad_kbd_bl_brightness_get(priv);
-+	hw_brightness = ideapad_kbd_bl_hw_brightness_get(priv);
-+	if (hw_brightness < 0)
-+		return;
-+
-+	if (priv->kbd_bl.type == KBD_BL_TRISTATE_AUTO) {
-+		bool activate = hw_brightness == KBD_BL_AUTO_MODE_HW_BRIGHTNESS;
-+
-+		led_trigger_notify_hw_control_changed(&priv->kbd_bl.led, activate,
-+						      &ideapad_kbd_bl_auto_trigger);
-+	}
-+
-+	brightness = ideapad_kbd_bl_brightness_parse(priv, hw_brightness);
- 	if (brightness < 0)
- 		return;
- 
-@@ -1738,7 +1783,7 @@ static void ideapad_kbd_bl_notify(struct ideapad_private *priv)
- 
- static int ideapad_kbd_bl_init(struct ideapad_private *priv)
- {
--	int brightness, err;
-+	int hw_brightness, brightness, err;
- 
- 	if (!priv->features.kbd_bl)
- 		return -ENODEV;
-@@ -1746,12 +1791,37 @@ static int ideapad_kbd_bl_init(struct ideapad_private *priv)
- 	if (WARN_ON(priv->kbd_bl.initialized))
- 		return -EEXIST;
- 
--	if (ideapad_kbd_bl_check_tristate(priv->kbd_bl.type))
-+	hw_brightness = ideapad_kbd_bl_hw_brightness_get(priv);
-+	if (hw_brightness < 0)
-+		return hw_brightness;
-+
-+	switch (priv->kbd_bl.type) {
-+	case KBD_BL_TRISTATE_AUTO:
-+		err = devm_led_trigger_register(&priv->platform_device->dev,
-+						&ideapad_kbd_bl_auto_trigger);
-+		if (err)
-+			return err;
-+
-+		priv->kbd_bl.led.trigger_type       = &ideapad_kbd_bl_auto_trigger_type;
-+		priv->kbd_bl.led.hw_control_trigger = ideapad_kbd_bl_auto_trigger.name;
-+
-+		/* HW remembers the last brightness level, including auto mode. */
-+		if (hw_brightness == KBD_BL_AUTO_MODE_HW_BRIGHTNESS)
-+			priv->kbd_bl.led.default_trigger = ideapad_kbd_bl_auto_trigger.name;
-+
-+		fallthrough;
-+	case KBD_BL_TRISTATE:
- 		priv->kbd_bl.led.max_brightness = 2;
--	else
-+		break;
-+	case KBD_BL_STANDARD:
- 		priv->kbd_bl.led.max_brightness = 1;
-+		break;
-+	default:
-+		/* This has already been validated by ideapad_check_features(). */
-+		unreachable();
-+	}
- 
--	brightness = ideapad_kbd_bl_brightness_get(priv);
-+	brightness = ideapad_kbd_bl_brightness_parse(priv, hw_brightness);
- 	if (brightness < 0)
- 		return brightness;
- 
--- 
-2.51.0
-
+Regards,
+Markus
 
