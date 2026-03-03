@@ -1,144 +1,120 @@
-Return-Path: <linux-leds+bounces-7061-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7062-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 7SshG/1Hp2lPgQAAu9opvQ
-	(envelope-from <linux-leds+bounces-7061-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 03 Mar 2026 21:43:41 +0100
+	id CGHzIMBSp2lsgwAAu9opvQ
+	(envelope-from <linux-leds+bounces-7062-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 03 Mar 2026 22:29:36 +0100
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F1C1F6E9C
-	for <lists+linux-leds@lfdr.de>; Tue, 03 Mar 2026 21:43:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF29A1F7881
+	for <lists+linux-leds@lfdr.de>; Tue, 03 Mar 2026 22:29:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 105EA3095781
-	for <lists+linux-leds@lfdr.de>; Tue,  3 Mar 2026 20:43:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3E725300D162
+	for <lists+linux-leds@lfdr.de>; Tue,  3 Mar 2026 21:27:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 489D7370D66;
-	Tue,  3 Mar 2026 20:43:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 812103D669C;
+	Tue,  3 Mar 2026 21:27:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="Ur1sXLHa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E7/I21Ab"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 199C9349B0A;
-	Tue,  3 Mar 2026 20:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D97326D4F9;
+	Tue,  3 Mar 2026 21:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772570618; cv=none; b=f2TUx5ywEHaMi/ydVY0G7x3pbN7roV84bIKu/e5+EB1dQ6mR5P3oK/fXAVKPMPL5/hfC1/pJra/NWfc1TRWqw5m0x6DepWEuHvgqtcEVabwjjtEBXfoZCzIWhHjX5S6/1P8pEugr/f6Z6bCGPXQDN3+J0iKWqiCmMQBm+c5321U=
+	t=1772573247; cv=none; b=Z+Tnx/fM+HjzXmkBkT81B+elZoPp9LXQki55kgnn5A9wPS/4Ia3VDMdLxjui2lKNY3g0cMfBviI/ec/8fe5bm1pIGHfoYdc6XkZY+aa4Wn0k9ROh9lN665nifeSSLyTrD2kz6HBzhLo7s2NNH4y2MxckKNHgeCEcw1k+wN+krKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772570618; c=relaxed/simple;
-	bh=7bOWLefNoePuyVIbya0914ldN9jfCDNYYwxNKp6PS7c=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=peGTnvg0dCaSDypQouJCL8Yi/BoxafLSCpFz+9xzXLXLZSA129VV4Jk5OaxYPwvmV5/r8o/oDLzhFQvGOlkuuRcXG7QMleYuPXGVvCCtWSurmPapiDAJ0XdxD0Sgn/zLFZnoUmz06HMI3YyQB5r8PPGWzS+NAsZF5/fbKU2gfHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=Ur1sXLHa; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.178.24] (i5C75F679.versanet.de [92.117.246.121])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 1763C2FC004D;
-	Tue,  3 Mar 2026 21:43:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1772570613;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J/79h0D72UUGr7PmG9+5dbhPn+ERxCsvQnwNnMYoMws=;
-	b=Ur1sXLHaqhVoDHsxFkP3z+ovFVbQsU/ppDcVTZ54GGsKwpMqbHJ/jyOJC/HVJC8WJddeyR
-	Fmp9qpXZAiDUqMzSITWWFDeqxsOLHcyClY0Vzbua+3xfqlrFtytGuyKyAjW3gifXqSbF56
-	NsD1q+SMOY7XOJHsWwNi0qcMqHxHR84=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <5a82f282-2ab6-4fa9-82fa-a38fdd99c386@tuxedocomputers.com>
-Date: Tue, 3 Mar 2026 21:43:31 +0100
+	s=arc-20240116; t=1772573247; c=relaxed/simple;
+	bh=w0amKkvJ6RXEUxqZklGWueLOe1lG8K7mDP5+N77hv6A=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gr1i1IrIGI1hn4zNXYQMVVWnLw4z1Zn3rHxxi1Art3PABNAm7TuNSUncHInsPSu/3K50ARxwDwClFvsFBR2yssEB3mlPmO+X1LNZeO8OhEbQ1aYIl9fi0PaUAAEauIQ4lqS6G0LDKwoAJvEXLI51Juvn6nxFYSRe+bvrKFSV9mU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E7/I21Ab; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CC31C116C6;
+	Tue,  3 Mar 2026 21:27:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772573246;
+	bh=w0amKkvJ6RXEUxqZklGWueLOe1lG8K7mDP5+N77hv6A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=E7/I21Ab5uHCpmgIxITz1VNJcmMMRnBzWjg1qdEog7YtQCsrkJS1eYM0GrXflW8E1
+	 /IV5If8udYmKoXDrFlIpam3GL9V8tyvVHSl/PtNCnF96k1nUJtKoTCR3YtgC0gP8MV
+	 cFzXUHEG+xS5F437eVvl21Uj7FJKA6z4jNn2MrsJv6pxIwZvTTFw0NGc2IFwHdY654
+	 SJfNOVQH+sF5soBbz8fOohmdVvK0uJa3kA70W4nd9Z9H7kQh42zyFXLqKHLBk6Ehpi
+	 EkmD5DD4uj0K/1Szd9Qles9Ub9xH3LVGf80lfyqfjEEz2VVgA3VAb9EJOnqoRhm/mx
+	 u/Uvg3QDkkA+Q==
+Date: Tue, 3 Mar 2026 21:27:15 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: David Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee
+ Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Dixit Parmar
+ <dixitparmar19@gmail.com>, Tony Lindgren <tony@atomide.com>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 05/11] iio: adc: cpcap-adc: add support for Mot ADC
+Message-ID: <20260303212715.55664444@jic23-huawei>
+In-Reply-To: <20260207135555.6e82e6d3@jic23-huawei>
+References: <20260206172845.145407-1-clamor95@gmail.com>
+	<20260206172845.145407-6-clamor95@gmail.com>
+	<20260207135555.6e82e6d3@jic23-huawei>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Maximum values for multi_intensity sysfs attribute
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Armin Wolf <W_Armin@gmx.de>, linux-leds@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Lee Jones <lee@kernel.org>,
- pavel@kernel.org
-References: <2d91a44e-fce2-42dc-b529-133ab4a191f0@gmx.de>
- <2b5fa1b7-9d97-4f9b-b03e-6ecfa74c63ab@gmx.de>
- <c3b283c5-0433-4c2b-92cf-30dcfab5e0e9@tuxedocomputers.com>
-Content-Language: en-US
-In-Reply-To: <c3b283c5-0433-4c2b-92cf-30dcfab5e0e9@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: B6F1C1F6E9C
+X-Rspamd-Queue-Id: CF29A1F7881
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[tuxedocomputers.com,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[tuxedocomputers.com:s=default];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7061-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmx.de,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[tuxedocomputers.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-7062-lists,linux-leds=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wse@tuxedocomputers.com,linux-leds@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-leds];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jic23@kernel.org,linux-leds@vger.kernel.org];
+	FREEMAIL_CC(0.00)[baylibre.com,analog.com,kernel.org,gmail.com,atomide.com,vger.kernel.org];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
+On Sat, 7 Feb 2026 13:55:55 +0000
+Jonathan Cameron <jic23@kernel.org> wrote:
 
-Am 03.03.26 um 21:35 schrieb Werner Sembach:
->
-> Am 03.03.26 um 21:11 schrieb Armin Wolf:
->> Am 14.02.26 um 20:15 schrieb Armin Wolf:
->>
->>> Hello,
->>>
->>> i am currently adding support for RGB keyboard backlight control to the 
->>> uniwill-laptop
->>> driver, and want to use the multicolor LED class for that. However the 
->>> hardware interface
->>> is a bit exotic:
->>>
->>> - 5 global brightness levels
->>> - 50 intensity levels for each R/G/B channel
->>>
->>> I am now asking myself how this should be mapped onto the multi_intensity 
->>> sysfs attribute.
->>> Should i set max_brightness to 5 and reject intensity values larger that 50? 
->>> Or should
->>> i set max_brightness to 50 and interpolate? What is the input range of 
->>> intensity values?
->>>
->>> Thanks,
->>> Armin Wolf 
->>
->> Any ideas on this? My current approach would be to use 5 for the max 
->> brightness and clamp intensity
->> values to 50.
-> Another idea is to have multi_intensity values 0-255 and then map it to the 
-> closest color so normal rgb values can be passed
-this would also offer a hook point for some scaling: some uniwill devices have a 
-noticeable color hue like pinkish or greenish because the leds max brightness is 
-not well balanced, in tuxedo-drivers we sometimes apply some adjustments 
-regulating 1 or 2 of the colors generally down like 5 or 10%
->>
->> Thanks,
->> Armin Wolf
->>
+> On Fri,  6 Feb 2026 19:28:39 +0200
+> Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+> 
+> > Add support for ADC found in Motorola Mot board, used as a base for
+> > Atrix 4G and Droid X2 smartphones.
+> > 
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>  
+> Applied to the testing branch of iio.git.
+FWIW I messed up my trees, and lost this for a bit, it's there now though!
 
