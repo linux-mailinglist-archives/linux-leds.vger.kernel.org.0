@@ -1,394 +1,294 @@
-Return-Path: <linux-leds+bounces-7092-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7093-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ULMkMkyCqGmYvAAAu9opvQ
-	(envelope-from <linux-leds+bounces-7092-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 04 Mar 2026 20:04:44 +0100
+	id CFjJCJKQqGnZvgAAu9opvQ
+	(envelope-from <linux-leds+bounces-7093-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 04 Mar 2026 21:05:38 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41559206D81
-	for <lists+linux-leds@lfdr.de>; Wed, 04 Mar 2026 20:04:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02602207643
+	for <lists+linux-leds@lfdr.de>; Wed, 04 Mar 2026 21:05:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0800E3077CF1
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Mar 2026 18:59:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 696233044A72
+	for <lists+linux-leds@lfdr.de>; Wed,  4 Mar 2026 20:05:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DCDB3E1221;
-	Wed,  4 Mar 2026 18:58:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7736381B10;
+	Wed,  4 Mar 2026 20:05:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XL5TlMiC"
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="UsoFL5a3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vTSJ4q19"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D543DFC84
-	for <linux-leds@vger.kernel.org>; Wed,  4 Mar 2026 18:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B75C37F750;
+	Wed,  4 Mar 2026 20:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772650696; cv=none; b=VtogiCzglgzw0F7unA3u2Bk8Z+OzwPf0UQDXAWXBDUIfo5A6k1QPSYTJrQ35vXoxYdpI8vOvMKOqQsQmmovAJJiRgy+gTJo0XaTx4chGGkYZileUDbDeZBg5fMhEdQTCWDnOT61hOuCD1KF2ZdmGG3KfAFDy9B12Kh/nsSKE8Xc=
+	t=1772654734; cv=none; b=dEciAVBe0s5Al0JF05OqFxjGg4Xpx388Z1wvGRYhWXBJtuDZSLT7LRJ1ah4TTbWsA5WuCLyiL4e30nXMztQ8QWqiQY+Aconv3eYbbsnU6XPJQI+XcnlbnXSZX+xFrqqcxa/jV6g19ea58VpOTpOKbWCNpB1k6oRA8tClk52MXno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772650696; c=relaxed/simple;
-	bh=kH6IxGWU9/YPnlpdIv152C9oL2JnvfglKibkmH2D9yc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ukXLdH0PUFT6Wgz1EVp9cVHJwTvkKNuvIkTC5PVkBtzxpj97yuL6biMV1+cy7cGnEmkqtNyOcTrbpqlHbY15yyOgNk3RxfXlbBjXxYvn9DymrffykO1zLTJNKeVWWxBRlC8/4vRM0Gte/WjCzmYvFP7oBkyZRNhyg+crUPdsWVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XL5TlMiC; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-389f9895c81so66800611fa.2
-        for <linux-leds@vger.kernel.org>; Wed, 04 Mar 2026 10:58:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772650692; x=1773255492; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o3TwQJXKVq1pyC7HWfeudplW5CQQTbeaEyQZUhCqwB8=;
-        b=XL5TlMiCpVWuKJzyj7siq+BkZ6jh2U1zvoKYFkMNcumO9QhRKD4i4S7nEdjsQuM1oP
-         HKuCIC7i3fHV8FYMgVNUrqK7HpZJKuCroe4qvv97KLvccRsjkTxIUTTpsYJ+mfL0pf7A
-         EfwIsvXAQAw/25bmANk2lZOeOM5c9I+S+IJxH67DGcmJi6+/fxcg4t72HKr+uCqquGvz
-         1haRHRlp6rnVHvkSnr9oPBPG449yUFlzBpMkxGxb9z90FjCdnSzuqqCb3C1XLUnJ9e2J
-         Yr7yNYo6/aaZjqZhQVbbJ5rh6en2kaQTeL668pe7zLue3/D2NfUPGimPnXNkUd1xgNd/
-         vIpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772650692; x=1773255492;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=o3TwQJXKVq1pyC7HWfeudplW5CQQTbeaEyQZUhCqwB8=;
-        b=UbJeptoxRyaHVPUOGzVSqq7vV0TouHuftrj3/vCwwBuoFDtZXsKdMnWKt3fkuBNCQl
-         MD8KY/+ppLJFYiCSg0c82a3HdpooDu4nHwsgpYGxDLyabYJOG4hhZo17+xX/+tOmOCgz
-         czKdAv+pnV7zZFCosEK+5yxynp/YYyboqg7Q3kpUeOoVoKw/7IDkw5hspGqHFPODf9i8
-         wt0HMCEmQG0eHPHRXBH7w5V74GFt1apYmdsHyLpYekTDJUSGAhJg7VLUBTA0ABBwkQnx
-         thRne8ZJ7KKokM4i44eY1nymAKqBF5oyUauTU7jCOE+7y/t/nT3/OzxZZJHuM2uocVbV
-         i3Jw==
-X-Forwarded-Encrypted: i=1; AJvYcCWngJCd2YdhawPyOORAbLo/LblFYELXD8LAZxb+E31FUcXIwNk6PI0QwTgFXstrNFDM4p8qEsjVl4NG@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywxab4n1V1M2cAbQBhdoU2ae2meyM0zSRGoGJrN+b6W2rw3Px0s
-	C9UxpQUYfcScnAWonwWxtAu/lvPXnyvaBIaBnHNGPG7J7S+K4n5wcVjB
-X-Gm-Gg: ATEYQzwJrcku2KaQoCCg0IViESYUTE+vlOH6M1ShsXOjdBENwp6jnVIJYgEliGQe2c9
-	LNbNKqJdzpYMMB6emLjPNCTWYUK3HLrcryO5J7fXo6pAy57rvQpgV8bDO4QYzTCuwn1IW39kk0f
-	zcAsWJlXM5mEklj/BF8QXxFv/lACwmexLoCgKJ9Q9bfHBHB1Vu5S+vWvBTG7ff9XfvLprvnGByq
-	b8aAWbq7zUn59ZEL6Oeps/hm00VakPsBnKv8xLJ0MgNjtxeDxgg+ysOtMUC+8dLmn7F5y6Qr0xV
-	JPQLUc1tuxWsouJtfs/zNJhAo6MxxSs1dsd7V4MZ2tDAefPOVOhnw/lPneynAVINZWc27SHndHp
-	Zn+78ThnlvtnHuTkOadvhfaB4hcU2AsMKzRpGj1lkUOhNsjbXVbCvi/e6RfmOM/mGALyHvfusom
-	MRl67Hf6AAbhiZ
-X-Received: by 2002:a05:651c:f04:b0:389:fc69:45e8 with SMTP id 38308e7fff4ca-38a2c597194mr30443421fa.13.1772650691885;
-        Wed, 04 Mar 2026 10:58:11 -0800 (PST)
-Received: from xeon ([188.163.112.72])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a12a6ddd3bsm704985e87.0.2026.03.04.10.58.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 10:58:11 -0800 (PST)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Svyatoslav Ryhel <clamor95@gmail.com>,
-	Ion Agorria <ion@agorria.com>,
-	=?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Cc: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: [PATCH v5 7/7] power: supply: Add charger driver for Asus Transformers
-Date: Wed,  4 Mar 2026 20:57:51 +0200
-Message-ID: <20260304185751.83494-8-clamor95@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260304185751.83494-1-clamor95@gmail.com>
-References: <20260304185751.83494-1-clamor95@gmail.com>
+	s=arc-20240116; t=1772654734; c=relaxed/simple;
+	bh=lXR2WArOybnZJJxOnkUOeLu1GaqJNiakoc8VNdhDhws=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=rUciw7plpPy2p1zBIHjyeWAeq0H0IukNvQ4z6MkS4ioohJZPg2cww2V/xJnFKwUd1BXyN477KEpUgtgnCIh/s6ohH++6un5RmbIYtnKkcCltioTV4bPaNOdGMquWNQskg/nadDqaVrt6XXGRh7tBKIGSnYGaMyilaNW4tpd0/qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=UsoFL5a3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vTSJ4q19; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id 5822EEC066B;
+	Wed,  4 Mar 2026 15:05:32 -0500 (EST)
+Received: from phl-imap-08 ([10.202.2.84])
+  by phl-compute-02.internal (MEProxy); Wed, 04 Mar 2026 15:05:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1772654732;
+	 x=1772741132; bh=MICzdszE7AhxtRHTx7UHE10rWAYRB5SdVRCFA4D5GWk=; b=
+	UsoFL5a39kchr2fm2n0vxBOZEFu8QtU9psmeswRIraAsTsB2N7QMo+B39AqH8rW1
+	n1z9eGhkARqdLTyJ5AWRfVWmoqUs0eRae2AAwbjFXmjdKFE8oLcmHpLs2K0y/E4T
+	elAeMxuwXmyFTqD/gy3Bewl3TWX4lRjic8cC+IcHJjY49sE4PKSFaGL980Ucf9p2
+	npSxhBLJR52hfB+0CTuvXvu2gDuFuIgfz8F17cKFDXNQJ9Im2VHO2bjEgLWJkHGa
+	oouKKuRcWyP7+Q0VaCZU+XV2vL/8Ne6g20k48u7lmZNvtc9JxnwM40ikcclRnQDO
+	L4vIoiZrpi2Ii/8HsP/sgg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1772654732; x=
+	1772741132; bh=MICzdszE7AhxtRHTx7UHE10rWAYRB5SdVRCFA4D5GWk=; b=v
+	TSJ4q19d/PhMOhmN/e5Ra8Lif8Jb+jqLt6c9DcEK6029h8fhSx0xNWlXErHzvU0E
+	o47agh8YM4axVB+KVlXIHPpyTPHClcGwf0zN5oJ6gK/IklulTlpoWneSwjE12tbm
+	Lw+53XBgHlTODmtLKnPXTHqTxzks1JfAVnMitQE6tG55QsJC5GppsHPVk8OGXSCM
+	DoD3NkRqdNSZqJiRCVRr7mNeak0b/Latf80gf0ZaeZzhxbioMXApdLzvcb8fue9w
+	ClKMPG6re4gJ1f3geD6aZqmwpzo27KiR0KFxYxcemJ1MDzF7hlbieB8g09/0nnLM
+	0QJqtDpbKnqcGqEBF9Iwg==
+X-ME-Sender: <xms:i5CoaXZig21AmuW4-_vDZB096rTsKxALXgEHpsrq7ETMJJ5myULstw>
+    <xme:i5CoaRPEvZ-qqRmtYv8uMvBB3xaddcC9y_qXX7ZQAMAYfwJ8g3gxoOiH6-h13j49a
+    hCQk1_cDXKhCSr0Vc_hgkotK396Gz9cZ-PKwVpWezH-4SodNRc3>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvieeggeduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfofgrrhhk
+    ucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtg
+    grqeenucggtffrrghtthgvrhhnpedtffevgfethfevteduvdefleevkedtuddvlefghefg
+    ieekffejteejveffkedthfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhhpvggrrhhsohhn
+    qdhlvghnohhvohesshhquhgvsggsrdgtrgdpnhgspghrtghpthhtohepudejpdhmohguvg
+    epshhmthhpohhuthdprhgtphhtthhopegslhgvuhhnghestghhrhhomhhiuhhmrdhorhhg
+    pdhrtghpthhtohepghhrohgvtghksegthhhrohhmihhumhdrohhrghdprhgtphhtthhope
+    guvghrvghkjhhohhhnrdgtlhgrrhhksehgmhgrihhlrdgtohhmpdhrtghpthhtohepihhk
+    vghprghnhhgtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepvhhishhhnhhuohgtvhesgh
+    hmrghilhdrtghomhdprhgtphhtthhopehhrghnshhgsehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehkrggsvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlvggvsehkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehprghvvghlsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:i5CoafyxWAGbVQ1w-9fIIJw-gc7BnG6yClZUXtiHqaYV2wITvYyP9g>
+    <xmx:i5CoaR8JogF64Dku8dUHByDeEcGe1ZyFTuO9r1ASBx2oyZW1VWFQ7w>
+    <xmx:i5Coaf9ug51vJCNIyQ5c6F_6GF8T3B-ELl_C2nWnA4qQavidVkkTMw>
+    <xmx:i5CoaUf46zj4XeH8zc_YtcsBQYqcERTcTU1rI71hR88P6HtZnXVlkA>
+    <xmx:jJCoaYoGcjOAlNnejPWWnXCiriAwJ-Ro7GxfO_a-RVYBw1VKo3vI8JEV>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 5212B2CE0072; Wed,  4 Mar 2026 15:05:31 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 41559206D81
+X-ThreadId: AkcZMBcLD6IV
+Date: Wed, 04 Mar 2026 15:05:11 -0500
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: "Rong Zhang" <i@rong.moe>, "Lee Jones" <lee@kernel.org>,
+ "Pavel Machek" <pavel@kernel.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ "Benson Leung" <bleung@chromium.org>, "Guenter Roeck" <groeck@chromium.org>,
+ =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
+ "Derek J . Clark" <derekjohn.clark@gmail.com>,
+ "Hans de Goede" <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "Ike Panhc" <ikepanhc@gmail.com>
+Cc: "Vishnu Sankar" <vishnuocv@gmail.com>,
+ "Vishnu Sankar" <vsankar@lenovo.com>, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
+Message-Id: <b1d43b71-38c1-48cb-91ae-4598ecd2f588@app.fastmail.com>
+In-Reply-To: <20260227190617.271388-1-i@rong.moe>
+References: <20260227190617.271388-1-i@rong.moe>
+Subject: Re: [RFC PATCH 0/9] leds: Add support for hw initiated hw control trigger
+ transition
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 02602207643
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [-0.15 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[squebb.ca:s=fm2,messagingengine.com:s=fm1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	XM_UA_NO_VERSION(0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7092-lists,linux-leds=lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,agorria.com,rere.qmqm.pl];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_TO(0.00)[rong.moe,kernel.org,weissschuh.net,chromium.org,gmail.com,linux.intel.com];
 	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[squebb.ca];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-7093-lists,linux-leds=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[squebb.ca:+,messagingengine.com:+];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.998];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,qmqm.pl:email]
+	FROM_NEQ_ENVFROM(0.00)[mpearson-lenovo@squebb.ca,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,lenovo.com,vger.kernel.org,lists.linux.dev];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-leds];
+	NEURAL_HAM(-0.00)[-0.999];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,app.fastmail.com:mid]
 X-Rspamd-Action: no action
 
-From: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+Hi Rong,
 
-Add support for charger detection capabilities found in the embedded
-controller of ASUS Transformer devices.
+On Fri, Feb 27, 2026, at 2:05 PM, Rong Zhang wrote:
+> Hi all,
+>
+> Some laptops can tune their keyboard backlight according to ambient
+> light sensors (auto mode). This capability is essentially a hw control
+> trigger. Meanwhile, such laptops also offer a shrotcut for cycling
+> through brightness levels and auto mode. For example, on ThinkBook,
+> pressing Fn+Space cycles keyboard backlight levels in the following
+> sequence:
+>
+>   1 => 2 => 0 => auto => 1 ...
+>
+> Recent ThinkPad models should have similar sequence too.
+>
+> However, there are some issues preventing us from using hw control
+> trigger:
+>
+> 1. We want a mechanism to tell userspace which trigger is the hw control
+>    trigger, so that userspace can determine if auto mode is on/off or
+>    turing it on/off programmatically without obtaining the hw control
+>    trigger's name via other channels
+> 2. Turing on/off auto mode via the shortcut cannot activate/deactivate
+>    the hw control trigger, making the software state out-of-sync
+> 3. Even with #1 resolved, deactivating the hw control trigger after
+>    receiving the event indicating "auto => 1" has a side effect of
+>    emitting LED_OFF, breaking the shortcut cycle
+>
+> This RFC series tries to demonstrate a path on solving these issues:
+>
+> - Introduce an attribute called trigger_may_offload, so that userspace
+>    can determine:
+>    - if the LED device supports hw control (supported => visible)
+>    - which trigger is the hw control trigger
+>    - if the hw control trigger is selected
+>    - if the hw control trigger is in hw control (i.e., offloaded)
+>      - A callback offloaded() is added so that LED triggers can report
+>        their hw control state
+> - Add led_trigger_notify_hw_control_changed() interface, so that LED
+>   drivers can notify the LED core about hardware initiated hw control
+>   state transitions. The LED core will then determine if the transition
+>   is allowed and turning on/off the hw control trigger accordingly
+> - Tune the logic of trigger deactivation so that it won't emit LED_OFF
+>   when the deactivation is triggered by hardware
+>
+> The last two patches are included into the RFC series to demonstrate how
+> to utilize these interfaces to add support for auto keyboard backlight
+> to ThinkBook. They will be submitted separately once the dust settles.
+>
+> Currently no Kconfig entry is provided to disable either interface. If
+> needed, I will add one later.
+>
+> [ Summary of other approaches ]
+>
+> < custom attribute >
+>
+> Pros:
+> - simplicity, KISS
+> - no need to touch the LED core
+> - extensible as long as it has a sensor-neutral name
+>   - a sensor-related name could potentially lead to a mess if a future
+>     device implements auto mode based on multiple different sensors
+>
+> Cons:
+> - must have zero influence on brightness_set[_blocking] callbacks
+>   in order not to break triggers
+>   - potential interference with triggers and the brightness attribute
+> - weird semantic (an attribute other than "brightness" and "trigger"
+>   changes the brightness)
+>
+> < hw control trigger (this series) >
+>
+> Pros:
+> - mutually exclusive with other triggers (hence less chaos)
+> - semantic correctness
+> - acts as an aggregate switch to turn on/off auto mode even a future
+>   device implements auto mode based on multiple different sensors
+>   - extensibility (through trigger attributes)
+>
+> Cons:
+> - complexity
+>
+> [ Previous discussion threads ]
+>
+> https://lore.kernel.org/r/08580ec5-1d7b-4612-8a3f-75bc2f40aad2@app.fastmail.com
+>
+> https://lore.kernel.org/r/1dbfcf656cdb4af0299f90d7426d2ec7e2b8ac9e.camel@rong.moe
+>
+> Thanks,
+> Rong
+>
+> Rong Zhang (9):
+>   leds: Load trigger modules on-demand if used as hw control trigger
+>   leds: Add callback offloaded() to query the state of hw control
+>     trigger
+>   leds: cros_ec: Implement offloaded() callback for trigger
+>   leds: turris-omnia: Implement offloaded() callback for trigger
+>   leds: trigger: netdev: Implement offloaded() callback
+>   leds: Add trigger_may_offload attribute
+>   leds: trigger: Add led_trigger_notify_hw_control_changed() interface
+>   platform/x86: ideapad-laptop: Decouple HW & cdev brightness for kbd
+>     backlight
+>   platform/x86: ideapad-laptop: Fully support auto kbd backlight
+>
+>  .../obsolete/sysfs-class-led-trigger-netdev   |  15 ++
+>  Documentation/ABI/testing/sysfs-class-led     |  22 ++
+>  .../testing/sysfs-class-led-trigger-netdev    |  13 --
+>  Documentation/leds/leds-class.rst             |  72 ++++++-
+>  drivers/leds/led-class.c                      |  23 +++
+>  drivers/leds/led-triggers.c                   | 176 +++++++++++++++-
+>  drivers/leds/leds-cros_ec.c                   |   6 +
+>  drivers/leds/leds-turris-omnia.c              |   7 +
+>  drivers/leds/leds.h                           |   3 +
+>  drivers/leds/trigger/ledtrig-netdev.c         |  10 +
+>  drivers/platform/x86/lenovo/Kconfig           |   1 +
+>  drivers/platform/x86/lenovo/ideapad-laptop.c  | 194 ++++++++++++++----
+>  include/linux/leds.h                          |   6 +
+>  13 files changed, 492 insertions(+), 56 deletions(-)
+>  create mode 100644 Documentation/ABI/obsolete/sysfs-class-led-trigger-netdev
+>
+>
+> base-commit: a75cb869a8ccc88b0bc7a44e1597d9c7995c56e5
+> -- 
+> 2.51.0
 
-Suggested-by: Maxim Schwalm <maxim.schwalm@gmail.com>
-Suggested-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- drivers/power/supply/Kconfig                  |  11 +
- drivers/power/supply/Makefile                 |   1 +
- .../supply/asus-transformer-ec-charger.c      | 193 ++++++++++++++++++
- 3 files changed, 205 insertions(+)
- create mode 100644 drivers/power/supply/asus-transformer-ec-charger.c
+Thanks for your work on this.
 
-diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
-index 3c46b412632d..56800aab82f9 100644
---- a/drivers/power/supply/Kconfig
-+++ b/drivers/power/supply/Kconfig
-@@ -497,6 +497,17 @@ config CHARGER_88PM860X
- 	help
- 	  Say Y here to enable charger for Marvell 88PM860x chip.
- 
-+config CHARGER_ASUS_TRANSFORMER_EC
-+	tristate "Asus Transformer's charger driver"
-+	depends on MFD_ASUS_TRANSFORMER_EC
-+	help
-+	  Say Y here to enable support AC plug detection on Asus Transformer
-+	  Dock.
-+
-+	  This sub-driver supports charger detection mechanism found in Asus
-+	  Transformer tablets and mobile docks and controlled by special
-+	  embedded controller.
-+
- config CHARGER_PF1550
- 	tristate "NXP PF1550 battery charger driver"
- 	depends on MFD_PF1550
-diff --git a/drivers/power/supply/Makefile b/drivers/power/supply/Makefile
-index aa5e6b05b018..24679f09bb61 100644
---- a/drivers/power/supply/Makefile
-+++ b/drivers/power/supply/Makefile
-@@ -68,6 +68,7 @@ obj-$(CONFIG_CHARGER_RT9471)	+= rt9471.o
- obj-$(CONFIG_CHARGER_RT9756)	+= rt9756.o
- obj-$(CONFIG_BATTERY_TWL4030_MADC)	+= twl4030_madc_battery.o
- obj-$(CONFIG_CHARGER_88PM860X)	+= 88pm860x_charger.o
-+obj-$(CONFIG_CHARGER_ASUS_TRANSFORMER_EC)	+= asus-transformer-ec-charger.o
- obj-$(CONFIG_CHARGER_PF1550)	+= pf1550-charger.o
- obj-$(CONFIG_BATTERY_RX51)	+= rx51_battery.o
- obj-$(CONFIG_AB8500_BM)		+= ab8500_bmdata.o ab8500_charger.o ab8500_fg.o ab8500_btemp.o ab8500_chargalg.o
-diff --git a/drivers/power/supply/asus-transformer-ec-charger.c b/drivers/power/supply/asus-transformer-ec-charger.c
-new file mode 100644
-index 000000000000..de01f0bf2fd7
---- /dev/null
-+++ b/drivers/power/supply/asus-transformer-ec-charger.c
-@@ -0,0 +1,193 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+#include <linux/err.h>
-+#include <linux/mfd/asus-transformer-ec.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/power_supply.h>
-+#include <linux/property.h>
-+
-+struct asus_ec_charger_data {
-+	struct notifier_block nb;
-+	const struct asusec_info *ec;
-+	struct power_supply *psy;
-+	struct power_supply_desc psy_desc;
-+};
-+
-+static enum power_supply_property asus_ec_charger_properties[] = {
-+	POWER_SUPPLY_PROP_USB_TYPE,
-+	POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR,
-+	POWER_SUPPLY_PROP_ONLINE,
-+	POWER_SUPPLY_PROP_MODEL_NAME,
-+};
-+
-+static int asus_ec_charger_get_property(struct power_supply *psy,
-+					enum power_supply_property psp,
-+					union power_supply_propval *val)
-+{
-+	struct asus_ec_charger_data *priv = power_supply_get_drvdata(psy);
-+	enum power_supply_usb_type psu;
-+	int ret;
-+	u64 ctl;
-+
-+	ret = asus_ec_get_ctl(priv->ec, &ctl);
-+	if (ret)
-+		return ret;
-+
-+	switch (ctl & (ASUSEC_CTL_FULL_POWER_SOURCE | ASUSEC_CTL_DIRECT_POWER_SOURCE)) {
-+	case ASUSEC_CTL_FULL_POWER_SOURCE:
-+		psu = POWER_SUPPLY_USB_TYPE_CDP;	/* DOCK */
-+		break;
-+	case ASUSEC_CTL_DIRECT_POWER_SOURCE:
-+		psu = POWER_SUPPLY_USB_TYPE_SDP;	/* USB */
-+		break;
-+	case 0:
-+		psu = POWER_SUPPLY_USB_TYPE_UNKNOWN;	/* no power source connected */
-+		break;
-+	default:
-+		psu = POWER_SUPPLY_USB_TYPE_ACA;	/* power adapter */
-+		break;
-+	}
-+
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_ONLINE:
-+		val->intval = psu != POWER_SUPPLY_USB_TYPE_UNKNOWN;
-+		return 0;
-+
-+	case POWER_SUPPLY_PROP_USB_TYPE:
-+		val->intval = psu;
-+		return 0;
-+
-+	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
-+		if (ctl & ASUSEC_CTL_TEST_DISCHARGE)
-+			val->intval = POWER_SUPPLY_CHARGE_BEHAVIOUR_FORCE_DISCHARGE;
-+		else if (ctl & ASUSEC_CTL_USB_CHARGE)
-+			val->intval = POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO;
-+		else
-+			val->intval = POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE;
-+		return 0;
-+
-+	case POWER_SUPPLY_PROP_MODEL_NAME:
-+		val->strval = priv->ec->model;
-+		return 0;
-+
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int asus_ec_charger_set_property(struct power_supply *psy,
-+					enum power_supply_property psp,
-+					const union power_supply_propval *val)
-+{
-+	struct asus_ec_charger_data *priv = power_supply_get_drvdata(psy);
-+
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
-+		switch ((enum power_supply_charge_behaviour)val->intval) {
-+		case POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO:
-+			return asus_ec_update_ctl(priv->ec,
-+				ASUSEC_CTL_TEST_DISCHARGE | ASUSEC_CTL_USB_CHARGE,
-+				ASUSEC_CTL_USB_CHARGE);
-+
-+		case POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE:
-+			return asus_ec_clear_ctl_bits(priv->ec,
-+				ASUSEC_CTL_TEST_DISCHARGE | ASUSEC_CTL_USB_CHARGE);
-+
-+		case POWER_SUPPLY_CHARGE_BEHAVIOUR_FORCE_DISCHARGE:
-+			return asus_ec_update_ctl(priv->ec,
-+				ASUSEC_CTL_TEST_DISCHARGE | ASUSEC_CTL_USB_CHARGE,
-+				ASUSEC_CTL_TEST_DISCHARGE);
-+		default:
-+			return -EINVAL;
-+		}
-+
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int asus_ec_charger_property_is_writeable(struct power_supply *psy,
-+						 enum power_supply_property psp)
-+{
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static const struct power_supply_desc asus_ec_charger_desc = {
-+	.name = "asus-ec-charger",
-+	.type = POWER_SUPPLY_TYPE_USB,
-+	.charge_behaviours = BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO) |
-+			     BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE) |
-+			     BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_FORCE_DISCHARGE),
-+	.usb_types = BIT(POWER_SUPPLY_USB_TYPE_UNKNOWN) |
-+		     BIT(POWER_SUPPLY_USB_TYPE_SDP) |
-+		     BIT(POWER_SUPPLY_USB_TYPE_CDP) |
-+		     BIT(POWER_SUPPLY_USB_TYPE_ACA),
-+	.properties = asus_ec_charger_properties,
-+	.num_properties = ARRAY_SIZE(asus_ec_charger_properties),
-+	.get_property = asus_ec_charger_get_property,
-+	.set_property = asus_ec_charger_set_property,
-+	.property_is_writeable = asus_ec_charger_property_is_writeable,
-+	.no_thermal = true,
-+};
-+
-+static int asus_ec_charger_notify(struct notifier_block *nb,
-+				  unsigned long action, void *data)
-+{
-+	struct asus_ec_charger_data *priv =
-+		container_of(nb, struct asus_ec_charger_data, nb);
-+
-+	switch (action) {
-+	case ASUSEC_SMI_ACTION(POWER_NOTIFY):
-+	case ASUSEC_SMI_ACTION(ADAPTER_EVENT):
-+		power_supply_changed(priv->psy);
-+		break;
-+	}
-+
-+	return NOTIFY_DONE;
-+}
-+
-+static int asus_ec_charger_probe(struct platform_device *pdev)
-+{
-+	struct asus_ec_charger_data *priv;
-+	struct device *dev = &pdev->dev;
-+	struct power_supply_config cfg = { };
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, priv);
-+	priv->ec = cell_to_ec(pdev);
-+
-+	cfg.fwnode = dev_fwnode(dev->parent);
-+	cfg.drv_data = priv;
-+
-+	memcpy(&priv->psy_desc, &asus_ec_charger_desc, sizeof(priv->psy_desc));
-+	priv->psy_desc.name = devm_kasprintf(dev, GFP_KERNEL, "%s-charger",
-+					     priv->ec->name);
-+
-+	priv->psy = devm_power_supply_register(dev, &priv->psy_desc, &cfg);
-+	if (IS_ERR(priv->psy))
-+		return dev_err_probe(dev, PTR_ERR(priv->psy),
-+				     "Failed to register power supply\n");
-+
-+	priv->nb.notifier_call = asus_ec_charger_notify;
-+
-+	return devm_asus_ec_register_notifier(pdev, &priv->nb);
-+}
-+
-+static struct platform_driver asus_ec_charger_driver = {
-+	.driver.name = "asus-transformer-ec-charger",
-+	.probe = asus_ec_charger_probe,
-+};
-+module_platform_driver(asus_ec_charger_driver);
-+
-+MODULE_AUTHOR("Michał Mirosław <mirq-linux@rere.qmqm.pl>");
-+MODULE_DESCRIPTION("ASUS Transformer Pad battery charger driver");
-+MODULE_LICENSE("GPL");
--- 
-2.51.0
+For the series: As it's a RFC, I'm not bothering with notes on any typo's or grammer stuff.
 
+Overall I think the implementation works and I understand it better from our initial discussions. Thank you for putting this together.
+
+I'm not a huge fan of the term offloaded - I would lean towards just calling it hw_control (or similar). But I see it was used in the ledtrig-netdev driver so I don't feel strongly about this.
+
+Vishnu - can you check out how this would work with the Thinkpad implementation that you've been working on, please? I think that will be helpful to highlight any design issues.
+
+Mark
 
