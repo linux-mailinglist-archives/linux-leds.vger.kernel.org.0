@@ -1,154 +1,210 @@
-Return-Path: <linux-leds+bounces-7084-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7085-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KILgGl5tqGn9uQAAu9opvQ
-	(envelope-from <linux-leds+bounces-7084-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 04 Mar 2026 18:35:26 +0100
+	id WPcKFPCBqGmYvAAAu9opvQ
+	(envelope-from <linux-leds+bounces-7085-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 04 Mar 2026 20:03:12 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14445205348
-	for <lists+linux-leds@lfdr.de>; Wed, 04 Mar 2026 18:35:26 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B477F206CA5
+	for <lists+linux-leds@lfdr.de>; Wed, 04 Mar 2026 20:03:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 36C00300B475
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Mar 2026 17:35:25 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C1147303B97C
+	for <lists+linux-leds@lfdr.de>; Wed,  4 Mar 2026 18:58:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACDEE3C3BEC;
-	Wed,  4 Mar 2026 17:35:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 430FD3DA5A6;
+	Wed,  4 Mar 2026 18:58:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p3gRyRbA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="es3DPGsL"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846C03C2796;
-	Wed,  4 Mar 2026 17:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551723D301B
+	for <linux-leds@vger.kernel.org>; Wed,  4 Mar 2026 18:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772645722; cv=none; b=QBvN4aZSi8lBnDNKGAnHGMdR7OmD2clz4+49CPJfb2jB0wTRn8HQgFYR7yovOSdiuEf4u9zwCE+3dWx1mzn+Rb+tag6/mO4BUJ4Bkv+eXuxlw/CuRj6ZlR29PZTTygZqCvQVKIwLkWZH/n7lpVGx2nTrCQro8GdaSrP974lg2bU=
+	t=1772650686; cv=none; b=QTVt9FNzEMksAyDpbVskD/lq6AiWb5+Aej/NWD/bRmiG7LUUkP5ZpsX6maWNNeHVj/WITfwYeIAvV1snIRWIct1UeqIxNLu/xJW1ZSlVD3TCk1W0BPh7Wb+QbcvnenMQHyullRDSIsBQWJTX4wZkm2BydxgXBQlDpA4P8/5hPwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772645722; c=relaxed/simple;
-	bh=G9vyc/ilKI+19PmiBHaHsKJ89Xu7vIMfI3QiSI5VErY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qrh2JJAaZezbUVr81myQ6njNg/NWr4lbFIZQ5mE/jpl2cawZ89z/lIp8IgcYT/o9qGWFwPulL1RlMkmZ7Rtp7OI9vaZoO5cQMGlhNDQegsD4cwGIbEzhKmIhtBPbJDbjL0sDL9lyC35acKySSr9CEwL80frdEgqF1koGN0w3Dtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p3gRyRbA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 829B1C4CEF7;
-	Wed,  4 Mar 2026 17:35:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772645722;
-	bh=G9vyc/ilKI+19PmiBHaHsKJ89Xu7vIMfI3QiSI5VErY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=p3gRyRbAmt88QYW+qJdvWj5qtD8qosiS8iWmV/39WnJFzuC4DFAe3Tyh3mY5h74qn
-	 7FInoYzEWeFQ7CY8OwV54MEwdqBRVWYnNQjTVdnKRUwBSziNDWA8ecqaRvzzK/Ff90
-	 NfHNcwk1I3PM4D715Ch9BaVnphe1VPolSNNw/U/tzszjymiQfwM4YNdTcdbZC7y810
-	 7RYshqucnV1ca7eqd5+alsDV7oBEf6j/gB6X5uQ0hYuTexFE8Xvio9sCPsXsInNbYo
-	 9ZA6X79vEceTQn8vjICVOHvGoStAFiT1AZGx6edtfTQ2DKM/24xYE+6Yy8QIDT5o5s
-	 kOKClwu9c5Q9w==
-Message-ID: <f00b1812-a27f-49db-9277-6697af098248@kernel.org>
-Date: Wed, 4 Mar 2026 09:35:19 -0800
+	s=arc-20240116; t=1772650686; c=relaxed/simple;
+	bh=R2AUYnU8Wz8oU/h5rvR1qBJ/kWXkextxlhRXzMBmDPY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ajBWXD6Tw6Og3YLdY2OL2d0fA2nWe1cli6q9Z2O4IOF+8WhjGGrkzTazQ4wkJ80Fk3a0A8Llbq4wOB2mKmzf0csMvYba2dLNaphvcPtXfnVss7sLdkpPIWCxrQwTmd7G0MlkBtxncTDcHmTKuR5x8FdmtyI6MmUgvn1aDf3o1DQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=es3DPGsL; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-38a2a59baa6so14149411fa.2
+        for <linux-leds@vger.kernel.org>; Wed, 04 Mar 2026 10:58:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772650683; x=1773255483; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3/VwVHY85Z4sAx1gqqncPobsH7DOkhMw1reihUc4ZtI=;
+        b=es3DPGsLJn26+Co2HAWCOqc4Gh2z5omQEHbjEFXZ0LWlgaoyj7VsrmenNpRO2hVVaJ
+         gl4U3I10/1Ol7mUuJaJi0v52Z72Cy2jno8kmqyRx+7hpBGYkQSCruI7q3mhjBxsPFu4Q
+         rHrBnBKmUw7Ctnvej6jWevizr3tfKFV2In6x5T/Kmex9f724I/bl4SK0MJY90eFv8GAQ
+         Sdm0iCmjhC014efPxAQ8hkDr4RTrvjg3ud0BbuTpZUWO4uhz0Muq96QnOyoxzQzB+2vW
+         fZ40xDQGoYD/OKDXCmxb8899Ywm/lXTAG7pxT4KIekaM4kYNFrns6RXfpUwd8ILkursD
+         ZlEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772650683; x=1773255483;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3/VwVHY85Z4sAx1gqqncPobsH7DOkhMw1reihUc4ZtI=;
+        b=Zic2ToJdJQmgfTC+jOVdPFANsHbPDOfgGo/D701im/avyQDJhgLd3/hEJDh1sRHU8l
+         5Rknidfh163mtcOgEShG3RIDzgdI5TU2rqobJvznNH3XpjMzXBszcvYq/396Exs6Lgu6
+         GBoQKR5C6zxpE0UtpFYheLohilJtzOZTUaD9N4tSz0fbti27mkdMRWDCG14YQ5jTAUG9
+         QuwS8+r8ADXSIRAXY9K4PVRP4WKkif1+22jjjjuxtX33xRH9YnWWYOUST2iVnU1/Dk0K
+         qugACRYtIHD1Cm7vHfwPtgjJHJZ8Hsaw2yzv+yS3DQOHSP7THVri3aaYRb1A8+1A1hu1
+         /wUw==
+X-Forwarded-Encrypted: i=1; AJvYcCVoijBTHQAtiW/DNW3NktJt8yyIkI2xhi6JH8gJZ1T+/X5KDC3YGnQ8UI62QYdZoRwmzlin3V8bVIqu@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwEi7w0bzyfyE1Z9GNdtBqU6+3lQJsG8IOJyMbRLE0lnwwmHuT
+	WTd26AMIDAcVew0YIjZvt4KMTnyWWAdeEDkFqUzdqhNkX1EljXoAL26W
+X-Gm-Gg: ATEYQzyFaopOMJByyIGflzAcm8VGj6L9Y0pokv/wRd+8jTG7eSfJL54I5XgORaEsIy5
+	hdh0uwXjW18gm99snC1e0BC/RJn+OPS/whuO9D3ZExwkEmD//3t3OPYHkWKE+4Oag1EYxHWdvBP
+	RjV+E1TDRBwbJq9oNSU+YsswCbM3FIF4ehkJOsidzqNduMdt2ujygmrJ1/YAQKcJco7tdZizAmG
+	FaSB5QcHmVvvXzTUCOvIrU8oga6hBXSzp9mSQcYH/qk0T2IuV7s+BxYqGimaSruJnozUZRmeDRU
+	mXHlqH/rNg2+hL1abSoQ/ND3UC1WyCFgYRaIy3xqTXrwT/x3Tu1QgmhBSXiVnOwziR5Y5MvL0e1
+	9VSS1xd5UxyMVmrACbK3WI+KIFexBjZQMsxw4OmcbyUjRqi7bvVWMkee+Xe6JaAZb2vawZIMrMP
+	u+UXtkpS4KIpL/7p217QV8a00=
+X-Received: by 2002:a05:651c:1581:b0:385:dde5:1bf3 with SMTP id 38308e7fff4ca-38a2c564e64mr24339791fa.6.1772650682396;
+        Wed, 04 Mar 2026 10:58:02 -0800 (PST)
+Received: from xeon ([188.163.112.72])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a12a6ddd3bsm704985e87.0.2026.03.04.10.58.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 10:58:01 -0800 (PST)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	Ion Agorria <ion@agorria.com>,
+	=?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
+Cc: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: [PATCH v5 0/7] mfd: Add support for Asus Transformer embedded controller
+Date: Wed,  4 Mar 2026 20:57:44 +0200
+Message-ID: <20260304185751.83494-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/14] arc: axs10x: drop unneeded dependency on OF_GPIO
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Alexey Brodkin <abrodkin@synopsys.com>, Vineet Gupta <vgupta@kernel.org>,
- Scott Wood <oss@buserror.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>,
- Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>, Wim Van Sebroeck
- <wim@linux-watchdog.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sre@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-leds@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-watchdog@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-pm@vger.kernel.org
-References: <20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com>
- <20260304-gpio-of-kconfig-v1-2-d597916e79e7@oss.qualcomm.com>
-From: Vineet Gupta <vgupta@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20260304-gpio-of-kconfig-v1-2-d597916e79e7@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 14445205348
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: B477F206CA5
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7084-lists,linux-leds=lfdr.de];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,arm.com,kernel.org,synopsys.com,buserror.net,linux.ibm.com,ellerman.id.au,gmail.com,lunn.ch,armlinux.org.uk,davemloft.net,google.com,redhat.com,linaro.org,baylibre.com,googlemail.com,tibbo.com,roeck-us.net,linux-watchdog.org,linuxfoundation.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[47];
+	TAGGED_FROM(0.00)[bounces-7085-lists,linux-leds=lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,agorria.com,rere.qmqm.pl];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vgupta@kernel.org,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-0.997];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
+Add support for embedded controller used in Asus Transformers for
+managing power and input functions.
 
+---
+Changes in v2:
+- converted sysfs debug exports into debugfs
+- added kernel-doc comments for exposed functions
+- fixed minor typos and inconsistencies
 
-On 3/4/26 1:02 AM, Bartosz Golaszewski wrote:
-> OF_GPIO is automatically enabled on all OF systems. There's no need to
-> select it explicitly.
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
->  arch/arc/plat-axs10x/Kconfig | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/arch/arc/plat-axs10x/Kconfig b/arch/arc/plat-axs10x/Kconfig
-> index b9652c69d1b90e506f82b3b8c5be373c51246671..40f2a74d404ad9759ab9d6764c2496159eea045a 100644
-> --- a/arch/arc/plat-axs10x/Kconfig
-> +++ b/arch/arc/plat-axs10x/Kconfig
-> @@ -7,7 +7,6 @@ menuconfig ARC_PLAT_AXS10X
->  	bool "Synopsys ARC AXS10x Software Development Platforms"
->  	select DW_APB_ICTL
->  	select GPIO_DWAPB
-> -	select OF_GPIO
->  	select HAVE_PCI
->  	select GENERIC_IRQ_CHIP
->  	select GPIOLIB
+Changes in v3:
+- dropped DockRAM commits (both schema and driver)
+- integrated DockRAM functionality directly into the controller driver
+- EC schema moved to embedded controllers folder
+- removed all cell descriptions from the schema
+- removed all compatibles from the cell drivers
+- adjusted naming conventions to better align with the ASUS Transformers
+- defined EC variant sets to provide coverage for all known devices
 
-Acked-by: Vineet Gupta <vgupta@kernel.org>
+Changes in v4:
+- grouped known programming models of EC chronologically (both schema
+  and driver)
+- call debugfs init only if CONFIG_DEBUG_FS is enabled
 
-Thx and apologies for the delay in getting to it.
+Changes in v5:
+- added asus,tf600t-ec-dock compatible to schema
+- rebased on top of v7.0
+- kzalloc > kzalloc_obj in keys and kbc
+---
 
-Cheers,
--Vineet
+Michał Mirosław (6):
+  mfd: Add driver for ASUS Transformer embedded controller
+  input: serio: Add driver for ASUS Transformer dock keyboard and
+    touchpad
+  input: keyboard: Add driver for ASUS Transformer dock multimedia keys
+  leds: Add driver for ASUS Transformer LEDs
+  power: supply: Add driver for ASUS Transformer battery
+  power: supply: Add charger driver for Asus Transformers
+
+Svyatoslav Ryhel (1):
+  dt-bindings: embedded-controller: document ASUS Transformer EC
+
+ .../asus,tf201-ec-pad.yaml                    | 119 +++
+ drivers/input/keyboard/Kconfig                |  10 +
+ drivers/input/keyboard/Makefile               |   1 +
+ .../input/keyboard/asus-transformer-ec-keys.c | 272 +++++++
+ drivers/input/serio/Kconfig                   |  15 +
+ drivers/input/serio/Makefile                  |   1 +
+ drivers/input/serio/asus-transformer-ec-kbc.c | 147 ++++
+ drivers/leds/Kconfig                          |  11 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-asus-transformer-ec.c       |  79 ++
+ drivers/mfd/Kconfig                           |  14 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/asus-transformer-ec.c             | 762 ++++++++++++++++++
+ drivers/power/supply/Kconfig                  |  22 +
+ drivers/power/supply/Makefile                 |   2 +
+ .../supply/asus-transformer-ec-battery.c      | 272 +++++++
+ .../supply/asus-transformer-ec-charger.c      | 193 +++++
+ include/linux/mfd/asus-transformer-ec.h       | 162 ++++
+ 18 files changed, 2084 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/embedded-controller/asus,tf201-ec-pad.yaml
+ create mode 100644 drivers/input/keyboard/asus-transformer-ec-keys.c
+ create mode 100644 drivers/input/serio/asus-transformer-ec-kbc.c
+ create mode 100644 drivers/leds/leds-asus-transformer-ec.c
+ create mode 100644 drivers/mfd/asus-transformer-ec.c
+ create mode 100644 drivers/power/supply/asus-transformer-ec-battery.c
+ create mode 100644 drivers/power/supply/asus-transformer-ec-charger.c
+ create mode 100644 include/linux/mfd/asus-transformer-ec.h
+
+-- 
+2.51.0
+
 
