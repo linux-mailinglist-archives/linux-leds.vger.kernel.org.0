@@ -1,294 +1,174 @@
-Return-Path: <linux-leds+bounces-7093-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7094-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CFjJCJKQqGnZvgAAu9opvQ
-	(envelope-from <linux-leds+bounces-7093-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 04 Mar 2026 21:05:38 +0100
+	id QDb9LDOrqGmfwQAAu9opvQ
+	(envelope-from <linux-leds+bounces-7094-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 04 Mar 2026 22:59:15 +0100
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02602207643
-	for <lists+linux-leds@lfdr.de>; Wed, 04 Mar 2026 21:05:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 637D32083E1
+	for <lists+linux-leds@lfdr.de>; Wed, 04 Mar 2026 22:59:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 696233044A72
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Mar 2026 20:05:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0370D3079657
+	for <lists+linux-leds@lfdr.de>; Wed,  4 Mar 2026 21:58:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7736381B10;
-	Wed,  4 Mar 2026 20:05:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01BEF3BED2A;
+	Wed,  4 Mar 2026 21:58:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="UsoFL5a3";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vTSJ4q19"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hm8EeYqI"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B75C37F750;
-	Wed,  4 Mar 2026 20:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37D8371CEA
+	for <linux-leds@vger.kernel.org>; Wed,  4 Mar 2026 21:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772654734; cv=none; b=dEciAVBe0s5Al0JF05OqFxjGg4Xpx388Z1wvGRYhWXBJtuDZSLT7LRJ1ah4TTbWsA5WuCLyiL4e30nXMztQ8QWqiQY+Aconv3eYbbsnU6XPJQI+XcnlbnXSZX+xFrqqcxa/jV6g19ea58VpOTpOKbWCNpB1k6oRA8tClk52MXno=
+	t=1772661514; cv=none; b=HBNdZ880AjuvsFXBi80wDxaDKK+/f2KuT2ZsuOja1APFvjDP7m4a8ldQh1rLAPDKRPxwSxic4hoCoBTC9zN2nvo716AnUUI+oKKNGJqT6Gis6lcOCdKag0FMfJG6ZgNnB17uzmmecWcgWCpfLA5wjaxHoYbXA2it6nABAbTAqyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772654734; c=relaxed/simple;
-	bh=lXR2WArOybnZJJxOnkUOeLu1GaqJNiakoc8VNdhDhws=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=rUciw7plpPy2p1zBIHjyeWAeq0H0IukNvQ4z6MkS4ioohJZPg2cww2V/xJnFKwUd1BXyN477KEpUgtgnCIh/s6ohH++6un5RmbIYtnKkcCltioTV4bPaNOdGMquWNQskg/nadDqaVrt6XXGRh7tBKIGSnYGaMyilaNW4tpd0/qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=UsoFL5a3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vTSJ4q19; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 5822EEC066B;
-	Wed,  4 Mar 2026 15:05:32 -0500 (EST)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-02.internal (MEProxy); Wed, 04 Mar 2026 15:05:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1772654732;
-	 x=1772741132; bh=MICzdszE7AhxtRHTx7UHE10rWAYRB5SdVRCFA4D5GWk=; b=
-	UsoFL5a39kchr2fm2n0vxBOZEFu8QtU9psmeswRIraAsTsB2N7QMo+B39AqH8rW1
-	n1z9eGhkARqdLTyJ5AWRfVWmoqUs0eRae2AAwbjFXmjdKFE8oLcmHpLs2K0y/E4T
-	elAeMxuwXmyFTqD/gy3Bewl3TWX4lRjic8cC+IcHJjY49sE4PKSFaGL980Ucf9p2
-	npSxhBLJR52hfB+0CTuvXvu2gDuFuIgfz8F17cKFDXNQJ9Im2VHO2bjEgLWJkHGa
-	oouKKuRcWyP7+Q0VaCZU+XV2vL/8Ne6g20k48u7lmZNvtc9JxnwM40ikcclRnQDO
-	L4vIoiZrpi2Ii/8HsP/sgg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1772654732; x=
-	1772741132; bh=MICzdszE7AhxtRHTx7UHE10rWAYRB5SdVRCFA4D5GWk=; b=v
-	TSJ4q19d/PhMOhmN/e5Ra8Lif8Jb+jqLt6c9DcEK6029h8fhSx0xNWlXErHzvU0E
-	o47agh8YM4axVB+KVlXIHPpyTPHClcGwf0zN5oJ6gK/IklulTlpoWneSwjE12tbm
-	Lw+53XBgHlTODmtLKnPXTHqTxzks1JfAVnMitQE6tG55QsJC5GppsHPVk8OGXSCM
-	DoD3NkRqdNSZqJiRCVRr7mNeak0b/Latf80gf0ZaeZzhxbioMXApdLzvcb8fue9w
-	ClKMPG6re4gJ1f3geD6aZqmwpzo27KiR0KFxYxcemJ1MDzF7hlbieB8g09/0nnLM
-	0QJqtDpbKnqcGqEBF9Iwg==
-X-ME-Sender: <xms:i5CoaXZig21AmuW4-_vDZB096rTsKxALXgEHpsrq7ETMJJ5myULstw>
-    <xme:i5CoaRPEvZ-qqRmtYv8uMvBB3xaddcC9y_qXX7ZQAMAYfwJ8g3gxoOiH6-h13j49a
-    hCQk1_cDXKhCSr0Vc_hgkotK396Gz9cZ-PKwVpWezH-4SodNRc3>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvieeggeduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfofgrrhhk
-    ucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtg
-    grqeenucggtffrrghtthgvrhhnpedtffevgfethfevteduvdefleevkedtuddvlefghefg
-    ieekffejteejveffkedthfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhhpvggrrhhsohhn
-    qdhlvghnohhvohesshhquhgvsggsrdgtrgdpnhgspghrtghpthhtohepudejpdhmohguvg
-    epshhmthhpohhuthdprhgtphhtthhopegslhgvuhhnghestghhrhhomhhiuhhmrdhorhhg
-    pdhrtghpthhtohepghhrohgvtghksegthhhrohhmihhumhdrohhrghdprhgtphhtthhope
-    guvghrvghkjhhohhhnrdgtlhgrrhhksehgmhgrihhlrdgtohhmpdhrtghpthhtohepihhk
-    vghprghnhhgtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepvhhishhhnhhuohgtvhesgh
-    hmrghilhdrtghomhdprhgtphhtthhopehhrghnshhgsehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehkrggsvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlvggvsehkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehprghvvghlsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:i5CoafyxWAGbVQ1w-9fIIJw-gc7BnG6yClZUXtiHqaYV2wITvYyP9g>
-    <xmx:i5CoaR8JogF64Dku8dUHByDeEcGe1ZyFTuO9r1ASBx2oyZW1VWFQ7w>
-    <xmx:i5Coaf9ug51vJCNIyQ5c6F_6GF8T3B-ELl_C2nWnA4qQavidVkkTMw>
-    <xmx:i5CoaUf46zj4XeH8zc_YtcsBQYqcERTcTU1rI71hR88P6HtZnXVlkA>
-    <xmx:jJCoaYoGcjOAlNnejPWWnXCiriAwJ-Ro7GxfO_a-RVYBw1VKo3vI8JEV>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 5212B2CE0072; Wed,  4 Mar 2026 15:05:31 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1772661514; c=relaxed/simple;
+	bh=MxjDq8gQjsyN+WxP0d70LaLi462jemmqdXxq11ouqCI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YNcsJrqZTUm6AeLYT7EWCuSNWHm4yWI++GCtiULeGysFuJo62cGulAmkkIhjbRS0fP3Y64KYL4EqTGxKdYhLMKequlQU3sVLADm23pW36/HlodbXOOZ4YWqwTaqyyx/xBv7+MGwGyrqBEZh5XxSJ/IvnNEgGf9MOVJqg73qLnl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hm8EeYqI; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-82985f42664so3633b3a.0
+        for <linux-leds@vger.kernel.org>; Wed, 04 Mar 2026 13:58:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772661513; x=1773266313; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SDR4PsYkFmZIckUOryLH4IjXcqpjDOwt0KGqniQjbHs=;
+        b=Hm8EeYqIHgoVyAg19HsW8vi6Id2nSWPvijJG8p932wcI3tNAVy8PiylwwqXEFFYTXU
+         zTw/7Lz+za+P8DisNBcMnI05NIyz3VKfglSJSPgnCMOMVajUwzxmvWGgTpQJpABz5Ggd
+         mejQkZ7GRnNtShcXrlzpWxbTG5ymF4bfj9BDlorRw7FiTEsvlI0ZM9T3ZBOTv4UN9pkp
+         vGkGyhmiV8mWSJUQeV0w0CU4BugYcZ1b42KuSDM5KG9ZFYgpDT1NlmvepiWjCY4P2TQA
+         y0AMBQwZ/Qt7rsoP9XjDgMce7B04tzf6ejYB/YMgScvq7yc2sj9IBt8jPezcJLiZXA6k
+         fzyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772661513; x=1773266313;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=SDR4PsYkFmZIckUOryLH4IjXcqpjDOwt0KGqniQjbHs=;
+        b=K2E3+VRMrBLeKTbsFdVHt4ba3qDZMva/D86zIuzxyKxYw/UdlNEZwJrGwkJ5Gn07j6
+         b5tqCEFMe7XlzFXRqpqVLmw34scYHJkhj1HNjvmXusF/1YFfq9qbHvV+YZfC20MKc82o
+         bjY8nUoEREOhlMFGbFW9GjLQnCUhty3uls6aFTzG/h0UDmuwpqqv0t+Z040ZZX2kQUoa
+         qKX1IdjvZY1xcivpem7pvvjNP7Eca9ftdbIdU90AKpYIE+ujDnwYwB2IF4i30fA/3ioj
+         J8I34k9+u9HxamR7uRmg5DKhdGZdeA0IZPnn5Eovou78Hs8TEkM8UNTvrba29742HZqB
+         T5AA==
+X-Forwarded-Encrypted: i=1; AJvYcCVpLxwJRa6IYrZD0jt5hmqryueHPx49tz8IazKQSB8JU3w97Pw+w+tyNEaGuYu+03htEvXO79xio8CN@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5v3ViVJuR+6vPuG7zBDXG1PwxfBkIQRuLd6g/mRk32qSfVL9e
+	HZPsIdLvVTH8pCJcBLDqyB8W+JXi6SPmlbFa021MGREMg3E0CKb0NQn8
+X-Gm-Gg: ATEYQzykqowY8Dx7Z1Y9x51pYs/Cj8sQunNPfDFOw2OdKML+1pUioRhUnzEPVJSzCwb
+	C5LuIOC9teL6Ph4ZkqlCalgqTRCBITRb8GApJgwWtS9VDN0mGznuBmahAX78yO6JSqIFAeJz85Q
+	eTvje8ka/90Zt0A8XTPE1Xf2PMOD4zEf6Q7TWDqK23zU88Flfl+0Df8g1UJS7gPI8/ucw9z4eq6
+	MPT5P7WUGC1VUzyTagevGCQDs+IaHFWQ2YUb7d1O98pCWIekj24H28NxNlf1Rt+l/BAw3Qlf7Gr
+	nDSwb1gnyVc3AZGfVFm37AiclVWP5il7KRSBst+gKCpZPsx8UV4N3YVZUgRmmUn7aFw1d9QAdH/
+	MKAVdNxxzig0cg5kNwzosfj+3XQrq4y4oZwOXbgw4JoWRkERySkTQ19rlGU1Jch12arxqY0w1d0
+	TYynVZrSSnMKboNlZgWUPm0V8Xbw1wcsQYXkom
+X-Received: by 2002:a05:6a00:4288:b0:827:3321:7a23 with SMTP id d2e1a72fcca58-82972b63764mr2746760b3a.24.1772661513098;
+        Wed, 04 Mar 2026 13:58:33 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82984a01827sm110603b3a.43.2026.03.04.13.58.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 13:58:32 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 4 Mar 2026 13:58:31 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Vineet Gupta <vgupta@kernel.org>, Scott Wood <oss@buserror.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, linux-leds@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH 09/14] hwmon: drop unneeded dependency on OF_GPIO
+Message-ID: <a1ce9ab4-49cc-46f7-8524-1cbc0e6333fa@roeck-us.net>
+References: <20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com>
+ <20260304-gpio-of-kconfig-v1-9-d597916e79e7@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AkcZMBcLD6IV
-Date: Wed, 04 Mar 2026 15:05:11 -0500
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Rong Zhang" <i@rong.moe>, "Lee Jones" <lee@kernel.org>,
- "Pavel Machek" <pavel@kernel.org>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- "Benson Leung" <bleung@chromium.org>, "Guenter Roeck" <groeck@chromium.org>,
- =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
- "Derek J . Clark" <derekjohn.clark@gmail.com>,
- "Hans de Goede" <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Ike Panhc" <ikepanhc@gmail.com>
-Cc: "Vishnu Sankar" <vishnuocv@gmail.com>,
- "Vishnu Sankar" <vsankar@lenovo.com>, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
-Message-Id: <b1d43b71-38c1-48cb-91ae-4598ecd2f588@app.fastmail.com>
-In-Reply-To: <20260227190617.271388-1-i@rong.moe>
-References: <20260227190617.271388-1-i@rong.moe>
-Subject: Re: [RFC PATCH 0/9] leds: Add support for hw initiated hw control trigger
- transition
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 02602207643
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260304-gpio-of-kconfig-v1-9-d597916e79e7@oss.qualcomm.com>
+X-Rspamd-Queue-Id: 637D32083E1
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.15 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[squebb.ca:s=fm2,messagingengine.com:s=fm1];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FREEMAIL_TO(0.00)[rong.moe,kernel.org,weissschuh.net,chromium.org,gmail.com,linux.intel.com];
-	MIME_TRACE(0.00)[0:+];
-	DMARC_NA(0.00)[squebb.ca];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7093-lists,linux-leds=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[squebb.ca:+,messagingengine.com:+];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mpearson-lenovo@squebb.ca,linux-leds@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,lenovo.com,vger.kernel.org,lists.linux.dev];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-leds];
-	NEURAL_HAM(-0.00)[-0.999];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-7094-lists,linux-leds=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[roeck-us.net];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[arm.com,kernel.org,synopsys.com,buserror.net,linux.ibm.com,ellerman.id.au,gmail.com,lunn.ch,armlinux.org.uk,davemloft.net,google.com,redhat.com,linaro.org,baylibre.com,googlemail.com,tibbo.com,linux-watchdog.org,linuxfoundation.org,lists.infradead.org,vger.kernel.org,lists.ozlabs.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[46];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,app.fastmail.com:mid]
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[linux@roeck-us.net,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-leds];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,roeck-us.net:mid]
 X-Rspamd-Action: no action
 
-Hi Rong,
+On Wed, Mar 04, 2026 at 10:02:30AM +0100, Bartosz Golaszewski wrote:
+> OF_GPIO is selected automatically on all OF systems. Any symbols it
+> controls also provide stubs so there's really no reason to select it
+> explicitly.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-On Fri, Feb 27, 2026, at 2:05 PM, Rong Zhang wrote:
-> Hi all,
->
-> Some laptops can tune their keyboard backlight according to ambient
-> light sensors (auto mode). This capability is essentially a hw control
-> trigger. Meanwhile, such laptops also offer a shrotcut for cycling
-> through brightness levels and auto mode. For example, on ThinkBook,
-> pressing Fn+Space cycles keyboard backlight levels in the following
-> sequence:
->
->   1 => 2 => 0 => auto => 1 ...
->
-> Recent ThinkPad models should have similar sequence too.
->
-> However, there are some issues preventing us from using hw control
-> trigger:
->
-> 1. We want a mechanism to tell userspace which trigger is the hw control
->    trigger, so that userspace can determine if auto mode is on/off or
->    turing it on/off programmatically without obtaining the hw control
->    trigger's name via other channels
-> 2. Turing on/off auto mode via the shortcut cannot activate/deactivate
->    the hw control trigger, making the software state out-of-sync
-> 3. Even with #1 resolved, deactivating the hw control trigger after
->    receiving the event indicating "auto => 1" has a side effect of
->    emitting LED_OFF, breaking the shortcut cycle
->
-> This RFC series tries to demonstrate a path on solving these issues:
->
-> - Introduce an attribute called trigger_may_offload, so that userspace
->    can determine:
->    - if the LED device supports hw control (supported => visible)
->    - which trigger is the hw control trigger
->    - if the hw control trigger is selected
->    - if the hw control trigger is in hw control (i.e., offloaded)
->      - A callback offloaded() is added so that LED triggers can report
->        their hw control state
-> - Add led_trigger_notify_hw_control_changed() interface, so that LED
->   drivers can notify the LED core about hardware initiated hw control
->   state transitions. The LED core will then determine if the transition
->   is allowed and turning on/off the hw control trigger accordingly
-> - Tune the logic of trigger deactivation so that it won't emit LED_OFF
->   when the deactivation is triggered by hardware
->
-> The last two patches are included into the RFC series to demonstrate how
-> to utilize these interfaces to add support for auto keyboard backlight
-> to ThinkBook. They will be submitted separately once the dust settles.
->
-> Currently no Kconfig entry is provided to disable either interface. If
-> needed, I will add one later.
->
-> [ Summary of other approaches ]
->
-> < custom attribute >
->
-> Pros:
-> - simplicity, KISS
-> - no need to touch the LED core
-> - extensible as long as it has a sensor-neutral name
->   - a sensor-related name could potentially lead to a mess if a future
->     device implements auto mode based on multiple different sensors
->
-> Cons:
-> - must have zero influence on brightness_set[_blocking] callbacks
->   in order not to break triggers
->   - potential interference with triggers and the brightness attribute
-> - weird semantic (an attribute other than "brightness" and "trigger"
->   changes the brightness)
->
-> < hw control trigger (this series) >
->
-> Pros:
-> - mutually exclusive with other triggers (hence less chaos)
-> - semantic correctness
-> - acts as an aggregate switch to turn on/off auto mode even a future
->   device implements auto mode based on multiple different sensors
->   - extensibility (through trigger attributes)
->
-> Cons:
-> - complexity
->
-> [ Previous discussion threads ]
->
-> https://lore.kernel.org/r/08580ec5-1d7b-4612-8a3f-75bc2f40aad2@app.fastmail.com
->
-> https://lore.kernel.org/r/1dbfcf656cdb4af0299f90d7426d2ec7e2b8ac9e.camel@rong.moe
->
-> Thanks,
-> Rong
->
-> Rong Zhang (9):
->   leds: Load trigger modules on-demand if used as hw control trigger
->   leds: Add callback offloaded() to query the state of hw control
->     trigger
->   leds: cros_ec: Implement offloaded() callback for trigger
->   leds: turris-omnia: Implement offloaded() callback for trigger
->   leds: trigger: netdev: Implement offloaded() callback
->   leds: Add trigger_may_offload attribute
->   leds: trigger: Add led_trigger_notify_hw_control_changed() interface
->   platform/x86: ideapad-laptop: Decouple HW & cdev brightness for kbd
->     backlight
->   platform/x86: ideapad-laptop: Fully support auto kbd backlight
->
->  .../obsolete/sysfs-class-led-trigger-netdev   |  15 ++
->  Documentation/ABI/testing/sysfs-class-led     |  22 ++
->  .../testing/sysfs-class-led-trigger-netdev    |  13 --
->  Documentation/leds/leds-class.rst             |  72 ++++++-
->  drivers/leds/led-class.c                      |  23 +++
->  drivers/leds/led-triggers.c                   | 176 +++++++++++++++-
->  drivers/leds/leds-cros_ec.c                   |   6 +
->  drivers/leds/leds-turris-omnia.c              |   7 +
->  drivers/leds/leds.h                           |   3 +
->  drivers/leds/trigger/ledtrig-netdev.c         |  10 +
->  drivers/platform/x86/lenovo/Kconfig           |   1 +
->  drivers/platform/x86/lenovo/ideapad-laptop.c  | 194 ++++++++++++++----
->  include/linux/leds.h                          |   6 +
->  13 files changed, 492 insertions(+), 56 deletions(-)
->  create mode 100644 Documentation/ABI/obsolete/sysfs-class-led-trigger-netdev
->
->
-> base-commit: a75cb869a8ccc88b0bc7a44e1597d9c7995c56e5
-> -- 
-> 2.51.0
+Applied.
 
-Thanks for your work on this.
-
-For the series: As it's a RFC, I'm not bothering with notes on any typo's or grammer stuff.
-
-Overall I think the implementation works and I understand it better from our initial discussions. Thank you for putting this together.
-
-I'm not a huge fan of the term offloaded - I would lean towards just calling it hw_control (or similar). But I see it was used in the ledtrig-netdev driver so I don't feel strongly about this.
-
-Vishnu - can you check out how this would work with the Thinkpad implementation that you've been working on, please? I think that will be helpful to highlight any design issues.
-
-Mark
+Thanks,
+Guenter
 
