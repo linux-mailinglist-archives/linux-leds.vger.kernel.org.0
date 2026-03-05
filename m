@@ -1,142 +1,116 @@
-Return-Path: <linux-leds+bounces-7103-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7104-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GFvxLIWOqWni/gAAu9opvQ
-	(envelope-from <linux-leds+bounces-7103-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 05 Mar 2026 15:09:09 +0100
+	id uKiJC+K3qWlEDAEAu9opvQ
+	(envelope-from <linux-leds+bounces-7104-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 05 Mar 2026 18:05:38 +0100
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25787213084
-	for <lists+linux-leds@lfdr.de>; Thu, 05 Mar 2026 15:09:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC39215D93
+	for <lists+linux-leds@lfdr.de>; Thu, 05 Mar 2026 18:05:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1DEA73005664
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Mar 2026 14:09:08 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 80A60306533F
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Mar 2026 17:02:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BDEF3A0B05;
-	Thu,  5 Mar 2026 14:09:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D971F39FCA4;
+	Thu,  5 Mar 2026 17:02:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d4SBhd6f"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kTES/U+h"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8663822AE
-	for <linux-leds@vger.kernel.org>; Thu,  5 Mar 2026 14:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D6F3CB2FA
+	for <linux-leds@vger.kernel.org>; Thu,  5 Mar 2026 17:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772719745; cv=none; b=TCFc/tdfsvyhvAerCXfuPqa9GkgfllQOBYFKKlaMp6BXByAoTaNjkpS5JTfsd5sK0gb1wpBJzJkr4NhiE7BvVvxK7umi4kiA+ufPbKEvwpuFagdHxdkPgxkkCdj/rKyxbcPkUEgi3of8lfER1ufOktpzwR6tQwfVkW9UBN6ux+U=
+	t=1772730142; cv=none; b=GqGBscc9Al+iqzveHzP8gZ2WMrQUmU5Sg3bVZ6LLcoORNlAjmVBPCz+V7SnwhnmwNw8v7hr3XbHEr/fB7yzr5AJML848g5KIAKW5zktkvJTrL0g6ttMnKT6hru57p08Vqfhc8WoEMLaQZBDigrIyLoNHjXEe+p1Xc/HT7Myoi0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772719745; c=relaxed/simple;
-	bh=HW6yfFQ9Jv9bLTg3Vn6WyYLa63gs/cJlW+wBSmbOKiY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WyHIvjvPmmX+LG+IwFStNRmgsCr9jNJ2pvJdggDnWn6gfq0T8Nki4mPX5x1z9CUrYyqmRHxmhqYLqJfSfvDdOVuQ1bNxQme/O2/haXT7c08aWrNWSt07ZtDRGdFFW/e44EoFGbclARg2y48j2BjLp3HwRvd8kJ5YDf91jcdX9TI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d4SBhd6f; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772719744; x=1804255744;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HW6yfFQ9Jv9bLTg3Vn6WyYLa63gs/cJlW+wBSmbOKiY=;
-  b=d4SBhd6fS6AdiroYQX+f18afXJbEQ7dqk+PEUaWr1g6wiZRfaqQTqffF
-   64XYeFjFNOli0PD4CbJ/4WF826Lj+KtiXgGQzq8GGGmqf7Zs+KtA0VZ1/
-   EGucj3QS6en8Nu/T44xztKyp2LHG0vOnH/X/37nQ2eG9HfWrvTndypb0O
-   gWNRumMhOvzYrDXodTOzbM9mcESsRjYNx1aV8LZfU/FxFsNGJbA/2jUr+
-   p2BxFiUoDwk4KQj0ABI7MJ4m5fO110TSjHFyZ4lu1ozzKGC3Tc8iJAYCo
-   xI3QcZd6u801fNyCJT5YuVBp+E4tUx3sCH6xkfuBn4LFiQsVfdAkWxFde
-   A==;
-X-CSE-ConnectionGUID: ahW+SBcSQ/q28kzK38Ro7w==
-X-CSE-MsgGUID: twMO2ZgOTQ64H1xpP6eang==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73675926"
-X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="73675926"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 06:09:03 -0800
-X-CSE-ConnectionGUID: MLZyYDP0RriL45eYNmIEBg==
-X-CSE-MsgGUID: y4KV1ErVSqaaBjnt/Slcyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="256580778"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa001.jf.intel.com with ESMTP; 05 Mar 2026 06:09:01 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id A3D3195; Thu, 05 Mar 2026 15:08:58 +0100 (CET)
-Date: Thu, 5 Mar 2026 15:08:58 +0100
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Michael Tretter <m.tretter@pengutronix.de>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Dan Murphy <dmurphy@ti.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-	kernel@pengutronix.de, Khalid Talash <ktalash@topcon.com>
-Subject: Re: [PATCH] leds: multicolor: limit intensity to max_brightness of
- LED
-Message-ID: <aamOejvtN8H1zB0E@black.igk.intel.com>
-References: <20260123-leds-multicolor-limit-intensity-v1-1-b37761c2fdfd@pengutronix.de>
+	s=arc-20240116; t=1772730142; c=relaxed/simple;
+	bh=KZ5JBTEMvrwcsJ8djLfnOIxh+RoZq+jMyLeliqTXwFs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=NuU51n2plcclzEKkCS7KcWgzz2FdGJ7m0JhkzsM2QHhm8RJ6MUjzpLe1jnJiaGmSs9mBnFiQOyj/1zDAHZcVp3H0tP7Qs4VUt6g5ldi5irwTL4YT7TPKEQ/2jeW3CJths1zoOoKKF/uuHCcZdWiXz622nAdPhPrV4TmfPxVPM+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kTES/U+h; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CA0CC116C6;
+	Thu,  5 Mar 2026 17:02:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772730142;
+	bh=KZ5JBTEMvrwcsJ8djLfnOIxh+RoZq+jMyLeliqTXwFs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=kTES/U+hzUGnGg9NfUhVbMDhINdxuvUaXkgQXpA/aO8ph6kHcLOI/gtCmT7jWmGkL
+	 b7GtKY1L2ULf/HzvRg7XJ37NHUJo4D6L/Pekwc2HrtQdbgrxGpw4D4lyPc0hMM82yo
+	 inqXqcRgzR4tCFzSN6yqrB2ZPsed+1zlSo/2dLEcV6bqH3FFC5sMXlbNredVrgsxs9
+	 /dLN3Lev1oSnO4YTRqydy1h7pZtpqePD0EkRZGTT4hrVohzoNgRIsoC3xKc4bHvx15
+	 J44wWRVRv12nQxJiXDNVdDkwyCOt0Y6bsq0KRg+M76/WswOBZcmd/ubGcuX2Q+vqLZ
+	 e2Zpoo0EpdS+A==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Michael Tretter <m.tretter@pengutronix.de>
+Cc: linux-leds@vger.kernel.org, kernel@pengutronix.de
+In-Reply-To: <20260206-leds-multicolor-fix-signedness-error-v1-1-48a00ed33c07@pengutronix.de>
+References: <20260206-leds-multicolor-fix-signedness-error-v1-1-48a00ed33c07@pengutronix.de>
+Subject: Re: (subset) [PATCH] leds: multicolor: change intensity_value to
+ unsigned int
+Message-Id: <177273014112.321702.15159156714467402540.b4-ty@kernel.org>
+Date: Thu, 05 Mar 2026 17:02:21 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260123-leds-multicolor-limit-intensity-v1-1-b37761c2fdfd@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Rspamd-Queue-Id: 25787213084
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-52d38
+X-Rspamd-Queue-Id: 9DC39215D93
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,ti.com,gmail.com,ucw.cz,vger.kernel.org,pengutronix.de,topcon.com];
-	TAGGED_FROM(0.00)[bounces-7103-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-7104-lists,linux-leds=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-leds@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-leds];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On Fri, Jan 23, 2026 at 11:13:24AM +0100, Michael Tretter wrote:
-> According to Documentation/ABI/testing/sysfs-class-led-multicolor, the
-> intensity should not exceed /sys/class/leds/<led>/max_brightness.
+On Fri, 06 Feb 2026 15:21:23 +0100, Michael Tretter wrote:
+> Using min to compare the intensity_value with led_dev->max_brightness
+> causes a signedness error:
 > 
-> The interface doesn't check the values and higher values may lead to
-> unexpected color changes if the brightness is changed.
+> 	drivers/leds/led-class-multicolor.c: In function 'multi_intensity_store':
+> 	././include/linux/compiler_types.h:630:45: error: call to '__compiletime_assert_195' declared with attribute error: min(intensity_value[i], led_cdev->max_brightness) signedness error
 > 
-> Clamp the intensity value to max_brightness.
+> Change the type of intensity_value to unsigned int to fix the signedness
+> error.
+> 
+> [...]
 
-This also brings a regression if somebody doesn't care about wrapping around.
-It's possible to return an error instead, but still the user space will be
-broken (in some rare weird cases).
+Applied, thanks!
 
-Again, I care even less about this change, but be always careful,
-the main rule in the kernel "We do NOT break user space".
+[1/1] leds: multicolor: change intensity_value to unsigned int
+      commit: 2c490329e3a3ab896cb08eb34a0dbf254cf11e9e
 
--- 
-With Best Regards,
-Andy Shevchenko
-
+--
+Lee Jones [李琼斯]
 
 
