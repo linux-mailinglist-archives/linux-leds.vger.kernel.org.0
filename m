@@ -1,114 +1,163 @@
-Return-Path: <linux-leds+bounces-7105-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7106-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GBpxFtu+qWnNDQEAu9opvQ
-	(envelope-from <linux-leds+bounces-7105-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 05 Mar 2026 18:35:23 +0100
+	id KL0bE2bHqWmcEgEAu9opvQ
+	(envelope-from <linux-leds+bounces-7106-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 05 Mar 2026 19:11:50 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE2621652C
-	for <lists+linux-leds@lfdr.de>; Thu, 05 Mar 2026 18:35:22 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC18216E03
+	for <lists+linux-leds@lfdr.de>; Thu, 05 Mar 2026 19:11:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5AED330607AE
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Mar 2026 17:31:45 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1AEB43004632
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Mar 2026 18:11:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40B113D564B;
-	Thu,  5 Mar 2026 17:31:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13190366804;
+	Thu,  5 Mar 2026 18:11:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kRACvwRB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BHVHo6Cy"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E72D3803E9;
-	Thu,  5 Mar 2026 17:31:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32C526CE1E;
+	Thu,  5 Mar 2026 18:11:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772731904; cv=none; b=LnFEQ3M+3rXoWZbbGvbH4yhtkHEBKNExbYvjuxxKggr/p0n9gJjv8h5Fh1qee1D/hv0xQHu6r8SDuVFqQZ6Rx+v7R+DnIA5Hwe3Sr+mzWrcQkYjVBQiWyTPiYnZ7dlUx4v/MiGvJ242nph8H0rrZe3UYaSQVFJlwZuy0X1ZOeDI=
+	t=1772734285; cv=none; b=jcV4PeqnljhROA3hdJ5i+nVE+cR2lv3B2TEr4eJEtR8vDDWiI/NicC6dikxbhmUNLyZ1wYp31WKg/5tWKF6ADp5bUrzeyEeBHrS60AFNjaFAOoxCJtTi0k2V27PKYD7UKPDJfqNZTFQOimMZIsnvSsskImPM7a6n6pv0bBxIpwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772731904; c=relaxed/simple;
-	bh=Qie5osW0uZ2sQL4OaaO+w1LxzvHpSS8rilA5iVzLsT0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dUcwHcRR99QL3cgBYJ4G5uKlBK7muuhKAfkWuJ1GyvnocAJUY/L73WfCg/+TEmd88e/vsPCArgANSAZzCwTd2ozj39LjKrJF6Pk2tm4yulerEsffi3S0cpgdeoe4wueXDxaZj9f50dEPqMJUDacTWOGjjSYtqA8Q1VqmRZt2cRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kRACvwRB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0FDBC116C6;
-	Thu,  5 Mar 2026 17:31:42 +0000 (UTC)
+	s=arc-20240116; t=1772734285; c=relaxed/simple;
+	bh=cz65efVedRk7ZxsEk5FwyKMmaHIsAuAab6dTf+REeUY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qT/LIeVShVy7ohHqEyD2ZvwkaAGU+vIvj/+Lf/9+Pe9L0+EswGD/hy5y52PFGljA+YR1EhgwhwiiwfV3Z5HIiyAJ0gC5pfHeVUDTQ228bC3emm0l3RLE8Dmw4RPcviWJnKWnUxg0HmK4TtrUvYsNgxEJM2sh5ThSHUbTevTkaW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BHVHo6Cy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48A04C116C6;
+	Thu,  5 Mar 2026 18:11:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772731903;
-	bh=Qie5osW0uZ2sQL4OaaO+w1LxzvHpSS8rilA5iVzLsT0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=kRACvwRB+BfjZpPt/KTlPxQGQUFMGFlx1kl8trRdDuwYZqFZ8ir4bOG74v5bC8ke9
-	 wr1f5IA4h1nUj1USraRNN//Oeg3r+d4aa7APMjj47NiKgWvjDHy+7HMARxh0HfwVtv
-	 h+2WEsI1jKVbMMupQy5uQRVNWIkRL9fDtDxh8HBvyn30NldC5bLCbUumrGnkQH8HWY
-	 i4y1FJugZ5J+v64IkCXM1UEnwAIUmX32Zqdw9+LE4xIBEq3cDSjvqwkIy0vEBPrjCK
-	 e8OQJlWaW0WvYtvSck/zjrPPBua2Z+fd1TpQWWjsHD7KgNfJMVFiD/qLOJvdfgTsaq
-	 gpGPgbao2jMkw==
+	s=k20201202; t=1772734284;
+	bh=cz65efVedRk7ZxsEk5FwyKMmaHIsAuAab6dTf+REeUY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BHVHo6CyFakfIKmdIe9WafGj5UJGY/AMB/Nd2IOPqooIJmkk+mXp63wxsE06cJWa0
+	 x1UFofP1bylwMz023kOFfHkOvx1bihiBer6Qa7sPNz+u8aV5VZl8Kf71eu28He0yZS
+	 kZImuFaF2cr1Z7WwRPBXdsw+x4DdDavfTX4EEycAPTsaJjQe/lMCwV9F5BAUHdqjaf
+	 RAdVQTsH97vL6G1V+tCJzGeYY4nBLW1jHfaHiKcPI8tJuoP9/LFrfWh/MF/T8Qtr4t
+	 OaPT6H1r+wUpp7HpQujj7fXAwWFyJlkl6zPfrwLlLzpz9qhjndCVvJYjbBifAnjvVy
+	 hS241wYAN2yKg==
+Date: Thu, 5 Mar 2026 18:11:20 +0000
 From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org, pavel@kernel.org, Neel Bullywon <neelb2403@gmail.com>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260207181825.13481-1-neelb2403@gmail.com>
-References: <20260207181825.13481-1-neelb2403@gmail.com>
-Subject: Re: (subset) [PATCH v1] leds: lp5569: Use sysfs_emit instead of
- sprintf()
-Message-Id: <177273190239.340952.15045169891533731436.b4-ty@kernel.org>
-Date: Thu, 05 Mar 2026 17:31:42 +0000
+To: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
+Cc: Pavel Machek <pavel@kernel.org>, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: group-multicolor: Add support for initial value.
+Message-ID: <20260305181120.GB183676@google.com>
+References: <20260209171514.3378893-1-martijn.de.gouw@prodrive-technologies.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-52d38
-X-Rspamd-Queue-Id: DBE2621652C
+In-Reply-To: <20260209171514.3378893-1-martijn.de.gouw@prodrive-technologies.com>
+X-Rspamd-Queue-Id: 4EC18216E03
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7105-lists,linux-leds=lfdr.de];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_FROM(0.00)[bounces-7106-lists,linux-leds=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-On Sat, 07 Feb 2026 13:18:25 -0500, Neel Bullywon wrote:
-> Replace sprintf() with sysfs_emit(), which is the modern standard for
-> formatting sysfs output.
-> 
-> This change aligng with the kernel's best practices and ensures usage of
-> the most up to date API.
-> 
-> 
-> [...]
+On Mon, 09 Feb 2026, Martijn de Gouw wrote:
 
-Applied, thanks!
+> When the driver is loaded, it turned off all LEDs in the group. This
+> patch changes the driver to take over existing LED states and set
+> the brighness and intensity in the group accordingly.
+> 
+> Signed-off-by: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
+> ---
+>  drivers/leds/rgb/leds-group-multicolor.c | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
 
-[1/1] leds: lp5569: Use sysfs_emit instead of sprintf()
-      commit: 1db4b1d941f7453ba2922e32c0f2bd1216cb3ae6
+You forgot to add a change log and a version to the subject line.
 
---
+You also forgot to add Jean again.
+
+Please resubmit.
+
+> diff --git a/drivers/leds/rgb/leds-group-multicolor.c b/drivers/leds/rgb/leds-group-multicolor.c
+> index 548c7dd63ba1e..ab46537697d76 100644
+> --- a/drivers/leds/rgb/leds-group-multicolor.c
+> +++ b/drivers/leds/rgb/leds-group-multicolor.c
+> @@ -69,6 +69,7 @@ static int leds_gmc_probe(struct platform_device *pdev)
+>  	struct mc_subled *subled;
+>  	struct leds_multicolor *priv;
+>  	unsigned int max_brightness = 0;
+> +	bool is_on = false;
+>  	int i, ret, count = 0, common_flags = 0;
+>  
+>  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> @@ -96,6 +97,13 @@ static int leds_gmc_probe(struct platform_device *pdev)
+>  
+>  		max_brightness = max(max_brightness, led_cdev->max_brightness);
+>  
+> +		/*
+> +		 * If any LED is on, set brightness to the max brightness.
+> +		 * The actual brightness of the LED is set as intensity value.
+> +		 */
+> +		if (led_cdev->brightness)
+> +			is_on = true;
+> +
+>  		count++;
+>  	}
+>  
+> @@ -109,14 +117,16 @@ static int leds_gmc_probe(struct platform_device *pdev)
+>  
+>  		subled[i].color_index = led_cdev->color;
+>  
+> -		/* Configure the LED intensity to its maximum */
+> -		subled[i].intensity = max_brightness;
+> +		/* Configure the LED intensity to its current brightness */
+> +		subled[i].intensity = DIV_ROUND_CLOSEST(led_cdev->brightness * max_brightness,
+> +							led_cdev->max_brightness);
+>  	}
+>  
+>  	/* Initialise the multicolor's LED class device */
+>  	cdev = &priv->mc_cdev.led_cdev;
+>  	cdev->brightness_set_blocking = leds_gmc_set;
+>  	cdev->max_brightness = max_brightness;
+> +	cdev->brightness = is_on ? max_brightness : 0;
+>  	cdev->color = LED_COLOR_ID_MULTI;
+>  	priv->mc_cdev.num_colors = count;
+>  
+> -- 
+> 2.39.2
+> 
+> 
+
+-- 
 Lee Jones [李琼斯]
-
 
