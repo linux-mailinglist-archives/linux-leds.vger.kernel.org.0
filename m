@@ -1,66 +1,74 @@
-Return-Path: <linux-leds+bounces-7116-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7117-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SGeyL6cYqmlfLAEAu9opvQ
-	(envelope-from <linux-leds+bounces-7116-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 06 Mar 2026 00:58:31 +0100
+	id UEGFJfkkqmkPMAEAu9opvQ
+	(envelope-from <linux-leds+bounces-7117-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 06 Mar 2026 01:51:05 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6689B219919
-	for <lists+linux-leds@lfdr.de>; Fri, 06 Mar 2026 00:58:31 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F6F21A011
+	for <lists+linux-leds@lfdr.de>; Fri, 06 Mar 2026 01:51:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 95A3A3003D3C
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Mar 2026 23:58:30 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id BEECE3009E12
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Mar 2026 00:51:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0246369234;
-	Thu,  5 Mar 2026 23:58:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBCF22EBBA1;
+	Fri,  6 Mar 2026 00:50:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TeffDpge"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uY0qC/VE"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C38735AC23;
-	Thu,  5 Mar 2026 23:58:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975952DC334;
+	Fri,  6 Mar 2026 00:50:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772755109; cv=none; b=Zfq1c7JdY3jpGQZfQ+MUhFIvGcubjhInfwEupikafxaBPkcAZ8P5J+SWhLsLZRZirhZBUPOood5bsUpCoZjb4RJXDkA86uIBP7/t8A2ca7mMl/svORKkjfMORKG6gCTnopCMweKBr8MjP6LuArTKFhDvJOz5b5XdkhBpzXe0OYA=
+	t=1772758259; cv=none; b=ZNXyAS5Q2Q6ncOkWCztU90Ud2ilG2E5oMQdFsDMh9zjrXISsG/1AvpQJIGVmWiYMdTk1G1YJe2JKygRv/0sgpfbJBIJ3RBNfYxkL6/u11X4QYGqWytr4LPwCzzHxXA1dEcvWCajv7acqBLFer1TXMjuM3t0/8oKh3+DXGUlsmo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772755109; c=relaxed/simple;
-	bh=2gKfpnwQhZ8jFdRqSTyQbBJboNgsgqSqfE/Ii4xXCMU=;
+	s=arc-20240116; t=1772758259; c=relaxed/simple;
+	bh=rqLpQNdsN3bFAosqutwLfQ4hCid22S/GwXAsl9MyJZM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BTakHbMyNWVBNXLGKtPc9JztpH5DomYZ1ar1upGHZdK8ilbtQT+kai+jmAHgo+PJa/FZJvdEi0i+a6G+dOXsRalKrTQDpgZQHrYFq3StRdhyc8L/FhtYiP2tVJFpqDd0ccjAo8KAzbTOSnmSyfEqdI/M0azlcSWc1g1dV+AXsN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TeffDpge; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53077C116C6;
-	Thu,  5 Mar 2026 23:58:29 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=jea0qfDnToc9J76JmSTXlR5KEuHXvSxOlwiPAr87apujv4OBPcrXuIgk3ugDieYZMnPsRbPDVaI4E245LZecHL7RkR8rRaPNasBR/UI5H8WWwf8CcD4kXdEpo+J1zWBKgW3sGIQpkFTJfQOADq0HouO0/pOZLu7l+RgLn8rbCog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uY0qC/VE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12201C116C6;
+	Fri,  6 Mar 2026 00:50:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772755109;
-	bh=2gKfpnwQhZ8jFdRqSTyQbBJboNgsgqSqfE/Ii4xXCMU=;
+	s=k20201202; t=1772758259;
+	bh=rqLpQNdsN3bFAosqutwLfQ4hCid22S/GwXAsl9MyJZM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TeffDpgelyV7euk2SKfGM3zsvJgYW7llGVpY6zpoiRMHDlzHMMg7+6LvMk6jQblC+
-	 QKBm6Nz5/9UbCo3WoFTDc4sVf5Fs2hnZqYcGKrsmmfWTxrxnX34wmlIS2VhtAlkQqK
-	 I6bDiHfrsN8jZEfzSQjEJ5Ba3caWA3ENMKB/+XoG1bUnsPQG21H2Jv0+KwLv+UF/r/
-	 5BTGdWMZGB3UoD1MQlnj5n/ozcM4LpFJAKCwGTYIZpHH7K9D6IXHNKMwz8seWp77Tu
-	 T4rkN1QwRLHrYelbpqUKg0dziay6D50vQrBMb8eY7rqJSg1klHFI159LGzaLLzfqpK
-	 d7N/GP6kFYFPA==
-Date: Thu, 5 Mar 2026 17:58:28 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
+	b=uY0qC/VEaN2Yqj1KTuKX/T0rVcCP9sTMbZJLJcUIIJszbR0nY3u6B1L3MwV12ChyX
+	 WkL1GK89L321Qcg0iCrR6sm7KnFtj4Xg89RZdSHcawcPti/JfT54MAPjjXtU/IzgXN
+	 8m4vR/khFxXs+3ooRBtTS3STo+s4VyaJE5/Rii25vLOOPgc3zwTsYJLGlYMyny8XmA
+	 chvmRzjueyfwpsuwXekgT5+T1FX4LAaz4W+SdYFr1ENULxcUR9rOONHWWQGYeQKYVI
+	 PsbtdKYo8ceI9e6hBaOTt9jTKWBSLCwP5EHxrEVl0Injyq1Ywcp6SiQoYIgo0tO2Ne
+	 oI8x+badEIpcw==
+Date: Thu, 5 Mar 2026 18:50:57 -0600
+From: Rob Herring <robh@kernel.org>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
 	Pavel Machek <pavel@kernel.org>,
-	David Lechner <dlechner@baylibre.com>, linux-leds@vger.kernel.org,
-	Tony Lindgren <tony@atomide.com>, linux-input@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>, Lee Jones <lee@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-kernel@vger.kernel.org,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 7/9] dt-bindings: mfd: motorola-cpcap: document
- Mapphone and Mot CPCAP
-Message-ID: <177275510796.812517.12730527380740769335.robh@kernel.org>
-References: <20260223063858.12208-1-clamor95@gmail.com>
- <20260223063858.12208-8-clamor95@gmail.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Nam Tran <trannamatk@gmail.com>, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 04/13] dt-bindings: power: supply: document Samsung
+ S2M series PMIC charger device
+Message-ID: <20260306005057.GA877725-robh@kernel.org>
+References: <20260225-s2mu005-pmic-v3-0-b4afee947603@disroot.org>
+ <20260225-s2mu005-pmic-v3-4-b4afee947603@disroot.org>
+ <20260225-secret-amusing-cuttlefish-d3bee5@quoll>
+ <DGPTBRX09EU5.1D1ZSR7EUV7AT@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -69,8 +77,8 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260223063858.12208-8-clamor95@gmail.com>
-X-Rspamd-Queue-Id: 6689B219919
+In-Reply-To: <DGPTBRX09EU5.1D1ZSR7EUV7AT@disroot.org>
+X-Rspamd-Queue-Id: A0F6F21A011
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -78,44 +86,62 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,samsung.com,linaro.org,bootlin.com,lwn.net,linuxfoundation.org,gmail.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-7117-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7116-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,baylibre.com,vger.kernel.org,atomide.com];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-leds@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-
-On Mon, 23 Feb 2026 08:38:56 +0200, Svyatoslav Ryhel wrote:
-> Add compatibles for Mapphone and Mot CPCAP subdevice compositions. Both
-> variations cannot use st,6556002 fallback since they may be based on
-> different controllers.
+On Fri, Feb 27, 2026 at 07:56:58PM +0530, Kaustabh Chakraborty wrote:
+> On 2026-02-25 11:44 +01:00, Krzysztof Kozlowski wrote:
+> > On Wed, Feb 25, 2026 at 12:45:06AM +0530, Kaustabh Chakraborty wrote:
+> >> +
+> >> +  This is a part of device tree bindings for S2M and S5M family of Power
+> >> +  Management IC (PMIC).
+> >> +
+> >> +  See also Documentation/devicetree/bindings/mfd/samsung,s2mps11.yaml for
+> >> +  additional information and example.
+> >> +
+> >> +allOf:
+> >> +  - $ref: power-supply.yaml#
+> >> +
+> >> +properties:
+> >> +  compatible:
+> >> +    enum:
+> >> +      - samsung,s2mu005-charger
+> >
+> > Review from v1 still applies. I think you ignored several reviews, so I
+> > will mark entire patchset as changes requested.
 > 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  .../devicetree/bindings/mfd/motorola,cpcap.yaml       | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
+> Somehow I missed this one... anyways I address them here:
 > 
+>   Why do you need a dedicated child node for this? It's got one property,
+>   other than the compatible, that you're using. It could easily just go
+>   in the parent without a dedicated node etc.
+> 
+> The dt node also references a simple-battery node, that's why it's
+> required.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+That can go in the parent.
 
+Rob
 
