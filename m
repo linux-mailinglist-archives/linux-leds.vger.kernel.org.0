@@ -1,81 +1,124 @@
-Return-Path: <linux-leds+bounces-7137-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7138-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SGqkEuMjq2n6aAEAu9opvQ
-	(envelope-from <linux-leds+bounces-7137-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 06 Mar 2026 19:58:43 +0100
+	id yC/TEWpjq2mmcgEAu9opvQ
+	(envelope-from <linux-leds+bounces-7138-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sat, 07 Mar 2026 00:29:46 +0100
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D847226E1E
-	for <lists+linux-leds@lfdr.de>; Fri, 06 Mar 2026 19:58:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E64BD228B4A
+	for <lists+linux-leds@lfdr.de>; Sat, 07 Mar 2026 00:29:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B4BD6304F20A
-	for <lists+linux-leds@lfdr.de>; Fri,  6 Mar 2026 18:58:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6F9473087D0C
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Mar 2026 23:29:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFB0235E942;
-	Fri,  6 Mar 2026 18:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5616935BDBA;
+	Fri,  6 Mar 2026 23:29:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wc2m//jl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DjVHqHXk"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2545234A76E
-	for <linux-leds@vger.kernel.org>; Fri,  6 Mar 2026 18:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F88378829
+	for <linux-leds@vger.kernel.org>; Fri,  6 Mar 2026 23:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772823519; cv=none; b=OiyzFIK+9l9kO7AA2p+WfxmKrD3Drjzm/R3bmO8hcoOb6mRUh0gnq81G7xyNOQKITc2uxc6VOEvI0oiRKIVPbDktFMIIoGGRsiJOE7tE45UXQcU1xWwJeYTJETJ4KcUttZtsT0JaSS5vByKSWuv6HPIkMuMbFQMmZkPoGZKPxg0=
+	t=1772839745; cv=none; b=A0pPqNKJhHVEEPMVcZDcVeLMq8Y/CMVxKr/QbggmI0BqvlXSbzVN5ssmRqyfS5QD7BCKghIrlZPwb+j5FZXCmOvdZBU8dv62/toGedoJEPemkqziAQKvS/+pbPBmKdeptHW1/Cch/KyP4T9pTjUzPQhTbrOfgJmulbTqazG0fU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772823519; c=relaxed/simple;
-	bh=ROz/lSo0MY6XfZ9gpGhjYXtIMENojg9f+d41WLbKnX4=;
+	s=arc-20240116; t=1772839745; c=relaxed/simple;
+	bh=UPz/1qsRdJyWIaGxAjf5OdGUVOKPj4+OWW8N2wpx+5A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O9RTJG0CAWdCGKlOVes2SrTdyZuv8ACjaE1ynHOzjQOTffr7Mx96BSIZJDjWSqRbAqyTMXJsjJPGa0BeIk35yGet/RJwT+QFTUEvxpGyPLIgPUoBQy3QYAxzIHatXh1/4GZVEbOO604X8Q7/pQNQHBU8LxLfxquywWQ8hh8oF38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wc2m//jl; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772823518; x=1804359518;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ROz/lSo0MY6XfZ9gpGhjYXtIMENojg9f+d41WLbKnX4=;
-  b=Wc2m//jlSmw5lRaR0cHE9rgRSbpSoEBjTpqIOzHvkW4NsJDZCUidhJGq
-   0zsFkuA3sMYJ/P2l/w/pjIPoQ0afa9dBQdXR7WEmO9IW5DcbOroUATZZR
-   yW8CC9KyMG0wbeCXaEEqhUxZr1AU3ZSN5mNHLXe2S30wDNnliJ1rf4GUZ
-   60DNzvNXIQklu+j8tF+7K5mGhEecSo6TkjjHAhPn+JUJ+pAXTjUASZ2QW
-   /Tugr97R72mf55W7parTHWbMFS6d0us1nUQ2AtjKhWKl1EsFObgm7S3Fa
-   LoLcHxZ/Orj5BaZ/ypVefmiblbu6jZZ3L0K7dLBAlVcBXcfkuRWq4p9+q
-   A==;
-X-CSE-ConnectionGUID: x2mU3wIVRx6TFFkEVtC4Yw==
-X-CSE-MsgGUID: hHwj2uNmTdywNOJF5lYhGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="77811660"
-X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="77811660"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 10:58:37 -0800
-X-CSE-ConnectionGUID: nO/H1iVXTnWaa1id9eJSvQ==
-X-CSE-MsgGUID: 93ieeb0TSVurVlFFxH/Pcg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="219032302"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.1])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 10:58:35 -0800
-Date: Fri, 6 Mar 2026 20:58:32 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Michael Tretter <m.tretter@pengutronix.de>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Dan Murphy <dmurphy@ti.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-	kernel@pengutronix.de, Khalid Talash <ktalash@topcon.com>
-Subject: Re: [PATCH] leds: multicolor: limit intensity to max_brightness of
- LED
-Message-ID: <aasj2LgRRlyTlOxF@ashevche-desk.local>
-References: <20260123-leds-multicolor-limit-intensity-v1-1-b37761c2fdfd@pengutronix.de>
- <aamOejvtN8H1zB0E@black.igk.intel.com>
- <20260306135505.GN183676@google.com>
- <aary8OPCveDNbbpP@pengutronix.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=N3XcdByc6jqFKIY2XzPLAG5ysQ2iBLDW6QpkJaEvmyw/2lQju+NfYqIQ+64q62ZKS4FYJcf6tqdnD5DfkbhFJGdvdGL4SqNTuyt050kWkWzAnuUh425Crf2LlfVSyOODaRCV8eTEBrBm5yf15kVW+wpZ6cW4o0C6+g8DjjrBiwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DjVHqHXk; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8299f1ca86fso638367b3a.0
+        for <linux-leds@vger.kernel.org>; Fri, 06 Mar 2026 15:29:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772839741; x=1773444541; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jmuJidMV1Wwe0qpdw07DaES1yYrCFjR7mRIMJgUWNXw=;
+        b=DjVHqHXkitQOgeTCFIgY1UBwagDbOg0hzzUmH5zkATA4k0xEPq7OLMlqy06EFf7SLM
+         DRUlFsNujF9SCMe91CjSRtswTjxREeuvCzDnmOD/g8DIdB7pVB3aolUkj4GjgQeZrYwz
+         yiXBN1T5uiV0scYxH9WZwweKQQ4dgZwaBatAy3x/abym6TDsrnw99Y7db1gP45MaNHgK
+         hyzsRs9m5+2HF+ZBbgOrpNsRNxzyj6JoUHkUJa81EnXKQ3UBnprP7e3pxNdStaMiMGUe
+         ZtgNKAcGiZLJrrbK51+Qge5PvmA9BQtUFvNXiM9GuUVeBVAzs/0+hUld+kWh73RAfhG2
+         A/kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772839741; x=1773444541;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jmuJidMV1Wwe0qpdw07DaES1yYrCFjR7mRIMJgUWNXw=;
+        b=Ft3uLAGii9scM1VRfFQUjgQA7tYmnr5B5XTeYvvyq8rmU6ZyNCfripGQY7Hq9qdGw8
+         vixpx07QdCh1JBRG5EUiPn+uXdNxnEqQyE0uKnbB+Dg938sem8bNLgGQlvGaMlwIjqwN
+         sApYtuZyl8aMaPaRFarvg1UtrVPuJlFVvO2J2Rex0zZZ3mt5J5C8v9N5IMHMYX1dVpbP
+         rTzyhEJ6SBh9mLoioqJV7wqfu5OEhIdsy4yWrtcO3+ckRk41C2UDXtrKjWKSOjkvhTx+
+         kt3ZiVvRPEbvqJ0jo65CT9/IJNm00U5HIu3HIw5MftLz6o1tTt6x8FaaDmjfK4LfBQK7
+         UQGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWGiLmNfzFZlryEVv5k0M1Wrf4755IkGjiUyB5fZK4Jh48VSNOp9/Om9l9eRN2Cmrh1m5NwUbe62XJi@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1opM1KkII28/4iCJ8+5BCrgkIEbTW2cSSVUCEQHnN9792gMhv
+	Q508WHXr8wmfQl0olk49KaMmuu+Wcy1o/BIW34X2f7EiUUROjxEzDzHI
+X-Gm-Gg: ATEYQzw72u7kUEFHpWHG8cFIJkJpujKC82c7nHem7o4LR2fA8YDwkg/r33Q6/HPwwfy
+	wyzC8/Sf59e7hSASkDVjJCOWk8sjpVxhhRWB97J+VaY4tI4HU41VFKeI2LFKhNzOC/7Jg8DP33N
+	ItsD/fv9Y2RAUcGn9dMLw8DhNKIaFrFqoDIBJa89jbJyLhYQCFlnrlw6SFXPaayI978EIBOkpWi
+	G69tNK/D6VYwTNjPb26inaP12CCH/LdScuzm84NX3FaOVdDKGQU9jwnDoU+zXhJSZx4MFwHAklN
+	dS7e+GqV/9ai8YBkpbcofjjPYDb0umyd5d9AV7qEKtDg+U4C1E+aQjYqrqgdJZfqSjBIb/7/tFc
+	jBsRzNu8cwnJFf3Y903/JolvSRddu2i9eyiIY/Xe/9HJp+ebPFQ02XUvYG0DMA+Gt5AY44L9Yy7
+	ZPAjSveufEhQ1LA7r7Sf7tH0Nrh0CyCxHJlkyL
+X-Received: by 2002:a05:6a00:9510:b0:829:8942:2c93 with SMTP id d2e1a72fcca58-829a2d86b43mr3749707b3a.9.1772839741072;
+        Fri, 06 Mar 2026 15:29:01 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829a48d3621sm3213092b3a.62.2026.03.06.15.29.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Mar 2026 15:29:00 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 6 Mar 2026 15:28:59 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Vineet Gupta <vgupta@kernel.org>, Scott Wood <oss@buserror.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, linux-leds@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH 10/14] watchdog: convert the Kconfig dependency on
+ OF_GPIO to OF
+Message-ID: <2c6ad0ca-fd72-4bf5-9180-f45c20e60d37@roeck-us.net>
+References: <20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com>
+ <20260304-gpio-of-kconfig-v1-10-d597916e79e7@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -84,97 +127,87 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aary8OPCveDNbbpP@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Rspamd-Queue-Id: 9D847226E1E
+In-Reply-To: <20260304-gpio-of-kconfig-v1-10-d597916e79e7@oss.qualcomm.com>
+X-Rspamd-Queue-Id: E64BD228B4A
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,ti.com,gmail.com,ucw.cz,vger.kernel.org,pengutronix.de,topcon.com];
-	TAGGED_FROM(0.00)[bounces-7137-lists,linux-leds=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
+	TAGGED_FROM(0.00)[bounces-7138-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
+	DMARC_NA(0.00)[roeck-us.net];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[arm.com,kernel.org,synopsys.com,buserror.net,linux.ibm.com,ellerman.id.au,gmail.com,lunn.ch,armlinux.org.uk,davemloft.net,google.com,redhat.com,linaro.org,baylibre.com,googlemail.com,tibbo.com,linux-watchdog.org,linuxfoundation.org,lists.infradead.org,vger.kernel.org,lists.ozlabs.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[46];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-leds@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[linux@roeck-us.net,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-0.988];
 	TAGGED_RCPT(0.00)[linux-leds];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:dkim,ashevche-desk.local:mid]
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[roeck-us.net:mid,roeck-us.net:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:email]
 X-Rspamd-Action: no action
 
-On Fri, Mar 06, 2026 at 04:29:52PM +0100, Michael Tretter wrote:
-> On Fri, 06 Mar 2026 13:55:05 +0000, Lee Jones wrote:
-> > On Thu, 05 Mar 2026, Andy Shevchenko wrote:
-> > > On Fri, Jan 23, 2026 at 11:13:24AM +0100, Michael Tretter wrote:
-> > > > According to Documentation/ABI/testing/sysfs-class-led-multicolor, the
-> > > > intensity should not exceed /sys/class/leds/<led>/max_brightness.
-> > > > 
-> > > > The interface doesn't check the values and higher values may lead to
-> > > > unexpected color changes if the brightness is changed.
-> > > > 
-> > > > Clamp the intensity value to max_brightness.
-> > > 
-> > > This also brings a regression if somebody doesn't care about wrapping around.
-> > > It's possible to return an error instead, but still the user space will be
-> > > broken (in some rare weird cases).
+On Wed, Mar 04, 2026 at 10:02:31AM +0100, Bartosz Golaszewski wrote:
+> OF_GPIO is selected automatically on all OF systems. Any symbols it
+> controls also provide stubs so there's really no reason to select it
+> explicitly. We could simply remove the dependency but in order to avoid
+> a new symbol popping up for everyone in make config - just convert it to
+> requiring CONFIG_OF.
 > 
-> If somebody in user space doesn't care about the wrap around for the
-> brightness value, the behavior will still differ between systems,
-> because the value for the wraparound for brightness depends on
-> max_brightness, which is driver specific and some drivers already
-> implement clamping on max_brightness.
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+> ---
+>  drivers/watchdog/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Handling this in a coherent way at the API level leads to more
-> consistent behavior between different drivers.
-> 
-> Furthermore, intensity for multicolor LEDs behaves kind of like
-> brightness for single color LEDs and for these, the documentation
-> (Documentation/ABI/testing/sysfs-class-led) specifies that
-> 
-> 	The [brightness] value is between 0 and
-> 	/sys/class/leds/<led>/max_brightness
-> 
-> and
-> 
-> 	Most LEDs don't have hardware brightness support, so will
-> 	just be turned on for non-zero brightness settings.
-> 
-> With a wraparound behavior, writing (max_brightness + 1) to brightness
-> would lead to a wraparound and turn the LED off, which is against this
-> specification.
-> 
-> I agree that the behavior of intensity is undefined if it exceeds
-> max_brightness. Do you have an example of user space (or use case) that
-> relies on this behavior or is this a hypothetical case?
+> diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
+> index dc78729ba2a5d6e035ed3cbe5c2b631d11b76b20..ef200339a22a6f9c51a46c9c0b8466add74313e2 100644
+> --- a/drivers/watchdog/Kconfig
+> +++ b/drivers/watchdog/Kconfig
+> @@ -250,7 +250,7 @@ config DA9062_WATCHDOG
+>  
+>  config GPIO_WATCHDOG
+>  	tristate "Watchdog device controlled through GPIO-line"
+> -	depends on OF_GPIO
+> +	depends on OF
 
-It does not mean if it's hypothetical or real for a (censored) user.
-This is an ABI change patch. It might break someone's use case.
-At bare minimum the commit message should explain that.
+AI feedback:
 
-> > > Again, I care even less about this change, but be always careful,
-> > > the main rule in the kernel "We do NOT break user space".
+  Could this change inadvertently allow the driver to be selected when GPIOLIB
+  is disabled?
 
+  In drivers/gpio/Kconfig, OF_GPIO is defined inside the "if GPIOLIB" block,
+  so it implicitly depends on GPIOLIB. By changing the dependency directly to
+  OF, the GPIOLIB dependency is lost.
 
--- 
-With Best Regards,
-Andy Shevchenko
+  If GPIOLIB is disabled, the driver will still compile because of the stubs
+  in include/linux/gpio/consumer.h, but devm_gpiod_get() will unconditionally
+  return -ENOSYS, causing the probe to fail. Since the driver's sole purpose
+  is to control a watchdog via a GPIO line, should it be prevented from being
+  configured without GPIOLIB by using something like:
 
+	depends on OF && GPIOLIB
 
+It has a point. Please update.
+
+Thanks,
+Guenter
+
+>  	select WATCHDOG_CORE
+>  	help
+>  	  If you say yes here you get support for watchdog device
 
