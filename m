@@ -1,188 +1,149 @@
-Return-Path: <linux-leds+bounces-7140-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7144-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qHLcCNB2q2mRdQEAu9opvQ
-	(envelope-from <linux-leds+bounces-7140-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sat, 07 Mar 2026 01:52:32 +0100
+	id WAzVESd4q2l+dQEAu9opvQ
+	(envelope-from <linux-leds+bounces-7144-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sat, 07 Mar 2026 01:58:15 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3204C229209
-	for <lists+linux-leds@lfdr.de>; Sat, 07 Mar 2026 01:52:31 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E69312292EB
+	for <lists+linux-leds@lfdr.de>; Sat, 07 Mar 2026 01:58:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0997E303E3A9
-	for <lists+linux-leds@lfdr.de>; Sat,  7 Mar 2026 00:52:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E348430B8255
+	for <lists+linux-leds@lfdr.de>; Sat,  7 Mar 2026 00:58:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 793CB286417;
-	Sat,  7 Mar 2026 00:52:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 435892D9780;
+	Sat,  7 Mar 2026 00:58:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y69B5nb+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="deZqPMfD"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79243272813;
-	Sat,  7 Mar 2026 00:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100AA2D4805;
+	Sat,  7 Mar 2026 00:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772844746; cv=none; b=l12q+nsdeCw9PzH9+19FZlpBcsc0ix+4GrWXfxoRfG52BPGytInnLn3IVx0HERVy/+moVJrax6vT/D12BdUN8RGcs4yXjpenvr4ZhkqWCsQRoOkOtdrLX3DnmxXwHjAsHoa/qVGyzpRsb3YDlj+JckOnSabsg+eqx31wS0aempE=
+	t=1772845084; cv=none; b=UiQXDZ34309pZXqA8HNSE86lSizu1kIkqdydXZqX42xtdlP4TLFfzXaOb72U3unuDsLLH4dCr0o9VCf/gAWzve6bAbcFnjacipytxhSTD8ut+eZqHKkf2dcGmd03+Wm8YAHtD0lHzzMgQfEahoj+7KMN/OsJPKfge9WbmHLNNhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772844746; c=relaxed/simple;
-	bh=gxSunjcvBRErBew/28rdha/zcYzd5detHG3z951c4Vk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QHE5B+G+SypCHXnw0hqbpFODz/f5Zkr21iVhQrcw5PF8EXXgbk2SgSO5X1wfJuu5ry13bAhGgChthTbigSHxKhE3L50t48PK3ZPUvpuJkZdHovzKZwVJjZnBmTw/BDnrrwdiOcDuO1YU+0BqvMN/sg1svKjq5IF2PlG0XEiQ0yY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y69B5nb+; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772844744; x=1804380744;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gxSunjcvBRErBew/28rdha/zcYzd5detHG3z951c4Vk=;
-  b=Y69B5nb+Q/xRvQrEbTDXnMIbmHEN4+6+l8fZPvgdO2ZfLscl2bX9YmBt
-   45g7eakwZ2BCFuMnDKsSEQo4X/MQ/xi5WzNOsSbHB/OgGo/+EW83mcXdO
-   Ets9ufM+XozOaB5N2KauLM8ItsoTOctrroFSxDMi59WgjUmToxd9m5tXx
-   fqtM9zbxkwRO+yFaTXAP1m0k86hsXCBYTqWNb+RfOZVt/nrnlA0o0ASFg
-   NdPiE5KhtDW56RE5LzmUlm6K8N2LZIxDk+n9yCz6AsopqDhrCzEbj5hfJ
-   0Vt19bMiCtLBExmgQ9wrj5xXO/aI4Ls+vbeEY0TRCjYNwO+7k+/voKgSw
-   w==;
-X-CSE-ConnectionGUID: ynHhHKJ8Q3mxFma1RrMKEg==
-X-CSE-MsgGUID: 4XE1whecQMK2y1+75eLbow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="73861669"
-X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="73861669"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 16:52:23 -0800
-X-CSE-ConnectionGUID: mDquklK+T9SW69HyvsN3Zg==
-X-CSE-MsgGUID: Vmru8usbRN6VOsUsgTzISQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="216893402"
-Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 06 Mar 2026 16:52:20 -0800
-Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vyftx-000000001Wr-283S;
-	Sat, 07 Mar 2026 00:52:17 +0000
-Date: Sat, 7 Mar 2026 08:51:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>, Ion Agorria <ion@agorria.com>,
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v5 2/7] mfd: Add driver for ASUS Transformer embedded
- controller
-Message-ID: <202603070848.ib570eG8-lkp@intel.com>
-References: <20260304185751.83494-3-clamor95@gmail.com>
+	s=arc-20240116; t=1772845084; c=relaxed/simple;
+	bh=or4XZZ5BaaZ26whdKPwpMfVhYj6Xn2dkuW06vgzjaiw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hmTh+1BymPbbK7HIN8ZDk+CJ6OPYDaQ6csK4touN1TNuNffrvssSwfScI18J7KIaedMxL22XDBiKNcpXLmNszIyxZTDHFHN0dMDGglJgNDAW+Zh5VW26iGikWT80NFrguLde/nEiO2hP9+VXolR8cTixDVHQF2hD5yzdePYuyVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=deZqPMfD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8CB47C19422;
+	Sat,  7 Mar 2026 00:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772845083;
+	bh=or4XZZ5BaaZ26whdKPwpMfVhYj6Xn2dkuW06vgzjaiw=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=deZqPMfD8pAWgqkpa2zip7iEWwoCxoK+bEyFC1EL8UuSSN9U8FagY03zP6EnVZaXi
+	 /FXRn3/M5zsQoSWKQgpyRaeMgQ51ySBwxvsuZak723pRcpIgrBPGHc2cNKxpDPr7/s
+	 /GildsbBe9Z85yQHvFLYV6pw4GxIz/vYIZngUiBcKJhu6iGSDZjE/We1uKLhe8MAv5
+	 SuzBLS4SQcVQz1yMNK/zDF17okPlZ4bJwLnBaQNP4/q6ZHcaTL8aldixxxfhvT+bZv
+	 FjCkijWgk+HqCWotO5+ARwO4v9WiI81OpmoT5zwQG44PZWmRTgkYzkWN52ZzzFbQR/
+	 wcH2yUYozzV8Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7444BFC9EC7;
+	Sat,  7 Mar 2026 00:58:03 +0000 (UTC)
+From: Rudraksha Gupta via B4 Relay <devnull+guptarud.gmail.com@kernel.org>
+Subject: [PATCH 0/3] Samsung Expressatt: Camera Flash
+Date: Fri, 06 Mar 2026 16:58:01 -0800
+Message-Id: <20260306-expressatt_camera_flash-v1-0-b1996f7cdfdd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260304185751.83494-3-clamor95@gmail.com>
-X-Rspamd-Queue-Id: 3204C229209
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABl4q2kC/02NQQqDMBAAvyI5N2JiVJRS+o8isqarhhptkygW8
+ e+Neil7mmV3ZiUWjUJLimAlBmdl1Th4YJeAyA6GFql6eiY84mkURynF5W3QWnCukqDRQNX0YDv
+ KYskSyATPAIj/9leNWg7zozzZ4GfyAXcuid41R6AIrt6fMB4lf37qxkl2L/zSmVE/Qog655nMm
+ /jealB9KEd921s1WKQetHJFMKchy0m5bT/s4M1M3AAAAA==
+X-Change-ID: 20260306-expressatt_camera_flash-13c15a7427aa
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Rudraksha Gupta <guptarud@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772845083; l=1311;
+ i=guptarud@gmail.com; s=20240916; h=from:subject:message-id;
+ bh=or4XZZ5BaaZ26whdKPwpMfVhYj6Xn2dkuW06vgzjaiw=;
+ b=9vvyscRB7gjVDF3LEsn8bB/LM/q+hZwz/y6Ktb8WeIIWmtzEykVv4R+Jq/IZW5N2qOCVpdYWB
+ dhBNVHv2YcgAF//hhdoSXolgJ1k+FP0CxN+AUOzgZLEo7uVeL+HdGc2
+X-Developer-Key: i=guptarud@gmail.com; a=ed25519;
+ pk=ETrudRugWAtOpr0OhRiheQ1lXM4Kk4KGFnBySlKDi2I=
+X-Endpoint-Received: by B4 Relay for guptarud@gmail.com/20240916 with
+ auth_id=211
+X-Original-From: Rudraksha Gupta <guptarud@gmail.com>
+Reply-To: guptarud@gmail.com
+X-Rspamd-Queue-Id: E69312292EB
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	FREEMAIL_REPLYTO_NEQ_FROM(2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7140-lists,linux-leds=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,agorria.com,rere.qmqm.pl];
+	TAGGED_FROM(0.00)[bounces-7144-lists,linux-leds=lfdr.de,guptarud.gmail.com];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_REPLYTO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	HAS_REPLYTO(0.00)[guptarud@gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-0.975];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-leds@vger.kernel.org];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.977];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	TO_DN_SOME(0.00)[]
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Hi Svyatoslav,
+This small series adds camera flash to an existing similar mainline
+driver and adds it the the Samsung Expressatt's DTS
 
-kernel test robot noticed the following build warnings:
+Downstream reference:
+Link: https://github.com/LineageOS/android_kernel_samsung_d2/blob/stable/cm-12.0-YNG4N/drivers/leds/Makefile#L51
+Link: https://github.com/LineageOS/android_kernel_samsung_d2/blob/stable/cm-12.0-YNG4N/arch/arm/mach-msm/board-apexq-camera.c#L591
 
-[auto build test WARNING on sre-power-supply/for-next]
-[also build test WARNING on robh/for-next linus/master v7.0-rc2 next-20260305]
-[cannot apply to dtor-input/next dtor-input/for-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Rudraksha Gupta <guptarud@gmail.com>
+---
+Rudraksha Gupta (3):
+      dt-bindings: leds: rt8515: Support single-GPIO flash ICs with unlock gate
+      leds: flash: rt8515: Support single-GPIO flash ICs with unlock gate
+      ARM: dts: qcom: msm8960: expressatt: Add camera flash
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-embedded-controller-document-ASUS-Transformer-EC/20260305-030907
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
-patch link:    https://lore.kernel.org/r/20260304185751.83494-3-clamor95%40gmail.com
-patch subject: [PATCH v5 2/7] mfd: Add driver for ASUS Transformer embedded controller
-config: powerpc64-randconfig-r133-20260305 (https://download.01.org/0day-ci/archive/20260307/202603070848.ib570eG8-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603070848.ib570eG8-lkp@intel.com/reproduce)
+ .../devicetree/bindings/leds/richtek,rt8515.yaml   | 36 +++++++++++++++++++-
+ .../dts/qcom/qcom-msm8960-samsung-expressatt.dts   | 31 ++++++++++++++++++
+ drivers/leds/flash/leds-rt8515.c                   | 38 ++++++++++++++++++----
+ 3 files changed, 98 insertions(+), 7 deletions(-)
+---
+base-commit: e9ec05addd1a067fc7cb218f20ecdc1b1b0898c0
+change-id: 20260306-expressatt_camera_flash-13c15a7427aa
+prerequisite-message-id: <20251205-expressatt-touchkey-v1-1-1444b927c9f3@gmail.com>
+prerequisite-patch-id: 8de4de7909722ccaf385c4224f25a623eaa72c28
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603070848.ib570eG8-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/mfd/asus-transformer-ec.c:482:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got char const [noderef] __user *buf @@
-   drivers/mfd/asus-transformer-ec.c:482:9: sparse:     expected void const *
-   drivers/mfd/asus-transformer-ec.c:482:9: sparse:     got char const [noderef] __user *buf
->> drivers/mfd/asus-transformer-ec.c:482:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got char const [noderef] __user *buf @@
-   drivers/mfd/asus-transformer-ec.c:482:9: sparse:     expected void const *
-   drivers/mfd/asus-transformer-ec.c:482:9: sparse:     got char const [noderef] __user *buf
-   drivers/mfd/asus-transformer-ec.c:482:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const * @@     got char const [noderef] __user *buf @@
-   drivers/mfd/asus-transformer-ec.c:482:9: sparse:     expected void const *
-   drivers/mfd/asus-transformer-ec.c:482:9: sparse:     got char const [noderef] __user *buf
-   drivers/mfd/asus-transformer-ec.c:476:16: sparse: sparse: dereference of noderef expression
-
-vim +482 drivers/mfd/asus-transformer-ec.c
-
-   467	
-   468	static int dockram_write_one(struct i2c_client *client, int reg,
-   469				     const char __user *buf, size_t count)
-   470	{
-   471		struct dockram_ec_data *priv = i2c_get_clientdata(client);
-   472		int ret;
-   473	
-   474		if (!count || count > DOCKRAM_ENTRY_SIZE)
-   475			return -EINVAL;
-   476		if (buf[0] != count - 1)
-   477			return -EINVAL;
-   478	
-   479		guard(mutex)(&priv->ctl_lock);
-   480	
-   481		priv->ctl_data[0] = (u8)count;
- > 482		memcpy(priv->ctl_data + 1, buf, count);
-   483		ret = asus_dockram_write(client, reg, priv->ctl_data);
-   484	
-   485		return ret;
-   486	}
-   487	
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Rudraksha Gupta <guptarud@gmail.com>
+
+
 
