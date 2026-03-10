@@ -1,44 +1,44 @@
-Return-Path: <linux-leds+bounces-7247-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7249-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aN78JVo2sGkKhQIAu9opvQ
-	(envelope-from <linux-leds+bounces-7247-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2026 16:18:50 +0100
+	id QEffNOkrsGlHgwIAu9opvQ
+	(envelope-from <linux-leds+bounces-7249-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2026 15:34:17 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88CE525324F
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2026 16:18:49 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56FED25213F
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2026 15:34:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id C18173204E0F
+	by sea.lore.kernel.org (Postfix) with ESMTP id A795034B54EF
 	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2026 14:15:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B3F626CE05;
-	Tue, 10 Mar 2026 14:15:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8899526FDAC;
+	Tue, 10 Mar 2026 14:15:09 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542D21B86C7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1368231836
 	for <linux-leds@vger.kernel.org>; Tue, 10 Mar 2026 14:15:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773152108; cv=none; b=P9Aqup8pAH1AXe3hQ6hyrDd3mgMqwQstn3VXecjjeUdePXE9VhgTHDHd5LEPvNs2UFj+tMsjCXtoj5Y+xNAZC9028eiXg9uJxtCE1AneplFrqGvzNKAycOiQkI2n6qx8B7llwQ7lr6wsG5hYkNhxCfm+L/vM9h/k0bmD6ySt/TE=
+	t=1773152109; cv=none; b=eGLQ/Y1Q2qQyG5o9zeB/Deo1f/3th+SXrxpoIRGVJk6J44jxnrkq3CHieazUM+ewxPaSJ+WPgXrDflx6GeAGCjWVhD166+6cxKwROBEPKIOycLbhPphf/zhcMqQOrOKy9QiJdMmku/+msRJEpVKiMlc94SWdevBt8t2R43iqBmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773152108; c=relaxed/simple;
-	bh=xlmWMhkDCJC+z45N4jV77nTwJpv5nOtmFEnX5712T5o=;
+	s=arc-20240116; t=1773152109; c=relaxed/simple;
+	bh=G9W/WwvH/cZgvoHOUuCzymt2TsfUyNC0gH1UFBKLnwU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hYiulvKBROo5JD8TlhatY0sOd2mRNyY0syDHJuISLg+JHIpWOJvfEasYFRkv5rbcSIxvHCJ30WPoWA5y/p0HRoYP6lvU9QNhJEVGXw92iilah0sN5RftcVQxCuFQmYSsGS62ZNANKh2CmJK7R+Ry0BcnVKJ/wpXkKt+p3pLjuP4=
+	 In-Reply-To:To:Cc; b=TfrtqNX7eUikaQt5xN/h3fyvhoF3Y9X46mBhTBy9LTs29nirFHJfxYkPnnKSIL3msvlgaPuysFuODMQpUoE86PzGBhhemqrgQLVJvev/lujgH9AeI7qBB5VS0A+JKrUWS8WzJszmol5wbn9V3gYQZ99M1lEB2NAS/zJsl0TzfUI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=ratatoskr.trumtrar.info)
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <s.trumtrar@pengutronix.de>)
-	id 1vzxrU-0006Tq-RF; Tue, 10 Mar 2026 15:15:04 +0100
+	id 1vzxrV-0006Tq-57; Tue, 10 Mar 2026 15:15:05 +0100
 From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Date: Tue, 10 Mar 2026 15:14:39 +0100
-Subject: [PATCH v2 1/2] dt-bindings: leds: lp5860: add enable-gpio
+Date: Tue, 10 Mar 2026 15:14:40 +0100
+Subject: [PATCH v2 2/2] leds: rgb: lp5860: add enable-gpio
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260310-v6-19-topic-ti-lp5860-enable-gpio-v2-1-3fcc617fe03a@pengutronix.de>
+Message-Id: <20260310-v6-19-topic-ti-lp5860-enable-gpio-v2-2-3fcc617fe03a@pengutronix.de>
 References: <20260310-v6-19-topic-ti-lp5860-enable-gpio-v2-0-3fcc617fe03a@pengutronix.de>
 In-Reply-To: <20260310-v6-19-topic-ti-lp5860-enable-gpio-v2-0-3fcc617fe03a@pengutronix.de>
 To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
@@ -55,84 +55,89 @@ To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, 
  Steffen Trumtrar <kernel@pengutronix.de>
 Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Steffen Trumtrar <s.trumtrar@pengutronix.de>, 
- Conor Dooley <conor.dooley@microchip.com>
+ linux-kernel@vger.kernel.org, Steffen Trumtrar <s.trumtrar@pengutronix.de>
 X-Mailer: b4 0.14.3
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
 X-SA-Exim-Mail-From: s.trumtrar@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Rspamd-Queue-Id: 88CE525324F
+X-Rspamd-Queue-Id: 56FED25213F
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,microchip.com:email,0.0.0.0:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,pengutronix.de:mid,pengutronix.de:email];
 	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.568];
+	NEURAL_HAM(-0.00)[-0.640];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	R_DKIM_NA(0.00)[];
 	DMARC_NA(0.00)[pengutronix.de];
 	FROM_NEQ_ENVFROM(0.00)[s.trumtrar@pengutronix.de,linux-leds@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7247-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-7249-lists,linux-leds=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[]
 X-Rspamd-Action: no action
 
-The VIO_EN pin on the lp5860 can either be connected to VIO power supply
-or GPIO.
-
-Add the enable-gpios pin to the binding documentation.
+The VIO_EN pin can either be connected with VIO power supply or GPIO.
+Get the GPIO from DT if provided and set it on chip enable and disable.
 
 Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- Documentation/devicetree/bindings/leds/leds-lp5860.yaml | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/leds/rgb/leds-lp5860-core.c       | 10 ++++++++++
+ include/linux/platform_data/leds-lp5860.h |  1 +
+ 2 files changed, 11 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-lp5860.yaml b/Documentation/devicetree/bindings/leds/leds-lp5860.yaml
-index 1ccba48541595..0e88c71c2d398 100644
---- a/Documentation/devicetree/bindings/leds/leds-lp5860.yaml
-+++ b/Documentation/devicetree/bindings/leds/leds-lp5860.yaml
-@@ -33,6 +33,11 @@ properties:
-   '#size-cells':
-     const: 0
+diff --git a/drivers/leds/rgb/leds-lp5860-core.c b/drivers/leds/rgb/leds-lp5860-core.c
+index 28b4d86e11f1a..1f349aa53f7a9 100644
+--- a/drivers/leds/rgb/leds-lp5860-core.c
++++ b/drivers/leds/rgb/leds-lp5860-core.c
+@@ -61,6 +61,9 @@ static int lp5860_set_mc_brightness(struct led_classdev *cdev,
  
-+  enable-gpios:
-+    maxItems: 1
-+    description: |
-+      GPIO attached to the chip's enable pin (VIO_EN).
+ static int lp5860_chip_enable_toggle(struct lp5860 *led, int enable)
+ {
++	if (led->enable_gpiod)
++		gpiod_direction_output(led->enable_gpiod, enable);
 +
- patternProperties:
-   '^multi-led@[0-9a-f]+$':
-     type: object
-@@ -74,6 +79,7 @@ unevaluatedProperties: false
+ 	return regmap_write(led->regmap, LP5860_REG_CHIP_EN, enable);
+ }
  
- examples:
-   - |
-+    #include <dt-bindings/gpio/gpio.h>
-     #include <dt-bindings/leds/common.h>
+@@ -170,6 +173,13 @@ int lp5860_device_init(struct device *dev)
+ 	struct lp5860 *lp = dev_get_drvdata(dev);
+ 	int ret;
  
-     spi {
-@@ -83,6 +89,7 @@ examples:
-         led-controller@0 {
-             compatible = "ti,lp5860";
-             reg = <0x0>;
-+            enable-gpios = <&gpio1 1 GPIO_ACTIVE_HIGH>;
-             #address-cells = <1>;
-             #size-cells = <0>;
++	lp->enable_gpiod = devm_gpiod_get_optional(lp->dev, "enable", GPIOD_ASIS);
++	if (IS_ERR(lp->enable_gpiod))
++		return PTR_ERR(lp->enable_gpiod);
++
++	if (lp->enable_gpiod)
++		gpiod_set_consumer_name(lp->enable_gpiod, "LP5860 VIO enable");
++
+ 	ret = lp5860_chip_enable_toggle(lp, LP5860_CHIP_ENABLE);
+ 	if (ret)
+ 		return ret;
+diff --git a/include/linux/platform_data/leds-lp5860.h b/include/linux/platform_data/leds-lp5860.h
+index 7bc69a7a550dd..7258d0674ce59 100644
+--- a/include/linux/platform_data/leds-lp5860.h
++++ b/include/linux/platform_data/leds-lp5860.h
+@@ -257,6 +257,7 @@ struct lp5860_led {
+ struct lp5860 {
+ 	struct device *dev;
+ 	struct regmap *regmap;
++	struct gpio_desc *enable_gpiod;
+ 	unsigned int leds_count;
  
+ 	DECLARE_FLEX_ARRAY(struct lp5860_led, leds);
 
 -- 
 2.51.0
