@@ -1,190 +1,128 @@
-Return-Path: <linux-leds+bounces-7246-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7248-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MJp/EOM1sGnRhAIAu9opvQ
-	(envelope-from <linux-leds+bounces-7246-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2026 16:16:51 +0100
+	id CLMzG7svsGkShAIAu9opvQ
+	(envelope-from <linux-leds+bounces-7248-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2026 15:50:35 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410A62531CE
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2026 16:16:50 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB762527DD
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2026 15:50:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 94EBF31F8776
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2026 14:14:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9C2FB3157948
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2026 14:15:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FBAD39DBC3;
-	Tue, 10 Mar 2026 14:14:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71186264A86;
+	Tue, 10 Mar 2026 14:15:09 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF472391E63;
-	Tue, 10 Mar 2026 14:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542071A9F8C
+	for <linux-leds@vger.kernel.org>; Tue, 10 Mar 2026 14:15:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773152055; cv=none; b=k7HLW1eu0CVhEw1JOHUvmzxhZg9w+0HcdgG4jPigu3gUdoQF3fQJYlT7RLFSF2aTeAq7RWaKORcQEcAlEPYIUwBT8BNfE6tyspF6JO7txXJwQsUFpyTZO3IUicm2hJG08M5u3aYpgoF4jc9eKBWX1hGeXqwZPGGdqheS4/QSpnk=
+	t=1773152109; cv=none; b=kHhCok2E0n60xOxX2KPc7DqGk4gcYMxc9s3LOGdk+8AICrORslW9Du71TXnto73w3c8VCPZmiHcX6VqpoG06iLffDOZoipFNMXQz6ET71E1W8CNwFb7EURr8y2SghO1caU1JmO+ym0L8gA3cFDc/zGGaIxlEXjrdsGh+qqFJfA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773152055; c=relaxed/simple;
-	bh=SMamLYuK7QpP5Qy11gfel2SYdZy/ey1WEVc9Se5MWz0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nAGcBReV5CYWz9pLAKq9eCNFHF6PdQxOeJjbrZQZUfHBULwX5aVkcgIuRI1rxu+PBtefANSOk4AFOKw+/KscrNk3GeCxWASrklK4jmTd1wfTzkQ4QHxfwlmxugKQpOqG7gVNggk0k501/HqZwzAwZU4BRrsVZy3mu0TLEX8TAuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay01.hostedemail.com (Postfix) with ESMTP id 0CEFF1C171;
-	Tue, 10 Mar 2026 14:08:05 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf14.hostedemail.com (Postfix) with ESMTPA id 847E92D;
-	Tue, 10 Mar 2026 14:07:40 +0000 (UTC)
-Date: Tue, 10 Mar 2026 10:07:50 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Philipp Hahn <phahn-oss@avm.de>
-Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
- bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
- dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
- gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
- kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
- sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>
-Subject: Re: [PATCH 15/61] trace: Prefer IS_ERR_OR_NULL over manual NULL
- check
-Message-ID: <20260310100750.303af303@gandalf.local.home>
-In-Reply-To: <20260310-b4-is_err_or_null-v1-15-bd63b656022d@avm.de>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
-	<20260310-b4-is_err_or_null-v1-15-bd63b656022d@avm.de>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1773152109; c=relaxed/simple;
+	bh=N9514f0RNEbSDNCJoPfbCNal9nNlU1pfx+gQoyGcuwM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=A+X3ge9puALyJ8IkZK62eJI1IfRN90GljbJRsK2VAps8x8d1EZ+OOYKrptP/DRmLrm+KtQ914LSTkPTizVnfBGFmEC0fZSfamAM733DIihxjKUbjIMeH6v5xzFhVpml+gMpQmdGlBf28N9PRq9rbQGwmz5SOHYH4ud95Hr/tUsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=ratatoskr.trumtrar.info)
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <s.trumtrar@pengutronix.de>)
+	id 1vzxrU-0006Tq-GM; Tue, 10 Mar 2026 15:15:04 +0100
+From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
+Subject: [PATCH v2 0/2] leds: lp5860: add enable-gpio
+Date: Tue, 10 Mar 2026 15:14:38 +0100
+Message-Id: <20260310-v6-19-topic-ti-lp5860-enable-gpio-v2-0-3fcc617fe03a@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 7qtdkkf3por5hcs9du9pir5nqq8uht35
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19Z3Tx1sMlUDFHS8YYPfSOpiqPw8cg/LfU=
-X-HE-Tag: 1773151660-993833
-X-HE-Meta: U2FsdGVkX1+JWrMXdInzvBx9l2WUqahyoYUezPLaF3HICGuHpiLcos2NJHmqwFPLfM8ZBXZ6/fmTg/vlHLcqcaFGukyEZOsOE3kBaCKhhIkGksjLucUHfFRW8KX39dTkHeOQhZTWX/A0f9Y+1fWRMEQzHGhaJF2wpPshgb4yUxNCAKdeI6QYyukTSlQGbTY7Uxizi79ndrJuznFkrJ0f1Gh3JC2I5gazyCY5QhqLMJ9a9ShPFpKdZ7NDaPeyx31oXfa0p+bWWHR1R5JbGDYWhbllAgJDuEbxQsOff6UlFUV0L3hTo0f3pFVAKw4ZSe/3wUeKTGah6IcaIcnei7ziR9eK5k/ow6hfmOBOZGq2CLBxHUplOJMJzaQEF/IeU48U6bUZ8WiPpl/JDxwK03ucqBa/7oG+YB+etWyAxh+TKdi7NbCLCb6PbeExJ2cO76n2AdjJCB03SaDGNN90kGsLmA==
-X-Rspamd-Queue-Id: 410A62531CE
+X-B4-Tracking: v=1; b=H4sIAE4nsGkC/5XPQW7DIBCF4atYrDsRYBscK6pyjygLDBNnpNi4Q
+ FCqyHevQ3btqst/FvPpPVnEQBhZXz1ZwEyR/LyF/KiYvZp5RCC3NZNcKi6FhqxA7CH5hSwkgtv
+ SdooDzma4IYwLeehqy1UrXd0Yx7Y/S8ALPYpxOr874Nd9o9L7yCaM0RSqrw5Fqvm+SM0fKWsQM
+ Ah0yirTaIvHBefxnoKf6bFz+PkiBxMRrJ8mSn2V9Y5DsIK98CvF5MN32ZtF0f8xLQvgcGmxQ4d
+ D63TzC2fndV1/AEcyx6xUAQAA
+X-Change-ID: 20260217-v6-19-topic-ti-lp5860-enable-gpio-83c0652d34ad
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Steffen Trumtrar <kernel@pengutronix.de>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Steffen Trumtrar <s.trumtrar@pengutronix.de>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.14.3
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: s.trumtrar@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Rspamd-Queue-Id: DEB762527DD
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.14 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[goodmis.org : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.787];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,pengutronix.de:mid,pengutronix.de:email];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.695];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[56];
-	FROM_NEQ_ENVFROM(0.00)[rostedt@goodmis.org,linux-leds@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	R_DKIM_NA(0.00)[];
+	DMARC_NA(0.00)[pengutronix.de];
+	FROM_NEQ_ENVFROM(0.00)[s.trumtrar@pengutronix.de,linux-leds@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7246-lists,linux-leds=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_FROM(0.00)[bounces-7248-lists,linux-leds=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[]
 X-Rspamd-Action: no action
 
-On Tue, 10 Mar 2026 12:48:41 +0100
-Philipp Hahn <phahn-oss@avm.de> wrote:
+The LP5860 can have the VIO_EN pin either be connected to VIO power
+supply or a GPIO.
 
-> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> check.
+Add support for the pin to the devicetree binding and the driver.
 
-Why?
+Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
+---
+Changes in v2:
+- add acked-by
+- updated deps to newer lp5860 series
+- rebased to v7.0-rc1
+- Link to v1: https://lore.kernel.org/r/20260217-v6-19-topic-ti-lp5860-enable-gpio-v1-0-f5e8edeb5d74@pengutronix.de
 
-> 
-> Change generated with coccinelle.
-> 
-> To: Steven Rostedt <rostedt@goodmis.org>
-> To: Masami Hiramatsu <mhiramat@kernel.org>
-> To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-trace-kernel@vger.kernel.org
-> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
-> ---
->  kernel/trace/fprobe.c                | 2 +-
->  kernel/trace/kprobe_event_gen_test.c | 2 +-
->  kernel/trace/trace_events_hist.c     | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/kernel/trace/fprobe.c b/kernel/trace/fprobe.c
-> index dcadf1d23b8a31f571392d0c49cbd22df1716b4f..a94ce810d83b90f55d1178a9bd29c78fd068df4c 100644
-> --- a/kernel/trace/fprobe.c
-> +++ b/kernel/trace/fprobe.c
-> @@ -607,7 +607,7 @@ static int fprobe_module_callback(struct notifier_block *nb,
->  	do {
->  		rhashtable_walk_start(&iter);
->  
-> -		while ((node = rhashtable_walk_next(&iter)) && !IS_ERR(node))
-> +		while (!IS_ERR_OR_NULL((node = rhashtable_walk_next(&iter))))
+---
+Steffen Trumtrar (2):
+      dt-bindings: leds: lp5860: add enable-gpio
+      leds: rgb: lp5860: add enable-gpio
 
-Ug, No!
+ Documentation/devicetree/bindings/leds/leds-lp5860.yaml |  7 +++++++
+ drivers/leds/rgb/leds-lp5860-core.c                     | 10 ++++++++++
+ include/linux/platform_data/leds-lp5860.h               |  1 +
+ 3 files changed, 18 insertions(+)
+---
+base-commit: 559f264e403e4d58d56a17595c60a1de011c5e20
+change-id: 20260217-v6-19-topic-ti-lp5860-enable-gpio-83c0652d34ad
+prerequisite-message-id: <20260309-v6-14-topic-ti-lp5860-v7-1-b1ed6c6a47ce@pengutronix.de>
+prerequisite-patch-id: 45e295aab0d3ea7d92bf71596f8b0e18e8621ac0
 
-That looks so much worse than the original.
-
--- Steve
-
->  			fprobe_remove_node_in_module(mod, node, &alist);
->  
->  		rhashtable_walk_stop(&iter);
-> diff --git a/kernel/trace/kprobe_event_gen_test.c b/kernel/trace/kprobe_event_gen_test.c
-> index 5a4b722b50451bfdee42769a6d3be39c055690d1..a1735ca273f0b756aa1fcfcdab30ddad9bc51c5f 100644
-> --- a/kernel/trace/kprobe_event_gen_test.c
-> +++ b/kernel/trace/kprobe_event_gen_test.c
-> @@ -75,7 +75,7 @@ static struct trace_event_file *gen_kretprobe_test;
->  
->  static bool trace_event_file_is_valid(struct trace_event_file *input)
->  {
-> -	return input && !IS_ERR(input);
-> +	return !IS_ERR_OR_NULL(input);
->  }
->  
->  /*
-> diff --git a/kernel/trace/trace_events_hist.c b/kernel/trace/trace_events_hist.c
-> index 73ea180cad555898693e92ee397a1c9493c7c167..59df215e1dfd9349eca1c0823ed709ec7285f766 100644
-> --- a/kernel/trace/trace_events_hist.c
-> +++ b/kernel/trace/trace_events_hist.c
-> @@ -3973,7 +3973,7 @@ trace_action_create_field_var(struct hist_trigger_data *hist_data,
->  	 */
->  	field_var = create_target_field_var(hist_data, system, event, var);
->  
-> -	if (field_var && !IS_ERR(field_var)) {
-> +	if (!IS_ERR_OR_NULL(field_var)) {
->  		save_field_var(hist_data, field_var);
->  		hist_field = field_var->var;
->  	} else {
-> 
+Best regards,
+-- 
+Steffen Trumtrar <s.trumtrar@pengutronix.de>
 
 
