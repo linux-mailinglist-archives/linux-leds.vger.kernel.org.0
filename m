@@ -1,170 +1,139 @@
-Return-Path: <linux-leds+bounces-7165-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7166-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GD4XJN8Zr2nHNgIAu9opvQ
-	(envelope-from <linux-leds+bounces-7165-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 09 Mar 2026 20:05:03 +0100
+	id iFG+K4zgr2nkdAIAu9opvQ
+	(envelope-from <linux-leds+bounces-7166-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2026 10:12:44 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D73F723F203
-	for <lists+linux-leds@lfdr.de>; Mon, 09 Mar 2026 20:05:02 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B035F2480BA
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2026 10:12:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6692030067B3
-	for <lists+linux-leds@lfdr.de>; Mon,  9 Mar 2026 19:05:01 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 55438301E730
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2026 09:11:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 945FB35AC02;
-	Mon,  9 Mar 2026 19:05:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8974743D4EF;
+	Tue, 10 Mar 2026 09:11:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YEpBXpXv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KGzE+AkP"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EDE1175A75;
-	Mon,  9 Mar 2026 19:05:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6531143CEFA
+	for <linux-leds@vger.kernel.org>; Tue, 10 Mar 2026 09:11:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773083100; cv=none; b=CpoqkVVzfg9l74PIJQdJBwXD8HXG2Rgx4yvLlvmfISbSU3oLPOHf8gz0y1C6zuqqdETWkHMzSMsXp1rEGkgtOReW4Y3qg737CqJ70FyWGtN6TfyCm/rRmBCBj4sQuJVBaj96FTnT1g1+OUtQik9q9H1HaumTdf9WG0G0JcBrSBs=
+	t=1773133905; cv=none; b=gnJvmrJFFzI45k318QxxZrEhlLoBKHnCHRMdfVTkzwpDXMPCR2KYLXDTe8b72AYJjBPA7soDDgd1+X6m3g5G8n9o3Ph/2JCoYBEG1wSUQPnRf/JUla8UpEwNhTdT3IXJOgQsiLAfTjCInMksKybRiZE6vLaNIlC5Fyx6JTmZoGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773083100; c=relaxed/simple;
-	bh=1gDb6j/JlkCFdpEsMVdhL8r3rqW83cqfP3G8hG4gcKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jiaQ7KgA/R+s1i6wxYakm/vZG85AwsPpJd5v2ayDmJmNeqBaLYJ0x3mVSgUzHaXzgzrz6eG8iF7IvZgpViylL+ZwIA/WbHNKQUPqVVKm3Wa5E8ZA3aaPpgPeWWBFKk3ChHdjaRpxFa7WG4FmYwY+VWDOkqJH+JmfVKkQ6OslCJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YEpBXpXv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A66B2C4CEF7;
-	Mon,  9 Mar 2026 19:04:56 +0000 (UTC)
+	s=arc-20240116; t=1773133905; c=relaxed/simple;
+	bh=k2F848Zif0ENv+dioxwCTNyt1oN71pv8VacY1VvtFtA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hhqb2MXuZEy8iD0TyGxCt0ShB3I5MjrNH+fz7M26PoUM2htA/ZMfWF04GZAnYsGUGP5SVPnnFmGeHoglPFh0yLNBZCRhlynNn8BG449wwrBNTs6+3ZJjxEjWMih0Su092Ywvg3Uw5kqB+SIYnlWi6nMHSfpDcNwQBCcxjbH3Dms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KGzE+AkP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1F2DC2BCC6
+	for <linux-leds@vger.kernel.org>; Tue, 10 Mar 2026 09:11:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773083100;
-	bh=1gDb6j/JlkCFdpEsMVdhL8r3rqW83cqfP3G8hG4gcKM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YEpBXpXvPEVW8GAI+5ZloOek7XKIqxjjV5UE2cLKLxinFqIXD/evjTez6HIGqdzxS
-	 GStQpJuXnnIzoD65Xx9OIwsE98MXxS0OPuPSxcpWCInouB9ZzdXHco5q3fB98hnc7H
-	 y5XBFylM6wJhgtZdHXimIjotPNSEGiUM9y8JBCKMr4uTxd20WyASXW9p9k3X/jY/xV
-	 kIiLoGB/PCr4bLHIehWv2fHJ1z3+Xw/58/rzzdI/WaC2tgWZIOD/R8KqkJc/LOg0GJ
-	 /haDEWUiJSUULotDUUQXjg2VursYTP8z8S7Fhif19aGfX4CIS6LnzTJSgDxTaiZPye
-	 mPjrXUXssu+qA==
-Date: Mon, 9 Mar 2026 19:04:53 +0000
-From: Lee Jones <lee@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-	Ion Agorria <ion@agorria.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v2 7/9] leds: Add driver for Asus Transformer LEDs
-Message-ID: <20260309190453.GA183676@google.com>
-References: <20260209104407.116426-1-clamor95@gmail.com>
- <20260209104407.116426-8-clamor95@gmail.com>
- <20260306100406.GE183676@google.com>
- <CAPVz0n0jnuhmvsSPckfFOQ0NZ3VMe6W2p_Bb5a9pdVZYhVSJhQ@mail.gmail.com>
+	s=k20201202; t=1773133905;
+	bh=k2F848Zif0ENv+dioxwCTNyt1oN71pv8VacY1VvtFtA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=KGzE+AkPTbDePLOfxxSTz0NJMri0EekeriaoMph7b9Jbqih5Ia32kL2tB0bpRXAaZ
+	 Xd6EgwIO3zW8wsj5KPHnW557mQOlYLsZmYMSs3/zPmDxiTQ1jEJyWWcLDAgaOVZ26j
+	 8FNpzsqFjoQvFDl4B1/w6djudKuYNee9wTmWamLyhMa75x3wa/pvdJZWCYDV6nWoc9
+	 f2cKKUD8Pm9nT3qQuRFerXNryMwk6751oxzDK5gkcVrGPVN+HdpSxKhW+p/6F3f2aq
+	 TBbzKVwfBxOwsnrEtZL5vhU6EQaU8FtIppabfHdyf8tNXzvPe1lMPdjxpy8rJPAK6p
+	 E1LbYo0/ajrAw==
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-64937edbc9eso11502057d50.2
+        for <linux-leds@vger.kernel.org>; Tue, 10 Mar 2026 02:11:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWFg+iZ4WGPiRJjRrpROHQkySJgi2B/ARfYM9nwQP3x3RweVCEcwmUdn0Y9hk2A7OLNmNZMSowbbb1U@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxu2SSavgeAs3YsvYD6BcojnXkeeqgPybUHEtHK87U3UFOHYzZX
+	aihaiSrb1/hKOAVkbQY4ZYGhHxlBJ0GOnyte4Ma52BjChkw+ZroOD1iSAy6tVnaDYxuKpcdv6fF
+	r1NXZ6kGglarPdCzqGXFJGY4dYHcqLY0=
+X-Received: by 2002:a05:690e:b8c:b0:64c:905:6f2c with SMTP id
+ 956f58d0204a3-64d1411d8b4mr13101525d50.20.1773133904182; Tue, 10 Mar 2026
+ 02:11:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPVz0n0jnuhmvsSPckfFOQ0NZ3VMe6W2p_Bb5a9pdVZYhVSJhQ@mail.gmail.com>
-X-Rspamd-Queue-Id: D73F723F203
+References: <20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com> <20260304-gpio-of-kconfig-v1-7-d597916e79e7@oss.qualcomm.com>
+In-Reply-To: <20260304-gpio-of-kconfig-v1-7-d597916e79e7@oss.qualcomm.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Tue, 10 Mar 2026 10:11:32 +0100
+X-Gmail-Original-Message-ID: <CAD++jL=pOw2ZZqMXFK4cQ67g3yUGho6mjbW3JM8iQDQpiKL8TA@mail.gmail.com>
+X-Gm-Features: AaiRm53Xu9gGfY3MrM83r361-dKQ36aGj99vP6wgofH18qCwDYgWNRZvm6MhVmA
+Message-ID: <CAD++jL=pOw2ZZqMXFK4cQ67g3yUGho6mjbW3JM8iQDQpiKL8TA@mail.gmail.com>
+Subject: Re: [PATCH 07/14] pinctrl: Kconfig: drop unneeded dependencies on OF_GPIO
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Alexey Brodkin <abrodkin@synopsys.com>, Vineet Gupta <vgupta@kernel.org>, Scott Wood <oss@buserror.net>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, 
+	Wells Lu <wellslutw@gmail.com>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Sebastian Reichel <sre@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-leds@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-watchdog@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: B035F2480BA
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7165-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-7166-lists,linux-leds=lfdr.de];
+	FREEMAIL_CC(0.00)[arm.com,kernel.org,synopsys.com,buserror.net,linux.ibm.com,ellerman.id.au,gmail.com,lunn.ch,armlinux.org.uk,davemloft.net,google.com,redhat.com,linaro.org,baylibre.com,googlemail.com,tibbo.com,roeck-us.net,linux-watchdog.org,linuxfoundation.org,lists.infradead.org,vger.kernel.org,lists.ozlabs.org,lists.linux.dev];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,arndb.de,linuxfoundation.org,rere.qmqm.pl,agorria.com,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[46];
+	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qmqm.pl:email]
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,qualcomm.com:email]
 X-Rspamd-Action: no action
 
-On Fri, 06 Mar 2026, Svyatoslav Ryhel wrote:
+On Wed, Mar 4, 2026 at 10:03=E2=80=AFAM Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> wrote:
 
-> пт, 6 бер. 2026 р. о 12:04 Lee Jones <lee@kernel.org> пише:
-> >
-> > On Mon, 09 Feb 2026, Svyatoslav Ryhel wrote:
-> >
-> > > From: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-> > >
-> > > Asus Transformer tablets have a green and an amber LED on both the Pad
-> > > and the Dock. If both LEDs are enabled simultaneously, the emitted light
-> > > will be yellow.
-> > >
-> > > Co-developed-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-> > > ---
-> > >  drivers/leds/Kconfig        |  11 ++++
-> > >  drivers/leds/Makefile       |   1 +
-> > >  drivers/leds/leds-asus-ec.c | 104 ++++++++++++++++++++++++++++++++++++
-> > >  3 files changed, 116 insertions(+)
-> > >  create mode 100644 drivers/leds/leds-asus-ec.c
-[
-...]
+> OF_GPIO is selected automatically on all OF systems. Any symbols it
+> controls also provide stubs so there's really no reason to select it
+> explicitly.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-> > > +static int asus_ec_led_probe(struct platform_device *pdev)
-> > > +{
-> > > +     struct asusec_info *ec = cell_to_ec(pdev);
-> >
-> > Please remove all of your abstraction layers.  They serve little purpose
-> > other than to complicate things.  Just use dev_get_drvdata() here.
-> >
-> > Remove the "_info" part and change "ec" to "ddata".
-> >
-> 
-> Controller exposes only required stuff, exposing controllers internal
-> parts is not desired. Is there any written convention that driver
-> private data pointer MUST be named "ddata"? "priv" is pretty well
-> fitting to. You are just nitpicking.
+Patch applied to the pinctrl tree!
 
-[...] 
-
-> > Lots of repetition here.
-> >
-> > I'd make a sub-function that takes the differences.
-> >
-> > Same with the set brightness functions.
-> >
-> > Think to yourself - what if I had to support 16 different LEDs?
-> >
-> 
-> That is not of my concern what you would do. I have 2 LEDs and I see
-> no point in "abstraction for he sake of abstraction".
-
-Your attitude stinks!
-
-All of your submissions are now on hold until I can be bothered to look
-at them again.  In the mean time, I suggest you look inward and
-re-evaluate how you choose to communicate with others.
-
--- 
-Lee Jones [李琼斯]
+Yours,
+Linus Walleij
 
