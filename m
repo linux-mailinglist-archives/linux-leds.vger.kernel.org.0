@@ -1,159 +1,148 @@
-Return-Path: <linux-leds+bounces-7307-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7308-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aDJsJtr0sWl7HQAAu9opvQ
-	(envelope-from <linux-leds+bounces-7307-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Mar 2026 00:03:54 +0100
+	id IKNSK04asmmpIgAAu9opvQ
+	(envelope-from <linux-leds+bounces-7308-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Mar 2026 02:43:42 +0100
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87E1826B0F6
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Mar 2026 00:03:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D23A26BFA1
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Mar 2026 02:43:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id CD99F30217E0
-	for <lists+linux-leds@lfdr.de>; Wed, 11 Mar 2026 23:03:52 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4172730240BA
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Mar 2026 01:43:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE5E33A0E81;
-	Wed, 11 Mar 2026 23:03:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E87D373BE5;
+	Thu, 12 Mar 2026 01:43:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WxcdvAR4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PNdpNF6b"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969E039DBF5;
-	Wed, 11 Mar 2026 23:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC8A23EAB0
+	for <linux-leds@vger.kernel.org>; Thu, 12 Mar 2026 01:43:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773270226; cv=none; b=AkA2Gnlxmrw7n8wlICODGs3io7QO9Oh/YDy07WP09JF/KFh9g5IxYQ17wt6vWQVzPCB+iYEQu7P3mBvtqRc+n31lnQN5NVwKohchMiBQHqmgSZE6jhjwc4hv3UUzJs1InFDBm/aIiY3ylNEkhCwq8TX0CYHFVkpY9m+PERgjhT4=
+	t=1773279816; cv=none; b=Ib/37REetDEYmzZkb2w1845fcNEBS3eZLW29F7cpB0h8GHyAr+54fGabX/85ouJepajuua+8KRg4NhmmvjckdHQ9jNenDmlATIl8b9sHotd9C8bq3HRtpjWFzkmFx+7r5TkwxaAfSJlx794Z7tfBEDq4dadh4nj6hgbgsbzy7go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773270226; c=relaxed/simple;
-	bh=ATo3aRyKmYSXuSYD8x/NeBUp5LJcLKbzHVpozNXQJC0=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=riWYrESCcc9KNXqP13SZYyXzR58RrYMlS+b2xha5iOXuuIp+StTrVizqL6ketCeeYmMEMoyxUK8taVuLlBt+IYJOKFEOgMITJUBE5YxvJbFyx57ukqqJFBTg7MI8yXilCszhmCyW65ADzTthRqCB0cIhFeDkNxgzAb+Zf6dy7s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WxcdvAR4 reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from monstersaurus.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD91E448;
-	Thu, 12 Mar 2026 00:02:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773270149;
-	bh=ATo3aRyKmYSXuSYD8x/NeBUp5LJcLKbzHVpozNXQJC0=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=WxcdvAR4zphcUuTNTLXCbLGiiCOKCwemLRMbnRdmW3ARcBHAWQiYVeysDpnfCIDuk
-	 B8rMCjKjDjoWJdgj4Zp0scfHxrPnr5P3xl9hFANY/wyWKZBZYHzyf2qsFxVEe9S31Y
-	 m9r/HjFnopry9bsUUdk6/id/Q3d97jYK/FiMa+Qw=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1773279816; c=relaxed/simple;
+	bh=2G3EwYDykZE+Wc23axeFDpw9UC31SPemRxkoSgYs8ro=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BtObog6biob90pchHhjCTfM9yEA4+a373rY2h0z8xbte2LAKXaQvatjOAuh54FyBOolnTpMgLcdhXwcjMoNWZ5mm/i7JAUtv7fueMHSlAuIyq/v3bDLjqGB/0Ef5+oTIWcTVmKZFVkS3RGpVE7fsgmUzRkIKwIIHEDBTz12agrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PNdpNF6b; arc=none smtp.client-ip=74.125.82.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-127380532eeso315515c88.1
+        for <linux-leds@vger.kernel.org>; Wed, 11 Mar 2026 18:43:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773279814; x=1773884614; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=X9BiCutWMo2iXMSzIBcHE0Q7j/bcvH4uRlsGlhLrJlQ=;
+        b=PNdpNF6byQeDagzqDlQDbH2LEF7zE2XywzOsuFRYN2Gam4Lqy16FL7eh59cyu4FgiY
+         yiIGTvdVWUAloqxbzIp8KzXZVfHy1lqf7DmJB2yHZTCfZqKKPaBsANyQUeaXgL5r0N1I
+         zBbadTOcN5HvSYaFrC4Hdeg+d/rkBQgbCzAYAvQVrpfD1WnFI5k5M9U3rHF+ZbzV/Bz1
+         1pEUzSiWx0NKvgC7zus2vkD/BjOjn4pjr+93Py4vcBueWsweBuI6ZJiaaxNvI1sXi/ke
+         T7DbdDx7N2NloY9JKw8AeszwzsT8aEzmoYeGYw7/Dj2rgq0ek8JGasV5n4Jl2aRuHlO+
+         I/2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773279814; x=1773884614;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X9BiCutWMo2iXMSzIBcHE0Q7j/bcvH4uRlsGlhLrJlQ=;
+        b=UNpsPiEi7+l3DzYcsgIO+FPnMDL7ujWktZmr4S4jKNqL5JQ+2pg6A5iRjyQxlbBWff
+         QEHB6cm+TXsyjKEhbuWigKyRnYjl/l6/FBJ8pkouficwTFdiErLiVhS44FjGCsEc1B7U
+         /S1CQplHH5qbRlyf7x706WM/YsgjR0ULYG8QdsdyqGFYbNRNgoxcNf50Sm1QGRrOj9K6
+         t25mbalJqaQYas5hJpJ4uz+pCLvUEEtGQz4X9QDauNx8Naxk3J9m7vyCRlDQjsdJIDl9
+         I9j8n9Idr/ezHJTCq+M87QkORxen2RhEsnHiWyYDXE0fEnzRgKaqei5lKtEG8YOfPTA2
+         qSjw==
+X-Gm-Message-State: AOJu0YwxARJkrzpxWRyHs/XGTgPOcdZ/rCyJlPCt0eukvIB/pvoeAle1
+	WACRwV4K8dqAZ3mc1QIkBto7J5/KOM58Kni6FnSEEm2rI35UhIVM86lFN6JwCA==
+X-Gm-Gg: ATEYQzzlMmc9klM8LTKiv9SIyAMTQMlhi/iQ/FnsSGHmebowUP+yO3jDoAOmaQC2oXr
+	KZtupzAZvsrddkVFz9VdXzu2pdjd8pqo0ERrt7lfsuJjt3a0F0bk8iBJhZwa7C8WXu5kn/oVg0O
+	NmmaXSVLhZpIoB+3mQMig8MOaFpBkbvz3gKLtsniP2IgUXRKFNZ4tZ6jDsffp48GSj/RPk7IF3t
+	E/VESosZDUr2KwwyQnaL3ZEGHiUOhVxHsPgbn5RSmeBf3NQ3TlDlNdEiCgXSxkC2Lf60bW33B5Z
+	kr2j4mee71ZwGekkx9C3CmTTmw0TzalxJRiirbZcg76QmsCCCo228y34dr4h+BZvh0IT7XkTLRb
+	chjfAJxxltT96Zw1EzcJkb/7ZTpHFpex6Pc5aN9WHR+ma2DTas9/bTOOEoZciq7/a9RtUToOlxy
+	oUxoQpDNx3ZU1Dz6/Ud0wHA4ae8uLhtPygS5/1go2Pr/pxZuyN3Li4T9pvvOOOup1+fye0Hyyad
+	bc3Go81lWU2oXs=
+X-Received: by 2002:a05:7022:619d:b0:128:ceac:6db3 with SMTP id a92af1059eb24-128e7878dc7mr2210526c88.45.1773279814073;
+        Wed, 11 Mar 2026 18:43:34 -0700 (PDT)
+Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:53e0:5b17:5211:b0f4])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-128e7c0d698sm6619016c88.6.2026.03.11.18.43.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2026 18:43:33 -0700 (PDT)
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: [PATCH 0/2] Fall back to using software node name as LED name
+Date: Wed, 11 Mar 2026 18:43:26 -0700
+Message-Id: <20260311-led-swnode-name-v1-0-798a49e041c6@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260310-b4-is_err_or_null-v1-49-bd63b656022d@avm.de>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de> <20260310-b4-is_err_or_null-v1-49-bd63b656022d@avm.de>
-Subject: Re: [PATCH 49/61] media: Prefer IS_ERR_OR_NULL over manual NULL check
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Philipp Hahn <phahn-oss@avm.de>, amd-gfx@lists.freedesktop.org,
-	apparmor@lists.ubuntu.com, bpf@vger.kernel.org,
-	ceph-devel@vger.kernel.org, cocci@inria.fr, dm-devel@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, gfs2@lists.linux.dev,
-	intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
-	iommu@lists.linux.dev, kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-mm@kvack.org, linux-modules@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-phy@lists.infradead.org,
-	lin@web.codeaurora.org, ux-pm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
-	sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
-	tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev
-Date: Wed, 11 Mar 2026 23:03:33 +0000
-Message-ID: <177327021364.3167621.11851238159935183684@ping.linuxembedded.co.uk>
-User-Agent: alot/0.9.1
-X-Spamd-Result: default: False [3.14 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:subspace.kernel.org:reject}];
-	R_DKIM_REJECT(1.00)[ideasonboard.com:s=mail];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAD4asmkC/x3MQQqAIBBG4avErBtQw4SuEi0q/2qgLBQqiO6et
+ PwW7z2UEAWJmuKhiFOS7CFDlwWNSx9msPhsMsrUqtKaV3hOV9g9OPQbuPaDgXXWKacpV0fEJPd
+ /bLv3/QBUwGo2YQAAAA==
+X-Change-ID: 20260311-led-swnode-name-6db2e5757071
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.15-dev-a6826
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[ideasonboard.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-7307-lists,linux-leds=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-7308-lists,linux-leds=lfdr.de];
+	RCPT_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[57];
-	FROM_NEQ_ENVFROM(0.00)[kieran.bingham@ideasonboard.com,linux-leds@vger.kernel.org];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:-];
-	NEURAL_HAM(-0.00)[-0.726];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
+	FROM_NEQ_ENVFROM(0.00)[dmitrytorokhov@gmail.com,linux-leds@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[avm.de:email,ideasonboard.com:email,ping.linuxembedded.co.uk:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linuxfoundation.org:email]
-X-Rspamd-Queue-Id: 87E1826B0F6
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-leds];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com]
+X-Rspamd-Queue-Id: 3D23A26BFA1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Quoting Philipp Hahn (2026-03-10 11:49:15)
-> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> check.
->=20
-> Change generated with coccinelle.
->=20
-> To: Shuah Khan <skhan@linuxfoundation.org>
-> To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> To: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
-> ---
->  drivers/media/test-drivers/vimc/vimc-streamer.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/test-drivers/vimc/vimc-streamer.c b/drivers/me=
-dia/test-drivers/vimc/vimc-streamer.c
-> index 15d863f97cbf96b7ca7fbf3d7b6b6ec39fcc8ae3..da5aca50bcb4990c06f28e5a8=
-83eb398606991e9 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-streamer.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-streamer.c
-> @@ -167,7 +167,7 @@ static int vimc_streamer_thread(void *data)
->                 for (i =3D stream->pipe_size - 1; i >=3D 0; i--) {
->                         frame =3D stream->ved_pipeline[i]->process_frame(
->                                         stream->ved_pipeline[i], frame);
-> -                       if (!frame || IS_ERR(frame))
-> +                       if (IS_ERR_OR_NULL(frame))
+This allows setting just name in software node representing an LED
+instance and forego "label" or other properties needed to form a name.
+This is helpful when converting old boards using bespoke platform data
+to software nodes/static device properties.
 
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+Dmitry Torokhov (2):
+      leds: core: implement fallback to software node name for LED names
+      leds: core: fix formatting issues
 
->                                 break;
->                 }
->                 //wait for 60hz
->=20
-> --=20
-> 2.43.0
->
+ drivers/leds/led-core.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
+---
+base-commit: 7109a2155340cc7b21f27e832ece6df03592f2e8
+change-id: 20260311-led-swnode-name-6db2e5757071
+
+Thanks.
+
+-- 
+Dmitry
+
 
