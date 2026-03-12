@@ -1,121 +1,65 @@
-Return-Path: <linux-leds+bounces-7311-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7312-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iPqwOq+4smmYOwAAu9opvQ
-	(envelope-from <linux-leds+bounces-7311-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Mar 2026 13:59:27 +0100
+	id IEjdBQrIsmmvPAAAu9opvQ
+	(envelope-from <linux-leds+bounces-7312-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Mar 2026 15:04:58 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50994272210
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Mar 2026 13:59:27 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90479273103
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Mar 2026 15:04:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 156663078E8F
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Mar 2026 12:57:46 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 68F74304B382
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Mar 2026 14:00:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C182B3C5DBD;
-	Thu, 12 Mar 2026 12:57:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25A23283FE5;
+	Thu, 12 Mar 2026 14:00:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="fHqxjqGD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jMGT4feG"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C1C3C3C14
-	for <linux-leds@vger.kernel.org>; Thu, 12 Mar 2026 12:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C1312B94;
+	Thu, 12 Mar 2026 14:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773320257; cv=none; b=tmIGWDAvo/zZtGrQWeShddN62c7dAU7ODCOFFIwsT6i1AflphKCrUZkgDFergGPYJs4zrO4gMUN45Roy1WbFThXp58/YvyYo16qK7VvtpZd5d/qhZJc5XbFo0dhDzNPpJwdETqiBFhWMnQcSlP+KMvlxG/3d1XGL8cwYUayeTxc=
+	t=1773324035; cv=none; b=e4OBsJ4KnFdI9Zgjms1csp89i1cYxZHyFobZ3G7hQRmTVZUPt93eYF5WJRcQ35rRXbYSCuJlvYuhKMG4PAmHUxxRqZCHeOu6MNQ74721rptnhnj00oh2erTQq9n0Ygq2iZ8g5xCHla3P1i3HdeJP+Ji5leSWcUd8o0xN+JP9DAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773320257; c=relaxed/simple;
-	bh=Rr1jkAP22lZkLvo3o90a9fRSWh9+kilNKtAarSScWFY=;
+	s=arc-20240116; t=1773324035; c=relaxed/simple;
+	bh=lgzAwmcia1bIMN1GXKk0zq/eE3MT5qXplE1hzEEEs5I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oJI5n+aVpjQyl0zTECMn/uIU6ubbfYsRMb82XyHZsooEhpwafpnPgxIkxdDVA5Y8wssuQTaS9lpwWvtgNNREuhlLr2mTtySVQdr6OHf4VFR5yeCIb683M56l7DxJ4QyFKaJ4cKA1Oa3gMX1QB9uHkZEp6YHulz7rUS+0ja6lkTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=fHqxjqGD; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-50915e14cf6so7425561cf.3
-        for <linux-leds@vger.kernel.org>; Thu, 12 Mar 2026 05:57:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1773320252; x=1773925052; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=J1SF1XBHkHR0j7NZVucv0LxpGoGXl67PUefLsfwpAbo=;
-        b=fHqxjqGD7mReR8MT2yBowt9MuNKPAKQc++mWcb4ZOttX6YldICO+OnnxWIQjO0C8L5
-         wjOw0Gg7MqV4U+G9pES+s6h1NtZIjaKrBXMW81hrLyc8SxWYHtvQK3FlTjqiyroZskXE
-         jYj0kUENL7Yhu5zg+0UQ91XYlYYlozX9U8uAqBEFaih0fSnDo8kprjTDRYJ58gzKRExo
-         MSUW+Q+e0P2WpZGotx0DuVRaUqq4vGsUUSX1YbPnOxmRUKlXFY/aNRmXMXDbAEfx0Lnn
-         e41FpuPSZjTSuTkWfTMW8e1MvewVXC2p6zLd4GrSZjvSKS4Q06nDQYaSimUW3qR5RhoY
-         JV6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773320252; x=1773925052;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J1SF1XBHkHR0j7NZVucv0LxpGoGXl67PUefLsfwpAbo=;
-        b=wmvhvC8RNkn9eryHUoL9/uFHBtDw2xqDjN+id4/U34TKEJr3mdOo+/EUHn5TYYYZbh
-         XttK7b9oatjl6F6JK9idZRY/rZONvXkuuSo6VIaVOxOnGho+dJpTzvFl0fFrGxUb4tbz
-         tVY8bXaHb0XhqyGIxwpsE/s/43OraIhcU7Nk00GOXCRMitDCm20bdWNlLyDZUKCwTHrF
-         SFRapZpM1A6/E0ZUxMTj14yqlZWUN1m7KuUKr8Sm0sTYV9EVGPIAoC6O5kfREe1ZQHSB
-         Van+SUbOCLVnl+sJtHdoWiV8gMr/zYNBsygp7axEZOCjbNLPPtJ70lCSJtmWr66Z1aXp
-         Wk4g==
-X-Forwarded-Encrypted: i=1; AJvYcCV4wf+52rw26oIz/Zada2BRIYqoaSYIvKZ+2fB4VXmQxxra9iovOUrWxCAS1EsfIS2CrObyIdV+XcHA@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBvkDPpTYAn/7qnH40/0nlsN8xO9hFgAdg2Z2QLjtVZJDMtQO6
-	F0++5dGiNTbi5gf5xJVtu7fg78sTPKNR0nBbMQe+6JFxaxnpME6gg2npLXtm9Y69JhM=
-X-Gm-Gg: ATEYQzxBQQJptcV2/8GLNKqD7YNajc5l5sv82ZF1s0L1Ze2kd0m9ErffEJMqMrjlCeO
-	CzmTgsgKJRjcNdtcAKUe60pLpByCL3tM60bbML39gbeHfzg+WSvvc6NZiZXnbtfw+UTqXb+QCPr
-	3Dyu2o03ePcE4uOFMUkZVXlxvv7HpXWlpQH9JkUCOYCUl/+p8YTlWfiA+KoOQ0CAXoyxlcp0i7K
-	sjqJyxJmYbyfb2ZyyJPE+G26ZtGNz/XeAlPjQ4MbqEUGGJUQFyiUJ2g5DpSyS6HYBdXOfoyUvfK
-	ER62rkJ3JkKFwcalXdRpmA5rrY9VYvzhOHCdX7bLCkf5JhbemJGq5dk3dYnmaewZVmIUV0zIoJg
-	JsVjI/0Qd7kbYKv8jOZCYti6sMlQyprp4SW8DXemW3vQVo3JFT6yxwSLQ7X2HqZjdDT6QQlR8nG
-	NkeJxFxEngLytTKqKrfAdd+n1NanTSrt0pXbxFnL0NAggEDYqeAP2jPIdgW1ZKlsd2qSP8b6E3Z
-	Z8crxCC
-X-Received: by 2002:ac8:5d4d:0:b0:509:cbc:127b with SMTP id d75a77b69052e-5093a1bd58fmr77950521cf.60.1773320251710;
-        Thu, 12 Mar 2026 05:57:31 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a65bd318fsm33341196d6.8.2026.03.12.05.57.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 05:57:31 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1w0fbW-00000006fKD-1POa;
-	Thu, 12 Mar 2026 09:57:30 -0300
-Date: Thu, 12 Mar 2026 09:57:30 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: Philipp Hahn <phahn-oss@avm.de>, amd-gfx@lists.freedesktop.org,
-	apparmor@lists.ubuntu.com, bpf@vger.kernel.org,
-	ceph-devel@vger.kernel.org, cocci@inria.fr,
-	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
-	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
-	sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
-	tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev
-Subject: Re: [PATCH 00/61] treewide: Use IS_ERR_OR_NULL over manual NULL
- check - refactor
-Message-ID: <20260312125730.GI1469476@ziepe.ca>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
- <abBlpGKO842B3yl9@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=upDUmoxgapZiPhov0P3hXtR2Bre2g/XQ194BD7rVDs00aGqM+jbsp7eqBUS0V75mVdQ5dUaZVNlHGGf7v/QuiRsKC8oSYkzb4wHSkZD+A7RjDwq4xt0/mk0dzv/ER2nBy3Ce2ma8ZP1+uDVpnllvIz10seBRU+RrKFtYUdp+JRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jMGT4feG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52F01C19424;
+	Thu, 12 Mar 2026 14:00:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773324034;
+	bh=lgzAwmcia1bIMN1GXKk0zq/eE3MT5qXplE1hzEEEs5I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jMGT4feG0qm/dNmC0kI18hsGyvHTMrmIX0kDEHPHWL7UB352oMdTlgIKXYfNNew7/
+	 1Xt9zSHmZZ/JnC+6zzuRVbhkrzYhPdlqfoEaP8aISQ3Dxu3RhidELIayZ4HIND+jcx
+	 guvMUahvzZmxPvxcjNZLhkMzdwHIWNNrToo0BO0cTp0FaZxPQU3C3AqjsH8UKPdOyQ
+	 iA1w7hcVWmk5qorI3J1lBD9Jcjr1AeG/v+NSt+eodGpbQPXf9X285jYMjEzfxteKuy
+	 7lKup7ivdS2jWbgw0ZELBGgsTNGUXlxJ5gB5Q6QbQb9qm+VqLX4+I84in/oOUTfV2f
+	 fI5xq2q+JgNwA==
+Date: Thu, 12 Mar 2026 09:00:32 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-pm@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
+	Ion Agorria <ion@agorria.com>, linux-leds@vger.kernel.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/7] dt-bindings: embedded-controller: document ASUS
+ Transformer EC
+Message-ID: <177332403209.2914211.14156950861343429723.robh@kernel.org>
+References: <20260304185751.83494-1-clamor95@gmail.com>
+ <20260304185751.83494-2-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -124,57 +68,52 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <abBlpGKO842B3yl9@google.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
+In-Reply-To: <20260304185751.83494-2-clamor95@gmail.com>
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[ziepe.ca:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[ziepe.ca];
-	TAGGED_FROM(0.00)[bounces-7311-lists,linux-leds=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-7312-lists,linux-leds=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-leds@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_GT_50(0.00)[55];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,agorria.com,gmail.com,rere.qmqm.pl];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-leds@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ziepe.ca:dkim,ziepe.ca:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 50994272210
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 90479273103
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Mar 11, 2026 at 02:40:36AM +0800, Kuan-Wei Chiu wrote:
 
-> IMHO, the necessity of IS_ERR_OR_NULL() often highlights a confusing or
-> flawed API design. It usually implies that the caller is unsure whether
-> a failure results in an error pointer or a NULL pointer. 
+On Wed, 04 Mar 2026 20:57:45 +0200, Svyatoslav Ryhel wrote:
+> Document embedded controller used in ASUS Transformer device series.
+> 
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  .../asus,tf201-ec-pad.yaml                    | 119 ++++++++++++++++++
+>  1 file changed, 119 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/embedded-controller/asus,tf201-ec-pad.yaml
+> 
 
-+1
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-IS_ERR_OR_NULL() should always be looked on with suspicion. Very
-little should be returning some tri-state 'ERR' 'NULL' 'SUCCESS'
-pointer. What does the middle condition even mean? IS_ERR_OR_NULL()
-implies ERR and NULL are semanticly the same, so fix the things to
-always use ERR.
-
-If you want to improve things work to get rid of the NULL checks this
-script identifies. Remove ERR or NULL because only one can ever
-happen, or fix the source to consistently return ERR.
-
-Jason
 
