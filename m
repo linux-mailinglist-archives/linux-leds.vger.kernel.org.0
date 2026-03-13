@@ -1,58 +1,58 @@
-Return-Path: <linux-leds+bounces-7323-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7324-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oCEaEExctGklmQAAu9opvQ
-	(envelope-from <linux-leds+bounces-7323-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Mar 2026 19:49:48 +0100
+	id aDd7EhhctGklmQAAu9opvQ
+	(envelope-from <linux-leds+bounces-7324-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Mar 2026 19:48:56 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF960288F45
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Mar 2026 19:49:47 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B16288ECB
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Mar 2026 19:48:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8FA143042446
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Mar 2026 18:48:46 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 328B6300826A
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Mar 2026 18:48:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 745003E0C67;
-	Fri, 13 Mar 2026 18:48:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA6A63E1209;
+	Fri, 13 Mar 2026 18:48:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="e2ZWafo2"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="QtsSuiUb"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5ED83E0228
-	for <linux-leds@vger.kernel.org>; Fri, 13 Mar 2026 18:48:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97D53E0C6E
+	for <linux-leds@vger.kernel.org>; Fri, 13 Mar 2026 18:48:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773427703; cv=none; b=VrKZwbLskCk3lAn1+68TdRvuuHl4TN4ZIbzJCkg9X2959m23dI+Y8hnL4VdsvFqFCbIoT/IfIAET4GzKW+it09m+OcroEO3eDxfhY7jIi3G/T3kuRaiCYqCZw06AzLX7RIexdOYXgtEzsEF5si9yP5aWVO0U5sTS48JKlxpcS80=
+	t=1773427705; cv=none; b=a85mfehLxBY0XyWphs2dUb6QMWeYhzfZZk/fyy4QSoY0N28TmbJSnKpouEHVwokHIVM/4HdpiwbBtFCCpniG5pYeTL8fDmoifoiGN4UJEUxOTdIQgaGohHBJKPIC2/Gu3WfOQF7SzBRoXd8UhuCD0f+Bc1QiDFDO4bX1Apd19ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773427703; c=relaxed/simple;
-	bh=HETHM3CRJWMhkQNDAYTp+649XpdPAf3ubTc2qfzj0Cs=;
+	s=arc-20240116; t=1773427705; c=relaxed/simple;
+	bh=ZJYERfpm0n00oI7yjkATxc2bgro8TlTIhPLy6Dly0cY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mp4WWutX4O3YBX5gZ56PInq5uTN1hb8H4HYQeC8Qep7DbMf+ZS7n2mZBIEugAGln/AeP8Ne05TeGnaKLV/QI64ict/khgLKXQmg/N72CoFDYAJ6Z7rSjiKzuGMMczck1pKUhqqtoMJTiKyuDGKuZxSo3IyOQ9lTzDzFHS/LCKxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=e2ZWafo2; arc=none smtp.client-ip=185.67.36.66
+	 In-Reply-To:To:Cc; b=ibfkgcH3H9tEbl/FPFHcsdm4Ig7+g2bTs4U820KvTAiT3cY+TjxHN8VOjJ8n/Qg3GxY2JZFXykZkq7PF17bhGc73HA2PFf3Mhsmqg+GipJhFNfVKCSrZMqY+5io6oCcCjmxp5n5X7qSmd8YZGuYjn+PouF7p2AphR1b+nWiCeCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=QtsSuiUb; arc=none smtp.client-ip=185.67.36.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id C099A240106
-	for <linux-leds@vger.kernel.org>; Fri, 13 Mar 2026 19:48:19 +0100 (CET)
+	by mout02.posteo.de (Postfix) with ESMTPS id 3E956240103
+	for <linux-leds@vger.kernel.org>; Fri, 13 Mar 2026 19:48:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1773427699; bh=0HIyLWc8Vasx1rBXj32mNH8IGQOj/mWKDVlVBnQS8vM=;
+	t=1773427702; bh=eBFgKTIDxbHJGxpffAhneVNIXveow5JR25/xttx6Mpg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
-	b=e2ZWafo2Pvj4CX34JJcgU9mHlpqol3bQbVuu9RByUepWp90ySX16DYt2ZlEvwR/2C
-	 Zhn11vRj27e7Wr3L+sbIO3o8I8VVTDooCM3BIq9P2K4ggvsFz1rP+1mLV63Id+ADrR
-	 HNJ2JqhmUl2dQXYfcQ8DfeXc0n8OEFyKkOq+fAwvRH8FEXG47WKzMbRYIS/tj0hAFH
-	 68Fl+j9/XYLXGpbkCzvHplZ+BXA9ZUuu5w+xynMFFpRzbpfabMyxj9Jt++82yXuSzv
-	 BEmAtMGFWDJ6B1+/qiVA7UavI8w7c9ISd1vKVomTgwushqSMoiNZ3jslfjIKduapYE
-	 HtQn6aTmTVX4w==
+	b=QtsSuiUbK7YLe+zQlIL7aG0DtWdZg48c/Y7nIFzjNoWS14WlVOerprvZxaPzyYOWp
+	 aog3jICFvYDILFyipyWs5ae0hsFDcEGMTK5h8ydj7m0Z08MPV24A/92vNelKi4aKfC
+	 +ugVsOHYjbPXf70Fm9qoqxX67YwHL+6WyY1axqDL+A2o90Yx3RSuYV628rK62jzScA
+	 A5t0rw/OhO76IDyIqUE6nf7Vdw0HEVGavXkTRpYO7DExsVYVOOqS5ppb1sXIJWKHlX
+	 7cfMsvt3e+IvtkArr4tKeDWXgJnRDm2GSnYXACSjcE+Y3FTlzkZCNQHOCUSCReQLAl
+	 akJLms1ZPCtpA==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4fXYQl3j6gz9rxL;
-	Fri, 13 Mar 2026 19:48:15 +0100 (CET)
+	by submission (posteo.de) with ESMTPSA id 4fXYQp3FWsz9rxD;
+	Fri, 13 Mar 2026 19:48:18 +0100 (CET)
 From: Markus Probst <markus.probst@posteo.de>
-Date: Fri, 13 Mar 2026 18:48:18 +0000
-Subject: [PATCH v3 1/7] rust: Add `parent_unchecked` function to `Device`
+Date: Fri, 13 Mar 2026 18:48:21 +0000
+Subject: [PATCH v3 2/7] rust: add basic mfd abstractions
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -61,7 +61,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260313-synology_microp_initial-v3-1-16941debd8a0@posteo.de>
+Message-Id: <20260313-synology_microp_initial-v3-2-16941debd8a0@posteo.de>
 References: <20260313-synology_microp_initial-v3-0-16941debd8a0@posteo.de>
 In-Reply-To: <20260313-synology_microp_initial-v3-0-16941debd8a0@posteo.de>
 To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -85,21 +85,21 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-pci@vger.kernel.org, linux-leds@vger.kernel.org, 
  linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev, 
  Markus Probst <markus.probst@posteo.de>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2195;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11227;
  i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=HETHM3CRJWMhkQNDAYTp+649XpdPAf3ubTc2qfzj0Cs=;
- b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBptFve1jey1DHQR+iLdEcegT4zt+EXofZeyQBar
- DMTAft8ZZ2JAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCabRb3hsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMSwyLDIACgkQNHYf+OetQ9JF1RAAmS7t9ZWBEMCQuDDPFA22VFlAmFQIeNS
- mDLsjWxhvnx2UL77Q+f8EWcFHmOcwwfV2jNxgIoODbBGpIQKovu21jYI7/gc4tAUWUhif2W8rDW
- /uJ8ImJ0nnUz1ZbfBPv8592dIlCRtPZrWBiPxIaJgKoYdltHsMhJImk7xGi9HSMeQE/WiyBAe7X
- 8wM1GILbHEmAuzgq74MmG0UzYphrpVVhxyg9DI5RSSivIlZwNnHBHsiUK334OUTioh1F/pVws1V
- FU7zY6yajh/19I0zD+kEKNeulI/6yrOivM9tXVhLYzhuNgtf4hBdReJ82rPLM8hc5m3BINNCLNA
- CHfNXMPCLyYyg5Lsu11oM5MQcFnGvOhhInJXBMe+XR3+0jFKlqccCSLVA7PRD/TqbV4BfmIIfdo
- Sj72KU4b5pEjzaAAbIdOhXBGd7REdCuQYNlFvhkonNSnBRhIyVJ4j7rijSW63+8pacyg+ZeVhSa
- kt8gt10dO3o85FM0lpjGst+hX/U4ixV+Cu/ypQdiXiSGHyKaNWqH5MQGZ/5kiMv4DQiCDvhMC6E
- v/S8hqTlMFyfyUktflJ6ZTfNxhkGT8mYAvor31VUBwNS5wFn1HYgd4VN00VBTODZ08iLhcmsVQV
- gz3LkvEE9bnEYFNgJCMB8koQrSEN6rjZ9I0Qim0mc1DB0md+t5ks=
+ bh=ZJYERfpm0n00oI7yjkATxc2bgro8TlTIhPLy6Dly0cY=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBptFvhVHxRvAd2X1jRwJLTqL9yFTDiFWiGBDuWh
+ dfAA82vbMuJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCabRb4RsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMSwyLDIACgkQNHYf+OetQ9I7AxAAurRXFyFdxc1fz0RR4JNiXOO7sFMozFN
+ JEJ3V51sQgVfnaL69LfGNznwhM05o0n3HOS+9YfQrovH9nXmeZsdlN5NDj/0ERgirta2mP6XEeg
+ J+3aS5QfVW5RlAYSPL/4w2aGRolpDBiyyhexLeNwk6c9zD3TgWoMnW9U6kkejzIl/TG9ul6jQe5
+ +4GHk+ipbZAD0m39yFpOqPOhRZ+Ab03QooCStymuRi9HhtIPYzivlvUsenVWTDOCQaX3KFxCeKd
+ H8/FiiPTdj851e+iV2DEE608FI04YDu7CCPPYKDob+sG3rt6IIZtGdxddfQ+X0Bil/pDvxvbsHW
+ c7J2qEoGCG/kScSIBrcvLuwBPQ9bAqTGMtj1Oh0b+UhLGkOFBTSP00LYT1dG1UeY6NvhKtPF1J3
+ bBqe1D2veu5Ek3YVOZDNV+3jGA+hSSHxP4Xuv/qF0Jg5V3KYnPjC3KxMKbTTWrrRl5Yx5a00L0q
+ TbbLS5Cv1cGxRd9msXFUvZhoiyUBkeK5pUvbhW4332DUT4mUfTfNt+eeXpPNbnWQxw6YFdGFtMw
+ QCL96ZjK94Bsu39mYQnrBR3sjqvgRrS0vf9cF0lN1BkcyK1/wKlJLsM33JTIMRgOVv9UB9gCkBI
+ O/GFJQXtSCjMVYjBYff7ZU5oBNySyTEecajcNGs5Q2ZLdPQkgnJ4=
 X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
  fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
 Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
@@ -149,11 +149,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[posteo.de,none];
 	R_DKIM_ALLOW(-0.20)[posteo.de:s=2017];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7323-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-7324-lists,linux-leds=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,linuxfoundation.org,garyguo.net,protonmail.com,google.com,umich.edu,gmail.com,collabora.com,intel.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -161,7 +161,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[31];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[posteo.de:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
@@ -172,64 +172,362 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,posteo.de:dkim,posteo.de:email,posteo.de:mid]
-X-Rspamd-Queue-Id: AF960288F45
+	DBL_BLOCKED_OPENRESOLVER(0.00)[posteo.de:dkim,posteo.de:email,posteo.de:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 31B16288ECB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-This allows mfd sub-devices to access the bus device of their parent.
+Implement the basic mfd rust abstractions required to register mfd
+sub-devices, including:
+- `mfd::Cell` - a safe wrapper for `struct mfd_cell`
+- `mfd::CellAcpiMatch` - a safe wrapper for `struct mfd_cell_acpi_match`
+- `const MFD_CELLS: Option<&'static [mfd::Cell]>` in each bus device,
+  except auxiliary
 
-The existing safe `parent` function has been made public for
-consistency.
+The mfd sub-device registration will be done after a successful call to
+probe in each bus device, except auxiliary. This guarantees that
+`mfd_add_devices` will only be run at most once per device. It also
+ensures that the sub-devices will be probed after the drvdata of the
+device has been set.
+
+In order to register mfd sub-devices for a device, the driver needs to
+set `const MFD_CELLS` in their Driver trait implementation to Some.
+A build_assert guarantees that this can only be set to Some, if
+CONFIG_MFD_CORE is enabled.
 
 Signed-off-by: Markus Probst <markus.probst@posteo.de>
 ---
- rust/kernel/device.rs | 25 +++++++++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
+ MAINTAINERS                     |   6 +++
+ rust/bindings/bindings_helper.h |   1 +
+ rust/kernel/i2c.rs              |   7 +++
+ rust/kernel/lib.rs              |   1 +
+ rust/kernel/mfd.rs              | 114 ++++++++++++++++++++++++++++++++++++++++
+ rust/kernel/pci.rs              |   7 +++
+ rust/kernel/platform.rs         |   7 +++
+ rust/kernel/serdev.rs           |   6 +++
+ rust/kernel/usb.rs              |   7 +++
+ 9 files changed, 156 insertions(+)
 
-diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
-index 94e0548e7687..a53fb8a388e8 100644
---- a/rust/kernel/device.rs
-+++ b/rust/kernel/device.rs
-@@ -340,8 +340,7 @@ pub(crate) fn as_raw(&self) -> *mut bindings::device {
-     }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 749d63ca18fa..fa49e40836ab 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18082,6 +18082,12 @@ F:	drivers/mfd/
+ F:	include/dt-bindings/mfd/
+ F:	include/linux/mfd/
  
-     /// Returns a reference to the parent device, if any.
--    #[cfg_attr(not(CONFIG_AUXILIARY_BUS), expect(dead_code))]
--    pub(crate) fn parent(&self) -> Option<&Device> {
-+    pub fn parent(&self) -> Option<&Device> {
-         // SAFETY:
-         // - By the type invariant `self.as_raw()` is always valid.
-         // - The parent device is only ever set at device creation.
-@@ -358,6 +357,28 @@ pub(crate) fn parent(&self) -> Option<&Device> {
-         }
-     }
++MULTIFUNCTION DEVICES (MFD) [RUST]
++M:	Markus Probst <markus.probst@posteo.de>
++S:	Maintained
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git
++F:	rust/kernel/mfd.rs
++
+ MULTIMEDIA CARD (MMC) ETC. OVER SPI
+ S:	Orphan
+ F:	drivers/mmc/host/mmc_spi.c
+diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+index f597fe3352f5..b7c17d1d9ece 100644
+--- a/rust/bindings/bindings_helper.h
++++ b/rust/bindings/bindings_helper.h
+@@ -65,6 +65,7 @@
+ #include <linux/jump_label.h>
+ #include <linux/led-class-multicolor.h>
+ #include <linux/mdio.h>
++#include <linux/mfd/core.h>
+ #include <linux/mm.h>
+ #include <linux/miscdevice.h>
+ #include <linux/of_device.h>
+diff --git a/rust/kernel/i2c.rs b/rust/kernel/i2c.rs
+index bb5b830f48c3..e733b651d878 100644
+--- a/rust/kernel/i2c.rs
++++ b/rust/kernel/i2c.rs
+@@ -14,6 +14,7 @@
+     devres::Devres,
+     driver,
+     error::*,
++    mfd,
+     of,
+     prelude::*,
+     types::{
+@@ -167,6 +168,9 @@ extern "C" fn probe_callback(idev: *mut bindings::i2c_client) -> kernel::ffi::c_
+             let data = T::probe(idev, info);
  
-+    /// Returns a reference to the parent device as bus device.
-+    ///
-+    /// # Safety
-+    ///
-+    /// Callers must ensure that the device has a parent, that is contained in `T`.
-+    pub unsafe fn parent_unchecked<T: AsBusDevice<Ctx>>(&self) -> &T {
-+        // SAFETY:
-+        // - By the type invariant `self.as_raw()` is always valid.
-+        // - The parent device is only ever set at device creation.
-+        let parent_raw = unsafe { (*self.as_raw()).parent };
+             idev.as_ref().set_drvdata(data)?;
 +
-+        // SAFETY:
-+        // - The safety requirements guarantee that the device has a parent, thus `parent_raw`
-+        //   must be a pointer to a valid `struct device`.
-+        // - `parent_raw` is valid for the lifetime of `self`, since a `struct device` holds a
-+        //   reference count of its parent.
-+        let parent = unsafe { Device::from_raw(parent_raw) };
++            idev.as_ref().mfd_add_devices(T::MFD_CELLS)?;
 +
-+        // SAFETY: The safety requirements guarantee that the parent device is contained in `T`.
-+        unsafe { T::from_device(parent) }
+             Ok(0)
+         })
+     }
+@@ -328,6 +332,9 @@ pub trait Driver: Send {
+     /// The table of ACPI device ids supported by the driver.
+     const ACPI_ID_TABLE: Option<acpi::IdTable<Self::IdInfo>> = None;
+ 
++    /// The mfd cells for mfd devices.
++    const MFD_CELLS: Option<&'static [mfd::Cell]> = None;
++
+     /// I2C driver probe.
+     ///
+     /// Called when a new i2c client is added or discovered.
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index 311fdf984b87..bacc54ca6aea 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -114,6 +114,7 @@
+ pub mod led;
+ pub mod list;
+ pub mod maple_tree;
++pub mod mfd;
+ pub mod miscdevice;
+ pub mod mm;
+ pub mod module_param;
+diff --git a/rust/kernel/mfd.rs b/rust/kernel/mfd.rs
+new file mode 100644
+index 000000000000..6c47d9211bf2
+--- /dev/null
++++ b/rust/kernel/mfd.rs
+@@ -0,0 +1,114 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! Abstractions for the mfd subsystem.
++//!
++//! C header: [`include/linux/mfd/core.h`](srctree/include/linux/mfd/core.h)
++
++use core::{mem::MaybeUninit, ptr};
++
++use crate::{
++    device::{
++        CoreInternal,
++        Device, //
++    },
++    error::to_result,
++    prelude::*, //
++};
++
++/// A mfd cell.
++///
++/// # Invariants
++///
++/// A [`Cell`] instance represents a valid `struct mfd_cell`.
++#[repr(transparent)]
++pub struct Cell(bindings::mfd_cell);
++
++impl Cell {
++    /// Creates a new mfd cell.
++    pub const fn new(name: &'static CStr) -> Self {
++        Self(bindings::mfd_cell {
++            name: name.as_ptr().cast::<u8>(),
++
++            // SAFETY: Always safe to call.
++            // This is the const equivalent to `bindings::mfd_cell::default()`.
++            ..unsafe { MaybeUninit::zeroed().assume_init() }
++        })
 +    }
 +
-     /// Convert a raw C `struct device` pointer to a `&'a Device`.
++    /// Sets `of_compatible` and optionally `of_reg` and `use_of_reg` on the mfd cell.
++    pub const fn of(self, compatible: &'static CStr, reg: Option<u64>) -> Self {
++        Self(bindings::mfd_cell {
++            of_compatible: compatible.as_ptr().cast::<u8>(),
++            // TODO: Use `unwrap_or` once stabilized in const fn.
++            of_reg: if let Some(reg) = reg { reg } else { 0 },
++            use_of_reg: reg.is_some(),
++
++            ..self.0
++        })
++    }
++
++    /// Sets `acpi_match` on the mfd cell.
++    pub const fn acpi(self, acpi_match: &'static CellAcpiMatch) -> Self {
++        Self(bindings::mfd_cell {
++            acpi_match: &raw const acpi_match.0,
++
++            ..self.0
++        })
++    }
++}
++
++/// A mfd cell acpi match entry.
++///
++/// # Invariants
++///
++/// A [`CellAcpiMatch`] instance represents a valid `struct mfd_cell_acpi_match`.
++#[repr(transparent)]
++pub struct CellAcpiMatch(bindings::mfd_cell_acpi_match);
++
++impl CellAcpiMatch {
++    /// Creates a new mfd cell acpi match entry, using a ACPI PNP ID.
++    pub const fn pnpid(pnpid: &'static CStr) -> Self {
++        Self(bindings::mfd_cell_acpi_match {
++            pnpid: pnpid.as_ptr().cast::<u8>(),
++            adr: 0,
++        })
++    }
++
++    /// Creates a new mfd cell acpi match entry, using a ACPI ADR.
++    pub const fn adr(adr: u64) -> Self {
++        Self(bindings::mfd_cell_acpi_match {
++            pnpid: ptr::null(),
++            adr,
++        })
++    }
++}
++
++impl Device<CoreInternal> {
++    /// Registers child mfd devices.
++    // Always inline to optimize out error path of `build_assert`.
++    #[inline(always)]
++    pub(crate) fn mfd_add_devices(&self, cells: Option<&'static [Cell]>) -> Result {
++        if let Some(cells) = cells {
++            build_assert!(cfg!(CONFIG_MFD_CORE));
++
++            // SAFETY:
++            // - `self.as_raw()` is guaranteed to be a pointer to a valid `device`.
++            // - `cells.as_ptr()` is a guaranteed to be a pointer to a valid `mfd_cell` array
++            //   with the length of `cells.len()`.
++            to_result(unsafe {
++                bindings::devm_mfd_add_devices(
++                    self.as_raw(),
++                    bindings::PLATFORM_DEVID_AUTO,
++                    // CAST: `Cell` is a transparent wrapper of `mfd_cell`.
++                    cells.as_ptr().cast::<bindings::mfd_cell>(),
++                    i32::try_from(cells.len())?,
++                    ptr::null_mut(),
++                    0,
++                    ptr::null_mut(),
++                )
++            })?;
++        }
++
++        Ok(())
++    }
++}
+diff --git a/rust/kernel/pci.rs b/rust/kernel/pci.rs
+index af74ddff6114..6c4cf6cf970b 100644
+--- a/rust/kernel/pci.rs
++++ b/rust/kernel/pci.rs
+@@ -17,6 +17,7 @@
+         from_result,
+         to_result, //
+     },
++    mfd,
+     prelude::*,
+     str::CStr,
+     types::Opaque,
+@@ -116,6 +117,9 @@ extern "C" fn probe_callback(
+             let data = T::probe(pdev, info);
+ 
+             pdev.as_ref().set_drvdata(data)?;
++
++            pdev.as_ref().mfd_add_devices(T::MFD_CELLS)?;
++
+             Ok(0)
+         })
+     }
+@@ -303,6 +307,9 @@ pub trait Driver: Send {
+     /// The table of device ids supported by the driver.
+     const ID_TABLE: IdTable<Self::IdInfo>;
+ 
++    /// The mfd cells for mfd devices.
++    const MFD_CELLS: Option<&'static [mfd::Cell]> = None;
++
+     /// PCI driver probe.
      ///
-     /// # Safety
+     /// Called when a new pci device is added or discovered. Implementers should
+diff --git a/rust/kernel/platform.rs b/rust/kernel/platform.rs
+index 8917d4ee499f..e2bcf8ef093c 100644
+--- a/rust/kernel/platform.rs
++++ b/rust/kernel/platform.rs
+@@ -25,6 +25,7 @@
+         self,
+         IrqRequest, //
+     },
++    mfd,
+     of,
+     prelude::*,
+     types::Opaque,
+@@ -104,6 +105,9 @@ extern "C" fn probe_callback(pdev: *mut bindings::platform_device) -> kernel::ff
+             let data = T::probe(pdev, info);
+ 
+             pdev.as_ref().set_drvdata(data)?;
++
++            pdev.as_ref().mfd_add_devices(T::MFD_CELLS)?;
++
+             Ok(0)
+         })
+     }
+@@ -218,6 +222,9 @@ pub trait Driver: Send {
+     /// The table of ACPI device ids supported by the driver.
+     const ACPI_ID_TABLE: Option<acpi::IdTable<Self::IdInfo>> = None;
+ 
++    /// The mfd cells for mfd devices.
++    const MFD_CELLS: Option<&'static [mfd::Cell]> = None;
++
+     /// Platform driver probe.
+     ///
+     /// Called when a new platform device is added or discovered.
+diff --git a/rust/kernel/serdev.rs b/rust/kernel/serdev.rs
+index d9fea4bd4439..6e702c734ded 100644
+--- a/rust/kernel/serdev.rs
++++ b/rust/kernel/serdev.rs
+@@ -14,6 +14,7 @@
+         to_result,
+         VTABLE_DEFAULT_ERROR, //
+     },
++    mfd,
+     of,
+     prelude::*,
+     sync::Completion,
+@@ -180,6 +181,8 @@ extern "C" fn probe_callback(sdev: *mut bindings::serdev_device) -> kernel::ffi:
+ 
+             private_data.probe_complete.complete_all();
+ 
++            sdev.as_ref().mfd_add_devices(T::MFD_CELLS)?;
++
+             result.map(|()| 0)
+         })
+     }
+@@ -339,6 +342,9 @@ pub trait Driver: Send {
+     /// The table of ACPI device ids supported by the driver.
+     const ACPI_ID_TABLE: Option<acpi::IdTable<Self::IdInfo>> = None;
+ 
++    /// The mfd cells for mfd devices.
++    const MFD_CELLS: Option<&'static [mfd::Cell]> = None;
++
+     /// Serial device bus device driver probe.
+     ///
+     /// Called when a new serial device bus device is added or discovered.
+diff --git a/rust/kernel/usb.rs b/rust/kernel/usb.rs
+index 0e1b9a88f4f1..a64ed6a530f1 100644
+--- a/rust/kernel/usb.rs
++++ b/rust/kernel/usb.rs
+@@ -17,6 +17,7 @@
+         from_result,
+         to_result, //
+     },
++    mfd,
+     prelude::*,
+     types::{
+         AlwaysRefCounted,
+@@ -96,6 +97,9 @@ extern "C" fn probe_callback(
+ 
+             let dev: &device::Device<device::CoreInternal> = intf.as_ref();
+             dev.set_drvdata(data)?;
++
++            dev.mfd_add_devices(T::MFD_CELLS)?;
++
+             Ok(0)
+         })
+     }
+@@ -309,6 +313,9 @@ pub trait Driver {
+     /// The table of device ids supported by the driver.
+     const ID_TABLE: IdTable<Self::IdInfo>;
+ 
++    /// The mfd cells for mfd devices.
++    const MFD_CELLS: Option<&'static [mfd::Cell]> = None;
++
+     /// USB driver probe.
+     ///
+     /// Called when a new USB interface is bound to this driver.
 
 -- 
 2.52.0
