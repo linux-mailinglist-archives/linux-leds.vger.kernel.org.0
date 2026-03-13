@@ -1,368 +1,229 @@
-Return-Path: <linux-leds+bounces-7319-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7320-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UGArBtw0s2ntSwAAu9opvQ
-	(envelope-from <linux-leds+bounces-7319-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Mar 2026 22:49:16 +0100
+	id wLXMIWEbtGlLhQAAu9opvQ
+	(envelope-from <linux-leds+bounces-7320-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Mar 2026 15:12:49 +0100
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 184BB27A4A9
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Mar 2026 22:49:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 885DB284A87
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Mar 2026 15:12:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A53C33040AD9
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Mar 2026 21:46:29 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1D3E4309AE5C
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Mar 2026 13:44:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BED835DA49;
-	Thu, 12 Mar 2026 21:46:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41481315D28;
+	Fri, 13 Mar 2026 13:44:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="jl+q5uzo";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="01AQMSSf"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KtbSMsLt";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SObXtzdR"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2609038B152;
-	Thu, 12 Mar 2026 21:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB8D1C860A
+	for <linux-leds@vger.kernel.org>; Fri, 13 Mar 2026 13:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773351985; cv=none; b=WlmfWzbAQ56xq4pzdKF6kWCmizDtltgHXeGn2yaX880WC6ILoVRSJARjSDPZSpI2I+5/dY43eExCV6NhU+vl1R4d+OdBaLm52Rzq2T9RKgeRCONgRWPFD9SRFsT0ay4ihzYfCRnclE5yh8jeMqVizUc7TLYspfq88Tec+K//vUw=
+	t=1773409457; cv=none; b=StAYom4JdMKZ+j+UgJpxXt5F5ZFNXJaJUfoJhZsZLa9euxScjUSEjezXwhEWDfkfWaFwZVI+1BGUOsWhQ7T7rSgUmX73n7Zxrx6bNGc4Ex4qS2UVY4sGHQbOXt3a9bCltFTPek+19sHSr0Mi+bXry5/0oZZDTCkEOnq7HssVBcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773351985; c=relaxed/simple;
-	bh=CFwAfzB9Id9vJawmfUlHW+WNYj2Lc/gWnaTJV4yupmY=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=VJRh+tNMfxjRO34vyTJwnW7jqeMFgLkyjYWmAj25/aUvbxFlln7Nqg1bJbuc/u4fJW71hFMZgXPXmZCJpkQuhvHsu9oGGo52UhR3MSCv7PqZwTWr81G94bedxqyWwFKbMcUJGjhXwpmmmZS13L1Ltlg1YynWSbwRxrXIHIWqwV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=jl+q5uzo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=01AQMSSf; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 3B024140027B;
-	Thu, 12 Mar 2026 17:46:22 -0400 (EDT)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-02.internal (MEProxy); Thu, 12 Mar 2026 17:46:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1773351982;
-	 x=1773438382; bh=CFwAfzB9Id9vJawmfUlHW+WNYj2Lc/gWnaTJV4yupmY=; b=
-	jl+q5uzoNAuXYG3zaYGiQAjjbLuSeZ2/ZX5km6pgmgjINnuzehjugZ9XocfWgDtF
-	tFz2Ub4KOFjDNj0JxuqxMq87RPuD5L52BfB25COCg6vwNFQCMK5J8SlSOP5nmCfL
-	VFPRNnNa9cQ0KLsbW2UZiqcOEO6VX6klu1LdbSmfw3Neoj8meR3SPURHnYCRUsZQ
-	BMOF8FzEEQz3bJEFGJZdsWHGyjz/bAK65RwDF9jWWRHJL7nG0EyjxmpOUg/DSHRS
-	fzr/yEZ/NEPYenRXqJQgKSPowILwXlgK6kmCHPb6c4SSCHW8QesurlfizQ+4tHzV
-	DSwClYfrzw/ycHjffZra3A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1773351982; x=
-	1773438382; bh=CFwAfzB9Id9vJawmfUlHW+WNYj2Lc/gWnaTJV4yupmY=; b=0
-	1AQMSSfVJAiDGJ6FWWAr8SGR9Um1dRC2nHKvt64mNfa9lzTS3D+EirIlOp7pbu6a
-	dxwupgFKvXyc+6i2CCxu8QN4ZWICz+F8jth+hEX3g3trF6MAua4LFfVgI3UcWYcf
-	JWrxTw+QXq+p1YyfYWEkBdgLWURLTgjIPAp1UjSy8g5pwqAtwxLk7u1LWuoayi45
-	fLZ+D1Oh3i0K/dq9BXStdNYFJ0WXYJwT2r2mTWDCkSC1WDX2/b9BIZwbvqULKg0p
-	FIscDFPBG7WuwYcXZf8CrS/2iSFxVFBcD6WvNsnUAsN9ewd9ZTM6nCMpGVHRWOtg
-	72HH11EztwVHxwaSOTbiQ==
-X-ME-Sender: <xms:LTSzaT3HxtuyB62pE6cJN5X9ljDrtCYDLmjbCH2v-l7enZ69iVxXbg>
-    <xme:LTSzac52bphNApxFjrT41uN19-ms02adQm1AVhtDpnZ8cUMGmb5jhJh31YvyOmo7l
-    Q2zy1Pe0KRKFu9sYvrJ-SzLCJvMSogJ8Ht-xymCOSjHMlxt25TrnaQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvkeejkeelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedfofgrrhhk
-    ucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtg
-    grqeenucggtffrrghtthgvrhhnpeehgfelkedujeeugffgudeffffhhfethfegvedtjeeu
-    teellefghfefiefffeekudenucffohhmrghinhepkhguvgdrohhrghenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgv
-    nhhovhhosehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopedukedpmhhouggvpehsmh
-    htphhouhhtpdhrtghpthhtohepsghlvghunhhgsegthhhrohhmihhumhdrohhrghdprhgt
-    phhtthhopehgrhhovggtkhestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtohepuggvrh
-    gvkhhjohhhnhdrtghlrghrkhesghhmrghilhdrtghomhdprhgtphhtthhopehikhgvphgr
-    nhhhtgesghhmrghilhdrtghomhdprhgtphhtthhopehvihhshhhnuhhotghvsehgmhgrih
-    hlrdgtohhmpdhrtghpthhtohephhgrnhhsgheskhgvrhhnvghlrdhorhhgpdhrtghpthht
-    ohepkhgrsggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgvvgeskhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtohepphgrvhgvlheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:LTSzaWc3Njl25lKk4pel4aXHASIdVsDH84U2J9OPgc1YcR9lFok6BQ>
-    <xmx:LTSzaYLXxnqz2UBmg5fnxkLS_jAD_FA-fhvDFlmO3JjLJrIBPFdNpQ>
-    <xmx:LTSzaeuXxmkWzo6I8uCm7ZTIB1q0AOE8UlABRhUaI5QDTgPdm3YAgQ>
-    <xmx:LTSzaaYuk2FTYoq9nBx6EQMqd3xsnDWbPuSIV-B23OLOWM6Z5lPsEQ>
-    <xmx:LjSzaYmG5yu5-jgwRFaobjvYqeTV7PIWP02x6wzK4ZV7lQ35N6XGIuj9>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 316782CE0078; Thu, 12 Mar 2026 17:46:21 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1773409457; c=relaxed/simple;
+	bh=kPh4JRKsDotwPE2S/JesaTmap1N+yj7JN+2zbuQjdQk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C3ClhtyJZ4scfwJVPJ2V/x7MLrlfIe3bf++fQX9BHcDOTpHNZkOLqSiFURkT+0e+lr0OFCObimPnmUObiY4lG8RJPTiTgcAH+A7vU3Sko7lHug1nay50N5omnfb2ozjkgBo6ljvw4w19BjvMWPko1XnCUM1xMYJvDThbCchq/fQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KtbSMsLt; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=SObXtzdR; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62D7JUSw240711
+	for <linux-leds@vger.kernel.org>; Fri, 13 Mar 2026 13:44:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	QoZHIkugLvxBFz6S6an3vh8XxLW2VljccTx776RcMfw=; b=KtbSMsLtNsll432M
+	ZTzKQXe8T/DK/n7b9XjI6u2X8hEFxS6+vToHFGAIETMkOYmiyrVQx1Ron0HTNUGw
+	L/7hqLNFcZtO+7ieK6wWqj/GrMcUMTkirbNDQOXKEyEzX++Y07x36vS4BckJkiBw
+	i0e+TKFjJYkL6k4y12GD35M2kL8ToRgaS6v3aDis+sQW046oTfw6VRUKYvC55XyU
+	GavC+gmfdoZZxfCSN9TNUX7z0/IKdGFuTV1BuxzhmfyaKB9OzNJ/1nmkV5iIg9BW
+	H8cIWU+Z3DaF7xCU6hevUNHgxDD88Y9uGNl2srLPZ4lN68ffEs3Qj3IQtVVXyVOS
+	oZVnQA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cve3d9aw0-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-leds@vger.kernel.org>; Fri, 13 Mar 2026 13:44:14 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8cd849cd562so1384293785a.0
+        for <linux-leds@vger.kernel.org>; Fri, 13 Mar 2026 06:44:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773409454; x=1774014254; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QoZHIkugLvxBFz6S6an3vh8XxLW2VljccTx776RcMfw=;
+        b=SObXtzdRrSru9OolzC5msz8Pripq93dY0a0iM5lbQwBl+ye+xEBpdd4zQo+KyfwEDv
+         IjVaqDl4PeUkPJvG9NwX5h06TTAtT63n6WvwVwhM3/ivwF63ScoL06ZURRW6dqXdKZw3
+         5CqDqvwBW9+CYcgEb19Qe9Qujf2oeXMYF9I1H7eh5cHzc0gutftPuWgchOsDymzclPfV
+         +5Lhm0zLaqsFJgg9Rqz21Pea1wWDDGoY6Jm6IuAHUBcIbIt+ne5itg+OeZYkFCYoKXdW
+         pc/ZxLpoRUQaFJQZtj+pBhe1xWGmcUAJL9fwI3qJAf/EXjc6qcN05uNOVvpy/76y5nNd
+         bn+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773409454; x=1774014254;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QoZHIkugLvxBFz6S6an3vh8XxLW2VljccTx776RcMfw=;
+        b=mJDIY1aygNmGa7Gkag42uYKIn/Z71ZfB2/E+H559OO4ZjbKUC5+H13a9bbn7flW2fL
+         U9m2861mP8wquNg3beJusBv2vU9VXvwpo+3M1whgAXOleGO+z1kpvU35jPvbyMXOLUx7
+         FXxvu9zozZhLJ04mAsGgG9+8hpF30A37cv2jaZycWk7pE6PxSDgEJaCKEyHBVPNd9QAx
+         3hY0zg96AYxYoWw1jv8ZzyI3vQVxal2NuZ1xFVBPTQbubKOHTM6WsFIs4hgWp/N3FD5n
+         1ScuNlOOPDfew0JyC0vt4MtDT4nrXLIEoIIt3FBPf1yFvOrqUTMcoVpcTYCiEllbyvAm
+         oxVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVDAYTGN85mvq+9R5rl4WCN5m56Z8Ial/3JpoCUWH5gaD4/AvFDqjTbHBpb9AusLf0suRm1pArH8qLu@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLiIYfxmu2e8ZkEx1lN43rzfihUf2Sjws5tgZwzfFJU37rN+Hz
+	gX0xgP4281X6e+3wQsyH1LeBW+mME/W9EGwSmFp18qSyb3+80n7OHkBwptSqH98DZqHkwLnUQJH
+	k0iy0LmBIHvumnLLocvoXZ/ysp5uVpBVQL8/Xt+HV1w4wiyQzKyJ9z/yL2ITgNXdB
+X-Gm-Gg: ATEYQzzmzTJvuQdv7L+b5yFUoMp+z4FbAWjusc0AzI4z1a8HH0XyFwZCdjChwEH8JG/
+	EvgwGrdNOfwpZexIFhJxmwlYjTl4JUDHLgDyWWs+/+8ACtu9vOMqiTDyu776YkWSA/tKAtqRAJ4
+	0uOnx4gSJo84Q6HrZIv+GFYubSMNjRtw0A9FLYARaWYC8FIpcr8cmaS+VKKi5TF3V7NEL7XpcKq
+	9S6oTjU/InhPHjjW5KdSCRKYArv+w8RlEyX5Rn8BjEATfk5hyni4HDiDnnYuxPeLAYlsU5bxlJj
+	n1lfTyquNE9DPst4UU4f8zQSFnyScsbBiiYQcYyqqKQ/TOD3pZ/hgFHcEUuc2GSkGewryqXuFE7
+	wxRy3H8qyicE0HNLYGX1zqjEULMC5VXh6MUT6ee5jnZ/GG079OIg=
+X-Received: by 2002:a05:620a:4623:b0:8cd:8fb7:7aed with SMTP id af79cd13be357-8cdb5b5fb55mr457717085a.49.1773409453916;
+        Fri, 13 Mar 2026 06:44:13 -0700 (PDT)
+X-Received: by 2002:a05:620a:4623:b0:8cd:8fb7:7aed with SMTP id af79cd13be357-8cdb5b5fb55mr457712985a.49.1773409453455;
+        Fri, 13 Mar 2026 06:44:13 -0700 (PDT)
+Received: from brgl-qcom.home ([2a01:cb1d:dc:7e00:f055:6536:e7d6:661c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe20b4dasm17696873f8f.18.2026.03.13.06.43.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Mar 2026 06:44:12 -0700 (PDT)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Vineet Gupta <vgupta@kernel.org>, Scott Wood <oss@buserror.net>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>,
+        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, linux-leds@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-pm@vger.kernel.org
+Subject: Re: (subset) [PATCH 00/14] gpio: remove uneeded Kconfig dependencies on OF_GPIO
+Date: Fri, 13 Mar 2026 14:43:53 +0100
+Message-ID: <177340937994.51547.9424773605486301589.b4-ty@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com>
+References: <20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Aq-ebexNQroV
-Date: Thu, 12 Mar 2026 17:46:00 -0400
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Rong Zhang" <i@rong.moe>, "Andrew Lunn" <andrew@lunn.ch>,
- "Lee Jones" <lee@kernel.org>
-Cc: "Pavel Machek" <pavel@kernel.org>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- "Benson Leung" <bleung@chromium.org>, "Guenter Roeck" <groeck@chromium.org>,
- =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
- "Derek J . Clark" <derekjohn.clark@gmail.com>,
- "Hans de Goede" <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Ike Panhc" <ikepanhc@gmail.com>, "Vishnu Sankar" <vishnuocv@gmail.com>,
- "Vishnu Sankar" <vsankar@lenovo.com>, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
-Message-Id: <4e839e55-4daa-45cd-b403-d1d6eae63d8d@app.fastmail.com>
-In-Reply-To: <d2d321fe39c41ebd896eef63f3909df29f5a1622.camel@rong.moe>
-References: <20260227190617.271388-1-i@rong.moe>
- <20260227190617.271388-2-i@rong.moe>
- <500dfc4b-ebd7-4637-bed0-130fc571923c@lunn.ch>
- <b48993998e6e48d4448f8c6dc758f4e260d0f857.camel@rong.moe>
- <353713de-b121-4e27-a46f-6ca1941888a6@lunn.ch>
- <8b25e1ea9bff414442fa47475b9c9ac5b29049d7.camel@rong.moe>
- <60e60c42-f776-424a-a5b4-7286d33175d1@lunn.ch>
- <d2d321fe39c41ebd896eef63f3909df29f5a1622.camel@rong.moe>
-Subject: Re: [RFC PATCH 1/9] leds: Load trigger modules on-demand if used as hw control
- trigger
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.15 / 15.00];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: KStAe2Tl86cemZjIiPaFYluOYp9q1_jm
+X-Authority-Analysis: v=2.4 cv=FLwWBuos c=1 sm=1 tr=0 ts=69b414ae cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=5BVL746LnNak5i1nQvMA:9 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEzMDEwOSBTYWx0ZWRfX656sFK2IZgzC
+ O+NnP/IY4dDEsxr2DZ/PNwQFpZdNqN8UtNfQdN5zMlN4KpfdNYoQSx2mlfP8BWbQ1rU0Z9TY38G
+ IPs+XWPYamkMbim3gM3Xwi8opMpvZh9WuY5RzjhfhgNmON4CarLyiJ8+8UxN8A5Xs8jGMPD4qOM
+ eL8xeOqS6xmx5wYkpajp+6gMc3od3ilOIeZkyezXfpA+HJXlX3xuRQRRNcISOXFIdLylkf8Vvou
+ SsHovfFaamkiAYvw+jM9QQm32ks2bJFDnvOSk8JdX47ub+zcsAi582XEsNbJ22VVnEZ3o5GROht
+ n6YEbrGXYHK+Ik3jrwfFUGBcCOKLwebaJ42WGT5cEzDmwz00n9+kJ3DS8lp79vDcHlAJEVx3TH/
+ EWepT2XXDz8Q0kQqlSmkTCJ9OirxF2Jv5LZaE6kSrnfjY5Ads7Yfb0bMne6balixe0f3w/PdZFV
+ KCKmdbHYNbs+nAk9iBQ==
+X-Proofpoint-GUID: KStAe2Tl86cemZjIiPaFYluOYp9q1_jm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-13_02,2026-03-13_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 malwarescore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 adultscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603130109
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_ALLOW(-0.20)[squebb.ca:s=fm2,messagingengine.com:s=fm1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	TAGGED_FROM(0.00)[bounces-7319-lists,linux-leds=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-7320-lists,linux-leds=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:dkim,qualcomm.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
+	FREEMAIL_TO(0.00)[arm.com,kernel.org,synopsys.com,buserror.net,linux.ibm.com,ellerman.id.au,gmail.com,lunn.ch,armlinux.org.uk,davemloft.net,google.com,redhat.com,linaro.org,baylibre.com,googlemail.com,tibbo.com,roeck-us.net,linux-watchdog.org,linuxfoundation.org,oss.qualcomm.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	DMARC_NA(0.00)[squebb.ca];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[47];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,weissschuh.net,chromium.org,gmail.com,linux.intel.com,lenovo.com,vger.kernel.org,lists.linux.dev];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mpearson-lenovo@squebb.ca,linux-leds@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[bartosz.golaszewski@oss.qualcomm.com,linux-leds@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[squebb.ca:+,messagingengine.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-leds];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 184BB27A4A9
+	TAGGED_RCPT(0.00)[linux-leds];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 885DB284A87
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
+On Wed, 04 Mar 2026 10:02:21 +0100, Bartosz Golaszewski wrote:
+> NOTE: Each patch in this series can be picked up independently into
+> maintainer trees.
+> 
+> CONFIG_OF_GPIO is a switch that enables the compilation of the gpiolib-of
+> module. The module itself handles GPIO lookup via the OF-node tree and
+> is automatically enabled on all OF systems. It does not export any
+> public symbols to drivers. There is no reason for them to select or
+> depend on it in Kconfig.
+> 
+> [...]
 
-On Thu, Mar 12, 2026, at 2:01 PM, Rong Zhang wrote:
-> Hi Andrew,
->
-> On Wed, 2026-03-11 at 22:29 +0100, Andrew Lunn wrote:
->> > We just can't prevent the EC from responding to the Fn+Space shortc=
-ut.
->> > So it's essentially user's choice to switch to the hw control trigg=
-er
->> > and make it offloaded to hardware (sorry if my cover letter and rep=
-lies
->> > didn't express this well).
->>=20
->> Do you have any control over the EC?
->>=20
->> You have a two bosses dilemma. You need to eliminate one of the
->> bosses. Either the EC controls the LED, or Linux does. Having both
->> controlling it is just going to work out badly.
->
-> I agree that the manufacturers designed the interface poorly :-/
->
-> I am not affiliated with any laptop manufacturers so I am just speaking
-> for myself:
->
-> IMO the real boss is the user. Both the shortcut (Fn+Space) and the
-> ACPI interface are just "message channels" for the EC to know about the
-> user's choice.
->
-> Being able to press such a shortcut always implies that the user is
-> physically in front of the device. In this case it no longer about
-> whether Linux or the EC controls the LED, but both should respect
-> user's choice. That was why brightness_hw_changed was introduced to
-> respect user's choice and pass it to the userspace. So far there has
-> been ~10 drivers utilizing the brightness_hw_changed interface.
->
-I am affiliated with a laptop manufacturer :) Happy to take suggestions =
-on what should be improved or is missing (can't promise anything but hap=
-py to consider it and take it for review).
+I'm picking up the ones that were acked and will send a smaller series
+addressing the issue pointed out by Guenter.
 
-We can set the brightness, get the status, and the FW sends events when =
-it changes - all supported on Linux (for Lenovo devices). This looks lik=
-e a pretty decent API to me. What is it missing?
+[02/14] arc: axs10x: drop unneeded dependency on OF_GPIO
+        https://git.kernel.org/brgl/c/d2cd20f7c2a4e4bf4fca844c01e925b112c5a2c5
+[03/14] powerpc: drop unneeded dependency on OF_GPIO
+        https://git.kernel.org/brgl/c/dd1cdfb20e44e295512080dea508771b6a1f1c0a
+[05/14] regulator: drop unneeded dependencies on OF_GPIO
+        https://git.kernel.org/brgl/c/bf017304fce10933f18fafe140bf749fb9672058
 
-I don't understand the two bosses issue I'm afraid. The user ('Linux' in=
- your description?) tells the EC what it wants the LED to be, and the EC=
- does it. The EC is not a boss.
-
->>=20
->> > As my previous reply said, it's common that an LED driver can't pre=
-vent
->> > hardware from changing its state autonomously. Prior to the
->> > introduction of auto brightness mode, brightness_hw_changed is enou=
-gh
->> > to handle this. The issue only emerges when recent models start to
->> > provide an auto brightness mode based on the ALS sensor.
->>=20
->> Do you have a software driven brightness mode based on an ALS? What
->> API do you use to control this? Can you use that API, and accelerate
->> it?
->
-> All devices I've seen implement an EC driven auto brightness mode based
-> on an ALS.
->
-> @Mark, do you know any device implementing a software driven auto
-> brightness mode?
->
-
-I don't - to my knowledge in auto mode it's always driven by the HW/FW.
-
-If there was a SW approach it would read the sensor and set the brightne=
-ss to low/medium/high (and not to auto) so I'm struggling to understand =
-the issue here. What am I missing?
-
->>=20
->> > FYI, desktop environments (e.g., GNOME, KDE) can control the backli=
-ght
->> > brightness of keyboards through sliders and heavily depend on
->> > brightness_hw_changed to update the sliders and display OSD once the
->> > shortcut is pressed.
->>=20
->> Hold up. Terminology problem. I'm a networking guy, i know networking
->> terms. By slider, do you mean a software scroll bar sort of thing?=C2=A0
->
-> Yes. See
-> https://blogs.kde.org/2024/09/04/brightness-controls-for-all-your-disp=
-lays/
->
-> (it was about display backlight but it also showed the keyboard one in
-> the same image)
->
->> I'm
->> an XFCE users. I can control the display backlight with a slider on
->> the battery charge applet. And i can use Fn F4/F5. I've not seen a
->> software scroll bar for the keyboard backlight, but i think
->> <CTRL><SPC> allows me to change the keyboard backlight.
->>=20
->> So we have a slider, which is purely software, Linux. And we have key
->> presses, which you are calling shortcut, which the EC acts on, and
->> might tell Linux, maybe, but not about the key press, but the action
->> the EC took because of the key press.
->
-> "might tell", "maybe"
->
-> It always tells the OS that the state of keyboard backlight has
-> changed.
->
->>=20
->> You have some API to the EC to ask it nicely to act on the software
->> slide, but it is the EC which really controls the LED, not Linux.
->>=20
->> To me a Linux LED is a poor fit for what you want, and i think a
->> trigger is even worse. The problems you have are because the
->> LED+trigger model, plus using the hardware for acceleration, does not
->> fit with the EC actually controlling the hardware.
->>=20
->> I would suggest you look at the API the EC exports and find a better
->> model for it.
->
-> An LED classdev may be unable to perfectly fit this, but nothing is
-> perfect and so far it's the best thing we have. It's a fortunate to
-> have the LED subsystem. Windows, without a similar interface, ends up
-> being filled with disgusting software pre-installed by the
-> manufacturer.
->
-
-Afraid I don't understand what we are debating here.
-
-Isn't the whole goal of this patch to make it so LED classdev is a bette=
-r fit to address missing functionality? Why would switching to something=
- else (I have no idea what) be better? Especially given the the keyboard=
- backlight is currently a LED device, and changing that would potentiall=
-y break things for users.
-
-From my perspective if I could just tear this out and have a Lenovo only=
- keyboard_backlight implementation under (for example) /sys/devices/thin=
-kpad_acpi it would be so much easier. But I don't think it is the right =
-thing to do. My experience is if we define a common approach then all ve=
-ndors will use it going forward - which is better for the Linux experien=
-ce overall.
-Or we don't have fully implemented features for Linux users? That's kind=
-a sucky.
-
-I don't think the two bosses argument is valid (or at least I don't unde=
-rstand it). Are there any other critical implementation details that mak=
-e this a poor choice and will bite us in the long run?
-
-I personally find the implementation more complicated than I originally =
-expected, but having looked at it and understood better what Rong was pr=
-oposing I understand the benefits and I think it works. We're still chec=
-king it out on Thinkpad to confirm that, but this patch is a RFC so I th=
-ink that's part of the process.
-
-> IMO the presence of brightness_hw_changed proves that an LED classdev,
-> as long as appropriate interfaces are provided, can work well with such
-> hardware. And I don't think there is too much difference between EC
-> setting a static brightness value due to a shortcut being pressed and
-> EC turning on/off the auto brightness mode due to the same shortcut --
-> if we can handle the former well, we can also implement a similar
-> mechanism for the latter.
->
->
-> Do you have any recommendations for a "better model"?
->
-> Did you mean do not register LED classdevs at all? This isn't really
-> viable and will break userspace. Some drivers has been using LED
-> classdevs for keyboard backlight for over a decade. And many
-> `*::kbd_backlight' LEDs rely on brightness_hw_changed, so it's very
-> common that we can't take 100% control over EC. LED classdevs and EC-
-> controlled keyboard backlight have lived in harmony for a long time.
->
-> If we still register the keybaord backlight as an LED classdev but use
-> a custom attribute to report/set the auto brightness mode. IMO this is
-> even uglier than LED+trigger, as writing to such a non-brightness
-> attribute will interfere with the brightness attribute and the active
-> trigger and vice versa. Even if we rule out the EC's action, such
-> interference still exists as long as users use the attribute.
->
->
-> As for the software-vs-hardware priority issue, how about adding an
-> attribute "hw_change_policy" so that users can select if the software
-> state should be always reimposed to hardware?
-
-Is this needed? When wouldn't this be the case?
-
-If the SW sets a specific brightness that should become the setting. It =
-would override any previous choices and tell the HW that is what is want=
-ed now - don't change it (until the user says otherwise).
-If we're in auto mode and the HW changes the brightness - it doesn't cha=
-nge the setting from auto mode, just the reported brightness level if qu=
-eried.
-
->
-> - If the policy is reimpose, calling
-> led_trigger_notify_hw_control_changed() or
-> led_classdev_notify_brightness_hw_changed() results in the software
-> state to be reimposed to the hardware and no event should reach
-> userspace.
->
-> - Otherwise calling led_trigger_notify_hw_control_changed() or
-> led_classdev_notify_brightness_hw_changed() updates software state and
-> notifies userspace.
->
-I feel like I'm missing something here - but it's been a long day :(
-
-Mark
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
