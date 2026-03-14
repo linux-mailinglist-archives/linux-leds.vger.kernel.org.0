@@ -1,331 +1,535 @@
-Return-Path: <linux-leds+bounces-7345-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7346-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sOnFMcZ2tWlG0wAAu9opvQ
-	(envelope-from <linux-leds+bounces-7345-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sat, 14 Mar 2026 15:55:02 +0100
+	id UikVFOmwtWlc3gAAu9opvQ
+	(envelope-from <linux-leds+bounces-7346-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sat, 14 Mar 2026 20:03:05 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5999728D8F5
-	for <lists+linux-leds@lfdr.de>; Sat, 14 Mar 2026 15:55:02 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC41A28E8AC
+	for <lists+linux-leds@lfdr.de>; Sat, 14 Mar 2026 20:03:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 34BD7303B5CA
-	for <lists+linux-leds@lfdr.de>; Sat, 14 Mar 2026 14:54:41 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 3183330065E9
+	for <lists+linux-leds@lfdr.de>; Sat, 14 Mar 2026 19:03:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93A5B37CD51;
-	Sat, 14 Mar 2026 14:54:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE659308F1D;
+	Sat, 14 Mar 2026 19:03:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="CdGmOQE8"
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="nXNyq6D3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OrgNub0N"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D073633D505
-	for <linux-leds@vger.kernel.org>; Sat, 14 Mar 2026 14:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16EC7223DFB;
+	Sat, 14 Mar 2026 19:03:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773500080; cv=none; b=jF6f8i02dQ4qehGl1DIT09g/VsIcCsd8sVyb2ciP9ZXbyc3HJrSoVdpz/brudAeDJ+iE62S1aOeXuta9wa8rYZvyMXLHnEi2J2hBmLbOdDt+8DSy3EeV3ded2zHHcgVjV1FhJKxvQ/FiC7MELL0Dw7blyDZDLcNSsDyTflvyJOg=
+	t=1773514982; cv=none; b=m9lVEp7FYNdsQWxbHydTkHFGqNbvAs0qcIjZeBekprpcBYU8TyLIiTaoSAEuekJgY6va+KNUW2W0iJG7An/5SfJmGALqWFkKFNGSyxxXKsvK1vSSQ879o6C4VpM2foKFjhMWuqywCILHTjk48yw+8KF3S9JkciW5ai/cKqaGdJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773500080; c=relaxed/simple;
-	bh=nWQ4iF7/s/o03eYJ/7OuMPspkBb+SsFghcFHcgyEvpU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TRcbefw+RIKmZQs/XFPNese022YBeesOX2KHrioaM4XbrSt/3gIVn2raK5V/eNq106nM4YV5b6Cl9kxxBF1MKyF90n6WCKATLBAdd5tSqFdEgyrM3Rwm1V+/dom0EsZp0us6h4f/m9C8HiapHrdWn1C+glUUjFjXNlC+Pddw0s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=CdGmOQE8; arc=none smtp.client-ip=185.67.36.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 6DE11240029
-	for <linux-leds@vger.kernel.org>; Sat, 14 Mar 2026 15:54:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1773500077; bh=VvvBVmAhBK+BfYL4RCixfcFOqntOkNLVZGklQlrRSr8=;
-	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP:From;
-	b=CdGmOQE8vVyJfEgCouyxm5p3JbAdnr2kKuqpRnTAl8MJzzRIO0TGczHiomxkYAJjk
-	 G/wEjgHlJz1x7BNlMAazCNR8jnVce7Bkk4BsytMYBdst9+HNaJ2lDW1B6DX4ACwbLW
-	 /HSGTKCUSXAgp0BlaaVViIJWb0lEoDlZ+NpdCKXORJDklal+EuZL31kS2BA/YsI77q
-	 YKNDMFi4+jAYB61FNnInW075/1B1kDnvU3uMpzmreWwLAwlO01hztp7ey5qrjuxT8T
-	 9D2dSMzWOJ1rueTZ5rgIFWnwkEEMOhGWFnaAhPj+X2AbXL2sA7pvclvKWh3kMp4ime
-	 n5ksJlBdhd63A==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4fY4Bf1jRsz6tvk;
-	Sat, 14 Mar 2026 15:54:34 +0100 (CET)
-Message-ID: <0e133c383374e73990be0d402b6b908e8050e5ae.camel@posteo.de>
-Subject: Re: [PATCH v3 5/7] dt-bindings: mfd: Add synology,microp device
-From: Markus Probst <markus.probst@posteo.de>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley	 <conor+dt@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
- <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,  =?ISO-8859-1?Q?Bj=F6rn?=
- Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich
- <dakr@kernel.org>, "Rafael J. Wysocki"	 <rafael@kernel.org>, Igor Korotin
- <igor.korotin.linux@gmail.com>, Daniel Almeida
- <daniel.almeida@collabora.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Krzysztof =?UTF-8?Q?Wilczy=C5=84ski?=	 <kwilczynski@kernel.org>, Pavel
- Machek <pavel@kernel.org>, Len Brown	 <lenb@kernel.org>, Robert Moore
- <robert.moore@intel.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-pci@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev
-Date: Sat, 14 Mar 2026 14:54:36 +0000
-In-Reply-To: <88f53ef1-5c3c-44d7-a749-a03b9563a552@kernel.org>
-References: <20260313-synology_microp_initial-v3-0-ad6ac463a201@posteo.de>
-	 <20260313-synology_microp_initial-v3-5-ad6ac463a201@posteo.de>
-	 <02e0772d-ba65-4eb8-8453-e0b3eaa4af96@kernel.org>
-	 <6f2298f3298dc81e6e2ed34ca43424fc39ce3518.camel@posteo.de>
-	 <336523bb-615b-451b-8681-c965bf579203@kernel.org>
-	 <97c64ee64734debae475716b4d588dee59889f70.camel@posteo.de>
-	 <88f53ef1-5c3c-44d7-a749-a03b9563a552@kernel.org>
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
- keydata=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
- jfGillcaQOqFZ3WwVqyzG1BUfTow==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-jah4XBQMXauDN9UbTzR7"
+	s=arc-20240116; t=1773514982; c=relaxed/simple;
+	bh=jSFCI51XBxlead68JqLE6rCRgoGnGkYIWv9uv/LTJyk=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ddZsQnFNHQNhO698jRJGE9CBZoxxLExMVap4pc6fScfxQ1DNvryl+MPmyBdsPEkk+X8PtIbLNy8WzNndREVt7QidXGVG0bmVodWJohl/1oDfSjpdlnRcGcB5gXhy9KUj6Zoj90Qx7w7QSbaC01+uS1Qx9EnaAWM1EuSy05fpAbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=nXNyq6D3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OrgNub0N; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id 6501CEC05A6;
+	Sat, 14 Mar 2026 15:03:00 -0400 (EDT)
+Received: from phl-imap-08 ([10.202.2.84])
+  by phl-compute-02.internal (MEProxy); Sat, 14 Mar 2026 15:03:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1773514980;
+	 x=1773601380; bh=6B5noVKI/sd7+b+g/lP2eIjDmMdPnEsr3uVANQiYAHk=; b=
+	nXNyq6D3B5V4RG1uiVGI5tIkHMExhKdKRYMN1Sc+Qo1s2vFYB+u+3I3DMIujFOyA
+	6mrjumeu4jYp9/pug4zQgBYj+JojL3sBxyVxaSaUo36vLx8TJHCYXQ3TPogGeT2T
+	o5UmLTzq/1MrgWiJeIcdoK4WL2ce19EktXVJHKORG/uqXK73WjxskZYXk/TaRvxE
+	M4dVgUz0vNo8wABj6p/gmqoVmUiICAL+IvQbjcccVI01S3VRHiNVcaxziJd+TVsM
+	oKGo9rDQj/ZCGj21o63Lpa2huTJ7n/E12y6FZROoO6h3dNYqoRx8bKgWaWv7pj/x
+	kWtfT1zpv3X5QhtfjRm7MQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1773514980; x=
+	1773601380; bh=6B5noVKI/sd7+b+g/lP2eIjDmMdPnEsr3uVANQiYAHk=; b=O
+	rgNub0Nt2fZunw3zYF/uESbSQuIci6M/AiXTgs+mWdRL4xrAwlWNUm4q6QdLHFs9
+	B2IYpoFQWka1PlR8GbSNUNEL20yvPg8BKfiTGG+MmCkNF5o7n6S4FlqFAzhDItdK
+	QOQ1L2CJymIZzmrlH3KfUUrvtChUf/Vp+heXxeysvCyPCYZl3X2VxiX+3Xi2zwIu
+	4nFiVr03LtQJlr9j14D2KgW0Ea0bV6LpiLtE+zQlbnIx/kUBKxXUdXwjZQI+caw8
+	7aY9K7U3BM6wpUWpo6pfBoKe5SGWFTxrn4PdZQEkOMV48TDTvfSqxJoek6+2Xqvz
+	JhsNkHIym67hgqdDaEmSA==
+X-ME-Sender: <xms:47C1ab3G-280JaC80SfWvzAxxppCaxM9DaYRURf9gdldoruexKfQdg>
+    <xme:47C1aU5AjNoue0OzePquBM7_ZAKlCeECJUWpYMccLocG-rCTusDPxsQKcpsV9_8ku
+    0ccj60wREL66X_MhXJ2-GEGyfVvaI4GZZUTgGr_tnFcAKkD1xpaITM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvleeffeeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedfofgrrhhk
+    ucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtg
+    grqeenucggtffrrghtthgvrhhnpeehgfelkedujeeugffgudeffffhhfethfegvedtjeeu
+    teellefghfefiefffeekudenucffohhmrghinhepkhguvgdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgv
+    nhhovhhosehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopedukedpmhhouggvpehsmh
+    htphhouhhtpdhrtghpthhtohepsghlvghunhhgsegthhhrohhmihhumhdrohhrghdprhgt
+    phhtthhopehgrhhovggtkhestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtohepuggvrh
+    gvkhhjohhhnhdrtghlrghrkhesghhmrghilhdrtghomhdprhgtphhtthhopehikhgvphgr
+    nhhhtgesghhmrghilhdrtghomhdprhgtphhtthhopehvihhshhhnuhhotghvsehgmhgrih
+    hlrdgtohhmpdhrtghpthhtohephhgrnhhsgheskhgvrhhnvghlrdhorhhgpdhrtghpthht
+    ohepkhgrsggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgvvgeskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtohepphgrvhgvlheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:47C1aefGrzP4tPE0wX1dSkjOrD1kit-rpUYhQtjHGrwFRwm7SI3zHA>
+    <xmx:47C1aQLxdaFOW_GSo4g8Lk15zHZK06APOis2bIzWn3SPIgWU_iH9IQ>
+    <xmx:47C1aWtzPbVMZKw-PNWVuEzn8ANpBEqBptc_4aGFYqDJ9uaVaDHREg>
+    <xmx:47C1aSakY6Z7dJxbDuC6Qi-pPybwcrfPRlefabCDdqiffQzaiIt68w>
+    <xmx:5LC1aQk4ZxcFmM2CxluvUXcHe_PS-vmRIvlP1m1QuAmbt6WA_SNIV4Er>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 9023D2CE0072; Sat, 14 Mar 2026 15:02:59 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-ThreadId: Aq-ebexNQroV
+Date: Sat, 14 Mar 2026 15:02:39 -0400
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: "Rong Zhang" <i@rong.moe>, "Andrew Lunn" <andrew@lunn.ch>,
+ "Lee Jones" <lee@kernel.org>
+Cc: "Pavel Machek" <pavel@kernel.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ "Benson Leung" <bleung@chromium.org>, "Guenter Roeck" <groeck@chromium.org>,
+ =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
+ "Derek J . Clark" <derekjohn.clark@gmail.com>,
+ "Hans de Goede" <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "Ike Panhc" <ikepanhc@gmail.com>, "Vishnu Sankar" <vishnuocv@gmail.com>,
+ "Vishnu Sankar" <vsankar@lenovo.com>, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
+Message-Id: <2ac0c46c-805d-4749-a6e0-94b16b104a72@app.fastmail.com>
+In-Reply-To: <cc4398e1512dceb531ba3bd5dd0d20cf2042bb84.camel@rong.moe>
+References: <20260227190617.271388-1-i@rong.moe>
+ <20260227190617.271388-2-i@rong.moe>
+ <500dfc4b-ebd7-4637-bed0-130fc571923c@lunn.ch>
+ <b48993998e6e48d4448f8c6dc758f4e260d0f857.camel@rong.moe>
+ <353713de-b121-4e27-a46f-6ca1941888a6@lunn.ch>
+ <8b25e1ea9bff414442fa47475b9c9ac5b29049d7.camel@rong.moe>
+ <60e60c42-f776-424a-a5b4-7286d33175d1@lunn.ch>
+ <d2d321fe39c41ebd896eef63f3909df29f5a1622.camel@rong.moe>
+ <4e839e55-4daa-45cd-b403-d1d6eae63d8d@app.fastmail.com>
+ <cc4398e1512dceb531ba3bd5dd0d20cf2042bb84.camel@rong.moe>
+Subject: Re: [RFC PATCH 1/9] leds: Load trigger modules on-demand if used as hw control
+ trigger
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.15 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[posteo.de,none];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[posteo.de:s=2017];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[squebb.ca:s=fm2,messagingengine.com:s=fm1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7345-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,linuxfoundation.org,garyguo.net,protonmail.com,google.com,umich.edu,gmail.com,collabora.com,intel.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	XM_UA_NO_VERSION(0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	DKIM_TRACE(0.00)[posteo.de:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[markus.probst@posteo.de,linux-leds@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-7346-lists,linux-leds=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DMARC_NA(0.00)[squebb.ca];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,weissschuh.net,chromium.org,gmail.com,linux.intel.com,lenovo.com,vger.kernel.org,lists.linux.dev];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[wikipedia.org:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,posteo.de:dkim,posteo.de:mid]
-X-Rspamd-Queue-Id: 5999728D8F5
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mpearson-lenovo@squebb.ca,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[squebb.ca:+,messagingengine.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-leds];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,kde.org:url,squebb.ca:dkim,messagingengine.com:dkim,app.fastmail.com:mid]
+X-Rspamd-Queue-Id: DC41A28E8AC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---=-jah4XBQMXauDN9UbTzR7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, 2026-03-14 at 14:59 +0100, Krzysztof Kozlowski wrote:
-> On 14/03/2026 13:31, Markus Probst wrote:
-> > On Sat, 2026-03-14 at 09:49 +0100, Krzysztof Kozlowski wrote:
-> > > On 13/03/2026 21:29, Markus Probst wrote:
-> > > >=20
-> > > > > This is not an "MFD" device.
-> > > > It now uses the MFD APIs. By the definiton of @Lee (assuming I
-> > > > understood it correctly), this device should now qualify as "MFD"
-> > > > device.
-> > >=20
-> > > No. Using Linux framework does not make this device MFD, since there =
-is
-> > > no such term of hardware as MFD. Otherwise please explain or link to
-> > > verifiable external source describing what sort of device class is MF=
-D
-> > I assumed these comments would also apply for the dt bindings:
-> > -
-> > https://lore.kernel.org/rust-for-linux/DGYAFNSJ7576.1E0JZ2W499ZQ7@kerne=
-l.org/
-> > -
-> > https://lore.kernel.org/rust-for-linux/20260309151555.GU183676@google.c=
-om/
->=20
-> I don't understand your question. We talk here about bindings, so why do
-> you ask if the comments are about bindings?
->=20
-> >=20
-> > given that using linux MFD APIs also changes the structure of the dt
-> > bindings with added sub-devices.
-> >=20
-> > But it seems no?
->=20
-> >=20
-> > > because for sure this is not MFD how Wikipedia defines it.
-> >=20
-> > Wikipedia defines it as a synonym for a "multi-function
-> > product/printer/peripheral"
-> > https://en.wikipedia.org/wiki/Multifunction_device
->=20
-> I know, not need to state obvious. And this is not a printer.
->=20
->=20
->=20
-> >=20
-> > >=20
-> > > >=20
-> > > > > > +
-> > > > > > +    mcu {
-> > > > >=20
-> > > > > Please read previous comments.
-> > > >=20
-> > > > You are likly trying to refer to this comment from you:
-> > > > > Depending what this is. MCU is generic purpose unit where you loa=
-d
-> > > > your
-> > > > > different FW for different purposes and you have here specific - =
-to
-> > > > > handle certain aspects of this entire machine. This looks like EC=
-, so
-> > > > > should be called embedded-controller and placed in that directory=
-.
-> > > > Synology uses Microchip PIC for this purpose. On a Synology DS215j,=
- it
-> > > > uses a "Microchip PIC16F1829". At least to me, this looks like a
-> > >=20
-> > > It does not matter what chip is used. Every component uses some sort =
-of
-> > > chip.
-> > I would be interested in what does matter then.
-> >=20
-> > I did not actually find an exact definition for what
-> > Documentation/devicetree/bindings/mfd
->=20
-> Because there is no such hardware as MFD.
->=20
-> > and
-> > Documentation/devicetree/bindings/embedded-controller
-> > is for in the kernel tree or in the devicetree spec.
->=20
-> Commit msg moving several devices there explained, no?
-yes.
+On Fri, Mar 13, 2026, at 10:01 AM, Rong Zhang wrote:
+> Hi Mark,
+>
+> On Thu, 2026-03-12 at 17:46 -0400, Mark Pearson wrote:
+>>=20
+>> On Thu, Mar 12, 2026, at 2:01 PM, Rong Zhang wrote:
+>> > Hi Andrew,
+>> >=20
+>> > On Wed, 2026-03-11 at 22:29 +0100, Andrew Lunn wrote:
+>> > > > We just can't prevent the EC from responding to the Fn+Space sh=
+ortcut.
+>> > > > So it's essentially user's choice to switch to the hw control t=
+rigger
+>> > > > and make it offloaded to hardware (sorry if my cover letter and=
+ replies
+>> > > > didn't express this well).
+>> > >=20
+>> > > Do you have any control over the EC?
+>> > >=20
+>> > > You have a two bosses dilemma. You need to eliminate one of the
+>> > > bosses. Either the EC controls the LED, or Linux does. Having both
+>> > > controlling it is just going to work out badly.
+>> >=20
+>> > I agree that the manufacturers designed the interface poorly :-/
+>> >=20
+>> > I am not affiliated with any laptop manufacturers so I am just spea=
+king
+>> > for myself:
+>> >=20
+>> > IMO the real boss is the user. Both the shortcut (Fn+Space) and the
+>> > ACPI interface are just "message channels" for the EC to know about=
+ the
+>> > user's choice.
+>> >=20
+>> > Being able to press such a shortcut always implies that the user is
+>> > physically in front of the device. In this case it no longer about
+>> > whether Linux or the EC controls the LED, but both should respect
+>> > user's choice. That was why brightness_hw_changed was introduced to
+>> > respect user's choice and pass it to the userspace. So far there has
+>> > been ~10 drivers utilizing the brightness_hw_changed interface.
+>> >=20
+>> I am affiliated with a laptop manufacturer :) Happy to take suggestio=
+ns on what should be improved or is missing (can't promise anything but =
+happy to consider it and take it for review).
+>>=20
+>> We can set the brightness, get the status, and the FW sends events wh=
+en it changes - all supported on Linux (for Lenovo devices). This looks =
+like a pretty decent API to me. What is it missing?
+>
+> IMO, one missing thing is that there's no approach for the OS to
+> prevent the EC from responding to Fn+Space. Hence no 100% pure software
+> control is possible. We end up have a mixed SW + EC control.
+>
+> Another missing thing is that there's no approach for the OS to
+> query/set the ALS-to-brightness curve (or trip points, whatever you
+> call it) of the EC driven auto brightness mode. Therefore, should we
+> have a kernel mode ALS-based software trigger, we would never know if
+> our curve could be offloaded.
+>
+> That being said, I don't think either of these two missing things is a
+> big deal, since most laptops (if not all) are just designed to work
+> like this and I don't think we would have a kernel mode ALS-based
+> software trigger any soon. No 100% pure software control wasn't, isn't
+> and shouldn't be a blocker of using an LED classdev. As I've said,
+> that's exactly why brightness_hw_changed was introduced.
+>
+Got it - thanks for the input.
 
->=20
->=20
-> >=20
-> > >=20
-> > > > general purpose microcontroller with firmware from synology flashed
-> > > > onto it. Therefore it is a MCU.
-> > >=20
-> > > Every chip is then an MCU with such logic. Every PMIC, every EC.
-> > >=20
-> > > This is for me clearly embedded controller and that's where this shou=
-ld
-> > > be placed and called.
-> > In that case I will move it to
-> > Documentation/devicetree/bindings/embedded-controller and update the
-> > node name used in the example.
-> >=20
-> > I will wait a bit for the other patches to be reviewed before sending a
-> > next revision.
-> >=20
-> > But I wonder how
-> > Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
-> > got in there then, given it is pretty similar to this device in the
-> > functionality it provides.
->=20
-> Great question. How do any bugs, mistakes, different judgments or
-> imperfectness got merged?  How is it possible that code for example is
-> reviewed but has a bug? Don't ever use arguments that something
-> somewhere happened, so you can do the same.
-I was not trying to use this as an argument. As you can see above I
-already agreed to put it into embedded-controller.
+My personal opinion (not feedback from the FW team)
+ - disabling the FN+spacebar is not a useful feature. It's not exactly s=
+omething you would trigger accidentally. I can't think when people would=
+ need to disable it rather than just choosing to not use it.
+ - Programming the curve would be more interesting - but becomes a bit o=
+f a pro-user use case. Happy to suggest it, but it's a nice-to-have feat=
+ure IMO.
 
-I was interested in knowing, if there was a difference between the two
-devices I did not know of, as the bindings for this device go into
-another directory despite the similarity (no need to answer it anymore,
-see below).
+Agreed that neither of these seem a valid reason to block the implementa=
+tion.
 
-But I see why that hasn't been clear.
+>>=20
+>> I don't understand the two bosses issue I'm afraid. The user ('Linux'=
+ in your description?) tells the EC what it wants the LED to be, and the=
+ EC does it. The EC is not a boss.
+>
+> The "user" means the one (i.e., a human) who is using the device. And
+> "message channels" mean:
+>
+> User -> pressing Fn+Space -> EC -> update keyboard backlight
+>
+> User -> LED classdev / manufacturer utilities -> ACPI -> EC -> update
+> keyboard backlight
+>
+> They are all about the user, as a human, tells their intention to the
+> device. Of course there may be some userspace software or kernel
+> trigger blinking the LED, but again, that's still the user's choice and
+> intention. Hence I don't think EC is a boss either, and the user is the
+> real boss.
+>
+I think we're in agreement :)
 
->=20
-> Not mentioning that if you even question this, you could at least look
-> at the history which would tell you if "embedded-controller" directory
-> existed that time or not.
-yes, that would have made my question entirely obsolete.
+>>=20
+>> > >=20
+>> > > > As my previous reply said, it's common that an LED driver can't=
+ prevent
+>> > > > hardware from changing its state autonomously. Prior to the
+>> > > > introduction of auto brightness mode, brightness_hw_changed is =
+enough
+>> > > > to handle this. The issue only emerges when recent models start=
+ to
+>> > > > provide an auto brightness mode based on the ALS sensor.
+>> > >=20
+>> > > Do you have a software driven brightness mode based on an ALS? Wh=
+at
+>> > > API do you use to control this? Can you use that API, and acceler=
+ate
+>> > > it?
+>> >=20
+>> > All devices I've seen implement an EC driven auto brightness mode b=
+ased
+>> > on an ALS.
+>> >=20
+>> > @Mark, do you know any device implementing a software driven auto
+>> > brightness mode?
+>> >=20
+>>=20
+>> I don't - to my knowledge in auto mode it's always driven by the HW/F=
+W.
+>
+> Thanks.
+>
+>>=20
+>> If there was a SW approach it would read the sensor and set the brigh=
+tness to low/medium/high (and not to auto) so I'm struggling to understa=
+nd the issue here. What am I missing?
+>
+> My understanding of Andrew's words (see also his previous replies) is:
+>
+>    hw control trigger is fundamentally an accelerated (offloaded)
+>    software trigger. Only if there is a software-driven ALS-based
+>    trigger and the curve matches the FW one can we treat the auto
+>    brightness mode as a hw control trigger.
+>
+> But those laptops with an ALS and keyboard backlight are not designed
+> to work like this, and the curve may be very specific to the ALS and
+> the luminance of the keyboard backlight. So I asked you to confirm if
+> there is any device designed to use an software driven auto brightness
+> mode (even under Windows).
+>
+> Hmm, forgot to ask about that... Is there any device comes with ALS-
+> based auto brightness mode but Linux cannot read the the ALS? If such
+> devices exist, the "accelerated software trigger" model is no longer
+> relevant.
+>
+I don't know of any SW driven auto brightness mode.
 
->=20
-> Best regards,
-> Krzysztof
+Afraid I also don't know about reading the ALS. I'll see if I can find o=
+ut - but I don't think it's directly important to this series which is a=
+bout supporting the new HW automated feature.
+We're not trying to implement an automated SW based control feature with=
+ this series :)
 
-Thanks
-- Markus Probst
+> Also that's why we have private LED triggers -- it's useful when the
+> HW/FW has its own triggering functionality. For example, "cros-ec-led"
+> has a private trigger and declares it as its hw control trigger.
+>
 
---=-jah4XBQMXauDN9UbTzR7
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+ack
 
------BEGIN PGP SIGNATURE-----
+>>=20
+>> > >=20
+>> > > > FYI, desktop environments (e.g., GNOME, KDE) can control the ba=
+cklight
+>> > > > brightness of keyboards through sliders and heavily depend on
+>> > > > brightness_hw_changed to update the sliders and display OSD onc=
+e the
+>> > > > shortcut is pressed.
+>> > >=20
+>> > > Hold up. Terminology problem. I'm a networking guy, i know networ=
+king
+>> > > terms. By slider, do you mean a software scroll bar sort of thing=
+?=C2=A0
+>> >=20
+>> > Yes. See
+>> > https://blogs.kde.org/2024/09/04/brightness-controls-for-all-your-d=
+isplays/
+>> >=20
+>> > (it was about display backlight but it also showed the keyboard one=
+ in
+>> > the same image)
+>> >=20
+>> > > I'm
+>> > > an XFCE users. I can control the display backlight with a slider =
+on
+>> > > the battery charge applet. And i can use Fn F4/F5. I've not seen a
+>> > > software scroll bar for the keyboard backlight, but i think
+>> > > <CTRL><SPC> allows me to change the keyboard backlight.
+>> > >=20
+>> > > So we have a slider, which is purely software, Linux. And we have=
+ key
+>> > > presses, which you are calling shortcut, which the EC acts on, and
+>> > > might tell Linux, maybe, but not about the key press, but the act=
+ion
+>> > > the EC took because of the key press.
+>> >=20
+>> > "might tell", "maybe"
+>> >=20
+>> > It always tells the OS that the state of keyboard backlight has
+>> > changed.
+>> >=20
+>> > >=20
+>> > > You have some API to the EC to ask it nicely to act on the softwa=
+re
+>> > > slide, but it is the EC which really controls the LED, not Linux.
+>> > >=20
+>> > > To me a Linux LED is a poor fit for what you want, and i think a
+>> > > trigger is even worse. The problems you have are because the
+>> > > LED+trigger model, plus using the hardware for acceleration, does=
+ not
+>> > > fit with the EC actually controlling the hardware.
+>> > >=20
+>> > > I would suggest you look at the API the EC exports and find a bet=
+ter
+>> > > model for it.
+>> >=20
+>> > An LED classdev may be unable to perfectly fit this, but nothing is
+>> > perfect and so far it's the best thing we have. It's a fortunate to
+>> > have the LED subsystem. Windows, without a similar interface, ends =
+up
+>> > being filled with disgusting software pre-installed by the
+>> > manufacturer.
+>> >=20
+>>=20
+>> Afraid I don't understand what we are debating here.
+>>=20
+>> Isn't the whole goal of this patch to make it so LED classdev is a be=
+tter fit to address missing functionality? Why would switching to someth=
+ing else (I have no idea what) be better? Especially given the the keybo=
+ard backlight is currently a LED device, and changing that would potenti=
+ally break things for users.
+>>=20
+>> From my perspective if I could just tear this out and have a Lenovo o=
+nly keyboard_backlight implementation under (for example) /sys/devices/t=
+hinkpad_acpi it would be so much easier. But I don't think it is the rig=
+ht thing to do. My experience is if we define a common approach then all=
+ vendors will use it going forward - which is better for the Linux exper=
+ience overall.
+>> Or we don't have fully implemented features for Linux users? That's k=
+inda sucky.
+>
+> I agreed with you. Just some supplemental information:
+>
+> ideapad-laptop has an custom attribute "fn_lock". This used to be
+> the=C2=A0only way for userspace to turn on/off FnLock. The attribute d=
+oes
+> not support any notification mechanism.
+>
+> Since devices with FnLock also come with an LED indicating the status
+> of FnLock, an LED classdev has been added with a new
+> LED_FUNCTION_FNLOCK macro for dt-bindings and UAPI. See commit
+> 7ab6c64663a0 ("dt-bindings: leds: Add LED_FUNCTION_FNLOCK") and commit
+> 07f48f668fac ("platform/x86: ideapad-laptop: add FnLock LED class
+> device"). Since then, userspace receives notifications through
+> brightness_hw_changed when the user presses Fn+Esc.
+>
+> I think this shows that an LED classdev, as a common interface, has its
+> vitality even when being used in a very specific use case.
+>
+>>=20
+>> I don't think the two bosses argument is valid (or at least I don't u=
+nderstand it). Are there any other critical implementation details that =
+make this a poor choice and will bite us in the long run?
+>>=20
+>> I personally find the implementation more complicated than I original=
+ly expected, but having looked at it and understood better what Rong was=
+ proposing I understand the benefits and I think it works. We're still c=
+hecking it out on Thinkpad to confirm that, but this patch is a RFC so I=
+ think that's part of the process.
+>>=20
+>> > IMO the presence of brightness_hw_changed proves that an LED classd=
+ev,
+>> > as long as appropriate interfaces are provided, can work well with =
+such
+>> > hardware. And I don't think there is too much difference between EC
+>> > setting a static brightness value due to a shortcut being pressed a=
+nd
+>> > EC turning on/off the auto brightness mode due to the same shortcut=
+ --
+>> > if we can handle the former well, we can also implement a similar
+>> > mechanism for the latter.
+>> >=20
+>> >=20
+>> > Do you have any recommendations for a "better model"?
+>> >=20
+>> > Did you mean do not register LED classdevs at all? This isn't really
+>> > viable and will break userspace. Some drivers has been using LED
+>> > classdevs for keyboard backlight for over a decade. And many
+>> > `*::kbd_backlight' LEDs rely on brightness_hw_changed, so it's very
+>> > common that we can't take 100% control over EC. LED classdevs and E=
+C-
+>> > controlled keyboard backlight have lived in harmony for a long time.
+>> >=20
+>> > If we still register the keybaord backlight as an LED classdev but =
+use
+>> > a custom attribute to report/set the auto brightness mode. IMO this=
+ is
+>> > even uglier than LED+trigger, as writing to such a non-brightness
+>> > attribute will interfere with the brightness attribute and the acti=
+ve
+>> > trigger and vice versa. Even if we rule out the EC's action, such
+>> > interference still exists as long as users use the attribute.
+>> >=20
+>> >=20
+>> > As for the software-vs-hardware priority issue, how about adding an
+>> > attribute "hw_change_policy" so that users can select if the softwa=
+re
+>> > state should be always reimposed to hardware?
+>>=20
+>> Is this needed? When wouldn't this be the case?
+>>=20
+>> If the SW sets a specific brightness that should become the setting. =
+It would override any previous choices and tell the HW that is what is w=
+anted now - don't change it (until the user says otherwise).
+>> If we're in auto mode and the HW changes the brightness - it doesn't =
+change the setting from auto mode, just the reported brightness level if=
+ queried.
+>
+> My understanding of Andrew's words is:
+>
+>    Linux LED should always be the boss. Tell the HW: don't change it *=
+even
+>    if the user presses Fn+Space*. Failing to accomplish this means tha=
+t we
+>    are in "a two bosses dilemma", hence "a Linux LED is a poor fit for
+>    what you want" and "a trigger is even worse".
+>
+> Since Andrew cares about the software's precedence, the best thing we
+> can do is adding an attribute for users to select their preference. The
+> attribute's default value must not be reimpose, otherwise it breaks
+> existing userspace programs relying on brightness_hw_changed and
+> confuses most users.
+>
 
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmm1dqYbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTEsMiwyAAoJEDR2H/jnrUPSJjwQAJEB9jDWsxrdZroEiEit
-SPqHXkXhYz4X9Z4xtgAX34xBDU1VjP3meDZgw/Xbejljw71XY2p0JDPUKWbpE0/q
-wPIAOE2afEr7fK3PLw8b0wKe+jmZVHMqKq984gRFlM34cqrZy+Ny5YiG4xIeWPnu
-xvq6KKuWGYQs76wzaw5GsxrhkTtzUB3cuIS1ExFRh8VeITFwnjtFoVnAk0zLWKIn
-ZynZEf5mDnlzNgBCeaPyIZtvO6a+oQtmyBPO7taNEuy7zUyUZZNHIQrlXbaxo9MP
-7F9WL8cb7ARvwJTk08nwUhA6pWE2RDbza8qdDOMXRr/nsEGnWiWIMgOWI5srBLcb
-wq9B0P07M+XafkcZWUMk+kjVrTU6m/CJtX++ESNUVo/hUPmeEfvQ4VhDS7uyLY9+
-5XvMb4YgmF8rbWBZzAebwqYji4k2t9gWhqsK/PpISbfGtJy2uC5XIrEYJlNBg5rJ
-FNjKVW8AE+EtDTH884Z7mPM+nkDIMmVPnBdCUuVQIyu6KN/g38pAn5hjmBzzIAhL
-SgVLx7DOjHGOOL0V0K9EJGoNUaIyGqUuFtOr8Cyv9QLunevMpusMd46hjDTeAAq+
-JWc+lHzS6VAbJheceeQbO9KSSiLUc/qytYEfufDRYGj1B1MEVYZoXqT/UdlPcNIM
-uyetEx6zv4L8GqhrxzHLXu3+
-=At9Y
------END PGP SIGNATURE-----
+For the current HW, the attribute is not going to be supported. There's =
+no way to disable FN+space as it goes directly to the BIOS (which then n=
+otifies the OS).
 
---=-jah4XBQMXauDN9UbTzR7--
+I guess the OS can get the notification and then say 'nope - despite the=
+ fact they just pressed the FN + spacebar, they actually don't want anyt=
+hing to change', and revert the setting to the previous setting.=20
+If the user had to specifically set the attribute to do this it's fine -=
+ but it feels like something that nobody would ever use and a whole bunc=
+h of extra complexity, to me
+
+> But yeah, personally I don't think it's needed either. It's been 9
+> years since the introduction of brightness_hw_changed, and there's no
+> complaint about HW/FW overriding the software configured brightness.
+> After all, it's the user who decides to press the shortcut and asks the
+> EC to change the brightness or turn on/off the auto brightness mode.
+>
+
+I think you and I are both in agreement.=20
+
+Andrew - are you still against the current proposal or have your concern=
+s been addressed?
+
+How do we proceed on finding something that we can move forward with?
+
+Mark
 
