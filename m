@@ -1,535 +1,250 @@
-Return-Path: <linux-leds+bounces-7346-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7347-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UikVFOmwtWlc3gAAu9opvQ
-	(envelope-from <linux-leds+bounces-7346-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sat, 14 Mar 2026 20:03:05 +0100
+	id iLISA8PotWmD6wAAu9opvQ
+	(envelope-from <linux-leds+bounces-7347-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sun, 15 Mar 2026 00:01:23 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC41A28E8AC
-	for <lists+linux-leds@lfdr.de>; Sat, 14 Mar 2026 20:03:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50EF128F680
+	for <lists+linux-leds@lfdr.de>; Sun, 15 Mar 2026 00:01:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3183330065E9
-	for <lists+linux-leds@lfdr.de>; Sat, 14 Mar 2026 19:03:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C372C3019F16
+	for <lists+linux-leds@lfdr.de>; Sat, 14 Mar 2026 23:01:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE659308F1D;
-	Sat, 14 Mar 2026 19:03:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEC9A223336;
+	Sat, 14 Mar 2026 23:01:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="nXNyq6D3";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OrgNub0N"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="jNoLUkCw"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16EC7223DFB;
-	Sat, 14 Mar 2026 19:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B857B2772D;
+	Sat, 14 Mar 2026 23:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773514982; cv=none; b=m9lVEp7FYNdsQWxbHydTkHFGqNbvAs0qcIjZeBekprpcBYU8TyLIiTaoSAEuekJgY6va+KNUW2W0iJG7An/5SfJmGALqWFkKFNGSyxxXKsvK1vSSQ879o6C4VpM2foKFjhMWuqywCILHTjk48yw+8KF3S9JkciW5ai/cKqaGdJo=
+	t=1773529279; cv=none; b=Z834SB3q3sZHPMpp5cTpqKj+p0uHOor6fK5AKn0BrIV5MYljdJHdiuALC5jL7K11oX09YOMDNygXjJZpDT7qM8NodSeYMapl10WPSKc+psH1WszQGLFdhO7ef+aOItCbIah3pP0FDadRs2qF5EQO3aav+gV4KjjT8W6rBt4e+GI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773514982; c=relaxed/simple;
-	bh=jSFCI51XBxlead68JqLE6rCRgoGnGkYIWv9uv/LTJyk=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=ddZsQnFNHQNhO698jRJGE9CBZoxxLExMVap4pc6fScfxQ1DNvryl+MPmyBdsPEkk+X8PtIbLNy8WzNndREVt7QidXGVG0bmVodWJohl/1oDfSjpdlnRcGcB5gXhy9KUj6Zoj90Qx7w7QSbaC01+uS1Qx9EnaAWM1EuSy05fpAbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=nXNyq6D3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OrgNub0N; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 6501CEC05A6;
-	Sat, 14 Mar 2026 15:03:00 -0400 (EDT)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-02.internal (MEProxy); Sat, 14 Mar 2026 15:03:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1773514980;
-	 x=1773601380; bh=6B5noVKI/sd7+b+g/lP2eIjDmMdPnEsr3uVANQiYAHk=; b=
-	nXNyq6D3B5V4RG1uiVGI5tIkHMExhKdKRYMN1Sc+Qo1s2vFYB+u+3I3DMIujFOyA
-	6mrjumeu4jYp9/pug4zQgBYj+JojL3sBxyVxaSaUo36vLx8TJHCYXQ3TPogGeT2T
-	o5UmLTzq/1MrgWiJeIcdoK4WL2ce19EktXVJHKORG/uqXK73WjxskZYXk/TaRvxE
-	M4dVgUz0vNo8wABj6p/gmqoVmUiICAL+IvQbjcccVI01S3VRHiNVcaxziJd+TVsM
-	oKGo9rDQj/ZCGj21o63Lpa2huTJ7n/E12y6FZROoO6h3dNYqoRx8bKgWaWv7pj/x
-	kWtfT1zpv3X5QhtfjRm7MQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1773514980; x=
-	1773601380; bh=6B5noVKI/sd7+b+g/lP2eIjDmMdPnEsr3uVANQiYAHk=; b=O
-	rgNub0Nt2fZunw3zYF/uESbSQuIci6M/AiXTgs+mWdRL4xrAwlWNUm4q6QdLHFs9
-	B2IYpoFQWka1PlR8GbSNUNEL20yvPg8BKfiTGG+MmCkNF5o7n6S4FlqFAzhDItdK
-	QOQ1L2CJymIZzmrlH3KfUUrvtChUf/Vp+heXxeysvCyPCYZl3X2VxiX+3Xi2zwIu
-	4nFiVr03LtQJlr9j14D2KgW0Ea0bV6LpiLtE+zQlbnIx/kUBKxXUdXwjZQI+caw8
-	7aY9K7U3BM6wpUWpo6pfBoKe5SGWFTxrn4PdZQEkOMV48TDTvfSqxJoek6+2Xqvz
-	JhsNkHIym67hgqdDaEmSA==
-X-ME-Sender: <xms:47C1ab3G-280JaC80SfWvzAxxppCaxM9DaYRURf9gdldoruexKfQdg>
-    <xme:47C1aU5AjNoue0OzePquBM7_ZAKlCeECJUWpYMccLocG-rCTusDPxsQKcpsV9_8ku
-    0ccj60wREL66X_MhXJ2-GEGyfVvaI4GZZUTgGr_tnFcAKkD1xpaITM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvleeffeeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedfofgrrhhk
-    ucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtg
-    grqeenucggtffrrghtthgvrhhnpeehgfelkedujeeugffgudeffffhhfethfegvedtjeeu
-    teellefghfefiefffeekudenucffohhmrghinhepkhguvgdrohhrghenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgv
-    nhhovhhosehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopedukedpmhhouggvpehsmh
-    htphhouhhtpdhrtghpthhtohepsghlvghunhhgsegthhhrohhmihhumhdrohhrghdprhgt
-    phhtthhopehgrhhovggtkhestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtohepuggvrh
-    gvkhhjohhhnhdrtghlrghrkhesghhmrghilhdrtghomhdprhgtphhtthhopehikhgvphgr
-    nhhhtgesghhmrghilhdrtghomhdprhgtphhtthhopehvihhshhhnuhhotghvsehgmhgrih
-    hlrdgtohhmpdhrtghpthhtohephhgrnhhsgheskhgvrhhnvghlrdhorhhgpdhrtghpthht
-    ohepkhgrsggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgvvgeskhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtohepphgrvhgvlheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:47C1aefGrzP4tPE0wX1dSkjOrD1kit-rpUYhQtjHGrwFRwm7SI3zHA>
-    <xmx:47C1aQLxdaFOW_GSo4g8Lk15zHZK06APOis2bIzWn3SPIgWU_iH9IQ>
-    <xmx:47C1aWtzPbVMZKw-PNWVuEzn8ANpBEqBptc_4aGFYqDJ9uaVaDHREg>
-    <xmx:47C1aSakY6Z7dJxbDuC6Qi-pPybwcrfPRlefabCDdqiffQzaiIt68w>
-    <xmx:5LC1aQk4ZxcFmM2CxluvUXcHe_PS-vmRIvlP1m1QuAmbt6WA_SNIV4Er>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 9023D2CE0072; Sat, 14 Mar 2026 15:02:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1773529279; c=relaxed/simple;
+	bh=/FWS6rH02I22OdU/Q2NkPIaTsj5qkkVH8uNnfc5Caug=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=D3dF2k6w+K+1JvUKVmHXb8D0IDDMs62EnCsJTBG8H7k9TTG5AmoGEq257Ou8MZaJhAUazabbCMXMEYIv7lc9IbeyuhJJxRKlBH4nC6JxGX2Eo04APtfjN5w8PtF71ZbQFP9n9add42l8IPZXm4XxNrbGd/y2HIcUatFaZ27Q0aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=jNoLUkCw; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1773529276; x=1774134076; i=w_armin@gmx.de;
+	bh=KeMLytZF+knJaTdQR2FJFWxBDXsZWbLgaoauuRwMzcQ=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=jNoLUkCwQXLg6ymAUbPxPrfjwW+dtKuY4y4c/6dihw5abRyMuCq1vABZl1E0tzuH
+	 QMD9FQf8HjO4/83SVToso13Id185m2r6ncj7cjLMGRNCOBOYqDmFz0sqr6NlKzvpp
+	 krOul4SUzeRLEYcadC+po74IbLZcmQ+mNdi3DtHoZThobK6IjG92FehfwKSu3BmDQ
+	 xBk07IpwvWMBxFaJ5pFcaHoHFy4c7QLpj/555TRoycbbLmSelwhxvDGK8DYZ0bUeN
+	 7hykuKFbqbsgVHJ0lrS2/19fesDTMXj81M82J3Mgxuex2kEJqvhQNmAS7GxdeQorg
+	 C1Q5noAI025SsCZlhQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MIMfW-1vnEcx3dye-00F8Tn; Sun, 15
+ Mar 2026 00:01:16 +0100
+From: Armin Wolf <W_Armin@gmx.de>
+To: lee@kernel.org,
+	pavel@kernel.org
+Cc: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-leds@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	wse@tuxedocomputers.com,
+	pobrn@protonmail.com
+Subject: [RFC PATCH 0/1] leds: Introduce the multi_max_intensity sysfs attribute
+Date: Sun, 15 Mar 2026 00:01:06 +0100
+Message-Id: <20260314230107.65444-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Aq-ebexNQroV
-Date: Sat, 14 Mar 2026 15:02:39 -0400
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Rong Zhang" <i@rong.moe>, "Andrew Lunn" <andrew@lunn.ch>,
- "Lee Jones" <lee@kernel.org>
-Cc: "Pavel Machek" <pavel@kernel.org>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- "Benson Leung" <bleung@chromium.org>, "Guenter Roeck" <groeck@chromium.org>,
- =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
- "Derek J . Clark" <derekjohn.clark@gmail.com>,
- "Hans de Goede" <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Ike Panhc" <ikepanhc@gmail.com>, "Vishnu Sankar" <vishnuocv@gmail.com>,
- "Vishnu Sankar" <vsankar@lenovo.com>, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
-Message-Id: <2ac0c46c-805d-4749-a6e0-94b16b104a72@app.fastmail.com>
-In-Reply-To: <cc4398e1512dceb531ba3bd5dd0d20cf2042bb84.camel@rong.moe>
-References: <20260227190617.271388-1-i@rong.moe>
- <20260227190617.271388-2-i@rong.moe>
- <500dfc4b-ebd7-4637-bed0-130fc571923c@lunn.ch>
- <b48993998e6e48d4448f8c6dc758f4e260d0f857.camel@rong.moe>
- <353713de-b121-4e27-a46f-6ca1941888a6@lunn.ch>
- <8b25e1ea9bff414442fa47475b9c9ac5b29049d7.camel@rong.moe>
- <60e60c42-f776-424a-a5b4-7286d33175d1@lunn.ch>
- <d2d321fe39c41ebd896eef63f3909df29f5a1622.camel@rong.moe>
- <4e839e55-4daa-45cd-b403-d1d6eae63d8d@app.fastmail.com>
- <cc4398e1512dceb531ba3bd5dd0d20cf2042bb84.camel@rong.moe>
-Subject: Re: [RFC PATCH 1/9] leds: Load trigger modules on-demand if used as hw control
- trigger
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.15 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Provags-ID: V03:K1:lTJG0sofcVMzeSY2SRnIpbSBK1pIq3c9tFPoYyo+B8f3fVx3s3l
+ p4lFPkaRkrLkN/j3N40fgAT5btuZrCDYtT1bWsBqlz2r7T9/XhH3dyu0GlcucuzBGq9y10U
+ 1o42/yL/8YFuwr6g8n0Gl7JUtb0EGihQcTTJC3gziASC5deWzuifOcGWv0tlDaalHaQMG6H
+ Ok8xnlZEGtMpG0U4UpM1w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Ljowesbt7S0=;cATg2Kcx//4Sc8uHcxQRHrksDhJ
+ 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
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_ALLOW(-0.20)[squebb.ca:s=fm2,messagingengine.com:s=fm1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmx.de,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmx.de:s=s31663417];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7346-lists,linux-leds=lfdr.de];
+	FREEMAIL_CC(0.00)[lwn.net,linuxfoundation.org,vger.kernel.org,tuxedocomputers.com,protonmail.com];
+	TAGGED_FROM(0.00)[bounces-7347-lists,linux-leds=lfdr.de];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	DMARC_NA(0.00)[squebb.ca];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,weissschuh.net,chromium.org,gmail.com,linux.intel.com,lenovo.com,vger.kernel.org,lists.linux.dev];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mpearson-lenovo@squebb.ca,linux-leds@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[squebb.ca:+,messagingengine.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-leds];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[W_Armin@gmx.de,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,kde.org:url,squebb.ca:dkim,messagingengine.com:dkim,app.fastmail.com:mid]
-X-Rspamd-Queue-Id: DC41A28E8AC
+	DKIM_TRACE(0.00)[gmx.de:+];
+	TAGGED_RCPT(0.00)[linux-leds];
+	FREEMAIL_FROM(0.00)[gmx.de];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:dkim,gmx.de:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 50EF128F680
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+This patch series was born out of of a mailing list thread [1] where
+i asked how to properly model a RGB LED as a multicolor LED. Said
+LED has some exotic properties:
 
+1. 5 global brightness levels.
+2. 50 intensity levels for each R/G/B color components.
 
-On Fri, Mar 13, 2026, at 10:01 AM, Rong Zhang wrote:
-> Hi Mark,
->
-> On Thu, 2026-03-12 at 17:46 -0400, Mark Pearson wrote:
->>=20
->> On Thu, Mar 12, 2026, at 2:01 PM, Rong Zhang wrote:
->> > Hi Andrew,
->> >=20
->> > On Wed, 2026-03-11 at 22:29 +0100, Andrew Lunn wrote:
->> > > > We just can't prevent the EC from responding to the Fn+Space sh=
-ortcut.
->> > > > So it's essentially user's choice to switch to the hw control t=
-rigger
->> > > > and make it offloaded to hardware (sorry if my cover letter and=
- replies
->> > > > didn't express this well).
->> > >=20
->> > > Do you have any control over the EC?
->> > >=20
->> > > You have a two bosses dilemma. You need to eliminate one of the
->> > > bosses. Either the EC controls the LED, or Linux does. Having both
->> > > controlling it is just going to work out badly.
->> >=20
->> > I agree that the manufacturers designed the interface poorly :-/
->> >=20
->> > I am not affiliated with any laptop manufacturers so I am just spea=
-king
->> > for myself:
->> >=20
->> > IMO the real boss is the user. Both the shortcut (Fn+Space) and the
->> > ACPI interface are just "message channels" for the EC to know about=
- the
->> > user's choice.
->> >=20
->> > Being able to press such a shortcut always implies that the user is
->> > physically in front of the device. In this case it no longer about
->> > whether Linux or the EC controls the LED, but both should respect
->> > user's choice. That was why brightness_hw_changed was introduced to
->> > respect user's choice and pass it to the userspace. So far there has
->> > been ~10 drivers utilizing the brightness_hw_changed interface.
->> >=20
->> I am affiliated with a laptop manufacturer :) Happy to take suggestio=
-ns on what should be improved or is missing (can't promise anything but =
-happy to consider it and take it for review).
->>=20
->> We can set the brightness, get the status, and the FW sends events wh=
-en it changes - all supported on Linux (for Lenovo devices). This looks =
-like a pretty decent API to me. What is it missing?
->
-> IMO, one missing thing is that there's no approach for the OS to
-> prevent the EC from responding to Fn+Space. Hence no 100% pure software
-> control is possible. We end up have a mixed SW + EC control.
->
-> Another missing thing is that there's no approach for the OS to
-> query/set the ALS-to-brightness curve (or trip points, whatever you
-> call it) of the EC driven auto brightness mode. Therefore, should we
-> have a kernel mode ALS-based software trigger, we would never know if
-> our curve could be offloaded.
->
-> That being said, I don't think either of these two missing things is a
-> big deal, since most laptops (if not all) are just designed to work
-> like this and I don't think we would have a kernel mode ALS-based
-> software trigger any soon. No 100% pure software control wasn't, isn't
-> and shouldn't be a blocker of using an LED classdev. As I've said,
-> that's exactly why brightness_hw_changed was introduced.
->
-Got it - thanks for the input.
+The current sysfs interface mandates that the maximum intensity value
+for each color component should be the same as the maximum global
+brightness. This makes sense for LEDs that only emulate global
+brightness using led_mc_calc_color_components(), but causes problems
+for LEDs that perform global brightness control in hardware.
 
-My personal opinion (not feedback from the FW team)
- - disabling the FN+spacebar is not a useful feature. It's not exactly s=
-omething you would trigger accidentally. I can't think when people would=
- need to disable it rather than just choosing to not use it.
- - Programming the curve would be more interesting - but becomes a bit o=
-f a pro-user use case. Happy to suggest it, but it's a nice-to-have feat=
-ure IMO.
+Faking a maximum global brightness of 50 will not work in this case,
+as the hardware can change the global brightness on its own. Userspace
+applications might also prefer to know the true maximum brightness
+value.
 
-Agreed that neither of these seem a valid reason to block the implementa=
-tion.
+Because of this i decided to add a new sysfs attribute called
+"multi_max_intensity". This attribute is similar to the
+"max_brightness" sysfs attribute, except that it targets the intensity
+values inside the "multi_intensity" sysfs atribute. I also decided to
+cap intensity values comming from userspace to said maximum intensity
+values to relieve drivers from doing it themself. This was already
+proposed in a unrelated patch [2] and might break some misbehaving
+userspace applications that do not respect max_brightness.
 
->>=20
->> I don't understand the two bosses issue I'm afraid. The user ('Linux'=
- in your description?) tells the EC what it wants the LED to be, and the=
- EC does it. The EC is not a boss.
->
-> The "user" means the one (i.e., a human) who is using the device. And
-> "message channels" mean:
->
-> User -> pressing Fn+Space -> EC -> update keyboard backlight
->
-> User -> LED classdev / manufacturer utilities -> ACPI -> EC -> update
-> keyboard backlight
->
-> They are all about the user, as a human, tells their intention to the
-> device. Of course there may be some userspace software or kernel
-> trigger blinking the LED, but again, that's still the user's choice and
-> intention. Hence I don't think EC is a boss either, and the user is the
-> real boss.
->
-I think we're in agreement :)
+[1] https://lore.kernel.org/linux-leds/2d91a44e-fce2-42dc-b529-133ab4a191f=
+0@gmx.de/
+[2] https://lore.kernel.org/linux-leds/20260123-leds-multicolor-limit-inte=
+nsity-v1-1-b37761c2fdfd@pengutronix.de/
 
->>=20
->> > >=20
->> > > > As my previous reply said, it's common that an LED driver can't=
- prevent
->> > > > hardware from changing its state autonomously. Prior to the
->> > > > introduction of auto brightness mode, brightness_hw_changed is =
-enough
->> > > > to handle this. The issue only emerges when recent models start=
- to
->> > > > provide an auto brightness mode based on the ALS sensor.
->> > >=20
->> > > Do you have a software driven brightness mode based on an ALS? Wh=
-at
->> > > API do you use to control this? Can you use that API, and acceler=
-ate
->> > > it?
->> >=20
->> > All devices I've seen implement an EC driven auto brightness mode b=
-ased
->> > on an ALS.
->> >=20
->> > @Mark, do you know any device implementing a software driven auto
->> > brightness mode?
->> >=20
->>=20
->> I don't - to my knowledge in auto mode it's always driven by the HW/F=
-W.
->
-> Thanks.
->
->>=20
->> If there was a SW approach it would read the sensor and set the brigh=
-tness to low/medium/high (and not to auto) so I'm struggling to understa=
-nd the issue here. What am I missing?
->
-> My understanding of Andrew's words (see also his previous replies) is:
->
->    hw control trigger is fundamentally an accelerated (offloaded)
->    software trigger. Only if there is a software-driven ALS-based
->    trigger and the curve matches the FW one can we treat the auto
->    brightness mode as a hw control trigger.
->
-> But those laptops with an ALS and keyboard backlight are not designed
-> to work like this, and the curve may be very specific to the ALS and
-> the luminance of the keyboard backlight. So I asked you to confirm if
-> there is any device designed to use an software driven auto brightness
-> mode (even under Windows).
->
-> Hmm, forgot to ask about that... Is there any device comes with ALS-
-> based auto brightness mode but Linux cannot read the the ALS? If such
-> devices exist, the "accelerated software trigger" model is no longer
-> relevant.
->
-I don't know of any SW driven auto brightness mode.
+Armin Wolf (1):
+  leds: Introduce the multi_max_intensity sysfs attribute
 
-Afraid I also don't know about reading the ALS. I'll see if I can find o=
-ut - but I don't think it's directly important to this series which is a=
-bout supporting the new HW automated feature.
-We're not trying to implement an automated SW based control feature with=
- this series :)
+ .../ABI/testing/sysfs-class-led-multicolor    | 16 +++++++--
+ Documentation/leds/leds-class-multicolor.rst  | 21 ++++++++++-
+ drivers/hid/hid-lg-g15.c                      |  3 ++
+ drivers/hid/hid-playstation.c                 |  3 ++
+ drivers/leds/flash/leds-mt6360.c              |  8 ++---
+ drivers/leds/led-class-multicolor.c           | 36 +++++++++++++++++--
+ drivers/leds/leds-blinkm.c                    |  3 ++
+ drivers/leds/leds-cros_ec.c                   |  1 +
+ drivers/leds/leds-lp50xx.c                    |  1 +
+ drivers/leds/leds-lp55xx-common.c             |  7 ++--
+ drivers/leds/leds-max77705.c                  |  1 +
+ drivers/leds/leds-sun50i-a100.c               |  3 ++
+ drivers/leds/leds-turris-omnia.c              |  1 +
+ drivers/leds/rgb/leds-group-multicolor.c      |  1 +
+ drivers/leds/rgb/leds-ktd202x.c               |  1 +
+ drivers/leds/rgb/leds-lp5812.c                |  1 +
+ drivers/leds/rgb/leds-mt6370-rgb.c            |  8 ++---
+ drivers/leds/rgb/leds-ncp5623.c               |  4 +--
+ drivers/leds/rgb/leds-pwm-multicolor.c        |  1 +
+ drivers/leds/rgb/leds-qcom-lpg.c              |  1 +
+ drivers/platform/x86/silicom-platform.c       | 30 ++++++++++++++++
+ drivers/platform/x86/uniwill/uniwill-acpi.c   |  4 +--
+ include/linux/led-class-multicolor.h          | 32 ++++++++++++++++-
+ 23 files changed, 164 insertions(+), 23 deletions(-)
 
-> Also that's why we have private LED triggers -- it's useful when the
-> HW/FW has its own triggering functionality. For example, "cros-ec-led"
-> has a private trigger and declares it as its hw control trigger.
->
+=2D-=20
+2.39.5
 
-ack
-
->>=20
->> > >=20
->> > > > FYI, desktop environments (e.g., GNOME, KDE) can control the ba=
-cklight
->> > > > brightness of keyboards through sliders and heavily depend on
->> > > > brightness_hw_changed to update the sliders and display OSD onc=
-e the
->> > > > shortcut is pressed.
->> > >=20
->> > > Hold up. Terminology problem. I'm a networking guy, i know networ=
-king
->> > > terms. By slider, do you mean a software scroll bar sort of thing=
-?=C2=A0
->> >=20
->> > Yes. See
->> > https://blogs.kde.org/2024/09/04/brightness-controls-for-all-your-d=
-isplays/
->> >=20
->> > (it was about display backlight but it also showed the keyboard one=
- in
->> > the same image)
->> >=20
->> > > I'm
->> > > an XFCE users. I can control the display backlight with a slider =
-on
->> > > the battery charge applet. And i can use Fn F4/F5. I've not seen a
->> > > software scroll bar for the keyboard backlight, but i think
->> > > <CTRL><SPC> allows me to change the keyboard backlight.
->> > >=20
->> > > So we have a slider, which is purely software, Linux. And we have=
- key
->> > > presses, which you are calling shortcut, which the EC acts on, and
->> > > might tell Linux, maybe, but not about the key press, but the act=
-ion
->> > > the EC took because of the key press.
->> >=20
->> > "might tell", "maybe"
->> >=20
->> > It always tells the OS that the state of keyboard backlight has
->> > changed.
->> >=20
->> > >=20
->> > > You have some API to the EC to ask it nicely to act on the softwa=
-re
->> > > slide, but it is the EC which really controls the LED, not Linux.
->> > >=20
->> > > To me a Linux LED is a poor fit for what you want, and i think a
->> > > trigger is even worse. The problems you have are because the
->> > > LED+trigger model, plus using the hardware for acceleration, does=
- not
->> > > fit with the EC actually controlling the hardware.
->> > >=20
->> > > I would suggest you look at the API the EC exports and find a bet=
-ter
->> > > model for it.
->> >=20
->> > An LED classdev may be unable to perfectly fit this, but nothing is
->> > perfect and so far it's the best thing we have. It's a fortunate to
->> > have the LED subsystem. Windows, without a similar interface, ends =
-up
->> > being filled with disgusting software pre-installed by the
->> > manufacturer.
->> >=20
->>=20
->> Afraid I don't understand what we are debating here.
->>=20
->> Isn't the whole goal of this patch to make it so LED classdev is a be=
-tter fit to address missing functionality? Why would switching to someth=
-ing else (I have no idea what) be better? Especially given the the keybo=
-ard backlight is currently a LED device, and changing that would potenti=
-ally break things for users.
->>=20
->> From my perspective if I could just tear this out and have a Lenovo o=
-nly keyboard_backlight implementation under (for example) /sys/devices/t=
-hinkpad_acpi it would be so much easier. But I don't think it is the rig=
-ht thing to do. My experience is if we define a common approach then all=
- vendors will use it going forward - which is better for the Linux exper=
-ience overall.
->> Or we don't have fully implemented features for Linux users? That's k=
-inda sucky.
->
-> I agreed with you. Just some supplemental information:
->
-> ideapad-laptop has an custom attribute "fn_lock". This used to be
-> the=C2=A0only way for userspace to turn on/off FnLock. The attribute d=
-oes
-> not support any notification mechanism.
->
-> Since devices with FnLock also come with an LED indicating the status
-> of FnLock, an LED classdev has been added with a new
-> LED_FUNCTION_FNLOCK macro for dt-bindings and UAPI. See commit
-> 7ab6c64663a0 ("dt-bindings: leds: Add LED_FUNCTION_FNLOCK") and commit
-> 07f48f668fac ("platform/x86: ideapad-laptop: add FnLock LED class
-> device"). Since then, userspace receives notifications through
-> brightness_hw_changed when the user presses Fn+Esc.
->
-> I think this shows that an LED classdev, as a common interface, has its
-> vitality even when being used in a very specific use case.
->
->>=20
->> I don't think the two bosses argument is valid (or at least I don't u=
-nderstand it). Are there any other critical implementation details that =
-make this a poor choice and will bite us in the long run?
->>=20
->> I personally find the implementation more complicated than I original=
-ly expected, but having looked at it and understood better what Rong was=
- proposing I understand the benefits and I think it works. We're still c=
-hecking it out on Thinkpad to confirm that, but this patch is a RFC so I=
- think that's part of the process.
->>=20
->> > IMO the presence of brightness_hw_changed proves that an LED classd=
-ev,
->> > as long as appropriate interfaces are provided, can work well with =
-such
->> > hardware. And I don't think there is too much difference between EC
->> > setting a static brightness value due to a shortcut being pressed a=
-nd
->> > EC turning on/off the auto brightness mode due to the same shortcut=
- --
->> > if we can handle the former well, we can also implement a similar
->> > mechanism for the latter.
->> >=20
->> >=20
->> > Do you have any recommendations for a "better model"?
->> >=20
->> > Did you mean do not register LED classdevs at all? This isn't really
->> > viable and will break userspace. Some drivers has been using LED
->> > classdevs for keyboard backlight for over a decade. And many
->> > `*::kbd_backlight' LEDs rely on brightness_hw_changed, so it's very
->> > common that we can't take 100% control over EC. LED classdevs and E=
-C-
->> > controlled keyboard backlight have lived in harmony for a long time.
->> >=20
->> > If we still register the keybaord backlight as an LED classdev but =
-use
->> > a custom attribute to report/set the auto brightness mode. IMO this=
- is
->> > even uglier than LED+trigger, as writing to such a non-brightness
->> > attribute will interfere with the brightness attribute and the acti=
-ve
->> > trigger and vice versa. Even if we rule out the EC's action, such
->> > interference still exists as long as users use the attribute.
->> >=20
->> >=20
->> > As for the software-vs-hardware priority issue, how about adding an
->> > attribute "hw_change_policy" so that users can select if the softwa=
-re
->> > state should be always reimposed to hardware?
->>=20
->> Is this needed? When wouldn't this be the case?
->>=20
->> If the SW sets a specific brightness that should become the setting. =
-It would override any previous choices and tell the HW that is what is w=
-anted now - don't change it (until the user says otherwise).
->> If we're in auto mode and the HW changes the brightness - it doesn't =
-change the setting from auto mode, just the reported brightness level if=
- queried.
->
-> My understanding of Andrew's words is:
->
->    Linux LED should always be the boss. Tell the HW: don't change it *=
-even
->    if the user presses Fn+Space*. Failing to accomplish this means tha=
-t we
->    are in "a two bosses dilemma", hence "a Linux LED is a poor fit for
->    what you want" and "a trigger is even worse".
->
-> Since Andrew cares about the software's precedence, the best thing we
-> can do is adding an attribute for users to select their preference. The
-> attribute's default value must not be reimpose, otherwise it breaks
-> existing userspace programs relying on brightness_hw_changed and
-> confuses most users.
->
-
-For the current HW, the attribute is not going to be supported. There's =
-no way to disable FN+space as it goes directly to the BIOS (which then n=
-otifies the OS).
-
-I guess the OS can get the notification and then say 'nope - despite the=
- fact they just pressed the FN + spacebar, they actually don't want anyt=
-hing to change', and revert the setting to the previous setting.=20
-If the user had to specifically set the attribute to do this it's fine -=
- but it feels like something that nobody would ever use and a whole bunc=
-h of extra complexity, to me
-
-> But yeah, personally I don't think it's needed either. It's been 9
-> years since the introduction of brightness_hw_changed, and there's no
-> complaint about HW/FW overriding the software configured brightness.
-> After all, it's the user who decides to press the shortcut and asks the
-> EC to change the brightness or turn on/off the auto brightness mode.
->
-
-I think you and I are both in agreement.=20
-
-Andrew - are you still against the current proposal or have your concern=
-s been addressed?
-
-How do we proceed on finding something that we can move forward with?
-
-Mark
 
