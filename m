@@ -1,139 +1,255 @@
-Return-Path: <linux-leds+bounces-7353-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7354-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 45MrKJSkt2m7TwEAu9opvQ
-	(envelope-from <linux-leds+bounces-7353-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Mar 2026 07:35:00 +0100
+	id QHJ4ArrSt2n0VgEAu9opvQ
+	(envelope-from <linux-leds+bounces-7354-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Mar 2026 10:51:54 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391212952F2
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Mar 2026 07:35:00 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A68297672
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Mar 2026 10:51:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1821F3039832
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Mar 2026 06:33:48 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 8A39F300F78B
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Mar 2026 09:45:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AA7F34B404;
-	Mon, 16 Mar 2026 06:33:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59ECB38D6B2;
+	Mon, 16 Mar 2026 09:45:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="u/1E1zCu"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RkIpYnIB";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ae/QgGRU"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098FC13635C;
-	Mon, 16 Mar 2026 06:33:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB405377EB8
+	for <linux-leds@vger.kernel.org>; Mon, 16 Mar 2026 09:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773642827; cv=none; b=rW3qvpHpWBhyGH+WnhsCla1xTgW+wq/ag/lcERJ+piC6oirQ6rk8RhAZU1V2xtpv2z3wgwzvN0xR5O9SqHWlNGDHYBEBmSm0fXt2iLRCxRCR1U5CeDy7Bcqu3Gl/+//kbgK7RDyDQTxlIasrGQ/APoKXmdwcp4nzxvXFrUcFdzI=
+	t=1773654345; cv=none; b=OARX1vDIjKWTZtU3aAV8fTM59wGKFsIlUcuQZ21zcw64x8+P2F33iQ7D+/FFU6JIsck7Gvj3YNNOn5eXMlOE8fOFpXBn7sj311uH8wdYM4dbjK6F6pJiRBa9lQySact/Lacs0hL5AXjGjl6JFEW0oSp07oPYKsIslNDZ7Hmp3lM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773642827; c=relaxed/simple;
-	bh=Dkywfmgei82k5odcdPZZ4qCI+IO8bBIHlMkgGEm1yaM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PGiaIbkLmFvTcOM/tRjvmUONmkUKFf9avfES0LBkF/bRFUm/8KyAQxdUmuCwuv+P8r1ehwFsivjLeekHTFMf7+NbTCOSbqNNOzwFl3Ur3OAxUBFh39s+XQYrR0pS1y4c3jm3XCcxT2WZmiwAdbbay6ONwKbG/3ryfK7ZxFci4o0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=u/1E1zCu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01E4AC19421;
-	Mon, 16 Mar 2026 06:33:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773642826;
-	bh=Dkywfmgei82k5odcdPZZ4qCI+IO8bBIHlMkgGEm1yaM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u/1E1zCuDFBmUxj6jlulcq5x7vGGg1pSKluyGzbaTq1hNC0vjLMjjjBFGmjy7dRSp
-	 bqzdhrUsgTO2wOBTyffXfmmz18F8O1QHBopO3c+i2IaFw/KsN8ItO4FRaI8jiBVKtw
-	 ltEmDCgBGBdfUlISTQ4sVc8lEqChh7wNXZhyj+8g=
-Date: Mon, 16 Mar 2026 07:33:28 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Markus Probst <markus.probst@posteo.de>,
-	Markus Probst via B4 Relay <devnull+markus.probst.posteo.de@kernel.org>,
-	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Igor Korotin <igor.korotin.linux@gmail.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
-	Robert Moore <robert.moore@intel.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-acpi@vger.kernel.org,
-	acpica-devel@lists.linux.dev
-Subject: Re: [PATCH v3 7/7] leds: add synology microp led driver
-Message-ID: <2026031645-unplowed-purist-9c4b@gregkh>
-References: <20260313-synology_microp_initial-v3-0-ad6ac463a201@posteo.de>
- <20260313-synology_microp_initial-v3-7-ad6ac463a201@posteo.de>
- <DH1YH0GO75H8.18YSW2VMKRB3C@kernel.org>
- <39f1c9bb0dbde9f1b60785f8e838289c888ffdb0.camel@posteo.de>
- <DH3KAWWLECYW.3VBH7PIE7ZE20@kernel.org>
- <eb2f7498c5f3247265effc47b3445a04ac71956e.camel@posteo.de>
- <DH3M1023PCBI.1HYYZU93NS1JX@kernel.org>
+	s=arc-20240116; t=1773654345; c=relaxed/simple;
+	bh=wNifxD/uVuc7NAbXzSxDhaJ7op2FNUcGF/+rEs7q8XY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=neQOiYXfZVAKFua2n5OOrLrnD/9F2g2yFnDhSg2C3oBmj7G39/h+LE3u/vI6CqrBG3T87kv54S88o3GFLYCZ0nGfscq3Bdkqt+4bB8ijgzxHLZf5EyoZJ74Egm5oa5Kb7j9oNWBrux7Hl1dLR3mKZHAl9QNxiXDMfcXdeQvTIic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RkIpYnIB; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Ae/QgGRU; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62G653T72583921
+	for <linux-leds@vger.kernel.org>; Mon, 16 Mar 2026 09:45:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=eZX3+pV1mLh4qQV/ja7HXP
+	0WPf1mmp2fnKR9a3HpTPE=; b=RkIpYnIBHca+sMT16Qy0AUvaVdmiMC/ZMaDeJw
+	nudeVmDv68Z0PU1UJ1zceSKj5smRxTI/jOGS1e/JGesQ5HKc5B0m2kkd4cxtPsve
+	qPylS5qhdkk7yzcgXLQ6XyDTDDwltTQ3yyNCCtB1zdjB84kBCB6yFULjlxlw/K4Z
+	4uomx0/Idy6zBMQvuMh78Ucy1YqKsgfJSe4nV27j1XN0gzLlUmRx4J4KaWvWRQmE
+	LiqZ2snYGLS2bpapFcpzTud9dxsxAvAmmsbDj5kbE6LrCDrLWNWCNaTjsTwcnCNK
+	r6PWGbLNsdyqN7RlCw9rszhOJlHIKzOTSjAZdxEpwweJFa2A==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cw0ecd07s-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-leds@vger.kernel.org>; Mon, 16 Mar 2026 09:45:42 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8cdae902bccso2296325085a.0
+        for <linux-leds@vger.kernel.org>; Mon, 16 Mar 2026 02:45:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773654342; x=1774259142; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eZX3+pV1mLh4qQV/ja7HXP0WPf1mmp2fnKR9a3HpTPE=;
+        b=Ae/QgGRU5CTzgyyqoEWpShJ/xGZX5zCSN0RSgfLn+vVLCN3FczDGrs0/JYdWhQV2lt
+         yG+CIwVI2jTq1bh7St+OWknF7nN6LM7OstyZT0m8L2DB9qT+uYajfcylk/9lkxgoqOc6
+         34iMVnO1qEqZ7o8hEeUNn1/Pcnq6m+5ChlQwthulFlGCtFzTpEelAYUdmItu0OEGO0cE
+         HO/hEP9ZxkCzsDdjx/nXrQqoQJVgmdj/ebZPEogCSh6iFFiyvqKWyeeHHWYLewda7EWv
+         JYpg+7WTBnI0AMChNlBYM4Wr3h5y6wv5okT7FaOfyk0d9df8za5y6J//pDCq8zhCf62l
+         eK9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773654342; x=1774259142;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eZX3+pV1mLh4qQV/ja7HXP0WPf1mmp2fnKR9a3HpTPE=;
+        b=qrkO4Odr/+yLB2Q3dRJOrrHf1eToAQeULbcpkc6vGg09d90QnvFBWQiQYzI2F7ZlCD
+         UqfKc+wBVhNOE69mXNnkqVC37+isfZ6FeWablmCgOCC+R050zFWnYc9GfYl9h/PhOtq4
+         CSIck3c21PuOK3irxtLh8iBbum74h5JarAJyyiZ6EbpZI2sm5DgMJwCeHFArNUPkaBUV
+         JrOikkJHt0c4XxAianwmyqJqNFuQ8um2RodUchrjlePa/77w6ZujuHcDB6D+VDVB+uaK
+         zMEyhkST7zv2aHq/ZkXlFTAE2agrRdl2E/K7d0S0onxZAN27Nu24BTXt9wADhzyOIuG3
+         hTfg==
+X-Forwarded-Encrypted: i=1; AJvYcCWg41cI5QG/7vJoZwsarVdj3t1v5UcuyFzc8WPYEue44QRCUdF5tmbY4Q+WaA2WCj6r/Yrp73ol75oy@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0sjgqGY1GZpjebZtfwhYMUcoQm2grMjk9bsfJTVCLmZtHmcbY
+	ZVwOe7frdLZyGtOgGAqF+BWJmzvQgqtkofKlJ5+AOAr8eyDLvLM2S3BuTPIX9JQyTePvUwKq9kS
+	/RuLUn7rvjyU/uJb7RMuvoGZtgf1za3jLOOa4kPeIFkjYEqVnWIIvFy6mVE4b83E9
+X-Gm-Gg: ATEYQzzeMjKwdnrZTDNg0sTZ/lP730h61QB+TR920MV3tmQ6lQt+MhaQ0gAAAXbjUqh
+	r7IeAbWav0HTYqm25FyM7GRl/NXxS6RaG4+BpBHlw+0yv9OaOaw7oZL+AfIwPUu5YKmR854KibU
+	mxAkHSU/yBsiEgsji867+WLeu4e1dORD+x9m3b/zspu5jctXwZ5CpQaV5I74FbAKbhhStANV0dZ
+	JZPhlqdxSlyB1tLsMvC4gvt5Vr/QzpQBx9o2+AMhQI6X0ytCTkKafzeQVNDHX7GxqZXH9nVSQ+U
+	xwABCq3Ejm5AxpcxZg90I2xjeX1/FrRXdAQTgSpV9W3SI20fR9tm0NGmF+5yWWZeVRR2qAvFu6C
+	1ocUfW9KXLk3kbGWD+cTEWWuAEd8CsiuG095ybaCZN9QZjn2fjGlT
+X-Received: by 2002:a05:620a:4483:b0:8cd:942e:82dc with SMTP id af79cd13be357-8cdb5b24ef6mr1646095585a.41.1773654341675;
+        Mon, 16 Mar 2026 02:45:41 -0700 (PDT)
+X-Received: by 2002:a05:620a:4483:b0:8cd:942e:82dc with SMTP id af79cd13be357-8cdb5b24ef6mr1646091385a.41.1773654341260;
+        Mon, 16 Mar 2026 02:45:41 -0700 (PDT)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:ba9e:e504:fb0b:f1f3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541ab9f9esm503138755e9.4.2026.03.16.02.45.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2026 02:45:40 -0700 (PDT)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH v2 0/9] gpio: remove uneeded Kconfig dependencies on
+ OF_GPIO
+Date: Mon, 16 Mar 2026 10:45:20 +0100
+Message-Id: <20260316-gpio-of-kconfig-v2-0-de2f4b00a0e4@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DH3M1023PCBI.1HYYZU93NS1JX@kernel.org>
-X-Spamd-Result: default: False [3.84 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADDRt2kC/3WNwQ6CMBBEf4Xs2SWlCk09+R+GQ1MW2Cgstko0p
+ P9u5e5lkjfJvNkgUmCKcC42CLRyZJkz6EMBfnTzQMhdZtBKN+qoTjgsLCg93rzMPQ9IujbkjLd
+ OWcirJVDP7914bTOPHJ8SPvvBWv3a/661QoVdbY2tGjKWzEViLB8vd/cyTWUOaFNKXyKp+Ia1A
+ AAA
+X-Change-ID: 20260304-gpio-of-kconfig-e257ea7c9a09
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Linus Walleij <linusw@kernel.org>,
+        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sebastian Reichel <sre@kernel.org>
+Cc: brgl@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-pm@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2162;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=wNifxD/uVuc7NAbXzSxDhaJ7op2FNUcGF/+rEs7q8XY=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpt9E0vDJ6dx7Ia4fQ84h8eE2etKlWvxV+vL3m+
+ FEVG19udtmJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCabfRNAAKCRAFnS7L/zaE
+ w6/JD/90RDo1/kiO8qCAJrcGU364A0L3DxLqgOQi4iAqM2tT6AZ4IE8R29waLnPi/L94XNMGssc
+ 6HxIsy7Y3Ohu7YbbfxiNadlDhwEg4QMApO1BXmGT7W6fGaMT2tujzIZ6P/trHTtxPCxSZPMbm9h
+ B0Yk4F+ywcUCsz7Gfo2fflEKhwsAZwFbqUBajx7MdcfyVG06fLVTuOm0YcrxNs8H3zLk8TrRRLj
+ y2vRZG/XYSoDtRBSaaaD2C/CEOPsRUnoKlqTIfgGwvhEmmek16YWzK+KI+sh5IRsDtq3H1lckrL
+ kkVeGYBIf26BclCEVCYN9DImO9zVCx87bHDlap000sJ+jKQ6B7dNX2rzdnyXjOVP09M2LNo54nV
+ B4mpWGWorOKR/74PzhcrIJW8U4jBDOtpXy3wN/CcOvAmIw8gkOXa6SKZRmqQ4LkNyfX3gvtPaR4
+ XMzn8xIsNQfoXqRA4MMgKnuKvlTUwohMokVN7fSuEouA0y32kxCZf0/HKcLxr3pYphztnqNr63k
+ iRLkyCoSuqmuPq+wBr9QhvOnwt9s5ralyNijLmHZcfnl0BJcKjESTvYqKk2onuu5C+5BFSun/M/
+ A668YboqoN3Qf3s/yg1NIYO6jISfe+v7bKqUiWThxSvIU/hoSR11H/omw20ui5GzM72/Mv8Y8Tv
+ BB/HL11BpfULi5g==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Proofpoint-GUID: 48DqHhRibTY3S73p5fqC_Kyte0HFMMPX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE2MDA3NSBTYWx0ZWRfX4cy0GjYT3dl/
+ nrXNtYGZWZ0SdAJWjtMs8xI+/SKCVVClbG7VTz+4IA2XHe+/ANKuiTEj+ANYOGlGGkDaZ0sPptH
+ LhtJDfzWkwpLYpU1WCalvpkLw3WjhB4EKxRnb7W51Z4EULP3fJCMunK3KEtSTOWE+uZQI0YgeY+
+ EURUx5/SVHafdNuU47dhr9bM39yWRzPZUzmtpeKmEqm89gMm4BhC/6oqw5E7EOHyFB6Zy60qOTe
+ L3q9ON5/fGb5HEu25kG7Ypsr2+rBFFRQeL8BpCAcrFygkTqnn9fPrfvdQhN3OCmZlaRwjaCbTy5
+ TML+xsj/7Qur6wtlW5smLcMaSDSb/zhHsVxEyZkssd8eYwuhUjhl8AZEVyU+wbNbVcvX80JP89j
+ OS6QK/4I19Oa0+OfCj79JtwWsN6vSXydpVkbrscbSi1vp9WPMTIw+9xca1x3/UzB49G3wbJ3t8l
+ 9XT/xSjjnO1HTkxqa+w==
+X-Proofpoint-ORIG-GUID: 48DqHhRibTY3S73p5fqC_Kyte0HFMMPX
+X-Authority-Analysis: v=2.4 cv=BqqQAIX5 c=1 sm=1 tr=0 ts=69b7d146 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=bC-a23v3AAAA:8
+ a=EUspDBNiAAAA:8 a=RbMT-lXscSRh0E1VkaUA:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=FO4_E8m0qiDe52t0p3_H:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-16_03,2026-03-13_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 clxscore=1015 spamscore=0
+ phishscore=0 bulkscore=0 malwarescore=0 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603160075
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-7354-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7353-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[arm.com,kernel.org,lunn.ch,gmail.com,armlinux.org.uk,davemloft.net,google.com,redhat.com,linux-watchdog.org,roeck-us.net,linuxfoundation.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	FREEMAIL_CC(0.00)[posteo.de,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,gmail.com,collabora.com,intel.com,vger.kernel.org,lists.linux.dev];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:dkim,qualcomm.com:email,msgid.link:url];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
-	TAGGED_RCPT(0.00)[linux-leds,markus.probst.posteo.de,dt];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[bartosz.golaszewski@oss.qualcomm.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-leds];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linuxfoundation.org:dkim]
-X-Rspamd-Queue-Id: 391212952F2
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 03A68297672
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sun, Mar 15, 2026 at 08:41:06PM +0100, Danilo Krummrich wrote:
-> I.e. if we can't (easily) use mfd cells and would need a custom API, then why
-> even split it up at all, given that splitting it up would probably the most
-> complicated part of the whole driver.
-> 
-> Greg, what do you think?
+NOTE: Each patch in this series can be picked up independently into
+maintainer trees.
 
-I think this has yet to be proven to be a kernel driver at all at this
-point, and not just a userspace daemon that listens to the serial port
-and then does what is needed from there :)
+CONFIG_OF_GPIO is a switch that enables the compilation of the gpiolib-of
+module. The module itself handles GPIO lookup via the OF-node tree and
+is automatically enabled on all OF systems. It does not export any
+public symbols to drivers. There is no reason for them to select or
+depend on it in Kconfig.
 
-Or, if someone can prove that the operations on this serial data stream
-actually do require it to be in the kernel (which I have yet to see a
-list of what this connection does, did I miss it?) then a single driver,
-under the drivers/platform section of the kernel tree makes sense.
+This series removes any such dependencies from Kconfig. If a given entry
+has no other dependencies than OF_GPIO - they are converted to OF to
+avoid new symbols popping up for everyone in make config.
 
-thanks,
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Changes in v2:
+- Make gpio-watchdog depend on OF && GPIOLIB
+- Drop picked up patches
+- Link to v1: https://patch.msgid.link/20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com
 
-greg k-h
+---
+Bartosz Golaszewski (9):
+      arm64: Kconfig: drop unneeded dependency on OF_GPIO
+      net: mdio: drop unneeded dependency on OF_GPIO
+      gpio: drop unneeded Kconfig dependencies on OF_GPIO
+      leds: Kconfig: drop unneeded dependency on OF_GPIO
+      watchdog: convert the Kconfig dependency on OF_GPIO to OF
+      bus: drop unneeded dependency on OF_GPIO
+      staging: media: max96712: drop unneeded dependency on OF_GPIO
+      power: reset: drop unneeded dependencies on OF_GPIO
+      media: i2c: drop unneeded dependencies on OF_GPIO
+
+ arch/arm64/Kconfig.platforms           |  1 -
+ drivers/bus/Kconfig                    |  2 +-
+ drivers/gpio/Kconfig                   | 53 +++++++++++-----------------------
+ drivers/leds/Kconfig                   |  1 -
+ drivers/media/i2c/Kconfig              | 12 ++++----
+ drivers/net/mdio/Kconfig               |  2 +-
+ drivers/power/reset/Kconfig            |  8 ++---
+ drivers/staging/media/max96712/Kconfig |  1 -
+ drivers/watchdog/Kconfig               |  2 +-
+ 9 files changed, 29 insertions(+), 53 deletions(-)
+---
+base-commit: b84a0ebe421ca56995ff78b66307667b62b3a900
+change-id: 20260304-gpio-of-kconfig-e257ea7c9a09
+
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+
 
