@@ -1,181 +1,192 @@
-Return-Path: <linux-leds+bounces-7392-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7393-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OCcCEtjgu2lXpQIAu9opvQ
-	(envelope-from <linux-leds+bounces-7392-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Mar 2026 12:41:12 +0100
+	id mARaMZ7tu2liqQIAu9opvQ
+	(envelope-from <linux-leds+bounces-7393-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Mar 2026 13:35:42 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6292CA770
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Mar 2026 12:41:11 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 226672CB34D
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Mar 2026 13:35:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4FC5830BE88D
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Mar 2026 11:35:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AE1AC3058DC9
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Mar 2026 12:33:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EFD73ACA6B;
-	Thu, 19 Mar 2026 11:33:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 080CF37E315;
+	Thu, 19 Mar 2026 12:33:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PqpjthQi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UHFP6AJ/"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCCF370D51
-	for <linux-leds@vger.kernel.org>; Thu, 19 Mar 2026 11:33:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773920028; cv=none; b=T2hB5yBwJ9eeYGUyA7CE2eZtg/Z1aIh4TnuABqLG3PwIJEj6rxxf54U+lPBKE961RKFyH0YtVEKGjHHZ2xlWE3Ch+vZk43wzOKfFesWlL1hkXQx3wJCM0wnZwEiHdrNbUktCfpH7NZfdUDeY6b6MzjTbRrzwYutzw+V0KOfgaqA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773920028; c=relaxed/simple;
-	bh=X4I83R/qGfMak1Bp5dMxOSZFKJKYZ2k33jM4tuXeTV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=li3shmg+ShMvz9iVB6SMKIYnbLY1lVuh0ryaXCGRJ3EyMRtlv8bUYhvWDEhKZLYVxsiy/q2PHdmDHDwSaW1c/OWN8XVTYECgiVqtIUn7xkAN54VIrx1OfYq4IoWQSqIrKEBOlHan+NYKtVJOLqWuNJX9c39tTLVt6tqb9Q2rRuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PqpjthQi; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A7E34402B
+	for <linux-leds@vger.kernel.org>; Thu, 19 Mar 2026 12:33:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773923628; cv=pass; b=X9DASW9FZ6epo6nkqaWnwMxKkZ8cJCDrPY6eU8SK2tJQaZRWxd7HWm/2efRjFlvQtmKOTMUQj1q9kdazakPsUTpB+tbiFyMxQdKJleVDPS6AoJ7nxOZfpCXF8Uva2fBfXt21fuTOCmWg4XsPJSzxsuHO7jB+XE1BF+oziHp+oH8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773923628; c=relaxed/simple;
+	bh=rahPFhXoJKojrJ+t/AQj+3fUZpSmFo9M0nxP0t0dnUE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=K8j9sZ2hMF7wV589055iQ83Bss81eRXG4TNWy/zpBJ2K4ADtMg8mVII526ZmI0PDIGbWzznN7Fzw8f/VVLt6aDyg1Qz6L8F14cugTrlSEhXEEscKDd7PmWJfo5eFGIveUVsMi1tzcrVYmLGzbA27JFHeKjSMu2U00y0L1SxvpBw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UHFP6AJ/; arc=pass smtp.client-ip=74.125.224.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ad4d639db3so3699925ad.0
-        for <linux-leds@vger.kernel.org>; Thu, 19 Mar 2026 04:33:45 -0700 (PDT)
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-64aedd812baso1022368d50.3
+        for <linux-leds@vger.kernel.org>; Thu, 19 Mar 2026 05:33:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773923627; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GAHonSRoUdRGWbG2/WegFvfkyxSq0oelhlibHDuFRhxPBu32x4IKdKtnk1+84VGsNU
+         vK5kPNmfu9K6G5tl3VvISPVZIOSzc5fNAlLYAT75x81oagShvrce8G5zv/fxBd5FbTpK
+         yDKrZbJvjDZrYZM0vxWseSZF1osKKJgwI5kaaCCnBeKtutGRn6lvlj1+xV3qp8USi+Yh
+         IzccyAJ9aNbYgaQ+qshq71F/ExJq/ZX3Z4Sdfcn0zm3ll6kc6bD2ijQ3c/S02rBYJWLp
+         n6Kv2UBmgWV/ALZTx6RtlBFMrOt8iAGVmwnuEALam8hUQBF+PJSo1uK9ZzpHtAxHer9F
+         815g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=rahPFhXoJKojrJ+t/AQj+3fUZpSmFo9M0nxP0t0dnUE=;
+        fh=IfCZXyHK3DQGt+Ugt/LDWJyQBHiaJDqSLEHoclFMOxU=;
+        b=MS475FT0jFDzdP+R32arKNz1rnMwBg16ec3qumJw5SHrD9fTVZZsZsR5vilcSoLglH
+         dCn2//SzhI821MX9difMbCjzDxqbQZl3sNeJlaLcNZ1RD7XwtbBvMjmOwd5K0KPXZLE0
+         RwpsgZU7f9+ubsr0VTR0Clg0uKil6zP5q1WaZ5bS7flT+EbTo4j6vOZQPdzHHEQJ8BPV
+         KrUlHjVD6WATDImwY+zlRK/yipIAz1jDGQcJ/1W7Vx8/Z6Jgf/601FRz2FeapDyeRFy2
+         9laGmJ5KJn+i/0k6tKVBZLtT7w2DHNuDpa9DnUxPRVINlE+C99WNu4JUW2klzvZ0QUCJ
+         LmDg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773920025; x=1774524825; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773923627; x=1774528427; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zLYfM21/zzEVCEaZe4SF2trtxe912wst3hPauAS7zAY=;
-        b=PqpjthQiBrdOzJBoESfx3FljpZv4Hf0ts4QsuSJLg+Vipn88tzSCKALuyXRY4+Mfp6
-         CDBVPiudtvT1H6rm2uI1vM+yF3hgaDlVYTqG33fDDFpL0NbF1Igm1oV43f8vs8RR0+Fj
-         vbfTJdo54ambswyrkOrKjb8F0r5sSxxH3O9JdVI1mtXpySTKggu7PRnvhfDCDsFzdn+b
-         V9ySxnTJuYvV9aIU7us9SE0OJ6ABHpIi9zj7C3zBcCS+khogvtf8v8iPadYrbCeVDs/s
-         a2d6DwHweTAU+QioVOzn3RMs2dBxSBga/cdkR75XhUCFVehMhrADHOJ0WmkhL9xFdoXy
-         23lA==
+        bh=rahPFhXoJKojrJ+t/AQj+3fUZpSmFo9M0nxP0t0dnUE=;
+        b=UHFP6AJ/TugGhJ8q8s+tVOZOWnFL6rSNekg5HK2GRX/lGLdzVMjT5xHh/ySm7x1pES
+         j2qRgqWDWrn7HTXxcH+L+BzY8ZqcGNygMi7SL3Rw6LLcfPR4xDDxkaGZoSuO+9rLf5dj
+         ogoy1vqlp4Z8sh6ZoT7Mmw0Ng8kvfeNCoFF1kDOTwSbUs3ZedRHJW0/WbWoDJyjim55Y
+         P/jf805+d9JGinzjlK7JqnrFXnPkGSdqVSol7juoFhxaRC2DGUn36mG7bI5H4R/Mwe4R
+         UVWuhpOSXZxt1rchnGlYfu5HPiOEcMxHr/8n8G3AIFVnQD0lQvG7ZzQlRzDLW+ZTI1Rv
+         3QXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773920025; x=1774524825;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1773923627; x=1774528427;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=zLYfM21/zzEVCEaZe4SF2trtxe912wst3hPauAS7zAY=;
-        b=S5QAfQsT9ndH3Eyj8N6V7QFPJR/RVVVf5bMg+cUrN09PfjPLMC8bMhfOAn7VddMWUh
-         uSgILWa5trmAybrneZLlgodYQn21Z7GtRAa0jx/ru+nMehCmXTwpGwr4RBTov7F73nEo
-         BgKT+DCje2svLidzTf0GrdhLuoCJ94nr1fXk3EJow6Og0n9+bU1jptUDfjRyOISnIT6+
-         oH6FoRM1Jh2v2LVhY2JmLmwEwZ3kOngv4vuZITELoprfB+dWwz0iQlDeW93yAofx9OWm
-         RqCJxvJIIrvkC75eHR+98Q6v2UznE4oS20713l/w+sAlrrHVdecE3pYnqG3K9efRuAEk
-         ETCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU/ssor48sI/FLjt/uIrvPUw7N9Yd2OJ5S6FF5fMdZBTjDdACycaaHcbWp+U/x6TWMaT4KFPE0lk6hs@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzoj/2kcuBoMxG8v11dmqKvVI53XY1Q7LX8D5BWAfJ4SkZp/KSC
-	YdKB7E0CXk+bxz+4l/A+y9qS9DG7y9eruNA8Uzy7C3E1V0SOUJBFyJy7
-X-Gm-Gg: ATEYQzxP9r9amS8HvghoavPzS5qm15PhYJsHf79HPHl7pPaxZOMcVenJFwbj3lUxQBP
-	IP+2bjhsGwakCKvfkf3xxwipBFSMFZL1Epqgsp1VemCdVeWlt0vDV1oOrVRPOEUdlYbLDwYbE9O
-	3MBVHwdNPHwyaGme6m1AJCmOYxq/YkFsFsXvx8jDfkzWWJFoZe7T4vIn7PHQ3nr1nugXng+BvI1
-	95EgoWKVGAQHh05vJL6pLU+tHPcfUEkJGt96OEDvPkSo52Bim+NAhKNdDfiKf9zH5eK0la49svh
-	RWFcckk6lgM3SA8Epzv6547Yye2OakFYIwvfdHq5LZofCpUUBkmPB0MBd7S9gOvN2I2hy2HItVb
-	vvKYNCYRNxXGPdyODmrv1Hh+XOusDqpd+IncRj1vvqnd9806HNLhPRaKPMFjP28vgm9BUXuE0la
-	xKyfft3gShZNifHQWbvBUoeAXLZQ9b0mTPS0pevEqodooyb+s3V92gYA==
-X-Received: by 2002:a17:903:1986:b0:2b0:6961:150a with SMTP id d9443c01a7336-2b06e3c58d9mr72979375ad.38.1773920024609;
-        Thu, 19 Mar 2026 04:33:44 -0700 (PDT)
-Received: from openwrt-virtual-machine ([202.63.77.193])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b06e63b294sm75032055ad.84.2026.03.19.04.33.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 04:33:44 -0700 (PDT)
-Date: Thu, 19 Mar 2026 22:33:35 +1100
-From: Bevan Weiss <bevan.weiss@gmail.com>
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@kernel.org>, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] leds: syscon: Add tristate option
-Message-ID: <20260319223335.5e1913a4@openwrt-virtual-machine>
-In-Reply-To: <20260319101327.GH554736@google.com>
-References: <20260308015824.2318366-1-bevan.weiss@gmail.com>
-	<20260308015824.2318366-2-bevan.weiss@gmail.com>
-	<20260319101327.GH554736@google.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+        bh=rahPFhXoJKojrJ+t/AQj+3fUZpSmFo9M0nxP0t0dnUE=;
+        b=eK8LKgOtz/JGAozVZbxZ6bvmxAnmFxxDGs2sQujGl5p1CYMs0b029O3fT36NIEuQMn
+         MrFW8QmwN56KCWiPAv9AwZPCJ9UbrjuGPs/ZCmflRJeIbasCnWo93BGbHJNqS2qJukqw
+         9bQOnCDB9/nu+uaQeW/2IOODDWXqPtBD4wyIuZWUQTfPrNZS5/7Zq16EPjpfdr5QMikL
+         M7pB+ZdGDlB+JK4ch7Wsts/oVDvZ0T5V7iSN2yfSuf8TWjQxTaHplMG0tGXkXm3J+KQ6
+         v8CqC23TmGQ2Cpwni7vIXur/6gexutyINo+k0ALXqO7vAd1Dn9lFMIMPsgUrUHszCJAV
+         +ypA==
+X-Forwarded-Encrypted: i=1; AJvYcCVlL7O1cqxXe69yk2hamxxtZlAKwbD5WsfQGDVd0y+6dnKCMOEmBEoOAdcNfDIcuQWtmU1Ap9yVto8z@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkOvM20V7a9zI1OxUWJPyhGXlDmtDbloNyhTvuax+OqA6knKHF
+	/fkQPtFa69TMgCaFwL9EexEy/j8HC2TZnoTz5tuqGihY8fbz6MZda50g/R+dTfNYST1tm1HSG9v
+	Wy5cAyVhAy/iY8bgP7fh8hgbHOtfQksk=
+X-Gm-Gg: ATEYQzzbyot5jGiknmAqp9qU7buNpUt36NroUXReAqvjj69hTSHW4sXLSISFE6gPOKP
+	0G3VteaMHoRy/oY8so+kOkFbTqhKnsxj/SE5EQlq+3eslI487PS4RxYNqVAPxe31dsbkenSnngA
+	dkYdmdiY4IZa5MBGo5rIRPnf1RbsOI2SH01p9kVgDLgbqP0UWKAdSkhJbKUQA+hODG4ALdQTOwj
+	su0cEMLZFGg2WCAw0Dvwv9ME3hpcbDFcnD+ja6Jc0v6r7bxljOs7fPkp9vOOgPkujrJ0fo0mrF+
+	iX7r
+X-Received: by 2002:a05:690e:4148:b0:64e:a87b:4084 with SMTP id
+ 956f58d0204a3-64ea87b42f1mr54461d50.9.1773923626684; Thu, 19 Mar 2026
+ 05:33:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+References: <20260318-gpio-scx200-header-v1-1-626688284f17@oss.qualcomm.com>
+ <997e3ff4-c394-4fbe-9371-272220ab2aa0@app.fastmail.com> <CAMRc=McS6eojWDMY2MvuRtHNqYD=FGCSc4hOBhWQ=hAEk9Td4g@mail.gmail.com>
+In-Reply-To: <CAMRc=McS6eojWDMY2MvuRtHNqYD=FGCSc4hOBhWQ=hAEk9Td4g@mail.gmail.com>
+From: jim.cromie@gmail.com
+Date: Thu, 19 Mar 2026 06:33:20 -0600
+X-Gm-Features: AaiRm522GxGxlZUpHWOnYBINehFbMNmusJuJGcG6rdPfxf0Kqc-2n3ihHKvdAZI
+Message-ID: <CAJfuBxztAe3vzzviGH3QJnhU7F68ecrafTLUoaR4BMskMp__3Q@mail.gmail.com>
+Subject: Re: [PATCH] gpio: scx200: move the header under linux/gpio/
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chris Boot <bootc@bootc.net>, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7392-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bevanweiss@gmail.com,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.997];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-7393-lists,linux-leds=lfdr.de];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: AF6292CA770
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FROM_NEQ_ENVFROM(0.00)[jimcromie@gmail.com,linux-leds@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	NEURAL_HAM(-0.00)[-0.881];
+	PRECEDENCE_BULK(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-leds];
+	FROM_NO_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email,mail.gmail.com:mid,arndb.de:email]
+X-Rspamd-Queue-Id: 226672CB34D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, 19 Mar 2026 10:13:27 +0000
-Lee Jones <lee@kernel.org> wrote:
+On Thu, Mar 19, 2026 at 3:13=E2=80=AFAM Bartosz Golaszewski <brgl@kernel.or=
+g> wrote:
+>
+> On Wed, Mar 18, 2026 at 3:25=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wro=
+te:
+> >
+> > On Wed, Mar 18, 2026, at 14:48, Bartosz Golaszewski wrote:
+> > > Headers exposing symbols specific to individual GPIO drivers should a=
+ll
+> > > live under linux/gpio/ for consistency. scx200_gpio.h is currently a
+> > > top-level header directly under linux/. Move it and update all users.
+> > >
+> > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.=
+com>
+> > > ---
+> > > With Acks from relevant maintainers, I can take it through the GPIO
+> > > tree.
+> >
+> > No objections to the change, but I'd point out that while this is a
+> > driver for gpio registers, it's not a gpiolib driver but rather a
+> > custom chardev with ioctl interface.
+> >
+>
+> Yeah I wasn't sure if we consider linux/gpio/ as a GPIOLIB directory
+> or just GPIO in general. I figured it may as well be the latter.
+>
+> Bart
+>
+> > Since the chip was never as popular as the separate geode/cs553x
+> > ones, I wonder if there are any users left, maybe Jim has an idea.
+> >
 
-> > Additional changes:
-> > - (int)(struct platform_device *pdev) => void return  
-> 
-> Please rephrase into a human parseable sentence.
+I have no idea either way.
+I still have the HW, but its been unplugged for years
+dusting it off has been on the list, but way down.
 
-Thanks, will do.
-
-> > +	led_classdev_unregister(&sled->cdev);  
-> 
-> The driver uses devm_led_classdev_register() in probe, which
-> automatically handles unregistering the LED class device when the
-> driver is detached. Calling it here manually will result in a
-> double-unregister.
-
-My oversight, will fix.
-
-> > +	/* Turn it off */  
-> 
-> Turn what off?
-> 
-> > +	regmap_update_bits(sled->map, sled->offset, sled->mask,
-> > 0);  
-> 
-> If 0 was defined, as it should be, then you can drop the comment.
-
-This is carry over from the original source, when it was originally
-modularised.  I'll update the comment to explicitly mention that it's
-the LED which is turned off on module remove.
-
-> > +MODULE_LICENSE("GPL");  
-> 
-> The MODULE_LICENSE() string should match the SPDX identifier at the
-> top of the file.
-> 
-
-Sorry, I'm not quite understanding this in the context of other files.
-Most modules within the led subsystem seem to have 
-'GPL-2.0-or-later' as the SPDX identifier, and MODULE_LICENSE("GPL"),
-as I currently have here.
-Is there a different subtlety I'm missing?
-e.g. leds-adp5520.c, leds-as3668.c, leds-blinkm.c
-Perhaps MODULE_LICENSE("GPL v2+")? although I don't see similar
-anywhere in the kernel.
-I'd expect MODULE_LICENSE("GPL v2") to be for 'GPL-2.0-only' licenses.
-
-
-Thanks and regards,
-Bevan Weiss
+> > If there are users, they might be able to use drivers/gpio/gpio-cs5535.=
+c
+> > instead, but I have not checked if the two are compatible.
+> >
 
