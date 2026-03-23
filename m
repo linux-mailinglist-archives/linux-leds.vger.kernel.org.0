@@ -1,50 +1,50 @@
-Return-Path: <linux-leds+bounces-7429-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7430-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uBmLIBdQwWnLSAQAu9opvQ
-	(envelope-from <linux-leds+bounces-7429-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 15:37:11 +0100
+	id kA+oF5JNwWmhSAQAu9opvQ
+	(envelope-from <linux-leds+bounces-7430-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 15:26:26 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0C362F4DE4
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 15:37:10 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4CB92F47A5
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 15:26:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1474D30649E4
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 13:58:20 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9BD413111FDE
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 14:04:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCCC23ACF03;
-	Mon, 23 Mar 2026 13:58:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9C2D3B47FD;
+	Mon, 23 Mar 2026 14:00:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ug7FqFPO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b054mkjT"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50463AC0E3;
-	Mon, 23 Mar 2026 13:58:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948D23AF660;
+	Mon, 23 Mar 2026 14:00:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774274299; cv=none; b=C2VPtPvdsp3QUMLUlOF2Un+E0LfgSYMxRfP/GYMsBS1iKfoBTKgkGsuQJQ7NFa0aoid1FX4Jb7GQYANjXBLlZnwK4NUPDwXrnD+5fXEB8q368/d8IVmPpTR58grJv8w9YLAdYjeAOhiZYOjaZliyYw4Eci8UjWWqzIfKCCIWzn0=
+	t=1774274451; cv=none; b=hGFgx0gOA81d1grpvhYvnT573pL/rIAg2dz6BAIzXHwwQ36IORgSTNBWO0ngFDxelbgjooSJjV4DeSSH+1AI8GRhsDMoFaY6rW6LhgG8giqUyRMu4XsV1+0r52OTD/eH/0AZqOt/625LjG1uQG1qXQBrELqsZ/ZM2grluGFtjsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774274299; c=relaxed/simple;
-	bh=DqfWL4BSTBiaLqTmikifLZdJR1EIole67SS90j6+wPs=;
+	s=arc-20240116; t=1774274451; c=relaxed/simple;
+	bh=wsIPtE9gLfUlD7CfcHAkLJ1WaXHfJ/+7bt2n8V8whaQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GoNQdafm4RgLplD0Z502TQFI5EMv1xY2c2wifOwE24UVmfFs3J9xYoxp8tA315qJUIIQ5i8XUtDRfqNMkygAlXxEZk4CfoiHuGfw7I/ikMq14gcJirhbTFFtnwZrK/9hcktdaA4v10L48vCUBne6/eV9lHy8V9FXce5Q43d7qqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ug7FqFPO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A146DC4CEF7;
-	Mon, 23 Mar 2026 13:58:14 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=oskn+JXnDJOUJBXmM9izdfLFNoDIKshVjc7QjmmgvSmFuArmJ7Hz04Ywhkn50QmlnFnw1fNIREacbsRoli13bPgr1B/fzr3tUS7U+Dkq5nCMIOW8ZqATv+lA9xLfYI0SgT5lFD/LJACAv1QkzVWciHCrXJfJ4ejL/o0ta4DPAiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b054mkjT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59B55C2BCB3;
+	Mon, 23 Mar 2026 14:00:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774274299;
-	bh=DqfWL4BSTBiaLqTmikifLZdJR1EIole67SS90j6+wPs=;
+	s=k20201202; t=1774274451;
+	bh=wsIPtE9gLfUlD7CfcHAkLJ1WaXHfJ/+7bt2n8V8whaQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ug7FqFPOxtjqtkSadBjpkd4bQYSehH4p2u3pHmJk9tmOoZu6fr0+vdVBUekcgA6/A
-	 QnXwgH5xZaTtuisppuO7Isa5gwywmd5oZCkMmzQqAUk1xRyPfjBZkWYdt4jDFLtgce
-	 jG6/HZKk7u6DP1SsWQWgCLGs3au+Dh/HpT8FZ5a9XULG7e+Ot4MU70ST2AC/mB472J
-	 3WU43zruM06Q0aL1wgWvCiWoxpf7uin9XCKjJQhFzvY9Ij7zDpAAa1hWZGfhn/HuWA
-	 TzEF+P8h5nrJG5gDl+i34duuOTOggqENQN21Fhq30HCbMyyNAklfwWsCb2t5CgQ7yX
-	 cGR0rCKZ3nXrg==
-Date: Mon, 23 Mar 2026 13:58:12 +0000
+	b=b054mkjTtYEqGgZaf4/JWuUUq+D1cbRn4oz+QgtcGRhBaIsSbcON5Hb+Z9fSLN+87
+	 D3JRT6J6hpQddK+TiwTbVmM/j+IGVTqI6cIYI+1EyX/r8HsrIbB0u22Ites7TsWKQs
+	 81kFH9ISPKCWxz+aNcJGkqt8IDLtiOBBk3N7icL40mZ9fErys8BIcMZEEgSrMMM6R5
+	 Puc/JmGYoAFl4bsGGnSL/8xqG4pZHj1Kf0U2M8T2cj//L+iTpI6bP2/yYtaMlB9wjG
+	 1x3AEiHbs/P9jIeIacaotOzOBa6gYyC9lz0ri8huA4pt9BzDXFJiU7QoftyGNpgYXl
+	 BFzFTDjlQAg/Q==
+Date: Mon, 23 Mar 2026 14:00:43 +0000
 From: Mark Brown <broonie@kernel.org>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -66,10 +66,11 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
 	linux-spi@vger.kernel.org, linux-leds@vger.kernel.org,
 	linux-fpga@vger.kernel.org, driver-core@lists.linux.dev
-Subject: Re: [PATCH 03/10] spi: switch to using class_find_device_by_fwnode()
-Message-ID: <03c80468-b097-47ac-b7b5-4170eb782772@sirena.org.uk>
+Subject: Re: [PATCH 04/10] regulator: of: switch to using
+ class_find_device_by_fwnode()
+Message-ID: <360a8b4a-6507-417a-9fc1-c53b14868657@sirena.org.uk>
 References: <20260322-remove-device-find-by-of-node-v1-0-b72eb22a1215@gmail.com>
- <20260322-remove-device-find-by-of-node-v1-3-b72eb22a1215@gmail.com>
+ <20260322-remove-device-find-by-of-node-v1-4-b72eb22a1215@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -77,22 +78,22 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/Y4JH2eUDT/w1Qo1"
+	protocol="application/pgp-signature"; boundary="vparQmoOwDu5fr6U"
 Content-Disposition: inline
-In-Reply-To: <20260322-remove-device-find-by-of-node-v1-3-b72eb22a1215@gmail.com>
+In-Reply-To: <20260322-remove-device-find-by-of-node-v1-4-b72eb22a1215@gmail.com>
 X-Cookie: Avoid gunfire in the bathroom tonight.
 X-Spamd-Result: default: False [-2.76 / 15.00];
 	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7429-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-7430-lists,linux-leds=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FREEMAIL_TO(0.00)[gmail.com];
 	FREEMAIL_CC(0.00)[lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,linaro.org,gmail.com,axentia.se,armlinux.org.uk,intel.com,linuxfoundation.org,vger.kernel.org,lists.infradead.org,lists.linux.dev];
@@ -106,39 +107,47 @@ X-Spamd-Result: default: False [-2.76 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-leds@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-leds,netdev];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[28];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: E0C362F4DE4
+X-Rspamd-Queue-Id: D4CB92F47A5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---/Y4JH2eUDT/w1Qo1
+--vparQmoOwDu5fr6U
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 22, 2026 at 06:54:21PM -0700, Dmitry Torokhov wrote:
+On Sun, Mar 22, 2026 at 06:54:22PM -0700, Dmitry Torokhov wrote:
 > In preparation to class_find_device_by_of_node() going away switch to
 > using class_find_device_by_fwnode().
 
-Acked-by: Mark Brown <broonie@kernel.org>
+>  	struct device *dev;
+> =20
+> -	dev =3D class_find_device_by_of_node(&regulator_class, np);
+> +	dev =3D class_find_device_by_fwnode(&regulator_class, of_fwnode_handle(=
+np));
 
---/Y4JH2eUDT/w1Qo1
+The regulator API is very deliberately specifically using the OF APIs,
+not the ACPI APIs, since ACPI really doesn't want to model regulators.
+
+--vparQmoOwDu5fr6U
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnBRvMACgkQJNaLcl1U
-h9CsIgf/RCKdllt9YwSLySimmbBJtkTLmhOS6EPJCqGv19zWp+V0LMQR7m+UNTGr
-FnR+LwzGc6hEHm/6jhjD198BnnVCOW82zCI8Bs+E6y5/EdupkUDZ+b3g3SeURJAF
-+QJq5bdoCW1CTTRSIGfA5rvSFcvntN7Zq8M1wxHw3tCGu9nFjd6zgDl89+AftFxf
-y229F5tEErnywkxr7uTfooW7t6VMKlhRVBg4yrPvoa6Uya8sSLjcXMPA/rF9358P
-K9Rq1TRyca20qXzUtriw7Az+/rk7ZBkCZoYVUBcihEdjyfxrORCd5RqlM6pxH80i
-lcMvh6jcdGoRkTwa6/zxTPScelZsuw==
-=oQMa
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnBR4oACgkQJNaLcl1U
+h9CUPQf9Gr18nCuis7I7DLt40fSEPA95DJmYkmottRjJCAQ2LQSO6j6vqvSDa1Df
+SkKWemoGYfYr0SipGuWaT94X5ReYqWmBIwW/Il1ONQ9TwpnUYHCaps4N7hA8uwV7
+kLDMXftyQVR4qt24ZcpjI298/kWsaY1P28fMcRYfR+WUv1B5ijfMjjyS4jv9gwqZ
+72/JD3NajSRbUpMYwM4nJxUnDlzj1C1YcTJC9TFDFRjMIrGVN1g1AiadGXA7h7pd
+4d9DFlsweMKG1uUpdhPFZ0MDamVJzN+e6OMfXCMqSAYch0H0FyRAnXjhK5RUGRt4
+Os3QT9yimnEfhwuE+VHBI8lUrD1mug==
+=RApe
 -----END PGP SIGNATURE-----
 
---/Y4JH2eUDT/w1Qo1--
+--vparQmoOwDu5fr6U--
 
