@@ -1,164 +1,177 @@
-Return-Path: <linux-leds+bounces-7431-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7432-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gO4GCNB5wWkQTQQAu9opvQ
-	(envelope-from <linux-leds+bounces-7431-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 18:35:12 +0100
+	id MGhLIfWEwWnqTgQAu9opvQ
+	(envelope-from <linux-leds+bounces-7432-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 19:22:45 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id C65FB2FA085
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 18:35:11 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03AE32FB333
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 19:22:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D3329304655C
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 17:16:18 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 385AD3027D98
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 18:12:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8533F3C73D8;
-	Mon, 23 Mar 2026 17:16:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F35A3CA498;
+	Mon, 23 Mar 2026 18:12:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oEPcAVYx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YdmLDwPR"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51643C5DB4;
-	Mon, 23 Mar 2026 17:16:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84743C9EC8
+	for <linux-leds@vger.kernel.org>; Mon, 23 Mar 2026 18:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774286174; cv=none; b=bbHoEiAE1uvW0K16qJXqr5LsxKNjRs22Ld1yUIc8i6c847fNWfbLBhY8JHGCqtgBFaOTRy+fy6dbU2Zv3KdbD01O5gM/UdKVdUuQ8GK7FHd3FAutow/LobHzyWceWCYz/6EkBei5NRHOndM2Cr/6oRONdR/Upz0REfQtnEY6nJs=
+	t=1774289534; cv=none; b=iqXOzdsOKk7vMDhXjmRXiQaCJG96tfRrViejiyJSB2eNoJ3R0rQIhzTexUP6rmKBNh8uwDa57JQSgtpu5/RLEQm8736kJcvdCVxr99rVyWabe/8q4UaWRchfK7tDAKYxUj9fZnkKjs9azwvDNq5JycjTWuGZSVYy3Pu03pdVDXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774286174; c=relaxed/simple;
-	bh=GPZRjw9420otJR954wv9jlY5KaF4RQTzb5PccDoBlqA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GP5FyKE415K+/0PxH3Y3yBJiHA63ACGwPRRQ7Jb9mCht3mvAyJFhZ2M+CWc8yf5dJYq6FYc49VHnmbdoymufpTnZBM7JgQit1ymfjY1y8jTWazKG02enCUZbtrHhrpokJrsdiz1AyxpPF9tY90rK2CBnuS+4Y2xsxbiC4v36vFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oEPcAVYx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8213C4CEF7;
-	Mon, 23 Mar 2026 17:16:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774286173;
-	bh=GPZRjw9420otJR954wv9jlY5KaF4RQTzb5PccDoBlqA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oEPcAVYx8EfysVPLpGplRNI3M4k/Ct3YJWskSAod8cjNc1kdUYhIGoTf63okXWz2q
-	 0hEGs2DfACbPoNyzgdtj87k/P+cEFXjqR4zVObWBaUkYJisObzaPTFF88rBaqW7kDE
-	 u44XlLVOUONXIUPzTC9AC634kEAVIofUv5uLsWXnrnV6jadm4XyQlj4vWrFFiFKajE
-	 To4Ze8LqNXjukWlYqjZq7F8XbbETwBxXQK5qIyqZx2UXnkN7Gp69ERU2MgblYsng5A
-	 A/wZC66xfEiHhhCI5f/gGI3mYjB7rlZ7Sw+E+px2pkPKpvS8rJRJTMHzbqXvw/P49f
-	 S+GsHsIhgxKOA==
-Date: Mon, 23 Mar 2026 17:16:04 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Peter Rosin <peda@axentia.se>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
-	Tom Rix <trix@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-spi@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-fpga@vger.kernel.org, driver-core@lists.linux.dev
-Subject: Re: [PATCH 03/10] spi: switch to using class_find_device_by_fwnode()
-Message-ID: <098e1856-feee-4f4b-8059-85a53967f6b3@sirena.org.uk>
-References: <20260322-remove-device-find-by-of-node-v1-0-b72eb22a1215@gmail.com>
- <20260322-remove-device-find-by-of-node-v1-3-b72eb22a1215@gmail.com>
+	s=arc-20240116; t=1774289534; c=relaxed/simple;
+	bh=xF2bAPNppAbfTBIBcDCV+LZAzGseQQW9IhFcftMAsW4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=A/6UaKUsYm/FX+nwihw1tFbA45krBdPY+lapLJV9ro1RMLPIbcc1s2mYShztGBklf5ZcFEZtNTuJqHI8CqFyQZxAzxWMFZP+UDdGeHRErifaYcbcYyBokAtR6KAK1KrOL92t2cOwVXMNlWrGwRIups1/ReV1Xdx5GOboo6n9Qj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YdmLDwPR; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48540d21f7dso36729015e9.0
+        for <linux-leds@vger.kernel.org>; Mon, 23 Mar 2026 11:12:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774289531; x=1774894331; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CIyRKh/yzbhrSofJPevkwLbR5QRnYf8Ol5laJ4H1+4U=;
+        b=YdmLDwPRAFDXjri6eNne1/45dZWmLd/XyM6dddFTLm5BGMW4TPmdzqaJwOxN9crkI1
+         Wlg7vZlv7r6AlucbmnxyJ2DhzpOUeFux6Q22QItATdBKLCZFIfWSrTv4ZuqeVn5guyS3
+         3HR+GRcEhgQkB5dtulXl8FLyZhd9GpnYOgUnRF9p0zxTSP3MGPn+RuNDoAqohCNUc1n8
+         xt2UIgZDqMlXR6WW5cn3JqT59fM5P6RYTM3MOP4TSmUEvy3crQn8ZROLNAGcubKp4kAW
+         SesBncEzWVnj54lAXJtg6FJy4hYPjLFwEPDmIT7lwrRPn03dkYIHaZZTIL7C8uPrqMVt
+         rP5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774289531; x=1774894331;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CIyRKh/yzbhrSofJPevkwLbR5QRnYf8Ol5laJ4H1+4U=;
+        b=A0cQEIblwgOQFvSkEjc97O5jLhD24J0dUqQE5Rlxp8FMQhG9irnyH+o1RueSAkPHAc
+         gqdiI5WD2Zqb7z1pGvnC2TQ53OV9lcyAGH2IV2LWD7u+oZRpP5sHe61yQ7sO9sZvJEhq
+         9acqr8wMdkpgrUjCSJrReXP7dmTl5GCJ7MjWF80ajFEoLNk1mLh9eaqoVW8gOzwYqQYY
+         2pD9fvvpVGyJCAvUao1gA26pN2gVyNRknNj4P2Q0Fz+KwlrYkhVJPBOin6krn7s2SfQd
+         YknU/A90pdRUMO/6um1FEjdIN3GgzSLWu1jrrd7yYe20VbCn9uZ0gnw/LnhlHUbZJlss
+         9QUA==
+X-Forwarded-Encrypted: i=1; AJvYcCXOCeFTIy4FUTyhZ1hmD7fCru/wVolQ8jFhNqtJaDWFaIqnv+ub3BykH99QWXbXjARElVNy9SX+xpAx@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzddjrs3zTQaVjdIBudUI/C/oNxQNfmGFIPtTRXXNYlHXLEgLkj
+	lPUQorly4+Xj8UrHIaDOGBwBF3Rnh3g35aYNwofTdijxKn4GDjYe3M2K
+X-Gm-Gg: ATEYQzyC4i4lFL/hwdEZUF6PAMcucDuAlMM2KTgyvy6e0kC1xfR3m1RzgYCibMwX0EL
+	98WgKPuPhin+Yo9LkJLVyMJxNJw84JEYZYy5a9YNupIJEGoW+MbE/kcZjhOw93utkc6qSdFj/on
+	M+ElxPqt1TqtbYKJKvvywBaAhQ22XvYC3LXy+GStZDXsre5P55W7a6kjrhyHSBTH9868XawDLW9
+	r/QzNukuntyvqXZLHrBYBdYFXJj3HymHs6F+knqo0+/eQ+rlnwGx1xGjq/3s+pGUk65ahfplxfC
+	mzc/X5Z1tGGlP9sRC+nvtt5tgYbRJB10PCPkC4YuGG5GX7vLd1eW5sA/mvhNNGAqlUgfN4cMB7z
+	5XnKrXSACTTBl5FPK4BhGNlTBUKAWKwTvshGPOTXrVnFRR4nuEv1CgbKBcmEU0VTIDIOfpoCyFM
+	/tKS5icPC/EmZGyWhrYiUxJMbcK1Xvy+YxLS8=
+X-Received: by 2002:a05:600c:a418:b0:485:3423:727d with SMTP id 5b1f17b1804b1-486ff03f502mr147150825e9.26.1774289530991;
+        Mon, 23 Mar 2026 11:12:10 -0700 (PDT)
+Received: from [192.168.0.193] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4870f6e9646sm386325e9.19.2026.03.23.11.12.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Mar 2026 11:12:10 -0700 (PDT)
+Message-ID: <9a6cc642-aa66-4358-9ad7-9e4cc381a07a@gmail.com>
+Date: Mon, 23 Mar 2026 19:12:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5CiJK9+3S3OZYzXr"
-Content-Disposition: inline
-In-Reply-To: <20260322-remove-device-find-by-of-node-v1-3-b72eb22a1215@gmail.com>
-X-Cookie: Avoid gunfire in the bathroom tonight.
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 1/1] leds: Introduce the multi_max_intensity sysfs
+ attribute
+To: Armin Wolf <W_Armin@gmx.de>, lee@kernel.org, pavel@kernel.org
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-leds@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ wse@tuxedocomputers.com, pobrn@protonmail.com
+References: <20260314230107.65444-1-W_Armin@gmx.de>
+ <20260314230107.65444-2-W_Armin@gmx.de>
+ <e43fc3be-7cee-432b-90cb-7fbc4af2fa68@gmail.com>
+ <ea41ff3c-4ee1-4fe4-a348-0c7f28fbd20b@gmx.de>
+Content-Language: en-US
+From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+In-Reply-To: <ea41ff3c-4ee1-4fe4-a348-0c7f28fbd20b@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-7432-lists,linux-leds=lfdr.de];
+	FREEMAIL_CC(0.00)[lwn.net,linuxfoundation.org,vger.kernel.org,tuxedocomputers.com,protonmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7431-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[gmx.de,kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FREEMAIL_CC(0.00)[lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,linaro.org,gmail.com,axentia.se,armlinux.org.uk,intel.com,linuxfoundation.org,vger.kernel.org,lists.infradead.org,lists.linux.dev];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-leds,netdev];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[jacekanaszewski@gmail.com,linux-leds@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,sirena.org.uk:mid]
-X-Rspamd-Queue-Id: C65FB2FA085
+	TAGGED_RCPT(0.00)[linux-leds];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 03AE32FB333
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On 3/23/26 11:22 AM, Armin Wolf wrote:
+[...]
+>>> led-class-multicolor.h
+>>> index db9f34c6736e..67ac0ac0fd54 100644
+>>> --- a/include/linux/led-class-multicolor.h
+>>> +++ b/include/linux/led-class-multicolor.h
+>>> @@ -9,10 +9,33 @@
+>>>   #include <linux/leds.h>
+>>>   #include <dt-bindings/leds/common.h>
+>>>   +#define LED_USE_MAX_BRIGHTNESS 0
+>>> +
+>>> +/**
+>>> + * struct mc_subled - Color component description.
+>>> + * @color_index: Color ID.
+>>> + * @brightness: Scaled intensity.
+>>> + * @intensity: Current intensity.
+>>> + * @max_intensity: Maximum supported intensity value.
+>>> + * @channel: Channel index.
+>>> + *
+>>> + * Describes a color component of a multicolor LED. Many multicolor 
+>>> LEDs
+>>> + * do no support gobal brightness control in hardware, so they use
+>>> + * the brightness field in connection with 
+>>> led_mc_calc_color_components()
+>>> + * to perform the intensity scaling in software.
+>>> + * Such drivers should set max_intensity to LED_USE_MAX_BRIGHTNESS
+>>
+>> I'd just mention here that the field needs to be left initialized to 0,
+>> to let the LED subsystem to adjust it to max_brightness. Note that in
+>> case of max_brightness we allow for the same - if it is 0, then
+>> led-class.c adjusts it to legacy LED_FULL (255).
+>>
+> OK, do you think that having LED_USE_MAX_BRIGHTNESS makes sense?
 
---5CiJK9+3S3OZYzXr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Not really, let's drop it.
 
-On Sun, Mar 22, 2026 at 06:54:21PM -0700, Dmitry Torokhov wrote:
-> In preparation to class_find_device_by_of_node() going away switch to
-> using class_find_device_by_fwnode().
+-- 
+Best regards,
+Jacek Anaszewski
 
->  struct spi_controller *of_find_spi_controller_by_node(struct device_node=
- *node)
->  {
-> +	struct fwnode_handle *fwnode =3D of_fwnode_handle(node);
->  	struct device *dev;
-> =20
-> -	dev =3D class_find_device_by_of_node(&spi_controller_class, node);
-> +	dev =3D class_find_device_by_fwnode(&spi_controller_class, fwnode);
->  	if (!dev && IS_ENABLED(CONFIG_SPI_SLAVE))
-> -		dev =3D class_find_device_by_of_node(&spi_target_class, node);
-> +		dev =3D class_find_device_by_fwnode(&spi_target_class, fwnode);
->  	if (!dev)
->  		return NULL;
-
-Actually, no - this just looks weird.  We're in the middle of an OF
-specific function but we're having to jump up to fwnode for no apparent
-reason.  If we actually decide to get rid of the OF specific function
-then I guess but I'm really not convinced this is an improvement in
-isolation.
-
---5CiJK9+3S3OZYzXr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnBdVMACgkQJNaLcl1U
-h9AZpwf+IYUP90323AiTlXT8gw1Dypm0TDgs0IOfZCsY6eI2ifZgGPN9bmjL/nqn
-qOCQnievL6WWoQiEOvgXsLRJl9rBwFIoqSVqZ5KSwziQt3eVC1C8h2BBG1RRNUTs
-iAN2o35mqWmLWMjutA6YleGKMYmsZYLPhv47Bn89wSF5X2/KO2oAUR3pc4t1UZwV
-iB4S4xXHm268iBSZduYC+IqDTV8Dd6HABhODhHHz96h17qZlzPM64vxVlOU30dlc
-QEHhAL5tfwE+km7QmFrPh176jDVmndTGdXRJbtRICsUHDLuIPIjeuCFwom9RyzhN
-v8Jk4nJOfxCXEkLHHAlP8AtJaBLsrw==
-=ncpO
------END PGP SIGNATURE-----
-
---5CiJK9+3S3OZYzXr--
 
