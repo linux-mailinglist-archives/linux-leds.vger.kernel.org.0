@@ -1,152 +1,152 @@
-Return-Path: <linux-leds+bounces-7442-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7443-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IGHOLROfwWmFUAQAu9opvQ
-	(envelope-from <linux-leds+bounces-7442-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 21:14:11 +0100
+	id iIF8CzigwWmFUAQAu9opvQ
+	(envelope-from <linux-leds+bounces-7443-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 21:19:04 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366A02FD0BA
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 21:14:11 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id B62972FD1BF
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 21:19:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1EB9630F580C
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 20:02:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C715230D7BCA
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2026 20:14:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76E1E36C5AC;
-	Mon, 23 Mar 2026 20:02:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41FF23E1CEA;
+	Mon, 23 Mar 2026 20:13:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="4xcWL833"
+	dkim=temperror (0-bit key) header.d=szelinsky.de header.i=@szelinsky.de header.b="Df7LVueU"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from szelinsky.de (szelinsky.de [85.214.127.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0BF936C9EE;
-	Mon, 23 Mar 2026 20:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECCD93E022B;
+	Mon, 23 Mar 2026 20:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.127.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774296125; cv=none; b=BSudDtd/9oSTUvyLIACUJS/6pdXqnmjwBykQqIr27OIlXsY1GSfJKrBvt3FF1tm0T839ok3jiYaZ1INsvYgAY5Qv28tXA7z9WSa3dB/KMrnlFqqKwZz6+F6FYFw45zFuF1nm/a3tjq+00llppYJUXoFZRwVLXrc469t32RnvUP4=
+	t=1774296830; cv=none; b=gBM1TvHEWjm0z+yFCywlbTNp1acPjEwona4L4wuTc3OtpDNdNCOjRSEyeLwdEkerDdjAeNeVABaJFxRnRzDHyFZUbRBCNzQIMjr8niw2AjMLBMuqLQZAs27fvrr+JSM4CNX5c0AEFQPQE3eUYyX5ZgHfSKOMBWwShp322vWKWKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774296125; c=relaxed/simple;
-	bh=9OuZsIYBCcoE1Csvxd1QRj1F8s9WgTCeABrtEcPMg+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TxpIpnOog8h7Sj0LCDgr3II/7ypRT0+tr9FV+Gtgo4nGj7sDYMV0f8ELUar6wubZPgpUf9IdlppM+LDcPVpIeGn0rOg1/5y7xL4wCsvoCflfxkWJStuL8tgn94h3IUM3t+GM/TKD3YiXL2ARwHBisP8HaE2CcAbGE5nWBPYVb00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=4xcWL833; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=xhhrrcIXVAdZgZvrCjN8mX5O+B3R+l308Q4Vj3KbAK0=; b=4xcWL833CUngH3xiCGV+iMeXDh
-	g/1arPn4ajwo2wKPN2HvwR5tdu2/TdHpSNwYA8NN9wSgr8BklYNT02WIi2JCzlsd492f9AyXDxqra
-	kP33A8lJeoanNLMB8UYkPnV3fxKNfaM8tlx37sriWCZ0W6aqC48vkhoAm/EHzJj64PTU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1w4lT9-00CzQo-JA; Mon, 23 Mar 2026 21:01:47 +0100
-Date: Mon, 23 Mar 2026 21:01:47 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Mark Brown <broonie@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
+	s=arc-20240116; t=1774296830; c=relaxed/simple;
+	bh=5Vg7x66LmWW3+lK8EZ+thDoVhN670sDpCn7MT+dNJLo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=K7wYkXCe9TyeabYzSMwhIeSEHacODgE3pu/EhFCeW2oTWbi1PfKg4DgicS/X5vT9sioyIPBjxlfWA4RS0txvBRbnX//K874+raT/hgrS5W5qoC+4MpBaxTxmZrbvFhwXWaOrDNew6WYPFhOqa5NCDI6jSRg5ONxDkZs8hLQFnco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szelinsky.de; spf=pass smtp.mailfrom=szelinsky.de; dkim=temperror (0-bit key) header.d=szelinsky.de header.i=@szelinsky.de header.b=Df7LVueU; arc=none smtp.client-ip=85.214.127.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szelinsky.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szelinsky.de
+Received: from localhost (localhost [127.0.0.1])
+	by szelinsky.de (Postfix) with ESMTP id E7008E832F0;
+	Mon, 23 Mar 2026 21:13:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=szelinsky.de;
+	s=mail; t=1774296819;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xKgbg91d9FAbtPKDAgsKs+zCBQvODHnqZEaYW3qcQNc=;
+	b=Df7LVueUy6mjAaQtfFVrikWCc1xJau7296VCohaXQ7FzwdVt27YtPDnS2ZlGCmnDevSJ24
+	jHfOrfOAlqbUCqALenbBNQv96b5tmz1u190ZJJ0yC1R0pkWstACYBnHfgmz3EtzLO/8NBc
+	W1V6ec5ZXEhCsP11UfSS0vR2Htewc8mqZpppgcDIPK+VVjW5HepSDgBi2UUXQB9Ba6gzZC
+	M9waJEA0iYctI2KXyQCF/Usy2XVgixN68I+wFZS2y1r60BWxXjGdmszwLN0ZavN0Xq4u2b
+	CQ0LhpLFh1RYIHzuyBe2zu1tjcIKMUjfDRZZxheChhq+gMGuKVp07iWZU54hBQ==
+X-Virus-Scanned: Debian amavisd-new at szelinsky.de
+Received: from szelinsky.de ([127.0.0.1])
+	by localhost (szelinsky.de [127.0.0.1]) (amavisd-new, port 10025)
+	with ESMTP id TwUFthTMUWlY; Mon, 23 Mar 2026 21:13:39 +0100 (CET)
+Received: from p14sgen5.fritz.box (dslb-002-205-089-065.002.205.pools.vodafone-ip.de [2.205.89.65])
+	by szelinsky.de (Postfix) with ESMTPSA;
+	Mon, 23 Mar 2026 21:13:39 +0100 (CET)
+From: Carlo Szelinsky <github@szelinsky.de>
+To: Oleksij Rempel <o.rempel@pengutronix.de>,
+	Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Peter Rosin <peda@axentia.se>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
-	Tom Rix <trix@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-spi@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-fpga@vger.kernel.org, driver-core@lists.linux.dev
-Subject: Re: [PATCH 04/10] regulator: of: switch to using
- class_find_device_by_fwnode()
-Message-ID: <cf92122d-6b15-458a-bf89-189a0a6874f7@lunn.ch>
-References: <20260322-remove-device-find-by-of-node-v1-0-b72eb22a1215@gmail.com>
- <20260322-remove-device-find-by-of-node-v1-4-b72eb22a1215@gmail.com>
- <360a8b4a-6507-417a-9fc1-c53b14868657@sirena.org.uk>
- <acGFksyx3SA0kJ5b@google.com>
- <7d46803e-b285-4e9c-8856-10100fa0ea85@sirena.org.uk>
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	Carlo Szelinsky <github@szelinsky.de>
+Subject: [PATCH v2 0/3] net: pse-pd: add poll path and LED trigger support
+Date: Mon, 23 Mar 2026 21:12:22 +0100
+Message-ID: <20260323201225.1836561-1-github@szelinsky.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7d46803e-b285-4e9c-8856-10100fa0ea85@sirena.org.uk>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[lunn.ch,none];
-	R_DKIM_ALLOW(-0.20)[lunn.ch:s=20171124];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[szelinsky.de,quarantine];
+	R_DKIM_ALLOW(-0.20)[szelinsky.de:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7442-lists,linux-leds=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,linaro.org,axentia.se,armlinux.org.uk,intel.com,linuxfoundation.org,vger.kernel.org,lists.infradead.org,lists.linux.dev];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-7443-lists,linux-leds=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[szelinsky.de:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrew@lunn.ch,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[lunn.ch:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[github@szelinsky.de,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-leds,netdev];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,lunn.ch:dkim,lunn.ch:mid]
-X-Rspamd-Queue-Id: 366A02FD0BA
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,szelinsky.de:dkim,szelinsky.de:mid]
+X-Rspamd-Queue-Id: B62972FD1BF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Mar 23, 2026 at 07:05:13PM +0000, Mark Brown wrote:
-> On Mon, Mar 23, 2026 at 11:28:27AM -0700, Dmitry Torokhov wrote:
-> > On Mon, Mar 23, 2026 at 02:00:43PM +0000, Mark Brown wrote:
-> 
-> > > The regulator API is very deliberately specifically using the OF APIs,
-> > > not the ACPI APIs, since ACPI really doesn't want to model regulators.
-> 
-> > For now? We also have software nodes and maybe we come up with something
-> > else in the future...
-> 
-> > I think we should use firmware-agnostic APIs as much as possible, and
-> > only use OF- or ACPI-specific ones when there is no generic equivalent.
-> > This makes the code most flexible.
-> 
-> I think this is a worrying idea for core code like this, we have
-> specific firmware bindings for specific firmware interfaces with the
-> different interfaces having very different ideas of how things should be
-> modelled.  The chances that firmware agnostic code is going to do the
-> right thing seem low, and encouraging the use of generic APIs that might
-> happen to run OK raises the risk that we'll get firmware vendors relying
-> on them and leaving us with a conceptual mishmash to sort through.
+This series adds poll-based event detection and LED trigger support
+to the PSE core subsystem.
 
-How do you handle deprecated OF properties? This is a problem i've run
-into before. A developer needs an ACPI binding, so they blindly
-convert from of_ to device_ without engaging brain. As a result, they
-bring all the deprecated OF properties we want to die into the brand
-new ACPI bindings.
+Patches 1-2 introduce the poll path independently of LED support,
+so it can be tested in isolation on boards with and without IRQ
+configured.
 
-A agree with Mark here. OF != ACPI, and anything which makes it appear
-they are the same is just going to lead developers down the wrong path
-and increase Maintainers work pointing out all the problems.
+Patch 3 adds LED triggers that hook into the shared event handling
+path introduced by patch 2.
 
-    Andrew
+Changes since v1:
+- Split single patch into 3 separate patches
+- Extracted pse_handle_events() and devm_pse_poll_helper() as a
+  standalone poll path (patches 1-2), testable without LED code
+- Added DT binding for poll-interval-ms as a separate patch
+- Renamed led-poll-interval-ms to poll-interval-ms for generic use
+- Fire LED triggers from the notification path rather than a
+  separate poll loop
+
+Tested on Realtek RTL9303 with HS104 PoE chip, poll path only
+(without IRQ configured). Verified PD connect/disconnect notifications
+and LED trigger state changes. Testing with IRQ configured is still
+needed to verify the refactored pse_isr() path.
+
+Link: https://lore.kernel.org/all/20260314235916.2391678-1-github@szelinsky.de/
+
+Carlo Szelinsky (3):
+  dt-bindings: net: pse-pd: add poll-interval-ms property
+  net: pse-pd: add devm_pse_poll_helper()
+  net: pse-pd: add LED trigger support via notification path
+
+ .../bindings/net/pse-pd/pse-controller.yaml   |   8 +
+ drivers/net/pse-pd/pse_core.c                 | 267 ++++++++++++++++--
+ include/linux/pse-pd/pse.h                    |  34 +++
+ 3 files changed, 278 insertions(+), 31 deletions(-)
+
+-- 
+2.43.0
+
 
