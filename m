@@ -1,274 +1,313 @@
-Return-Path: <linux-leds+bounces-7467-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7469-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QGiXC03OwmnRmQQAu9opvQ
-	(envelope-from <linux-leds+bounces-7467-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 24 Mar 2026 18:47:57 +0100
+	id cBIfNuHzwmnCnQQAu9opvQ
+	(envelope-from <linux-leds+bounces-7469-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Mar 2026 21:28:17 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C840131A46C
-	for <lists+linux-leds@lfdr.de>; Tue, 24 Mar 2026 18:47:56 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5243531C538
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Mar 2026 21:28:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 686F830F3635
-	for <lists+linux-leds@lfdr.de>; Tue, 24 Mar 2026 17:40:04 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 49397301DC11
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Mar 2026 20:28:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF565408220;
-	Tue, 24 Mar 2026 17:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10FF234C990;
+	Tue, 24 Mar 2026 20:28:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TgSFwAvw"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="TIIBHw9r"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDDF40758C
-	for <linux-leds@vger.kernel.org>; Tue, 24 Mar 2026 17:40:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4F634C9AB;
+	Tue, 24 Mar 2026 20:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774374003; cv=none; b=LMLKYCBcNiAwTbWupK869snAsW3suAcjVC1EnrhMc41eA4+ICeXE5qDIvI32rjBUdPFZoWBftz7bKJoUJIF2rY4s3weFZ+EjtZX8Z+ADHZETSh8G7vbVoOZKwLiyTBMb5Fv5HkD4va9KFzQBAdcxXWBbHXe6DC2A1HSgoYBsols=
+	t=1774384092; cv=none; b=HDyrNw+7rLZRrGWx+gusSYh3EcwjnfpjNuGpSYp3LFBSkH/AwxN0/dbq0Y9r8Fs9nStZo8wrbB4dgmK7Z/TDUXGRTVi+BI2NNFaFPlJGE+g8h5Nt/QSryyQZ/B7tEPTuWKz9L19kHB/G7MyE6mtR4/Fi76kwWqN2J/K2DMblJN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774374003; c=relaxed/simple;
-	bh=sZ9R9A6EyluvGAUCUqlygxCnnXACQl62uyvQhMVFpEE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=go/ZTVNQTXFPYUcR6WrAfcGy7AZB3NoiO9qzUocS2uC0oGu5i0b6HKdfjF+VlLuOaWQztCODxoPYS0kIzvXJUmBZNVK9tz82faNbKcHlv9ywhgvKbgUOijCoe6jCANMuwd5ujRDGWlcpm5kTDY6uPbmzuG92QGX5EVu4ucHXvOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TgSFwAvw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EC12C2BCC4
-	for <linux-leds@vger.kernel.org>; Tue, 24 Mar 2026 17:40:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774374003;
-	bh=sZ9R9A6EyluvGAUCUqlygxCnnXACQl62uyvQhMVFpEE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=TgSFwAvwC7c0S6t29Y+Hbk/4xniNeHVNvn5ca2RnKwvoV9vzKxs8sg1syP4BsljaV
-	 2+QwzQTrOhZ+odEmy1qCG+4HVIEN8A/epUNf6bXxsC29q+Dm7y0QSF1sopf5qYnRa8
-	 jHiUE0VHWSivrWSww1XU7pwHI+PXkGKl0Lb5SbkxrSoRuj7dnUOj98Q+FAgrYVM53n
-	 9iVBP6IoRXrd6kIw9g8jpvi03WIZISoyeg3++wSGg711xT76UQJRPu/Dae5evd05uh
-	 5akGqdPcz5Yeufs2tL5r2oah7if6B7QUUAnWfUGyVey6RTCEPgGwXMDYoBWNtosGRq
-	 9Qv3xehnocjGQ==
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-4671cbce465so736644b6e.3
-        for <linux-leds@vger.kernel.org>; Tue, 24 Mar 2026 10:40:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU1yTtsBllnpoos8G9F+L8KscmzQxn9SWGxpC01hJtShdqD2XPx4SO0Kgf1w/odIWtwHD17TZkBoN5c@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw15rBWFlo2p3myMCBtVA50bc/JAqZVL1z9hYdEYRyT46Sp1Wfr
-	G1qe4VqMced8t5Qh0XT2kmFKe0zTcJEaXZybl3daj95iO5Yei8LSwUdTUGS/ZD6wRZwyKb5Lqf1
-	pAqym272YSe3HinxNgGrnQmZeIY7gr1A=
-X-Received: by 2002:a05:6808:144e:b0:467:880:7454 with SMTP id
- 5614622812f47-46a5c5a3227mr224727b6e.18.1774374002202; Tue, 24 Mar 2026
- 10:40:02 -0700 (PDT)
+	s=arc-20240116; t=1774384092; c=relaxed/simple;
+	bh=9owk4fhfzLWmsMEAqabQb4lwtZJnd61xvGcNPnNc3ho=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=U1nr5eLItlrCDrdQaac9nfYb22oC6eVZOCrmwmhALMzciY8L1vpWOcmB/20x4bXvr4JSWO7Tr5Sd8F/rmIxcOOJToawADlPPk93PmFO/R4n4NzZzF5Qx8pg3YmuO0LWRdKD4uOv2lndv7uGZITIkpdx5yoqvqIxR26tVDxUjevE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=TIIBHw9r; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1774384075; x=1774988875; i=w_armin@gmx.de;
+	bh=/87Wi5H+RLlr0FEMtyqxYoYLxX0qhVMpr6/U0qWMSr8=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=TIIBHw9rHnHLeFmAi4M7ZzozZkHC0O8AG/DbZeWcY1PFRoPhCFU9fgRyXqDMRT8S
+	 YncO6m3rx2/w5QRmI6fPY6vhdAu/Kpf09003RcluPuIytL61Eqxg8ugMLRdef2oHc
+	 f/Aghq26PqJ3ZiusJdh6hkXKsJQ9br6GfxRkH+DcUTQZm1mR2ZJcHHNtYlofWlqnp
+	 80wcIwaPI6qCkcrxdsZ/VBDdMCzYcc2kcm36M3YZgbiss5ZC9RLiwFKA1UxvHnuUl
+	 9fwsFsu08olInv+PwL96xek+/9gV6x10j4x/56Rq0jS5hrqWV8lEuEkC6BJreMoF8
+	 yxg2/bAsNyzR/dPSbw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MBm1U-1wHDBH1xwy-007uhd; Tue, 24
+ Mar 2026 21:27:55 +0100
+From: Armin Wolf <W_Armin@gmx.de>
+To: lee@kernel.org,
+	pavel@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-leds@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	wse@tuxedocomputers.com,
+	jacek.anaszewski@gmail.com,
+	pobrn@protonmail.com,
+	m.tretter@pengutronix.de
+Subject: [PATCH 0/1] leds: Introduce the multi_max_intensity sysfs attribute
+Date: Tue, 24 Mar 2026 21:27:50 +0100
+Message-Id: <20260324202751.6486-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260313-synology_microp_initial-v3-0-ad6ac463a201@posteo.de>
- <20260313-synology_microp_initial-v3-3-ad6ac463a201@posteo.de>
- <CAJZ5v0jxHO2EH5NeEsMkxGz5xqVL00tO-W1JpaVd=GhwgQ3T=A@mail.gmail.com>
- <e8ffc9902c0af24ce6fde2d8712ea588b36e9194.camel@posteo.de>
- <CAJZ5v0jHQ7sHJ8SV25p2gQugC-a8f9oVFarS17NXwPzGOJUD0Q@mail.gmail.com> <f32aba79b98b357487c44e1952e536051fcd7a51.camel@posteo.de>
-In-Reply-To: <f32aba79b98b357487c44e1952e536051fcd7a51.camel@posteo.de>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 24 Mar 2026 18:39:51 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0guwtAepn2eS_fGik6iCEYWn3vt2s5oAGnnL_u62-YbpQ@mail.gmail.com>
-X-Gm-Features: AQROBzBgz9X_18TNZxhGoIzxIF6ZRQ4p9BklVyTGwPgiiSXx52mPCcekAjItT7o
-Message-ID: <CAJZ5v0guwtAepn2eS_fGik6iCEYWn3vt2s5oAGnnL_u62-YbpQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/7] acpi: add acpi_of_match_device_ids
-To: Markus Probst <markus.probst@posteo.de>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Igor Korotin <igor.korotin.linux@gmail.com>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Robert Moore <robert.moore@intel.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org, 
-	linux-leds@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	acpica-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Provags-ID: V03:K1:E/IOtGi4IVP5VqrV4gpUk3oGd2hznFppruYoSN2Nipa61Ds/COo
+ DDuV2JJ8mQp2r3rI+R5eEagXeRYCmv5EVUqv5AI6fnR+/87apNhvwPI9W2qcsT0ZsqhfCZi
+ NIZWWvq3RIopIIwlPmOVKPm4r1xUErtAJvP/1HcoVGcz3Z42yKXqUxlynlFwb2G0YPjMpYd
+ SzFOYl0MduFHvKGwFOKpA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:qldIZZGcjtw=;LSySzB4QM148tuWmOjSsDduLF6a
+ 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
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmx.de,quarantine];
+	R_DKIM_ALLOW(-0.20)[gmx.de:s=s31663417];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7467-lists,linux-leds=lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,garyguo.net,protonmail.com,google.com,umich.edu,gmail.com,collabora.com,intel.com,vger.kernel.org,lists.linux.dev];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lwn.net,linuxfoundation.org,tuxedocomputers.com,gmail.com,protonmail.com,pengutronix.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rafael@kernel.org,linux-leds@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-7469-lists,linux-leds=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[W_Armin@gmx.de,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmx.de:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-leds];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FREEMAIL_FROM(0.00)[gmx.de];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,posteo.de:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: C840131A46C
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 5243531C538
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 24, 2026 at 5:26=E2=80=AFPM Markus Probst <markus.probst@posteo=
-.de> wrote:
->
-> On Tue, 2026-03-24 at 17:01 +0100, Rafael J. Wysocki wrote:
-> > On Tue, Mar 24, 2026 at 4:30=E2=80=AFPM Markus Probst <markus.probst@po=
-steo.de> wrote:
-> > >
-> > > On Mon, 2026-03-23 at 20:57 +0100, Rafael J. Wysocki wrote:
-> > > > On Fri, Mar 13, 2026 at 8:03=E2=80=AFPM Markus Probst via B4 Relay
-> > > > <devnull+markus.probst.posteo.de@kernel.org> wrote:
-> > > > >
-> > > > > From: Markus Probst <markus.probst@posteo.de>
-> > > > >
-> > > > > Add a function to match acpi devices against of_device_ids. This =
-will be
-> > > > > used in the following commit ("mfd: match acpi devices against PR=
-P0001")
-> > > > > to match mfd sub-devices against a of compatible string.
-> > > >
-> > > > Please always spell ACPI in capitals in patch subjects, comments,
-> > > > changelogs, etc.  It is not a regular word.
-> > > Ok.
-> > > >
-> > > > > Signed-off-by: Markus Probst <markus.probst@posteo.de>
-> > > > > ---
-> > > > >  drivers/acpi/bus.c      | 7 +++++++
-> > > > >  include/acpi/acpi_bus.h | 2 ++
-> > > > >  2 files changed, 9 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
-> > > > > index f6707325f582..5ddcc56edc87 100644
-> > > > > --- a/drivers/acpi/bus.c
-> > > > > +++ b/drivers/acpi/bus.c
-> > > > > @@ -1044,6 +1044,13 @@ int acpi_match_device_ids(struct acpi_devi=
-ce *device,
-> > > > >  }
-> > > > >  EXPORT_SYMBOL(acpi_match_device_ids);
-> > > > >
-> > > >
-> > > > Missing kerneldoc.
-> > > The same amount of kerneldoc as `acpi_match_device_ids`, if I am not
-> > > mistaken.
-> > > >
-> > > > > +int acpi_of_match_device_ids(struct acpi_device *device,
-> > > > > +                         const struct of_device_id *ids)
-> > > > > +{
-> > > > > +       return __acpi_match_device(device, NULL, ids, NULL, NULL)=
- ? 0 : -ENOENT;
-> > > > > +}
-> > > > > +EXPORT_SYMBOL(acpi_of_match_device_ids);
-> > > >
-> > > > Are you aware of the consensus that using PRP0001 in production
-> > > > platform firmware will be regarded as invalid?
-> > > >
-> > > > Because of that, it is not an option for a driver to avoid providin=
-g
-> > > > ACPI match data on a platform that uses ACPI.
-> > > First of all, the driver that would have made use of it has been
-> > > restructed to not use mfd subdevices. It would not be affected anymor=
-e
-> > > through this patch set.
-> >
-> > So what exactly would be affected by it?
-> I won't have a use for myself anymore, but I still think the patch is
-> useful. Anyway,
->
-> MFD Devices without an assigned ACPI ID, if they are present on devices
-> with ACPI platform firmware.
->
-> >
-> > > Not sure if I should still send it as its own patch series though.
-> That is why I asked this question (see 1. sentence in the paragraph
-> above).
->
-> > >
-> > > The device of the driver has no ACPI ID allocated by the manufacturer=
-,
-> > > as it is only used on a proprietary Linux OS (with their own modified
-> > > kernel).
-> >
-> > Do I understand correctly that there is an ACPI platform firmware on
-> > the board, but it doesn't enumerate the given device properly (that
-> > is, as an ACPI device object with a specific device ID)?
-> There is only a serial device in the ACPI platform firmware.
-> The device connected to the bus isn't specified.
-> >
-> > In which case there probably is a driver that can find that device
-> > somehow (it has hardcoded resources or similar).
-> Yes, that driver has `filp_open("/dev/ttyS1")` hardcoded.
-> >
-> > > The driver would have only been useful via device tree or an ACPI
-> > > Overlay.
-> >
-> > Do you mean a custom SSDT loaded via configfs or something else?
-> Yes, in my case via initrd.
->
-> >
-> > > Obviously, I don't have a PNP or ACPI Vendor ID, so I can't
-> > > assign one. The parent/main driver does only have a of compatible id.
-> > > As it needs to use PRP0001 anyway on ACPI, I thought it makes more
-> > > sense to also use PRP0001 there instead of matching it with a _ADR
-> > > which is "a grey area in the ACPI specification".
-> >
-> > You can't match a device with _ADR.  By itself, _ADR doesn't provide
-> > you with any information on the device in question, it only helps to
-> > connect it to some information that can be collected by other means.
-> > The role of it, at least in principle, is to allow some device objects
-> > in the ACPI hierarchy to be associated with devices enumerated by
-> > other means (like on a PCI bus).
->
-> This patch affects mfd devices. A bus device can via mfd register child
-> devices and those child devices will be matched to a fwnode if
-> available.
+This patch series was born out of of a mailing list thread [1] where
+i asked how to properly model a RGB LED as a multicolor LED. Said
+LED has some exotic properties:
 
-That only works because the parent can be recognized and properly
-enumerated, so it is parent-relative.
+1. 5 global brightness levels.
+2. 50 intensity levels for each R/G/B color components.
 
-> According to commit 98a3be44ffa67b812de7aa7aed9f2331edcfb1a5, there is
-> a board on the market with a sub-device that will be matched using _ADR
-> [1].
+The current sysfs interface mandates that the maximum intensity value
+for each color component should be the same as the maximum global
+brightness. This makes sense for LEDs that only emulate global
+brightness using led_mc_calc_color_components(), but causes problems
+for LEDs that perform global brightness control in hardware.
 
-With the help of a quirk though.
+Faking a maximum global brightness of 50 will not work in this case,
+as the hardware can change the global brightness on its own. Userspace
+applications might also prefer to know the true maximum brightness
+value.
 
-> [1]
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D98a3be44ffa67b812de7aa7aed9f2331edcfb1a5
->
-> >
-> > The enumeration with the help of PRP0001 only works if there is a
-> > device object in the ACPI hierarchy and its _HID is PRP0001 or its
-> > _CID list contains PRP0001, there is a _DSD under it and a
-> > "compatible" property is returned by that _DSD.  Who's going to
-> > provide all of that for the given device?
-> A ACPI Overlay would do that.
->
-> >
-> > Moreover, if the device has some resources that the kernel needs to
-> > know about, there should be a _CRS under the device object in question
-> > and the resources should be listed there.  Or how are the resources
-> > going to be found otherwise?
-> Resources in mfd are usually handled by the parent device, not the mfd
-> child device. But yes, it would be using _CRS if any.
+Because of this i decided to add a new sysfs attribute called
+"multi_max_intensity". This attribute is similar to the
+"max_brightness" sysfs attribute, except that it targets the intensity
+values inside the "multi_intensity" sysfs atribute. I also decided to=20
+cap intensity values comming from userspace to said maximum intensity
+values to relieve drivers from doing it themself. This was already
+proposed in a unrelated patch [2] and might break some misbehaving
+userspace applications that do not respect max_brightness.
 
-So this is kind of a valid use case, but since you don't need it any
-more, I'd rather not put it in without a clear need.
+I tested the new sysfs attribute using a custom kernel module:
 
-Also, it's not a huge deal for a vendor to allocate a proper ACPI
-device ID for a piece of hardware.  It just involves some due
-diligence.
+#include <linux/module.h>
+#include <linux/init.h>
+#include <linux/led-class-multicolor.h>
+
+static int test_brightness_set_blocking(struct led_classdev *led_cdev,
+					enum led_brightness brightness)
+{
+	struct led_classdev_mc *mc_cdev =3D lcdev_to_mccdev(led_cdev);
+
+	for (int i =3D 0; i < mc_cdev->num_colors; i++) {
+		if (mc_cdev->subled_info[i].intensity > 30)
+			return -EIO;
+	}
+
+	return 0;
+}
+
+static struct mc_subled subleds[] =3D {
+	{
+		.color_index =3D LED_COLOR_ID_RED,
+		.max_intensity =3D 0,
+		.channel =3D 1,
+	},
+	{
+		.color_index =3D LED_COLOR_ID_GREEN,
+		.max_intensity =3D 0,
+		.channel =3D 2,
+	},
+	{
+		.color_index =3D LED_COLOR_ID_BLUE,
+		.max_intensity =3D 0,
+		.channel =3D 3,
+	},
+};
+
+static struct led_classdev_mc led_mc_cdev =3D {
+	.led_cdev =3D {
+		.max_brightness =3D 255,
+		.color =3D LED_COLOR_ID_MULTI,
+		.flags =3D LED_CORE_SUSPENDRESUME | LED_REJECT_NAME_CONFLICT,
+		.brightness_set_blocking =3D test_brightness_set_blocking,
+	},
+	.num_colors =3D ARRAY_SIZE(subleds),
+	.subled_info =3D subleds,
+};
+
+static int __init test_init(void)
+{
+	struct led_init_data init_data =3D {
+		.devicename =3D "test-led",
+		.default_label =3D "multicolor:" LED_FUNCTION_KBD_BACKLIGHT,
+		.devname_mandatory =3D true,
+	};
+
+	return led_classdev_multicolor_register_ext(NULL, &led_mc_cdev, &init_dat=
+a);
+}
+module_init(test_init);
+
+static void __exit test_exit(void)
+{
+	led_classdev_multicolor_unregister(&led_mc_cdev);
+}
+module_exit(test_exit);
+
+MODULE_AUTHOR("Armin Wolf <W_Armin@gmx.de>");
+MODULE_DESCRIPTION("Multicolor LED test device");
+MODULE_LICENSE("GPL");
+
+[1] https://lore.kernel.org/linux-leds/2d91a44e-fce2-42dc-b529-133ab4a191f=
+0@gmx.de/
+[2] https://lore.kernel.org/linux-leds/20260123-leds-multicolor-limit-inte=
+nsity-v1-1-b37761c2fdfd@pengutronix.de/
+
+Changes since RFC:
+- rework documentation
+- drop useless defines
+- reduce amount of driver code churn
+
+Armin Wolf (1):
+  leds: Introduce the multi_max_intensity sysfs attribute
+
+ .../ABI/testing/sysfs-class-led-multicolor    | 19 ++++++--
+ Documentation/leds/leds-class-multicolor.rst  | 21 ++++++++-
+ drivers/leds/led-class-multicolor.c           | 47 ++++++++++++++++++-
+ drivers/leds/leds-lp50xx.c                    |  1 +
+ drivers/leds/rgb/leds-ncp5623.c               |  4 +-
+ include/linux/led-class-multicolor.h          | 30 +++++++++++-
+ 6 files changed, 113 insertions(+), 9 deletions(-)
+
+=2D-=20
+2.39.5
+
 
