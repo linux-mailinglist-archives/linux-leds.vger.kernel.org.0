@@ -1,294 +1,407 @@
-Return-Path: <linux-leds+bounces-7472-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7473-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ON8fD6uVw2ncrgQAu9opvQ
-	(envelope-from <linux-leds+bounces-7472-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 08:58:35 +0100
+	id +FrZGeixw2kktgQAu9opvQ
+	(envelope-from <linux-leds+bounces-7473-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 10:59:04 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3599B321010
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 08:58:34 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F4653228AF
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 10:59:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 3AFAB303F656
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 07:57:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 88F7F304CEAE
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 09:55:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4787D39185A;
-	Wed, 25 Mar 2026 07:57:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B48973A4528;
+	Wed, 25 Mar 2026 09:55:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jT+pjXWa"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="fHDDSwl2"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54FD390999
-	for <linux-leds@vger.kernel.org>; Wed, 25 Mar 2026 07:57:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C1E3A1696;
+	Wed, 25 Mar 2026 09:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774425446; cv=none; b=OuVGRZDSfiHjf1fzjgC74xqcwTnZG4X44WjfSaySJqXHFrCQvjn0uec+Oz5T/x3cAF0p0TitpMQNI5rfC1mW2x5OZzzDAorYbY7hQ6qfROJB3To5lI4kNtLbVGL+Da45DMXOqOWEeyGIeRqVyS0lxKydoVxSv3Ic2tIe6XAOUc4=
+	t=1774432504; cv=none; b=DPKOz/O78IhQ2ll7cV+TC7KbsbnDlTihqNWWNdxjU54PxLGvp/MXT2kwox9BZ2j1q1po1JBLjiOsUyGuUeNTjzR85MuSA7v54kfs/ypizi6cXDtcQs+v2nzMZ0PB/NZ1E1/H5KDLeB9j9D2Rz9nrA0vA3NvT9/6PNYPDHGo8+Ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774425446; c=relaxed/simple;
-	bh=KMhWGM6hPwSkBn2OMm8RDAXRrEmIWRKwFAXa6051OJ8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=S0CBIAJ8LsMhrG3/78zsahavoCGHlJNdgsXsNQi2kyRP6EgBRIKQAcH1B4cPg5Qp590HKpGANR5Z+sOSCi34vGhAevDDYLsSKMOXInLWuBa3gMseqxlVRX657LKI83iVHDJVB/aLmNdZA4Fw+tyNDRAiRAr3U1pZBSz4CzeSTPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jT+pjXWa; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774425443; x=1805961443;
-  h=date:from:to:cc:subject:message-id;
-  bh=KMhWGM6hPwSkBn2OMm8RDAXRrEmIWRKwFAXa6051OJ8=;
-  b=jT+pjXWabN3TX5HKudUmtvvLscG5Haw6DPHDprrcCH96fv/PXAO2wKP7
-   Vq5b5uzjVKN+8YpU7VOPXjOroLYhxlUWg7oqREZl2BuzHqipvpmrlfYG6
-   di5UO9RlkUCpOvfr8eknMhXCCQ6mJP7LJ6sPAH6efCWtaX1z++aFw1fUA
-   i1bUwlq7Vsj73v71n2dyQwym8oCsCaK2w8hSVrZKlPswKh8yoAHWyLM2k
-   B1WEoXr2jpJHkAXmQ8PWc/lWFk/h3865u0YZoM2uE//41z6zWq8X7/Dwr
-   gA2NiM9RIo8TFuh5VFH5tna87g4xQxTEo9eFbxr2+yM6qAInNiSioGGd8
-   g==;
-X-CSE-ConnectionGUID: ERdH6+riTtuUJqBBWHGdcw==
-X-CSE-MsgGUID: mYK2x6rgR92BzYo5yokpUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="86828601"
-X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="86828601"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 00:57:21 -0700
-X-CSE-ConnectionGUID: B7QL3MxmTByNANlq9YzreA==
-X-CSE-MsgGUID: zsEG5vmMRNmABIbq/KNjqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="224609725"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 25 Mar 2026 00:57:20 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w5J77-000000006RX-3Bk3;
-	Wed, 25 Mar 2026 07:57:17 +0000
-Date: Wed, 25 Mar 2026 15:56:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD SUCCESS
- fd93fc35cf4cd5936bbf7876e3bdc2a5933c8fd1
-Message-ID: <202603251525.tA6vxuCB-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1774432504; c=relaxed/simple;
+	bh=gaNhVTC8EDbOnwsIWvUdCY2bCLksP3J9tcz7lO6NvnE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PuUuf+1BJD/f4yL1Wx04ctF+1rOERQlmjSHs0sv779GZ5LqKx0+syktH2ldmi6mKTz/QBoZO5AqyXvD7a2mgjUM7QZjqh59tMa/Zv9/vG/Ta/xyD8/gr7UORg6IMZw2xriTPzMYyMkAUOICLK1ZqSCsLI0Ww5CwJyv39uc0Cdxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=fHDDSwl2; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.178.24] (i5C75F6C1.versanet.de [92.117.246.193])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 5E3D22FC0219;
+	Wed, 25 Mar 2026 10:54:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1774432498;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FMddY2ctQl+1Z2ZkLiYt/psc9L7/NvXzf3Zsbs+/1Os=;
+	b=fHDDSwl2s4Iovlb+fK+97GtC3871gNlq+ZaAZqbHvnl3RmyYOQeCpiY8pmlQTf1/qn72/g
+	jUNDQte40JFx3IqHYowTAigkomZrIsHC85BrzZCQTlSJFuJoDgVI/jzRaLmPZoyL38ppKO
+	TlqXfMegzSunT2Iy3AdbSfqxklq5twA=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <27e83d34-fa3e-410d-9897-4d0192775730@tuxedocomputers.com>
+Date: Wed, 25 Mar 2026 10:54:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] leds: Introduce the multi_max_intensity sysfs
+ attribute
+To: Armin Wolf <W_Armin@gmx.de>, lee@kernel.org, pavel@kernel.org
+Cc: linux-kernel@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ linux-leds@vger.kernel.org, linux-doc@vger.kernel.org,
+ jacek.anaszewski@gmail.com, pobrn@protonmail.com, m.tretter@pengutronix.de
+References: <20260324202751.6486-1-W_Armin@gmx.de>
+ <20260324202751.6486-2-W_Armin@gmx.de>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <20260324202751.6486-2-W_Armin@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[tuxedocomputers.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[tuxedocomputers.com:s=default];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
+	TAGGED_FROM(0.00)[bounces-7473-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7472-lists,linux-leds=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-leds@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmx.de,kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lwn.net,linuxfoundation.org,gmail.com,protonmail.com,pengutronix.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wse@tuxedocomputers.com,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[tuxedocomputers.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3599B321010
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0F4653228AF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: fd93fc35cf4cd5936bbf7876e3bdc2a5933c8fd1  dt-bindings: leds: lp5860: add enable-gpio
+Hi,
 
-elapsed time: 801m
+Am 24.03.26 um 21:27 schrieb Armin Wolf:
+> Some multicolor LEDs support global brightness control in hardware,
+> meaning that the maximum intensity of the color components is not
+> connected to the maximum global brightness. Such LEDs cannot be
+> described properly by the current multicolor LED class interface,
+> because it assumes that the maximum intensity of each color component
+> is described by the maximum global brightness of the LED.
+>
+> Fix this by introducing a new sysfs attribute called
+> "multi_max_intensity" holding the maximum intensity values for the
+> color components of a multicolor LED class device. Drivers can use
+> the new max_intensity field inside struct mc_subled to tell the
+> multicolor LED class code about those values. Intensity values written
+> by userspace applications will be limited to this maximum value.
+>
+> Drivers for multicolor LEDs that do not support global brightness
+> control in hardware might still want to use the maximum global LED
+> brightness supplied via devicetree as the maximum intensity of each
+> individual color component. Such drivers should set max_intensity
+> to 0 so that the multicolor LED core can act accordingly.
+>
+> The lp50xx and ncp5623 LED drivers already use hardware-based control
+> for the global LED brightness. Modify those drivers to correctly
+> initalize .max_intensity to avoid being limited to the maximum global
+> brightness supplied via devicetree.
+>
+> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
 
-configs tested: 169
-configs skipped: 2
+lgtm
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Reviewed-by: Werner Sembach <wse@tuxedocomputers.com>
 
-tested configs:
-alpha                             allnoconfig    gcc-15.2.0
-alpha                            allyesconfig    gcc-15.2.0
-alpha                               defconfig    gcc-15.2.0
-arc                              allmodconfig    clang-16
-arc                               allnoconfig    gcc-15.2.0
-arc                              allyesconfig    clang-23
-arc                                 defconfig    gcc-15.2.0
-arc                   randconfig-001-20260325    gcc-8.5.0
-arc                   randconfig-002-20260325    gcc-8.5.0
-arm                               allnoconfig    gcc-15.2.0
-arm                              allyesconfig    clang-16
-arm                                 defconfig    gcc-15.2.0
-arm                           omap1_defconfig    gcc-15.2.0
-arm                   randconfig-001-20260325    gcc-8.5.0
-arm                   randconfig-002-20260325    gcc-8.5.0
-arm                   randconfig-003-20260325    gcc-8.5.0
-arm                   randconfig-004-20260325    gcc-8.5.0
-arm64                            allmodconfig    clang-23
-arm64                             allnoconfig    gcc-15.2.0
-arm64                               defconfig    gcc-15.2.0
-arm64                 randconfig-001-20260325    clang-23
-arm64                 randconfig-002-20260325    clang-23
-arm64                 randconfig-003-20260325    clang-23
-arm64                 randconfig-004-20260325    clang-23
-csky                             allmodconfig    gcc-15.2.0
-csky                              allnoconfig    gcc-15.2.0
-csky                                defconfig    gcc-15.2.0
-csky                  randconfig-001-20260325    clang-23
-csky                  randconfig-002-20260325    clang-23
-hexagon                          allmodconfig    gcc-15.2.0
-hexagon                           allnoconfig    gcc-15.2.0
-hexagon                             defconfig    gcc-15.2.0
-hexagon               randconfig-001-20260325    gcc-11.5.0
-hexagon               randconfig-002-20260325    gcc-11.5.0
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    gcc-15.2.0
-i386                             allyesconfig    clang-20
-i386        buildonly-randconfig-001-20260325    gcc-14
-i386        buildonly-randconfig-002-20260325    gcc-14
-i386        buildonly-randconfig-003-20260325    gcc-14
-i386        buildonly-randconfig-004-20260325    gcc-14
-i386        buildonly-randconfig-005-20260325    gcc-14
-i386        buildonly-randconfig-006-20260325    gcc-14
-i386                                defconfig    gcc-15.2.0
-i386                  randconfig-001-20260325    clang-20
-i386                  randconfig-002-20260325    clang-20
-i386                  randconfig-003-20260325    clang-20
-i386                  randconfig-004-20260325    clang-20
-i386                  randconfig-005-20260325    clang-20
-i386                  randconfig-006-20260325    clang-20
-i386                  randconfig-007-20260325    clang-20
-i386                  randconfig-011-20260325    clang-20
-i386                  randconfig-012-20260325    clang-20
-i386                  randconfig-013-20260325    clang-20
-i386                  randconfig-014-20260325    clang-20
-i386                  randconfig-015-20260325    clang-20
-i386                  randconfig-016-20260325    clang-20
-i386                  randconfig-017-20260325    clang-20
-loongarch                        allmodconfig    clang-23
-loongarch                         allnoconfig    gcc-15.2.0
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20260325    gcc-11.5.0
-loongarch             randconfig-002-20260325    gcc-11.5.0
-m68k                             allmodconfig    gcc-15.2.0
-m68k                              allnoconfig    gcc-15.2.0
-m68k                             allyesconfig    clang-16
-m68k                                defconfig    clang-19
-microblaze                        allnoconfig    gcc-15.2.0
-microblaze                       allyesconfig    gcc-15.2.0
-microblaze                          defconfig    clang-19
-mips                             allmodconfig    gcc-15.2.0
-mips                              allnoconfig    gcc-15.2.0
-mips                             allyesconfig    gcc-15.2.0
-nios2                            allmodconfig    clang-23
-nios2                             allnoconfig    clang-23
-nios2                               defconfig    clang-19
-nios2                 randconfig-001-20260325    gcc-11.5.0
-nios2                 randconfig-002-20260325    gcc-11.5.0
-openrisc                         allmodconfig    clang-23
-openrisc                          allnoconfig    clang-23
-openrisc                            defconfig    gcc-15.2.0
-parisc                           allmodconfig    gcc-15.2.0
-parisc                            allnoconfig    clang-23
-parisc                           allyesconfig    clang-19
-parisc                              defconfig    gcc-15.2.0
-parisc                randconfig-001-20260325    clang-23
-parisc                randconfig-002-20260325    clang-23
-parisc64                            defconfig    clang-19
-powerpc                          allmodconfig    gcc-15.2.0
-powerpc                           allnoconfig    clang-23
-powerpc               randconfig-001-20260325    clang-23
-powerpc               randconfig-002-20260325    clang-23
-powerpc                     taishan_defconfig    clang-17
-powerpc64             randconfig-001-20260325    clang-23
-powerpc64             randconfig-002-20260325    clang-23
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    clang-23
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    gcc-15.2.0
-riscv                 randconfig-001-20260325    gcc-8.5.0
-riscv                 randconfig-002-20260325    gcc-8.5.0
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-15.2.0
-s390                                defconfig    gcc-15.2.0
-s390                  randconfig-001-20260325    gcc-8.5.0
-s390                  randconfig-002-20260325    gcc-8.5.0
-sh                               allmodconfig    gcc-15.2.0
-sh                                allnoconfig    clang-23
-sh                               allyesconfig    clang-19
-sh                                  defconfig    gcc-14
-sh                    randconfig-001-20260325    gcc-8.5.0
-sh                    randconfig-002-20260325    gcc-8.5.0
-sparc                             allnoconfig    clang-23
-sparc                               defconfig    gcc-15.2.0
-sparc                 randconfig-001-20260325    gcc-13
-sparc                 randconfig-002-20260325    gcc-13
-sparc64                          allmodconfig    clang-23
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20260325    gcc-13
-sparc64               randconfig-002-20260325    gcc-13
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-23
-um                               allyesconfig    gcc-15.2.0
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260325    gcc-13
-um                    randconfig-002-20260325    gcc-13
-um                           x86_64_defconfig    gcc-14
-x86_64                           allmodconfig    clang-20
-x86_64                            allnoconfig    clang-23
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20260325    gcc-14
-x86_64      buildonly-randconfig-002-20260325    gcc-14
-x86_64      buildonly-randconfig-003-20260325    gcc-14
-x86_64      buildonly-randconfig-004-20260325    gcc-14
-x86_64      buildonly-randconfig-005-20260325    gcc-14
-x86_64      buildonly-randconfig-006-20260325    gcc-14
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20260325    gcc-12
-x86_64                randconfig-002-20260325    gcc-12
-x86_64                randconfig-003-20260325    gcc-12
-x86_64                randconfig-004-20260325    gcc-12
-x86_64                randconfig-005-20260325    gcc-12
-x86_64                randconfig-006-20260325    gcc-12
-x86_64                randconfig-011-20260325    clang-20
-x86_64                randconfig-012-20260325    clang-20
-x86_64                randconfig-013-20260325    clang-20
-x86_64                randconfig-014-20260325    clang-20
-x86_64                randconfig-015-20260325    clang-20
-x86_64                randconfig-016-20260325    clang-20
-x86_64                randconfig-071-20260325    gcc-14
-x86_64                randconfig-072-20260325    gcc-14
-x86_64                randconfig-073-20260325    gcc-14
-x86_64                randconfig-074-20260325    gcc-14
-x86_64                randconfig-075-20260325    gcc-14
-x86_64                randconfig-076-20260325    gcc-14
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    clang-23
-xtensa                           allyesconfig    clang-23
-xtensa                randconfig-001-20260325    gcc-13
-xtensa                randconfig-002-20260325    gcc-13
+Best regards,
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Werner
+
+> ---
+>   .../ABI/testing/sysfs-class-led-multicolor    | 19 ++++++--
+>   Documentation/leds/leds-class-multicolor.rst  | 21 ++++++++-
+>   drivers/leds/led-class-multicolor.c           | 47 ++++++++++++++++++-
+>   drivers/leds/leds-lp50xx.c                    |  1 +
+>   drivers/leds/rgb/leds-ncp5623.c               |  4 +-
+>   include/linux/led-class-multicolor.h          | 30 +++++++++++-
+>   6 files changed, 113 insertions(+), 9 deletions(-)
+>
+> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
+> index 16fc827b10cb..197da3e775b4 100644
+> --- a/Documentation/ABI/testing/sysfs-class-led-multicolor
+> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
+> @@ -16,9 +16,22 @@ Date:		March 2020
+>   KernelVersion:	5.9
+>   Contact:	Dan Murphy <dmurphy@ti.com>
+>   Description:	read/write
+> -		This file contains array of integers. Order of components is
+> -		described by the multi_index array. The maximum intensity should
+> -		not exceed /sys/class/leds/<led>/max_brightness.
+> +		This file contains an array of integers. The order of components
+> +		is described by the multi_index array. The maximum intensity value
+> +		supported by each color component is described by the multi_max_intensity
+> +		file. Writing intensity values larger than the maximum value of a
+> +		given color component will result in those values being clamped.
+> +
+> +		For additional details please refer to
+> +		Documentation/leds/leds-class-multicolor.rst.
+> +
+> +What:		/sys/class/leds/<led>/multi_max_intensity
+> +Date:		March 2026
+> +KernelVersion:	7.1
+> +Contact:	Armin Wolf <W_Armin@gmx.de>
+> +Description:	read
+> +		This file contains an array of integers describing the maximum
+> +		intensity value for each intensity component.
+>   
+>   		For additional details please refer to
+>   		Documentation/leds/leds-class-multicolor.rst.
+> diff --git a/Documentation/leds/leds-class-multicolor.rst b/Documentation/leds/leds-class-multicolor.rst
+> index c6b47b4093c4..8f42f10078ad 100644
+> --- a/Documentation/leds/leds-class-multicolor.rst
+> +++ b/Documentation/leds/leds-class-multicolor.rst
+> @@ -25,10 +25,14 @@ color name to indexed value.
+>   The ``multi_index`` file is an array that contains the string list of the colors as
+>   they are defined in each ``multi_*`` array file.
+>   
+> -The ``multi_intensity`` is an array that can be read or written to for the
+> +The ``multi_intensity`` file is an array that can be read or written to for the
+>   individual color intensities.  All elements within this array must be written in
+>   order for the color LED intensities to be updated.
+>   
+> +The ``multi_max_intensity`` file is an array that contains the maximum intensity
+> +value supported by each color intensity. Intensity values above this will be
+> +automatically clamped into the supported range.
+> +
+>   Directory Layout Example
+>   ========================
+>   .. code-block:: console
+> @@ -38,6 +42,7 @@ Directory Layout Example
+>       -r--r--r--    1 root     root          4096 Oct 19 16:16 max_brightness
+>       -r--r--r--    1 root     root          4096 Oct 19 16:16 multi_index
+>       -rw-r--r--    1 root     root          4096 Oct 19 16:16 multi_intensity
+> +    -r--r--r--    1 root     root          4096 OCt 19 16:16 multi_max_intensity
+>   
+>   ..
+>   
+> @@ -104,3 +109,17 @@ the color LED group.
+>       128
+>   
+>   ..
+> +
+> +Writing intensity values larger than the maximum specified in ``multi_max_intensity``
+> +will result in those values being clamped into the supported range.
+> +
+> +.. code-block:: console
+> +
+> +   # cat /sys/class/leds/multicolor:status/multi_max_intensity
+> +   255 255 255
+> +
+> +   # echo 512 512 512 > /sys/class/leds/multicolor:status/multi_intensity
+> +   # cat /sys/class/leds/multicolor:status/multi_intensity
+> +   255 255 255
+> +
+> +..
+> diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
+> index 6b671f3f9c61..13a35e6a28df 100644
+> --- a/drivers/leds/led-class-multicolor.c
+> +++ b/drivers/leds/led-class-multicolor.c
+> @@ -7,10 +7,28 @@
+>   #include <linux/init.h>
+>   #include <linux/led-class-multicolor.h>
+>   #include <linux/math.h>
+> +#include <linux/minmax.h>
+>   #include <linux/module.h>
+>   #include <linux/slab.h>
+>   #include <linux/uaccess.h>
+>   
+> +static unsigned int led_mc_get_max_intensity(struct led_classdev_mc *mcled_cdev, size_t index)
+> +{
+> +	unsigned int max_intensity;
+> +
+> +	/* The maximum global brightness value might still be changed by
+> +	 * led_classdev_register_ext() using devicetree properties. This
+> +	 * prevents us from changing subled_info[X].max_intensity when
+> +	 * registering a multicolor LED class device, so we have to do
+> +	 * this during runtime.
+> +	 */
+> +	max_intensity = mcled_cdev->subled_info[index].max_intensity;
+> +	if (max_intensity)
+> +		return max_intensity;
+> +
+> +	return mcled_cdev->led_cdev.max_brightness;
+> +}
+> +
+>   int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
+>   				 enum led_brightness brightness)
+>   {
+> @@ -27,6 +45,27 @@ int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
+>   }
+>   EXPORT_SYMBOL_GPL(led_mc_calc_color_components);
+>   
+> +static ssize_t multi_max_intensity_show(struct device *dev,
+> +					struct device_attribute *intensity_attr, char *buf)
+> +{
+> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
+> +	unsigned int max_intensity;
+> +	int len = 0;
+> +	int i;
+> +
+> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
+> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
+> +		len += sprintf(buf + len, "%u", max_intensity);
+> +		if (i < mcled_cdev->num_colors - 1)
+> +			len += sprintf(buf + len, " ");
+> +	}
+> +
+> +	buf[len++] = '\n';
+> +	return len;
+> +}
+> +static DEVICE_ATTR_RO(multi_max_intensity);
+> +
+>   static ssize_t multi_intensity_store(struct device *dev,
+>   				struct device_attribute *intensity_attr,
+>   				const char *buf, size_t size)
+> @@ -35,6 +74,7 @@ static ssize_t multi_intensity_store(struct device *dev,
+>   	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
+>   	int nrchars, offset = 0;
+>   	unsigned int intensity_value[LED_COLOR_ID_MAX];
+> +	unsigned int max_intensity;
+>   	int i;
+>   	ssize_t ret;
+>   
+> @@ -56,8 +96,10 @@ static ssize_t multi_intensity_store(struct device *dev,
+>   		goto err_out;
+>   	}
+>   
+> -	for (i = 0; i < mcled_cdev->num_colors; i++)
+> -		mcled_cdev->subled_info[i].intensity = intensity_value[i];
+> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
+> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
+> +		mcled_cdev->subled_info[i].intensity = min(intensity_value[i], max_intensity);
+> +	}
+>   
+>   	if (!test_bit(LED_BLINK_SW, &led_cdev->work_flags))
+>   		led_set_brightness(led_cdev, led_cdev->brightness);
+> @@ -111,6 +153,7 @@ static ssize_t multi_index_show(struct device *dev,
+>   static DEVICE_ATTR_RO(multi_index);
+>   
+>   static struct attribute *led_multicolor_attrs[] = {
+> +	&dev_attr_multi_max_intensity.attr,
+>   	&dev_attr_multi_intensity.attr,
+>   	&dev_attr_multi_index.attr,
+>   	NULL,
+> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+> index e2a9c8592953..69c3550f1a31 100644
+> --- a/drivers/leds/leds-lp50xx.c
+> +++ b/drivers/leds/leds-lp50xx.c
+> @@ -525,6 +525,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
+>   			}
+>   
+>   			mc_led_info[multi_index].color_index = color_id;
+> +			mc_led_info[multi_index].max_intensity = 255;
+>   			num_colors++;
+>   		}
+>   
+> diff --git a/drivers/leds/rgb/leds-ncp5623.c b/drivers/leds/rgb/leds-ncp5623.c
+> index 85d6be6fff2b..f2528f06507d 100644
+> --- a/drivers/leds/rgb/leds-ncp5623.c
+> +++ b/drivers/leds/rgb/leds-ncp5623.c
+> @@ -56,8 +56,7 @@ static int ncp5623_brightness_set(struct led_classdev *cdev,
+>   	for (int i = 0; i < mc_cdev->num_colors; i++) {
+>   		ret = ncp5623_write(ncp->client,
+>   				    NCP5623_PWM_REG(mc_cdev->subled_info[i].channel),
+> -				    min(mc_cdev->subled_info[i].intensity,
+> -					NCP5623_MAX_BRIGHTNESS));
+> +				    mc_cdev->subled_info[i].intensity);
+>   		if (ret)
+>   			return ret;
+>   	}
+> @@ -190,6 +189,7 @@ static int ncp5623_probe(struct i2c_client *client)
+>   			goto release_led_node;
+>   
+>   		subled_info[ncp->mc_dev.num_colors].channel = reg;
+> +		subled_info[ncp->mc_dev.num_colors].max_intensity = NCP5623_MAX_BRIGHTNESS;
+>   		subled_info[ncp->mc_dev.num_colors++].color_index = color_index;
+>   	}
+>   
+> diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
+> index db9f34c6736e..26f6d20b887d 100644
+> --- a/include/linux/led-class-multicolor.h
+> +++ b/include/linux/led-class-multicolor.h
+> @@ -9,10 +9,31 @@
+>   #include <linux/leds.h>
+>   #include <dt-bindings/leds/common.h>
+>   
+> +/**
+> + * struct mc_subled - Color component description.
+> + * @color_index: Color ID.
+> + * @brightness: Scaled intensity.
+> + * @intensity: Current intensity.
+> + * @max_intensity: Maximum supported intensity value.
+> + * @channel: Channel index.
+> + *
+> + * Describes a color component of a multicolor LED. Many multicolor LEDs
+> + * do no support gobal brightness control in hardware, so they use
+> + * the brightness field in connection with led_mc_calc_color_components()
+> + * to perform the intensity scaling in software.
+> + * Such drivers should set max_intensity to 0 to signal the multicolor LED core
+> + * that the maximum global brightness of the LED class device should be used for
+> + * limiting incoming intensity values.
+> + *
+> + * Multicolor LEDs that do support global brightness control in hardware
+> + * should instead set max_intensity to the maximum intensity value supported
+> + * by the hardware for a given color component.
+> + */
+>   struct mc_subled {
+>   	unsigned int color_index;
+>   	unsigned int brightness;
+>   	unsigned int intensity;
+> +	unsigned int max_intensity;
+>   	unsigned int channel;
+>   };
+>   
+> @@ -53,7 +74,14 @@ int led_classdev_multicolor_register_ext(struct device *parent,
+>    */
+>   void led_classdev_multicolor_unregister(struct led_classdev_mc *mcled_cdev);
+>   
+> -/* Calculate brightness for the monochrome LED cluster */
+> +/**
+> + * led_mc_calc_color_components() - Calculates component brightness values of a LED cluster.
+> + * @mcled_cdev - Multicolor LED class device of the LED cluster.
+> + * @led_brightness - Global brightness of the LED cluster.
+> + *
+> + * Calculates the brightness values for each color component of a monochrome LED cluster,
+> + * see Documentation/leds/leds-class-multicolor.rst for details.
+> + */
+>   int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
+>   				 enum led_brightness brightness);
+>   
 
