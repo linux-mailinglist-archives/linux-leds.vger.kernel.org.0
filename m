@@ -1,346 +1,199 @@
-Return-Path: <linux-leds+bounces-7501-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7503-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sAacESpjxGkuywQAu9opvQ
-	(envelope-from <linux-leds+bounces-7501-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 23:35:22 +0100
+	id WIYrI1BkxGmBywQAu9opvQ
+	(envelope-from <linux-leds+bounces-7503-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 23:40:16 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92DFD32D103
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 23:35:21 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F2232D1C9
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 23:40:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 45BEB3080FA7
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 22:32:34 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6F62E3023684
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 22:40:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C8CC33F5A4;
-	Wed, 25 Mar 2026 22:32:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0579E372B2C;
+	Wed, 25 Mar 2026 22:40:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="FhpMVubn"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="icNIGBoA";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GUkPOG7F"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756AB35DA7B;
-	Wed, 25 Mar 2026 22:32:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0EC136DA0A
+	for <linux-leds@vger.kernel.org>; Wed, 25 Mar 2026 22:40:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774477950; cv=none; b=szylcTh/IwWSi8O6lipwSE3mbkw+ZCB1oeZ1Do2EJEAKxF/oukXDHdMRymzQN1dcFixhwGMwLQdQYgRTCc/ktP6x9cj/szqSIE71g0/L54osGpSykKadtmcEdU9J4RjlxsmEJJAlSKQWwl5fDv3gmEUKvPaLSTfzEhwEEsSiKQY=
+	t=1774478412; cv=none; b=RsfdS5rdsJWGn3X9W+0iiIKUqO6TmuQ+U2i7ZSWa71jOy37aqKGy/WsM5rVXXfX0jIbFYbxIXIyWBbtmTTqwWByXPfnZpfKg1bFYIYFnRPm01JbKRa9kfYKa4Qajyv9TPa/eAhhIS22hYUghGEdJhw502B0AjPH2f9LHYr6cPX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774477950; c=relaxed/simple;
-	bh=tJuvdhJxmWTI0Sx5YELI4sXXkyHVhV2DJahJAn+GNRw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=amWIEamwDV6uOtP53A+BbgH1mNzx7gM0h+dkeboFyIxe2Jje8HBNhIfAz7aBqhybvNYSqPY5FepWte318J5ummJES5hALV1yd6YLLL/6oJXoybRxAJzf/K9oh1sYAnTL1M6pY1y6nlcwiyp0BrcXhFfD6G15AZrx/5XC76jh/dM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=FhpMVubn; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
-Received: from pps.filterd (m0516787.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62PJ8i2G3262248;
-	Wed, 25 Mar 2026 18:32:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=6Lddh
-	Gto96KfcjWemUfO/EkQriBTYvBAYn8cKlTQpPk=; b=FhpMVubnCTzQx/vwC5Mn1
-	Ff4bTp4+/DGYZOjwcwvjiIWMil0tSTfwYyzHKt/W11Qku91o+qyMUf4G6kWKHoUP
-	v/fBHYoYsV9iDp9u81dtnvRh3V2sFwrD+eMV8sfDT6wl1mh8HckHT+oCnl9DRdYu
-	G98a9cELF+HJDPni40OvRjKvAr4g3zTirE63LVevsEkoAzb/EiJrrcUk97W0Tp4O
-	Zh0QSV/ZLCYx9SHbvojpZ9Im/dcoOpjdZsnQ6BTjYQkzWL/MMPwf+5+SKNRESdyg
-	5+lk3FYRlFB+t1MlOAslD18Sjxrhw41ynP23bhPTKWRFyg2KhGRZTKTkDy7suftW
-	w==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4d4gygt3wt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Mar 2026 18:32:26 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 62PMWPtY054898
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 25 Mar 2026 18:32:25 -0400
-Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
- ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Wed, 25 Mar 2026 18:32:25 -0400
-Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by
- ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Wed, 25 Mar 2026 18:32:25 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Wed, 25 Mar 2026 18:32:25 -0400
-Received: from HYB-VFz9h4bIQxi.ad.analog.com (HYB-VFz9h4bIQxi.ad.analog.com [10.118.4.22])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 62PMW4ak032703;
-	Wed, 25 Mar 2026 18:32:17 -0400
-From: Jan Carlo Roleda <jancarlo.roleda@analog.com>
-Date: Thu, 26 Mar 2026 06:30:12 +0800
-Subject: [PATCH v2 3/3] dt-bindings: leds: Document LTC3208 Multidisplay
- LED Driver
+	s=arc-20240116; t=1774478412; c=relaxed/simple;
+	bh=NAIvZ5890qoM9mwWteWIr803n+3j5/tcS32M8qZ9hfM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OPxHTbAgYRY8/B8NTrCmydg7C9thFX8Cq4oLuFawH6pRm+Dq6m/R95SQhwyDKO4z01mV+SsWkmB3Jvf5AshwK6GLvNxU7GktfRG+iHpIAvqnacR1Qi+AzEG4TOruqzoD7UdJ1nAhEKS4ArpUDcXjrnX1bIeyH1I8+j8n4dceMuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=icNIGBoA; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=GUkPOG7F; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62PKl1m2052587
+	for <linux-leds@vger.kernel.org>; Wed, 25 Mar 2026 22:40:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=6kHbTlHvPKo9EGAJ9UfTuO3r
+	4iOiLGUngfwomxp+Agg=; b=icNIGBoA34jsE9qveWyXRJKcx4bYvbXbp9m4FzGH
+	I5HeXy4IAj1l0uuG/zLjMpxVV8LjFWqPXi+3J5QvGyLLBGX1hSXUQ7TIoKG4HOFn
+	wkbIZv6IzVf49ac6t2t6Qkh17iXfuGOM8vjNbNGW0wsppTdYLuZk/BOETi2cAgoz
+	DGusJktILAE3MaCxSoWNXGO3OSsbu1vLE3bTfPYcA+JyHUm4AC3h2q7fLNlAA8OT
+	Mia4GY8icCIAmXHQ8ZG3XBqXoWafU12uD9SJbtflbV+Tqrob1Pu3n3+VIcbjeP5O
+	7SvRknX0U+ifQ0fxp0OCHj8jJILSuYIIt6yqOTAZlMMAAw==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d4q1t0adm-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-leds@vger.kernel.org>; Wed, 25 Mar 2026 22:40:10 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-50b34223670so14635921cf.0
+        for <linux-leds@vger.kernel.org>; Wed, 25 Mar 2026 15:40:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1774478410; x=1775083210; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6kHbTlHvPKo9EGAJ9UfTuO3r4iOiLGUngfwomxp+Agg=;
+        b=GUkPOG7FUi3C+S3WtxKWjpFM/8SS9pQ2ipoO8cTTfE6GgF2UFVQYZ8HAD3Vv7dfrtn
+         HerDYNFhAq3aB4LS+/J79rhWC8UunA+h0fyybnQDm9epNE4O8ruOUM6FWNfyAd3R0ogO
+         q03+xOPWZpKgKtgCMuYiIGWXVahKOc85mD8gIS209sbMMl5/QpTGGm63QwhNHOEI6yFl
+         FjvP7ysJDh41lgBlanqRKS52zx6OdpHy4gjkJ+Yt9ieYDWAPMiax6z8KqYBZlATMe1DF
+         TZ/ttsY7FOj+YVuo4qODD1mFMfwjki/iqNnEuSg3zC6MlTMTdpHfwKBqvgkgS4s+00M2
+         vatA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774478410; x=1775083210;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6kHbTlHvPKo9EGAJ9UfTuO3r4iOiLGUngfwomxp+Agg=;
+        b=kcmPiwRVF9t+/vzixtBU0Q15MGacgnEoroodC1tlM7MCjZ+g73NW3ZfV9w5I5dT6jn
+         j/mbOT4mILcsE3p9D+Vfa1bCRupC2ELCQ4G7eqrcwYeUhCvshryTUFgweyln17FRfRXS
+         UauZ1VLUGWQQcprDH4XHIC6gnaf6YFJt+D+7ZF0QxVOKf74Tc1ctwsPCFR5qJGeGHbNG
+         n3gJEiLImuRf4IK5gMnlMYxgjAAXnCqNlxcf8USdI3c1xNMFb7h2lMJ2qje195Ih37Ny
+         bemyqgL7d9pbTfsYiXbt7abbcYpKWwEIs06z3GIiYlPdnsKbmx+VgVGMpb4a3wODnkwn
+         a6iA==
+X-Forwarded-Encrypted: i=1; AJvYcCVlNrc69lJrely8ZXkIiB/mRiRBtsy6TbBOtCqp9ivsxucei6bOEWxaKqMSt/zNTj6LNfJP0EVHZ+0M@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYFI66VE9J6E8/WT/O7K2ojqAhitM2vagKc60VXI+1Fq0yZiMB
+	kOoleQ5Iz0G69ZfV8OKF6u/WR+8fSkbgqE1NMYz+9GMamvBi1R5oHS3PYa9Dg6xc4bfO8JOP5wj
+	OKdOBTMrLs/lMetIzJLj/c9QJMo13bKMxySjQRQZZDBMSfx6GfGlOjdoIDUu/fyDL
+X-Gm-Gg: ATEYQzyirhWHz3FytDQ7gWlqoghmGBffetOuDm3sETku7KPhJxmr6C2iR+nKFHblcJC
+	FCgIGfGQ1HQHWU2x5lAPbTmMleOeO0d/1sBfi7XmO7I2NuIs11jF5y3k+MHN4wBO21iwgyFDNpc
+	OXFkz8WPjAbavVuJKe1gk9tWYAQrly/rN0adKlKFwWKtfHBSD9dm/LJPf1lmQW4wzw7ax4eM8qy
+	4ddSKUQyZY3Gc/G/pZrP94eXhgHQJOVtujrT0aZ1S5dfBdHnL7TF9rh/5uV0O5FRqTuOZ0KcIaq
+	eH9iUJreySWap5jxjKLufmpUvnkatye4tjF26WhRxbCY/tTAf8a3wTxqREck06bHCTvAGnGV02p
+	c5SZilGJTHJXIf1Zdw2TjnztAT5dXhQ9FhzTcxK72ZGTqmSTdLnLMKMKfGqwz5F1R9JPtqKNVTP
+	nrm0neeI9VNVsfrFtXfcxaN4IjD4jeCB44Afw=
+X-Received: by 2002:a05:622a:315:b0:509:2f5f:a178 with SMTP id d75a77b69052e-50b80ce9d96mr80324221cf.21.1774478410220;
+        Wed, 25 Mar 2026 15:40:10 -0700 (PDT)
+X-Received: by 2002:a05:622a:315:b0:509:2f5f:a178 with SMTP id d75a77b69052e-50b80ce9d96mr80323861cf.21.1774478409750;
+        Wed, 25 Mar 2026 15:40:09 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2a06a5ca3sm171455e87.80.2026.03.25.15.40.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 15:40:07 -0700 (PDT)
+Date: Thu, 26 Mar 2026 00:40:04 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Biswapriyo Nath <nathbappai@gmail.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+        Pavel Machek <pavel@kernel.org>, Sean Young <sean@mess.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Martin Botka <martin.botka@somainline.org>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+        phone-devel@vger.kernel.org
+Subject: Re: [PATCH 2/7] arm64: dts: qcom: sm6125: Enable USB-C port handling
+Message-ID: <5nnowag37qecmviblilfdou4sbh6ogk352gldrxgqrtwvil2ra@r6uytpwzxcbg>
+References: <20260325-ginkgo-add-usb-ir-vib-v1-0-446c6e865ad6@gmail.com>
+ <20260325-ginkgo-add-usb-ir-vib-v1-2-446c6e865ad6@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260326-upstream-ltc3208-v2-3-3dbc992b6098@analog.com>
-References: <20260326-upstream-ltc3208-v2-0-3dbc992b6098@analog.com>
-In-Reply-To: <20260326-upstream-ltc3208-v2-0-3dbc992b6098@analog.com>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-        Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        Jan Carlo Roleda <jancarlo.roleda@analog.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774477924; l=5265;
- i=jancarlo.roleda@analog.com; s=20260317; h=from:subject:message-id;
- bh=tJuvdhJxmWTI0Sx5YELI4sXXkyHVhV2DJahJAn+GNRw=;
- b=q1RHIPFP181TRu0IxAs8ERMvIjT1aRN1oini1clzLq+vEbpo9y89zfAndzEHXk0MSxlAxD8lB
- 5j+7j7XhCAUBF3Y/RoFwSUAP64roOGlbULsuzPoh7GqAYbJNFMElpjq
-X-Developer-Key: i=jancarlo.roleda@analog.com; a=ed25519;
- pk=zPMh+eO6/Mj6tqaie75BLiTLQvE3f9pck0UejKLmLMc=
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI1MDE2NyBTYWx0ZWRfX6kWAY34lH5sB
- CKSKPc3R8yp7FdnfPjKl5VyRgQbkLnZHnwoj7jux8/O+b+WGOarwLSKyn2qRhQqFZ+L8VIaaZxa
- tTjM3EsGVbhxiaDtB7Nr4f2fQCS4xdYF3lpPbA8pyGkfbE15Nu5xmSxKW9qClTWLhE9gnYQdkyK
- i6p62/CdeaOaFr7KNFoyZ4IMqZiLM/vqJYjijubCMQ/hfWrDZAo6UySWuyFoZcTdB+hj+tghioD
- uiaIEZwaAL3lMteb2qCYU5fWZbdazwwCUf/Jt+Qy4IIchQB+FJpGJAalgBJ0qaqRVeWGXMpIZGQ
- 1H3Khui2aU6FjYbB65Vt9QlSwr3QM8qX93Str6ZEm4zNehATdwWczX6pL+FEQwUdeubopbAK1VN
- Jzfdsos7uKR5ltYt0BQgcmC1wj5HpAUCP56t1fGeOWxrY9HvCAHTP6HUr+BnSvMeOd7TnWyFN3m
- xL3QAzSBU4y8fvb9+rw==
-X-Authority-Analysis: v=2.4 cv=ZsTg6t7G c=1 sm=1 tr=0 ts=69c4627a cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=0sLvza09kfJOxVLZPwjg:22 a=OmVn7CZJonkx5R5zMQLL:22 a=gEfo2CItAAAA:8
- a=gAnH3GRIAAAA:8 a=VwQbUJbxAAAA:8 a=DfgavVszv1SWYE2HNeIA:9 a=QEXdDO2ut3YA:10
- a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-ORIG-GUID: Zxvp9udrzTlp0cdxKRgVvgRBqRtgtiwO
-X-Proofpoint-GUID: Zxvp9udrzTlp0cdxKRgVvgRBqRtgtiwO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325-ginkgo-add-usb-ir-vib-v1-2-446c6e865ad6@gmail.com>
+X-Authority-Analysis: v=2.4 cv=e7cLiKp/ c=1 sm=1 tr=0 ts=69c4644a cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=pGLkceISAAAA:8
+ a=EUspDBNiAAAA:8 a=H_3iQ2LuRKvP6GoHn7UA:9 a=CjuIK1q_8ugA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-GUID: M3t9ZzyPtQ53ROma45r0J6iqbX3OinXs
+X-Proofpoint-ORIG-GUID: M3t9ZzyPtQ53ROma45r0J6iqbX3OinXs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI1MDE2OCBTYWx0ZWRfXxnGh5HVJjruu
+ vCe7r1odTpVbTTcqksnoSSZ2WZrCSpeRd+vDh8gcCo2nhcyJHq2r+8DTtF1vZquQJ3cpPsxzys3
+ XBpMt+kGlQU99U6CGTYKB6bkG+MaSsiM1ssyT/aI+s23rucJVL/o3M1tn8OZPXlYXffDwgYIp14
+ svGa+cEJBkXy+dK6Pt1nLf3ml7ylsYQihbDD6M24zOMlN6BQd+uJE2Mzriq0dYGOZibRNqPkWaR
+ vYCPW7NWOt7PBOvCKGLei39uYQQk+DaW9Voa7vvtTuiXCkrSCMa4H+aur6Xugg+7rbCUcrk6x2O
+ mYb+IgR7zvbqUiJqL9QSCmfxIM3z38zYSsvCPSafZef3d/QQ+eZyVUjl+r3CIr75xVRWibdqGMk
+ IIkYuvjutinr43fm6bWB4gPaEjB/hd3X8zihCB4eq/KEHMt246d8Pygd7VCHeLnuVccOXMKWWBM
+ KnQfICcp1QjjAsewm7g==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-25_06,2026-03-24_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 suspectscore=0 impostorscore=0 adultscore=0
- clxscore=1015 malwarescore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
+ priorityscore=1501 impostorscore=0 spamscore=0 bulkscore=0 phishscore=0
+ suspectscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603250167
-X-Spamd-Result: default: False [-2.16 / 15.00];
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603250168
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[analog.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[analog.com:s=DKIM];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[analog.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7501-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-7503-lists,linux-leds=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	FROM_NEQ_ENVFROM(0.00)[jancarlo.roleda@analog.com,linux-leds@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_COUNT_SEVEN(0.00)[10]
-X-Rspamd-Queue-Id: 92DFD32D103
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 32F2232D1C9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add Documentation for LTC3208 Multidisplay LED Driver.
+On Wed, Mar 25, 2026 at 06:07:25PM +0000, Biswapriyo Nath wrote:
+> Plug in USB-C related bits and pieces to enable USB role switching.
+> Also, remove dr_mode to enable OTG capability.
+> 
+> Signed-off-by: Biswapriyo Nath <nathbappai@gmail.com>
+> ---
+>  arch/arm64/boot/dts/qcom/sm6125.dtsi | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
+> 
 
-Signed-off-by: Jan Carlo Roleda <jancarlo.roleda@analog.com>
----
- .../devicetree/bindings/leds/adi,ltc3208.yaml      | 158 +++++++++++++++++++++
- MAINTAINERS                                        |   1 +
- 2 files changed, 159 insertions(+)
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-diff --git a/Documentation/devicetree/bindings/leds/adi,ltc3208.yaml b/Documentation/devicetree/bindings/leds/adi,ltc3208.yaml
-new file mode 100644
-index 000000000000..c139937936bc
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/adi,ltc3208.yaml
-@@ -0,0 +1,158 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (c) 2026 Analog Devices, Inc.
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/adi,ltc3208.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: LTC3208 Multidisplay LED Controller from Linear Technologies (Now Analog Devices).
-+
-+maintainers:
-+  - Jan Carlo Roleda <jancarlo.roleda@analog.com>
-+
-+description:
-+  The LTC3208 is a multidisplay LED controller that can support up to 1A to all
-+  connected LEDs.
-+
-+  The datasheet for this device can be found in
-+  https://www.analog.com/en/products/ltc3208.html
-+
-+properties:
-+  compatible:
-+    const: adi,ltc3208
-+
-+  reg:
-+    maxItems: 1
-+
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
-+
-+  adi,disable-camhl-pin:
-+    type: boolean
-+    description:
-+      Configures whether the external CAMHL pin is disabled.
-+      if disabled then the output pins associated with CAM will always select
-+      the CAM register's high half-byte brightness.
-+
-+  adi,cfg-enrgbs-pin:
-+    type: boolean
-+    description:
-+      Configures which channel the ENRGBS pin toggles when it receives a signal.
-+      ENRGBS pin controls the SUB channel's output pins if this is set,
-+      or RGB channel's output pins if this is unset.
-+
-+  adi,disable-rgb-aux4-dropout:
-+    type: boolean
-+    description:
-+      Configures the RGB and AUX4 dropout signals to be disabled.
-+
-+  adi,aux1-channel:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description:
-+      LED Channel that the AUX1 output pin mirrors its brightness level from.
-+    enum: [aux, main, sub, cam]
-+    default: aux
-+
-+  adi,aux2-channel:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description:
-+      LED Channel that the AUX2 output pin mirrors its brightness level from.
-+    enum: [aux, main, sub, cam]
-+    default: aux
-+
-+  adi,aux3-channel:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description:
-+      LED Channel that the AUX3 output pin mirrors its brightness level from.
-+    enum: [aux, main, sub, cam]
-+    default: aux
-+
-+  adi,aux4-channel:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description:
-+      LED Channel that the AUX4 output pin mirrors its brightness level from.
-+    enum: [aux, main, sub, cam]
-+    default: aux
-+
-+patternProperties:
-+  "^led@[0-7]$":
-+    type: object
-+    $ref: /schemas/leds/common.yaml#
-+    unevaluatedProperties: false
-+    properties:
-+      reg:
-+        description:
-+          LED Channel Number. each channel maps to a specific channel group used
-+          to configure the brightness level of the output pins corresponding to
-+          the channel.
-+        enum:
-+          - 0 # Main Channel (8-bit brightness)
-+          - 1 # Sub Channel (8-bit brightness)
-+          - 2 # AUX Channel (4-bit brightness)
-+          - 3 # Camera Channel, Low-side byte (4-bit brightness)
-+          - 4 # Camera Channel, High-side byte (4-bit brightness)
-+          - 5 # Red Channel (4-bit brightness)
-+          - 6 # Blue Channel (4-bit brightness)
-+          - 7 # Green Channel (4-bit brightness)
-+    required:
-+      - reg
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/leds/common.h>
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      led-controller@1b {
-+        compatible = "adi,ltc3208";
-+        reg = <0x1b>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        adi,disable-camhl-pin;
-+        adi,cfg-enrgbs-pin;
-+        adi,disable-rgb-aux4-dropout;
-+
-+        led@0 {
-+          reg = <0>;
-+        };
-+
-+        led@1 {
-+          reg = <1>;
-+        };
-+
-+        led@2 {
-+          reg = <2>;
-+        };
-+
-+        led@3 {
-+          reg = <3>;
-+        };
-+
-+        led@4 {
-+          reg = <4>;
-+        };
-+
-+        led@5 {
-+          reg = <5>;
-+        };
-+
-+        led@6 {
-+          reg = <6>;
-+        };
-+
-+        led@7 {
-+          reg = <7>;
-+        };
-+      };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 48bae02057d5..97072e906928 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15131,6 +15131,7 @@ M:	Jan Carlo Roleda <jancarlo.roleda@analog.com>
- L:	linux-leds@vger.kernel.org
- S:	Maintained
- W:	https://ez.analog.com/linux-software-drivers
-+F:	Documentation/devicetree/bindings/leds/adi,ltc3208.yaml
- F:	drivers/leds/leds-ltc3208.c
- 
- LTC4282 HARDWARE MONITOR DRIVER
 
 -- 
-2.43.0
-
+With best wishes
+Dmitry
 
