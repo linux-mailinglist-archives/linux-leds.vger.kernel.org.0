@@ -1,77 +1,76 @@
-Return-Path: <linux-leds+bounces-7471-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7470-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OAgEFmlnw2nlqgQAu9opvQ
-	(envelope-from <linux-leds+bounces-7471-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 05:41:13 +0100
+	id Qc6lIzRnw2nlqgQAu9opvQ
+	(envelope-from <linux-leds+bounces-7470-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 05:40:20 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C663831FB7D
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 05:41:12 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C69F231FB65
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 05:40:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3A441304FF87
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 04:40:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2F5013024161
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 04:40:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE4FB30C606;
-	Wed, 25 Mar 2026 04:40:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3B052EDD62;
+	Wed, 25 Mar 2026 04:40:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i/DKoFBr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nex4POUQ"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC65030AD0A;
-	Wed, 25 Mar 2026 04:40:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F7F30AAA6;
+	Wed, 25 Mar 2026 04:40:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774413619; cv=none; b=ZNQXN/KXaY+qrFgh0q/8v4kGCX6I3IAKOguzYdbhxAqEwZgXSE78p5QqnNYuKSJQC+sQ9qFuODe/8NzwJ4hi1FbFX31pwT1YiZh7eP0q61cACFvWyjqJH35hIek1VuDdku3EY1m1fWrpgLNKp9q7b/Ibw6QTEWFzt+Fd3VZwhg8=
+	t=1774413617; cv=none; b=l1N0NQ5ADTzxUx0fzH0k9KkmlQC2GVg/4VjMTTvZxDmXTb6VMvqqZ9Y/iJUBgjQd6wswFMklQ2O33J5Lid5nilDxwgcItt+9nlOfugrYCOllcJc70BnJEcLSSN0d9krJ5cB0XTigeX0iBlZFPHozbXz1SpGhPOJ7tXh8Frzy6rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774413619; c=relaxed/simple;
-	bh=FdrSZZJWlda4b/iHdGvUBNw53MhgoxQX4XFQbplHhPU=;
+	s=arc-20240116; t=1774413617; c=relaxed/simple;
+	bh=LmgNB1xmjZImgFB93fYZvPh1g7vCeskBJ9iPGGzmlsE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tX+R4J+iAydg33AejYXCcObdpe6O/zhRacSXmfe1fJymOCsATSpIQl1p+3guqyevo+qGF6DlvYyI0hCWnylprUh14GF28s2ma8Qz4eNY1OXzEwGOQy6ZR+AWs16LoK93kI6Wq12Ddlay97owqWu72j6xDKDJzeYtoaxQKICASoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i/DKoFBr; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=q/HAAVFDdHnJ+idq5p3KgDnItY0KSS/fbnDZnQEWTcZ8WBkN0KnHN1iHkWo7kTj92Khv+BSoSIrUxWxmxWa+9QrVtxA9trkklFq9VKsrVwDGnd09APKorMuLka+Bei/V+1t7/igqkofXC7es+BbwlZGi3s3hXwoGhw1CKzer2+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nex4POUQ; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774413618; x=1805949618;
+  t=1774413616; x=1805949616;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FdrSZZJWlda4b/iHdGvUBNw53MhgoxQX4XFQbplHhPU=;
-  b=i/DKoFBrYGetkPBfnDiM6g6oXtAvrh91GzHTOadmxigPC9WBMQ08RP0l
-   Gv1/TtGfaPsR86a/l9tsMsxey9zc8Gc1IK11HE1FuLIxKMTlw0jBz7+PQ
-   /m4phX95eL+UTA7r0S0rTo7tW5klSsl1j/K9sFlAnnYJenxNtjTS3Yj/A
-   HFhUpmjuEJ/WEAc+cOPPNb6srWdaBjt3c/BMj5ciMt/fABifV9lQR4hnA
-   AR49by0iX4Muf6/FpwDBGLC7hH/LWCwGiC/seGDpnVNbOTWTQCbB+e1dn
-   XeE/0iDijcbuFChF5eZxatdPyvWCURzx46Y0CRaKNw5HPPNI3ZC8WJj4i
-   Q==;
-X-CSE-ConnectionGUID: HtK07444Rb+u25vT+J2NBQ==
-X-CSE-MsgGUID: +6i3zez1STyyeW8OFfxKMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="79351762"
+  bh=LmgNB1xmjZImgFB93fYZvPh1g7vCeskBJ9iPGGzmlsE=;
+  b=nex4POUQStQn/kYzVEJh29ba8ZCaaQ9u/DXsBy5Bt3LzQudk/hNF1D/c
+   pZ9rIcYKHqgChUc0RRB++d0YwMOry5POKJlUc3W+g2HMIx8eNo7PU/gim
+   gZtWoAhBcXQ8dU/AGB2NuodeTEu6SXIIzLOrDE4aP40edNYBA3Ao0RD61
+   xCiUhtJ8qYUOirSbdUkIU3H0Drhh6cc9+qdPftCUDkoUyRBSmIyqLuNc1
+   K5Q/olLPV5uQEM5OuFbOZDmGhtpZRq/sJV+IxUADYMLd6miV9SsqmqkJs
+   d8LO3erCo37/X1m9TyYCm4QWZOwHHeWOphUBPcBU/aYTZy+aqqtVv3jtx
+   g==;
+X-CSE-ConnectionGUID: iolkkIssRPKdRcj3dswoBg==
+X-CSE-MsgGUID: LGh1hhm6Sme+wlr0xiVFQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="79351755"
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="79351762"
+   d="scan'208";a="79351755"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 21:40:15 -0700
-X-CSE-ConnectionGUID: ikyhIFZZQWCB7XOgW7Cv+g==
-X-CSE-MsgGUID: 7BUuh80bRCCN7c6107pPyw==
+X-CSE-ConnectionGUID: WQf4wyTNRAakbP4ADsMSVw==
+X-CSE-MsgGUID: c4Mg+jETRBu1i442LZxmzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="228633803"
+   d="scan'208";a="228633804"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 24 Mar 2026 21:40:11 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5G2K-0000000064r-0e7u;
+	id 1w5G2K-0000000064t-0l4S;
 	Wed, 25 Mar 2026 04:40:08 +0000
-Date: Wed, 25 Mar 2026 12:39:30 +0800
+Date: Wed, 25 Mar 2026 12:39:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: Carlo Szelinsky <github@szelinsky.de>,
 	Oleksij Rempel <o.rempel@pengutronix.de>,
 	Kory Maincent <kory.maincent@bootlin.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
+Cc: oe-kbuild-all@lists.linux.dev, Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
@@ -79,7 +78,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	linux-leds@vger.kernel.org, Carlo Szelinsky <github@szelinsky.de>
 Subject: Re: [PATCH v2 3/3] net: pse-pd: add LED trigger support via
  notification path
-Message-ID: <202603251254.o5PqMBRU-lkp@intel.com>
+Message-ID: <202603251250.cuMCk5Yv-lkp@intel.com>
 References: <20260323201225.1836561-4-github@szelinsky.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
@@ -95,13 +94,13 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7471-lists,linux-leds=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	TAGGED_FROM(0.00)[bounces-7470-lists,linux-leds=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -113,11 +112,11 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-leds@vger.kernel.org];
 	DKIM_TRACE(0.00)[intel.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-leds,netdev];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,01.org:url,intel.com:dkim,intel.com:email,intel.com:mid,git-scm.com:url]
-X-Rspamd-Queue-Id: C663831FB7D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,intel.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,git-scm.com:url]
+X-Rspamd-Queue-Id: C69F231FB65
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -135,21 +134,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Carlo-Szelinsky/dt-bindin
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
 patch link:    https://lore.kernel.org/r/20260323201225.1836561-4-github%40szelinsky.de
 patch subject: [PATCH v2 3/3] net: pse-pd: add LED trigger support via notification path
-config: hexagon-randconfig-001-20260325 (https://download.01.org/0day-ci/archive/20260325/202603251254.o5PqMBRU-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603251254.o5PqMBRU-lkp@intel.com/reproduce)
+config: sh-randconfig-002-20260325 (https://download.01.org/0day-ci/archive/20260325/202603251250.cuMCk5Yv-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603251250.cuMCk5Yv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603251254.o5PqMBRU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603251250.cuMCk5Yv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/pse-pd/pse_core.c:1221:10: error: no member named 'pi_led_trigs' in 'struct pse_controller_dev'
+   drivers/net/pse-pd/pse_core.c: In function 'pse_controller_register':
+>> drivers/net/pse-pd/pse_core.c:1221:22: error: 'struct pse_controller_dev' has no member named 'pi_led_trigs'
     1221 |                 pcdev->pi_led_trigs = NULL;
-         |                 ~~~~~  ^
-   1 error generated.
+         |                      ^~
 
 
 vim +1221 drivers/net/pse-pd/pse_core.c
