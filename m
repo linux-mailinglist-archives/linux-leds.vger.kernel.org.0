@@ -1,152 +1,188 @@
-Return-Path: <linux-leds+bounces-7498-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7499-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CC94KLdexGkkywQAu9opvQ
-	(envelope-from <linux-leds+bounces-7498-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 23:16:23 +0100
+	id 0CIECeRixGkuywQAu9opvQ
+	(envelope-from <linux-leds+bounces-7499-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 23:34:12 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A8C32CD12
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 23:16:23 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D5B932D0C6
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 23:34:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C484E301DDBB
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 22:16:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7203530179EC
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Mar 2026 22:32:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDEAA3264CF;
-	Wed, 25 Mar 2026 22:16:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3A7E32573F;
+	Wed, 25 Mar 2026 22:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="TzDpLPyo"
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="J0hQFrPQ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47BEE749C;
-	Wed, 25 Mar 2026 22:16:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2996C269D18;
+	Wed, 25 Mar 2026 22:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774476973; cv=none; b=poQlw4tHQt/rX67KK8Q4DMFaGuGIoFQCmE+YswilArtekXoEByYikDLr59OtlEhcgGc4iuntI41LgpXjhgsJpR2JV9VjPwvTbZiQKh+rD4wQn0g8HA2inMCNMyBQseRjgQkWjdU/ZbAYm9RXRnp4pDTTn+7bfhNwJYiO7bLZjLY=
+	t=1774477947; cv=none; b=cmCDxH7jNXPlERbJVTUaC57z6zGs+lyHEPg12ofStSXc//33CfI+iRUi9Y96iL5qrIyeRxAbKFEdjI2u+2LzASurIKfUdQZfTpHckQx3LxHw2k0/dPqZLX1ZSh490U0xHrd8QSpl2SGMA/Bpav9TmSS4ZTIctxNY8rxiyUypwPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774476973; c=relaxed/simple;
-	bh=Z8CurjlzVO6oEEWpQW0GpyYWUWY2tf33N/Sx0Va/zj0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N35regyZD+U4cU4TPKk2a8HVg2CdRy9i+0ZgFfHadt/unuyX/NB26/UE7A1j9Gow8y2kWfgLre08qA+B8cQJeuj1OagfoLARCQfvt1kGXWL31CfmfdZT5j7qBtQzgB44Zb87qkQIf9+yCjlVVr3cO2L/lAuiWfC5JMzsi4zXWyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=TzDpLPyo; arc=none smtp.client-ip=88.97.38.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1774476602; bh=Z8CurjlzVO6oEEWpQW0GpyYWUWY2tf33N/Sx0Va/zj0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TzDpLPyoZ/wAHO/pPjHsoyh120LxTFaW4h80MYAM9rV7YoVt10AHClEUpkrx1kM/g
-	 fkMZE8ks/rR0fUABZs55I22AZNxepGnKZoW7aDJhDHy/BfEo8Qw5ReL1xcTb3ZLTDH
-	 hxXUqUG0QsDBLANfTNdvay/4oZJtQa6xAPnRer3FEEA1L5MeEpTF0mKmJ6F3QETR6o
-	 6kWDqOGHbLe+o80oZY49MWdiRvBr8WgHB/BtZqaoSdscGr2exqcdD3WxiVQ3fX5cKO
-	 IHbE3ovO0Hnmw/ZuJUUBiCz/hOVnJ0lZr8ZA46jMMv9QHxKvPv/vS4irV8siawmDIa
-	 eWogZfU10xOjg==
-Received: by gofer.mess.org (Postfix, from userid 1000)
-	id C198E1011B2; Wed, 25 Mar 2026 22:10:02 +0000 (GMT)
-Date: Wed, 25 Mar 2026 22:10:02 +0000
-From: Sean Young <sean@mess.org>
-To: Biswapriyo Nath <nathbappai@gmail.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Martin Botka <martin.botka@somainline.org>,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-	phone-devel@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 0/7] Add vibrator, IR transmitter and USB-C handling in
- xiaomi-ginkgo
-Message-ID: <acRdOmHKQmBp-RSd@gofer.mess.org>
-References: <20260325-ginkgo-add-usb-ir-vib-v1-0-446c6e865ad6@gmail.com>
+	s=arc-20240116; t=1774477947; c=relaxed/simple;
+	bh=BGHbC0wpqIjRx49NrwF4kdL6z4I/PyI1ypL48cYM9nc=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=O2KyikXY6a6zqdHdednvZQsIPhQ0aDis8swd4IN3BKYiUsHZi9ktikYnSPRRUcmirBM/iFUsJe6VuzrIuNCowyxObpeWuLzkd2QGs6e0n7+ncrgczd2zXE2JcYSySgXCsNQ+q3VKbMPJYabw3+L/Tf9F3x4hAcn8wd9YthQDvEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=J0hQFrPQ; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62PKoOhZ3463638;
+	Wed, 25 Mar 2026 18:32:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=lIEAzyP/bI9sOEaPsMpjcTnoLjl
+	71a0Yq5hRKFXKvZo=; b=J0hQFrPQUsLFyrJ6u4/u4GvuFF5a8UEvRyUNhzunRAn
+	vb6AqWAdDKirD5bcQQJ4chN5dOfSGkdXVDTeN6oFfDrYHxd/FaSlzYS3kUzq7VOu
+	GalQdLkV0vcaC51eidLsNoYc27OaWe2o8o7LcCXQW4DzQqJ90/8SKmmardVdHdCx
+	aRZCOltZI3g41mUYWR5TNKVe2HeBQHjMzHOt4lkFlFM74q1vwV+77GRlJwnto1Ro
+	FbNkjoPDV5ZbYcbS9kP/nC7b9A0WcalxRwFbHiFDUWfBgIqqeuhCO+jvYkiJd2qq
+	y5kLi6UC8yoW63HeYgJL6Us6A6YxlzpipVNTZ+XsABA==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4d45m1nj70-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Mar 2026 18:32:17 -0400 (EDT)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 62PMWGMP054872
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 25 Mar 2026 18:32:16 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Wed, 25 Mar
+ 2026 18:32:16 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Wed, 25 Mar 2026 18:32:16 -0400
+Received: from HYB-VFz9h4bIQxi.ad.analog.com (HYB-VFz9h4bIQxi.ad.analog.com [10.118.4.22])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 62PMW4ah032703;
+	Wed, 25 Mar 2026 18:32:07 -0400
+From: Jan Carlo Roleda <jancarlo.roleda@analog.com>
+Subject: [PATCH v2 0/3] Add support for LTC3208 multi-display driver
+Date: Thu, 26 Mar 2026 06:30:09 +0800
+Message-ID: <20260326-upstream-ltc3208-v2-0-3dbc992b6098@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260325-ginkgo-add-usb-ir-vib-v1-0-446c6e865ad6@gmail.com>
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPFhxGkC/32NQQ7CIBQFr9L8tRigKYIr72G6QPy0JC00gETTc
+ HexB3A5k7x5OySMDhNcux0iFpdc8A34qQMzaz8hcc/GwCkXtGeSvLaUI+qVLNn0nEpyMUYqIR9
+ WKIQ22yJa9z6S97Hx7FIO8XM8FPazf2KFEUooGyyzDBUVw017vYTpbMIKY631C8DHy5WxAAAA
+X-Change-ID: 20260318-upstream-ltc3208-7cc8968bf69e
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        Jan Carlo Roleda <jancarlo.roleda@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774477924; l=1450;
+ i=jancarlo.roleda@analog.com; s=20260317; h=from:subject:message-id;
+ bh=BGHbC0wpqIjRx49NrwF4kdL6z4I/PyI1ypL48cYM9nc=;
+ b=n88idrvOvEL7IcTsYqyAbxDZJRcGSKDrjkQkxYl2wC+Y2q2I0Of6qCgd9JLsdXJvrTlmWK4ze
+ NmAWs2t6PwnBNKZCE9m1uijdB8m112YZdqAIgo3b92tN42PRYqf0DjK
+X-Developer-Key: i=jancarlo.roleda@analog.com; a=ed25519;
+ pk=zPMh+eO6/Mj6tqaie75BLiTLQvE3f9pck0UejKLmLMc=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI1MDE2NyBTYWx0ZWRfX+wHKX3XSo5p+
+ UM2sSO9ouJ5HqGCu4Pufz+ocMp/zKAg3tF+6XxFJ1Cns0SAWAQ9c9GQhwfzmVwkvabFVn7DFAP2
+ P3ZXoHTX0tI+DQR2HmPX5OYlFHaVRxhdMZt2uoBjhmCct35K9BLSC+ydvhZZMv4zuvPac5ns/s/
+ sscaGqdcRan5KbedIEARAmVrLrZiNnSTzLLj5cWtx89/pmrepSf7r/ktBbEDoKlO69cRnQ6Sn6A
+ KSjJAw4gr2hGoT0UCXxl0J1ZuvZq/LW60bbi7dawCPxH1XkbF00I2mIf+qxrr1vfvmXkhS4MUd4
+ EM/MQji183vDQC0mphzEQXgI5yuKqL8xDswW11UpyQ5pakHYUHkKzcq93+ACEVdaNT6OXxSxypF
+ Ap59fSOc8XjRlFSFQ1nJtwy0OJPcq67mqDqc1G1UFGE1oGs4+sWGly9LAwrQrlSZxrRfg6TyIhC
+ om5Uh7iFZHgXMAOR/xw==
+X-Authority-Analysis: v=2.4 cv=He0ZjyE8 c=1 sm=1 tr=0 ts=69c46271 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=0sLvza09kfJOxVLZPwjg:22 a=N--XFCr6TIEc_64PeIT2:22 a=VwQbUJbxAAAA:8
+ a=gAnH3GRIAAAA:8 a=YeJ3jcQhQBvMQWeA9nIA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: MocuaAkAEQ6QKnVIGE1D0uqhMq4rH6lD
+X-Proofpoint-ORIG-GUID: MocuaAkAEQ6QKnVIGE1D0uqhMq4rH6lD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-25_06,2026-03-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1015 impostorscore=0 bulkscore=0 spamscore=0
+ phishscore=0 adultscore=0 malwarescore=0 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603250167
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mess.org,none];
-	R_DKIM_ALLOW(-0.20)[mess.org:s=2020];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[analog.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[analog.com:s=DKIM];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7498-lists,linux-leds=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[analog.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sean@mess.org,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[mess.org:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-7499-lists,linux-leds=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[analog.com:dkim,analog.com:email,analog.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mess.org:dkim,mess.org:email,gofer.mess.org:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 15A8C32CD12
+	FROM_NEQ_ENVFROM(0.00)[jancarlo.roleda@analog.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: 7D5B932D0C6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Mar 25, 2026 at 06:07:23PM +0000, Biswapriyo Nath wrote:
-> This patch series add support for various components in Xiaomi Redmi
-> Note 8.
-> 
-> Most notably:
-> - IR transmitter
+The LTC3208 is a multi-display LED driver, using a high-efficiency, low
+noise charge pump to provide power to 5 channels (MAIN, SUB, RGB, CAM,
+AUX). Current for each LED is controlled by the I2C serial interface.
+Four AUX current sources can be independently assigned via the I2C port
+to the CAM, SUB, MAIN, or AUX DAC controlled displays
 
-For the IR stuff:
+Signed-off-by: Jan Carlo Roleda <jancarlo.roleda@analog.com>
+---
+Changes in v2:
+- Addressed DTSchema bot warnings and errors
+-- removed extra blank lines
+-- fixed $id to match current naming
+- Addressed Kernel test warnings
+-- fixed bounds for aux channel configurations
+- Link to v1: https://lore.kernel.org/r/20260318-upstream-ltc3208-v1-0-015f1f1e9065@analog.com
 
-Signed-off-by: Sean Young <sean@mess.org>
+---
+Jan Carlo Roleda (3):
+      Add Maintainers to LTC3208 LED Driver
+      leds: ltc3208: add driver
+      dt-bindings: leds: Document LTC3208 Multidisplay LED Driver
 
-Thanks,
-Sean
+ .../devicetree/bindings/leds/adi,ltc3208.yaml      | 158 +++++++++++
+ MAINTAINERS                                        |   8 +
+ drivers/leds/Kconfig                               |  11 +
+ drivers/leds/Makefile                              |   1 +
+ drivers/leds/leds-ltc3208.c                        | 298 +++++++++++++++++++++
+ 5 files changed, 476 insertions(+)
+---
+base-commit: e68f95a51d1a8c1594b536c4d495cbea38d47561
+change-id: 20260318-upstream-ltc3208-7cc8968bf69e
 
-> - USB-C OTG
-> - Vibrator
-> 
-> Also, fix some bindings warning as reported due to previous commits.
-> These are tested with linux-next tag next-20260320.
-> 
-> Signed-off-by: Biswapriyo Nath <nathbappai@gmail.com>
-> ---
-> Biswapriyo Nath (7):
->       arm64: dts: qcom: sm6125-xiaomi-ginkgo: Enable vibrator
->       arm64: dts: qcom: sm6125: Enable USB-C port handling
->       arm64: dts: qcom: sm6125-xiaomi-ginkgo: Add PMI632 Type-C property
->       dt-bindings: leds: irled: ir-spi-led: Add new duty-cycle value
->       arm64: dts: qcom: sm6125-xiaomi-ginkgo: Add IR transmitter
->       arm64: dts: qcom: sm6125: Use 64 bit addressing
->       dt-bindings: clock: qcom, dispcc-sm6125: Add #reset-cells property
-> 
->  .../bindings/clock/qcom,dispcc-sm6125.yaml         |   3 +
->  .../devicetree/bindings/leds/irled/ir-spi-led.yaml |   2 +-
->  .../boot/dts/qcom/sm6125-xiaomi-ginkgo-common.dtsi |  56 +++++++
->  arch/arm64/boot/dts/qcom/sm6125.dtsi               | 168 +++++++++++----------
->  4 files changed, 152 insertions(+), 77 deletions(-)
-> ---
-> base-commit: 785f0eb2f85decbe7c1ef9ae922931f0194ffc2e
-> change-id: 20260325-ginkgo-add-usb-ir-vib-4a51bd9ff64b
-> 
-> Best regards,
-> --  
-> Biswapriyo Nath <nathbappai@gmail.com>
+Best regards,
+-- 
+Jan Carlo Roleda <jancarlo.roleda@analog.com>
+
 
