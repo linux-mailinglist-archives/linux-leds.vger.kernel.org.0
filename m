@@ -1,146 +1,167 @@
-Return-Path: <linux-leds+bounces-7531-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7532-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6GYJGwFzxWmN+QQAu9opvQ
-	(envelope-from <linux-leds+bounces-7531-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Mar 2026 18:55:13 +0100
+	id 0K8MIwh/xWkk+wQAu9opvQ
+	(envelope-from <linux-leds+bounces-7532-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Mar 2026 19:46:32 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3568B33991A
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Mar 2026 18:55:13 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3576033A578
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Mar 2026 19:46:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 33F793046086
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Mar 2026 17:48:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6732130D87DB
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Mar 2026 18:28:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 628693914E1;
-	Thu, 26 Mar 2026 17:48:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39C1639A7F6;
+	Thu, 26 Mar 2026 18:28:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="GpG6sHai";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="tK5XT8gl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ng8H+v2f"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B352033065C;
-	Thu, 26 Mar 2026 17:48:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADE83446CC
+	for <linux-leds@vger.kernel.org>; Thu, 26 Mar 2026 18:28:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774547293; cv=none; b=ciA8qeu6c3MIJijFt51bpuE9YcywpPE1f3eObTSbD3UU9pue4/7S3+DhNPxz9vBU0yor5ZfKEqXsEhK/K48L8k10ei01Q9xCt+YVBBepBmayXKFFfs238Mjr2h2P+5dMukZ9/XGk2BCdpLzTjBLx8EeDUs69Y6CHfG/9c3liCZE=
+	t=1774549717; cv=none; b=i5AxaoFciVR8WBEYit4Ab7eCd7i48uf7l5Gwgewyq9KOwUEfCIn24VcQPnu9NhIEQ9edRoYas0kUo3JLeYkHNQp7ATv7QLLz8TfaQQnrNQcQ1knumClLaRRdeomElYOBOORKlOHXDWdIGrJydsPL9F1ArjK2kQOxZI3Yt1sYuKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774547293; c=relaxed/simple;
-	bh=DTxED/e7umhg7+GX+gtMUVo3085Rfcc7YrPrEZ1eBrY=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=KqBPJNWPojBL86pj8r+THr1a8nsuYjz8Ws2cYiVUzmR9HvwmiyQwsqLKPmGyGTTn2mZbn0kqx8aIdXGdym0nb2VvQvI0QX06h/lQmTu2+1ZXjMUdLB5xgC/sfihcDWsIQm91OJFyN5vrksfTxktZ7jTgmy+bXp2tHV1L4n8OA5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=GpG6sHai; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=tK5XT8gl; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1774547288; bh=TcWB/9vyD54+dFx1oHfTRCb
-	cspoYc7ZfLbCigZuE7fk=; b=GpG6sHaiG6SrHUIZqGpMcGlN+QXG/SdMAfzkdH6/pWf+nliAVA
-	cLkzBSCexOqjAeIc0JCvEEGOT6fwo/bzFzqb/6mAEnD3fNdR1+Yli2N2nZRAFYi07N/UgmyRon2
-	J1CQxFRlQQXci3kmjpRqE0w2hRSPij6UTO9hLixe3CEm+ZSG5taeyZ+z1Mu0y2unYja3K/qjolo
-	tg/E/TIN9nbwftq6GaMeW4v/JlYioN2Sx5jL8C8AZn+Gynvx77aArrUOmvm2ObE6hKPSEYcqTNR
-	7HG0wk6YUztU12EKhJaLMAhJBw+M9v1RS1EBGfrgQCfV0aohuG/IaLH/ewazqFh/vpA==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1774547288; bh=TcWB/9vyD54+dFx1oHfTRCb
-	cspoYc7ZfLbCigZuE7fk=; b=tK5XT8glwGmZjOacZ4juSdcmsuTwgWoF619oyzb4P+0AKZnpwU
-	/smzfuJcewTKfpLTMEGNC3srarWn3VfItKCw==;
+	s=arc-20240116; t=1774549717; c=relaxed/simple;
+	bh=Jc3WGM9+nSXAgx36gi73IUpaDeFuSOdmq7+OowChnuo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cVSepnw5vwwE91+K2TcTVX2FEVpYv4wFh420GI8JSQdYSGkIevU4ud5zNjdMoNkKZ84qT2nFqameE6UlQiZE1CjCa/s4kL/DsIbTJyc44KPfrKCc+eHfYylYnuzHViOUW++YCSWmOkNrwRy6uWlEKjE7ZTo0aOuqSYyP7CweSg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ng8H+v2f; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3591cc98871so608534a91.3
+        for <linux-leds@vger.kernel.org>; Thu, 26 Mar 2026 11:28:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774549715; x=1775154515; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xq2guOjsOaSspszJVZHGbMTfXj6L3NYNNr8K8Ir/mPI=;
+        b=Ng8H+v2f2gb72FkTKL926Ur2LpFCywyblJxHiipmgBBoesWnFT9mK4JGhYLTFG+Gms
+         CfY5M4yzKUScXweA9XyaI21nEB79fAFAgDRMbj6gMLA1sMWVRWBcSbmF4vyFm+pg6FTA
+         okINvyZaUY5KdplTpCBaiPJhSW6cmDLzAgkoZxuJ1lXkOuwnVBYqxexny/0HhKkvEXaL
+         L0jDS1WkN7jAHkjegdotknB8wEO9OLsP55Aibjwb0qORUDXWd3ZdTGp+PECnuCuClWmC
+         kC7nUEyNcLXur79YXFvSJj6h8kFLoHXfFihbkjPGsq/ZJukbimctau5N50qkhz5kw2+S
+         gntw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774549715; x=1775154515;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Xq2guOjsOaSspszJVZHGbMTfXj6L3NYNNr8K8Ir/mPI=;
+        b=Fmf6GwulUr1KM0yJm1NMV1HxSzj1zbHy1fPrJ6aDA+UM/EPVfNLm3ewfKQ6W2jNukS
+         ww8rleF/sm0CpNBgjwSP5kxPAdB9ixeXWI8QwbqYK90awL0HSevUTxoCBFSOQfw6x7NV
+         OOvbr4VTUj/gd8JCMAWBBRMftrVFUSCaulx06v2tauLRyc9AP16Q2J0FaVhe1kHUff1m
+         DUCaCULe8vmbM0qu66keHw6feo7MUNQ0kqbcXB0fQVRIT086PgrDP4vqZEDyNBI7/xqV
+         b9nwuVQrbjF2y1cqccFBGXwf/0X1y7A1PltCv81fSql3ldpJlSdqDyFrJMyt+cjD4MVW
+         wAPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXxP+4rqT2c3Z/eKxFtETfv/j3GP9dETVxInSLXIcNqoKAVyF3ClKGq/cRexHBTSjfgETJs1k3bvacE@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyu7cQ4SvxZnCi6SJYmRux23jr7XEwQ0U4XXqrwKnvdjIl5p6Yl
+	Bt2pzhBNPWZWFy0hMhuxMaG7eLls0IFrEUdnI16b5MWWrls40yE97WNf
+X-Gm-Gg: ATEYQzzbxkcjNCkg2Qej3rJVM5RT+VnJa1FD4LnBSY7x2kk9WHocE1heV6oHmwcQlvn
+	dzLbEiwhaZGxig4fHKU5n6yzELzc5jt87R/6OIp0s6YFS/6HLso60hfANvs0wy2rPNfKPRs9qrv
+	5zJXJs88aY916lq4yeUzReR3RnfUxuqcUmV1bC6VYiUjMIdiLJpxMRfQlcrSWACZc7OjkUr+q7N
+	1T5wtYoi8DuVhSNxd9Ml7khSebLX/odnmpyovF41CcX4RsgQbZ+PRwRFLGpttIv44g6JCXDj4E3
+	rdHip9aT35sdRy0iODLWdTw72Pm6iXOeP/bvNi5XfOo46cl2Bk6tcLmvFgkZxlTz/xk730MeGpZ
+	LqPxwuMxjvyjfK5TnuW6GV0tkq/v7a001MaPi6k82Tod11LnEZ+C0lruaiFTdndf7YiIfl/4Tfh
+	ym4Dm4FXkGe8z+p4Nm8su93QsvFofgaAE=
+X-Received: by 2002:a17:90b:3fcd:b0:35b:a30f:8bfa with SMTP id 98e67ed59e1d1-35c0dc813dcmr8363731a91.7.1774549715010;
+        Thu, 26 Mar 2026 11:28:35 -0700 (PDT)
+Received: from ArchLinux ([43.251.91.119])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2b0bc795f08sm47816045ad.21.2026.03.26.11.28.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2026 11:28:34 -0700 (PDT)
+From: Biswapriyo Nath <nathbappai@gmail.com>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Biswapriyo Nath <nathbappai@gmail.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Sean Young <sean@mess.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Martin Botka <martin.botka@somainline.org>,
+	linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	~postmarketos/upstreaming@lists.sr.ht,
+	phone-devel@vger.kernel.org
+Subject: Re: [PATCH 2/7] arm64: dts: qcom: sm6125: Enable USB-C port handling
+Date: Thu, 26 Mar 2026 18:28:19 +0000
+Message-ID: <20260326182821.8332-1-nathbappai@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <593b3801-a83c-4132-970f-5075ebca2bc4@oss.qualcomm.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 26 Mar 2026 18:48:08 +0100
-From: barnabas.czeman@mainlining.org
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Biswapriyo Nath <nathbappai@gmail.com>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek
- <pavel@kernel.org>, Sean Young <sean@mess.org>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Martin Botka
- <martin.botka@somainline.org>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-clk@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, kernel
- test robot <lkp@intel.com>
-Subject: Re: [PATCH 0/7] Add vibrator, IR transmitter and USB-C handling in
- xiaomi-ginkgo
-In-Reply-To: <9a61ad79-b787-4b83-b7dd-2ea36e7cea81@oss.qualcomm.com>
-References: <20260325-ginkgo-add-usb-ir-vib-v1-0-446c6e865ad6@gmail.com>
- <9a61ad79-b787-4b83-b7dd-2ea36e7cea81@oss.qualcomm.com>
-Message-ID: <cc0d9e1d8f85bf2b67df35b8d9c2110c@mainlining.org>
-X-Sender: barnabas.czeman@mainlining.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mainlining.org,reject];
-	R_DKIM_ALLOW(-0.20)[mainlining.org:s=202507r,mainlining.org:s=202507e];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7531-lists,linux-leds=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,mess.org,baylibre.com,somainline.org,vger.kernel.org,lists.sr.ht];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,mess.org,baylibre.com,somainline.org,vger.kernel.org,lists.sr.ht,intel.com];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-7532-lists,linux-leds=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[barnabas.czeman@mainlining.org,linux-leds@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[mainlining.org:+];
+	FROM_NEQ_ENVFROM(0.00)[nathbappai@gmail.com,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	FROM_NO_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3568B33991A
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 3576033A578
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 2026-03-26 10:39, Konrad Dybcio wrote:
+On Thu, 26 Mar 2026 10:41:03 +0100 Konrad Dybcio <konrad.dybcio@oss.qualcomm.com> wrote:
+
 > On 3/25/26 7:07 PM, Biswapriyo Nath wrote:
->> This patch series add support for various components in Xiaomi Redmi
->> Note 8.
->> 
->> Most notably:
->> - IR transmitter
->> - USB-C OTG
->> - Vibrator
->> 
->> Also, fix some bindings warning as reported due to previous commits.
->> These are tested with linux-next tag next-20260320.
->> 
->> Signed-off-by: Biswapriyo Nath <nathbappai@gmail.com>
->> ---
->> Biswapriyo Nath (7):
->>       arm64: dts: qcom: sm6125-xiaomi-ginkgo: Enable vibrator
->>       arm64: dts: qcom: sm6125: Enable USB-C port handling
->>       arm64: dts: qcom: sm6125-xiaomi-ginkgo: Add PMI632 Type-C 
->> property
->>       dt-bindings: leds: irled: ir-spi-led: Add new duty-cycle value
->>       arm64: dts: qcom: sm6125-xiaomi-ginkgo: Add IR transmitter
->>       arm64: dts: qcom: sm6125: Use 64 bit addressing
->>       dt-bindings: clock: qcom, dispcc-sm6125: Add #reset-cells 
->> property
->> 
->>  .../bindings/clock/qcom,dispcc-sm6125.yaml         |   3 +
->>  .../devicetree/bindings/leds/irled/ir-spi-led.yaml |   2 +-
->>  .../boot/dts/qcom/sm6125-xiaomi-ginkgo-common.dtsi |  56 +++++++
+> > Plug in USB-C related bits and pieces to enable USB role switching.
+> > Also, remove dr_mode to enable OTG capability.
+> > 
+> > Signed-off-by: Biswapriyo Nath <nathbappai@gmail.com>
+> > ---
 > 
-> I'm assuming all of these changes apply to both ginkgo and willow,
-> which both include ginkgo-common?
-All these change should work on both, willow is a ginkgo with NFC.
+> I'm not sure what this is going to do for other 6125 devices
+> that don't have the Type-C infra wired up.. Does just applying
+> this commit alone keep peripheral mode working on your phone?
 > 
 > Konrad
+> 
+
+Yes, I have verified that USB peripheral mode is working with this
+patch only by using USB network[1].
+
+[1]: https://wiki.postmarketos.org/wiki/USB_Network
+
 
