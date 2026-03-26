@@ -1,174 +1,277 @@
-Return-Path: <linux-leds+bounces-7533-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7534-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cNasIMSAxWk9+wQAu9opvQ
-	(envelope-from <linux-leds+bounces-7533-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Mar 2026 19:53:56 +0100
+	id 0IEyFyiExWlc+wQAu9opvQ
+	(envelope-from <linux-leds+bounces-7534-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Mar 2026 20:08:24 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7510A33A720
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Mar 2026 19:53:55 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBB6933ABA3
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Mar 2026 20:08:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 1FBCC3086E9E
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Mar 2026 18:41:46 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 77E75301287F
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Mar 2026 19:04:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E17339D6D2;
-	Thu, 26 Mar 2026 18:41:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D08B3093B5;
+	Thu, 26 Mar 2026 19:04:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g0/avLhY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e6D+KsVL"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D9A3A0B23
-	for <linux-leds@vger.kernel.org>; Thu, 26 Mar 2026 18:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774550502; cv=none; b=Yu1EJdkdairsZTAp8Jw5z+eDlPatz2u+cEz20ikLbn8G1cOT+RFUku9b0Kp5XbKtyd0gOsuEMaur/kgVD1MW+XAMyUKjU0AvPqZN7D/o6szryb9L1J0w8XzsX1Z0arlsZDnVDzCNc2TfhKRvaoJooIRBvy9jDMNpv9Ow4YRRIM0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774550502; c=relaxed/simple;
-	bh=bJ6aPe/Nui+QtwM6pXeCZFiQSEzOXhL5o526MBBhQg0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cYD5wbmolRDBbaR6ri3ApuoMh3alP0aCGpuN3+bpIRgxIK8MInwsK8tEkwMWzvwR5TumA3Z5LAj4ox4Z/+FTXae+uz2j8som1mL4DcgutctozFXRXVIT28Ac9WJYIBiOTIc8e38K4UMt56DLOovfJsT+zjO3nBuue2nXVq+P7rI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g0/avLhY; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EEC433A711
+	for <linux-leds@vger.kernel.org>; Thu, 26 Mar 2026 19:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774551893; cv=pass; b=krZY+mrLuXhgz+j2c/Ro8ZR4yNJCvFUMJRCA5Gx5s2EqMREwKDpCacuoTgCfbKlbVdIdusEJSXMZGS/6Fyhu/+t1S1dY9X2pwc0W7NjcwkW4wc5oJ0FJHXsy3rJRHupCdNwwGvO+076uyMnktMoPXubNxpgwRrPzskQXc0yk1co=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774551893; c=relaxed/simple;
+	bh=RWTNlpcNdGltwoZYCZGEe+3cY2BbwIINBFwoppx91tc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gQgdCViByVhM1XKb7inXQIDclIWhY+nGQgLTVN5fEC2UqVw1PzJwryZfDIpr4rxfL4DTPrV2Q35ulmggLpx0383taXA8NC61BxfpgQfYT1PE5f6IaEqSu7Z+eqIO3Md5gv4VdX0VnDUOv/tf/kO0BNApYhWRB8uRDMKij+wzdgE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e6D+KsVL; arc=pass smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c74244dc0b3so953567a12.2
-        for <linux-leds@vger.kernel.org>; Thu, 26 Mar 2026 11:41:39 -0700 (PDT)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-66847de014aso2436836a12.2
+        for <linux-leds@vger.kernel.org>; Thu, 26 Mar 2026 12:04:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774551890; cv=none;
+        d=google.com; s=arc-20240605;
+        b=iRhJ2dqysue49FNqVntdYOcR8PDPsdYSuRC9IaQCJHpE40AcretsBnxvyyv+iSerRF
+         e0eBJoFfUg4fBQu9raU6ZyDtbvCshxaNWfgsCds+vight5/pnNU3ov1kQhtRC5uu2YXP
+         P2aer78v52Ujwib608Q1i8mM4FCo6ty1IZ+ki+lSaAUtcAcJpfF6JiMqz8XuuRworonz
+         Tvm8djCB9M8nw0L9BD2RcPOgdCaO9TB3M8A0Yz4RRE2wiWUde93ln8e+J8H7IpqqiC4e
+         ajrn0UXYQtnIdfmrfgE9uHK8PG4wAstTADxR5KOB/E+kQtkPNRhAnFRfSRrAQXW+72h5
+         ykPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=fKnBDIr+tRJpkvUEKn0Xd6uLa/KGKg5mcNt/DWZZSps=;
+        fh=X/yKbcLz6auqxei7884iplvjzdpH/lJTDOq8yQscJss=;
+        b=dcNzT651GRZxnpG4pgfgZlh8ISz4CU400XGG0u14YILYK/ZcWy2rvawMQO+ZBZmrMx
+         2bMgz39uGM/Ckh6gMDhoNDxhA+zq6cgGmsYm2zpdSw5arbB0oCmzwzS+KNWLmOByOFBx
+         L2GaeV14sFX2qvr9KMhogmI3MTrnQwv4secAkzeBnXH3bnm9psbqqDoBVpx0gZcKzRsL
+         pOu+pSfubeswVaHulHPDacz/YQK1fWiox90JOiJiYD4XQFF+JVuB54yth+NBjwJM7JKE
+         h+FEtgBx64aYQ+ixkcZpa0/JI4COUu7zja3EvtafXTGcEbJXRReCSMhgjktuILSlOBMK
+         FpXA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774550499; x=1775155299; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1774551890; x=1775156690; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mwjCW0nYj9p4CO0/GU2nqORuahjWsn3xAn/vBQiDUkM=;
-        b=g0/avLhYWeUQAjbmFQB51pk4QoETWtzlA3Q0BknjGbf06jt/6R9vn4B3WQhXXLjZnZ
-         6SQaGWu7aEj6MWXJ7Kxz1a+uPvgWuhV7AV85G54CLZR7c4mqFqNbRJPZzrMvOfk+D3a8
-         hwyOO20Cpyzg4euDTEikpGe1V8t4dEqv0hsNQ7JmwsIoW2TI079ACg2e68YCtincfnhh
-         GDou0kXJodeK1I+cWrS39G2RMH74/lZScCrA759yMO6QKZYiOz3ZTgvVeYXVxyfKnhpD
-         pelNt5MmZVcNZbohGy8H6Nk0IOfcQ4uyhxg8hAyHN4qm4j62FffWbKzFymWQVIC3P12m
-         D3cw==
+        bh=fKnBDIr+tRJpkvUEKn0Xd6uLa/KGKg5mcNt/DWZZSps=;
+        b=e6D+KsVLS1QIdrh5CEWJQDzcyVufTUnY//abIwu/iKYIgcVbGSOGuXfa4R/daKrcwv
+         +CEjgB4tP64vpIJSN3AkmkCzFL+i29mixKnriiJqSctxqsh1aVdigeBoIG9JbdZPSpAY
+         CCT1IQrqQFuHxr5MxocRhscwtBIH5a79xWr7dRAX2DRFGgwixbIZ2zNIsqftPTNYq9jM
+         TnNBHBgp3Rt3XiGLZXCuLnLfvJ85Vq0/siz5tJ5YrjEko6RHpBypBSZm0JV4ZwMVNrcc
+         N5tx+sn61+ZRki+0cckfp7/FrXneMCJ9rmM7XW0MNXpvfdGLkYRaWCUepM45G1kq2p25
+         qRYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774550499; x=1775155299;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1774551890; x=1775156690;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=mwjCW0nYj9p4CO0/GU2nqORuahjWsn3xAn/vBQiDUkM=;
-        b=lD825YKwls2kV5s8yfi2kzLBv8lG4PNEdcEY0qLPPYv1W3FeZFSg/dZYRa49MbDbxE
-         MkNDjAAqn8Z76GnJnbJf3welbes0NM8qOVTohlkIlzIqzAIJOW6ZvbpTFAyO008vsPLk
-         GcgEIclsRGd1/XagAtM25j4CwA7le5q10xJXlK4Aaq+qU6AVhNMMNX/efD898jFeWQTx
-         mWTBCDnlmgx/RFfJF2ZNDQcb0p+O91Aj8RufEowa8VzyBsplLCgLyFOdt8CmYowhhj/y
-         6VYNAe16jIop4SQ5doy9H9prmB/Ds4jEJ2mED5hRLuap1XzpPlRNRPsHiQXtG7EEyAG1
-         zAeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXQ2W2jB+lNJKzzVJS8pNCISoCCOPViuGGUpmKzcZ8Mm1pWYqdumDtvJ01jfQ5tTE2235LbrwFTk4HN@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/3ssipoaiG0ONG4IZVJvKPlnXLDB4FlBAezd1fmNvRMeA0Pps
-	KoWZSTrPq+6sdTX+9EZUQRTFZBjFPLErU09Qg0tf+oKdkseBjsDkXnqE
-X-Gm-Gg: ATEYQzw3BN4/q0+iCQ30n7RKH3AhwFVq6xW0pBdf5u2uY+AjdL2KVuKxrmrGLDBPSvy
-	SGE2647Hco2rJ/o6Hc0Uh70BZBJuVYdjVBJZylAE2MbLX/v+Ru85DgN++PZIMiDjoVHPDdfvotM
-	lDB2Hj3aerBWCsO77mnsrtIFk7cUfTa3xZcmN8EELrP5CHcwzYXAfXgqr+hXFUJYZTPsIIIVZ7I
-	51TJkSITZItq0SSUm0fCc4xrlZvMceVKSCy7GtvrJLjVatikjLpoG1vq4JflIayoyzvOXChD2pL
-	QWOtEJ5D1BEtEkNpBuh6AKA4Lch3hnn5bzSofNSzq6EIch8G0VGsbXInF98h8Bpv/zH1xwmuQAe
-	Rr3guC2xcBjVelGbtpXobiOxS48uN7jkmMJf7weFDMe5jTJPBG/+utch4jzyx+RQxOL7nU6M/PO
-	IU7/T/V8PyjYVgEmIAOb3e
-X-Received: by 2002:a05:6a20:3d81:b0:39b:edcd:d936 with SMTP id adf61e73a8af0-39c4ab8beb1mr9569115637.16.1774550499135;
-        Thu, 26 Mar 2026 11:41:39 -0700 (PDT)
-Received: from ArchLinux ([43.251.91.119])
-        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-c76737f42dcsm2983400a12.4.2026.03.26.11.41.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 11:41:38 -0700 (PDT)
-From: Biswapriyo Nath <nathbappai@gmail.com>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Biswapriyo Nath <nathbappai@gmail.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Sean Young <sean@mess.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Martin Botka <martin.botka@somainline.org>,
-	linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	~postmarketos/upstreaming@lists.sr.ht,
-	phone-devel@vger.kernel.org
-Subject: Re: [PATCH 5/7] arm64: dts: qcom: sm6125-xiaomi-ginkgo: Add IR transmitter
-Date: Thu, 26 Mar 2026 18:41:24 +0000
-Message-ID: <20260326184126.9280-1-nathbappai@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <dd71e35d-5dd1-4341-bcdb-d082dba41d3a@oss.qualcomm.com>
-References: 
+        bh=fKnBDIr+tRJpkvUEKn0Xd6uLa/KGKg5mcNt/DWZZSps=;
+        b=Jl3FoVMR/9GkeMO5/HRUh/KKP+x7Pljs2ZWr+93YC1Jnu9BYrDj+/hWwmTO2gW+yTu
+         Xi3wgeUbfdAN8f2GqFavUrTpJABjU/WwEqo3PO5kSZ4R7v72RuWoGjktjKqWLchoi5mx
+         sjFYrbnjwfVzicl0pG8DIMRRXftVJnxxuFo0WILxy/EZn4AERsO+3EmwXcZiWHqltdGl
+         Ms9hkXmWlHkcEDTJZKaeiHMlCcPRtYnBOewOW318c+Lgrdcur2375kKLtq7SwQ8KsfS0
+         XrP0bG23LwvqM9PEA5Zc2uYkyoXwrqsSsN55qlS+tQo2Nlrj5rekok0YV/Ia4JqiaBPG
+         Xt+Q==
+X-Gm-Message-State: AOJu0YzyLGj9xPOaYvyv8LP4SQdp4/CF44irhk9EcQOkYLIKF2ZSmpfX
+	cD/uTSMkeKoJYfqrGz14mM0NmosfbONwZ2J60KvAUnE3XmH2ZrczK0++Wh86UTfOk6q7EkOpbNC
+	dZlyor7ebIJQaksL6RcCd0ML5lhWCS64=
+X-Gm-Gg: ATEYQzxNVCE+ujuRZ9InkcdPLfLUtAQDMOKoEuh9uStBVzLfeAFRf02+U85LbtlbZSh
+	G2cCIUAwKbfvO9qgHXb6k30NuoQMOXDPPUZwVbpBhC1mZ3tDnJxKxy7Q9AMPDfGw4/bTG4tWspk
+	9knkb4Z56tnYGLalknxcSSa5CuVVCokRVgEIsTtd9UDvrwpwPHX9Wy9Y9UNZCnS2T6jslmWzi50
+	EZoTbtbkRJ61th5Ob9OOpnHFL+h6Xg27KHWphcKCvdKKDk90HvyRzC+jhSAjGWJcA+piNGpdWZX
+	9v+0x1Jt+KvtCmaeeMCpBELurQS1YHtna2qm5n6BTCNNQYNLcKIcitUbicCTRM7ijLq889wPt2j
+	XhcJiBw==
+X-Received: by 2002:a05:6402:400a:b0:663:d74e:9253 with SMTP id
+ 4fb4d7f45d1cf-66a826e17dfmr6467290a12.30.1774551889751; Thu, 26 Mar 2026
+ 12:04:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
+References: <20260320040821.46540-1-rosenp@gmail.com> <20260326113336.GK1141718@google.com>
+In-Reply-To: <20260326113336.GK1141718@google.com>
+From: Rosen Penev <rosenp@gmail.com>
+Date: Thu, 26 Mar 2026 12:04:36 -0700
+X-Gm-Features: AQROBzCZTyvHiViM7w4a5wnlj7r-dKVubkWrdoEcXDG9mbkTLQ1oPqON6pUOgdI
+Message-ID: <CAKxU2N_8BnBETT8YeDa44bDvC_srepskpA7iDYOwPQJsfb0dXw@mail.gmail.com>
+Subject: Re: [PATCH] leds: pca955x: kzalloc + kcalloc to single kzalloc
+To: Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org, Pavel Machek <pavel@kernel.org>, 
+	Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	open list <linux-kernel@vger.kernel.org>, 
+	"open list:KERNEL HARDENING (not covered by other areas):Keyword:b__counted_by(_le|_be)?b" <linux-hardening@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,mess.org,baylibre.com,somainline.org,vger.kernel.org,lists.sr.ht];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-7533-lists,linux-leds=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-7534-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathbappai@gmail.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	DKIM_TRACE(0.00)[gmail.com:+];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rosenp@gmail.com,linux-leds@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 7510A33A720
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds];
+	FREEMAIL_FROM(0.00)[gmail.com]
+X-Rspamd-Queue-Id: EBB6933ABA3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, 26 Mar 2026 10:29:49 +0100 Konrad Dybcio <konrad.dybcio@oss.qualcomm.com> wrote:
-
-> On 3/25/26 7:07 PM, Biswapriyo Nath wrote:
-> > The IR transmitting LED is connected to SPI8 controller.
-> > 
-> > Signed-off-by: Biswapriyo Nath <nathbappai@gmail.com>
+On Thu, Mar 26, 2026 at 4:33=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
+>
+> On Thu, 19 Mar 2026, Rosen Penev wrote:
+>
+> > Two fewer allocations as a result.
+> >
+> > Required placing some structs before others as flexible array members
+> > require a complete definition. Declaration is not enough.
+> >
+> > Added __counted_by support for one of the structs for extra runtime
+> > analysis.
+> >
+> > Signed-off-by: Rosen Penev <rosenp@gmail.com>
 > > ---
-> 
-> [...]
-> 
-> > +&spi8 {
-> > +	status = "okay";
+> >  drivers/leds/leds-pca955x.c | 45 ++++++++++++++-----------------------
+> >  1 file changed, 17 insertions(+), 28 deletions(-)
+> >
+> > diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
+> > index 2007fe6217ec..ee5f02eaa3c9 100644
+> > --- a/drivers/leds/leds-pca955x.c
+> > +++ b/drivers/leds/leds-pca955x.c
+> > @@ -112,19 +112,6 @@ static const struct pca955x_chipdef pca955x_chipde=
+fs[] =3D {
+> >       },
+> >  };
+> >
+> > -struct pca955x {
+> > -     struct mutex lock;
+> > -     struct pca955x_led *leds;
+> > -     const struct pca955x_chipdef    *chipdef;
+> > -     struct i2c_client       *client;
+> > -     unsigned long active_blink;
+> > -     unsigned long active_pins;
+> > -     unsigned long blink_period;
+> > -#ifdef CONFIG_LEDS_PCA955X_GPIO
+> > -     struct gpio_chip gpio;
+> > -#endif
+> > -};
+> > -
+> >  struct pca955x_led {
+> >       struct pca955x  *pca955x;
+> >       struct led_classdev     led_cdev;
+> > @@ -137,8 +124,21 @@ struct pca955x_led {
+> >  #define led_to_pca955x(l)    container_of(l, struct pca955x_led, led_c=
+dev)
+> >
+> >  struct pca955x_platform_data {
+> > -     struct pca955x_led      *leds;
+> >       int                     num_leds;
+> > +     struct pca955x_led      leds[] __counted_by(num_leds);
+>
+> Where is the memory allocated to this now?
+The kzalloc call was updated to use struct_size to allocate it
+together with the struct.
+>
+> Why do we need this in both structs?
+kzalloc and kcalloc can be combined in both locations.
+>
+> > +};
 > > +
-> > +	irled@1 {
-> > +		compatible = "ir-spi-led";
-> > +		reg = <1>;
-> > +
-> > +		duty-cycle = /bits/ 8 <30>;
-> > +		spi-max-frequency = <1000000>;
-> 
-> I see the binding allows a power-supply handle - do you need one?
-> 
-> Konrad
-> 
-
-I have tested the IR transmitter with my TV and set-top box both.
-power-supply is not required and not mentioned in Android devicetree.
-
+> > +struct pca955x {
+> > +     struct mutex lock;
+> > +     const struct pca955x_chipdef    *chipdef;
+> > +     struct i2c_client       *client;
+> > +     unsigned long active_blink;
+> > +     unsigned long active_pins;
+> > +     unsigned long blink_period;
+> > +#ifdef CONFIG_LEDS_PCA955X_GPIO
+> > +     struct gpio_chip gpio;
+> > +#endif
+> > +     struct pca955x_led leds[];
+> >  };
+> >
+> >  /* 8 bits per input register */
+> > @@ -542,15 +542,11 @@ pca955x_get_pdata(struct i2c_client *client, cons=
+t struct pca955x_chipdef *chip)
+> >       if (count > chip->bits)
+> >               return ERR_PTR(-ENODEV);
+> >
+> > -     pdata =3D devm_kzalloc(&client->dev, sizeof(*pdata), GFP_KERNEL);
+> > +     pdata =3D devm_kzalloc(&client->dev, struct_size(pdata, leds, chi=
+p->bits), GFP_KERNEL);
+> >       if (!pdata)
+> >               return ERR_PTR(-ENOMEM);
+> >
+> > -     pdata->leds =3D devm_kcalloc(&client->dev,
+> > -                                chip->bits, sizeof(struct pca955x_led)=
+,
+> > -                                GFP_KERNEL);
+> > -     if (!pdata->leds)
+> > -             return ERR_PTR(-ENOMEM);
+> > +     pdata->num_leds =3D chip->bits;
+> >
+> >       device_for_each_child_node(&client->dev, child) {
+> >               u32 reg;
+> > @@ -568,8 +564,6 @@ pca955x_get_pdata(struct i2c_client *client, const =
+struct pca955x_chipdef *chip)
+> >               fwnode_property_read_u32(child, "type", &led->type);
+> >       }
+> >
+> > -     pdata->num_leds =3D chip->bits;
+> > -
+> >       return pdata;
+> >  }
+> >
+> > @@ -623,15 +617,10 @@ static int pca955x_probe(struct i2c_client *clien=
+t)
+> >               return -ENODEV;
+> >       }
+> >
+> > -     pca955x =3D devm_kzalloc(&client->dev, sizeof(*pca955x), GFP_KERN=
+EL);
+> > +     pca955x =3D devm_kzalloc(&client->dev, struct_size(pca955x, leds,=
+ chip->bits), GFP_KERNEL);
+> >       if (!pca955x)
+> >               return -ENOMEM;
+> >
+> > -     pca955x->leds =3D devm_kcalloc(&client->dev, chip->bits,
+> > -                                  sizeof(*pca955x_led), GFP_KERNEL);
+> > -     if (!pca955x->leds)
+> > -             return -ENOMEM;
+> > -
+> >       i2c_set_clientdata(client, pca955x);
+> >
+> >       mutex_init(&pca955x->lock);
+> > --
+> > 2.53.0
+> >
+>
+> --
+> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
 
