@@ -1,55 +1,54 @@
-Return-Path: <linux-leds+bounces-7542-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7543-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sDRxCSVbxmm+JAUAu9opvQ
-	(envelope-from <linux-leds+bounces-7542-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Mar 2026 11:25:41 +0100
+	id gO4WL/taxmm+JAUAu9opvQ
+	(envelope-from <linux-leds+bounces-7543-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 27 Mar 2026 11:24:59 +0100
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C533427DA
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Mar 2026 11:25:40 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EAED3427C9
+	for <lists+linux-leds@lfdr.de>; Fri, 27 Mar 2026 11:24:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B847730C2D0B
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Mar 2026 10:18:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B1B70300A744
+	for <lists+linux-leds@lfdr.de>; Fri, 27 Mar 2026 10:20:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 196D53ACA79;
-	Fri, 27 Mar 2026 10:18:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0432F3ACF17;
+	Fri, 27 Mar 2026 10:20:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="NpOWVYrh"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="Rv8TV6f/"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD563AA51A;
-	Fri, 27 Mar 2026 10:18:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF04E3AA51A;
+	Fri, 27 Mar 2026 10:20:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774606704; cv=none; b=aj49Fa0NSPmyvbtsI4hcILIKxVUAkSY+PX/HRU/2O3g2p9WpFax6x+6GCwewyhhL7t5XxBfBS917ObdV7FGjW0mPOyqrgnJIbhcav+9FSNFZebXqj1ZAMbIW/eT9KcdXl6nxE7ofeegTE0AE7jIL1jruOn5gayC14+4cvJD5jOs=
+	t=1774606804; cv=none; b=ulNf1A4ydoTNWRn+Ivr5N2q4JoSLdB+kt898EdeKcfuymcL7WrG43aIB+ZJORtIT2rVHs72STz02ErdDOSXg650D5rd+xYV8tH0gXnTtKpScuAm+xv7wb0PbuL9RiTQZuEg7LDWzXMV1sjPR8jPqi2/QPBztU8nsEbMN0LnSLT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774606704; c=relaxed/simple;
-	bh=dWmyZ2OOPQ2BUCAdBYc/CUxw39MM+v14HxWKBs7iNGs=;
+	s=arc-20240116; t=1774606804; c=relaxed/simple;
+	bh=vIwmhW7GiLFB5zE29GmHbqoisru9dNovHZYfb00sEL0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YFnMw8dseuxeSGgFZVDkHAoWtEDVzUzAIS+4uCvkqwaUq6xqstGfoUnhRC3ilkS5BQaUntbLouJibsYvXzM3wQw3gwEpZdvL+MVeIOmPocnPydBlmfIumpaGdn6oFAxWmnvdGJk4+M+ljbHcbThc9YB+lhCKoeymcJhYoGcUsAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=NpOWVYrh; arc=none smtp.client-ip=88.97.38.141
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZfzSz16GWqLSoMLynzCtV6/jMbPFOEl9m3aTHBEthQXJH2tpZBpKfbmVr3LM+Ma7ul/p7o5qe42sv5MYcqOi7bHxw/r2ZD9gyHQxK+Gi/BQl1MuWjKnS/KdF8nTjRuxevN3PcrtTuI2eXDo2mr8JcURocr3D1tc2g6lrStJQYb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=Rv8TV6f/; arc=none smtp.client-ip=88.97.38.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1774606700; bh=dWmyZ2OOPQ2BUCAdBYc/CUxw39MM+v14HxWKBs7iNGs=;
+	t=1774606801; bh=vIwmhW7GiLFB5zE29GmHbqoisru9dNovHZYfb00sEL0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NpOWVYrhTtOFgRoqhdTq+HCJ0KRwrFai1osUVLS5v6ThnIrDxxSBY+kxjCiZLljIP
-	 zEQE6FseQQ+jrmLTFbP1i5OJBsvfqwia2Ns1irYB3m1c1SswiU1V+xoXWeo234RQoj
-	 eeVVI26+xns/L4OLalHxlrcdbvbaxKFJ/Mxt70mlWiiwtAaKngzQJQzb9KlRnxq1l4
-	 Q2XkGSAQGvY2se0RKqzLMk8Oni+8dXzbRW/CQou8jrcnlgK+WyRr/070khp9nJ9qyz
-	 L/7Sk8mus3vlOq5qvPBhARAcHn93kVQTkGtMCriAclPLeE4ggGNnVxkOIM5gji3uE1
-	 zssUAoa7y7aEg==
+	b=Rv8TV6f/aVqGW9KVCj7jx9MMxyxww/lKvib6PI/MJD7IJWQFlWYM8UEB22r5Izupr
+	 /fq6Om03C7nHsdgXA8iy9kmGsduTdlbAMiuBWUv47PfkjJze4R5yOa/4RsrOhMxJ6g
+	 lp6JIrnSa+wQWODocwyNUY4rs2cmmMQN7IO9UBmhS70PBfRPvaHCDacBayksJpo1QH
+	 tnM7bB+IgIaeDGXO/RfmxtYBplwsPg3Vb6mXPxv47begOlB1q1zbOaHnwk4gE+sxuL
+	 ahsMCEwcJo7tn/sqC3B0Fn2uXF98sowFTT1ZXDI/f9fpXG4Kh0+uIxuPjnB6SPvHRr
+	 rFJlvMCATqFIw==
 Received: by gofer.mess.org (Postfix, from userid 1000)
-	id 217CE1011B2; Fri, 27 Mar 2026 10:18:20 +0000 (GMT)
-Date: Fri, 27 Mar 2026 10:18:20 +0000
+	id D091F1011B2; Fri, 27 Mar 2026 10:20:01 +0000 (GMT)
+Date: Fri, 27 Mar 2026 10:20:01 +0000
 From: Sean Young <sean@mess.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Biswapriyo Nath <nathbappai@gmail.com>,
-	Bjorn Andersson <andersson@kernel.org>,
+To: Biswapriyo Nath <nathbappai@gmail.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
 	Konrad Dybcio <konradybcio@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -62,14 +61,11 @@ Cc: Biswapriyo Nath <nathbappai@gmail.com>,
 	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
 	linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
 	phone-devel@vger.kernel.org
-Subject: Re: [PATCH 4/7] dt-bindings: leds: irled: ir-spi-led: Add new
- duty-cycle value
-Message-ID: <acZZbKhXe5kLMfTt@gofer.mess.org>
+Subject: Re: [PATCH 5/7] arm64: dts: qcom: sm6125-xiaomi-ginkgo: Add IR
+ transmitter
+Message-ID: <acZZ0T1wzY0TCNTm@gofer.mess.org>
 References: <20260325-ginkgo-add-usb-ir-vib-v1-0-446c6e865ad6@gmail.com>
- <20260325-ginkgo-add-usb-ir-vib-v1-4-446c6e865ad6@gmail.com>
- <20260327-natural-wild-mongrel-5bcc43@quoll>
- <acZCrqffLvUpM7AW@gofer.mess.org>
- <ad7a0675-84cc-424a-b583-47c342f02fb0@kernel.org>
+ <20260325-ginkgo-add-usb-ir-vib-v1-5-446c6e865ad6@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -78,22 +74,22 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ad7a0675-84cc-424a-b583-47c342f02fb0@kernel.org>
+In-Reply-To: <20260325-ginkgo-add-usb-ir-vib-v1-5-446c6e865ad6@gmail.com>
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[mess.org,none];
 	R_DKIM_ALLOW(-0.20)[mess.org:s=2020];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7542-lists,linux-leds=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-7543-lists,linux-leds=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,baylibre.com,somainline.org,vger.kernel.org,lists.sr.ht];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -103,64 +99,75 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[sean@mess.org,linux-leds@vger.kernel.org];
 	DKIM_TRACE(0.00)[mess.org:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gofer.mess.org:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mess.org:dkim,mess.org:email]
-X-Rspamd-Queue-Id: 90C533427DA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,gofer.mess.org:mid,0.0.0.1:email,mess.org:dkim,mess.org:email]
+X-Rspamd-Queue-Id: 1EAED3427C9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Mar 27, 2026 at 10:38:17AM +0100, Krzysztof Kozlowski wrote:
-> On 27/03/2026 09:41, Sean Young wrote:
-> > On Fri, Mar 27, 2026 at 08:51:18AM +0100, Krzysztof Kozlowski wrote:
-> >> On Wed, Mar 25, 2026 at 06:07:27PM +0000, Biswapriyo Nath wrote:
-> >>> 30 duty cycle for IR transmitter is used in Xiaomi Redmi Note 8 (ginkgo).
-> >>>
-> >>> Signed-off-by: Biswapriyo Nath <nathbappai@gmail.com>
-> >>> ---
-> >>>  Documentation/devicetree/bindings/leds/irled/ir-spi-led.yaml | 2 +-
-> >>>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/Documentation/devicetree/bindings/leds/irled/ir-spi-led.yaml b/Documentation/devicetree/bindings/leds/irled/ir-spi-led.yaml
-> >>> index 72cadebf6e3..0297bfbb275 100644
-> >>> --- a/Documentation/devicetree/bindings/leds/irled/ir-spi-led.yaml
-> >>> +++ b/Documentation/devicetree/bindings/leds/irled/ir-spi-led.yaml
-> >>> @@ -25,7 +25,7 @@ properties:
-> >>>  
-> >>>    duty-cycle:
-> >>>      $ref: /schemas/types.yaml#/definitions/uint8
-> >>> -    enum: [50, 60, 70, 75, 80, 90]
-> >>> +    enum: [30, 50, 60, 70, 75, 80, 90]
-> >>
-> >> Hm, why is this enum, instead of 1-99, in the first place?
-> > 
-> > Well in reality only a few different duty cycles are used by IR protocols.
-> > 30% is quite common so that should part of the list. 
-> > 
-> > Having said that a range of 1-99 would be nicer. Do we set this like so:
-> > 
-> >  - minimum: 1
-> >  - maximum: 99
+On Wed, Mar 25, 2026 at 06:07:28PM +0000, Biswapriyo Nath wrote:
+> The IR transmitting LED is connected to SPI8 controller.
 > 
-> I asked, because I don't know what hardware is really there. This should
-> match reality, so if you say continuous range is never used, it does not
-> have the be changed to 1-99.
-
-So the transmit hardware can do an continuous range (almost). It's the
-real life usage which doesn't really use many different values.
-
-The value set here is just the default duty cycle. There is also an ioctl 
-LIRC_SET_SEND_DUTY_CYCLE which sets the duty cycle for transmission.
-
-Most IR drivers just have a hardcoded default value for the duty cycle,
-I think ir-spi is the only one which allows this to be set via dt.
-
-I'd say allowing the default to be set via dt is not necessary. If this had
-occurred to be during review I would've asked for it to be removed. It's
-there now, so:
+> Signed-off-by: Biswapriyo Nath <nathbappai@gmail.com>
+> ---
+>  .../boot/dts/qcom/sm6125-xiaomi-ginkgo-common.dtsi   | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sm6125-xiaomi-ginkgo-common.dtsi b/arch/arm64/boot/dts/qcom/sm6125-xiaomi-ginkgo-common.dtsi
+> index f66ff5f7693..7d848117317 100644
+> --- a/arch/arm64/boot/dts/qcom/sm6125-xiaomi-ginkgo-common.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sm6125-xiaomi-ginkgo-common.dtsi
+> @@ -99,6 +99,10 @@ key-volume-up {
+>  	};
+>  };
+>  
+> +&gpi_dma1 {
+> +	status = "okay";
+> +};
+> +
+>  &pm6125_gpios {
+>  	vol_up_n: vol-up-n-state {
+>  		pins = "gpio5";
+> @@ -160,6 +164,10 @@ &qupv3_id_0 {
+>  	status = "okay";
+>  };
+>  
+> +&qupv3_id_1 {
+> +	status = "okay";
+> +};
+> +
+>  &rpm_requests {
+>  	regulators-0 {
+>  		compatible = "qcom,rpm-pm6125-regulators";
+> @@ -332,6 +340,18 @@ &sdhc_2 {
+>  	status = "okay";
+>  };
+>  
+> +&spi8 {
+> +	status = "okay";
+> +
+> +	irled@1 {
+> +		compatible = "ir-spi-led";
+> +		reg = <1>;
+> +
+> +		duty-cycle = /bits/ 8 <30>;
+> +		spi-max-frequency = <1000000>;
+> +	};
+> +};
+> +
 
 Reviewed-by: Sean Young <sean@mess.org>
 
+Thanks,
+
 Sean
+
+>  &tlmm {
+>  	gpio-reserved-ranges = <0 4>, <30 4>;
+>  };
+> 
+> -- 
+> 2.53.0
 
