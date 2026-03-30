@@ -1,161 +1,251 @@
-Return-Path: <linux-leds+bounces-7592-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7593-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wN7aIYxRymmb7QUAu9opvQ
-	(envelope-from <linux-leds+bounces-7592-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 30 Mar 2026 12:33:48 +0200
+	id iDIxMnmmymmx+gUAu9opvQ
+	(envelope-from <linux-leds+bounces-7593-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Mar 2026 18:36:09 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0445C359610
-	for <lists+linux-leds@lfdr.de>; Mon, 30 Mar 2026 12:33:47 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D3835EDD7
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Mar 2026 18:36:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4C77F300D9D9
-	for <lists+linux-leds@lfdr.de>; Mon, 30 Mar 2026 10:23:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2FC183028B14
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Mar 2026 16:31:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 256A53B6C0D;
-	Mon, 30 Mar 2026 10:23:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD0CA3859FA;
+	Mon, 30 Mar 2026 16:31:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GWuRtQ+N"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a5eUi0Ii"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98D53B637E
-	for <linux-leds@vger.kernel.org>; Mon, 30 Mar 2026 10:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889AA270EC3;
+	Mon, 30 Mar 2026 16:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774866194; cv=none; b=sqp6z3t0gccxHk48XYOjGwsIyDgdAKEQHb5aFAlmVKGLcHFZaGqOdAJebtVNidknP4rlUS2OKbUkjZeVjGI7YE4ByJ3LnuKUrpTVjP4eORVZVUl7bdkVTJJcpDb2525G46NDoCk0csfQu+Z44OrhcOKpjslR/C5nrjIw2xWhjm4=
+	t=1774888318; cv=none; b=ASH6D+cQpJ6DRqLqNFWOehKYFPD1Z1XtSjBjGSY5uSXpjGq++WcYjTrhpvEbS1wcT5V8XaSPgYvnBRm3AQQo3ExJJ9U5RdjSok0cnVQgGDKf7iMBkaLbsjv+S+xCgvv0G4NRTqYupxWqErjk72UNxtT3dvbjdcU51gnosaQyclM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774866194; c=relaxed/simple;
-	bh=2OLJ94HJlikgcrXqeZIl7OisNTmViXdEeC5UBZ+pjOk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wvc4cCzeM+53cjsJV0YZni7w8Qk3qtT6WcmtYAc0Zem+KVIx6Xe7T4Be/AznMXUMmKRWZ3c1OxVLGvwkc5WKot4O2KgHC9R8HEkynRtINth7eY3Xsz2GbexCzQJEa71D0KlFJZCROWXnpZj+6FSfpwceamim4QIWNDfIYobST7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GWuRtQ+N; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-82a07738118so2393976b3a.0
-        for <linux-leds@vger.kernel.org>; Mon, 30 Mar 2026 03:23:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774866192; x=1775470992; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2/SA3PxxzFOYvhnPnfnyUd8N6LpFu9KYx7x1Q4uLkmQ=;
-        b=GWuRtQ+N3/ZHQYDY1SRg/nhWJVMV5pcvEmkEgMwldT1nHgfgoe7BtDEqn03L/SXX2i
-         TJSfwLsJrhKscuQBzG4El48F+ISBbER58NvOHRXthScCVw3k0fKcwQu4pvy61YUPwF54
-         RbgGJvTMwW+rK/z9IDgvWHOBcOsg1X8A2nDLOhP8aCKiw0gD0S2X5hegl2Agaf8a6VhU
-         LgG2fnkC/eKroP9IU2T58/F5m9xcBEBPSAnkLQLIsNRXeHGtMtSJtPTB6YHCbOjSDEbG
-         Ihy6QEGVli1vxCe+8ThxxUIYnsVtM4TN1sqgwMVwRzyMsNwNId58Y1YEMxtFsu3CZgfs
-         WLWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774866192; x=1775470992;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2/SA3PxxzFOYvhnPnfnyUd8N6LpFu9KYx7x1Q4uLkmQ=;
-        b=px9mOK+Lxzv8M6Lm9RbhWS1sUkdbVwYvdfWl9BsiR50iOO3PgSY2fIezJwBUEPSpZS
-         jc2i6mCvOJH3SIq3lT0zU0tIJDUpUeX5KNXAyyZJo541lEBjrldiCJNKUK1oBXHzNIDF
-         N+iyidGi5j00qKNLA5QMOGWx0ujQffCbeYD1CL+8gjnxS+/btfrMRnXYx4keWQYZX3kf
-         OhrKr4nN7Gw52plQTt8wfYeEGwL5vUUDFsGacQCl3jn8CabEkrQj8K1qJZbWEZ2cE+Rn
-         /3CgWrpEI9aQXmfj6SQuHrGkfiu8/B1Exg76pjy5Gnb+QDUvCpvuShlx3O7Er1mSWioS
-         Br0w==
-X-Forwarded-Encrypted: i=1; AJvYcCUaeKM7esY4Wk+PPDjYOyKXnD1RoHqckcEecV5gzqZHSKbdV6XRV94PYlOOnpqJMHuKqNq+meEVozVf@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw507u1bYaInV5OIg7a8BTfFxY+ETCj7Lw8i+FsUgg/zb3RARwn
-	WWEKYT/f4Au2SYsvWnOrqqXDJcZpdPlplKbp2wtMNwfCLuo8JS85ohei
-X-Gm-Gg: ATEYQzzRVwe4lBVMfvfCMaheh96NN+bS8FI7n/8wL90OgU186NLvqrhuaJwnCjgyOLQ
-	E/LWtjEJR6vv4G/J8UZ1iHOR+D/KR6rynzxF6adMEEnvayo7y+vp/jiuIzN833YOW5Thp4X9wLj
-	FWrUlk80H0xg4n3izRu75yT1DT6cCTGfB1w0OYQQ3oErWinu/TVpnuwjyyQWMfi2ojAXZEnegEa
-	ew8+As68qu3QMMpIXrXF4teWDLDwr3nqE90nEtAU6AJ5mXCJQ8jBmnl/0UMX5/6eAmHt0V4t64u
-	TURDxae5BkILwrtzkgxjJQzRpVHhdXWHjUfEw6fhX2l9qEKYPI2beoJj7u5wjBsrfBuX+m2/jeA
-	lAVrJpcWHSXB1nKS+SfEpRl5tP0/rz91la9ajwD+KjjzpSSTOHNVgIUNCXCwyIpoczkgzuMTwOu
-	gjVgSyrI1PD0yR+9KSwo7BFwgqUlfnyic=
-X-Received: by 2002:a05:6a00:b4d:b0:82c:9266:624b with SMTP id d2e1a72fcca58-82c960a3472mr11682638b3a.47.1774866192040;
-        Mon, 30 Mar 2026 03:23:12 -0700 (PDT)
-Received: from ArchLinux ([43.226.29.240])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-82ca85fc72asm6948403b3a.48.2026.03.30.03.23.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 03:23:11 -0700 (PDT)
-From: Biswapriyo Nath <nathbappai@gmail.com>
-To: Biswapriyo Nath <nathbappai@gmail.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
+	s=arc-20240116; t=1774888318; c=relaxed/simple;
+	bh=SRDf0GTu4OPnEjLFDGhjlwNkORc3ZV3jFuzbHc7pPv4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oCnt17bEA8LneFdwHYhhpofin35wegHT/0jUp/Yw73H1lK9H9m3oXZ0UiZrs5+0MMM4aTHIeA+tFmHyzB0GcK9QK0vTgtww4iX/jMg4mPKAPhr0j1NfREUgvegkv2tMeRhwOdfFLf8mN/GC5d8Uhh9zV9WPkg5kKFKN+8nAYclk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a5eUi0Ii; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42FA5C19423;
+	Mon, 30 Mar 2026 16:31:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774888318;
+	bh=SRDf0GTu4OPnEjLFDGhjlwNkORc3ZV3jFuzbHc7pPv4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a5eUi0IilhDO1qm4GDUoY0gPuWKmmVphAikH7fxldoBSW1IByxBLpihzcOBaEfvVt
+	 X6XpRx71wLZkAMwoVwf2XPPW22w9I6N0Y0QJleFueWSuWd9uCUU3M8IEHwY43pKtOv
+	 ZVwE+jnmUV7LCO6VHVLBlDOSnM52OPikwTT7f1cW0fE3eldU7S8a/+E5AB1YCzoJlM
+	 XAHdh6H8FtT3lDVJBIyJxJ+NZPiLgyI6WbRGTui89q/XG2CpLsNaFBFTT90J2YB0mZ
+	 BH3B4dMlcQLDnE89E75T7nm0fZF+QVaukNqfbTg/0K0d0EOQwvvFsxVL/YaLPGK43F
+	 w28gmeAhIUo/g==
+Date: Mon, 30 Mar 2026 17:31:51 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: markus.probst@posteo.de, Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Sean Young <sean@mess.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Martin Botka <martin.botka@somainline.org>,
-	linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	~postmarketos/upstreaming@lists.sr.ht,
-	phone-devel@vger.kernel.org,
-	stable@vger.kernel.org,
-	kernel test robot <lkp@intel.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH v2 0/7] Add vibrator, IR transmitter and USB-C handling in xiaomi-ginkgo
-Date: Mon, 30 Mar 2026 10:22:55 +0000
-Message-ID: <20260330102256.17631-1-nathbappai@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260329-ginkgo-add-usb-ir-vib-v2-0-870e0745e55e@gmail.com>
-References: 
+	Conor Dooley <conor+dt@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
+	platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v5 4/4] platform: Add initial synology microp driver
+Message-ID: <20260330-unrefined-headache-f640bc70a46a@spud>
+References: <20260329-synology_microp_initial-v5-0-27cb80bdf591@posteo.de>
+ <20260329-synology_microp_initial-v5-4-27cb80bdf591@posteo.de>
+ <6d2fb01a-216b-4f51-8a26-527d724002d7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.84 / 15.00];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2xLiGAbObogF50Js"
+Content-Disposition: inline
+In-Reply-To: <6d2fb01a-216b-4f51-8a26-527d724002d7@kernel.org>
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-7592-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-7593-lists,linux-leds=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	FREEMAIL_CC(0.00)[posteo.de,kernel.org,linux.intel.com,linaro.org,garyguo.net,protonmail.com,google.com,umich.edu,linuxfoundation.org,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathbappai@gmail.com,linux-leds@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 0445C359610
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 30D3835EDD7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sun, 29 Mar 2026 04:47:55 +0000 Biswapriyo Nath <nathbappai@gmail.com> wrote:
 
-> This patch series add support for various components in Xiaomi Redmi
-> Note 8.
-> 
+--2xLiGAbObogF50Js
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-v3 of this patch series was sent here[1].
+On Mon, Mar 30, 2026 at 08:51:14AM +0200, Krzysztof Kozlowski wrote:
+> On 29/03/2026 20:02, Markus Probst via B4 Relay wrote:
+> > +
+> > +kernel::of_device_table!(
+> > +    pub(crate) OF_TABLE,
+> > +    MODULE_OF_TABLE,
+> > +    Model,
+> > +    models![
+> > +        apollolake @ [
+> > +            ds918p,
+> > +        ],
+> > +        evansport @ [
+> > +            ds214play,
+> > +        ],
+> > +        geminilakenk @ [
+> > +            ds225p.led_usb_copy(),
+> > +            ds425p,
+> > +        ],
+> > +        pineview @ [
+> > +            ds710p.led_esata(),
+> > +            ds1010p.led_alert(Color::Orange),
+> > +        ],
+> > +        r1000 @ [
+> > +            ds923p,
+> > +            ds723p,
+> > +            ds1522p,
+> > +            rs422p.led_power(Color::Green),
+> > +        ],
+> > +        r1000nk @ [
+> > +            ds725p,
+> > +        ],
+> > +        rtd1296 @ [
+> > +            ds118,
+> > +        ],
+> > +        rtd1619b @ [
+> > +            ds124,
+> > +            ds223.led_usb_copy(),
+> > +            ds223j,
+> > +        ],
+> > +        v1000 @ [
+> > +            ds1823xsp,
+> > +            rs822p.led_power(Color::Green),
+> > +            rs1221p.led_power(Color::Green),
+> > +            rs1221rpp.led_power(Color::Green),
+> > +        ],
+> > +        v1000nk @ [
+> > +            ds925p,
+> > +            ds1525p,
+> > +            ds1825p,
+> I don't see any compatible strings here. Actually, nowhere in the
+> driver. If that's how you write Rust drivers then NAK. Compatibles must
+> be greppable. Not only for humans but also for ABI check.
 
-[1]: https://lore.kernel.org/linux-arm-msm/20260330-ginkgo-add-usb-ir-vib-v3-0-c4b778b0d7f8@gmail.com/
+The code immediately prior creates a macro, which is called here to
+produce these. This macro is barely grokkable to begin with IMO, but
+you can see the DeviceID::new() call down there that creates the
+compatible using string concatenation.
 
+Definitely on the same page as you about compatibles being greppable.
+It's not as if it is difficult to create the list using vim or whatever
+code generator llm you wanna use. Probably making the macro was more
+effort than writing them out!
+
++macro_rules! models {
++    [
++        $($arch:ident $(.$arch_func:ident( $($arch_arg:tt)* ))*
++            @ [
++                $($model:ident $(.$func:ident( $($arg:tt)* ))*, )*
++            ],
++        )*
++    ] => {
++        models![
++            $(
++                {
++                    Architecture::new()
++                    $(
++                        .$arch_func($($arch_arg)*)
++                    )*
++                }
++                @
++                [
++                    $(
++                        $model $(.$func($($arg)*))*,
++                    )*
++                ],
++            )*
++        ]
++    };
++    [
++        $($arch:block
++            @ [
++                $($model:ident $(.$func:ident( $($arg:tt)* ))*, )*
++            ],
++        )*
++    ] => {
++        [
++            $(
++                $((
++                    DeviceId::new(::kernel::c_str!(
++                        ::core::concat!(
++                            "synology,",
++                            ::core::stringify!($model),
++                            "-microp",
++                        )
++                    )),
++                    Model::new($arch)
++                    $(
++                        .$func($($arg)*)
++                    )*
++                ),)*
++            )*
++        ]
++    };
++}
+
+
+--2xLiGAbObogF50Js
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCacqldgAKCRB4tDGHoIJi
+0rftAP9aoaT3IpU068yzu3eGKRdRw8ri76zvcV9wis2AB+5HsgD/fSRvodu57lM/
+7LcDt4totobtLGvQqj145ej84BFtfAo=
+=KjI9
+-----END PGP SIGNATURE-----
+
+--2xLiGAbObogF50Js--
 
