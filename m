@@ -1,408 +1,223 @@
-Return-Path: <linux-leds+bounces-7602-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7603-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EEuUEImmy2nJJwYAu9opvQ
-	(envelope-from <linux-leds+bounces-7602-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 31 Mar 2026 12:48:41 +0200
+	id 8NcfEw4BzGk8NQYAu9opvQ
+	(envelope-from <linux-leds+bounces-7603-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 31 Mar 2026 19:14:54 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F3793684EB
-	for <lists+linux-leds@lfdr.de>; Tue, 31 Mar 2026 12:48:40 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6A036E4A1
+	for <lists+linux-leds@lfdr.de>; Tue, 31 Mar 2026 19:14:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 91970306182B
-	for <lists+linux-leds@lfdr.de>; Tue, 31 Mar 2026 10:38:47 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 2397B3047799
+	for <lists+linux-leds@lfdr.de>; Tue, 31 Mar 2026 17:08:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F8583A7F70;
-	Tue, 31 Mar 2026 10:38:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC08130CD85;
+	Tue, 31 Mar 2026 17:08:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GBQQmPNd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftNRDXmu"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AAC43A7843;
-	Tue, 31 Mar 2026 10:38:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C441F30B51A;
+	Tue, 31 Mar 2026 17:08:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774953508; cv=none; b=a4x3vguWW9zsz01zt5QPgSUtIkGg0VgsBNeH8TLQ1A1kB1DUbJ3Ik6pCYhnA89upoz4KxTY6XTJn8EAJzEodc54jJmylCOTd8JDc6v5jK7UE7UEOWb5RlvQrVX9GGe+V95924iQzhFFOBPFlQcU1OpA7F8gScew/YKSkVBFRTeQ=
+	t=1774976888; cv=none; b=fAcIYuV0rQGOKT3RML5kH8YhXJnfsN+a1JAC4lCg+eib79fs765A3rCC3JLf9HEnl2NpQxH4wHBgDwF6ajcpRJSvXJTkvEVseFEKIoFdb99GzFCqnSwURFBkccZwdDU8T8JxmjxAcmzgeLaRA9P86n9Gr6bphGBhfhbX2A4OGv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774953508; c=relaxed/simple;
-	bh=YQ1wgAT21b+Y+NGX2w1NxAJy18OZSro6z+KWEVTYz9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pvHmDOaBA+XiCXlef+GCH1lPecoue4sqz4R02G2BlvR8sz9q8Zms0YhIYKVHhzWvofJ4szFDvVqDvbU4CerwqRprf7hXcpC0K/MIKrSaqSE74Ir1lZ4Etx2cwLpORd80A7l9cNQt+niPYUVDnlZkGYsmb1P3euK5kc1A/V0PsLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GBQQmPNd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57427C19423;
-	Tue, 31 Mar 2026 10:38:25 +0000 (UTC)
+	s=arc-20240116; t=1774976888; c=relaxed/simple;
+	bh=eovgu9/5VMVlWeAGw2mROps+DUXxHVGt0CgYPeCVbNI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=L/yuO44RNEkO4ZWBaF8dEwIX+TuRySw/su3un2kexw1tV3thScc2Cu21h23rPfbTo2fxJBHS20hgzzNjoII6zgSRxiUg9rof2zHSQ2twK2B7UnhzuEMbokJGCBe6Bo4QfqAMwWqs6Ooh1P3mLVW2063+3ET3T/+DGnk/HZeD2iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ftNRDXmu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 965EAC2BCB1;
+	Tue, 31 Mar 2026 17:08:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774953507;
-	bh=YQ1wgAT21b+Y+NGX2w1NxAJy18OZSro6z+KWEVTYz9Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GBQQmPNd3CfO+3hk42g4K6a8MUiLTC30MxXWXjwPScsT9+zYVFUkXnyyIOX3H9+Df
-	 UZNtC7jsGfz3BkGPIZSZgFz7GUV/I+wYx/Tta0+35Pnb4QLHGWqhRkYqwgw6AC6nB8
-	 mhM/nmckm+jvdkivIuVngz6klU1prjimE1LszIV7lQnvK3tU0c0YcVf/vjrjIrtloL
-	 cyShOShwA9OeZx+4SjiZ1xqZI8/+MU5HCr5aDt34CjQju5QXXhcBZLKrDv8bpVb4pa
-	 Jj/7r3/Cx8c852P+HKl2n2bJgqBozo6b6YgkPyfANwFwlOt03QjoNZKfKZ/hDF8s1s
-	 Y9ENC1yYCkgvQ==
-Date: Tue, 31 Mar 2026 11:38:22 +0100
-From: Lee Jones <lee@kernel.org>
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: pavel@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
-	skhan@linuxfoundation.org, linux-leds@vger.kernel.org,
-	linux-doc@vger.kernel.org, wse@tuxedocomputers.com,
-	jacek.anaszewski@gmail.com, pobrn@protonmail.com,
-	m.tretter@pengutronix.de
-Subject: Re: [PATCH 1/1] leds: Introduce the multi_max_intensity sysfs
- attribute
-Message-ID: <20260331103822.GC3795166@google.com>
-References: <20260324202751.6486-1-W_Armin@gmx.de>
- <20260324202751.6486-2-W_Armin@gmx.de>
+	s=k20201202; t=1774976888;
+	bh=eovgu9/5VMVlWeAGw2mROps+DUXxHVGt0CgYPeCVbNI=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=ftNRDXmumEA2NGZ6gWS65BDC0L+EtL9sm6M1215Va6Afw73AAsGqoNKiA2QuCAzW9
+	 C+qrvtrzJg5ATduGU/DG1HsupFb41/yqZp27+h/eaA3LDQkFTUU0P/d0ujGpQQHbAr
+	 Qpu2J0xBhEGFeQ6lYb9XVaJAuU+TnCh4GbXZwPxWQulCeHptxAmJ97fP8P5pHcc+6d
+	 O0or7CpQgSfZKIPQYBzyPpnSOb7CcaIL8ZWIwifm27ZU+qN3R2GkZgnR8kH/wewCA0
+	 rwcTcX1mOh/c1N83iuTKrVCLQijg8e7/Xi2LNT8FzKl5h/3JU6gd23Qp9vVIhxButM
+	 G6UnIAlIhy9UQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8344FFF60F4;
+	Tue, 31 Mar 2026 17:08:08 +0000 (UTC)
+From: Rudraksha Gupta via B4 Relay <devnull+guptarud.gmail.com@kernel.org>
+Subject: [PATCH v4 0/3] Samsung Expressatt: Camera Flash
+Date: Tue, 31 Mar 2026 10:08:06 -0700
+Message-Id: <20260331-expressatt_camera_flash-v4-0-f1e99f474513@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260324202751.6486-2-W_Armin@gmx.de>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-B4-Tracking: v=1; b=H4sIAHb/y2kC/4XP32rDIBQG8FcJXs/in5jUMMreY4xyosdG2jSr2
+ tBS8u4z6cXCYBtefaK/75wHiRg8RtIUDxJw9NEP5xzKl4KYDs4HpN7mTAQTFZOsonj7DBgjpLQ
+ 30GOAvTtB7CiXhiuoS1EDkPw7v3L+tsjvH88c8HLNBel5SfqZWQqa4jX7igumVj5Nw9V0R7zTk
+ dN8yrJstaiNdvLt0IM/bczQ7+auFiLSHHqfmmKsNlyTubLzMQ3hvuw28qXz3zVyFaMt17pytbH
+ O2u+qxRzFyuHb3x2RHWVEq6ES0pr2pyNXjvhjHpkdrBUqq7ZaM7d2pmn6AjVA5LvBAQAA
+X-Change-ID: 20260306-expressatt_camera_flash-13c15a7427aa
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ phone-devel@vger.kernel.org, Rudraksha Gupta <guptarud@gmail.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, David Heidelberg <david@ixit.cz>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774976888; l=3600;
+ i=guptarud@gmail.com; s=20240916; h=from:subject:message-id;
+ bh=eovgu9/5VMVlWeAGw2mROps+DUXxHVGt0CgYPeCVbNI=;
+ b=PfAVPFlgzQvV98IEsCGq4UyKLuFbWz/BZs+32G4WXyQAjZfZugmsWn7UFzoDYdr70d3IabH1n
+ BpDBpo0Y1+PCV+ZIEIn3mwqKXJWIjUp3C1FLy0jb0qswEI1fup3GnWX
+X-Developer-Key: i=guptarud@gmail.com; a=ed25519;
+ pk=ETrudRugWAtOpr0OhRiheQ1lXM4Kk4KGFnBySlKDi2I=
+X-Endpoint-Received: by B4 Relay for guptarud@gmail.com/20240916 with
+ auth_id=211
+X-Original-From: Rudraksha Gupta <guptarud@gmail.com>
+Reply-To: guptarud@gmail.com
+X-Spamd-Result: default: False [1.34 / 15.00];
+	FREEMAIL_REPLYTO_NEQ_FROM(2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7602-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmx.de];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lwn.net,linuxfoundation.org,tuxedocomputers.com,gmail.com,protonmail.com,pengutronix.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-7603-lists,linux-leds=lfdr.de,guptarud.gmail.com];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
+	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ti.com:email,gmx.de:email]
-X-Rspamd-Queue-Id: 4F3793684EB
+	FREEMAIL_REPLYTO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FROM_HAS_DN(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	HAS_REPLYTO(0.00)[guptarud@gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-0.949];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-leds@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,microchip.com,ixit.cz,oss.qualcomm.com];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 1C6A036E4A1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, 24 Mar 2026, Armin Wolf wrote:
+This small series adds camera flash to an existing similar mainline
+driver and adds it to the Samsung Expressatt's DTS
 
-> Some multicolor LEDs support global brightness control in hardware,
-> meaning that the maximum intensity of the color components is not
-> connected to the maximum global brightness. Such LEDs cannot be
-> described properly by the current multicolor LED class interface,
-> because it assumes that the maximum intensity of each color component
-> is described by the maximum global brightness of the LED.
-> 
-> Fix this by introducing a new sysfs attribute called
-> "multi_max_intensity" holding the maximum intensity values for the
-> color components of a multicolor LED class device. Drivers can use
-> the new max_intensity field inside struct mc_subled to tell the
-> multicolor LED class code about those values. Intensity values written
-> by userspace applications will be limited to this maximum value.
-> 
-> Drivers for multicolor LEDs that do not support global brightness
-> control in hardware might still want to use the maximum global LED
-> brightness supplied via devicetree as the maximum intensity of each
-> individual color component. Such drivers should set max_intensity
-> to 0 so that the multicolor LED core can act accordingly.
-> 
-> The lp50xx and ncp5623 LED drivers already use hardware-based control
-> for the global LED brightness. Modify those drivers to correctly
-> initalize .max_intensity to avoid being limited to the maximum global
-> brightness supplied via devicetree.
-> 
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-> ---
->  .../ABI/testing/sysfs-class-led-multicolor    | 19 ++++++--
->  Documentation/leds/leds-class-multicolor.rst  | 21 ++++++++-
->  drivers/leds/led-class-multicolor.c           | 47 ++++++++++++++++++-
->  drivers/leds/leds-lp50xx.c                    |  1 +
->  drivers/leds/rgb/leds-ncp5623.c               |  4 +-
->  include/linux/led-class-multicolor.h          | 30 +++++++++++-
->  6 files changed, 113 insertions(+), 9 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> index 16fc827b10cb..197da3e775b4 100644
-> --- a/Documentation/ABI/testing/sysfs-class-led-multicolor
-> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> @@ -16,9 +16,22 @@ Date:		March 2020
->  KernelVersion:	5.9
->  Contact:	Dan Murphy <dmurphy@ti.com>
->  Description:	read/write
-> -		This file contains array of integers. Order of components is
-> -		described by the multi_index array. The maximum intensity should
-> -		not exceed /sys/class/leds/<led>/max_brightness.
-> +		This file contains an array of integers. The order of components
-> +		is described by the multi_index array. The maximum intensity value
-> +		supported by each color component is described by the multi_max_intensity
-> +		file. Writing intensity values larger than the maximum value of a
-> +		given color component will result in those values being clamped.
-> +
-> +		For additional details please refer to
-> +		Documentation/leds/leds-class-multicolor.rst.
-> +
-> +What:		/sys/class/leds/<led>/multi_max_intensity
-> +Date:		March 2026
-> +KernelVersion:	7.1
-> +Contact:	Armin Wolf <W_Armin@gmx.de>
-> +Description:	read
-> +		This file contains an array of integers describing the maximum
-> +		intensity value for each intensity component.
->  		For additional details please refer to
->  		Documentation/leds/leds-class-multicolor.rst.
-> diff --git a/Documentation/leds/leds-class-multicolor.rst b/Documentation/leds/leds-class-multicolor.rst
-> index c6b47b4093c4..8f42f10078ad 100644
-> --- a/Documentation/leds/leds-class-multicolor.rst
-> +++ b/Documentation/leds/leds-class-multicolor.rst
-> @@ -25,10 +25,14 @@ color name to indexed value.
->  The ``multi_index`` file is an array that contains the string list of the colors as
->  they are defined in each ``multi_*`` array file.
->  
-> -The ``multi_intensity`` is an array that can be read or written to for the
-> +The ``multi_intensity`` file is an array that can be read or written to for the
->  individual color intensities.  All elements within this array must be written in
->  order for the color LED intensities to be updated.
->  
-> +The ``multi_max_intensity`` file is an array that contains the maximum intensity
-> +value supported by each color intensity. Intensity values above this will be
-> +automatically clamped into the supported range.
-> +
->  Directory Layout Example
->  ========================
->  .. code-block:: console
-> @@ -38,6 +42,7 @@ Directory Layout Example
->      -r--r--r--    1 root     root          4096 Oct 19 16:16 max_brightness
->      -r--r--r--    1 root     root          4096 Oct 19 16:16 multi_index
->      -rw-r--r--    1 root     root          4096 Oct 19 16:16 multi_intensity
-> +    -r--r--r--    1 root     root          4096 OCt 19 16:16 multi_max_intensity
+// Tests
 
-Nit: Oct
+// # Navigate to LED
+sudo su
+cd /sys/class/leds/white:flash
 
->  
->  ..
->  
-> @@ -104,3 +109,17 @@ the color LED group.
->      128
->  
->  ..
-> +
-> +Writing intensity values larger than the maximum specified in ``multi_max_intensity``
-> +will result in those values being clamped into the supported range.
-> +
-> +.. code-block:: console
-> +
-> +   # cat /sys/class/leds/multicolor:status/multi_max_intensity
-> +   255 255 255
-> +
-> +   # echo 512 512 512 > /sys/class/leds/multicolor:status/multi_intensity
-> +   # cat /sys/class/leds/multicolor:status/multi_intensity
-> +   255 255 255
-> +
-> +..
-> diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
-> index 6b671f3f9c61..13a35e6a28df 100644
-> --- a/drivers/leds/led-class-multicolor.c
-> +++ b/drivers/leds/led-class-multicolor.c
-> @@ -7,10 +7,28 @@
->  #include <linux/init.h>
->  #include <linux/led-class-multicolor.h>
->  #include <linux/math.h>
-> +#include <linux/minmax.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
->  #include <linux/uaccess.h>
->  
-> +static unsigned int led_mc_get_max_intensity(struct led_classdev_mc *mcled_cdev, size_t index)
-> +{
-> +	unsigned int max_intensity;
-> +
-> +	/* The maximum global brightness value might still be changed by
-> +	 * led_classdev_register_ext() using devicetree properties. This
-> +	 * prevents us from changing subled_info[X].max_intensity when
-> +	 * registering a multicolor LED class device, so we have to do
-> +	 * this during runtime.
-> +	 */
-> +	max_intensity = mcled_cdev->subled_info[index].max_intensity;
-> +	if (max_intensity)
-> +		return max_intensity;
-> +
-> +	return mcled_cdev->led_cdev.max_brightness;
-> +}
-> +
->  int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
->  				 enum led_brightness brightness)
->  {
-> @@ -27,6 +45,27 @@ int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
->  }
->  EXPORT_SYMBOL_GPL(led_mc_calc_color_components);
->  
-> +static ssize_t multi_max_intensity_show(struct device *dev,
-> +					struct device_attribute *intensity_attr, char *buf)
-> +{
-> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
-> +	unsigned int max_intensity;
-> +	int len = 0;
-> +	int i;
-> +
-> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
-> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
-> +		len += sprintf(buf + len, "%u", max_intensity);
-> +		if (i < mcled_cdev->num_colors - 1)
-> +			len += sprintf(buf + len, " ");
-> +	}
+// # Should stay at dim brightness
+echo 1 > brightness
+echo 1 > brightness
+echo 1 > brightness
+echo 1 > brightness
+echo 0 > brightness           # LED_OFF
 
-This should be 'sysfs_emit_at()'.
+// # Max Brightness
+echo 50 > brightness
+echo 0 > brightness           # LED_OFF
+echo 99 > brightness
+echo 0 > brightness           # LED_OFF
+echo 1000 > brightness
+echo 0 > brightness           # LED_OFF
+echo 100 > brightness
+echo 0 > brightness           # LED_OFF
 
-> +
-> +	buf[len++] = '\n';
-> +	return len;
-> +}
-> +static DEVICE_ATTR_RO(multi_max_intensity);
-> +
->  static ssize_t multi_intensity_store(struct device *dev,
->  				struct device_attribute *intensity_attr,
->  				const char *buf, size_t size)
-> @@ -35,6 +74,7 @@ static ssize_t multi_intensity_store(struct device *dev,
->  	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
->  	int nrchars, offset = 0;
->  	unsigned int intensity_value[LED_COLOR_ID_MAX];
-> +	unsigned int max_intensity;
->  	int i;
->  	ssize_t ret;
->  
-> @@ -56,8 +96,10 @@ static ssize_t multi_intensity_store(struct device *dev,
->  		goto err_out;
->  	}
->  
-> -	for (i = 0; i < mcled_cdev->num_colors; i++)
-> -		mcled_cdev->subled_info[i].intensity = intensity_value[i];
-> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
-> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
-> +		mcled_cdev->subled_info[i].intensity = min(intensity_value[i], max_intensity);
-> +	}
->  
->  	if (!test_bit(LED_BLINK_SW, &led_cdev->work_flags))
->  		led_set_brightness(led_cdev, led_cdev->brightness);
-> @@ -111,6 +153,7 @@ static ssize_t multi_index_show(struct device *dev,
->  static DEVICE_ATTR_RO(multi_index);
->  
->  static struct attribute *led_multicolor_attrs[] = {
-> +	&dev_attr_multi_max_intensity.attr,
->  	&dev_attr_multi_intensity.attr,
->  	&dev_attr_multi_index.attr,
->  	NULL,
-> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-> index e2a9c8592953..69c3550f1a31 100644
-> --- a/drivers/leds/leds-lp50xx.c
-> +++ b/drivers/leds/leds-lp50xx.c
-> @@ -525,6 +525,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
->  			}
->  
->  			mc_led_info[multi_index].color_index = color_id;
-> +			mc_led_info[multi_index].max_intensity = 255;
->  			num_colors++;
->  		}
->  
-> diff --git a/drivers/leds/rgb/leds-ncp5623.c b/drivers/leds/rgb/leds-ncp5623.c
-> index 85d6be6fff2b..f2528f06507d 100644
-> --- a/drivers/leds/rgb/leds-ncp5623.c
-> +++ b/drivers/leds/rgb/leds-ncp5623.c
-> @@ -56,8 +56,7 @@ static int ncp5623_brightness_set(struct led_classdev *cdev,
->  	for (int i = 0; i < mc_cdev->num_colors; i++) {
->  		ret = ncp5623_write(ncp->client,
->  				    NCP5623_PWM_REG(mc_cdev->subled_info[i].channel),
-> -				    min(mc_cdev->subled_info[i].intensity,
-> -					NCP5623_MAX_BRIGHTNESS));
-> +				    mc_cdev->subled_info[i].intensity);
->  		if (ret)
->  			return ret;
->  	}
-> @@ -190,6 +189,7 @@ static int ncp5623_probe(struct i2c_client *client)
->  			goto release_led_node;
->  
->  		subled_info[ncp->mc_dev.num_colors].channel = reg;
-> +		subled_info[ncp->mc_dev.num_colors].max_intensity = NCP5623_MAX_BRIGHTNESS;
->  		subled_info[ncp->mc_dev.num_colors++].color_index = color_index;
->  	}
->  
-> diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
-> index db9f34c6736e..26f6d20b887d 100644
-> --- a/include/linux/led-class-multicolor.h
-> +++ b/include/linux/led-class-multicolor.h
-> @@ -9,10 +9,31 @@
->  #include <linux/leds.h>
->  #include <dt-bindings/leds/common.h>
->  
-> +/**
-> + * struct mc_subled - Color component description.
-> + * @color_index: Color ID.
-> + * @brightness: Scaled intensity.
-> + * @intensity: Current intensity.
-> + * @max_intensity: Maximum supported intensity value.
-> + * @channel: Channel index.
-> + *
-> + * Describes a color component of a multicolor LED. Many multicolor LEDs
-> + * do no support gobal brightness control in hardware, so they use
-> + * the brightness field in connection with led_mc_calc_color_components()
-> + * to perform the intensity scaling in software.
-> + * Such drivers should set max_intensity to 0 to signal the multicolor LED core
-> + * that the maximum global brightness of the LED class device should be used for
-> + * limiting incoming intensity values.
-> + *
-> + * Multicolor LEDs that do support global brightness control in hardware
-> + * should instead set max_intensity to the maximum intensity value supported
-> + * by the hardware for a given color component.
-> + */
->  struct mc_subled {
->  	unsigned int color_index;
->  	unsigned int brightness;
->  	unsigned int intensity;
-> +	unsigned int max_intensity;
->  	unsigned int channel;
->  };
->  
-> @@ -53,7 +74,14 @@ int led_classdev_multicolor_register_ext(struct device *parent,
->   */
->  void led_classdev_multicolor_unregister(struct led_classdev_mc *mcled_cdev);
->  
-> -/* Calculate brightness for the monochrome LED cluster */
-> +/**
-> + * led_mc_calc_color_components() - Calculates component brightness values of a LED cluster.
-> + * @mcled_cdev - Multicolor LED class device of the LED cluster.
-> + * @led_brightness - Global brightness of the LED cluster.
+// # Should increase in brightness
+for i in $(seq 1 16); do echo $i > brightness; sleep 1; done
+echo 0 > brightness           # LED_OFF
 
-The header comment does not match the parameters.
+// # Test flash strobe (rt8515_led_flash_strobe_set)
+cat max_flash_timeout          # check max
+echo 200000 > flash_timeout    # 200ms
+echo 1 > flash_strobe          # strobe ON → brightness_commit + timer
+cat flash_strobe               # should read 1, then 0 after timeout
+sleep 1
+cat flash_strobe               # should be 0 (timer fired)
 
-Make sure you compile with W=1 to catch kernel-doc issues.
+// # Test manual strobe cancel
+echo 1 > flash_strobe ; echo 0 > flash_strobe          # immediate off
 
-> + * Calculates the brightness values for each color component of a monochrome LED cluster,
-> + * see Documentation/leds/leds-class-multicolor.rst for details.
-> + */
->  int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
->  				 enum led_brightness brightness);
->  
-> -- 
-> 2.39.5
-> 
-> 
+// # Check regulator error handling
+dmesg | tail -20                     # look for any "failed to turn off LED" msgs
 
+Downstream reference:
+Link: https://github.com/LineageOS/android_kernel_samsung_d2/blob/stable/cm-12.0-YNG4N/drivers/leds/Makefile#L51
+Link: https://github.com/LineageOS/android_kernel_samsung_d2/blob/stable/cm-12.0-YNG4N/arch/arm/mach-msm/board-apexq-camera.c#L591
+
+Signed-off-by: Rudraksha Gupta <guptarud@gmail.com>
+---
+Changes in v4:
+- Driver:
+    - revert function renames
+    - add comment to use flash instead if torch pin not available
+- Link to v3: https://lore.kernel.org/r/20260326-expressatt_camera_flash-v3-0-e75e5d58990f@gmail.com
+
+Changes in v3:
+- DTS:
+    - Renamed and reordered nodes
+- Driver:
+    - Use regulator_is_enabled() instead of reg_enabled
+    - remove ent xor vin check
+    - remove rt->reg == -ENODEV check
+    - rename functions to reflect what they do and added ret's
+    - Fixed: LED was increasing in brightness when setting the same
+        brightness multiple times
+- Link to v2: https://lore.kernel.org/r/20260318-expressatt_camera_flash-v2-0-5c2b9a623dcb@gmail.com
+
+Changes in v2:
+- dt-bindings: Explain the hardware and not the driver
+- **/*: Use vin-supply instead of unlock-gpio
+- expressatt DTS: Reorder pinctrl-*
+- expressatt DTS: Define rfs-ohms to a default (couldn't find
+                  information about this)
+- Link to v1: https://lore.kernel.org/r/20260306-expressatt_camera_flash-v1-0-b1996f7cdfdd@gmail.com
+
+---
+Rudraksha Gupta (3):
+      dt-bindings: leds: rt8515: Support single-GPIO flash ICs with vin supply
+      leds: flash: rt8515: Support single-GPIO flash ICs with vin supply
+      ARM: dts: qcom: msm8960: expressatt: Add camera flash
+
+ .../devicetree/bindings/leds/richtek,rt8515.yaml   |  34 ++++++-
+ .../dts/qcom/qcom-msm8960-samsung-expressatt.dts   |  43 +++++++++
+ drivers/leds/flash/leds-rt8515.c                   | 100 +++++++++++++++++----
+ 3 files changed, 159 insertions(+), 18 deletions(-)
+---
+base-commit: e9ec05addd1a067fc7cb218f20ecdc1b1b0898c0
+change-id: 20260306-expressatt_camera_flash-13c15a7427aa
+prerequisite-message-id: <20251205-expressatt-touchkey-v1-1-1444b927c9f3@gmail.com>
+prerequisite-patch-id: 8de4de7909722ccaf385c4224f25a623eaa72c28
+
+Best regards,
 -- 
-Lee Jones [李琼斯]
+Rudraksha Gupta <guptarud@gmail.com>
+
+
 
