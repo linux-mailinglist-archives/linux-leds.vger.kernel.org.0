@@ -1,407 +1,471 @@
-Return-Path: <linux-leds+bounces-7618-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7619-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UGYcMsswzGmwRAYAu9opvQ
-	(envelope-from <linux-leds+bounces-7618-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 31 Mar 2026 22:38:35 +0200
+	id 0KvwC89izGnZSgYAu9opvQ
+	(envelope-from <linux-leds+bounces-7619-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 01 Apr 2026 02:11:59 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F7D371306
-	for <lists+linux-leds@lfdr.de>; Tue, 31 Mar 2026 22:38:34 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 297CB373054
+	for <lists+linux-leds@lfdr.de>; Wed, 01 Apr 2026 02:11:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B3FBE3019DBC
-	for <lists+linux-leds@lfdr.de>; Tue, 31 Mar 2026 20:38:31 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0D16C301533B
+	for <lists+linux-leds@lfdr.de>; Wed,  1 Apr 2026 00:11:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75D913D7D70;
-	Tue, 31 Mar 2026 20:38:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 790D51862;
+	Wed,  1 Apr 2026 00:11:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="HKXSj+63"
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="JKH0l1Ip"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com [148.163.139.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D031B24728F;
-	Tue, 31 Mar 2026 20:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774989509; cv=none; b=T4ci8/esmYyh6KokNphQIDy5SWuB3T243/E4keGM8iLlY9Nyg3/z9m/i1v0Ans/GY1NG3vi3cOarDy3P8cN2Kl+hYeYeHz/jz4nIBsv5CQmKBteTg+Cp09oZg3PxucX5meHV25JuXsMzP8f2XI3vU7Nh4i6xDMvo3dkjkZLNsSQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774989509; c=relaxed/simple;
-	bh=09oynIkf/ul7uGmXCfgZs+pFvynRBgw3FgFV5V9uCpQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NGLxFYln86izg83oak20LYMYr2+cqeX5mQW6Rtp71wFNNZWzyOPaFN6ZXlwpFKvOoNfpirOg5sXuO94fj+ubYjLjXPTGom1tAeLbi8CF20sNlaaGLitoOWDzc0Wt/J+6RgaMeFSIFPGpwo/QRB85N/60RXLfEc0uzuKNT747WKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=HKXSj+63; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.178.25] (i5C75F65A.versanet.de [92.117.246.90])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id B28212FC0057;
-	Tue, 31 Mar 2026 22:38:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1774989498;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KtyAzynuSGbYAq0uC7s8RjAvxvriLQ/RfZWfKCbcI5A=;
-	b=HKXSj+63kU1TLlNemN2La8GK/hLdS1wPWswdKhZdHaKMwTghqfRstBkbjwO22XDh8ASmIt
-	5tC7aypDy9/afVoVaYbdYZn2Adr759ZDfZ/T5f2ZO1FhXtiJpPkc4U/O4VvYgKyf+Hf+wH
-	voil5E/3SeQi+AnbRRaz6aHXK14HMFg=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <f4f19b88-226c-4720-8375-52e37b36370d@tuxedocomputers.com>
-Date: Tue, 31 Mar 2026 22:38:16 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23458F4A;
+	Wed,  1 Apr 2026 00:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.139.77
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775002312; cv=fail; b=VlSaFpgcJakR3NtzsUCIh1PgyIp4oEqt1gFWJJAHOGioV15Vv0Ildh4qJoz53ow7ren9TULk27zdNbD/nRbndmmrL1XxvKrQrrvb3YiJzgty2AkSWEy9ig081NzM2X/sRD0KhJb9UaIo7wzyqcFxUk2kZEvJseiKHTbEFK66jqE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775002312; c=relaxed/simple;
+	bh=nrgX+rmkk+SrYOpJxlnZUWtzKQ3QmJYfQqctUcZPvNg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=JtHZUyOLvf6ilHXm9AyNJosYp3OAe16cXfq+NG/fKupzshaEYqhIU6Ad8DUhVaZNu6NKSbwK2OUrv8bTCFQMlhuVWuthTvTwEwGx4IX0qhTVvSxPC2wbCKEFjfZLTma7HYIfsAUz0fJkjAxNYB3C+U0AYg9ExfjVf2YtX0fLFcw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=JKH0l1Ip; arc=fail smtp.client-ip=148.163.139.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Received: from pps.filterd (m0167090.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62VI9HsP2150047;
+	Tue, 31 Mar 2026 20:11:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=65LPZ
+	2zpz8NfaiCQqFlF1g/e4/CV7arjMZ2pQTqO7tg=; b=JKH0l1Ip/eQDz3KXBaHvZ
+	W2e6+FLr8yGcoftJUDT++CRFRZIFlMu4EF8iJOJyZuH1HsXDQt3Vd8nyE56YA7rB
+	DW/Pm6xYy1OhF+9AjjlqzS7+g0u1N9BiRidDX1Fi4I00tlYkg5XxhhLaFeeaFcG6
+	TxW/oY0HtsXO3PLWdQmnIhZpbSHzFPSwckYgj29ync4nTc1Xjc4ThuNfhsiJi5R2
+	iHhYu963KVhT4NbTI3GVv7kobCd/Q73SRC56/WR36RFeYu/ztUtx0UWhJEAZG/MI
+	hqg9AI6fkePRA6152AXQ+MtcUaVsWjvt+cDYo9x2g9kBvkf3MkfFsrmmzWAhyiJe
+	A==
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11013025.outbound.protection.outlook.com [40.107.201.25])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4d6bm4w979-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 31 Mar 2026 20:11:47 -0400 (EDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZD6vY2T5uF1diyexxJAETHAxkyI7IpZxsgl20DsMwkCC8JwruWocTs7Rt4/wpy9RdiLTwJUjb6N9oGnufFZQerJ9BiOFaRb4423El87A1pVQkc5J+yFrWRHzcVB7K5rawzHDX97Jx8GEbWj/FPhnNPEt1U9qMwUtmr2aNPsn6vouu5A4TSMffaIZBUnR2ftbP7fJJD4RodxOX3YjFRqz44svBCDURiU9Eh8oSX2Nr5KGt6dDkmZbbdltlBuf4YvWC10a7GhUyfUU1w5HyzwKMuvuqjjPbpQCpIcYMfLnUyFXwNLf1gsHU42FB9/8RP1yU7iandHYWant8h5hL5brOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=65LPZ2zpz8NfaiCQqFlF1g/e4/CV7arjMZ2pQTqO7tg=;
+ b=vr24qbcfOLTiMtwtmJVsSiphYUsm0/iFWYa3AKiGOlVnBy6wQkPtwb4xl7uBFfVP7L3nDrQ3GEleUu82bXqwUU0iwJD01PvoWWg+Vdo+ek/ch90LM+SDrQhoQ5wKZ1qlcu7fnqWWo/czBMqyD1cOPJ3/jKq4SEeE/5VYycASJJsl1sKYStK1nTTSkZffSg/9pEkbidSCeeq0B83HzMZR+8EDgV7l8hoodDa0ztnBvWSnM60wSEZBxka68ivFUIHWPoRKmASLhCYua+I7/aqDTrc2jLx8GhrR+wYgJq2P/SJqugf5UdabJXBGSECXaQNiDzZD1q6Q+znaraNw4kPJHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+Received: from BN8PR03MB4977.namprd03.prod.outlook.com (2603:10b6:408:de::11)
+ by SJ0PR03MB5485.namprd03.prod.outlook.com (2603:10b6:a03:28a::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.12; Wed, 1 Apr
+ 2026 00:11:44 +0000
+Received: from BN8PR03MB4977.namprd03.prod.outlook.com
+ ([fe80::4d86:70cf:8006:e219]) by BN8PR03MB4977.namprd03.prod.outlook.com
+ ([fe80::4d86:70cf:8006:e219%5]) with mapi id 15.20.9769.014; Wed, 1 Apr 2026
+ 00:11:44 +0000
+From: "Roleda, Jan carlo" <Jancarlo.Roleda@analog.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "linux-leds@vger.kernel.org"
+	<linux-leds@vger.kernel.org>,
+        "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>
+Subject: RE: [PATCH v2 3/3] dt-bindings: leds: Document LTC3208 Multidisplay
+ LED Driver
+Thread-Topic: [PATCH v2 3/3] dt-bindings: leds: Document LTC3208 Multidisplay
+ LED Driver
+Thread-Index: AQHcvKdCfkN6qGfQL0yEb5AtVTHl0rXAiC6AgAjQWYA=
+Date: Wed, 1 Apr 2026 00:11:43 +0000
+Message-ID:
+ <BN8PR03MB4977205D8FD06E7646AEA2E39650A@BN8PR03MB4977.namprd03.prod.outlook.com>
+References: <20260326-upstream-ltc3208-v2-0-3dbc992b6098@analog.com>
+ <20260326-upstream-ltc3208-v2-3-3dbc992b6098@analog.com>
+ <20260326-nimble-sociable-sawfly-515a36@quoll>
+In-Reply-To: <20260326-nimble-sociable-sawfly-515a36@quoll>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN8PR03MB4977:EE_|SJ0PR03MB5485:EE_
+x-ms-office365-filtering-correlation-id: b98203fe-67c8-45b2-9c60-08de8f8341c5
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|376014|38070700021|18002099003|56012099003|22082099003;
+x-microsoft-antispam-message-info:
+ Lv6jeTq6tH/BSmLLlETo7YopXU/vI+y/ggJQsfE378Ji6UzPmAc7nJtBlPALP1Wi8BdAHN6gBIvq7V8b+cx19O5fD3KqAP63mR1rwm/l5FucplzFlmD+GvbNW7guPeVzfdjAC5CK0LaowTAeS7Wt2XOSTT34numJECCpUa3PTekSAm5STdKtPoJueNCmJxJa2LQJoueTgQlsp7lGlNWvtWCGBb14FzeILgetiHQTcDlXBBIrUlMal/aroaqzZAoJvoOuT/dSvNdaieL2mNgKnrriAFiBT9Ryd9f25K1ZlX+bWkSDmOh89OhRRrhK+Swsdn/rofP6wYye4oB5cxzE/BCGdxGYiyNhJHzN0PG3V9C7R8i/Wl7kpfnlj5vqf4oERn5r6Ep7yj9oy3D2Htzy5cfy5h/BI9FRiOTYbwjbsXGO/YlXPJUVJBsTVYptBuAiXbV/ff4Nr3feIyHIScVeAqypqsnMMieO29baY+xKl4SS17Qc+OLO0hM3VVi+clCN+WaIyl996mxA4U4T8nAhq9xm1rewjsTjEfHjaCwbaLFI4ksF8NEIzlkrdymp2gEuW9nx7DYkirW76N2lotxWqJ6BcljyUJvExN1y9jy9nHuzhScjL+VKgSEiM3+QlPazaL3eKcHPDw9aIX/yCyQ27bVWJN7VnOrF0rUkhSkHpP9lTjiazAITzXU5ap2BeIbMYOEDD1rbRbLFqX6EYSS/nZDMNqZauYCaQq5Y/SbifCMarCh+92YVWcnlwJvHx/KI
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR03MB4977.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?wWSMjipx0nKm9jO9VX0LkImSpq8s7k6Tj4CpE3plPrnQhsecu0fAQa9rFv?=
+ =?iso-8859-1?Q?A1zqBkmqwZVltk8uWbS7Dj2FJ9WdJhGY079lySRmpbENo76EyVnEcnTa23?=
+ =?iso-8859-1?Q?lqKVT9azXhO8kjoVWxa57I72CVCCyeiU0ChBtcAjfMi7OLw5Y+0efe1dL+?=
+ =?iso-8859-1?Q?zhwdU1Ac3KDhJAMHbmWgQJL0leaj2VjafMwMEn4R03UggXep5FHpGYx4d5?=
+ =?iso-8859-1?Q?fgyjkBLdSUabLnuuQe5uDzY8n2rPPK2dg4hld5mybzfI96N7WvUOPsRcCV?=
+ =?iso-8859-1?Q?wTsD2r1AiYrbABMG3XYx/qlW3GxZstEMzKKEm3PgSPalFU8Fory/sL6jqO?=
+ =?iso-8859-1?Q?LNPBKNBUpCSNIYQReRvOWvo3kTpK0nFqTyLsIWmDSirwVq3xK2YuSigVFq?=
+ =?iso-8859-1?Q?gP2PZo6rn6IrrwGzrJ7fQt9mGcLsAavSSq0YlV7qHZK+0A2eUTczuL5Ytn?=
+ =?iso-8859-1?Q?YHUHZ4sjU/9kT41TZmq7pKEs/9np/lTTn9ez9Ty79OGnueMBeRCe4WBvoX?=
+ =?iso-8859-1?Q?zEay3wZqZogUD3Vyvd3KdTwyk2T0Jn1om1FAOoKFcYQAAChsGWiMBNyy8R?=
+ =?iso-8859-1?Q?/6Bd/GP/nY67LRgnsF/ypkS+S/folAO7ZZr4FsXIxfs2O0zgwZE36l5GRA?=
+ =?iso-8859-1?Q?xZoVyjvkujIPJpsm4JYYj/9ojjbdnSX+USAiYp+eRF5K3x87f4pt4n2ysC?=
+ =?iso-8859-1?Q?K93So/rowWYGcelF1XvhFNZ9XPmODs01pciXpvQA4J2Nbhl05nhlxJ1YBe?=
+ =?iso-8859-1?Q?nPPd45gI5qKRpnVQzToVyLiP44/j2uzjgcS1lo14EmukbkczLDul81xK+3?=
+ =?iso-8859-1?Q?ZsjX1MKNnd7G+c/rslkaRyPvwi9MMpOxlPQ6ePYkl3nxfePgBhuEHtXtvZ?=
+ =?iso-8859-1?Q?MUqlQqpFHdiNKyrL0IET6PmIWie+Fvt26/5qB1wLEWSVDQcgxHyXuTPrSe?=
+ =?iso-8859-1?Q?acntXBfa/1pe2XPdCQUVc9fQ682SYedXRMUvUa1gfWm+X6GdB08dXqmbHb?=
+ =?iso-8859-1?Q?c1mXAufcnwDJkcAqIieJmM3pgN6J1TE33kWt1VO5Ty9rCw4agey9LBqUaS?=
+ =?iso-8859-1?Q?1qm+Nt/y5IfpnZeKCqzfHgqaYww2sVYGPDOzb3gcaSLsYtiBEM0dTmBfbr?=
+ =?iso-8859-1?Q?GVT+pvPf+Y8sdRqXnYfDZAczI3AUICX323zIbnDfwlEKeM/EmxNnmHtQfh?=
+ =?iso-8859-1?Q?Gd+D88AxUmxesX7WxIiotdaRLsXICxByZPG2O4Mw0AL3qmFy5fnfwAVgCs?=
+ =?iso-8859-1?Q?eNjgP3fBgrrrgXVzZzknAtoQ8GNMCpJShLsiCEdvEOh6gB4OxtbxXIr+QZ?=
+ =?iso-8859-1?Q?g0jD3smQqcLNsPUlgD0Npi6I/ruAxKqCh3w4FwoBaOz5bR/wob5nPYGDQc?=
+ =?iso-8859-1?Q?W5XmeSpHHvU3EWcYS/ggn8eyz+/E4kCZJKG9OJXlnU0Od0ZLaVMYjdv+gP?=
+ =?iso-8859-1?Q?AKfpfqTX7AcI0WjbJYM2UfKaCJ+xX+BeBUhmG7BPPnj5GzNmdQqzzwxF1f?=
+ =?iso-8859-1?Q?Tsw/ozl/cqb/6d7uDGSD8CV/1eWPQ7DXLHKCD3XiWddQLAHABwFqyYQPk1?=
+ =?iso-8859-1?Q?W+p7NxPS1Vv8xZKAeCFvvWMe9T/qLUjrrW56umFFG4Q4aBP+S6dAg3kJh1?=
+ =?iso-8859-1?Q?C+Uv+iBJZa5yucyPQEHASIIVudsaza2tK4IOjU4hKKKy7HRb6Rjjq4gvNC?=
+ =?iso-8859-1?Q?AdTXIBl+iNOY/SHKLxTvVeOhXYpoDhbs1mfu36gMVWspS6KPswOuJyn8uj?=
+ =?iso-8859-1?Q?dvAndfBqyyv9D/MD4f3z8AUqCGQPa52TMjAsIqW/cUsAGa4Gp4FXwnjETT?=
+ =?iso-8859-1?Q?uuTpzy6UHA=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] leds: Introduce the multi_max_intensity sysfs
- attribute
-To: Armin Wolf <W_Armin@gmx.de>, lee@kernel.org, pavel@kernel.org
-Cc: linux-kernel@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- linux-leds@vger.kernel.org, linux-doc@vger.kernel.org,
- jacek.anaszewski@gmail.com, pobrn@protonmail.com, m.tretter@pengutronix.de
-References: <20260331191619.3729-1-W_Armin@gmx.de>
- <20260331191619.3729-2-W_Armin@gmx.de>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <20260331191619.3729-2-W_Armin@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[tuxedocomputers.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[tuxedocomputers.com:s=default];
+X-Exchange-RoutingPolicyChecked:
+	wP73MXxzYyMFqI27i5JJz1GIameFINV6i+9mYgMbDYT68dNa97Y+kFJWtoDJP1pkkjsMKDNCpfLBH5LwSYfcAvJ2R3fgZow8Z18YPIbs14QwDAnScMwQfC/tf43VHEcg3tzokEbBTnjKkzzv3cKvQsITtDxO5RoCN4je8dmITVoNxarzkqltphWmXGJKZm+ckKJITxOiJuBmAZFMZ4Ji0cBj9vR/AYVohbZt+wNYsMF/IaUvXfsculjJYra4a5Gj4dcFzqsjCDoVqPAxPaOXXi5pwi8/JsAdTUg6gB/NDYgXXjCzMO++xkfZ9CtsmL7DF2UmhodFq+A7oI2JEKMreg==
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR03MB4977.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b98203fe-67c8-45b2-9c60-08de8f8341c5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Apr 2026 00:11:43.9985
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yKl8bCN6eE8nSGk5GwzQU1PXgmp9QG1OYwlU+yr1S5JtyQvg2IY9uNvYaBcVRPACUjVJdmriOz7dt/Tb46H3AjphuM1iC/IeGOxtxBIMHlw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR03MB5485
+X-Authority-Analysis: v=2.4 cv=NvvcssdJ c=1 sm=1 tr=0 ts=69cc62c3 cx=c_pps
+ a=aGwn47qLKbf7B3DwPvQeXg==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
+ a=_jAD5XSDOtq9-5Nde2OG:22 a=uherdBYGAAAA:8 a=P-IC7800AAAA:8 a=gEfo2CItAAAA:8
+ a=gAnH3GRIAAAA:8 a=VwQbUJbxAAAA:8 a=QscebiB92ML2sGzvX5gA:9 a=wPNLvfGTeEIA:10
+ a=d3PnA9EDa4IxuAV0gXij:22 a=sptkURWiP4Gy88Gu7hUp:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzMxMDIzNSBTYWx0ZWRfX7bb2JQ9MyakO
+ ahNOYnGNISY63xuMDDiaXYa/AQ+cU4yJtED+9HitcG1cQbLH12DXjv2Slxz8vliC2t8rFNJgt3/
+ 6n33/z6+LE+kdS83YM1oRLnnM3JycqtUa0bZOceeHKQQCb5L0jXilXUpeUb3AqVz1jEm0Qduz5i
+ 6TK9gfN1SDSBhpoBvS+tA9DtHwVsJ8jSXteuXBShX/g2nHCtRsX6Dm/fFUcqW9qcBrjHD7x0Svq
+ vwEUYbMRs779dK5GAfiq1fnpvXwllUJ8ccQ5m9FsVmII1ilwpwMpUpe6OSHY7pOdtTbmnZRmZz5
+ CswyTvaWkNvoEf9kQaVIdQc/5fuOWVyGYo4rBaMuyvSzE7PkIYhVJHP8U2xJMrqDF2ewAM1Qfsq
+ Pi1srOxYKPU9u6t9FBiTLvpe+Fj7wKZb5jtI+PHX1Jciki7+OtZgIptBUnkhoAIcNef1s+uoaUh
+ nquMufw0z3/bt9b5mSw==
+X-Proofpoint-ORIG-GUID: bcUfvLLsQp3x3FPvhNB7V_sw2Bn09T0d
+X-Proofpoint-GUID: bcUfvLLsQp3x3FPvhNB7V_sw2Bn09T0d
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-31_05,2026-03-31_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 bulkscore=0 malwarescore=0 impostorscore=0
+ spamscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1011 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603310235
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[analog.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[analog.com:s=DKIM];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7618-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-7619-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmx.de,kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lwn.net,linuxfoundation.org,gmail.com,protonmail.com,pengutronix.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.991];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wse@tuxedocomputers.com,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[tuxedocomputers.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,1b:email,0.0.0.0:email];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DKIM_TRACE(0.00)[analog.com:+];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,tuxedocomputers.com:dkim,tuxedocomputers.com:email,tuxedocomputers.com:mid]
-X-Rspamd-Queue-Id: B8F7D371306
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Jancarlo.Roleda@analog.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_PROHIBIT(0.00)[0.0.0.1:email];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-1.000];
+	REDIRECTOR_URL(0.00)[urldefense.com];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 297CB373054
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Am 31.03.26 um 21:16 schrieb Armin Wolf:
-> Some multicolor LEDs support global brightness control in hardware,
-> meaning that the maximum intensity of the color components is not
-> connected to the maximum global brightness. Such LEDs cannot be
-> described properly by the current multicolor LED class interface,
-> because it assumes that the maximum intensity of each color component
-> is described by the maximum global brightness of the LED.
->
-> Fix this by introducing a new sysfs attribute called
-> "multi_max_intensity" holding the maximum intensity values for the
-> color components of a multicolor LED class device. Drivers can use
-> the new max_intensity field inside struct mc_subled to tell the
-> multicolor LED class code about those values. Intensity values written
-> by userspace applications will be limited to this maximum value.
->
-> Drivers for multicolor LEDs that do not support global brightness
-> control in hardware might still want to use the maximum global LED
-> brightness supplied via devicetree as the maximum intensity of each
-> individual color component. Such drivers should set max_intensity
-> to 0 so that the multicolor LED core can act accordingly.
->
-> The lp50xx and ncp5623 LED drivers already use hardware-based control
-> for the global LED brightness. Modify those drivers to correctly
-> initalize .max_intensity to avoid being limited to the maximum global
-> brightness supplied via devicetree.
+Hello Krzysztof,
 
-same as v1:
+Thank you for the review.
+ =A0  =A0=A0  =A0=A0  =A0=A0  =A0=A0 =20
+> -----Original Message-----
+> From: Krzysztof Kozlowski <krzk@kernel.org>
+> Sent: Thursday, March 26, 2026 5:13 PM
+> To: Roleda, Jan carlo <Jancarlo.Roleda@analog.com>
+> Cc: Lee Jones <lee@kernel.org>; Pavel Machek <pavel@kernel.org>; Rob
+> Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Cono=
+r
+> Dooley <conor+dt@kernel.org>; linux-kernel@vger.kernel.org; linux-
+> leds@vger.kernel.org; devicetree@vger.kernel.org
+> Subject: Re: [PATCH v2 3/3] dt-bindings: leds: Document LTC3208
+> Multidisplay LED Driver
+>=20
+> [External]
+>=20
+> On Thu, Mar 26, 2026 at 06:30:12AM +0800, Jan Carlo Roleda wrote:
+> > Add Documentation for LTC3208 Multidisplay LED Driver.
+>=20
+> Please organize the patch documenting the compatible (DT bindings) before
+> the patch using that compatible.
+> See also: https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6=
+.14-
+> rc6/source/Documentation/devicetree/bindings/submitting-
+> patches.rst*L46__;Iw!!A3Ni8CS0y2Y!89AXjtFhkqneWfAb9nXM8SHuCn0WqS
+> pM9sWtt8bobLpZEy9L5KSXPS69lkM99faQ_-SeUAFS2ZnuL4E8$
+>=20
+> >
+> > Signed-off-by: Jan Carlo Roleda <jancarlo.roleda@analog.com>
+> > ---
+> >  .../devicetree/bindings/leds/adi,ltc3208.yaml      | 158
+> +++++++++++++++++++++
+> >  MAINTAINERS                                        |   1 +
+> >  2 files changed, 159 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/leds/adi,ltc3208.yaml
+> > b/Documentation/devicetree/bindings/leds/adi,ltc3208.yaml
+> > new file mode 100644
+> > index 000000000000..c139937936bc
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/leds/adi,ltc3208.yaml
+> > @@ -0,0 +1,158 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) # Copyright
+> > +(c) 2026 Analog Devices, Inc.
+> > +%YAML 1.2
+> > +---
+> > +$id:
+> > +https://urldefense.com/v3/__http://devicetree.org/schemas/leds/adi,lt
+> >
+> +c3208.yaml*__;Iw!!A3Ni8CS0y2Y!89AXjtFhkqneWfAb9nXM8SHuCn0WqSp
+> M9sWtt8b
+> > +obLpZEy9L5KSXPS69lkM99faQ_-SeUAFS2ZsFLfHP$
+> > +$schema:
+> > +https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.y
+> >
+> +aml*__;Iw!!A3Ni8CS0y2Y!89AXjtFhkqneWfAb9nXM8SHuCn0WqSpM9sWtt
+> 8bobLpZEy
+> > +9L5KSXPS69lkM99faQ_-SeUAFS2SZpZqA4$
+> > +
+> > +title: LTC3208 Multidisplay LED Controller from Linear Technologies (N=
+ow
+> Analog Devices).
+>=20
+> Drop full stop
+>=20
 
-lgtm
+Will remove the period (full stop) on the title.
 
-Reviewed-by: Werner Sembach <wse@tuxedocomputers.com>
+> > +
+> > +maintainers:
+> > +  - Jan Carlo Roleda <jancarlo.roleda@analog.com>
+> > +
+> > +description:
+> > +  The LTC3208 is a multidisplay LED controller that can support up to
+> > +1A to all
+> > +  connected LEDs.
+> > +
+> > +  The datasheet for this device can be found in
+> > + https://www.analog.com/en/products/ltc3208.html
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: adi,ltc3208
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  '#address-cells':
+>=20
+> Use consistent quotes, either ' or "
+>=20
 
-Best regards,
+Noted. I will update the use of quotes for consistency.
 
-Werner
+> > +    const: 1
+> > +
+> > +  '#size-cells':
+> > +    const: 0
+> > +
+> > +  adi,disable-camhl-pin:
+> > +    type: boolean
+> > +    description:
+> > +      Configures whether the external CAMHL pin is disabled.
+> > +      if disabled then the output pins associated with CAM will
+> > + always select
+>=20
+> s/if/If/.
+>=20
 
->
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-> ---
->   .../ABI/testing/sysfs-class-led-multicolor    | 19 ++++++--
->   Documentation/leds/leds-class-multicolor.rst  | 21 ++++++++-
->   drivers/leds/led-class-multicolor.c           | 47 ++++++++++++++++++-
->   drivers/leds/leds-lp50xx.c                    |  1 +
->   drivers/leds/rgb/leds-ncp5623.c               |  4 +-
->   include/linux/led-class-multicolor.h          | 30 +++++++++++-
->   6 files changed, 113 insertions(+), 9 deletions(-)
->
-> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> index 16fc827b10cb..197da3e775b4 100644
-> --- a/Documentation/ABI/testing/sysfs-class-led-multicolor
-> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> @@ -16,9 +16,22 @@ Date:		March 2020
->   KernelVersion:	5.9
->   Contact:	Dan Murphy <dmurphy@ti.com>
->   Description:	read/write
-> -		This file contains array of integers. Order of components is
-> -		described by the multi_index array. The maximum intensity should
-> -		not exceed /sys/class/leds/<led>/max_brightness.
-> +		This file contains an array of integers. The order of components
-> +		is described by the multi_index array. The maximum intensity value
-> +		supported by each color component is described by the multi_max_intensity
-> +		file. Writing intensity values larger than the maximum value of a
-> +		given color component will result in those values being clamped.
-> +
-> +		For additional details please refer to
-> +		Documentation/leds/leds-class-multicolor.rst.
-> +
-> +What:		/sys/class/leds/<led>/multi_max_intensity
-> +Date:		March 2026
-> +KernelVersion:	7.1
-> +Contact:	Armin Wolf <W_Armin@gmx.de>
-> +Description:	read
-> +		This file contains an array of integers describing the maximum
-> +		intensity value for each intensity component.
->   
->   		For additional details please refer to
->   		Documentation/leds/leds-class-multicolor.rst.
-> diff --git a/Documentation/leds/leds-class-multicolor.rst b/Documentation/leds/leds-class-multicolor.rst
-> index c6b47b4093c4..68340644f80b 100644
-> --- a/Documentation/leds/leds-class-multicolor.rst
-> +++ b/Documentation/leds/leds-class-multicolor.rst
-> @@ -25,10 +25,14 @@ color name to indexed value.
->   The ``multi_index`` file is an array that contains the string list of the colors as
->   they are defined in each ``multi_*`` array file.
->   
-> -The ``multi_intensity`` is an array that can be read or written to for the
-> +The ``multi_intensity`` file is an array that can be read or written to for the
->   individual color intensities.  All elements within this array must be written in
->   order for the color LED intensities to be updated.
->   
-> +The ``multi_max_intensity`` file is an array that contains the maximum intensity
-> +value supported by each color intensity. Intensity values above this will be
-> +automatically clamped into the supported range.
-> +
->   Directory Layout Example
->   ========================
->   .. code-block:: console
-> @@ -38,6 +42,7 @@ Directory Layout Example
->       -r--r--r--    1 root     root          4096 Oct 19 16:16 max_brightness
->       -r--r--r--    1 root     root          4096 Oct 19 16:16 multi_index
->       -rw-r--r--    1 root     root          4096 Oct 19 16:16 multi_intensity
-> +    -r--r--r--    1 root     root          4096 Oct 19 16:16 multi_max_intensity
->   
->   ..
->   
-> @@ -104,3 +109,17 @@ the color LED group.
->       128
->   
->   ..
-> +
-> +Writing intensity values larger than the maximum specified in ``multi_max_intensity``
-> +will result in those values being clamped into the supported range.
-> +
-> +.. code-block:: console
-> +
-> +   # cat /sys/class/leds/multicolor:status/multi_max_intensity
-> +   255 255 255
-> +
-> +   # echo 512 512 512 > /sys/class/leds/multicolor:status/multi_intensity
-> +   # cat /sys/class/leds/multicolor:status/multi_intensity
-> +   255 255 255
-> +
-> +..
-> diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
-> index 6b671f3f9c61..8d763b1ae76f 100644
-> --- a/drivers/leds/led-class-multicolor.c
-> +++ b/drivers/leds/led-class-multicolor.c
-> @@ -7,10 +7,28 @@
->   #include <linux/init.h>
->   #include <linux/led-class-multicolor.h>
->   #include <linux/math.h>
-> +#include <linux/minmax.h>
->   #include <linux/module.h>
->   #include <linux/slab.h>
->   #include <linux/uaccess.h>
->   
-> +static unsigned int led_mc_get_max_intensity(struct led_classdev_mc *mcled_cdev, size_t index)
-> +{
-> +	unsigned int max_intensity;
-> +
-> +	/* The maximum global brightness value might still be changed by
-> +	 * led_classdev_register_ext() using devicetree properties. This
-> +	 * prevents us from changing subled_info[X].max_intensity when
-> +	 * registering a multicolor LED class device, so we have to do
-> +	 * this during runtime.
-> +	 */
-> +	max_intensity = mcled_cdev->subled_info[index].max_intensity;
-> +	if (max_intensity)
-> +		return max_intensity;
-> +
-> +	return mcled_cdev->led_cdev.max_brightness;
-> +}
-> +
->   int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
->   				 enum led_brightness brightness)
->   {
-> @@ -27,6 +45,27 @@ int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
->   }
->   EXPORT_SYMBOL_GPL(led_mc_calc_color_components);
->   
-> +static ssize_t multi_max_intensity_show(struct device *dev,
-> +					struct device_attribute *intensity_attr, char *buf)
-> +{
-> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
-> +	unsigned int max_intensity;
-> +	int len = 0;
-> +	int i;
-> +
-> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
-> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
-> +		len += sysfs_emit_at(buf, len, "%u", max_intensity);
-> +		if (i < mcled_cdev->num_colors - 1)
-> +			len += sprintf(buf + len, " ");
-> +	}
-> +
-> +	buf[len++] = '\n';
-> +	return len;
-> +}
-> +static DEVICE_ATTR_RO(multi_max_intensity);
-> +
->   static ssize_t multi_intensity_store(struct device *dev,
->   				struct device_attribute *intensity_attr,
->   				const char *buf, size_t size)
-> @@ -35,6 +74,7 @@ static ssize_t multi_intensity_store(struct device *dev,
->   	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
->   	int nrchars, offset = 0;
->   	unsigned int intensity_value[LED_COLOR_ID_MAX];
-> +	unsigned int max_intensity;
->   	int i;
->   	ssize_t ret;
->   
-> @@ -56,8 +96,10 @@ static ssize_t multi_intensity_store(struct device *dev,
->   		goto err_out;
->   	}
->   
-> -	for (i = 0; i < mcled_cdev->num_colors; i++)
-> -		mcled_cdev->subled_info[i].intensity = intensity_value[i];
-> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
-> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
-> +		mcled_cdev->subled_info[i].intensity = min(intensity_value[i], max_intensity);
-> +	}
->   
->   	if (!test_bit(LED_BLINK_SW, &led_cdev->work_flags))
->   		led_set_brightness(led_cdev, led_cdev->brightness);
-> @@ -111,6 +153,7 @@ static ssize_t multi_index_show(struct device *dev,
->   static DEVICE_ATTR_RO(multi_index);
->   
->   static struct attribute *led_multicolor_attrs[] = {
-> +	&dev_attr_multi_max_intensity.attr,
->   	&dev_attr_multi_intensity.attr,
->   	&dev_attr_multi_index.attr,
->   	NULL,
-> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-> index e2a9c8592953..69c3550f1a31 100644
-> --- a/drivers/leds/leds-lp50xx.c
-> +++ b/drivers/leds/leds-lp50xx.c
-> @@ -525,6 +525,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
->   			}
->   
->   			mc_led_info[multi_index].color_index = color_id;
-> +			mc_led_info[multi_index].max_intensity = 255;
->   			num_colors++;
->   		}
->   
-> diff --git a/drivers/leds/rgb/leds-ncp5623.c b/drivers/leds/rgb/leds-ncp5623.c
-> index 85d6be6fff2b..f2528f06507d 100644
-> --- a/drivers/leds/rgb/leds-ncp5623.c
-> +++ b/drivers/leds/rgb/leds-ncp5623.c
-> @@ -56,8 +56,7 @@ static int ncp5623_brightness_set(struct led_classdev *cdev,
->   	for (int i = 0; i < mc_cdev->num_colors; i++) {
->   		ret = ncp5623_write(ncp->client,
->   				    NCP5623_PWM_REG(mc_cdev->subled_info[i].channel),
-> -				    min(mc_cdev->subled_info[i].intensity,
-> -					NCP5623_MAX_BRIGHTNESS));
-> +				    mc_cdev->subled_info[i].intensity);
->   		if (ret)
->   			return ret;
->   	}
-> @@ -190,6 +189,7 @@ static int ncp5623_probe(struct i2c_client *client)
->   			goto release_led_node;
->   
->   		subled_info[ncp->mc_dev.num_colors].channel = reg;
-> +		subled_info[ncp->mc_dev.num_colors].max_intensity = NCP5623_MAX_BRIGHTNESS;
->   		subled_info[ncp->mc_dev.num_colors++].color_index = color_index;
->   	}
->   
-> diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
-> index db9f34c6736e..6f89d92566b2 100644
-> --- a/include/linux/led-class-multicolor.h
-> +++ b/include/linux/led-class-multicolor.h
-> @@ -9,10 +9,31 @@
->   #include <linux/leds.h>
->   #include <dt-bindings/leds/common.h>
->   
-> +/**
-> + * struct mc_subled - Color component description.
-> + * @color_index: Color ID.
-> + * @brightness: Scaled intensity.
-> + * @intensity: Current intensity.
-> + * @max_intensity: Maximum supported intensity value.
-> + * @channel: Channel index.
-> + *
-> + * Describes a color component of a multicolor LED. Many multicolor LEDs
-> + * do no support gobal brightness control in hardware, so they use
-> + * the brightness field in connection with led_mc_calc_color_components()
-> + * to perform the intensity scaling in software.
-> + * Such drivers should set max_intensity to 0 to signal the multicolor LED core
-> + * that the maximum global brightness of the LED class device should be used for
-> + * limiting incoming intensity values.
-> + *
-> + * Multicolor LEDs that do support global brightness control in hardware
-> + * should instead set max_intensity to the maximum intensity value supported
-> + * by the hardware for a given color component.
-> + */
->   struct mc_subled {
->   	unsigned int color_index;
->   	unsigned int brightness;
->   	unsigned int intensity;
-> +	unsigned int max_intensity;
->   	unsigned int channel;
->   };
->   
-> @@ -53,7 +74,14 @@ int led_classdev_multicolor_register_ext(struct device *parent,
->    */
->   void led_classdev_multicolor_unregister(struct led_classdev_mc *mcled_cdev);
->   
-> -/* Calculate brightness for the monochrome LED cluster */
-> +/**
-> + * led_mc_calc_color_components() - Calculates component brightness values of a LED cluster.
-> + * @mcled_cdev - Multicolor LED class device of the LED cluster.
-> + * @brightness - Global brightness of the LED cluster.
-> + *
-> + * Calculates the brightness values for each color component of a monochrome LED cluster,
-> + * see Documentation/leds/leds-class-multicolor.rst for details.
-> + */
->   int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
->   				 enum led_brightness brightness);
->   
+Sorry, I'm not familiar with this acronym.
+Is this referring to capitalization of "if" to "If"?
+If so, I will update this in the next patch.
+
+> > +      the CAM register's high half-byte brightness.
+> > +
+> > +  adi,cfg-enrgbs-pin:
+> > +    type: boolean
+> > +    description:
+> > +      Configures which channel the ENRGBS pin toggles when it receives=
+ a
+> signal.
+> > +      ENRGBS pin controls the SUB channel's output pins if this is set=
+,
+> > +      or RGB channel's output pins if this is unset.
+> > +
+> > +  adi,disable-rgb-aux4-dropout:
+> > +    type: boolean
+> > +    description:
+> > +      Configures the RGB and AUX4 dropout signals to be disabled.
+> > +
+> > +  adi,aux1-channel:
+> > +    $ref: /schemas/types.yaml#/definitions/string
+> > +    description:
+> > +      LED Channel that the AUX1 output pin mirrors its brightness leve=
+l from.
+> > +    enum: [aux, main, sub, cam]
+> > +    default: aux
+> > +
+> > +  adi,aux2-channel:
+> > +    $ref: /schemas/types.yaml#/definitions/string
+> > +    description:
+> > +      LED Channel that the AUX2 output pin mirrors its brightness leve=
+l from.
+> > +    enum: [aux, main, sub, cam]
+> > +    default: aux
+> > +
+> > +  adi,aux3-channel:
+> > +    $ref: /schemas/types.yaml#/definitions/string
+> > +    description:
+> > +      LED Channel that the AUX3 output pin mirrors its brightness leve=
+l from.
+> > +    enum: [aux, main, sub, cam]
+> > +    default: aux
+> > +
+> > +  adi,aux4-channel:
+> > +    $ref: /schemas/types.yaml#/definitions/string
+> > +    description:
+> > +      LED Channel that the AUX4 output pin mirrors its brightness leve=
+l from.
+> > +    enum: [aux, main, sub, cam]
+> > +    default: aux
+> > +
+> > +patternProperties:
+> > +  "^led@[0-7]$":
+> > +    type: object
+> > +    $ref: /schemas/leds/common.yaml#
+> > +    unevaluatedProperties: false
+> > +    properties:
+> > +      reg:
+> > +        description:
+> > +          LED Channel Number. each channel maps to a specific channel =
+group
+> used
+> > +          to configure the brightness level of the output pins corresp=
+onding to
+> > +          the channel.
+> > +        enum:
+> > +          - 0 # Main Channel (8-bit brightness)
+> > +          - 1 # Sub Channel (8-bit brightness)
+> > +          - 2 # AUX Channel (4-bit brightness)
+> > +          - 3 # Camera Channel, Low-side byte (4-bit brightness)
+> > +          - 4 # Camera Channel, High-side byte (4-bit brightness)
+> > +          - 5 # Red Channel (4-bit brightness)
+> > +          - 6 # Blue Channel (4-bit brightness)
+> > +          - 7 # Green Channel (4-bit brightness)
+> > +    required:
+> > +      - reg
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+>=20
+> Where do you use it?
+>=20
+
+You're right. This is not relevant for this example. I'll remove it in the =
+next patch.
+
+> > +    #include <dt-bindings/leds/common.h>
+> > +    i2c {
+> > +      #address-cells =3D <1>;
+> > +      #size-cells =3D <0>;
+> > +
+> > +      led-controller@1b {
+> > +        compatible =3D "adi,ltc3208";
+> > +        reg =3D <0x1b>;
+> > +        #address-cells =3D <1>;
+> > +        #size-cells =3D <0>;
+> > +        adi,disable-camhl-pin;
+> > +        adi,cfg-enrgbs-pin;
+> > +        adi,disable-rgb-aux4-dropout;
+> > +
+> > +        led@0 {
+> > +          reg =3D <0>;
+>=20
+> Please list other applicable properties. Otherwise listing all these chil=
+dren is
+> pointless - feels deducible from the compatible.
+>=20
+
+Noted. Only the reg of the led is relevant for the compatible,
+So I'll reduce it to a single led child in the example for brevity.
+
+> > +        };
+> > +
+> > +        led@1 {
+> > +          reg =3D <1>;
+> > +        };
+>=20
+> Best regards,
+> Krzysztof
+
+I will update this binding accordingly in the next patch.
+Thank you.
+
+Regards,
+Carlo
+
 
