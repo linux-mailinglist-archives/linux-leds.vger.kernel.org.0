@@ -1,178 +1,172 @@
-Return-Path: <linux-leds+bounces-7654-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7655-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iIdtN1z21Wn4/gcAu9opvQ
-	(envelope-from <linux-leds+bounces-7654-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 08 Apr 2026 08:31:56 +0200
+	id KDKyFkv71Wn4/gcAu9opvQ
+	(envelope-from <linux-leds+bounces-7655-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 08 Apr 2026 08:52:59 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292293B795F
-	for <lists+linux-leds@lfdr.de>; Wed, 08 Apr 2026 08:31:56 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id F067E3B7C1F
+	for <lists+linux-leds@lfdr.de>; Wed, 08 Apr 2026 08:52:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7B182301951F
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Apr 2026 06:29:48 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5C986301062D
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Apr 2026 06:52:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8837364EB6;
-	Wed,  8 Apr 2026 06:29:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="li+w/e86"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FA6534DB6C;
+	Wed,  8 Apr 2026 06:52:56 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B433644DC
-	for <linux-leds@vger.kernel.org>; Wed,  8 Apr 2026 06:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857E236215A
+	for <linux-leds@vger.kernel.org>; Wed,  8 Apr 2026 06:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775629787; cv=none; b=NDajdVJO95Om/RaDm/yYYmifVdElsMRYpg0PC9FHHMxW/EHx+gBL+DYDubF+WOtBUx3UjlmVhFnEfUE1Iv4G4exQi955f6Y5wg6vvlV5MkkQsngH6BjSmZIEttxXxQYpperbFCgU8pDj+hK3vuIoD0K+YQsgORTonrO6b+bmH1A=
+	t=1775631176; cv=none; b=ig5e9icaTpDkvuvqhPTLSrYz5UOPs/225L7vl4dMbe4Ybx1gFrFh0hs4JJeBFcMxDxi1BQq/cT99ir0vo5HTcZ92d2cwM0C41gDs5MumoquGm++Jh3duTxRs28Pt24mdm02GnK6phS/FIqt68GKN3z+ilt2GyPiRSNX7gVNxMRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775629787; c=relaxed/simple;
-	bh=Ojw2XeZPBcO0787VyUie7rj+4Ma7g0T8xNVC4PF1Jrw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lfbkazr5iYkfcVlKfVdwFf19kKzViVo7pu38Ms6gW6pOJHwcLurV4MlRSJ/yffd78zZqsD3ePD2jQdzm5VaXDAbekjB+aakDtz0MtZ4+JsvZXLi1I45U26AtWH01e4aI7T+GBPfWXb6+9mTO1XhgdAI+he/RoFTE0qGfoCZmBro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=li+w/e86; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43cf906b007so3061909f8f.0
-        for <linux-leds@vger.kernel.org>; Tue, 07 Apr 2026 23:29:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775629785; x=1776234585; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q9VJseYyqjYECOQkMOXlPXSaVSDXv6yoeL00c5Xqt/k=;
-        b=li+w/e86GuxHUL0cmny1PDt423ROC8L6EnSZjP0jTrnAMqC8THQALwz1ghM/zv+tOB
-         p4EQhrPGQMcdtvJYNQ9BTBoPeuJAazAv4CxHDFdB4pR3uivWxP9KE89PYCVve0PwLGJk
-         8MNF11inYHXe3Mgxlr6K5ESIQMbhrWUydjTDqWck1hkrgg4fL+mQLKHpxCUJ36aWjtws
-         OKf2F5wAxfOEJK3kbfQVGhf34amchk5mTmKOJjipctQrVyEK0dX2M/UK5+FRHpUd2Igb
-         ujIsiAmrE1+ghb5OVl6kIJdKbXNUXofiGRKuei378kadBqVOljPgwHQPXPEwwfaEFt5O
-         mEow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775629785; x=1776234585;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q9VJseYyqjYECOQkMOXlPXSaVSDXv6yoeL00c5Xqt/k=;
-        b=cIxcmXYKhdct1UOKJdlyGlNz8R11YkwJdrN2Vtduwg+g1ZK36fp5/4jwk5SOxLpdBY
-         ykBznP8whH1NA2lH5VnkERt454OyuqXOJWIqulHp9Mt+eK16VQsfezFnQ+/Va9HIUKmx
-         l7XGTUsQsTUtmXQPm2UqHvuYRq7GAw22bVkEI7I8zUFTslGit1Ieo9ntegaLNJcSGjTU
-         XXJ+OGqL9CACYLrSBKSSEWpvBYDISOfDD4FoSLnCDVYEQbOsviTVMGynnQsUIiFuxsQF
-         qrOMqOpDw8t7d6btngnEDDGSrRW9M2+kFHyRTpE+hTOZC6kWSJEJylBAkpq/d+A/sPNF
-         958A==
-X-Gm-Message-State: AOJu0YzdDWGIgOJqfWXNT0B/LkqlLmluaQ+/PE1CjpyVa17rXskFy8wh
-	DAkWSGxDFBbbzvyRaiGrt10poec28b8ne784wdROj0fhLD3XG4Q/SVtV
-X-Gm-Gg: AeBDieuMD62O1Utz6Psa1Jz6w7myPXMo9+8y6de90ZKOFmR3xkC4r3rO2G9oopQv8/X
-	Tb5qxK7ZQVJ+3llMn/Ks2JVstBKH1klaCMRCIqP8VqlNY0QKsKqc8QeoBmR4m6XZfs8fI1POb9j
-	1389DNYccx8i6ogEkRF3tx0wo+G5+ErhH+N87rRENz9v+f4vAqbs04g4x4uVYAvv9JHcF8DAkQ5
-	LUcpMlVhJA2Eh39H3EA3xO6/4Qvg6FKVMWxS6fZ7mRciMeO4suobU2Z7zcBDfDT4oJ8ec0RvR2F
-	5aoqwXTXfUJ6I+XcvBeVPf6pV5sRkyiwWvVbAGLDWWhTJZVF3A6NmoSsZMntEKogh8IXbhXjhX0
-	k7EVNyMCF6gJd/SZC7607hAJKStqcxc3k28wMerOF5/tpbTlJuWmbGvzKGCRSfNqYX39kOq2ivX
-	0T9kOf16yxrM6F8ZFEZolzaW6Gr+DbmyiXXmfBWsZJXrU=
-X-Received: by 2002:a05:6000:40ca:b0:43d:a58:b076 with SMTP id ffacd0b85a97d-43d292e89a7mr26799287f8f.44.1775629784416;
-        Tue, 07 Apr 2026 23:29:44 -0700 (PDT)
-Received: from PC-DA2D10.beckhoff.com ([195.226.174.196])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4f5016sm59905521f8f.33.2026.04.07.23.29.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 23:29:43 -0700 (PDT)
-From: =?UTF-8?q?Corvin=20K=C3=B6hne?= <corvin.koehne@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-leds@vger.kernel.org (open list:LED SUBSYSTEM),
-	Pavel Machek <pavel@kernel.org>,
-	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
-	Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	=?UTF-8?q?Corvin=20K=C3=B6hne?= <c.koehne@beckhoff.com>,
-	Ashley Towns <mail@ashleytowns.id.au>,
-	Dan Murphy <dmurphy@ti.com>,
-	Gergo Koteles <soyer@irl.hu>,
-	INAGAKI Hiroshi <musashino.open@gmail.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Olliver Schinagl <oliver@schinagl.nl>,
-	Pavel Machek <pavel@ucw.cz>,
-	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
-	Roderick Colenbrander <roderick@gaikai.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH v2] dt-binding: leds: publish common bindings under dual license
-Date: Wed,  8 Apr 2026 08:29:42 +0200
-Message-ID: <20260408062942.7128-1-corvin.koehne@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	s=arc-20240116; t=1775631176; c=relaxed/simple;
+	bh=HeuEeKb5UwovZWdE55gQ2L8XYl59tVQHoJ0inZe0Jn0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=VGbKe05wrznHqcS7nbbPxCzYPkcxLPzDeHWcvcuRV5BM6MCYQc0Nh6CAZAgZaYNWnl3JCHm9jSAEHO4x4ouiNaHzUN2lsyUOS7PxKd7qroTpXmUlW1VBPAdZevCyVefczOwg//y+MKP7sy5StstGw3sBXz3zoDuCNqVFKk+nnU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=ratatoskr.trumtrar.info)
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <s.trumtrar@pengutronix.de>)
+	id 1wAMmR-0005la-9Q; Wed, 08 Apr 2026 08:52:51 +0200
+From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
+Date: Wed, 08 Apr 2026 08:51:10 +0200
+Subject: [PATCH v3] leds: rgb: lp5860: add enable-gpio
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260408-v6-19-topic-ti-lp5860-enable-gpio-v3-1-da59a9005386@pengutronix.de>
+X-B4-Tracking: v=1; b=H4sIAN761WkC/5XPTW7DIBCG4atYrDsRP7ahVlX1HlUXGMYOUgwuE
+ JQq8t3rkEWlZtMuv1m8j+ZKEkaHiQzNlUQsLrng9yGeGmKO2s8Izu6bcMp7ypmE0gN7hhxWZyA
+ 7OK2d6img1+MJYV5dACUM7TtuRast2TtrxMldqvH+cd8RP887le9HsmBKulJD81KllooqtQ9SU
+ cAAGZeoKCrZ6bcV/XzOMXh3OVh8vZGjTggmLIvLQ1PkgUI0jNzwo0s5xK/6b2FV/8drhQGFqUO
+ FFsfOyvYXXonCf7KC0b9k+Z4VkzE9kxNSoR+y27Z9A/6ukayrAQAA
+X-Change-ID: 20260217-v6-19-topic-ti-lp5860-enable-gpio-83c0652d34ad
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Steffen Trumtrar <kernel@pengutronix.de>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Steffen Trumtrar <s.trumtrar@pengutronix.de>
+X-Mailer: b4 0.15.1
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: s.trumtrar@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7654-lists,linux-leds=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,beckhoff.com,ashleytowns.id.au,ti.com,irl.hu,gmail.com,schinagl.nl,ucw.cz,milecki.pl,gaikai.com,oss.qualcomm.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[corvinkoehne@gmail.com,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.988];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,milecki.pl:email,ashleytowns.id.au:email]
-X-Rspamd-Queue-Id: 292293B795F
+	MIME_TRACE(0.00)[0:+];
+	NEURAL_HAM(-0.00)[-0.974];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[s.trumtrar@pengutronix.de,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-7655-lists,linux-leds=lfdr.de];
+	DMARC_NA(0.00)[pengutronix.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: F067E3B7C1F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Corvin Köhne <c.koehne@beckhoff.com>
+The VIO_EN pin can either be connected with VIO power supply or GPIO.
+Get the GPIO from DT if provided and set it on chip enable and disable.
 
-Changes leds/common.h DT binding header file to be published under GPLv2
-or BSD-2-Clause license terms. This change allows this common LED
-bindings header file to be used in software components as bootloaders
-and OSes that are not published under GPLv2 terms.
-
-All contributors to leds/common.h file in copy.
-
-Cc: Ashley Towns <mail@ashleytowns.id.au>
-Cc: Dan Murphy <dmurphy@ti.com>
-Cc: Gergo Koteles <soyer@irl.hu>
-Cc: INAGAKI Hiroshi <musashino.open@gmail.com>
-Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc: Olliver Schinagl <oliver@schinagl.nl>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Rafał Miłecki <rafal@milecki.pl>
-Cc: Roderick Colenbrander <roderick@gaikai.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Signed-off-by: Corvin Köhne <c.koehne@beckhoff.com>
+Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
 ---
- include/dt-bindings/leds/common.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v3:
+- remove unnecessary validation checks
+- update dep to newer lp5860 series
+- Link to v2: https://lore.kernel.org/r/20260310-v6-19-topic-ti-lp5860-enable-gpio-v2-0-3fcc617fe03a@pengutronix.de
 
-diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-index 4f017bea0123..b7bafbaf7df3 100644
---- a/include/dt-bindings/leds/common.h
-+++ b/include/dt-bindings/leds/common.h
-@@ -1,4 +1,4 @@
--/* SPDX-License-Identifier: GPL-2.0 */
-+/* SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause) */
- /*
-  * This header provides macros for the common LEDs device tree bindings.
-  *
--- 
-2.47.3
+Changes in v2:
+- add acked-by
+- updated deps to newer lp5860 series
+- rebased to v7.0-rc1
+- Link to v1: https://lore.kernel.org/r/20260217-v6-19-topic-ti-lp5860-enable-gpio-v1-0-f5e8edeb5d74@pengutronix.de
+---
+ drivers/leds/rgb/leds-lp5860-core.c | 9 +++++++++
+ drivers/leds/rgb/leds-lp5860.h      | 1 +
+ 2 files changed, 10 insertions(+)
+
+diff --git a/drivers/leds/rgb/leds-lp5860-core.c b/drivers/leds/rgb/leds-lp5860-core.c
+index 31eebaf0269ab..5bccca47b20a1 100644
+--- a/drivers/leds/rgb/leds-lp5860-core.c
++++ b/drivers/leds/rgb/leds-lp5860-core.c
+@@ -5,6 +5,7 @@
+  * Author: Steffen Trumtrar <kernel@pengutronix.de>
+  */
+ 
++#include <linux/gpio/consumer.h>
+ #include <linux/led-class-multicolor.h>
+ #include <linux/module.h>
+ #include <linux/of_platform.h>
+@@ -59,6 +60,8 @@ static int lp5860_set_mc_brightness(struct led_classdev *cdev,
+ 
+ static int lp5860_chip_enable(struct lp5860 *lp, bool enable)
+ {
++	gpiod_direction_output(lp->enable_gpiod, enable);
++
+ 	return regmap_write(lp->regmap, LP5860_REG_CHIP_EN, enable);
+ }
+ 
+@@ -189,6 +192,12 @@ int lp5860_device_init(struct device *dev)
+ 	struct lp5860 *lp = dev_get_drvdata(dev);
+ 	int ret;
+ 
++	lp->enable_gpiod = devm_gpiod_get_optional(lp->dev, "enable", GPIOD_ASIS);
++	if (IS_ERR(lp->enable_gpiod))
++		return PTR_ERR(lp->enable_gpiod);
++
++	gpiod_set_consumer_name(lp->enable_gpiod, "LP5860 VIO enable");
++
+ 	ret = lp5860_chip_enable(lp, LP5860_CHIP_ENABLE);
+ 	if (ret)
+ 		return ret;
+diff --git a/drivers/leds/rgb/leds-lp5860.h b/drivers/leds/rgb/leds-lp5860.h
+index b3ad8c46720cd..48a6afc4227d6 100644
+--- a/drivers/leds/rgb/leds-lp5860.h
++++ b/drivers/leds/rgb/leds-lp5860.h
+@@ -257,6 +257,7 @@ struct lp5860_led {
+ struct lp5860 {
+ 	struct device *dev;
+ 	struct regmap *regmap;
++	struct gpio_desc *enable_gpiod;
+ 	unsigned int leds_count;
+ 
+ 	DECLARE_FLEX_ARRAY(struct lp5860_led, leds);
+
+---
+base-commit: 559f264e403e4d58d56a17595c60a1de011c5e20
+change-id: 20260217-v6-19-topic-ti-lp5860-enable-gpio-83c0652d34ad
+prerequisite-message-id: <20260403-v6-14-topic-ti-lp5860-v8-1-e127e80e875a@pengutronix.de>
+prerequisite-patch-id: 2fc7123c98bf6c53d946af75269ecb1a7b421f14
+
+Best regards,
+--  
+Steffen Trumtrar <s.trumtrar@pengutronix.de>
 
 
