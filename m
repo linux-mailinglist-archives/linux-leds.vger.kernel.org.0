@@ -1,172 +1,142 @@
-Return-Path: <linux-leds+bounces-7655-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7656-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KDKyFkv71Wn4/gcAu9opvQ
-	(envelope-from <linux-leds+bounces-7655-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 08 Apr 2026 08:52:59 +0200
+	id aMxgATNR1mm8DQgAu9opvQ
+	(envelope-from <linux-leds+bounces-7656-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 08 Apr 2026 14:59:31 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id F067E3B7C1F
-	for <lists+linux-leds@lfdr.de>; Wed, 08 Apr 2026 08:52:58 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 654F43BC7FD
+	for <lists+linux-leds@lfdr.de>; Wed, 08 Apr 2026 14:59:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5C986301062D
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Apr 2026 06:52:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C664F30166EF
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Apr 2026 12:55:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FA6534DB6C;
-	Wed,  8 Apr 2026 06:52:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66ABC3BE146;
+	Wed,  8 Apr 2026 12:55:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kubik.pl header.i=@kubik.pl header.b="BtT+vlNv"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from cloudserver3189817-3189848.home.pl (cloudserver3189817-3189848.home.pl [46.242.239.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857E236215A
-	for <linux-leds@vger.kernel.org>; Wed,  8 Apr 2026 06:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8930840DFB6;
+	Wed,  8 Apr 2026 12:55:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.242.239.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775631176; cv=none; b=ig5e9icaTpDkvuvqhPTLSrYz5UOPs/225L7vl4dMbe4Ybx1gFrFh0hs4JJeBFcMxDxi1BQq/cT99ir0vo5HTcZ92d2cwM0C41gDs5MumoquGm++Jh3duTxRs28Pt24mdm02GnK6phS/FIqt68GKN3z+ilt2GyPiRSNX7gVNxMRQ=
+	t=1775652941; cv=none; b=rIxS2MtcGvHOs19gUmh7VoLcfm1VTf0DkAlQGxKM+1Q4/d/eBnvdkqS1nmfECQA/bXaV4oduqfzjrHCtPizbRRtxL+z8U8GdzlW0emhodLPAXTAgFWxnJZHFbB+FN2MufCH/2yqJpZiKjknJ4pwaKp1PGoChbK8li0lI9LM2rBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775631176; c=relaxed/simple;
-	bh=HeuEeKb5UwovZWdE55gQ2L8XYl59tVQHoJ0inZe0Jn0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=VGbKe05wrznHqcS7nbbPxCzYPkcxLPzDeHWcvcuRV5BM6MCYQc0Nh6CAZAgZaYNWnl3JCHm9jSAEHO4x4ouiNaHzUN2lsyUOS7PxKd7qroTpXmUlW1VBPAdZevCyVefczOwg//y+MKP7sy5StstGw3sBXz3zoDuCNqVFKk+nnU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=ratatoskr.trumtrar.info)
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <s.trumtrar@pengutronix.de>)
-	id 1wAMmR-0005la-9Q; Wed, 08 Apr 2026 08:52:51 +0200
-From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Date: Wed, 08 Apr 2026 08:51:10 +0200
-Subject: [PATCH v3] leds: rgb: lp5860: add enable-gpio
+	s=arc-20240116; t=1775652941; c=relaxed/simple;
+	bh=uMc5Ay84XI0qtBuFxWYkYK2lRq01n0K9UZjNbjc8M10=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hmYNoB3K62QwxFDTLVvj2K15h1stR91j76x3TLviA2NQN6OEN4wi13TUj6Xf4CHzaDwMVTfupsg0pYut6X8406oMrcfsDP73nUBfYC1Y36sVWqZIFAumiJiRVqavtrBvKAkvxMSVCTPqrq10G92Iy0lCWpsiwYOHId0xILnJGqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kubik.pl; spf=pass smtp.mailfrom=kubik.pl; dkim=pass (2048-bit key) header.d=kubik.pl header.i=@kubik.pl header.b=BtT+vlNv; arc=none smtp.client-ip=46.242.239.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kubik.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kubik.pl
+Received: from localhost (static-46-238-236-132.awacom.net [46.238.236.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by cloudserver3189817-3189848.home.pl (Postfix) with ESMTPSA id B52A7E4A97;
+	Wed,  8 Apr 2026 13:51:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kubik.pl; s=dkim;
+	t=1775649111; bh=uMc5Ay84XI0qtBuFxWYkYK2lRq01n0K9UZjNbjc8M10=;
+	h=From:Subject:Date;
+	b=BtT+vlNvo9sD2o0AmswBvPF/XY/tWe1xRC6uVpJ5aUo2GWYouGv7vToN8FN2wRay8
+	 gMcw4oT28i+6lq0EVktCEFLwPV7CJ7wL1k0UERLojyhaZiDkho8jGVzZCxdi31U0RK
+	 o8JrgtJZd4R69ga3o4JZaV5B5unnMbm2jw/h7RY3of4P5YfnuZ0ALQRDv9YOKSwMNZ
+	 z8qxz/mGlMSz7MwphYL6naIjqdGQVCD6xiqThwyUkyr9iXfhO29qoPpHWkoJFf2U7E
+	 qVwslXLYdS86ipe2LahcNuREQWuZ7YYz/1HhW3AgZdU4y0tusY3mPvkCOPZ/ASNwjK
+	 i6ZK4PhKJPnuA==
+From: Piotr Kubik <piotr@kubik.pl>
+To: Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>
+Cc: linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Piotr Kubik <piotr@kubik.pl>
+Subject: [PATCH] leds: trigger: gpio: use GPIOD_FLAGS_BIT_NONEXCLUSIVE
+Date: Wed,  8 Apr 2026 13:51:06 +0200
+Message-ID: <20260408115106.379834-1-piotr@kubik.pl>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260408-v6-19-topic-ti-lp5860-enable-gpio-v3-1-da59a9005386@pengutronix.de>
-X-B4-Tracking: v=1; b=H4sIAN761WkC/5XPTW7DIBCG4atYrDsRP7ahVlX1HlUXGMYOUgwuE
- JQq8t3rkEWlZtMuv1m8j+ZKEkaHiQzNlUQsLrng9yGeGmKO2s8Izu6bcMp7ypmE0gN7hhxWZyA
- 7OK2d6img1+MJYV5dACUM7TtuRast2TtrxMldqvH+cd8RP887le9HsmBKulJD81KllooqtQ9SU
- cAAGZeoKCrZ6bcV/XzOMXh3OVh8vZGjTggmLIvLQ1PkgUI0jNzwo0s5xK/6b2FV/8drhQGFqUO
- FFsfOyvYXXonCf7KC0b9k+Z4VkzE9kxNSoR+y27Z9A/6ukayrAQAA
-X-Change-ID: 20260217-v6-19-topic-ti-lp5860-enable-gpio-83c0652d34ad
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Steffen Trumtrar <kernel@pengutronix.de>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Steffen Trumtrar <s.trumtrar@pengutronix.de>
-X-Mailer: b4 0.15.1
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: s.trumtrar@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spamd-Result: default: False [-1.46 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-CLIENT-IP: 46.238.236.132
+X-CLIENT-HOSTNAME: static-46-238-236-132.awacom.net
+X-VADE-SPAMSTATE: clean
+X-VADE-SPAMCAUSE: dmFkZTGUSTWTkFxv4j9k5HH4y2YtEbWJgkBNJ5mpvH+gDr174NK7NTno+uNDkjcngRevIINIlKMD+pgtKiRCcWe7Fy9cLf2on3ww58d5RmGJcwMW8UhcZ5nykXPDbKgCR8i2V91uP2ej1mR2q3ZjHFIX0iSIJ45nEaOi12nQRL12LXG7cpzhtrDTppGhUvR2UoxI9zTghjwcaSZ7Tryh90N/rN76L8xzDFF7l9efHkaXHHEmerotwkoiL+k50jA/RmaibRoMYmmHcruNb0W3CuTPaJWiI3kqusUpKZrv36ekDyz3eCsBrIjKA6YHFz1gx3KuidK4ZVfBk1xqfsnu+rqoyqH7QvNhTY7BwdJwbVJzPusbJPvnqQMU32As3f1UeUu/AlpYgh+XHBJh/KXLwmj8vz/TEhs6W20NaJEWO1PVTThmcb2HVEnCO9HhWd7vxH4IbTXdK0AhHqnY6bxw9tvH397VfX+5uWZN1rBoc68hswpZ/n5JMUP4ypPyJUWb+RNPLJqaUWNTNRZ3N5zkqDIlXyOapOp3g7OBtCSXz7odfKnl3RV2jINwaeqF3pAWFMDywmSmagdqspVESf/XaQU4suljMq7ZkJxbYNjkDJAsxyGEVzr2vsvxFPPRnIUCFR9YNQDJrCLoMb4muWNq8V3XMDIWcUtLDUt+q2sejCXyn9oBiQ
+X-DCC--Metrics: sv043.home.net.pl 1024; Body=6 Fuz1=6 Fuz2=6
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kubik.pl:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	NEURAL_HAM(-0.00)[-0.974];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	R_DKIM_NA(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[s.trumtrar@pengutronix.de,linux-leds@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7655-lists,linux-leds=lfdr.de];
-	DMARC_NA(0.00)[pengutronix.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: F067E3B7C1F
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-7656-lists,linux-leds=lfdr.de];
+	DMARC_NA(0.00)[kubik.pl: no valid DMARC record];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[piotr@kubik.pl,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kubik.pl:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 654F43BC7FD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The VIO_EN pin can either be connected with VIO power supply or GPIO.
-Get the GPIO from DT if provided and set it on chip enable and disable.
+When a GPIO is shared between the LED trigger driver and another driver,
+the LED trigger driver needs to request the GPIO with
+GPIOD_FLAGS_BIT_NONEXCLUSIVE to allow both drivers to monitor the same
+GPIO pin.
 
-Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
+Without this flag, if another driver has already claimed the GPIO,
+theLED trigger driver's gpiod_get_optional() call fails silently,
+and the LED trigger doesn't work.
+
+This is needed for scenarios like:
+- SFP module presence/status LED triggered by SFP Mod_ABS/Rx_LOS
+
+Both GPIOs are also monitored by the SFP driver for module state
+management, so they need to be shared.
+
+Signed-off-by: Piotr Kubik <piotr@kubik.pl>
 ---
-Changes in v3:
-- remove unnecessary validation checks
-- update dep to newer lp5860 series
-- Link to v2: https://lore.kernel.org/r/20260310-v6-19-topic-ti-lp5860-enable-gpio-v2-0-3fcc617fe03a@pengutronix.de
+ drivers/leds/trigger/ledtrig-gpio.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Changes in v2:
-- add acked-by
-- updated deps to newer lp5860 series
-- rebased to v7.0-rc1
-- Link to v1: https://lore.kernel.org/r/20260217-v6-19-topic-ti-lp5860-enable-gpio-v1-0-f5e8edeb5d74@pengutronix.de
----
- drivers/leds/rgb/leds-lp5860-core.c | 9 +++++++++
- drivers/leds/rgb/leds-lp5860.h      | 1 +
- 2 files changed, 10 insertions(+)
-
-diff --git a/drivers/leds/rgb/leds-lp5860-core.c b/drivers/leds/rgb/leds-lp5860-core.c
-index 31eebaf0269ab..5bccca47b20a1 100644
---- a/drivers/leds/rgb/leds-lp5860-core.c
-+++ b/drivers/leds/rgb/leds-lp5860-core.c
-@@ -5,6 +5,7 @@
-  * Author: Steffen Trumtrar <kernel@pengutronix.de>
-  */
- 
-+#include <linux/gpio/consumer.h>
- #include <linux/led-class-multicolor.h>
- #include <linux/module.h>
- #include <linux/of_platform.h>
-@@ -59,6 +60,8 @@ static int lp5860_set_mc_brightness(struct led_classdev *cdev,
- 
- static int lp5860_chip_enable(struct lp5860 *lp, bool enable)
- {
-+	gpiod_direction_output(lp->enable_gpiod, enable);
-+
- 	return regmap_write(lp->regmap, LP5860_REG_CHIP_EN, enable);
- }
- 
-@@ -189,6 +192,12 @@ int lp5860_device_init(struct device *dev)
- 	struct lp5860 *lp = dev_get_drvdata(dev);
- 	int ret;
- 
-+	lp->enable_gpiod = devm_gpiod_get_optional(lp->dev, "enable", GPIOD_ASIS);
-+	if (IS_ERR(lp->enable_gpiod))
-+		return PTR_ERR(lp->enable_gpiod);
-+
-+	gpiod_set_consumer_name(lp->enable_gpiod, "LP5860 VIO enable");
-+
- 	ret = lp5860_chip_enable(lp, LP5860_CHIP_ENABLE);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/leds/rgb/leds-lp5860.h b/drivers/leds/rgb/leds-lp5860.h
-index b3ad8c46720cd..48a6afc4227d6 100644
---- a/drivers/leds/rgb/leds-lp5860.h
-+++ b/drivers/leds/rgb/leds-lp5860.h
-@@ -257,6 +257,7 @@ struct lp5860_led {
- struct lp5860 {
- 	struct device *dev;
- 	struct regmap *regmap;
-+	struct gpio_desc *enable_gpiod;
- 	unsigned int leds_count;
- 
- 	DECLARE_FLEX_ARRAY(struct lp5860_led, leds);
-
----
-base-commit: 559f264e403e4d58d56a17595c60a1de011c5e20
-change-id: 20260217-v6-19-topic-ti-lp5860-enable-gpio-83c0652d34ad
-prerequisite-message-id: <20260403-v6-14-topic-ti-lp5860-v8-1-e127e80e875a@pengutronix.de>
-prerequisite-patch-id: 2fc7123c98bf6c53d946af75269ecb1a7b421f14
-
-Best regards,
---  
-Steffen Trumtrar <s.trumtrar@pengutronix.de>
+diff --git a/drivers/leds/trigger/ledtrig-gpio.c b/drivers/leds/trigger/ledtrig-gpio.c
+index fc911dfec0ef..3b3e6869e856 100644
+--- a/drivers/leds/trigger/ledtrig-gpio.c
++++ b/drivers/leds/trigger/ledtrig-gpio.c
+@@ -86,7 +86,8 @@ static int gpio_trig_activate(struct led_classdev *led)
+ 	 * The generic property "trigger-sources" is followed,
+ 	 * and we hope that this is a GPIO.
+ 	 */
+-	gpio_data->gpiod = gpiod_get_optional(dev, "trigger-sources", GPIOD_IN);
++	gpio_data->gpiod = gpiod_get_optional(dev, "trigger-sources",
++					      GPIOD_IN | GPIOD_FLAGS_BIT_NONEXCLUSIVE);
+ 	if (IS_ERR(gpio_data->gpiod)) {
+ 		ret = PTR_ERR(gpio_data->gpiod);
+ 		kfree(gpio_data);
+-- 
+2.47.3
 
 
