@@ -1,313 +1,298 @@
-Return-Path: <linux-leds+bounces-7671-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7672-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EIy6Nezi12kVUQgAu9opvQ
-	(envelope-from <linux-leds+bounces-7671-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 09 Apr 2026 19:33:32 +0200
+	id wIEVOkjs12kbUwgAu9opvQ
+	(envelope-from <linux-leds+bounces-7672-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 09 Apr 2026 20:13:28 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 387A63CE284
-	for <lists+linux-leds@lfdr.de>; Thu, 09 Apr 2026 19:33:32 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5ADA3CE8EB
+	for <lists+linux-leds@lfdr.de>; Thu, 09 Apr 2026 20:13:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0D34B3006B7A
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Apr 2026 17:33:21 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2DF393029A4C
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Apr 2026 18:13:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 592833AB272;
-	Thu,  9 Apr 2026 17:33:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C45D3E317A;
+	Thu,  9 Apr 2026 18:13:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pVB09xiG"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="JJcsCEca"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161CC3E3154
-	for <linux-leds@vger.kernel.org>; Thu,  9 Apr 2026 17:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775755998; cv=pass; b=kNWwsVzZKJ48/VCE25Aw4Y8BYtjxpe2MSkXNqSPCFFyeRa5f/0DkblQt2b0QJIttuDJV96V0JqTji0KnqC5aIPZvzk+zYWARfiML4rd07LXOX/JjN+aN/UsOQCjoUWBTsnmX5jJyQgeYSJwxTsnPaJcdDer0Pr72xIwQVkGWaq8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775755998; c=relaxed/simple;
-	bh=pAp6FMygBYV1F6TaYcfCi8Htvtlt5svuMU2I9kTySjQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QkD86qDkabC6HtJhtiJjuqAqdoM/xkx4bdIDEuU19BivCi1ajSNkrjBHzYTxRazKKr6hoDUBwfPNgKAdfXUlGq12q/M1fg0JgIJ50brNp1vYFBfroB3aLwXSU0xhLN7WeOJPdarteJAyK6VBYOu7i4ohkwkMavWNBICn2seE5Ws=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pVB09xiG; arc=pass smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b9c01854477so190556266b.0
-        for <linux-leds@vger.kernel.org>; Thu, 09 Apr 2026 10:33:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775755987; cv=none;
-        d=google.com; s=arc-20240605;
-        b=gnGpDJ56a/D4yOx3qhlJ0G2QCG20HeLWHKlF9y7cbX8YiUVqrxdwOuzdRmZmkVlS4y
-         HoraeTfHeZuOazN3b/94kXU9VMzRmPnzYz2PbUbbwb4zF4HGC2bOY1VdKc2XHsmGIzJy
-         3MgjyCEKnbDcgz2n0jcSArtdHxY05cd+bOvWn6IQTBW6MNHBDc8sE5YwcvlPQ14oE6Pf
-         3JVX2O64nILLk3lsjfoIMiNFKvBv9aJ7zWcYtdpwV5m2t0uN8soY95xArn9DqX6c+iDK
-         yoELowsfCk2yRF4ihzwg45EIgMkno69vmh64xpTqi82FadAiZ6tr6DGhvqtSya5Ao5Eg
-         /5gw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=3XPkS92gnUuX48YeJscFkbdS2F7DzIauqRmSzvPVPq8=;
-        fh=X/yKbcLz6auqxei7884iplvjzdpH/lJTDOq8yQscJss=;
-        b=azx6lFQEDgrgkzyyGu4/1qsq8aj3d+MjAxdh4eA7GHzAydDnVIa1B0XD+yq39YAboj
-         Q2yJmwE0WoUdqSTLfJwuyyiT1SZgVWM97OYw1QcuDvtzdp8Zutjfb5BMBWMwWHEGlBDA
-         y/qDy6IXOzXtIrUk377awBpZzUEVQ+cBnmQWgLsUg3vrkusspk9hi62LHCSjg3qwfP8c
-         C6xEhbEScTvLe45/954cRBZ31BhxLjb+V3nEuFFYysaM5aFuIJwBQO24XL/OIvMsc/k+
-         oTLyCmvU2V4SuvoFKdyYfjGO6rPKmj0JnjYAuij8Ns5m+z4ztKFPBr4UbEt8INsI6q/P
-         zx0A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775755987; x=1776360787; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3XPkS92gnUuX48YeJscFkbdS2F7DzIauqRmSzvPVPq8=;
-        b=pVB09xiGHF6RqqzYmr3jDyzPLm2CrlDEy+tvdKHBfuV9PCeyqt0XXe9O0UBJ8CsZXv
-         XPLqB0AlYxFpD+1q8WJz/7RJl3vWBKLvFmkZSNbF/IwHUr9RvMBy7Y/O6hUWK7MmEWXJ
-         mrnt4n0EQ9Ky5NlnG3PO+RwMcFaj+1eVO/gBadJUCYlnUFCdTnA2sNg1f1cyotou8e8s
-         JMKaT+Iha7Ol7W8hzDtw+7RxzhRh5Vtdfc6Qv/QNx4FNLVGHT2GYZCQ6yxmd2Im2tYPg
-         2EnGFCyMo0B5uazPaG0iHsWwpZHWvpxyOANj72oOQeYnPQs6Vau9f9cL2jrayPbR0m8+
-         WOSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775755987; x=1776360787;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3XPkS92gnUuX48YeJscFkbdS2F7DzIauqRmSzvPVPq8=;
-        b=SgPhvvU9/IQL274oFxnfLc1sSzrGOAI8vUSYhy3nt1ms9Vu9zNbWt/CmHXIfeHPxHo
-         d+cnjVjQMoyDKAdlve12QLxo+ozWtkUCuDNhqPkAQ6S9rzbj+LTlWdZorKjq4ghrCaW6
-         +eH1E9eUfpoK/bU2an0nyn4XoVaSEmneIIkDIsqhaiIZ0G56Dmrtvwk/AZ9XR9s4bSrW
-         K4xZKoJrAb9pTtR4q26qYvh9dAbL7lQSg03jvAyrQIoLOiyX41scFlS24YYjIXTGTLu/
-         HgfxVMFml+XhvDD0+BSHMCTsFui9/OHq+wHaGlDhgCZbUPtJw9g2W45T0uJSz7Yl2/aX
-         zuAg==
-X-Gm-Message-State: AOJu0YyJ6nk4ekqORMjIDEZ/8Os4ZlO8RC26nn7PRRguQEZy4ricp35G
-	BLZi2le2uUUWH9o0HSsLThL3LxqijNHL5XzPKyDJPBjn1DD/NeNpfmJ9xqlJhxqLUF5DhrTMz0B
-	vtUFeLNv2wpb0uKAiHdVCi/DlNfBnnH+tsA==
-X-Gm-Gg: AeBDieshENwSQXyQBtN4uNeBU4i66uCJQF16GnC105Fzf4oXF1k3E+FGA/3w91bou4g
-	+Gp4So1glTbbFvfcwVAAAA7SPiJ0wLCgwz9MoAormLSSkoc95AbjI2Ojvd9Owp1elvRi+Ei8Sqf
-	UdjQHTwzk7sssm8WYYh/f/sFTv6UeZH5dkkR31D//Nt91gO3am6RNymthGwzuNqcNGqt+0toRGn
-	T+A9YiglUm9+j9ssHaY44u5fryGbqkpPTAJefWICVlfS6W+pY1qim1EZ+vRI3mdf+hXvg6EsHAY
-	Va5Fw1YMjChkcT+FjwnRE5P4IeDcbvz0ZOXFjfaY7R4uTMMqZZQ5lqGnesn/+kN44ngz2OZNh8s
-	b2TmLBA==
-X-Received: by 2002:a17:906:9f87:b0:b9d:6a06:fab1 with SMTP id
- a640c23a62f3a-b9d7265c9b4mr6451966b.32.1775755986990; Thu, 09 Apr 2026
- 10:33:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7156D3E314E;
+	Thu,  9 Apr 2026 18:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775758382; cv=none; b=jPBFkce5IdXM1oR73zp4d1LQl0Kwxcrj3NcvsS19vR4mmxL8wW/vH//PX2n7RpmzuRHzssvYEPhl5QPncuxqBy+krKZnaIm0reghk/4NWMmfYlJ8evh3v7iUEaEc0I+SF6w4e1Ha4sSEUxrh4xsoCtEMjb8aPXFlJblfS6a99es=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775758382; c=relaxed/simple;
+	bh=BoGW7oywgvm57yYmgFIJhKPYzBfyhEW/uN+KSu6heaU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z1pkP+nYR0+2vauJLLzvKfLodZ7EBKfx8ohRzW6suEJnaHscQ4K//wJ7y+uvbvFBWGNcUG/+A0YIABFmqUyBZ8NS1VCLOEy6CEBGLnc7RZqBdLn9hWKo5XW/dWgWg1Fas/wZxp/gVYCP0n4sY3yf/wK+9LX+VXoeij5b9l9mkaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=JJcsCEca; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=BoGW7oywgvm57yYmgFIJhKPYzBfyhEW/uN+KSu6heaU=; b=JJcsCEcaKqyNrvJOUZ8XOnA1AS
+	yC//2gnLRa8FcBRiXofOYljopOoyt9r8CbkWaLEFmbUVfW5qK5utkUh3D77jxlkhKoZiYVbvdTEnm
+	X8jEr88bUddVEJ+24e8elVa7rPEDm9C+KeO3Yi+QSp+riwZi9Be8u3P2jnyNq7RhzU24dEi9YT5JB
+	9o5OjQL5vQk2h32ksN+l6XHB7LZbu7YtKRAMPXU1ZH+Yata0JOXemtl88QWI3UJ7mBXR7GCgddkg5
+	qrhpzNPrKwHYiMCapxKfC0E4ZwUatWZBULD1y88efyo7haqTewJrOOn317SRlKBwAg9TXV76h3bsC
+	A/eZOWQA==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wAtvH-00000003xj6-26He;
+	Thu, 09 Apr 2026 18:16:11 +0000
+Date: Thu, 9 Apr 2026 19:16:11 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Philipp Hahn <phahn-oss@avm.de>
+Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
+	bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
+	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+	ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
+	sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
+	tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev,
+	Julia Lawall <Julia.Lawall@inria.fr>,
+	Nicolas Palix <nicolas.palix@imag.fr>, Chris Mason <clm@fb.com>,
+	David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
+	Alex Markuze <amarkuze@redhat.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
+	Bharath SM <bharathsm@microsoft.com>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
+	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Sandeep Dhavale <dhavale@google.com>,
+	Hongbo Li <lihongbo22@huawei.com>,
+	Chunhai Guo <guochunhai@vivo.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Jan Kara <jack@suse.com>, Phillip Lougher <phillip@squashfs.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Tejun Heo <tj@kernel.org>, David Vernet <void@manifault.com>,
+	Andrea Righi <arighi@nvidia.com>,
+	Changwoo Min <changwoo@igalia.com>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Max Filippov <jcmvbkbc@gmail.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	John Johansen <john.johansen@canonical.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Ahern <dsahern@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Johan Hedberg <johan.hedberg@gmail.com>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Jamal Hadi Salim <jhs@mojatatu.com>, Jiri Pirko <jiri@resnulli.us>,
+	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+	Xin Long <lucien.xin@gmail.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Jon Maloy <jmaloy@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Russell King <linux@armlinux.org.uk>,
+	John Crispin <john@phrozen.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Zhenyu Wang <zhenyuw.linux@gmail.com>,
+	Zhi Wang <zhi.wang.linux@gmail.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Igor Russkikh <irusskikh@marvell.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	Michael Chan <mchan@broadcom.com>,
+	Potnuri Bharat Teja <bharat@chelsio.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Taras Chornyi <taras.chornyi@plvision.eu>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Iyappan Subramanian <iyappan@os.amperecomputing.com>,
+	Keyur Chudgar <keyur@os.amperecomputing.com>,
+	Quan Nguyen <quan@os.amperecomputing.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Vinod Koul <vkoul@kernel.org>, Linus Walleij <linusw@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Dave Penkler <dpenkler@gmail.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>, Justin Sanders <justin@coraid.com>,
+	Jens Axboe <axboe@kernel.dk>, Georgi Djakov <djakov@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH 00/61] treewide: Use IS_ERR_OR_NULL over manual NULL
+ check - refactor
+Message-ID: <20260409181611.GP3836593@ZenIV>
+References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260320040821.46540-1-rosenp@gmail.com> <20260326113336.GK1141718@google.com>
- <CAKxU2N_8BnBETT8YeDa44bDvC_srepskpA7iDYOwPQJsfb0dXw@mail.gmail.com> <20260409124417.GA3290953@google.com>
-In-Reply-To: <20260409124417.GA3290953@google.com>
-From: Rosen Penev <rosenp@gmail.com>
-Date: Thu, 9 Apr 2026 10:32:55 -0700
-X-Gm-Features: AQROBzBVfPk1Mg0NTdCC5ZF5QedLEgsgiQZ0J1Ci6_R_-CCKPRkOy_dRyCxB_uA
-Message-ID: <CAKxU2N-pAaCDR9vH7PEXLtb__Sc_JU6Qrd-5dgFC3deKmJGFcQ@mail.gmail.com>
-Subject: Re: [PATCH] leds: pca955x: kzalloc + kcalloc to single kzalloc
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org, Pavel Machek <pavel@kernel.org>, 
-	Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	"open list:KERNEL HARDENING (not covered by other areas):Keyword:b__counted_by(_le|_be)?b" <linux-hardening@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+Sender: Al Viro <viro@ftp.linux.org.uk>
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[zeniv.linux.org.uk,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[linux.org.uk:s=zeniv-20220401];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7671-lists,linux-leds=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-7672-lists,linux-leds=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,lists.ubuntu.com,vger.kernel.org,inria.fr,lists.linux.dev,lists.osuosl.org,lists.infradead.org,lists.ozlabs.org,kvack.org,st-md-mailman.stormreply.com,lists.samba.org,lists.sourceforge.net,imag.fr,fb.com,suse.com,gmail.com,redhat.com,dubeyko.com,mit.edu,dilger.ca,samba.org,manguebit.org,microsoft.com,talpey.com,kernel.org,ionkov.net,codewreck.org,crudebyte.com,linux.alibaba.com,google.com,huawei.com,vivo.com,szeredi.hu,paragon-software.com,intel.com,igalia.com,squashfs.org.uk,suse.cz,goodmis.org,efficios.com,manifault.com,nvidia.com,infradead.org,linaro.org,arm.com,suse.de,atomlin.com,samsung.com,perex.cz,canonical.com,paul-moore.com,namei.org,hallyn.com,linux-foundation.org,davemloft.net,holtmann.org,iogearbox.net,fomichev.me,mojatatu.com,resnulli.us,oracle.com,brown.name,sipsolutions.net,armlinux.org.uk,phrozen.org,alpha.franken.de,users.sourceforge.jp,libc.org,physik.fu-berlin.de,ideasonboard.com,kwiboo.se,linux.intel.com,ffwll.ch,ursulin.n
+ et,amd.com,rock-chips.com,sntech.de,marvell.com,lunn.ch,broadcom.com,chelsio.com,plvision.eu,foss.st.com,os.amperecomputing.com,bootlin.com,linux.ibm.com,ti.com,shazbot.org,animalcreek.com,nod.at,linuxfoundation.org,8bytes.org,coraid.com,kernel.dk,baylibre.com,pengutronix.de,alien8.de,zytor.com];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rosenp@gmail.com,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 387A63CE284
+	RCPT_COUNT_GT_50(0.00)[247];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[viro@zeniv.linux.org.uk,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[linux.org.uk:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-leds,netdev];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: A5ADA3CE8EB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Apr 9, 2026 at 5:44=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
->
-> On Thu, 26 Mar 2026, Rosen Penev wrote:
->
-> > On Thu, Mar 26, 2026 at 4:33=E2=80=AFAM Lee Jones <lee@kernel.org> wrot=
-e:
-> > >
-> > > On Thu, 19 Mar 2026, Rosen Penev wrote:
-> > >
-> > > > Two fewer allocations as a result.
-> > > >
-> > > > Required placing some structs before others as flexible array membe=
-rs
-> > > > require a complete definition. Declaration is not enough.
-> > > >
-> > > > Added __counted_by support for one of the structs for extra runtime
-> > > > analysis.
-> > > >
-> > > > Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> > > > ---
-> > > >  drivers/leds/leds-pca955x.c | 45 ++++++++++++++-------------------=
-----
-> > > >  1 file changed, 17 insertions(+), 28 deletions(-)
-> > > >
-> > > > diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955=
-x.c
-> > > > index 2007fe6217ec..ee5f02eaa3c9 100644
-> > > > --- a/drivers/leds/leds-pca955x.c
-> > > > +++ b/drivers/leds/leds-pca955x.c
-> > > > @@ -112,19 +112,6 @@ static const struct pca955x_chipdef pca955x_ch=
-ipdefs[] =3D {
-> > > >       },
-> > > >  };
-> > > >
-> > > > -struct pca955x {
-> > > > -     struct mutex lock;
-> > > > -     struct pca955x_led *leds;
-> > > > -     const struct pca955x_chipdef    *chipdef;
-> > > > -     struct i2c_client       *client;
-> > > > -     unsigned long active_blink;
-> > > > -     unsigned long active_pins;
-> > > > -     unsigned long blink_period;
-> > > > -#ifdef CONFIG_LEDS_PCA955X_GPIO
-> > > > -     struct gpio_chip gpio;
-> > > > -#endif
-> > > > -};
-> > > > -
-> > > >  struct pca955x_led {
-> > > >       struct pca955x  *pca955x;
-> > > >       struct led_classdev     led_cdev;
-> > > > @@ -137,8 +124,21 @@ struct pca955x_led {
-> > > >  #define led_to_pca955x(l)    container_of(l, struct pca955x_led, l=
-ed_cdev)
-> > > >
-> > > >  struct pca955x_platform_data {
-> > > > -     struct pca955x_led      *leds;
-> > > >       int                     num_leds;
-> > > > +     struct pca955x_led      leds[] __counted_by(num_leds);
->
-> I'm not sure we should we be embedding the full 'struct pca955x_led'
-> (which contains runtime framework structures like 'struct led_classdev')
-> directly inside the platform data?  Besides platform data should ideally
-> be restricted to static configuration properties rather than runtime
-> state.
->
-> > > Where is the memory allocated to this now?
-> > The kzalloc call was updated to use struct_size to allocate it
-> > together with the struct.
-> > >
-> > > Why do we need this in both structs?
-> > kzalloc and kcalloc can be combined in both locations.
->
-> I believe my original question might have been misunderstood.  I was
-> asking about the architectural design choice.  Why does the same 'leds'
-> array need to exist in both the 'pca955x' runtime structure and the
-> 'pca955x_platform_data' configuration structure?  Could we look at
-> eliminating this redundancy to avoid storing duplicate data?
-From what I see, this bit of code handles missing pdata.
->
-> > >
-> > > > +};
-> > > > +
-> > > > +struct pca955x {
-> > > > +     struct mutex lock;
-> > > > +     const struct pca955x_chipdef    *chipdef;
-> > > > +     struct i2c_client       *client;
-> > > > +     unsigned long active_blink;
-> > > > +     unsigned long active_pins;
-> > > > +     unsigned long blink_period;
-> > > > +#ifdef CONFIG_LEDS_PCA955X_GPIO
-> > > > +     struct gpio_chip gpio;
-> > > > +#endif
->
-> #ifdef statements are to be avoided in C files.
->
-> Please find another way to do this (if it's required).
-This is not my code.
->
-> > > > +     struct pca955x_led leds[];
-> > > >  };
-> > > >
-> > > >  /* 8 bits per input register */
-> > > > @@ -542,15 +542,11 @@ pca955x_get_pdata(struct i2c_client *client, =
-const struct pca955x_chipdef *chip)
-> > > >       if (count > chip->bits)
-> > > >               return ERR_PTR(-ENODEV);
-> > > >
-> > > > -     pdata =3D devm_kzalloc(&client->dev, sizeof(*pdata), GFP_KERN=
-EL);
-> > > > +     pdata =3D devm_kzalloc(&client->dev, struct_size(pdata, leds,=
- chip->bits), GFP_KERNEL);
-> > > >       if (!pdata)
-> > > >               return ERR_PTR(-ENOMEM);
-> > > >
-> > > > -     pdata->leds =3D devm_kcalloc(&client->dev,
-> > > > -                                chip->bits, sizeof(struct pca955x_=
-led),
-> > > > -                                GFP_KERNEL);
-> > > > -     if (!pdata->leds)
-> > > > -             return ERR_PTR(-ENOMEM);
-> > > > +     pdata->num_leds =3D chip->bits;
-> > > >
-> > > >       device_for_each_child_node(&client->dev, child) {
-> > > >               u32 reg;
-> > > > @@ -568,8 +564,6 @@ pca955x_get_pdata(struct i2c_client *client, co=
-nst struct pca955x_chipdef *chip)
-> > > >               fwnode_property_read_u32(child, "type", &led->type);
-> > > >       }
-> > > >
-> > > > -     pdata->num_leds =3D chip->bits;
-> > > > -
-> > > >       return pdata;
-> > > >  }
-> > > >
-> > > > @@ -623,15 +617,10 @@ static int pca955x_probe(struct i2c_client *c=
-lient)
-> > > >               return -ENODEV;
-> > > >       }
-> > > >
-> > > > -     pca955x =3D devm_kzalloc(&client->dev, sizeof(*pca955x), GFP_=
-KERNEL);
-> > > > +     pca955x =3D devm_kzalloc(&client->dev, struct_size(pca955x, l=
-eds, chip->bits), GFP_KERNEL);
-> > > >       if (!pca955x)
-> > > >               return -ENOMEM;
-> > > >
-> > > > -     pca955x->leds =3D devm_kcalloc(&client->dev, chip->bits,
-> > > > -                                  sizeof(*pca955x_led), GFP_KERNEL=
-);
-> > > > -     if (!pca955x->leds)
-> > > > -             return -ENOMEM;
-> > > > -
-> > > >       i2c_set_clientdata(client, pca955x);
-> > > >
-> > > >       mutex_init(&pca955x->lock);
-> > > > --
-> > > > 2.53.0
-> > > >
-> > >
-> > > --
-> > > Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
-> >
->
-> --
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
+On Tue, Mar 10, 2026 at 12:48:26PM +0100, Philipp Hahn wrote:
+> While doing some static code analysis I stumbled over a common pattern,
+> where IS_ERR() is combined with a NULL check. For that there is
+> IS_ERR_OR_NULL().
+
+... and valid uses of IS_ERR_OR_NULL are rare as hen teeth.
+Most of those are "I'm not sure how this function returns an
+error, let's use that just in case".
+
+Please, do not introduce more of that crap.
 
