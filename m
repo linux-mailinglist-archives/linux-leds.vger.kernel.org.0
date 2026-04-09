@@ -1,60 +1,59 @@
-Return-Path: <linux-leds+bounces-7663-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7664-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +Pb0JTfD12mdSQgAu9opvQ
-	(envelope-from <linux-leds+bounces-7663-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 09 Apr 2026 17:18:15 +0200
+	id QIOhE4PO12mrTAgAu9opvQ
+	(envelope-from <linux-leds+bounces-7664-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 09 Apr 2026 18:06:27 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0740E3CC81B
-	for <lists+linux-leds@lfdr.de>; Thu, 09 Apr 2026 17:18:14 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id D04803CD5FB
+	for <lists+linux-leds@lfdr.de>; Thu, 09 Apr 2026 18:06:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 542843008A64
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Apr 2026 15:12:58 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 03EAB308D980
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Apr 2026 15:53:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4A1C3D648F;
-	Thu,  9 Apr 2026 15:12:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B55442E5B09;
+	Thu,  9 Apr 2026 15:52:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PHSRoZvi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pf3f19Yn"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D373C3C0E;
-	Thu,  9 Apr 2026 15:12:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922992BE056;
+	Thu,  9 Apr 2026 15:52:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775747577; cv=none; b=byuqzJj9McsvKpWHSXB5DgJJm4sXqDxGX2N/nkBY19ykhVYszMiLi7zjPyLn0IqV1rMgcmMSG+/bulVrJOJOn/hUHskQ0MbwgpKdfy2yQdIS9GaTtR+nWKspFxYQ36+1Ys3Tg5clHeyV6Re61Q52KwmTpKLTh0OCoczjz1iqQWo=
+	t=1775749956; cv=none; b=FFUzXvVY88IYPntNjRQGiWlx/BCstfJw6iC5pUj7BKZbqy39MtRspkGvYQKLSIqTLh3cEbTp64/31bi5ix9MOYKiPQDfjjQ9UMM8ACji1QjHKRacU9nFw678qIH8AunlaMa65LLkR2gjnSTZS3JPfgWc1XfHMPyY5KPZYEBmPfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775747577; c=relaxed/simple;
-	bh=XZ0j55lDt+ITPdEqlDtIZHLtAJWhK74mOYmyr6CkMFs=;
+	s=arc-20240116; t=1775749956; c=relaxed/simple;
+	bh=wGT1HI733jY6F+RDw1kQe88NKg+6uso7DNz09334DHI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o4YQugHB4ZwuuuYwB+rxpLKQWhsZpzN+soK5rommXM4qX/lSv/jkh090fRHpW4UhjS6TN4krcY0dRvRKiu/jSghCl49Tz2TbfEi9WhGhRALhwtRRU9fYyyOPzsJ0SWAiTaUsDpigNPieD0tCZ77cEGwI0DS5ioDmSqzppUzK7XE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PHSRoZvi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6C65C4CEF7;
-	Thu,  9 Apr 2026 15:12:55 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=HjHClKcHP5e7UV6NN4bJIR2WFbnEvVeQzxcFseQ/efNO+FIp5SBRvDeqR6Ivw8XFbqDuZ/vYlgMlYELKLUvYVObuRYxJavuxlMBO8VznbB97ZJfDJA05tS26IZp3cXlwVtm+iHdZyj/fJqXOzzFvIXLIfiKQ4wmoX3J14Qa17nI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pf3f19Yn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 581A5C4CEF7;
+	Thu,  9 Apr 2026 15:52:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775747577;
-	bh=XZ0j55lDt+ITPdEqlDtIZHLtAJWhK74mOYmyr6CkMFs=;
+	s=k20201202; t=1775749956;
+	bh=wGT1HI733jY6F+RDw1kQe88NKg+6uso7DNz09334DHI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PHSRoZvijMwHrrt1Ouw1xOi6RIbE+2T9n21Tpw00cAAA56c+UOCzCA7eW4fWk3iAH
-	 6UPVYAQiMJU/HlBAV2nD3nz+uBx9SoL2A/MSn5J0YOn62MZ3f7HW3U2cGCNav/Z3vw
-	 u2sja/edfPtY08bt8GlHZPU57Ydv+aSAvTEfLSH2MfP18sMp4f4vsl2ORVDKG0n7DR
-	 5KAO+KcnmMddb1MZ/SrHeGukDqb0ReAuz3VLKE2dVLYsb41t4ElbE/MyMzZliIMV6r
-	 peHK2DURcRdaH/6LfkUDLWygP7sJWC7cCINu1BLcp16FGfhZ/s+ZDpYDPCTbQ/MtU8
-	 x8x+bv6Zt3cmg==
-Date: Thu, 9 Apr 2026 16:12:53 +0100
+	b=Pf3f19YnjtVVPKKJajbQzc17/cJVHJ9y49Q2YDth3KQULUtkvefStbkcKhxgQokhB
+	 0ywXx6jp1nETs3vWNAxVLTqELKFCTXRiFLubl7wQCBpNkDGPvCumU/eX86SOGwDfof
+	 rN3adwOs/Zo2OJM3LeAMHC03T6ZdMERewcw2k6l3kKSj9kWp9xw7+zcNj6/w8XBcY+
+	 6VhvdDbDpiyYkKdllhLfobNS36GGXiL5+g9iyQJSkQ3RHTa+6ZWsMrKhmzL1INHvUx
+	 4H12mEd9xgl7FFy44kCdA7FjhfS6gjkZK7hSqIxeSJsBW7oWTV/wlK1zcfHCtVyXtL
+	 KpsfG6YxYKXeA==
+Date: Thu, 9 Apr 2026 16:52:32 +0100
 From: Lee Jones <lee@kernel.org>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: linux-leds@vger.kernel.org, Pavel Machek <pavel@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:KERNEL HARDENING (not covered by other areas):Keyword:b__counted_by(_le|_be)?b" <linux-hardening@vger.kernel.org>
-Subject: Re: [PATCH] leds: qcom-lpg: allocate channels with main struct
-Message-ID: <20260409151253.GH3290953@google.com>
-References: <20260330211844.14796-1-rosenp@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Pavel Machek <pavel@kernel.org>
+Subject: Re: [PATCH v2 2/2] leds: class: Reinitialise list after dropping
+ from lookup table
+Message-ID: <20260409155232.GA3439476@google.com>
+References: <20260331183055.1209526-1-andriy.shevchenko@linux.intel.com>
+ <20260331183055.1209526-3-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -64,219 +63,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260330211844.14796-1-rosenp@gmail.com>
+In-Reply-To: <20260331183055.1209526-3-andriy.shevchenko@linux.intel.com>
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7663-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-7664-lists,linux-leds=lfdr.de];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_THREE(0.00)[4];
 	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 0740E3CC81B
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:email]
+X-Rspamd-Queue-Id: D04803CD5FB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, 30 Mar 2026, Rosen Penev wrote:
+On Tue, 31 Mar 2026, Andy Shevchenko wrote:
 
-> Use a flexible array member to combine kzalloc and kcalloc. This
-> required moving the struct lpg_channel definition up as flexible array
-> members require a full definition.
+> Currently the lookup table just removes the list entry and leaves
+> the stale pointers in it. If the lookup is embedded in some data
+> structure, the pointer to the lookup entry can't be NULL (always
+> valid), but calling led_remove_lookup() on it twice will lead to
+> the wrong behaviour. To avoid that the user has to track the state
+> itself. With this change in place, the user may drop that approach
+> and use something like
 > 
-> Add __counted_by for extra runtime analysis.
+>   probe:
+> 	INIT_LIST_HEAD(&lookup.list);
+> 	if (LED lookup is required)
+> 		led_add_lookup(&lookup);
 > 
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+>   remove:
+> 	led_remove_lookup(&lookup);
+
+How do we feel about a devm_led_add_lookup()?
+
+> without any additional tracking kept over the device lifetime.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
->  drivers/leds/rgb/leds-qcom-lpg.c | 117 +++++++++++++++----------------
->  1 file changed, 56 insertions(+), 61 deletions(-)
+>  drivers/leds/led-class.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-> index f6061c47f863..83cedf4a0cbf 100644
-> --- a/drivers/leds/rgb/leds-qcom-lpg.c
-> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
-> @@ -80,58 +80,8 @@
->  #define SDAM_PAUSE_HI_MULTIPLIER_OFFSET	0x8
->  #define SDAM_PAUSE_LO_MULTIPLIER_OFFSET	0x9
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index b53ebe3a0faa..424c07e0ecce 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -425,7 +425,7 @@ void led_remove_lookup(struct led_lookup_data *led_lookup)
+>  		return;
 >  
-> -struct lpg_channel;
->  struct lpg_data;
->  
-> -/**
-> - * struct lpg - LPG device context
-> - * @dev:	pointer to LPG device
-> - * @map:	regmap for register access
-> - * @lock:	used to synchronize LED and pwm callback requests
-> - * @pwm:	PWM-chip object, if operating in PWM mode
-> - * @data:	reference to version specific data
-> - * @lut_base:	base address of the LUT block (optional)
-> - * @lut_size:	number of entries in the LUT block
-> - * @lut_bitmap:	allocation bitmap for LUT entries
-> - * @pbs_dev:	PBS device
-> - * @lpg_chan_sdam:	LPG SDAM peripheral device
-> - * @lut_sdam:	LUT SDAM peripheral device
-> - * @pbs_en_bitmap:	bitmap for tracking PBS triggers
-> - * @triled_base: base address of the TRILED block (optional)
-> - * @triled_src:	power-source for the TRILED
-> - * @triled_has_atc_ctl:	true if there is TRI_LED_ATC_CTL register
-> - * @triled_has_src_sel:	true if there is TRI_LED_SRC_SEL register
-> - * @channels:	list of PWM channels
-> - * @num_channels: number of @channels
-> - */
-> -struct lpg {
-> -	struct device *dev;
-> -	struct regmap *map;
-> -
-> -	struct mutex lock;
-> -
-> -	struct pwm_chip *pwm;
-> -
-> -	const struct lpg_data *data;
-> -
-> -	u32 lut_base;
-> -	u32 lut_size;
-> -	unsigned long *lut_bitmap;
-> -
-> -	struct pbs_dev *pbs_dev;
-> -	struct nvmem_device *lpg_chan_sdam;
-> -	struct nvmem_device *lut_sdam;
-> -	unsigned long pbs_en_bitmap;
-> -
-> -	u32 triled_base;
-> -	u32 triled_src;
-> -	bool triled_has_atc_ctl;
-> -	bool triled_has_src_sel;
-> -
-> -	struct lpg_channel *channels;
-> -	unsigned int num_channels;
-> -};
-> -
->  /**
->   * struct lpg_channel - per channel data
->   * @lpg:	reference to parent lpg
-> @@ -216,6 +166,55 @@ struct lpg_led {
->  	struct lpg_channel *channels[] __counted_by(num_channels);
->  };
->  
-> +/**
-> + * struct lpg - LPG device context
-> + * @dev:	pointer to LPG device
-> + * @map:	regmap for register access
-> + * @lock:	used to synchronize LED and pwm callback requests
-> + * @pwm:	PWM-chip object, if operating in PWM mode
-> + * @data:	reference to version specific data
-> + * @lut_base:	base address of the LUT block (optional)
-> + * @lut_size:	number of entries in the LUT block
-> + * @lut_bitmap:	allocation bitmap for LUT entries
-> + * @pbs_dev:	PBS device
-> + * @lpg_chan_sdam:	LPG SDAM peripheral device
-> + * @lut_sdam:	LUT SDAM peripheral device
-> + * @pbs_en_bitmap:	bitmap for tracking PBS triggers
-> + * @triled_base: base address of the TRILED block (optional)
-> + * @triled_src:	power-source for the TRILED
-> + * @triled_has_atc_ctl:	true if there is TRI_LED_ATC_CTL register
-> + * @triled_has_src_sel:	true if there is TRI_LED_SRC_SEL register
-> + * @channels:	list of PWM channels
-> + * @num_channels: number of @channels
-> + */
-
-Should we be reordering the kerneldoc descriptions for '@channels' and
-'@num_channels' here to correctly match the updated order in the struct below?
-
-> +struct lpg {
-> +	struct device *dev;
-> +	struct regmap *map;
-> +
-> +	struct mutex lock;
-> +
-> +	struct pwm_chip *pwm;
-> +
-> +	const struct lpg_data *data;
-> +
-> +	u32 lut_base;
-> +	u32 lut_size;
-> +	unsigned long *lut_bitmap;
-> +
-> +	struct pbs_dev *pbs_dev;
-> +	struct nvmem_device *lpg_chan_sdam;
-> +	struct nvmem_device *lut_sdam;
-> +	unsigned long pbs_en_bitmap;
-> +
-> +	u32 triled_base;
-> +	u32 triled_src;
-> +	bool triled_has_atc_ctl;
-> +	bool triled_has_src_sel;
-> +
-> +	unsigned int num_channels;
-> +	struct lpg_channel channels[] __counted_by(num_channels);
-> +};
-> +
->  /**
->   * struct lpg_channel_data - per channel initialization data
->   * @sdam_offset:	Channel offset in LPG SDAM
-> @@ -1475,12 +1474,6 @@ static int lpg_init_channels(struct lpg *lpg)
->  	struct lpg_channel *chan;
->  	int i;
->  
-> -	lpg->num_channels = data->num_channels;
-> -	lpg->channels = devm_kcalloc(lpg->dev, data->num_channels,
-> -				     sizeof(struct lpg_channel), GFP_KERNEL);
-> -	if (!lpg->channels)
-> -		return -ENOMEM;
-> -
->  	for (i = 0; i < data->num_channels; i++) {
->  		chan = &lpg->channels[i];
->  
-> @@ -1603,18 +1596,20 @@ static int lpg_init_sdam(struct lpg *lpg)
->  
->  static int lpg_probe(struct platform_device *pdev)
->  {
-> +	const struct lpg_data *data;
->  	struct lpg *lpg;
->  	int ret;
->  	int i;
->  
-> -	lpg = devm_kzalloc(&pdev->dev, sizeof(*lpg), GFP_KERNEL);
-> +	data = of_device_get_match_data(&pdev->dev);
-> +	if (!data)
-> +		return -EINVAL;
-> +
-> +	lpg = devm_kzalloc(&pdev->dev, struct_size(lpg, channels, data->num_channels), GFP_KERNEL);
->  	if (!lpg)
->  		return -ENOMEM;
->  
-> -	lpg->data = of_device_get_match_data(&pdev->dev);
-
-You just NULL-ptr-derefed yourself.  Did you test this?
-
-> -	if (!lpg->data)
-> -		return -EINVAL;
-> -
-> +	lpg->num_channels = data->num_channels;
->  	lpg->dev = &pdev->dev;
->  	mutex_init(&lpg->lock);
->  
+>  	mutex_lock(&leds_lookup_lock);
+> -	list_del(&led_lookup->list);
+> +	list_del_init(&led_lookup->list);
+>  	mutex_unlock(&leds_lookup_lock);
+>  }
+>  EXPORT_SYMBOL_GPL(led_remove_lookup);
 > -- 
-> 2.53.0
-> 
+> 2.50.1
 > 
 
 -- 
