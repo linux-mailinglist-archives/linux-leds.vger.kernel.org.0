@@ -1,211 +1,218 @@
-Return-Path: <linux-leds+bounces-7702-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7704-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id Cke8JnCN3GmGSwkAu9opvQ
-	(envelope-from <linux-leds+bounces-7702-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Apr 2026 08:30:08 +0200
+	id GBCbMuR03WngeQkAu9opvQ
+	(envelope-from <linux-leds+bounces-7704-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Apr 2026 00:57:40 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E583E7C5B
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Apr 2026 08:30:07 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5743F41DF
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Apr 2026 00:57:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E090230078A0
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Apr 2026 06:30:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5DAD130056CF
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Apr 2026 22:53:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1592A391E7E;
-	Mon, 13 Apr 2026 06:30:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4E4039C014;
+	Mon, 13 Apr 2026 22:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MOk1VOWu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TqBaKfqs"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62D8391850;
-	Mon, 13 Apr 2026 06:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A032539BFE0;
+	Mon, 13 Apr 2026 22:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776061806; cv=none; b=aNElZ0A2CiqXqaLYUfOb/Q6mE9HJ8AvCoq6+qxfwFyOV99Krvd4xkg5yIglc630oGq/1XikHQ+Z/0JBkoP3k2iKULabG70kwTiykbiF+QWkPflT5eMZybG5LhJoWB2R9RFGLAQejMvOVXdLHtehrfA7NVK+QQTcZIJMaucqMQU8=
+	t=1776120814; cv=none; b=dAYSp7cxeSkWrTJNDGKUf6zMGg8qeCeRyozYgTM2q4mIjHYw5AAByAfeX8eTBdpOfGIsJ7aqTV/Hb2Ifh0h5RgIkTxU1WYhNyhwdNsvvWAmXJOyYaf/7whvZUhqJ1haCg2AYvVTYYb1Pts1UpUfg+dzy7Yp4q6UQ05aSdvcK2qM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776061806; c=relaxed/simple;
-	bh=GMAzW9yd4GJ75aw8shQ4m7dydffrityIfJeRqextRW4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TBXGIVbqX1rYBZkL+wC2ibBH3kPwuyckvctS2rRDwLovSGHtinXkU/NIcmlnPi8EVpjUAFJWw/l5S8Qcai5XR7PtLqfD1WLyYft8CZzwuU6tB4RbqzBtWkYW6xrKNeyGnvHHvz/Dm5UoMXTNjYQId7s5QUplGbMZu6hn5qObe8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MOk1VOWu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22F5FC116C6;
-	Mon, 13 Apr 2026 06:30:02 +0000 (UTC)
+	s=arc-20240116; t=1776120814; c=relaxed/simple;
+	bh=gSbS1nlRpVF8hVXKTOWKoSW7xU9rDrZIooHLIsZCmRQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rJSjn9jaxPqfI4LTEVFXnVPrLxqHs1VdhdcZxWf0cnMyrjalYsHPorBlfb/kpOYcn0FJ1++G+NtCpmNtD5BuayzXO2aic8u5HaR5tyawLBHbBzNZ3kdI0nfpbLesaGIm3QbBW/fb2qwtWMh+r+ZIZN8lVL06hdl/p/WR7y2gE1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TqBaKfqs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D9DC2BCB4;
+	Mon, 13 Apr 2026 22:53:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776061805;
-	bh=GMAzW9yd4GJ75aw8shQ4m7dydffrityIfJeRqextRW4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MOk1VOWuskaW5l+IBBO1bQVRs184lmVuNw2jcIL46mgtmwKBdhwZQmP1GLPKp/FBV
-	 Y2RdLAntM11Vu4NvOonUl07Mur44vb4NfAWI+w1XNpssz0LbxEZrB6gX+c2VUXhjBv
-	 L9pn8rm2Xta9jaip0DVBRS26AV7tEtVp/gEW/6+ZYnAGWI5l6mlyOWPSI6karAeZu7
-	 fUgUMeu/w7dozr2L1cOAuImT3HLUkXhfW0jQrxL+GbvLFPL5dHR68SjNF82aXBIrKK
-	 8eeF4+AN3OJ9SLLOYnXm+nn3wjRUkRTOU23tiHYBBC5cy3NpW2laF1UGqLW1aRcwd+
-	 2R8JxZTVR8mXg==
-Message-ID: <2ef9a232-0832-4951-846f-b3d49275e52e@kernel.org>
-Date: Mon, 13 Apr 2026 08:30:01 +0200
+	s=k20201202; t=1776120814;
+	bh=gSbS1nlRpVF8hVXKTOWKoSW7xU9rDrZIooHLIsZCmRQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=TqBaKfqs9MiVwBY24iw5wQ4Ef0M4xk1TdGFFaOe6qBHfJAa13Y9HykE5ySUAK6q5O
+	 lDgfqP292iPs418MpHeQV0sW6BWYlLC2iWaZN9+u7inmXJzA4e2PR6Up9dRya0NY1x
+	 58vFUtxLR8syt2O670Sd3bTBhXlHhjU8dATGRxzV0O/VwoU8FkRlnyc53OnAl0VMf4
+	 gyPUxK5XYu1OW3KfrZHvGr8eA9EvGDpIRnHXJbjOAWkthnWOkrcezm4xtyme10mjc9
+	 q4pzlSvNXcIJSymfO34mGOpi30kAddcHxyMIml5AZlw2W7czjQ5xxnVwdmUueBEdcM
+	 ObUBGoEAcJhgg==
+From: Jakub Kicinski <kuba@kernel.org>
+To: github@szelinsky.de
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	o.rempel@pengutronix.de,
+	kory.maincent@bootlin.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	krzk@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	robh@kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	lkp@intel.com
+Subject: Re: [PATCH net-next v4 1/2] net: pse-pd: add devm_pse_poll_helper()
+Date: Mon, 13 Apr 2026 15:50:21 -0700
+Message-ID: <20260413225021.3634733-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260410124428.809943-2-github@szelinsky.de>
+References: <20260410124428.809943-2-github@szelinsky.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] dt-bindings: leds: Document LTC3208 Multidisplay
- LED Driver
-To: "Roleda, Jan carlo" <Jancarlo.Roleda@analog.com>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-References: <20260406-upstream-ltc3208-v3-0-7f0b1d20ee7a@analog.com>
- <20260406-upstream-ltc3208-v3-2-7f0b1d20ee7a@analog.com>
- <20260407-outstanding-sceptical-giraffe-3fd6bb@quoll>
- <BN8PR03MB4977C3A5917167F9B8BE6A3E96272@BN8PR03MB4977.namprd03.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <BN8PR03MB4977C3A5917167F9B8BE6A3E96272@BN8PR03MB4977.namprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [3.34 / 15.00];
-	SEM_URIBL(3.50)[0.0.0.0:email];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
-	BAD_REP_POLICIES(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
-	TAGGED_FROM(0.00)[bounces-7702-lists,linux-leds=lfdr.de];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TAGGED_FROM(0.00)[bounces-7704-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	R_DKIM_ALLOW(0.00)[kernel.org:s=k20201202];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	NEURAL_HAM(-0.00)[-0.191];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-leds@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kuba@kernel.org,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	R_SPF_ALLOW(0.00)[+ip4:172.105.105.114];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,0.0.0.0:email]
-X-Rspamd-Queue-Id: E9E583E7C5B
+	TAGGED_RCPT(0.00)[linux-leds,netdev,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,poll_work.work:url]
+X-Rspamd-Queue-Id: 2F5743F41DF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 13/04/2026 01:37, Roleda, Jan carlo wrote:
-> Hello Krzysztof,
-> 
-> Thank you again for the review. 
-> 
-> For clarification,
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzk@kernel.org>
->> Sent: Tuesday, April 7, 2026 2:58 PM
->> To: Roleda, Jan carlo <Jancarlo.Roleda@analog.com>
->> Cc: Lee Jones <lee@kernel.org>; Pavel Machek <pavel@kernel.org>; Rob
->> Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor
->> Dooley <conor+dt@kernel.org>; linux-kernel@vger.kernel.org; linux-
->> leds@vger.kernel.org; devicetree@vger.kernel.org
->> Subject: Re: [PATCH v3 2/2] dt-bindings: leds: Document LTC3208 Multidisplay
->> LED Driver
->>
->> [External]
->>
->> On Mon, Apr 06, 2026 at 03:17:06PM +0800, Jan Carlo Roleda wrote:
->>> Add Documentation for LTC3208 Multidisplay LED Driver.
->>>
->>> Signed-off-by: Jan Carlo Roleda <jancarlo.roleda@analog.com>
->>> ---
->>
->> Still incorrect order.
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+---
+net: pse-pd: add devm_pse_poll_helper()
 
-You still did not correct the order of patches. I already asked you at v2.
+Extract the common event handling loop from pse_isr() into a shared
+pse_handle_events() function, and add a generic poll-based alternative
+to the IRQ path for PSE controllers that lack interrupt support.
 
->>
->> ...
->>
->>> +
->>> +      led-controller@1b {
->>> +        compatible = "adi,ltc3208";
->>> +        reg = <0x1b>;
->>> +        #address-cells = <1>;
->>> +        #size-cells = <0>;
->>> +        adi,disable-camhl-pin;
->>> +        adi,cfg-enrgbs-pin;
->>> +        adi,disable-rgb-aux4-dropout;
->>> +
->>> +        led@0 {
->>> +          reg = <0>;
->>
->> I still expect this to be complete, so at least function and color.
->>
->> Best regards,
->> Krzysztof
-> 
-> Are you referring here to keep the led@0-6,
-> but instead of only the reg I should include other LED properties (i.e. function and color)?
-> If so, I will add them as such in the next patch.
-> 
-> Do let me know if this is correct.
+> Work cancellation on teardown is handled via devm_add_action_or_reset()
+> to ensure the delayed work is cancelled before poll_notifs is freed
+> by devres, avoiding a use-after-free when devm_pse_poll_helper() is
+> called after devm_pse_controller_register() (devres LIFO ordering).
 
-Make the example complete.
+Is it safe to rely on this devm registration order to prevent a
+use-after-free?
 
-Best regards,
-Krzysztof
+Standard Linux driver initialization typically sets up interrupts and
+pollers before device registration to prevent race conditions where an
+unready device is exposed to userspace.
+
+If a driver follows this standard ordering by calling the helper before
+registration, devres will unregister the controller first. This will
+tear down resources in pse_controller_unregister() while the poll work
+remains active.
+
+If the worker executes during this race window, could it access the
+already-freed pcdev->pi array or push to the destroyed ntf_fifo? Would
+it be safer to explicitly cancel asynchronous event sources within
+pse_controller_unregister() instead?
+
+> --- a/drivers/net/pse-pd/pse_core.c
+> +++ b/drivers/net/pse-pd/pse_core.c
+[ ... ]
+> +static void pse_handle_events(struct pse_controller_dev *pcdev,
+> +			      unsigned long *notifs,
+> +			      unsigned long notifs_mask)
+>  {
+> -	struct pse_controller_dev *pcdev;
+> -	unsigned long notifs_mask = 0;
+> -	struct pse_irq_desc *desc;
+> -	struct pse_irq *h = data;
+> -	int ret, i;
+> -
+> -	desc = &h->desc;
+> -	pcdev = h->pcdev;
+> -
+> -	/* Clear notifs mask */
+> -	memset(h->notifs, 0, pcdev->nr_lines * sizeof(*h->notifs));
+> -	mutex_lock(&pcdev->lock);
+> -	ret = desc->map_event(irq, pcdev, h->notifs, &notifs_mask);
+> -	if (ret || !notifs_mask) {
+> -		mutex_unlock(&pcdev->lock);
+> -		return IRQ_NONE;
+> -	}
+> +	int i;
+>  
+>  	for_each_set_bit(i, &notifs_mask, pcdev->nr_lines) {
+
+Can this lead to an out-of-bounds read on the stack if a controller
+supports more than BITS_PER_LONG ports?
+
+The notifs_mask variable is passed by value to pse_handle_events(), but
+for_each_set_bit() takes its address. If pcdev->nr_lines is greater than
+BITS_PER_LONG (e.g., a 48-port switch on a 32-bit architecture), the
+macro will read past the function argument on the stack into uninitialized
+memory.
+
+[ ... ]
+> +static irqreturn_t pse_isr(int irq, void *data)
+> +{
+> +	struct pse_controller_dev *pcdev;
+> +	unsigned long notifs_mask = 0;
+> +	struct pse_irq *h = data;
+> +	int ret;
+> +
+> +	pcdev = h->pcdev;
+> +
+> +	/* Clear notifs mask */
+> +	memset(h->notifs, 0, pcdev->nr_lines * sizeof(*h->notifs));
+> +	mutex_lock(&pcdev->lock);
+> +	ret = h->desc.map_event(irq, pcdev, h->notifs, &notifs_mask);
+
+Could this also result in a stack out-of-bounds write?
+
+If map_event() uses set_bit() to report an event on a port index greater
+than or equal to BITS_PER_LONG, it will write past the 4-byte boundary of
+the scalar notifs_mask variable, corrupting adjacent stack memory.
+
+[ ... ]
+> +static void pse_poll_worker(struct work_struct *work)
+> +{
+> +	struct pse_controller_dev *pcdev =
+> +		container_of(work, struct pse_controller_dev,
+> +			     poll_work.work);
+> +	unsigned long notifs_mask = 0;
+> +	int ret;
+> +
+> +	memset(pcdev->poll_notifs, 0,
+> +	       pcdev->nr_lines * sizeof(*pcdev->poll_notifs));
+> +	mutex_lock(&pcdev->lock);
+> +	ret = pcdev->poll_desc.map_event(0, pcdev, pcdev->poll_notifs,
+> +					 &notifs_mask);
+
+Does this share the same out-of-bounds write risk for notifs_mask as the
+IRQ handler above?
+-- 
+pw-bot: cr
 
