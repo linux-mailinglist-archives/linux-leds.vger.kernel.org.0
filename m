@@ -1,246 +1,226 @@
-Return-Path: <linux-leds+bounces-7705-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7706-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YEwANUl13WngeQkAu9opvQ
-	(envelope-from <linux-leds+bounces-7705-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Apr 2026 00:59:21 +0200
+	id aJ8cGLDf3WkYkgkAu9opvQ
+	(envelope-from <linux-leds+bounces-7706-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Apr 2026 08:33:20 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9F83F4207
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Apr 2026 00:59:20 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B464E3F5F91
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Apr 2026 08:33:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4C02D306EB7E
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Apr 2026 22:53:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4DE44301706B
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Apr 2026 06:33:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AE9F39D6FC;
-	Mon, 13 Apr 2026 22:53:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC06336C9D0;
+	Tue, 14 Apr 2026 06:33:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ARDoulFj"
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="Gq4WNNsb"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DCA3161BA;
-	Mon, 13 Apr 2026 22:53:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD77C4A0C;
+	Tue, 14 Apr 2026 06:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776120819; cv=none; b=jNOWmTsNRMvvw+Y6mfDqUr3zAWlIuZSapAXVEdBKpSCtKujs/P4JuVcGmUrjie7BjqYTVdywxdG5fpTZuoDqnofBAqyFoKf6n8oY3S3VCvDurDmq277a6IWNMUDQo+CeQUefUr2MKOw1qQldX7Vb6BV1y2iuGG0dC4gE0e+8lAE=
+	t=1776148396; cv=none; b=LSpSVF88vuxhEuxEfn4ukvd/tDTb4GQSkS36bTw9GZw/To2Li3axdsEkorhraGjMDYnnowpNVwtUXnl8Kku37hSDudsNL+xpHe/uibSH1eNIrxxkVNhbHczu0d/czVhbpQAlUOMTLSm2Go5vTi6vouHDOc3kcPCqauTNWXoW/g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776120819; c=relaxed/simple;
-	bh=FiGGUQxmABYaXdw21QLcbqrU0Gubq6P7H8oeYQBF+F8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cmm3OTwIVZxbLbg0Z4D5GWMHC/ZM33bB7eMgUC1Vhz18ojERqUAoZ7IsLyY6pFgwoNDKBRl50zfHGTAcrn0aDp+R2S+/0hP+HDZR1tEttygzlT8pK4/kjtqG5OClFkSah3jKZ7zyk070jCpNHzJ20PCsaoUeY3pWYBI1rrsvhjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ARDoulFj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B28A3C2BCAF;
-	Mon, 13 Apr 2026 22:53:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776120818;
-	bh=FiGGUQxmABYaXdw21QLcbqrU0Gubq6P7H8oeYQBF+F8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ARDoulFjahffk3wD8HxrFckAjSHzhMZBYlDE2g9nfv0if2jtRrG5TZW2yz45NeS+4
-	 XImSz2ZbaT0kz0y4mw5P60GaXuGfF7tsQyWzYGDSyljRUm+sQ4PV308y/dnorkcusF
-	 7RWeWfNDyQcefqVq3MMfSNuPs5bYbcov0Huq+eAShHa564JGz0lhe5B8yWETdl0/65
-	 zNFHNy35OqiT/JM0f3taEMu63kauPHtsOnyoArnWgxQAjzU7CJm/bbnkBzSi7eeDez
-	 4w6Nng2a0fVmzStqMxB/Rc9hGnCfEXzFE+8Tb1zywX2/BpGkhDBDvH4Xlr9kSTLU6n
-	 kCRAwmVRFylPg==
-From: Jakub Kicinski <kuba@kernel.org>
-To: github@szelinsky.de
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	o.rempel@pengutronix.de,
-	kory.maincent@bootlin.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	krzk@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	robh@kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	lkp@intel.com
-Subject: Re: [PATCH net-next v4 2/2] net: pse-pd: add LED trigger support via notification path
-Date: Mon, 13 Apr 2026 15:53:34 -0700
-Message-ID: <20260413225334.3638943-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260410124428.809943-3-github@szelinsky.de>
-References: <20260410124428.809943-3-github@szelinsky.de>
+	s=arc-20240116; t=1776148396; c=relaxed/simple;
+	bh=x5EL59GGZCTWzXXjg1+hGKudmcFlG7lTbxYSMeTKHi0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KvBgnjH6d1ZBidPi5yI7qTOgg1z0nRehgBt1hEeJBpLCE6OKMFIHArVxbAh7lnJdd5Xkys4pRR6D/7xL/7qIjTPVDgvbQK/0dgif+7JpZBqlkuKVqYpb1Wi52efHbUwE0kI1AX59ljhphaWzF2QRnmaJSvqtfUdIsjtHk53N4fQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=Gq4WNNsb; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id EBFEC25F7C;
+	Tue, 14 Apr 2026 08:33:05 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id a2RvONth9XC8; Tue, 14 Apr 2026 08:33:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1776148385; bh=x5EL59GGZCTWzXXjg1+hGKudmcFlG7lTbxYSMeTKHi0=;
+	h=From:Subject:Date:To:Cc;
+	b=Gq4WNNsb1h0cKRJkuPzo8yxjGOexyNAVAlcFI3bLEQS2MSTsPuA5yiFxaHymUyrR3
+	 jPmdzzG1/yKmG9ahqVYqmnTNBLORmHBckoOB86dWTwmCSj/DhnWAPb30yjlZRhpH2x
+	 MRiECMqtN2oFvPQ9wgjaN0FnSGrg+aXrKhR5mxS4mM1+AMUR6NAaI55iHjweEDAf/o
+	 JohiJJrpSWRKyLsVdjzz6sil3r8ULl9jbXx6mWjaZgA89JxUOq46qUU9Hw+PQNztvP
+	 JfuHb+UYbvyLebOI14XdTF2uig+nJPJQPrA8o1VD3X7wuUjAsUfO9UJ38AExV+mW7k
+	 UvpINXxsQ3WaA==
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+Subject: [PATCH v4 00/13] Support for Samsung S2MU005 PMIC and its
+ sub-devices
+Date: Tue, 14 Apr 2026 12:02:52 +0530
+Message-Id: <20260414-s2mu005-pmic-v4-0-7fe7480577e6@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-B4-Tracking: v=1; b=H4sIAJTf3WkC/2XMTQ6DIBhF0a0YxqWBjz/tqPtoOkCEloFiwJo2x
+ r0XTUyjHb6XnDuhZKO3CV2KCUU7+uRDlwc/Fcg8dfew2Dd5IyAgKKWAE7QvQgTuW28wMVI5LWt
+ tmEGZ9NE6/15zt3veT5+GED9rfaTLu4X4PjRSTHBlGS15wzQx1bXxKYYwnEN8oCU1wsYloSAPH
+ DJXpaNaCSe40v+c/TiAOHCWec21s7biShK25/M8fwHS6SMjKAEAAA==
+X-Change-ID: 20251112-s2mu005-pmic-0c67fa6bac3c
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Nam Tran <trannamatk@gmail.com>, 
+ =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	DMARC_POLICY_ALLOW(-0.50)[disroot.org,reject];
+	R_DKIM_ALLOW(-0.20)[disroot.org:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TAGGED_FROM(0.00)[bounces-7705-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-7706-lists,linux-leds=lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,samsung.com,linaro.org,bootlin.com,lwn.net,linuxfoundation.org,gmail.com,lvkasz.us];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kuba@kernel.org,linux-leds@vger.kernel.org];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kauschluss@disroot.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[disroot.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,netdev,dt];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 4E9F83F4207
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B464E3F5F91
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
+S2MU005 is an MFD chip manufactured by Samsung Electronics. This is
+found in various devices manufactured by Samsung and others, including
+all Exynos 7870 devices. It is known to have the following features:
+
+1. Two LED channels with adjustable brightness for use as a torch, or a
+   flash strobe.
+2. An RGB LED with 8-bit channels. Usually programmed as a notification
+   indicator.
+3. An MUIC, which works with USB micro-B (and USB-C?). For the micro-B
+   variant though, it measures the ID-GND resistance using an internal
+   ADC.
+4. A charger device, which reports if charger is online, voltage,
+   resistance, etc.
+
+This patch series implements a lot of these features. Naturally, this
+series touches upon a lot of subsystems. The 'parent' is the MFD driver,
+so the subsystems have some form of dependency to the MFD driver, so
+they are not separable.
+
+Here are the subsystems corresponding to the patch numbers:
+dt-bindings - 01, 02, 03, 04, 05
+mfd         - 05, 06, 07, 08
+led         - 01, 02, 09, 10, 11
+extcon      - 03, 12
+power       - 04, 13
+
+Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 ---
-Date:   Fri Apr 10 12:44:28 2026 +0000
+Changes in v4:
+- Use OF graph to connect charger with MUIC in device tree
+- Move DMA coherent mask to all MFD PMICs (André Draszik)
+- Modify pointer names for flash/RGB drivers (Lee Jones)
+- Use 100-char line wrap for flash/RGB drivers (Lee Jones)
+- Revamp LED device initialization in flash driver (Lee Jones)
+- Add proper USB 2.0 support in charger driver (Łukasz Lebiedziński)
+- Link to v3: https://lore.kernel.org/r/20260225-s2mu005-pmic-v3-0-b4afee947603@disroot.org
 
-    net: pse-pd: add LED trigger support via notification path
-    
-    Add per-PI "delivering" and "enabled" LED triggers to the PSE core
-    subsystem. LED state is updated from the shared pse_handle_events()
-    function whenever the IRQ or poll path detects a state change, as well
-    as from the regulator enable/disable paths so that host-initiated
-    admin state changes via ethtool are immediately reflected.
+Changes in v3:
+- Remove "extcon" text from dt-bindings documentation (Rob Herring)
+- Add connector for MUIC node
+- Fix dt binding errors reported by robh's bot
+- Fix kernel test robot const errors 
+- Remove FIELD_PREP() values in register header file (André Draszik)
+- Add max_register, volatile_reg, cache_type (André Draszik)
+- Redo [v2 07/12] to NOT store the PMIC revision (André Draszik)
+- Add a commit to fix DMA coherent mask in I2C PMICs
+- Implement various flow changes in flash LED driver (André Draszik)
+- Use device_for_each_child_node_scoped() (André Draszik)
+- Fix CFI panic in devm_add_action_or_reset()
+- Link to v2: https://lore.kernel.org/r/20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org
 
-    Link: https://lore.kernel.org/oe-kbuild-all/202603251254.o5PqMBRU-lkp@intel.com/
-    Link: https://lore.kernel.org/oe-kbuild-all/202603251250.cuMCk5Yv-lkp@intel.com/
+Changes in v2:
+- Drop [v1 06/13], instead use regmap_irq_chip::get_irq_regs() 
+- Remove references to driver in devicetree commits (Conor Dooley)
+- Propagate errors of sec_pmic_store_rev() (André Draszik)
+- Fix documentation language errors (Randy Dunlap)
+- Link to v1: https://lore.kernel.org/r/20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org
 
-> diff --git a/drivers/net/pse-pd/pse_core.c b/drivers/net/pse-pd/pse_core.c
-> index f641a6fa087fb..dfc84340afb9d 100644
-> --- a/drivers/net/pse-pd/pse_core.c
-> +++ b/drivers/net/pse-pd/pse_core.c
+---
+Kaustabh Chakraborty (13):
+      dt-bindings: leds: document Samsung S2M series PMIC flash LED device
+      dt-bindings: leds: document Samsung S2M series PMIC RGB LED device
+      dt-bindings: extcon: document Samsung S2M series PMIC extcon device
+      dt-bindings: power: supply: document Samsung S2M series PMIC charger device
+      dt-bindings: mfd: s2mps11: add documentation for S2MU005 PMIC
+      mfd: sec: add support for S2MU005 PMIC
+      mfd: sec: set DMA coherent mask
+      mfd: sec: resolve PMIC revision in S2MU005
+      leds: flash: add support for Samsung S2M series PMIC flash LED device
+      leds: rgb: add support for Samsung S2M series PMIC RGB LED device
+      Documentation: leds: document pattern behavior of Samsung S2M series PMIC RGB LEDs
+      extcon: add support for Samsung S2M series PMIC extcon devices
+      power: supply: add support for Samsung S2M series PMIC charger device
 
-[ ... ]
+ .../bindings/extcon/samsung,s2mu005-muic.yaml      |  39 ++
+ .../bindings/leds/samsung,s2mu005-flash.yaml       |  52 +++
+ .../bindings/leds/samsung,s2mu005-rgb.yaml         |  34 ++
+ .../devicetree/bindings/mfd/samsung,s2mps11.yaml   | 124 +++++-
+ .../power/supply/samsung,s2mu005-charger.yaml      |  39 ++
+ Documentation/leds/index.rst                       |   1 +
+ Documentation/leds/leds-s2m-rgb.rst                |  60 +++
+ drivers/extcon/Kconfig                             |  10 +
+ drivers/extcon/Makefile                            |   1 +
+ drivers/extcon/extcon-s2m.c                        | 354 ++++++++++++++++
+ drivers/leds/flash/Kconfig                         |  12 +
+ drivers/leds/flash/Makefile                        |   1 +
+ drivers/leds/flash/leds-s2m-flash.c                | 357 +++++++++++++++++
+ drivers/leds/rgb/Kconfig                           |  11 +
+ drivers/leds/rgb/Makefile                          |   1 +
+ drivers/leds/rgb/leds-s2m-rgb.c                    | 446 +++++++++++++++++++++
+ drivers/mfd/sec-common.c                           |  37 +-
+ drivers/mfd/sec-i2c.c                              |  29 ++
+ drivers/mfd/sec-irq.c                              |  74 ++++
+ drivers/power/supply/Kconfig                       |  11 +
+ drivers/power/supply/Makefile                      |   1 +
+ drivers/power/supply/s2m-charger.c                 | 300 ++++++++++++++
+ include/linux/mfd/samsung/core.h                   |   1 +
+ include/linux/mfd/samsung/irq.h                    |  66 +++
+ include/linux/mfd/samsung/s2mu005.h                | 332 +++++++++++++++
+ 25 files changed, 2387 insertions(+), 6 deletions(-)
+---
+base-commit: 1c7cc4904160c6fc6377564140062d68a3dc93a0
+change-id: 20251112-s2mu005-pmic-0c67fa6bac3c
 
-> +static int pse_led_triggers_register(struct pse_controller_dev *pcdev)
-> +{
-> +	struct device *dev = pcdev->dev;
-> +	const char *dev_id;
-> +	int i, ret;
-> +
-> +	dev_id = dev_name(dev);
-> +
-> +	pcdev->pi_led_trigs = devm_kcalloc(dev, pcdev->nr_lines,
-> +					   sizeof(*pcdev->pi_led_trigs),
-> +					   GFP_KERNEL);
-> +	if (!pcdev->pi_led_trigs)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < pcdev->nr_lines; i++) {
-> +		struct pse_pi_led_triggers *trigs = &pcdev->pi_led_trigs[i];
-> +
-> +		/* Skip PIs not described in device tree */
-> +		if (!pcdev->no_of_pse_pi && !pcdev->pi[i].np)
-> +			continue;
-> +
-> +		trigs->delivering.name = devm_kasprintf(dev, GFP_KERNEL,
-> +							"pse-%s:port%d:delivering",
-> +							dev_id, i);
-> +		if (!trigs->delivering.name)
-> +			return -ENOMEM;
-> +
-> +		ret = devm_led_trigger_register(dev, &trigs->delivering);
+Best regards,
+-- 
+Kaustabh Chakraborty <kauschluss@disroot.org>
 
-The commit message states that the initial LED state is queried at
-registration time so already-active ports are reflected immediately.
-
-Since no LED is bound to these triggers at registration time, the initial
-led_trigger_event() call will be dropped. If an LED is bound later, will
-it remain in the default (off) state because there is no .activate callback
-configured on the trigger to sync the current state?
-
-Furthermore, since the state is cached in last_delivering and last_enabled,
-subsequent updates might not fire new events until the hardware state
-actually toggles.
-
-> +		if (ret)
-> +			return ret;
-> +
-> +		trigs->enabled.name = devm_kasprintf(dev, GFP_KERNEL,
-> +						     "pse-%s:port%d:enabled",
-> +						     dev_id, i);
-> +		if (!trigs->enabled.name)
-> +			return -ENOMEM;
-> +
-> +		ret = devm_led_trigger_register(dev, &trigs->enabled);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-
-[ ... ]
-
-> @@ -1108,6 +1217,20 @@ int pse_controller_register(struct pse_controller_dev *pcdev)
->  	if (ret)
->  		return ret;
->  
-> +	ret = pse_led_triggers_register(pcdev);
-> +	if (ret) {
-> +		dev_warn(pcdev->dev, "Failed to register LED triggers: %d\n",
-> +			 ret);
-> +	}
-
-If devm_led_trigger_register() fails inside pse_led_triggers_register(),
-the function returns an error but leaves trigs->delivering.name allocated
-and non-NULL.
-
-Because we only log a warning here and continue execution, the cleanup
-for pcdev->pi_led_trigs does not occur.
-
-Later, pse_led_update() verifies validity using this check:
-
-	if (!trigs->delivering.name)
-		return;
-
-Since the name is non-NULL, it proceeds to call led_trigger_event() on the
-unregistered trigger. Could this result in a NULL pointer dereference,
-as the led_cdevs list head within the zero-initialized led_trigger
-structure is uninitialized?
-
-> +
-> +	/* Query initial LED state for all PIs so already-active ports
-> +	 * are reflected immediately without waiting for a hardware event.
-> +	 */
-> +	for (i = 0; i < pcdev->nr_lines; i++) {
-> +		if (pcdev->no_of_pse_pi || pcdev->pi[i].np)
-> +			pse_led_update(pcdev, i);
-> +	}
-
-The docstring for pse_led_update() specifies that it "Must be called with
-pcdev->lock held."
-
-Since this loop calls pse_led_update(pcdev, i) without acquiring
-pcdev->lock, and the PI regulators have already been registered and exposed
-to consumers earlier in this function, can this race with a concurrent
-regulator_enable()?
-
-A concurrent regulator_enable() can trigger pse_pi_enable(), which acquires
-the lock and also calls pse_led_update(). This could result in unprotected
-calls to the pi_get_pw_status and pi_get_admin_state hardware callbacks,
-and concurrent writes to the last_delivering and last_enabled variables.
-
-> +
->  	mutex_lock(&pse_list_mutex);
->  	list_add(&pcdev->list, &pse_controller_list);
->  	mutex_unlock(&pse_list_mutex);
 
