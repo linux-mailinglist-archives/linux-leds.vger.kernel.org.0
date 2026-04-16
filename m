@@ -1,314 +1,215 @@
-Return-Path: <linux-leds+bounces-7734-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7735-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WESiESb732ntbAAAu9opvQ
-	(envelope-from <linux-leds+bounces-7734-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Apr 2026 22:55:02 +0200
+	id KAB5E/FL4GkXegAAu9opvQ
+	(envelope-from <linux-leds+bounces-7735-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 16 Apr 2026 04:39:45 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0283407C3D
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Apr 2026 22:54:57 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0291F409B8C
+	for <lists+linux-leds@lfdr.de>; Thu, 16 Apr 2026 04:39:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6D2BF301D320
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Apr 2026 20:54:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F1042302F0F3
+	for <lists+linux-leds@lfdr.de>; Thu, 16 Apr 2026 02:39:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AC7D38BF81;
-	Wed, 15 Apr 2026 20:54:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C7CA246BBA;
+	Thu, 16 Apr 2026 02:39:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="W25hlMcl"
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="VJwXDEnt"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB3631AA87
-	for <linux-leds@vger.kernel.org>; Wed, 15 Apr 2026 20:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92F018872A;
+	Thu, 16 Apr 2026 02:39:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776286480; cv=none; b=U0bGP0Wha/WQJYMpFVtbtmy0KvU+i9bbfXQqeE4vFc/qdUdx54HbmwapVV1wXbRdBwKMfm/HjoTwiLGrQQ5sNLZS7kP52u6PYKHBqbGqJ9LYlAhXtrNUlBClatjeV7mT+6UChIIo9vZet6Cflq3dAh4I6Ig/5KQ4JTK6f7WevXo=
+	t=1776307177; cv=none; b=kqg+D7QtceBAmTioURYt6WMrV/w86zBjGWDui5AgDTn7aty1B//eWd6Ep+tMYdQUaYMYy7mYnhOFKC+mHqnu9TxQ6j24RYE6DtGHoCJTPEPBpDonwSsZgDJW4xR9pVip9uxwmxQmvxtGevWukWzV6Ugg6naPkUNvOOBEUoC2Lx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776286480; c=relaxed/simple;
-	bh=LIGk+6JCqpmGlvNj4DXjLt3b/bSistoZdo0VtPcUw8g=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=O4MasTHUBs22I6Aa0gQZftbNBYZPFRxzLDfGj2V+bhbF8KMMFQ/BybfWbmcstbCVUDvyQ5csj684OPJq+S3EkruRsjXMqJTuuNynFwXjo4jZUIqSI3Wll7GoXXujKHL5BQVwyAytMO8nJM0+KZg3Eb4Wy5Ts1cBHUUkkWJ+OFGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=W25hlMcl; arc=none smtp.client-ip=185.67.36.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 1ACFF240027
-	for <linux-leds@vger.kernel.org>; Wed, 15 Apr 2026 22:54:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1776286471; bh=sqQbN/cl0vomVFx2IrUxM16Wezbrd+GAm8eM7tvhzs0=;
-	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP:From;
-	b=W25hlMclZfWhhAxutMlR1LCVEW4PypxbJl+3fAJDQubHwyTDj62E6V0hkNVOvoS0r
-	 hE83em7Ycq3sOL45PycL7mjXwJw1sdz7mWFNK1by4QWdYmpBKYErKHSp4A5TW6GQM5
-	 rfs/JNfm9dRv0hBJxfg1c6ROL1XUHy6RgNfcfX+8mJKzAuD481kpsiinFUSFXzQbPQ
-	 +Y0AUxZ9h8VlNM8G/AI6hMO+ox0gVhY0E8wdoq1f7h8eiD+7azksP+pJ/6cWHThp2x
-	 BLmGfyGDsmbqp4S79dDrjXf8kG8Hue717xfj/6Jmz6pDOQ69vg44N8rGVElCFSNX+0
-	 lbZBZG7rT9y1g==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4fwtg65z9Pz6tvq;
-	Wed, 15 Apr 2026 22:54:26 +0200 (CEST)
-Message-ID: <8c8555b3375375dac47a22fad40080fd5b4228a5.camel@posteo.de>
-Subject: Re: [PATCH v7 2/2] dt-bindings: embedded-controller: Add synology
- microp devices
-From: Markus Probst <markus.probst@posteo.de>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Hans de Goede <hansg@kernel.org>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=	
- <ilpo.jarvinen@linux.intel.com>, Bryan O'Donoghue
- <bryan.odonoghue@linaro.org>,  Lee Jones <lee@kernel.org>, Pavel Machek
- <pavel@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
- <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?=
- Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich
- <dakr@kernel.org>, Rob Herring	 <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley	 <conor+dt@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
-Date: Wed, 15 Apr 2026 20:54:29 +0000
-In-Reply-To: <125cad6c-fb58-4498-a967-41778f6f91f6@kernel.org>
-References: <20260411-synology_microp_initial-v7-0-9a3a094e763a@posteo.de>
-	 <20260411-synology_microp_initial-v7-2-9a3a094e763a@posteo.de>
-	 <20260412-cuddly-taipan-of-reputation-1cafe0@quoll>
-	 <485ab9e829e902e3f29172059be8c3203062d06b.camel@posteo.de>
-	 <125cad6c-fb58-4498-a967-41778f6f91f6@kernel.org>
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
- keydata=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
- jfGillcaQOqFZ3WwVqyzG1BUfTow==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-zCxPlgqRCfQxERdu6rZO"
+	s=arc-20240116; t=1776307177; c=relaxed/simple;
+	bh=rWGYOW+dVMm1F57SXLjtSZILpqDH9LQRFtO4GdJAAzE=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=pw9gCyclGOIuA+gJGQzUF4DNIjO78l2geKT+KwY6mHKC9BfJr5qb3VjTyBApH9+fyWKt5DR/aBfT+FhjlijVdFby7vSFU9sTYi8MUYub5TheJW4fdLmwzw0c2hagtlF2TYL5nFYq1/b2qxcyn6cXWqZDAgTBpw/l/NvcoxeghRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=VJwXDEnt; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63G2FVXd679991;
+	Wed, 15 Apr 2026 22:39:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=CRxjkH9LvsGZqlAMtC4QC3mAJS/
+	Tj1JNO9+b76EyTBo=; b=VJwXDEntvV99V1+o1BDkGN2CUjV5qkdZdx9JvJZMIl4
+	VgmLQB6/KVawDEH2C3kOnNRkquoT4wKidfprEnAF10Xq7DmJaURf7KGRj5rvX8KI
+	rdNc3I9AED6ISypWw4uOYmwFJNVc3HtwvXzjjj093CW8gGNTEPAPxCm6/hKUKE59
+	0ZZbwmbo3vKytp6X99u/M6P97otT6sIrbWSZ96HBN4DZ5N7oK7hqApv3lLR2sFX/
+	zYWvqo9caGV4Zplt6lN9AjjYjJOZwEXRICS8ssTGNzvY9rchSw08HTRyPo2gB/K1
+	ioPvPz7aMQxylO2kefrzunGljbLtLI/DmVNSyzx3EkQ==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4dh84rk3rp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Apr 2026 22:39:32 -0400 (EDT)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 63G2dV1o001030
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 15 Apr 2026 22:39:31 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Wed, 15 Apr
+ 2026 22:39:30 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Wed, 15 Apr 2026 22:39:30 -0400
+Received: from HYB-VFz9h4bIQxi.ad.analog.com (HYB-VFz9h4bIQxi.ad.analog.com [10.118.4.30])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 63G2dJpN001886;
+	Wed, 15 Apr 2026 22:39:22 -0400
+From: Jan Carlo Roleda <jancarlo.roleda@analog.com>
+Subject: [PATCH v4 0/2] Add support for LTC3208 multi-display driver
+Date: Thu, 16 Apr 2026 10:39:05 +0800
+Message-ID: <20260416-upstream-ltc3208-v4-0-3884ed3e49f5@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMlL4GkC/33NQQ7CIBCF4asY1mIGUAquvIdxAXSwJLVtoBKN6
+ d2l3ajRuPxfMt88SMIYMJH96kEi5pBC35XYrlfENaY7Iw11acKBSxBM0euQxojmQtvRCQ6KVs4
+ pLZX1UiMpZ0NEH24LeTyVbkIa+3hfPmQ2r3+wzChQYDvPPEMNcncwnWn788b1FzJrmb8JXP4Qe
+ BFEbZ3W3ErQ6ksQL2ELvwRRhMqDZTUHxMp8CNM0PQH3XVtFNQEAAA==
+X-Change-ID: 20260318-upstream-ltc3208-7cc8968bf69e
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        Jan Carlo Roleda <jancarlo.roleda@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1776307159; l=2619;
+ i=jancarlo.roleda@analog.com; s=20260317; h=from:subject:message-id;
+ bh=rWGYOW+dVMm1F57SXLjtSZILpqDH9LQRFtO4GdJAAzE=;
+ b=2AvkAzhnjsBe/f3F5PjCw+4mClQDcAlRHhMngKcYvkcO+OVf6ll+vo7+wf5MoyDBFBIN0dNav
+ TzjsrN+gtYZAD59tskKDiwDsdjvjo38k/1TFj2HmvuwQjouzCDzdRZt
+X-Developer-Key: i=jancarlo.roleda@analog.com; a=ed25519;
+ pk=zPMh+eO6/Mj6tqaie75BLiTLQvE3f9pck0UejKLmLMc=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: v73-9MYxxnJnWyzeu2_FGr0nHaVrlp6O
+X-Authority-Analysis: v=2.4 cv=GIM41ONK c=1 sm=1 tr=0 ts=69e04be4 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=0sLvza09kfJOxVLZPwjg:22 a=uXIjobp8t2wMuQ0fPvqm:22 a=VwQbUJbxAAAA:8
+ a=gAnH3GRIAAAA:8 a=klxL6F2T4m-zQSqrJGUA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE2MDAyMiBTYWx0ZWRfX0CAWEPGWL4Rs
+ G0kcWHAHMr6dhez3OF40egBkj3LTvoBhUzLdiJIzQGsrrMh8kJLZKLzyVKLPsL9+9Xk1sfOGeKa
+ YlIvOkDVlE4c3azmN+6rw61eBtfJAIgIO7SC7AMO2b8wKLTti0Bo2KcPA7sjMCoqTiFnE2aK4BZ
+ 9eyowV0/i6TK97HvF+OoFhJWRyfjCEk42dfAsB3pWqk5CJHSAdXUtIEtBWJLKEE7JLcDoszrYtv
+ jb5jmbuD6SL0AhYzRqQNoZdieQBsoR2I9V53iQTVHw1VVQ8GeBcXqqNPUDaP+8xG/1BcPixqTtr
+ cdupVs8wgFls8W/ZNSpl8ZCfQUlEoqnkEdai6VzOmAxWUvmzX+DJMlkKmxLdy1OXwGyQFpPv8/H
+ VtqvyoHOVbU3z0IQcuYZXZ9U0DF6Je/ii5sKsXoCLdDkCEpqBYLVEOmiLe5Ia5vcLSI27a3xCFe
+ kbfaYlnp4ofW1ImPVAw==
+X-Proofpoint-ORIG-GUID: v73-9MYxxnJnWyzeu2_FGr0nHaVrlp6O
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-16_01,2026-04-13_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 clxscore=1015 phishscore=0 priorityscore=1501 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604160022
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[posteo.de,none];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[posteo.de:s=2017];
+	DMARC_POLICY_ALLOW(-0.50)[analog.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[analog.com:s=DKIM];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,linaro.org,garyguo.net,protonmail.com,google.com,umich.edu,linuxfoundation.org,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-7734-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN_FAIL(0.00)[10.253.234.172.asn.rspamd.com:server fail];
+	DKIM_TRACE(0.00)[analog.com:+];
+	TAGGED_FROM(0.00)[bounces-7735-lists,linux-leds=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	DKIM_TRACE(0.00)[posteo.de:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[markus.probst@posteo.de,linux-leds@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_SEVEN(0.00)[9];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D0283407C3D
+	FROM_NEQ_ENVFROM(0.00)[jancarlo.roleda@analog.com,linux-leds@vger.kernel.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0291F409B8C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+The LTC3208 is a multi-display LED driver, using a high-efficiency, low
+noise charge pump to provide power to 5 channels (MAIN, SUB, RGB, CAM,
+AUX). Current for each LED is controlled by the I2C serial interface.
+Four AUX current sources can be independently assigned via the I2C port
+to the CAM, SUB, MAIN, or AUX DAC controlled displays
 
---=-zCxPlgqRCfQxERdu6rZO
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Jan Carlo Roleda <jancarlo.roleda@analog.com>
+---
+Changes in v4:
+- Reordered commit order to match dependency order
+- Updated Kconfig to be more descriptive of device
+- Added led@0-7 with more complete example properties (function and
+  color)
+- Driver changes:
+-- Removed unnecessary include headers
+-- Formatted macros
+-- Created helper `write_current_level` functions for LED current
+  configuration, using `regmap_update_bits()`
+-- Adjusted awkward tabbing issues
+-- Updated variable names in probe to be more descriptive
+-- Updated inline comment capitalization
+-- Initialized `i` within the for loop in AUX configuration in probe
+-- Refactored `update_aux_dac` function to use array pointer
+-- Fixed error messages in probe 
+- Link to v3: https://lore.kernel.org/r/20260406-upstream-ltc3208-v3-0-7f0b1d20ee7a@analog.com
 
-On Sun, 2026-04-12 at 15:22 +0200, Krzysztof Kozlowski wrote:
-> On 12/04/2026 15:21, Markus Probst wrote:
-> > On Sun, 2026-04-12 at 10:26 +0200, Krzysztof Kozlowski wrote:
-> > > On Sat, Apr 11, 2026 at 05:27:35PM +0200, Markus Probst wrote:
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    enum:
-> > > > +      - synology,ds923p-microp
-> > > > +      - synology,ds918p-microp
-> > > > +      - synology,ds214play-microp
-> > > > +      - synology,ds225p-microp
-> > > > +      - synology,ds425p-microp
-> > > > +      - synology,ds710p-microp
-> > > > +      - synology,ds1010p-microp
-> > > > +      - synology,ds723p-microp
-> > > > +      - synology,ds1522p-microp
-> > > > +      - synology,rs422p-microp
-> > > > +      - synology,ds725p-microp
-> > > > +      - synology,ds118-microp
-> > > > +      - synology,ds124-microp
-> > > > +      - synology,ds223-microp
-> > > > +      - synology,ds223j-microp
-> > > > +      - synology,ds1823xsp-microp
-> > > > +      - synology,rs822p-microp
-> > > > +      - synology,rs1221p-microp
-> > > > +      - synology,rs1221rpp-microp
-> > > > +      - synology,ds925p-microp
-> > > > +      - synology,ds1525p-microp
-> > > > +      - synology,ds1825p-microp
-> > >=20
-> > > Previous comment is not resolved. For example you stated that ds723p =
-is
-> > > compatible with ds725p, so this should be expressed.
-> > Using this expression?
-> >=20
-> > properties:
-> >   compatible:
-> >     oneOf:
-> >       - enum:
-> >           - synology,ds923p-microp
-> >           - synology,ds1522p-microp
-> >       - enum:
-> >           - synology,ds918p-microp
-> >           - synology,ds415p-microp
-> >       - const: synology,ds214play-microp
-> > ...
-> > ?
-> > If so shall there each be a description?
->=20
-> No, you changed nothing. You need fallbacks, please read example-schema
-> or DTS101 slides.
-The documentation says to "use fallback compatibles when devices are
-the same as or a superset of prior implementations" [1].
+Changes in v3:
+- Edited device bindings descriptions
+-- removed full stop in title
+-- replaced quotes with double quotes for consistency
+-- removed <dt-bindings/gpio/gpio.h> from example
+-- removed led1-7 in example for brevity
+- squashed maintainers commit to driver commit
+- Link to v2: https://lore.kernel.org/r/20260326-upstream-ltc3208-v2-0-3dbc992b6098@analog.com
 
-Differences are not publicly documented in this device, making it hard
-to tell if it is a superset or the same implementation. This would make
-no device a fallback, as compatibility is not guaranteed. I could
-imagine it would be an ABI breakage if a fallback is no longer
-considered compatible with a device later on.
+Changes in v2:
+- Addressed DTSchema bot warnings and errors
+-- removed extra blank lines
+-- fixed $id to match current naming
+- Addressed Kernel test warnings
+-- fixed bounds for aux channel configurations
+- Link to v0: https://lore.kernel.org/r/20260318-upstream-ltc3208-v1-0-015f1f1e9065@analog.com
 
-If deciding based on driver compatibility (accepting loss of features
-and accounting for future driver features), one device entry would look
-like this:
+---
+Jan Carlo Roleda (2):
+      dt-bindings: leds: Document LTC3208 Multidisplay LED Driver
+      leds: ltc3208: Add driver for LTC3208 Multidisplay LED Driver
 
-- items:
-  - const: synology,ds923p-microp
-  - const: synology,ds1522p-microp
-  - const: synology,ds925p-microp # no current sensor from here
-  - const: synology,ds425p-microp
-  - const: synology,ds1525p-microp
-  - const: synology,ds918p-microp
-  - const: synology,ds1823xsp-microp # no fan failure check from here
-  - const: synology,ds1825p-microp
+ .../devicetree/bindings/leds/adi,ltc3208.yaml      | 181 ++++++++++++++
+ MAINTAINERS                                        |   7 +
+ drivers/leds/Kconfig                               |  12 +
+ drivers/leds/Makefile                              |   1 +
+ drivers/leds/leds-ltc3208.c                        | 278 +++++++++++++++++++++
+ 5 files changed, 479 insertions(+)
+---
+base-commit: e68f95a51d1a8c1594b536c4d495cbea38d47561
+change-id: 20260318-upstream-ltc3208-7cc8968bf69e
 
-which isn't maintainable in this size for ~22 entries.
+Best regards,
+-- 
+Jan Carlo Roleda <jancarlo.roleda@analog.com>
 
-
-But the example schema
-
-- items:
-  - enum:
-    - vendor,soc4-ip
-    - vendor,soc3-ip
-    - vendor,soc2-ip
-  - enum:
-    - vendor,soc1-ip
-
-also does not have all of the previous devices as fallbacks (assuming
-"vendor,soc3-ip" is compatible with "vendor,soc2-ip" and so on).
-
-Only adding devices as fallbacks with the exact same known feature set
-would ignore the other devices with less features which would still
-work (e.g. "synology,ds925p-microp" would still work on a ds923+, but
-the "current sensor" would not be accessible).
-
-So my question is, what makes a device eligible to be a fallback for
-another device?
-
-Just using the one device that is compatible with most of the devices
-(having the least features) for all of the compatible devices as
-fallback like in the example?
-
-
-I would prefer a generic "synology,microp-x64" entry as fallback only,
-which only supports the baseline of features (power led, status led,
-shutdown/reboot, power button, fan speed), which all devices I am aware
-of support.
-But documentation explicitly states "DON=E2=80=99T use wildcards or device-
-family names in compatible strings" [1], so I think I am not allowed to
-do that.
-
-Thanks
-- Markus Probst
-
-[1] https://docs.kernel.org/devicetree/bindings/writing-bindings.html
-
->=20
-> Best regards,
-> Krzysztof
-
---=-zCxPlgqRCfQxERdu6rZO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmnf+vcbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPS9cYP/03t5hh6MXyY2hpnIpEO
-5bv7fMrSvcw9pR9f6hlMla0caRKuoAvFxa0U3RNFKCDesvB9P54tXAceRDeIkYMG
-2K2WtYlwalFnB5Kqn9eV8DNYlNfq+o9EIEKWTS+2lLC/SXxx8nW9luqVOifLomgh
-sLmrd8ICjyV9JxSSP1rqxfQGrUp4VX95wsGt1zFeT6LmDRikBYUpmNdoQ62A2VaL
-31BMSuXfnCYZPqDR2JRWqvm6rvPkXBrq4IbaPEVRdAp8dPDlX0X+1//BhVx7CrPw
-7iNCqRAx+U9KvPR23k5Ig0zBxFT7b4ngch9/qtF2OYdxHmf52SZWkDGmoTj3qSXt
-rTauYrUTN7sW4CB0Y2zni+ljOchOSfuE8WwJLDCa/anqJvCJLlf1jATP6tFO9jOV
-A8bUDN7XSTF+QGR1de2pDDY5F1ScnKKXUTrn6sCF40fpmAvvPNQkH573gn3uxct2
-gNvg87wS/QibyuvGJtdE/Mam0DinvzMK7oh0ojLb7/as/atJWrRmKW8AVdb1SWAI
-IJkSRE9v9C54qf2+VvDmyYB9QZbETuLSHoEAoiSXBo5QfS3HuI9gPtBm8WWbtoL0
-sFs8QMr4jrXTRMguIa6o/5aTk2DwfaK//zBhNumZPdU+PeiKLSLCtEn4skSRknvf
-EVUw50yIk3E/NwiCYuOV+pFL
-=b+JB
------END PGP SIGNATURE-----
-
---=-zCxPlgqRCfQxERdu6rZO--
 
