@@ -1,169 +1,148 @@
-Return-Path: <linux-leds+bounces-7766-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7767-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sItfFIAs4ml22gAAu9opvQ
-	(envelope-from <linux-leds+bounces-7766-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Apr 2026 14:50:08 +0200
+	id cJn0Lvmr4mlk8wAAu9opvQ
+	(envelope-from <linux-leds+bounces-7767-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Apr 2026 23:54:01 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BBA41B4FE
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Apr 2026 14:50:03 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D1E41EC5F
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Apr 2026 23:54:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9D178308EB99
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Apr 2026 12:45:53 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 07A5B306BFC8
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Apr 2026 21:54:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B62C399341;
-	Fri, 17 Apr 2026 12:45:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4543E36EA9E;
+	Fri, 17 Apr 2026 21:53:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hshn8yJJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hqiW5PLi"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97273D544;
-	Fri, 17 Apr 2026 12:45:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208671C84BC;
+	Fri, 17 Apr 2026 21:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776429953; cv=none; b=bMhlq+0k+s6Kz9uczWbFJ3bbLSa+ZQSgypRFwz/rCeq8jP8HnP1NYzJg2C4rZTALO2szi9WEknpOgrYVrJKLXRT0Ig1keW4HINhXKVX4FFm55PZ3zE5YmOja/uInPHkbaP9IYmK1jHdKJY8fUcEui40IXxH98mK+dU9dlWYM66w=
+	t=1776462839; cv=none; b=M66oWMEYMW0wAVv75XGwSoLuRaFqkcvHXG/5eliH3o/joxxcV3/RecjXg3n3wXqDSKRlkDNZ8AUlWQOJCjS6syGMJWWtBOOcNpWwstt1Lw9sfrGykEV4+olOntMDWet29nHzqyemG9zWJ8/9AMZpHFov642cJ2gU0AkDHzR+3pE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776429953; c=relaxed/simple;
-	bh=rF3rpSM7RHMxdco1W+JCMi42YYvIOMNLW61zAMaiyZM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tsnNXxDLZwLc3dQ0KOYyNZhv1C808bdLSJUFE7H35BCCFM5lDCBWw1ub9b6+/jQyuYFaG9HzjrXqftFlZ6IduN42msjtG4wwil2BStL4spn1WSV4jj5QnHZ53UQo7OkXOU5Ql5Pn464CufSjEYJj9x8O5N+MIhmFZnEID65FXF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hshn8yJJ; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776429952; x=1807965952;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=rF3rpSM7RHMxdco1W+JCMi42YYvIOMNLW61zAMaiyZM=;
-  b=hshn8yJJuHwF6zXVdPtk8GRgCuChnmGn+zHVHisuN50jg1wOGUDQdu5k
-   6Xs59nAxNa8mZBA8u7xPt57Ar1XvoSZRiYaCKPN8lzFCb/vli586jnErO
-   J5YpRKabpJPndGZcSbzAUWCU+rWrpNdu3qIsWbAkRfIJ4R6M6wVSSWuaZ
-   DpjH63L5OmxJ+0i3XOWOPZy593EyYNg6p0yYfkbTcBQGjRDUelrgWsfKi
-   jRcwToB+JDI02nMeMH5zxqy3R1aUuSVJfgAsyTPq76/04Ni1r9awCfZVW
-   gio+xIDBq9jh69K+SgSxtiw3m7v2HBXaGqDvKPg0r2MGP0Wm3OWmTBwxz
-   g==;
-X-CSE-ConnectionGUID: qa9nLtMYRzanVpVghhywrg==
-X-CSE-MsgGUID: RSJCcvutSJSqSeGGS8EwEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="100092138"
-X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
-   d="scan'208";a="100092138"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 05:45:52 -0700
-X-CSE-ConnectionGUID: GXBhfEOqSLuC3JflYpW20g==
-X-CSE-MsgGUID: vFbG2zjaTnuIwOTbNrBD1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
-   d="scan'208";a="230018453"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.170])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 05:45:49 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 30666120E0E;
-	Fri, 17 Apr 2026 15:46:08 +0300 (EEST)
-Date: Fri, 17 Apr 2026 15:46:08 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v1 2/5] media: lm3560: Add IN supply support
-Message-ID: <aeIrkNz2Um4EFYM2@kekkonen.localdomain>
-References: <20260417114226.100033-1-clamor95@gmail.com>
- <20260417114226.100033-3-clamor95@gmail.com>
- <aeIk3z8f4dvjEXBQ@kekkonen.localdomain>
- <CAPVz0n0vf_Re-4s4ygOP8aAMA+b=o7yM+UYVZiRUfkrJ931J2A@mail.gmail.com>
+	s=arc-20240116; t=1776462839; c=relaxed/simple;
+	bh=uVTuxpQxIDpJu7WeDd9lSdSOMBR4riVzt1I5XLYlxc0=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=VvvOYsbNDW17+MY/LYlwJ8mHsjU+NaEZxqL3Z9tnnt3+jjZGd7u09KEA9mPYme6nXW6oW98q2R+I5/L/65YeQlSvqo8ZpUY5X2Z2Au/R2AIj6FHOn0wMQA8G964/lEhxA1GJjuwN1Vj46XpPALTwKoej1Lgp/eA2/xumazmmcBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hqiW5PLi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84259C19425;
+	Fri, 17 Apr 2026 21:53:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776462838;
+	bh=uVTuxpQxIDpJu7WeDd9lSdSOMBR4riVzt1I5XLYlxc0=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=hqiW5PLi2p3inHa3rS9Ox41DVoU0iD71mBgQGegUyQWWpXptNrzBCjhi5vID0AEdj
+	 IVkxpumqV0Tc1y1tQjFWF6Wc7JWNmKXO4/7JBGGJsyHHTabBZjy0RAxGrScyI0ac7W
+	 4HLupxszJrx6ItomNjmspBkabfznih6c43lhHTo0M3qijMH6zOK27BqqTDn8soR1ny
+	 htp8PPrJqKZvlXnAPLuEHteVca4b481mqNRaFAeL5PFsfoOoVY6AIbxqZ7+iL4dczB
+	 yvnL6+qynF2vjUx9opNwVxkMnTZhdoQVUFUaOOhZfO5UTzf95mrKAedHipJ8G7RtRn
+	 R46SS5ci8hxNA==
+Date: Fri, 17 Apr 2026 16:53:56 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPVz0n0vf_Re-4s4ygOP8aAMA+b=o7yM+UYVZiRUfkrJ931J2A@mail.gmail.com>
-X-Spamd-Result: default: False [-2.16 / 15.00];
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ linux-input@vger.kernel.org, Lee Jones <lee@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Conor Dooley <conor+dt@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+ Pavel Machek <pavel@kernel.org>, Tony Lindgren <tony@atomide.com>, 
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+In-Reply-To: <20260417071106.21984-2-clamor95@gmail.com>
+References: <20260417071106.21984-1-clamor95@gmail.com>
+ <20260417071106.21984-2-clamor95@gmail.com>
+Message-Id: <177646283565.2491850.7304841770504122660.robh@kernel.org>
+Subject: Re: [PATCH v4 1/6] dt-bindings: leds: leds-cpcap: convert to DT
+ schema
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7766-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-7767-lists,linux-leds=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-leds@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,baylibre.com,atomide.com];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-leds@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,kekkonen.localdomain:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B8BBA41B4FE
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 38D1E41EC5F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Apr 17, 2026 at 03:37:37PM +0300, Svyatoslav Ryhel wrote:
-> пт, 17 квіт. 2026 р. о 15:17 Sakari Ailus <sakari.ailus@linux.intel.com> пише:
-> >
-> > Hi Svyatoslav,
-> >
-> > On Fri, Apr 17, 2026 at 02:42:23PM +0300, Svyatoslav Ryhel wrote:
-> > > Add IN supply (2.5V - 5.5V) found in LM3560 to ensure its proper work.
-> > >
-> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > ---
-> > >  drivers/media/i2c/lm3560.c | 6 ++++++
-> > >  1 file changed, 6 insertions(+)
-> > >
-> > > diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
-> > > index e6af61415821..a2674af6c9fb 100644
-> > > --- a/drivers/media/i2c/lm3560.c
-> > > +++ b/drivers/media/i2c/lm3560.c
-> > > @@ -16,6 +16,7 @@
-> > >  #include <linux/slab.h>
-> > >  #include <linux/mutex.h>
-> > >  #include <linux/regmap.h>
-> > > +#include <linux/regulator/consumer.h>
-> > >  #include <linux/videodev2.h>
-> > >  #include <media/i2c/lm3560.h>
-> > >  #include <media/v4l2-ctrls.h>
-> > > @@ -434,6 +435,11 @@ static int lm3560_probe(struct i2c_client *client)
-> > >               return dev_err_probe(&client->dev, PTR_ERR(flash->hwen_gpio),
-> > >                                    "failed to get hwen gpio\n");
-> > >
-> > > +     rval = devm_regulator_get_enable(&client->dev, "vin");
-> >
-> > I'd also enable this via runtime PM.
-> >
-> > Sensor drivers such as imx219 serve as a good example here.
-> >
+
+On Fri, 17 Apr 2026 10:11:01 +0300, Svyatoslav Ryhel wrote:
+> Convert LEDs devicetree bindings for the Motorola CPCAP MFD from TXT to
+> YAML format. This patch does not change any functionality; the bindings
+> remain the same.
 > 
-> Would you mind if I squash adding hwen, vin and pm into single commit?
-> It would be tricky to separate them from PM addition. I will add
-> descriptions of what was changed.
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/leds/leds-cpcap.txt   | 29 -------------
+>  .../bindings/leds/motorola,cpcap-leds.yaml    | 42 +++++++++++++++++++
+>  2 files changed, 42 insertions(+), 29 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/leds/leds-cpcap.txt
+>  create mode 100644 Documentation/devicetree/bindings/leds/motorola,cpcap-leds.yaml
+> 
 
-Sounds good to me.
+My bot found errors running 'make dt_binding_check' on your patch:
 
--- 
-Sakari Ailus
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+
+
+doc reference errors (make refcheckdocs):
+Warning: Documentation/devicetree/bindings/leds/motorola,cpcap-leds.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/leds/leds-cpcap.txt
+Documentation/devicetree/bindings/leds/motorola,cpcap-leds.yaml: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+Documentation/devicetree/bindings/mfd/motorola-cpcap.txt: Documentation/devicetree/bindings/leds/leds-cpcap.txt
+
+See https://patchwork.kernel.org/project/devicetree/patch/20260417071106.21984-2-clamor95@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
