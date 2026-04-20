@@ -1,161 +1,147 @@
-Return-Path: <linux-leds+bounces-7778-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7779-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CFn6Jq1D5mm6twEAu9opvQ
-	(envelope-from <linux-leds+bounces-7778-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Apr 2026 17:18:05 +0200
+	id YF+jAZhf5mkrvgEAu9opvQ
+	(envelope-from <linux-leds+bounces-7779-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Apr 2026 19:17:12 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3391342E053
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Apr 2026 17:18:04 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65AA9430E79
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Apr 2026 19:17:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7BD25310DA99
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Apr 2026 15:04:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5EB4D35C6E51
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Apr 2026 15:55:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 535713CF02C;
-	Mon, 20 Apr 2026 14:24:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8FBF33C192;
+	Mon, 20 Apr 2026 15:55:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="TUiq9t0M"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="ldEWWNFX"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774AC3A7825
-	for <linux-leds@vger.kernel.org>; Mon, 20 Apr 2026 14:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307A432E696
+	for <linux-leds@vger.kernel.org>; Mon, 20 Apr 2026 15:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776695075; cv=none; b=qr3+3TlqHp5bRkck/kk80Bg6GosjaMxUSJnZQMNNLmO5aY/iWYrIIipQ/ZlhIbrZq5wDhY3QG+y7Zq+n6CQ1MOcWxsxN1zJvFbQjOWg2PGLOqyfJGMYzh2+Uz/MZHWHQ0kZXdkDoI0Jb6A76RP6RHoJwOVLoM0F6Ta8ljB8IZd0=
+	t=1776700548; cv=none; b=UuqOqj7pSuzsemTfFGZ9csFACC2XYoQ3yvMeT5+15e5BOBlklyTSy7vALfFZXqNuXlZv3hdL2r4yYAl/m0ZIEfXvyAzkEo8W/pztrZKpGgly1QJQwcihMaKnisozcTDSHhLUd1Kvc2lA0x9LN6luIkz+6lruhNltIaN9Rd+/Cd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776695075; c=relaxed/simple;
-	bh=RxMco6ih3Bpo/IO0nk/QX0fOp5AWlCUIxpUfbAD3NKc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dcpulFHYXX05mFRwUxNwi2eWGxIzCJsuGF2qAvGC54o6Ik5XUzA4Y1bBSfx8cL7PvK2AFzPTF0dmIcxDJ/qF+d7rZfvYJYfeVKmpq+0O9IUs9rO93+TV4OnUbV2Iyi721H9o4qqDV7GPjWWcsvRWsgyx8C1q3UR44SGxmMh60So=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=TUiq9t0M; arc=none smtp.client-ip=185.67.36.65
+	s=arc-20240116; t=1776700548; c=relaxed/simple;
+	bh=WyFDoQ/U03VgXLs/qMbc1sIihqv8/JBMF0eKXw5g2zM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=eNKzXxk3iAvvqbDPihBu9OQvVrEcEKN+4ACbHqaBx77zjzx9t+XAwH89GRcDUGOMn2btqV3183QCTzpAS/EDDbjTcjBXaJDK31WWLUqSUcLBXay1R/ZR0Im5mTV93W/MKY597uIfErH+9q/vSZ+EvafoqQtPmMspz1+QHjVShWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=ldEWWNFX; arc=none smtp.client-ip=185.67.36.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 60B24240029
-	for <linux-leds@vger.kernel.org>; Mon, 20 Apr 2026 16:24:23 +0200 (CEST)
+	by mout02.posteo.de (Postfix) with ESMTPS id 71391240105
+	for <linux-leds@vger.kernel.org>; Mon, 20 Apr 2026 17:55:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1776695063; bh=qvdCV45R+4roFssHwtiu2O8LYYsXKFahp1thzQJ6m5Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
-	b=TUiq9t0Moc9fnNGpEog+KAIOQqM2wVkL2ebYNzzRHWTjq55z95BNrS/RWuK+c6hD1
-	 LjlZiriLbhi3wLBl8s83hOSGwGYHMhOzF3LEyAllsvANVQjRgxqbciDai78275twcm
-	 rlL5uFBJ+ilJVufUszWVrUsfbLCGfOKjOczvOHD5Gjcqf7FYRv8eYG+nVVwJQWLQsK
-	 wuyPaGhtP36uj4d84Oo/qO4ublOfS/VVB+gtFpWvqNnKmxTl7OoewswDHSmbRJOMDP
-	 +Uiyjq+A0dZqpuOI5VhvebGKlxjSi3UbxX9kc6LheUx5lZ46PXHQfqx9g1XYp6A2KA
-	 F+MmXVV3rbfxQ==
+	t=1776700544; bh=WyFDoQ/U03VgXLs/qMbc1sIihqv8/JBMF0eKXw5g2zM=;
+	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
+	 MIME-Version:OpenPGP:From;
+	b=ldEWWNFXybKduwRTUwVDkoi9u/uGCB039TSXlztPCltNIafOv/ntnKOph6fi5SGgI
+	 eZ+ieQGalMxpa1Qxe7euOQikixVHVqWyMSXExuYrc29xvTJBpzHPZpp1AgNMzXsUAO
+	 YihkwPfVNY5G9zXw/4k1eQxzzzplrLgPM8JrgHah/2/oL9FsSZKFwY21yTuWoE1LzZ
+	 3MKJp2U75wp9EC8HEroKhqgEf9hD0BL1DRN9a9ZIfGSgebrwbpNPNrMN1Wh+vGlyIX
+	 +z6AakB+pjf/CZYQ3Ek4yNB/ZpbPl03grhdf/1jKd6yIgDl5wep3S5a5qRzhyeP3OI
+	 shPreXDzi6eEQ==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4fznmj0RFZz9rxR;
-	Mon, 20 Apr 2026 16:24:21 +0200 (CEST)
+	by submission (posteo.de) with ESMTPSA id 4fzqp53mdkz6trs;
+	Mon, 20 Apr 2026 17:55:41 +0200 (CEST)
+Message-ID: <7ff5410e6526cde6049140bef3d704a5bc09f26b.camel@posteo.de>
+Subject: Re: [PATCH v8 0/2] Introduce Synology Microp driver
 From: Markus Probst <markus.probst@posteo.de>
-Date: Mon, 20 Apr 2026 14:24:22 +0000
-Subject: [PATCH v8 2/2] platform: Add initial synology microp driver
+To: Hans de Goede <hansg@kernel.org>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=	
+ <ilpo.jarvinen@linux.intel.com>, Bryan O'Donoghue
+ <bryan.odonoghue@linaro.org>,  Lee Jones <lee@kernel.org>, Pavel Machek
+ <pavel@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
+ <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?=
+ Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl
+ <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich
+ <dakr@kernel.org>, Rob Herring	 <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley	 <conor+dt@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Date: Mon, 20 Apr 2026 15:55:43 +0000
+In-Reply-To: <20260420-synology_microp_initial-v8-0-7946a9124491@posteo.de>
+References: <20260420-synology_microp_initial-v8-0-7946a9124491@posteo.de>
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+ keydata=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
+ jfGillcaQOqFZ3WwVqyzG1BUfTow==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-LwMCbgppev4PlArGDnXW"
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260420-synology_microp_initial-v8-2-7946a9124491@posteo.de>
-References: <20260420-synology_microp_initial-v8-0-7946a9124491@posteo.de>
-In-Reply-To: <20260420-synology_microp_initial-v8-0-7946a9124491@posteo.de>
-To: Hans de Goede <hansg@kernel.org>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, Markus Probst <markus.probst@posteo.de>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=19802;
- i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=RxMco6ih3Bpo/IO0nk/QX0fOp5AWlCUIxpUfbAD3NKc=;
- b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBp5jcReTRy6sZevz5D9rEVYeyyHxOqZsa6k7Gdp
- 05z6wJPASyJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaeY3ERsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9LhQw//bru2xuJLiV6jW3FiJQNhk2F0XCD7LyS
- DJ7VBVeeZSSHpy2g+pvQhTtZDqmxUscHmANGr5EcJ1EEfFZAnD7EfCumfxtzTEX0egnQENmtmzr
- 42AFurRbnfE5LZAv9vzh/mr0qb7WYHUqKqQlZi4BBAuAK0ZQHyu4ZHW9oE4MLZOBgObc1h+3F8l
- 7tQO/tHM6PhGiJT4s/7rzoG6GH6RqM0MI+hgDWkM7k1SCoRQZAQLvB0Wv2wGD6eJy64sAnx0N8q
- 2VUBstLs+idR1f0nzatsLFmdJ5Td+uupaBQTP9eHFiQchSajyGPQDx+Wyn/R3mtnDly7CbcgIE+
- PmEwvMKDgf6AM1GuXvWY/PbbKmgNgfCyB3GAxfbLRieopNpjbgPe2A4ssgg9L3Fkqr7k8CfCE3e
- yBtN9CAjbWEDEzhN3z1RviMHBzgWo7LGIOGcdlbMTjz6o2Y+lA/iuHJVYmK9QaV0CLY6lInrHOB
- z1FvcVScUl7R88p2M7bHUpcea/xZhk+OGGaesukDR1T59aW0EKGomcIAbWpl1WcRHOlbyXiLH1A
- kiyPBMhC9A4VeOLXlUMq4BTcthRd6hieCJJpMhum4e2EvYOMh6lWCmEj4Uq7Wkwyr0piTgB3VU5
- Fwuek53doXdv2BTSe+4DSQUfyS8cBC4HADSIQViK/lYTFLxZADCM=
-X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
- fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
-  keydata=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
-  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
 OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[posteo.de,none];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	R_DKIM_ALLOW(-0.20)[posteo.de:s=2017];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7778-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-7779-lists,linux-leds=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,linaro.org,garyguo.net,protonmail.com,google.com,umich.edu,linuxfoundation.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	DKIM_TRACE(0.00)[posteo.de:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
@@ -166,634 +152,66 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[posteo.de:email,posteo.de:dkim,posteo.de:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,infradead.org:email]
-X-Rspamd-Queue-Id: 3391342E053
+	DBL_BLOCKED_OPENRESOLVER(0.00)[protonmail.com:email,umich.edu:email,posteo.de:email,posteo.de:dkim,posteo.de:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,garyguo.net:email]
+X-Rspamd-Queue-Id: 65AA9430E79
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add a initial synology microp driver, written in Rust.
-The driver targets a microcontroller found in Synology NAS devices. It
-currently only supports controlling of the power led, status led, alert
-led and usb led. Other components such as fan control or handling
-on-device buttons will be added once the required rust abstractions are
-there.
 
-This driver can be used both on arm and x86, thus it goes into the root
-directory of drivers/platform.
+--=-LwMCbgppev4PlArGDnXW
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Tested successfully on a Synology DS923+.
+On Mon, 2026-04-20 at 14:24 +0000, Markus Probst wrote:
+>=20
+> To: Markus Probst <markus.probst@posteo.de>
+> To: Rob Herring <robh@kernel.org>
+> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> To: Conor Dooley <conor+dt@kernel.org>
+> To: Miguel Ojeda <ojeda@kernel.org>
+> To: Boqun Feng <boqun@kernel.org>
+> To: Gary Guo <gary@garyguo.net>
+> To: Bj=C3=B6rn Roy Baron <bjorn3_gh@protonmail.com>
+> To: Benno Lossin <lossin@kernel.org>
+> To: Andreas Hindborg <a.hindborg@kernel.org>
+> To: Alice Ryhl <aliceryhl@google.com>
+> To: Trevor Gross <tmgross@umich.edu>
+> To: Danilo Krummrich <dakr@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: rust-for-linux@vger.kernel.org
+Thats unintentional. b4 seems to have messed up my cover letter.
+Caused by
+https://github.com/mricon/b4/commit/bf7beca19f723300d9a911cbf57d2f6aee3d449=
+3
+(according to my bisect).
 
-Signed-off-by: Markus Probst <markus.probst@posteo.de>
----
- MAINTAINERS                                        |   6 +
- drivers/platform/Kconfig                           |   2 +
- drivers/platform/Makefile                          |   1 +
- drivers/platform/synology_microp/Kconfig           |  13 +
- drivers/platform/synology_microp/Makefile          |   3 +
- drivers/platform/synology_microp/TODO              |   7 +
- drivers/platform/synology_microp/command.rs        |  54 ++++
- drivers/platform/synology_microp/led.rs            | 281 +++++++++++++++++++++
- drivers/platform/synology_microp/model.rs          |  49 ++++
- .../platform/synology_microp/synology_microp.rs    | 110 ++++++++
- 10 files changed, 526 insertions(+)
+Thanks
+- Markus Probst
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c1c686846cdd..49f08290eed0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -25555,6 +25555,12 @@ F:	drivers/dma-buf/sync_*
- F:	include/linux/sync_file.h
- F:	include/uapi/linux/sync_file.h
- 
-+SYNOLOGY MICROP DRIVER
-+M:	Markus Probst <markus.probst@posteo.de>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/embedded-controller/synology,ds1825p-microp.yaml
-+F:	drivers/platform/synology_microp/
-+
- SYNOPSYS ARC ARCHITECTURE
- M:	Vineet Gupta <vgupta@kernel.org>
- L:	linux-snps-arc@lists.infradead.org
-diff --git a/drivers/platform/Kconfig b/drivers/platform/Kconfig
-index 312788f249c9..996050566a4a 100644
---- a/drivers/platform/Kconfig
-+++ b/drivers/platform/Kconfig
-@@ -22,3 +22,5 @@ source "drivers/platform/arm64/Kconfig"
- source "drivers/platform/raspberrypi/Kconfig"
- 
- source "drivers/platform/wmi/Kconfig"
-+
-+source "drivers/platform/synology_microp/Kconfig"
-diff --git a/drivers/platform/Makefile b/drivers/platform/Makefile
-index fa322e7f8716..2381872e9133 100644
---- a/drivers/platform/Makefile
-+++ b/drivers/platform/Makefile
-@@ -15,3 +15,4 @@ obj-$(CONFIG_SURFACE_PLATFORMS)	+= surface/
- obj-$(CONFIG_ARM64_PLATFORM_DEVICES)	+= arm64/
- obj-$(CONFIG_BCM2835_VCHIQ)	+= raspberrypi/
- obj-$(CONFIG_ACPI_WMI)		+= wmi/
-+obj-$(CONFIG_SYNOLOGY_MICROP)	+= synology_microp/
-diff --git a/drivers/platform/synology_microp/Kconfig b/drivers/platform/synology_microp/Kconfig
-new file mode 100644
-index 000000000000..7c4d8f2808f0
---- /dev/null
-+++ b/drivers/platform/synology_microp/Kconfig
-@@ -0,0 +1,13 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+config SYNOLOGY_MICROP
-+	tristate "Synology Microp driver"
-+	depends on LEDS_CLASS && LEDS_CLASS_MULTICOLOR
-+	depends on RUST_SERIAL_DEV_BUS_ABSTRACTIONS
-+	help
-+	  Enable support for the MCU found in Synology NAS devices.
-+
-+	  This is needed to properly shutdown and reboot the device, as well as
-+	  additional functionality like fan and LED control.
-+
-+	  This driver is work in progress and may not be fully functional.
-diff --git a/drivers/platform/synology_microp/Makefile b/drivers/platform/synology_microp/Makefile
-new file mode 100644
-index 000000000000..63585ccf76e4
---- /dev/null
-+++ b/drivers/platform/synology_microp/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+obj-y += synology_microp.o
-diff --git a/drivers/platform/synology_microp/TODO b/drivers/platform/synology_microp/TODO
-new file mode 100644
-index 000000000000..1961a33115db
---- /dev/null
-+++ b/drivers/platform/synology_microp/TODO
-@@ -0,0 +1,7 @@
-+TODO:
-+- add missing components:
-+  - handle on-device buttons (Power, Factory reset, "USB Copy")
-+  - handle fan failure
-+  - beeper
-+  - fan speed control
-+  - correctly perform device power-off and restart on Synology devices
-diff --git a/drivers/platform/synology_microp/command.rs b/drivers/platform/synology_microp/command.rs
-new file mode 100644
-index 000000000000..430cb858e1c3
---- /dev/null
-+++ b/drivers/platform/synology_microp/command.rs
-@@ -0,0 +1,54 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+use kernel::{
-+    device::Bound,
-+    error::Result,
-+    serdev, //
-+};
-+
-+use crate::led;
-+
-+#[expect(
-+    clippy::enum_variant_names,
-+    reason = "future variants will not end with Led"
-+)]
-+pub(crate) enum Command {
-+    PowerLed(led::State),
-+    StatusLed(led::StatusLedColor, led::State),
-+    AlertLed(led::State),
-+    UsbLed(led::State),
-+    EsataLed(led::State),
-+}
-+
-+impl Command {
-+    pub(crate) fn write(self, dev: &serdev::Device<Bound>) -> Result {
-+        dev.write_all(
-+            match self {
-+                Self::PowerLed(led::State::On) => &[0x34],
-+                Self::PowerLed(led::State::Blink) => &[0x35],
-+                Self::PowerLed(led::State::Off) => &[0x36],
-+
-+                Self::StatusLed(_, led::State::Off) => &[0x37],
-+                Self::StatusLed(led::StatusLedColor::Green, led::State::On) => &[0x38],
-+                Self::StatusLed(led::StatusLedColor::Green, led::State::Blink) => &[0x39],
-+                Self::StatusLed(led::StatusLedColor::Orange, led::State::On) => &[0x3A],
-+                Self::StatusLed(led::StatusLedColor::Orange, led::State::Blink) => &[0x3B],
-+
-+                Self::AlertLed(led::State::On) => &[0x4C, 0x41, 0x31],
-+                Self::AlertLed(led::State::Blink) => &[0x4C, 0x41, 0x32],
-+                Self::AlertLed(led::State::Off) => &[0x4C, 0x41, 0x33],
-+
-+                Self::UsbLed(led::State::On) => &[0x40],
-+                Self::UsbLed(led::State::Blink) => &[0x41],
-+                Self::UsbLed(led::State::Off) => &[0x42],
-+
-+                Self::EsataLed(led::State::On) => &[0x4C, 0x45, 0x31],
-+                Self::EsataLed(led::State::Blink) => &[0x4C, 0x45, 0x32],
-+                Self::EsataLed(led::State::Off) => &[0x4C, 0x45, 0x33],
-+            },
-+            serdev::Timeout::Max,
-+        )?;
-+        dev.wait_until_sent(serdev::Timeout::Max);
-+        Ok(())
-+    }
-+}
-diff --git a/drivers/platform/synology_microp/led.rs b/drivers/platform/synology_microp/led.rs
-new file mode 100644
-index 000000000000..f89998a7e6b4
---- /dev/null
-+++ b/drivers/platform/synology_microp/led.rs
-@@ -0,0 +1,281 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+use kernel::{
-+    device::Bound,
-+    devres::{
-+        self,
-+        Devres, //
-+    },
-+    led::{
-+        self,
-+        LedOps,
-+        MultiColorSubLed, //
-+    },
-+    new_mutex,
-+    prelude::*,
-+    serdev,
-+    str::CString,
-+    sync::Mutex, //
-+};
-+use pin_init::pin_init_scope;
-+
-+use crate::{
-+    command::Command,
-+    model::Model, //
-+};
-+
-+#[pin_data]
-+pub(crate) struct Data {
-+    #[pin]
-+    status: Devres<led::MultiColorDevice<StatusLedHandler>>,
-+    power_name: CString,
-+    #[pin]
-+    power: Devres<led::Device<LedHandler>>,
-+}
-+
-+impl Data {
-+    pub(super) fn register<'a>(
-+        dev: &'a serdev::Device<Bound>,
-+        model: &'a Model,
-+    ) -> impl PinInit<Self, Error> + 'a {
-+        pin_init_scope(move || {
-+            if let Some(color) = model.led_alert {
-+                let name = CString::try_from_fmt(fmt!("{}:alarm", color.as_c_str().to_str()?))?;
-+                devres::register(
-+                    dev.as_ref(),
-+                    led::DeviceBuilder::new().color(color).name(&name).build(
-+                        dev,
-+                        try_pin_init!(LedHandler {
-+                            blink <- new_mutex!(false),
-+                            command: Command::AlertLed,
-+                        }),
-+                    ),
-+                    GFP_KERNEL,
-+                )?;
-+            }
-+
-+            if model.led_usb_copy {
-+                devres::register(
-+                    dev.as_ref(),
-+                    led::DeviceBuilder::new()
-+                        .color(led::Color::Green)
-+                        .name(c"green:usb")
-+                        .build(
-+                            dev,
-+                            try_pin_init!(LedHandler {
-+                                blink <- new_mutex!(false),
-+                                command: Command::UsbLed,
-+                            }),
-+                        ),
-+                    GFP_KERNEL,
-+                )?;
-+            }
-+
-+            if model.led_esata {
-+                devres::register(
-+                    dev.as_ref(),
-+                    led::DeviceBuilder::new()
-+                        .color(led::Color::Green)
-+                        .name(c"green:esata")
-+                        .build(
-+                            dev,
-+                            try_pin_init!(LedHandler {
-+                                blink <- new_mutex!(false),
-+                                command: Command::EsataLed,
-+                            }),
-+                        ),
-+                    GFP_KERNEL,
-+                )?;
-+            }
-+
-+            Ok(try_pin_init!(Self {
-+                status <- led::DeviceBuilder::new()
-+                    .color(led::Color::Multi)
-+                    .name(c"multicolor:status")
-+                    .build_multicolor(
-+                        dev,
-+                        try_pin_init!(StatusLedHandler {
-+                            blink <- new_mutex!(false),
-+                        }),
-+                        StatusLedHandler::SUBLEDS,
-+                    ),
-+                power_name: CString::try_from_fmt(fmt!(
-+                    "{}:power",
-+                    model.led_power.as_c_str().to_str()?
-+                ))?,
-+                power <- led::DeviceBuilder::new()
-+                    .color(model.led_power)
-+                    .name(power_name)
-+                    .build(
-+                        dev,
-+                        try_pin_init!(LedHandler {
-+                            blink <- new_mutex!(true),
-+                            command: Command::PowerLed,
-+                        }),
-+                    ),
-+            }))
-+        })
-+    }
-+}
-+
-+#[derive(Copy, Clone)]
-+pub(crate) enum StatusLedColor {
-+    Green,
-+    Orange,
-+}
-+
-+#[derive(Copy, Clone)]
-+pub(crate) enum State {
-+    On,
-+    Blink,
-+    Off,
-+}
-+
-+#[pin_data]
-+struct LedHandler {
-+    #[pin]
-+    blink: Mutex<bool>,
-+    command: fn(State) -> Command,
-+}
-+
-+/// Blink delay measured using video recording on DS923+ for Power and Status Led.
-+///
-+/// We assume it is the same for all other leds and models.
-+const BLINK_DELAY: usize = 167;
-+
-+#[vtable]
-+impl LedOps for LedHandler {
-+    type Bus = serdev::Device<Bound>;
-+    type Mode = led::Normal;
-+    const BLOCKING: bool = true;
-+    const MAX_BRIGHTNESS: u32 = 1;
-+
-+    fn brightness_set(
-+        &self,
-+        dev: &Self::Bus,
-+        _classdev: &led::Device<Self>,
-+        brightness: u32,
-+    ) -> Result<()> {
-+        let mut blink = self.blink.lock();
-+        (self.command)(if brightness == 0 {
-+            *blink = false;
-+            State::Off
-+        } else if *blink {
-+            State::Blink
-+        } else {
-+            State::On
-+        })
-+        .write(dev)?;
-+
-+        Ok(())
-+    }
-+
-+    fn blink_set(
-+        &self,
-+        dev: &Self::Bus,
-+        _classdev: &led::Device<Self>,
-+        delay_on: &mut usize,
-+        delay_off: &mut usize,
-+    ) -> Result<()> {
-+        let mut blink = self.blink.lock();
-+
-+        (self.command)(if *delay_on == 0 && *delay_off != 0 {
-+            State::Off
-+        } else if *delay_on != 0 && *delay_off == 0 {
-+            State::On
-+        } else {
-+            *blink = true;
-+            *delay_on = BLINK_DELAY;
-+            *delay_off = BLINK_DELAY;
-+
-+            State::Blink
-+        })
-+        .write(dev)
-+    }
-+}
-+
-+#[pin_data]
-+struct StatusLedHandler {
-+    #[pin]
-+    blink: Mutex<bool>,
-+}
-+
-+impl StatusLedHandler {
-+    const SUBLEDS: &[MultiColorSubLed] = &[
-+        MultiColorSubLed::new(led::Color::Green).initial_intensity(1),
-+        MultiColorSubLed::new(led::Color::Orange),
-+    ];
-+}
-+
-+#[vtable]
-+impl LedOps for StatusLedHandler {
-+    type Bus = serdev::Device<Bound>;
-+    type Mode = led::MultiColor;
-+    const BLOCKING: bool = true;
-+    const MAX_BRIGHTNESS: u32 = 1;
-+
-+    fn brightness_set(
-+        &self,
-+        dev: &Self::Bus,
-+        classdev: &led::MultiColorDevice<Self>,
-+        brightness: u32,
-+    ) -> Result<()> {
-+        let mut blink = self.blink.lock();
-+        if brightness == 0 {
-+            *blink = false;
-+        }
-+
-+        let (color, subled_brightness) = if classdev.subleds()[1].intensity == 0 {
-+            (StatusLedColor::Green, classdev.subleds()[0].brightness)
-+        } else {
-+            (StatusLedColor::Orange, classdev.subleds()[1].brightness)
-+        };
-+
-+        Command::StatusLed(
-+            color,
-+            if subled_brightness == 0 {
-+                State::Off
-+            } else if *blink {
-+                State::Blink
-+            } else {
-+                State::On
-+            },
-+        )
-+        .write(dev)
-+    }
-+
-+    fn blink_set(
-+        &self,
-+        dev: &Self::Bus,
-+        classdev: &led::MultiColorDevice<Self>,
-+        delay_on: &mut usize,
-+        delay_off: &mut usize,
-+    ) -> Result<()> {
-+        let mut blink = self.blink.lock();
-+        *blink = true;
-+
-+        let (color, subled_intensity) = if classdev.subleds()[1].intensity == 0 {
-+            (StatusLedColor::Green, classdev.subleds()[0].intensity)
-+        } else {
-+            (StatusLedColor::Orange, classdev.subleds()[1].intensity)
-+        };
-+        Command::StatusLed(
-+            color,
-+            if *delay_on == 0 && *delay_off != 0 {
-+                *blink = false;
-+                State::Off
-+            } else if subled_intensity == 0 {
-+                State::Off
-+            } else if *delay_on != 0 && *delay_off == 0 {
-+                *blink = false;
-+                State::On
-+            } else {
-+                *delay_on = BLINK_DELAY;
-+                *delay_off = BLINK_DELAY;
-+
-+                State::Blink
-+            },
-+        )
-+        .write(dev)
-+    }
-+}
-diff --git a/drivers/platform/synology_microp/model.rs b/drivers/platform/synology_microp/model.rs
-new file mode 100644
-index 000000000000..715d8840f56b
---- /dev/null
-+++ b/drivers/platform/synology_microp/model.rs
-@@ -0,0 +1,49 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+use kernel::led::Color;
-+
-+pub(crate) struct Model {
-+    pub(crate) led_power: Color,
-+    pub(crate) led_alert: Option<Color>,
-+    pub(crate) led_usb_copy: bool,
-+    pub(crate) led_esata: bool,
-+}
-+
-+impl Model {
-+    pub(super) const fn new() -> Self {
-+        Self {
-+            led_power: Color::Blue,
-+            led_alert: None,
-+            led_usb_copy: false,
-+            led_esata: false,
-+        }
-+    }
-+
-+    pub(super) const fn led_power(self, color: Color) -> Self {
-+        Self {
-+            led_power: color,
-+            ..self
-+        }
-+    }
-+
-+    pub(super) const fn led_alert(self, color: Color) -> Self {
-+        Self {
-+            led_alert: Some(color),
-+            ..self
-+        }
-+    }
-+
-+    pub(super) const fn led_esata(self) -> Self {
-+        Self {
-+            led_esata: true,
-+            ..self
-+        }
-+    }
-+
-+    pub(super) const fn led_usb_copy(self) -> Self {
-+        Self {
-+            led_usb_copy: true,
-+            ..self
-+        }
-+    }
-+}
-diff --git a/drivers/platform/synology_microp/synology_microp.rs b/drivers/platform/synology_microp/synology_microp.rs
-new file mode 100644
-index 000000000000..1fd4fc658d85
---- /dev/null
-+++ b/drivers/platform/synology_microp/synology_microp.rs
-@@ -0,0 +1,110 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Synology Microp driver
-+
-+use kernel::{
-+    device,
-+    led::Color,
-+    of::{
-+        DeviceId,
-+        IdTable, //
-+    },
-+    of_device_table,
-+    prelude::*,
-+    serdev, //
-+};
-+use pin_init::pin_init_scope;
-+
-+use crate::model::Model;
-+
-+pub(crate) mod command;
-+mod led;
-+mod model;
-+
-+kernel::module_serdev_device_driver! {
-+    type: SynologyMicropDriver,
-+    name: "synology_microp",
-+    authors: ["Markus Probst <markus.probst@posteo.de>"],
-+    description: "Synology Microp driver",
-+    license: "GPL v2",
-+}
-+
-+#[rustfmt::skip]
-+of_device_table!(
-+    OF_TABLE,
-+    MODULE_OF_TABLE,
-+    Model,
-+    [
-+        // apollolake
-+        (DeviceId::new(c"synology,ds918p-microp"), Model::new()),
-+
-+        // evansport
-+        (DeviceId::new(c"synology,ds214play-microp"), Model::new()),
-+
-+        // geminilakenk
-+        (DeviceId::new(c"synology,ds225p-microp"), Model::new().led_usb_copy()),
-+        (DeviceId::new(c"synology,ds425p-microp"), Model::new()),
-+
-+        // pineview
-+        (DeviceId::new(c"synology,ds710p-microp"), Model::new().led_esata()),
-+        (DeviceId::new(c"synology,ds1010p-microp"), Model::new().led_alert(Color::Orange)),
-+        (DeviceId::new(c"synology,ds411p-microp"), Model::new()),
-+
-+        // r1000
-+        (DeviceId::new(c"synology,ds923p-microp"), Model::new()),
-+        (DeviceId::new(c"synology,ds723p-microp"), Model::new()),
-+        (DeviceId::new(c"synology,ds1522p-microp"), Model::new()),
-+        (DeviceId::new(c"synology,rs422p-microp"), Model::new().led_power(Color::Green)),
-+
-+        // r1000nk
-+        (DeviceId::new(c"synology,ds725p-microp"), Model::new()),
-+
-+        // rtd1296
-+        (DeviceId::new(c"synology,ds118-microp"), Model::new()),
-+
-+        // rtd1619b
-+        (DeviceId::new(c"synology,ds124-microp"), Model::new()),
-+        (DeviceId::new(c"synolody,ds223-microp"), Model::new().led_usb_copy()),
-+        (DeviceId::new(c"synology,ds223j-microp"), Model::new()),
-+
-+        // v1000
-+        (DeviceId::new(c"synology,ds1823xsp-microp"), Model::new()),
-+        (DeviceId::new(c"synology,rs822p-microp"), Model::new().led_power(Color::Green)),
-+        (DeviceId::new(c"synology,rs1221p-microp"), Model::new().led_power(Color::Green)),
-+        (DeviceId::new(c"synology,rs1221rpp-microp"), Model::new().led_power(Color::Green)),
-+
-+        // v1000nk
-+        (DeviceId::new(c"synology,ds925p-microp"), Model::new()),
-+        (DeviceId::new(c"synology,ds1525p-microp"), Model::new()),
-+        (DeviceId::new(c"synology,ds1825p-microp"), Model::new()),
-+    ]
-+);
-+
-+#[pin_data]
-+struct SynologyMicropDriver {
-+    #[pin]
-+    led: led::Data,
-+}
-+
-+#[vtable]
-+impl serdev::Driver for SynologyMicropDriver {
-+    type IdInfo = Model;
-+    const OF_ID_TABLE: Option<IdTable<Self::IdInfo>> = Some(&OF_TABLE);
-+
-+    fn probe(
-+        dev: &serdev::Device<device::Core>,
-+        model: Option<&Model>,
-+    ) -> impl PinInit<Self, kernel::error::Error> {
-+        pin_init_scope(move || {
-+            let model = model.ok_or(EINVAL)?;
-+
-+            dev.set_baudrate(9600).map_err(|_| EINVAL)?;
-+            dev.set_flow_control(false);
-+            dev.set_parity(serdev::Parity::None)?;
-+
-+            Ok(try_pin_init!(Self {
-+                led <- led::Data::register(dev, model),
-+            }))
-+        })
-+    }
-+}
 
--- 
-2.52.0
 
+--=-LwMCbgppev4PlArGDnXW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmnmTHwbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSEbIP/RZWXjlvmIFk3IOpbXyI
+v9/8k3NL4PiVvzRObuquUnoHCaG5ya7hpJv+s80hBXblMf56bBYx8dwO9bdfplaq
+Jm9gW/IZy/pgy4qUMwvxtyv07QpKuwqpu9Rc/V3RF7nFt15jAUm3gcc7DCbzx1zL
+1K5DubSOHo6TCMHmiqr9uen5Wr8F8SAWtQbShJpO7pt3k78PwsXweVqCic/qmcr8
+jV4K3OK5/9MbzJsFCTOe/jzFAvtcMf6nKjHkliBRupG+eL2BY1W4/B1/T2h8QSCX
+KinLsZ+QxYcVWsu5WpxQoAhi7SgSddk1gzDldzVxYQEdcVfhs3g9Y/1+kqjNMcwS
+D1Fy1QovNeXkmpq/pNPznt/fwQ2Vbz55wbvi1x8E7fCfE846V1QwQw7X7jxL5l8A
+jd6li7Y7t+5Aa4i91iqw7VbsCiL+rUJgpL5b7MweoA3D+sPlMku+Ru6Mz6Wu0QIn
+C5LWJysrGmQgCGli9tJKlvqqyw9mf3yUpVUJ8hwllkOpK2dZOnwPtuApMg3okt53
+HWWkGdrMUio9r7eGXgK6u2N7lQO+TVmOPqbBGaUdnpzu6NB7gSRaIh/CvtlhUP8x
+tW+mIh1KGhTZRC4HkDCAz+8jtyeS0R9zN+0hiE354lkWAhp16Py97IIDhFt4eckw
+BOeqf2VQAffrd1Wxxo34x1mK
+=QpWx
+-----END PGP SIGNATURE-----
+
+--=-LwMCbgppev4PlArGDnXW--
 
