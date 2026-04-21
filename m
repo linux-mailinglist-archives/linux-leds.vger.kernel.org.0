@@ -1,51 +1,51 @@
-Return-Path: <linux-leds+bounces-7788-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7789-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cMTYLgCa52kV+QEAu9opvQ
-	(envelope-from <linux-leds+bounces-7788-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 17:38:40 +0200
+	id UAfXEnGa52kV+QEAu9opvQ
+	(envelope-from <linux-leds+bounces-7789-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 17:40:33 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4794343CD35
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 17:38:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF9343CDC1
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 17:40:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4BC63308809B
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 15:32:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 966163032769
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 15:33:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9361286881;
-	Tue, 21 Apr 2026 15:32:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68C1A296BD3;
+	Tue, 21 Apr 2026 15:33:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SDvu0yfC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bwJXcWpB"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F89826ED3A;
-	Tue, 21 Apr 2026 15:32:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446AC86329;
+	Tue, 21 Apr 2026 15:33:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776785541; cv=none; b=raWGwTvHeYlWJ9d2fVno5XGzGNK2CC634K7RKsTmGl9sU99iX6kZMHptyDorY38vqWAWhXmoPIDTRbJPb3Dl1VJXRdNeKISysyQinDllTos20z5JLT1Kvt4J9/QkXD2CMjgRhI2FUdvLlD+36fzA+uEzfAofl9n0rPoLcBH0LT4=
+	t=1776785616; cv=none; b=OhVN739bjwNaaQra4KqlJ6/K/xER/B8XNw/tD3bnuAoWNefm+QV1O6qjBnKV32ODQ9qbTLChgjH3DrUaT3aOiLXzd6WEp/nlcO0E+NGdj/hnzp3f9tdA8vgUxaUykEwW+yKRaCDvyxzCMkZsFmP+VrML0oOefFvSirQoBE1gDy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776785541; c=relaxed/simple;
-	bh=ZuSyrZb1B8cDtkgK8u7UnvmCOkmQAraETxeC8RWQue0=;
+	s=arc-20240116; t=1776785616; c=relaxed/simple;
+	bh=+8giWA5aB5qXoGXTSQOinTyN2DUqZl1jhyu7m0Z8WVM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jqIa2BqpdQCLTpJkUnsLz2+Bv2xwgB6UP/h4Wp+Qz6++0+RqdODT0l73pwtUWUOzA3Y94Rw4fEOjgdijGmICxM1WITeHCENPHHjJmLyyOAm4Y6xkto9vEdu8a6YXlBKbyeoeQ3v+JYrupH6zzmLgrU6dBjX2npKjKSRuGhbf250=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SDvu0yfC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA5BBC2BCB0;
-	Tue, 21 Apr 2026 15:32:16 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=uIQVBwWB9VyHe0ZS5JVMSdsKMou7PmrIPdW+VT9Q9KkKRNpgX9PD0c9anh08mAi/Hz18OGl651LcmujyxgDw1BrgFhUTg9px6hVrLL5kXN9U1yHqJe9KRQIBAEHseCJ41BWZ+29orHgaMF/FlsMJYsuNmW6fRTN7BYm9MFHVzN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bwJXcWpB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDFC8C2BCB3;
+	Tue, 21 Apr 2026 15:33:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776785541;
-	bh=ZuSyrZb1B8cDtkgK8u7UnvmCOkmQAraETxeC8RWQue0=;
+	s=k20201202; t=1776785615;
+	bh=+8giWA5aB5qXoGXTSQOinTyN2DUqZl1jhyu7m0Z8WVM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SDvu0yfC0rvNPHjOmHmLbzIb8mAZFyfEiVvuyrncx2AZvP1UxxJS5n6qmf1JXmZNW
-	 SVbDowtvWTW1PXQdIpqR52lKpU+vtLe4+OdaJj/BDeUUapgdm0vbfZsKNlx3MnlPol
-	 ERaBeZA4kFY//rmwBEXLu3qIRvLTXmG9LH6SNqz8zFwu+jD1Ca9Zav/ELHVMFHu2xS
-	 xb2DnRkjhKrn7qIWoF7xxsYS05/o77TB4xoyNpAIXFvKoBWt0x/A+EjeIwkpgzcogm
-	 n8RacQezs6fKmxd7tVGuG8ofLxBhQaW2BnnIV7xKJtgGdtT4notruGADn0YRzLrCs8
-	 +wJs894vLcPIg==
-Message-ID: <c214f270-571c-4440-919e-99fce5ac1b08@kernel.org>
-Date: Tue, 21 Apr 2026 17:32:14 +0200
+	b=bwJXcWpBifZLV2tl3kYkgRUsTDChSz/amAz/9UU3Qxq1POcVRBYunk/sD+6JYpiv9
+	 NkiBXsuUYpn5FMhiKaJYj4AK791OlA9ebEI9r1VXNUHd91/YQ4rC8seyn9A5qR1Yww
+	 Jz8E2oRhhhH2yEeaBSnPc8GqgpkUrw7TK/iutUVb1OP96rqF3GfKvJb6EZc+vSF91t
+	 +9YyPp5h6K6QjSzGY87/f1CBZ6OKWw453w+SQsSF2om00bQN54q/Otm7UbEprh6H0b
+	 EKP6iciSW7D9u9fsRnD+4nb/Ch8eTBrkXI42YKijd3vsGaBUCvfNrARSt9D4nHhC7R
+	 sbEVvuzP5//Ew==
+Message-ID: <00486b10-4c0b-420b-a735-67c3164eeb24@kernel.org>
+Date: Tue, 21 Apr 2026 17:33:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -53,11 +53,10 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] dt-bindings: embedded-controller: Add synology
- microp devices
-To: Markus Probst <markus.probst@posteo.de>
-Cc: Hans de Goede <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+Subject: Re: [PATCH v8 2/2] platform: Add initial synology microp driver
+To: Markus Probst <markus.probst@posteo.de>, Hans de Goede
+ <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Lee Jones <lee@kernel.org>,
  Pavel Machek <pavel@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
  Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
@@ -66,14 +65,12 @@ Cc: Hans de Goede <hansg@kernel.org>,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+ <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  rust-for-linux@vger.kernel.org
 References: <20260420-synology_microp_initial-v8-0-7946a9124491@posteo.de>
- <20260420-synology_microp_initial-v8-1-7946a9124491@posteo.de>
- <20260421-just-benevolent-dormouse-2c35ed@quoll>
- <26b074972581ff398b5af964ba092c8117855062.camel@posteo.de>
+ <20260420-synology_microp_initial-v8-2-7946a9124491@posteo.de>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -119,7 +116,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <26b074972581ff398b5af964ba092c8117855062.camel@posteo.de>
+In-Reply-To: <20260420-synology_microp_initial-v8-2-7946a9124491@posteo.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -131,11 +128,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7788-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-7789-lists,linux-leds=lfdr.de];
+	FREEMAIL_TO(0.00)[posteo.de,kernel.org,linux.intel.com,linaro.org,garyguo.net,protonmail.com,google.com,umich.edu,linuxfoundation.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,linaro.org,garyguo.net,protonmail.com,google.com,umich.edu,linuxfoundation.org,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCPT_COUNT_TWELVE(0.00)[24];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
@@ -149,136 +146,28 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,posteo.de:email]
-X-Rspamd-Queue-Id: 4794343CD35
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 9BF9343CDC1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 21/04/2026 16:50, Markus Probst wrote:
-> On Tue, 2026-04-21 at 09:07 +0200, Krzysztof Kozlowski wrote:
->> On Mon, Apr 20, 2026 at 02:24:20PM +0000, Markus Probst wrote:
->>> Add the Synology Microp devicetree bindings. Those devices are
->>> microcontrollers found on Synology NAS devices. They are connected to a
->>> serial port on the host device.
->>>
->>> Those devices are used to control certain LEDs, fan speeds, a beeper, to
->>> handle buttons, fan failures and to properly shutdown and reboot the
->>> device.
->>>
->>> The device has a different feature set depending on the Synology NAS
->>> model, like having different number of fans, buttons and leds. Depending
->>> on the architecture of the model, they also need a different system
->>> shutdown behaviour.
->>>
->>> Signed-off-by: Markus Probst <markus.probst@posteo.de>
->>> ---
->>>  .../synology,ds1825p-microp.yaml                   | 108 +++++++++++++++++++++
->>>  1 file changed, 108 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/embedded-controller/synology,ds1825p-microp.yaml b/Documentation/devicetree/bindings/embedded-controller/synology,ds1825p-microp.yaml
->>> new file mode 100644
->>> index 000000000000..76c671a42fbf
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/embedded-controller/synology,ds1825p-microp.yaml
->>> @@ -0,0 +1,108 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/embedded-controller/synology,ds1825p-microp.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Synology NAS on-board Microcontroller
->>> +
->>> +maintainers:
->>> +  - Markus Probst <markus.probst@posteo.de>
->>> +
->>> +description: |
->>> +  Synology Microp is a microcontroller found in Synology NAS devices.
->>> +  It is connected to a serial port on the host device.
->>> +
->>> +  It is necessary to properly shutdown and reboot the NAS device and
->>> +  provides additional functionality such as led control, fan speed control,
->>> +  a beeper and buttons on the NAS device.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    oneOf:
->>> +      - const: synology,ds223-microp
->>> +      - const: synology,ds411p-microp
->>> +      - const: synology,ds1010p-microp
->>> +      - const: synology,ds710p-microp
->>> +      - const: synology,ds723p-microp
->>> +      - const: synology,ds225p-microp
->>> +      - const: synology,rs422p-microp
->>
->> That's one enum.
->>
->>> +      - maxItems: 2
->>> +        minItems: 2
->>
->> There is no such syntax foro compatibles. Please use any existing file
->> as example or look at example-schema.
-> In the example schema, another device is used as fallback. 
+On 20/04/2026 16:24, Markus Probst wrote:
+> +        // pineview
+> +        (DeviceId::new(c"synology,ds710p-microp"), Model::new().led_esata()),
+> +        (DeviceId::new(c"synology,ds1010p-microp"), Model::new().led_alert(Color::Orange)),
+> +        (DeviceId::new(c"synology,ds411p-microp"), Model::new()),
+> +
+> +        // r1000
+> +        (DeviceId::new(c"synology,ds923p-microp"), Model::new()),
+> +        (DeviceId::new(c"synology,ds723p-microp"), Model::new()),
+> +        (DeviceId::new(c"synology,ds1522p-microp"), Model::new()),
 
-True.
+What is this all doing here? Again, what is the fallback and front
+compatible? Why do you keep duplicating all this when I asked to REMOVE
+the completely unnecessary front compatibles?
 
-> This is what
-> I did here.
-
-Not true. You have enum and min/maxItems. There is no such syntax for
-compatibles. I repeat.
-
-Instead of just blindly disagreeing and saying "I did that", point me to
-example-schema having compatibles with min/maxItems.
-
-
-
-> 
-> 
-> Other sources suggest, I should add fallbacks that are less specific
-
-That's not really discussed here. It all looks like some random schema
-and considering amount of LLM flying on the lists I have now doubts.
-
-You need specific compatibles.
-...
-
-> 
-> If thisisn't fine either, replying to my previous message would
-> probably the most efficient way to move forward [1].
-
-
-> 
->>
->>> +        items:
->>> +          enum:
->>
->> No, why the list is randomly ordered.
-
-Look here
-
->>
->>> +            - synology,ds923p-microp
->>> +            - synology,ds1522p-microp
->>
->> And fallback, whichever is that, is not documented alone.
->>
->>> +      - minItems: 4
->>> +        maxItems: 4
-> 
-> Those are devices with the exactly same known feature set.
-> i. e. ds1522p can act as a fallback for ds923p, and ds923p could act as
-> a fallback for ds1522p.
-
-You are not responding to actual comments. Lets focus ONLY on above
-list. ONLY. Point me, where did you document the fallback to be used
-alone? First of course, define what is the fallback.
-
-None of this matches example schema or any other bindings, none of this
-produces correct constraints for correct DTS.
-
-You need a defined enum of fallbacks and several lists for specific
-fallback+front, like many other bindings in kernel.
+So it is not only schema which is wrong, but your driver makes no sense
+with it.
 
 Best regards,
 Krzysztof
