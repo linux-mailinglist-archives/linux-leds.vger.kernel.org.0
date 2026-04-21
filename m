@@ -1,187 +1,212 @@
-Return-Path: <linux-leds+bounces-7797-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7798-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QK1pMJbG52mCAgIAu9opvQ
-	(envelope-from <linux-leds+bounces-7797-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 20:48:54 +0200
+	id aBHUIAfZ52kBBwIAu9opvQ
+	(envelope-from <linux-leds+bounces-7798-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 22:07:35 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E5B43ECC5
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 20:48:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E3543F3E7
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 22:07:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B93D6301A3B9
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 18:47:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1310E305DEEA
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 19:59:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0136D3DA5B7;
-	Tue, 21 Apr 2026 18:47:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A47B63DCDBE;
+	Tue, 21 Apr 2026 19:59:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lY2hPFkR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jsCuniVt"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3FC3750B6
-	for <linux-leds@vger.kernel.org>; Tue, 21 Apr 2026 18:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776797235; cv=pass; b=aRIXYLEvQ1crIcS1d1lLXu+5tXO2oG2wYGgqIcrI4ykvhpmBN5lKFkXtPzqu4UN0JmT5fqEIGKLDApKIajnX7Ib57BIpUgFXTpoN8EHtMO0EyIw0ckZhewroa/yfmac4qwSkU0q/fl49ip73e2GMWHHaH98uvJx1Z3PqkhOrOOg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776797235; c=relaxed/simple;
-	bh=nxMVd9OHSpuGcSYtsfr53tYbcrChA8wOvkQbNhNm+r4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V28IkH81hPSeTl/qsQuqPm2l28AnXQh7baIGyjMf7k7QfPGJJekuLwIWt72Mf7BQezDN3kVfQEgqxFXwM3OMDCIzHuwHLiQ1dpjhtY8t+ZPWGKC6qNMCOiMv/xxlTCqbKHuv80CZnXtqmUF3vPcJ0xMLn0KSoJtkMsJEPAov+KM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lY2hPFkR; arc=pass smtp.client-ip=74.125.82.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-12c8ed67dccso181326c88.3
-        for <linux-leds@vger.kernel.org>; Tue, 21 Apr 2026 11:47:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776797233; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Up+dto2wNdmUH0a7kfbvNuTqwAP2+fiG9Ez15Ax2SVAvfdgGFcTgcC3umv9or3Czml
-         /CTrAd5NRTf8hw8OwJhZPzWkUeuNQl7zOtVi/JqdvTm8ScYpujnv9wgKWFh80q9FvSv0
-         KPEpvcQfoOyPccTNNh1G6HaJ1e6XguL/3knCrPitMNx/Tidm5E5c5cJTsGrV2stLq7zB
-         V0jUp279iTEwKW2lEuyFiLehTVIf2YEV3k9J8Bn+qE+8RZYFQEI0DWlq5pUNmvrK4U+Z
-         WZaqQr1g7niB3iiJf9ZJtohfPvmWn7jyNG0LBt6pqYW9293c/ar6sYRpNcYjhqLov5uo
-         kYow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=nxMVd9OHSpuGcSYtsfr53tYbcrChA8wOvkQbNhNm+r4=;
-        fh=epSyu2taP6nQoDqAwGrB+1qT1TgKCxRwllronbXjOKg=;
-        b=kZW4SBjT5LdP7ze/ceGqAUFRevpR4TCI9rQ/KPjytJq0MXhmnPmHCMIaMyKv8y7rYt
-         pI0kAjGQlrKQVS1toJXfvDs4OLVhcZQz+px7TwGdKbWyts82yz39NwnJ+i8Q6aIwylfY
-         MQakyfauq4Hu3NgczemznchFZc49phgqC5BPURK2C6+3nqFdAWBKCgIq4kjG3GmQoF05
-         9tDLmEGWmK3orP3bM0I+NCuEI2WhXanJZu6CiIp8SFYmFXY9m2egTZrFZ8MHKOaXmp2t
-         XUKoEmtD161T6o3WrVtSf+Xz8SrRGmpM7AwZ975MVwzkTgkdtbaiEZhVQrGShP7KBprp
-         fsCA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776797233; x=1777402033; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nxMVd9OHSpuGcSYtsfr53tYbcrChA8wOvkQbNhNm+r4=;
-        b=lY2hPFkRzSq0i1RtibAyiaYlSfJT9MCga6ODlOILOzE3hy3pzy1KE1XhdjDDOhFtCy
-         NQpH5CwR6RJu9e67ONSkgrVu8NTubVsEdi25y5VmxyJkAmDCwh+lWkJwaQmPHIwbmroT
-         PS4IrEXF7GZoTZWqGbunpMBr6IcFcqAsNsGGbAXuxhPQOUUpLTcSyyxgyzfvtWBAVjiB
-         kAzh4b7q+msAEnoXUPhvFES/5vrMq69RPJ6eeZX63CsGe/idjCcrOltXmlWosmnUBj7c
-         ppGhVvypCTYjmoWOdwo0EXMZ0PCgmWSB/+ucyZc9i957cNGUmYmalruc9hxNvLd/nHsI
-         kUdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776797233; x=1777402033;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nxMVd9OHSpuGcSYtsfr53tYbcrChA8wOvkQbNhNm+r4=;
-        b=kwhjfUkCH/Ftg2mefxIobMf5FKL8sgpuEBr1BaW3kvBOj4xgAI8GentQ/7E9GNNQ22
-         Wsdu7tskenKPs5PoSGJXxXlTHVfU/0I3tIDe5H7kIAw12JcrvHXvR1b6AV5/GRovB8YE
-         Zlwr2nW+kKlsqkuwwGeLtkbxmrKs5mtJDuPJ0RgpbjGv7yIXAf2lbNHO6TulyhllclER
-         VNDicnJqDz6aQ0Pgjmo+thEuEAKv+Bkwf5Y5duhbbCg8NfH17KH0vSlEQR5+HU4LsU1g
-         ITAxnMiIpHArA3NCb5Iy3O6AeN23ZWayZxKIkRTjTYNyptgm7fLTRmzlatrJF6ORLkmO
-         LB3g==
-X-Forwarded-Encrypted: i=1; AFNElJ8N+07PvJcq3maicWnXkSl72FRPatrNozJ38maHolxqQKkLdxa9lJyYxUcf7Gn++2tq3vJXs4oqKzwE@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCeAVWAFGNclUcFUkih/FJY+A4PZIj/yOaGkklABX7GmGsEzK8
-	OrgX7uMh1tZM1K7KjZRg9u/I1uUiJY8zDl1d4N0a1gadgQIj5RCWcN/32dZO5hc5xyF/nGxf8qO
-	sk8NyJ3SVdWEZA0AJGqrL5MU1s4c5e+A=
-X-Gm-Gg: AeBDiet4NJZIQVIKroMyuQcwJXTRRcWHL7hit/hRaiK7VzqnOpUtPS5TArQ6TY5B/O5
-	5LXC2zCU8npnx53/1SLvbg7PJqeuynAj/9f/6NGJZCidHrLgWM1N+C0Oi4JGFcqJmujwVauy7QO
-	VvIt3ei+gadD3MgYCs4I2MGpLzr9MQvuXgZ7MfFjSIf0ffHcJMAO/9DV+Al5PxSyQe/DUQqKllt
-	G3PdJXJxjRICPBUVBoplMvqw4wprdwQy47J6XpHEF0g4Mwygkef6DuyAIWf/lC1DoLVofREbIco
-	hDP5gsskFftnHeEFv8AESo7hxQ4Wpv2zI3l1eMuLKKd6sDWmMXk/0QAFWdQIK2BO+ufVcq/OytX
-	hB6l/Vr/zIue2zBdggogvYWIBVCIjiheHAjSn/Zj9xiTe
-X-Received: by 2002:a05:7300:fd07:b0:2cb:8d2f:e235 with SMTP id
- 5a478bee46e88-2e466043efemr3780881eec.1.1776797233495; Tue, 21 Apr 2026
- 11:47:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE4B364023;
+	Tue, 21 Apr 2026 19:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776801579; cv=none; b=Tx+vb3V5nNDYWcHowqovgZdXFSrwGVGDHmt2xqv4kXplrNmjhkUZiMQwkq2vW+NIIuoUu9BNf/ybWE2If1l97SKKU95TL/n8emz7zm6WJWewINpvZRdhqEWOB4U4Wu7dTXuiMj1A62xGR4Bk1JOhprhmRRW09FVRfQBHi0bH0Ls=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776801579; c=relaxed/simple;
+	bh=RPmjpLGSCuEb2lhegb48dLNjvGXXc0hnC8stpqzMyf0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tsDP5kSYYMs+T6uE6iBMnqFMOotQIxcGUfW1MiDBTx4t2A0e/hMHRNF4gtSmApn6mOklUg9MqNeLQvZSVjChZFpqFMnIOaI4sHz2wghY7KZ66f0pH2jzU+Edzgv+YzeZwKv+TYE9+gMTr2AWx0ooU8jK5N0AfmpVxbg++qtUC6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jsCuniVt; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776801578; x=1808337578;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=RPmjpLGSCuEb2lhegb48dLNjvGXXc0hnC8stpqzMyf0=;
+  b=jsCuniVt583XTmMWlyzGa4n8rtv5S1DQ0tCl2iKy4gu7Wh5EZL33ntPK
+   UNEq+wAs35JMkAAMZujaoa32tTUuKEeNcNBq/gu/brlDAv083c831H3E7
+   T+h+gsAXar5vOHE9xwwOLHn9oyvpBvGkmri9e/jtYnAxzqxwHz7iQAFdl
+   2F/1rQck905SlcAfLk7r2gnjNVmpzg4n173o9mmRl5bgLfebK5KITjOGr
+   SjxFRKxHw8Rgrr8W6Vcluq/ToH0Ph3AYXpCVkeHsQXiAzVAo5Db9KqqFO
+   SqkzNEBLe4CT2WpNrqTdUuMdyuu9Rl3XE+0Pg+xu1ak6WoO83QsxF1KfM
+   A==;
+X-CSE-ConnectionGUID: ynNNhmPcTGmoUN+HcNvehw==
+X-CSE-MsgGUID: zLXJuLgBQl6M8uFbRMbjGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="77625206"
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="77625206"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 12:59:37 -0700
+X-CSE-ConnectionGUID: BWmp1dLpTZeTRcGv4UzMcw==
+X-CSE-MsgGUID: 9Xn2PdsFS3mteYDZiBO03A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="227522447"
+Received: from zzombora-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.164])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 12:59:35 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id A88361201FC;
+	Tue, 21 Apr 2026 22:59:33 +0300 (EEST)
+Date: Tue, 21 Apr 2026 22:59:33 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 5/5] media: i2c: lm3560: Add support for PM features
+Message-ID: <aefXJebe2F4Z193F@kekkonen.localdomain>
+References: <20260419093412.40796-1-clamor95@gmail.com>
+ <20260419093412.40796-6-clamor95@gmail.com>
+ <aeepbB72uWDxvnE_@kekkonen.localdomain>
+ <CAPVz0n1sNoJv=JcAZdv3srRY0vecrRO0spnqg58-VLnYdkfPSw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260420-synology_microp_initial-v8-0-7946a9124491@posteo.de>
- <20260420-synology_microp_initial-v8-2-7946a9124491@posteo.de>
- <6104a5fe-a6e3-4c35-ff4f-731d1a5e4acb@linux.intel.com> <c4964138177c4455f5eb07d0e23db2dfec40bf9c.camel@posteo.de>
- <e166861c-e75d-d1c2-61e8-f611e6ee1ef2@linux.intel.com> <1cc39657ac50f3930dfa27de41a1b4605a7167d9.camel@posteo.de>
-In-Reply-To: <1cc39657ac50f3930dfa27de41a1b4605a7167d9.camel@posteo.de>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 21 Apr 2026 20:46:59 +0200
-X-Gm-Features: AQROBzD7jw36OIB5Thxw8iYFM3lU80V29LqkzQd_l1DKXUW04JWxY4nHk4yFQzg
-Message-ID: <CANiq72k=8fmi0fJnNV=GgR5_HO_COWGynKDF-xzoX1nDAdxdrw@mail.gmail.com>
-Subject: Re: [PATCH v8 2/2] platform: Add initial synology microp driver
-To: Markus Probst <markus.probst@posteo.de>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Lyude Paul <lyude@redhat.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
-	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Hans de Goede <hansg@kernel.org>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, platform-driver-x86@vger.kernel.org, 
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPVz0n1sNoJv=JcAZdv3srRY0vecrRO0spnqg58-VLnYdkfPSw@mail.gmail.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7797-lists,linux-leds=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[posteo.de,kernel.org,gmail.com,redhat.com,linutronix.de,google.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[31];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_FROM(0.00)[bounces-7798-lists,linux-leds=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-leds@vger.kernel.org];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,linaro.org,garyguo.net,protonmail.com,google.com,umich.edu,linuxfoundation.org,vger.kernel.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,posteo.de:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 26E5B43ECC5
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 00E3543F3E7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Apr 21, 2026 at 8:21=E2=80=AFPM Markus Probst <markus.probst@posteo=
-.de> wrote:
->
-> Delta stores it in nano seconds, so it will require an additional
-> `.as_millis()` call on use. I assume rust will optimize that out, so it
-> will be fine. I will use the `Delta` type like Miguel suggested in the
-> next revision.
+Hi Svyatoslav,
 
-I think it should (at least in the 64-bit case -- we do have a
-`bindings::` C call in the 32-bit case, so likely not in that case),
-but please double-check the codegen.
+On Tue, Apr 21, 2026 at 08:32:16PM +0300, Svyatoslav Ryhel wrote:
+> вт, 21 квіт. 2026 р. о 19:44 Sakari Ailus <sakari.ailus@linux.intel.com> пише:
+> >
+> > Hi Shyvatoslav,
+> >
+> > On Sun, Apr 19, 2026 at 12:34:12PM +0300, Svyatoslav Ryhel wrote:
+> > > @@ -403,6 +423,60 @@ static int lm3560_init_device(struct lm3560_flash *flash)
+> > >       return rval;
+> > >  }
+> > >
+> > > +static void lm3560_power_off(struct lm3560_flash *flash)
+> > > +{
+> > > +     gpiod_set_value_cansleep(flash->hwen_gpio, 0);
+> > > +     regulator_disable(flash->vin_supply);
+> > > +}
+> > > +
+> > > +static int lm3560_power_on(struct lm3560_flash *flash)
+> > > +{
+> > > +     int rval;
+> > > +
+> > > +     rval = regulator_enable(flash->vin_supply);
+> > > +     if (rval < 0) {
+> > > +             dev_err(flash->dev, "failed to enable vin power supply\n");
+> > > +             return rval;
+> > > +     }
+> > > +
+> > > +     gpiod_set_value_cansleep(flash->hwen_gpio, 1);
+> > > +
+> > > +     rval = lm3560_init_device(flash);
+> > > +     if (rval < 0) {
+> > > +             lm3560_power_off(flash);
+> > > +             return rval;
+> > > +     }
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int __maybe_unused lm3560_pm_runtime_resume(struct device *dev)
+> > > +{
+> > > +     struct lm3560_flash *flash = dev_get_drvdata(dev);
+> > > +
+> > > +     return lm3560_power_on(flash);
+> > > +}
+> > > +
+> > > +static int __maybe_unused lm3560_pm_runtime_suspend(struct device *dev)
+> >
+> > Could you change lm3560_power_o{n,ff}() take struct device pointer as the
+> > argument?
+> >
+> 
+> What benefit it will bring? Unless you propose to use on/off functions
+> in pm directly, I don't see any benefit in this change.
 
-In any case, my suggestion wasn't necessarily about using `Delta`,
-which is definitely an option to consider, but rather more generally
-about using newtypes, e.g. it may be that we want to have a few simple
-time unit types (probably with support for `const`) for cases like
-these if people are going to use primitives everywhere to define their
-`const`s -- Cc'ing the timekeeping Rust folks.
+You get rid of two redundant wrappers.
 
-Thanks!
+> 
+> > > +{
+> > > +     struct lm3560_flash *flash = dev_get_drvdata(dev);
+> > > +
+> > > +     lm3560_power_off(flash);
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static void lm3560_subdev_cleanup(struct lm3560_flash *flash)
+> > > +{
+> > > +     unsigned int i;
+> > > +
+> > > +     for (i = LM3560_LED0; i < LM3560_LED_MAX; i++) {
+> >
+> > You could define i here.
+> >
+> 
+> You mean:
+>  for (unsigned int i = LM3560_LED0; i < LM3560_LED_MAX; i++)?
+> 
+> If yes, I would like to keep it as is, it looks cleaner to me, and
+> this part was transferred from remove as is.
 
-Cheers,
-Miguel
+Works for me.
+
+-- 
+Regards,
+
+Sakari Ailus
 
