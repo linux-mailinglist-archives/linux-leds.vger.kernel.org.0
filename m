@@ -1,77 +1,79 @@
-Return-Path: <linux-leds+bounces-7785-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7786-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gBrbGy2I52kU9wEAu9opvQ
-	(envelope-from <linux-leds+bounces-7785-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 16:22:37 +0200
+	id SCY4GHmQ52n69wEAu9opvQ
+	(envelope-from <linux-leds+bounces-7786-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 16:58:01 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9966D43BF10
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 16:22:36 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB24243C6C3
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 16:58:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 49DE63031F20
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 14:17:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 61B04305D6F8
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Apr 2026 14:50:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 028E42C2363;
-	Tue, 21 Apr 2026 14:17:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A47B83D9DAC;
+	Tue, 21 Apr 2026 14:50:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="pSUpIN+u"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="o9lw3XhA"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B266A3C6A51
-	for <linux-leds@vger.kernel.org>; Tue, 21 Apr 2026 14:17:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519F33D88E0
+	for <linux-leds@vger.kernel.org>; Tue, 21 Apr 2026 14:50:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776781061; cv=none; b=aGvSCCutgqqRaLDBDyk0TS/Q8FO3pl05h54++j54ySXH0JG/CMVfdbedfVW5DM+NGFTYYqZ+iKIV3gYyEHiP/iKU1q9Eb2yarjzSdyXO7wEIAZghF0bILVKkwUdu4rwVxbpb+H8Cg30tnt5l3UzEnKVP9iGNeQkngcBEarI5LMk=
+	t=1776783055; cv=none; b=IwfInbR8pKOtTu39q8ttutKZPqynfhZA6OIhkwNF0B5fksxvvGNkXi3BeKUeoC588Z/YDmUeMUJ+LVOLjnNq8cvbsXVULjIF0ruwY+42vqogDdLDGY016PVyU4S6AxA1uHfGbKYzajBfrsRXQwDHrVPoGuxSJMsfyO8HSNMCuJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776781061; c=relaxed/simple;
-	bh=HOWMD5JBxGVJZ/YWwEI+O7wOXjzjJyd3CIUAH0+4Elc=;
+	s=arc-20240116; t=1776783055; c=relaxed/simple;
+	bh=NqBxCJSSooglSvWmHdF/VUqFh/2b7ZZkADOFhvMlNhU=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=n7L+oRFRotMDmYNAQK9kZeVV08w79TCYmHUa2oKbTtqxqLXILoToc3fEZN3XsdWxIIU7yPtJKQrjd8LiVSwGWtppPsWWOxZOiXzp/oih7eR0E5n2kaHtcKesMhrQzgs1lR3xzFrxEjXBoQUM4vvvLGcTgIQRGJDFKigshulYQvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=pSUpIN+u; arc=none smtp.client-ip=185.67.36.65
+	 Content-Type:MIME-Version; b=mJTIX8wo3gxfDGZMFJoKS9a2GmY3Zzdzx+5/6f4gIxlMgWundE4WiXR/ydJwkNVP01GPMAl/DcvuRjb0omVeQjSYrjMnyHQoSGzoX24i3l/RjYTam+KHjeU74yOHHRny4oBhvXuNIQife8+nW0sj+5Ah8fx1fZjlgMtpPyYTRzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=o9lw3XhA; arc=none smtp.client-ip=185.67.36.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 53BD7240029
-	for <linux-leds@vger.kernel.org>; Tue, 21 Apr 2026 16:17:37 +0200 (CEST)
+	by mout01.posteo.de (Postfix) with ESMTPS id B5E3424002E
+	for <linux-leds@vger.kernel.org>; Tue, 21 Apr 2026 16:50:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1776781057; bh=NxoXZf5wORxUM30fErPWq6tEOrlrf1QFwwBF0fqQRyE=;
+	t=1776783044; bh=Zk59gK8u1+DLZvTRqE2gaJCXbj9xnsbmFV0JFq9MJoQ=;
 	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
 	 MIME-Version:OpenPGP:From;
-	b=pSUpIN+uTter9tLRag0YJUTAK2+DoMV9+P/xT6FxCsfT5xXXTPM4axkSLJNJKBBTi
-	 1EdDGBY29qIl4sOCvZjJfHk5nxr68EdL19Q1oAjXPPuzf/xqE6nrcNulMHwZw9Umon
-	 JL3/OjmIkoJXazf0EAKFXs+o0It00EgervZr51r8rrrDxLMjcq5M1iGR8GsO0bveWs
-	 bmz+UYYOauAxUVpJkzOs2L6FjgQvs13faXA+/Jk8XUuNKCl7nnEUDNgnPsom5qt9O0
-	 K+qZCLPGMVGy50FHR0S3G6nhfEX4jYTgmmCPpKmy9HdKED3nLNZ1aKUE3i37AE1mwu
-	 CWYqAKlMaEESQ==
+	b=o9lw3XhAgvq775Pn3wdpdbFmiGv2mEWbDdt7ajJGD3frXOgNSO71lyIfhZNDksxf3
+	 1bPZrEQML+glBoIhEusYHzX20xZI3M9Ku7pLhZaYEtn+wGDZgIy392GJ5hapwj4j/M
+	 +yzqwCuSaXXTGczvxcdxZ/1sstTEqnAsZ2NAEZATgwI8zg5bwGNQe/2yB4LjIkxWPB
+	 Xzd8kDByIw2B1+RTABUr6AiWmqhjldd7AtKwC1SmJZmMt8MbD0NrKp9Zcr3Ei0nmVd
+	 CPpAnkb2bozMW265/d++TcsWq4s4tBYRnXHRwnjzcHkQ5f6Hr8m5FVE1aa7x1UnL3N
+	 CecaNlZrQE7Cg==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4g0PZQ6XCNz9rxK;
-	Tue, 21 Apr 2026 16:17:34 +0200 (CEST)
-Message-ID: <c4964138177c4455f5eb07d0e23db2dfec40bf9c.camel@posteo.de>
-Subject: Re: [PATCH v8 2/2] platform: Add initial synology microp driver
+	by submission (posteo.de) with ESMTPSA id 4g0QJd4ZNvz9rxN;
+	Tue, 21 Apr 2026 16:50:41 +0200 (CEST)
+Message-ID: <26b074972581ff398b5af964ba092c8117855062.camel@posteo.de>
+Subject: Re: [PATCH v8 1/2] dt-bindings: embedded-controller: Add synology
+ microp devices
 From: Markus Probst <markus.probst@posteo.de>
-To: Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Hans de Goede <hansg@kernel.org>, Bryan O'Donoghue	
- <bryan.odonoghue@linaro.org>, Lee Jones <lee@kernel.org>, Pavel Machek	
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Hans de Goede <hansg@kernel.org>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=	
+ <ilpo.jarvinen@linux.intel.com>, Bryan O'Donoghue
+ <bryan.odonoghue@linaro.org>,  Lee Jones <lee@kernel.org>, Pavel Machek
  <pavel@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
- <boqun@kernel.org>,  Gary Guo <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?=
- Roy Baron <bjorn3_gh@protonmail.com>,  Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>,  Trevor Gross <tmgross@umich.edu>, Danilo Krummrich
- <dakr@kernel.org>, Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski	
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Greg
- Kroah-Hartman	 <gregkh@linuxfoundation.org>,
- platform-driver-x86@vger.kernel.org, 	linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, LKML	 <linux-kernel@vger.kernel.org>,
- rust-for-linux@vger.kernel.org
-Date: Tue, 21 Apr 2026 14:17:36 +0000
-In-Reply-To: <6104a5fe-a6e3-4c35-ff4f-731d1a5e4acb@linux.intel.com>
+ <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?=
+ Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl
+ <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich
+ <dakr@kernel.org>, Rob Herring	 <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley	 <conor+dt@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Date: Tue, 21 Apr 2026 14:50:43 +0000
+In-Reply-To: <20260421-just-benevolent-dormouse-2c35ed@quoll>
 References: <20260420-synology_microp_initial-v8-0-7946a9124491@posteo.de>
-	 <20260420-synology_microp_initial-v8-2-7946a9124491@posteo.de>
-	 <6104a5fe-a6e3-4c35-ff4f-731d1a5e4acb@linux.intel.com>
+	 <20260420-synology_microp_initial-v8-1-7946a9124491@posteo.de>
+	 <20260421-just-benevolent-dormouse-2c35ed@quoll>
 Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
  keydata=mQINBGiDvXgBEADAXUceKafpl46S35UmDh2wRvvx+UfZbcTjeQOlSwKP7YVJ4JOZrVs93
  qReNLkOWguIqPBxR9blQ4nyYrqSCV+MMw/3ifyXIm6Pw2YRUDg+WTEOjTixRCoWDgUj1nOsvJ9tVA
@@ -117,7 +119,7 @@ Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
  dQNGrZ91M9nlIBKw8Y7c7xZ4098qX2b8JX/CxD+gC1r4C8vuA3GkhFLx+KlkON7LyiJPkrePp6Qky
  jfGillcaQOqFZ3WwVqyzG1BUfTow==
 Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-RI/JmpCN3XD2kPkbtbAB"
+	protocol="application/pgp-signature"; boundary="=-ouFJPOhX4k+ZvTsduuHi"
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -131,19 +133,19 @@ X-Spamd-Result: default: False [-2.76 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[posteo.de,none];
 	R_DKIM_ALLOW(-0.20)[posteo.de:s=2017];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,garyguo.net,protonmail.com,google.com,umich.edu,linuxfoundation.org,vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,linaro.org,garyguo.net,protonmail.com,google.com,umich.edu,linuxfoundation.org,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7785-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-7786-lists,linux-leds=lfdr.de];
 	DKIM_TRACE(0.00)[posteo.de:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[markus.probst@posteo.de,linux-leds@vger.kernel.org];
@@ -151,413 +153,168 @@ X-Spamd-Result: default: False [-2.76 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[23];
+	RCPT_COUNT_TWELVE(0.00)[24];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 9966D43BF10
+X-Rspamd-Queue-Id: BB24243C6C3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---=-RI/JmpCN3XD2kPkbtbAB
+--=-ouFJPOhX4k+ZvTsduuHi
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2026-04-21 at 14:59 +0300, Ilpo J=C3=A4rvinen wrote:
-> On Mon, 20 Apr 2026, Markus Probst wrote:
->=20
-> > Add a initial synology microp driver, written in Rust.
-> > The driver targets a microcontroller found in Synology NAS devices. It
-> > currently only supports controlling of the power led, status led, alert
-> > led and usb led. Other components such as fan control or handling
-> > on-device buttons will be added once the required rust abstractions are
-> > there.
+On Tue, 2026-04-21 at 09:07 +0200, Krzysztof Kozlowski wrote:
+> On Mon, Apr 20, 2026 at 02:24:20PM +0000, Markus Probst wrote:
+> > Add the Synology Microp devicetree bindings. Those devices are
+> > microcontrollers found on Synology NAS devices. They are connected to a
+> > serial port on the host device.
 > >=20
-> > This driver can be used both on arm and x86, thus it goes into the root
-> > directory of drivers/platform.
+> > Those devices are used to control certain LEDs, fan speeds, a beeper, t=
+o
+> > handle buttons, fan failures and to properly shutdown and reboot the
+> > device.
 > >=20
-> > Tested successfully on a Synology DS923+.
+> > The device has a different feature set depending on the Synology NAS
+> > model, like having different number of fans, buttons and leds. Dependin=
+g
+> > on the architecture of the model, they also need a different system
+> > shutdown behaviour.
 > >=20
 > > Signed-off-by: Markus Probst <markus.probst@posteo.de>
 > > ---
-> >  MAINTAINERS                                        |   6 +
-> >  drivers/platform/Kconfig                           |   2 +
-> >  drivers/platform/Makefile                          |   1 +
-> >  drivers/platform/synology_microp/Kconfig           |  13 +
-> >  drivers/platform/synology_microp/Makefile          |   3 +
-> >  drivers/platform/synology_microp/TODO              |   7 +
-> >  drivers/platform/synology_microp/command.rs        |  54 ++++
-> >  drivers/platform/synology_microp/led.rs            | 281 +++++++++++++=
+> >  .../synology,ds1825p-microp.yaml                   | 108 +++++++++++++=
 ++++++++
-> >  drivers/platform/synology_microp/model.rs          |  49 ++++
-> >  .../platform/synology_microp/synology_microp.rs    | 110 ++++++++
-> >  10 files changed, 526 insertions(+)
+> >  1 file changed, 108 insertions(+)
 > >=20
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index c1c686846cdd..49f08290eed0 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -25555,6 +25555,12 @@ F:	drivers/dma-buf/sync_*
-> >  F:	include/linux/sync_file.h
-> >  F:	include/uapi/linux/sync_file.h
-> > =20
-> > +SYNOLOGY MICROP DRIVER
-> > +M:	Markus Probst <markus.probst@posteo.de>
+> > diff --git a/Documentation/devicetree/bindings/embedded-controller/syno=
+logy,ds1825p-microp.yaml b/Documentation/devicetree/bindings/embedded-contr=
+oller/synology,ds1825p-microp.yaml
+> > new file mode 100644
+> > index 000000000000..76c671a42fbf
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/embedded-controller/synology,ds=
+1825p-microp.yaml
+> > @@ -0,0 +1,108 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/embedded-controller/synology,ds1825=
+p-microp.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Synology NAS on-board Microcontroller
+> > +
+> > +maintainers:
+> > +  - Markus Probst <markus.probst@posteo.de>
+> > +
+> > +description: |
+> > +  Synology Microp is a microcontroller found in Synology NAS devices.
+> > +  It is connected to a serial port on the host device.
+> > +
+> > +  It is necessary to properly shutdown and reboot the NAS device and
+> > +  provides additional functionality such as led control, fan speed con=
+trol,
+> > +  a beeper and buttons on the NAS device.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - const: synology,ds223-microp
+> > +      - const: synology,ds411p-microp
+> > +      - const: synology,ds1010p-microp
+> > +      - const: synology,ds710p-microp
+> > +      - const: synology,ds723p-microp
+> > +      - const: synology,ds225p-microp
+> > +      - const: synology,rs422p-microp
 >=20
-> You should probably add:
+> That's one enum.
 >=20
-> L:	platform-driver-x86@vger.kernel.org
+> > +      - maxItems: 2
+> > +        minItems: 2
 >=20
-> Through which tree the patches to this driver are generally expected to b=
-e=20
-> picked up?
-I suppose platform-drivers-x86. The driver itself can be used both on
-x86 and arm64. Although I also have seen Synology devices with PowerPC
-(no device with PowerPC is supported in the driver yet).=20
+> There is no such syntax foro compatibles. Please use any existing file
+> as example or look at example-schema.
+In the example schema, another device is used as fallback. This is what
+I did here.
+
+
+Other sources suggest, I should add fallbacks that are less specific
+about the device:
+
+e. g.
+- items:
+  - enum:
+    - synology,ds923p-microp
+    - synology,ds723p-microp
+    - synology,ds1522p-microp
+    - synology,rs422p-microp
+  - const: synology,r1000-microp
+  - const: synology,x86-microp
+
+- items:
+  - enum:
+    - synology,ds225p-microp
+    - synology,ds425p-microp
+  - const: synology,geminilakenk-microp
+  - const: synology,x86-microp
+...
+
+
+If thisisn't fine either, replying to my previous message would
+probably the most efficient way to move forward [1].
 
 >=20
-> > +S:	Maintained
-> > +F:	Documentation/devicetree/bindings/embedded-controller/synology,ds18=
-25p-microp.yaml
-> > +F:	drivers/platform/synology_microp/
-> > +
-> >  SYNOPSYS ARC ARCHITECTURE
-> >  M:	Vineet Gupta <vgupta@kernel.org>
-> >  L:	linux-snps-arc@lists.infradead.org
-> > diff --git a/drivers/platform/Kconfig b/drivers/platform/Kconfig
-> > index 312788f249c9..996050566a4a 100644
-> > --- a/drivers/platform/Kconfig
-> > +++ b/drivers/platform/Kconfig
-> > @@ -22,3 +22,5 @@ source "drivers/platform/arm64/Kconfig"
-> >  source "drivers/platform/raspberrypi/Kconfig"
-> > =20
-> >  source "drivers/platform/wmi/Kconfig"
-> > +
-> > +source "drivers/platform/synology_microp/Kconfig"
-> > diff --git a/drivers/platform/Makefile b/drivers/platform/Makefile
-> > index fa322e7f8716..2381872e9133 100644
-> > --- a/drivers/platform/Makefile
-> > +++ b/drivers/platform/Makefile
-> > @@ -15,3 +15,4 @@ obj-$(CONFIG_SURFACE_PLATFORMS)	+=3D surface/
-> >  obj-$(CONFIG_ARM64_PLATFORM_DEVICES)	+=3D arm64/
-> >  obj-$(CONFIG_BCM2835_VCHIQ)	+=3D raspberrypi/
-> >  obj-$(CONFIG_ACPI_WMI)		+=3D wmi/
-> > +obj-$(CONFIG_SYNOLOGY_MICROP)	+=3D synology_microp/
-> > diff --git a/drivers/platform/synology_microp/Kconfig b/drivers/platfor=
-m/synology_microp/Kconfig
-> > new file mode 100644
-> > index 000000000000..7c4d8f2808f0
-> > --- /dev/null
-> > +++ b/drivers/platform/synology_microp/Kconfig
-> > @@ -0,0 +1,13 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +
-> > +config SYNOLOGY_MICROP
-> > +	tristate "Synology Microp driver"
-> > +	depends on LEDS_CLASS && LEDS_CLASS_MULTICOLOR
-> > +	depends on RUST_SERIAL_DEV_BUS_ABSTRACTIONS
-> > +	help
-> > +	  Enable support for the MCU found in Synology NAS devices.
-> > +
-> > +	  This is needed to properly shutdown and reboot the device, as well =
-as
-> > +	  additional functionality like fan and LED control.
-> > +
-> > +	  This driver is work in progress and may not be fully functional.
-> > diff --git a/drivers/platform/synology_microp/Makefile b/drivers/platfo=
-rm/synology_microp/Makefile
-> > new file mode 100644
-> > index 000000000000..63585ccf76e4
-> > --- /dev/null
-> > +++ b/drivers/platform/synology_microp/Makefile
-> > @@ -0,0 +1,3 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +
-> > +obj-y +=3D synology_microp.o
-> > diff --git a/drivers/platform/synology_microp/TODO b/drivers/platform/s=
-ynology_microp/TODO
-> > new file mode 100644
-> > index 000000000000..1961a33115db
-> > --- /dev/null
-> > +++ b/drivers/platform/synology_microp/TODO
-> > @@ -0,0 +1,7 @@
-> > +TODO:
-> > +- add missing components:
-> > +  - handle on-device buttons (Power, Factory reset, "USB Copy")
-> > +  - handle fan failure
-> > +  - beeper
-> > +  - fan speed control
-> > +  - correctly perform device power-off and restart on Synology devices
+> > +        items:
+> > +          enum:
 >=20
-> Is this TODO list really needed within the kernel distribution?
-Not really. Although it indicates the current state of the driver.
+> No, why the list is randomly ordered.
+>=20
+> > +            - synology,ds923p-microp
+> > +            - synology,ds1522p-microp
+>=20
+> And fallback, whichever is that, is not documented alone.
+>=20
+> > +      - minItems: 4
+> > +        maxItems: 4
 
->=20
-> If you planning on add these features (relatively) soon yourself (perhaps=
-=20
-> depending on when the rust infra required for these features becomes=20
-> available), the list would not be that useful for other developers at all=
-.
-Yes. Also I haven't seen anyone work on input, hwmon, reboot/sysoff
-rust abstractions yet, so I will likely need to add those as well.
-
->=20
-> > diff --git a/drivers/platform/synology_microp/command.rs b/drivers/plat=
-form/synology_microp/command.rs
-> > new file mode 100644
-> > index 000000000000..430cb858e1c3
-> > --- /dev/null
-> > +++ b/drivers/platform/synology_microp/command.rs
-> > @@ -0,0 +1,54 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +
-> > +use kernel::{
-> > +    device::Bound,
-> > +    error::Result,
-> > +    serdev, //
-> > +};
-> > +
-> > +use crate::led;
-> > +
-> > +#[expect(
-> > +    clippy::enum_variant_names,
-> > +    reason =3D "future variants will not end with Led"
-> > +)]
-> > +pub(crate) enum Command {
-> > +    PowerLed(led::State),
-> > +    StatusLed(led::StatusLedColor, led::State),
-> > +    AlertLed(led::State),
-> > +    UsbLed(led::State),
-> > +    EsataLed(led::State),
-> > +}
-> > +
-> > +impl Command {
-> > +    pub(crate) fn write(self, dev: &serdev::Device<Bound>) -> Result {
-> > +        dev.write_all(
-> > +            match self {
-> > +                Self::PowerLed(led::State::On) =3D> &[0x34],
-> > +                Self::PowerLed(led::State::Blink) =3D> &[0x35],
-> > +                Self::PowerLed(led::State::Off) =3D> &[0x36],
-> > +
-> > +                Self::StatusLed(_, led::State::Off) =3D> &[0x37],
-> > +                Self::StatusLed(led::StatusLedColor::Green, led::State=
-::On) =3D> &[0x38],
-> > +                Self::StatusLed(led::StatusLedColor::Green, led::State=
-::Blink) =3D> &[0x39],
-> > +                Self::StatusLed(led::StatusLedColor::Orange, led::Stat=
-e::On) =3D> &[0x3A],
-> > +                Self::StatusLed(led::StatusLedColor::Orange, led::Stat=
-e::Blink) =3D> &[0x3B],
-> > +
-> > +                Self::AlertLed(led::State::On) =3D> &[0x4C, 0x41, 0x31=
-],
-> > +                Self::AlertLed(led::State::Blink) =3D> &[0x4C, 0x41, 0=
-x32],
-> > +                Self::AlertLed(led::State::Off) =3D> &[0x4C, 0x41, 0x3=
-3],
-> > +
-> > +                Self::UsbLed(led::State::On) =3D> &[0x40],
-> > +                Self::UsbLed(led::State::Blink) =3D> &[0x41],
-> > +                Self::UsbLed(led::State::Off) =3D> &[0x42],
-> > +
-> > +                Self::EsataLed(led::State::On) =3D> &[0x4C, 0x45, 0x31=
-],
-> > +                Self::EsataLed(led::State::Blink) =3D> &[0x4C, 0x45, 0=
-x32],
-> > +                Self::EsataLed(led::State::Off) =3D> &[0x4C, 0x45, 0x3=
-3],
-> > +            },
-> > +            serdev::Timeout::Max,
-> > +        )?;
-> > +        dev.wait_until_sent(serdev::Timeout::Max);
-> > +        Ok(())
-> > +    }
-> > +}
-> > diff --git a/drivers/platform/synology_microp/led.rs b/drivers/platform=
-/synology_microp/led.rs
-> > new file mode 100644
-> > index 000000000000..f89998a7e6b4
-> > --- /dev/null
-> > +++ b/drivers/platform/synology_microp/led.rs
-> > @@ -0,0 +1,281 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +
-> > +use kernel::{
-> > +    device::Bound,
-> > +    devres::{
-> > +        self,
-> > +        Devres, //
-> > +    },
-> > +    led::{
-> > +        self,
-> > +        LedOps,
-> > +        MultiColorSubLed, //
-> > +    },
-> > +    new_mutex,
-> > +    prelude::*,
-> > +    serdev,
-> > +    str::CString,
-> > +    sync::Mutex, //
-> > +};
-> > +use pin_init::pin_init_scope;
-> > +
-> > +use crate::{
-> > +    command::Command,
-> > +    model::Model, //
-> > +};
-> > +
-> > +#[pin_data]
-> > +pub(crate) struct Data {
-> > +    #[pin]
-> > +    status: Devres<led::MultiColorDevice<StatusLedHandler>>,
-> > +    power_name: CString,
-> > +    #[pin]
-> > +    power: Devres<led::Device<LedHandler>>,
-> > +}
-> > +
-> > +impl Data {
-> > +    pub(super) fn register<'a>(
-> > +        dev: &'a serdev::Device<Bound>,
-> > +        model: &'a Model,
-> > +    ) -> impl PinInit<Self, Error> + 'a {
-> > +        pin_init_scope(move || {
-> > +            if let Some(color) =3D model.led_alert {
-> > +                let name =3D CString::try_from_fmt(fmt!("{}:alarm", co=
-lor.as_c_str().to_str()?))?;
-> > +                devres::register(
-> > +                    dev.as_ref(),
-> > +                    led::DeviceBuilder::new().color(color).name(&name)=
-.build(
-> > +                        dev,
-> > +                        try_pin_init!(LedHandler {
-> > +                            blink <- new_mutex!(false),
-> > +                            command: Command::AlertLed,
-> > +                        }),
-> > +                    ),
-> > +                    GFP_KERNEL,
-> > +                )?;
-> > +            }
-> > +
-> > +            if model.led_usb_copy {
-> > +                devres::register(
-> > +                    dev.as_ref(),
-> > +                    led::DeviceBuilder::new()
-> > +                        .color(led::Color::Green)
-> > +                        .name(c"green:usb")
-> > +                        .build(
-> > +                            dev,
-> > +                            try_pin_init!(LedHandler {
-> > +                                blink <- new_mutex!(false),
-> > +                                command: Command::UsbLed,
-> > +                            }),
-> > +                        ),
-> > +                    GFP_KERNEL,
-> > +                )?;
-> > +            }
-> > +
-> > +            if model.led_esata {
-> > +                devres::register(
-> > +                    dev.as_ref(),
-> > +                    led::DeviceBuilder::new()
-> > +                        .color(led::Color::Green)
-> > +                        .name(c"green:esata")
-> > +                        .build(
-> > +                            dev,
-> > +                            try_pin_init!(LedHandler {
-> > +                                blink <- new_mutex!(false),
-> > +                                command: Command::EsataLed,
-> > +                            }),
-> > +                        ),
-> > +                    GFP_KERNEL,
-> > +                )?;
-> > +            }
-> > +
-> > +            Ok(try_pin_init!(Self {
-> > +                status <- led::DeviceBuilder::new()
-> > +                    .color(led::Color::Multi)
-> > +                    .name(c"multicolor:status")
-> > +                    .build_multicolor(
-> > +                        dev,
-> > +                        try_pin_init!(StatusLedHandler {
-> > +                            blink <- new_mutex!(false),
-> > +                        }),
-> > +                        StatusLedHandler::SUBLEDS,
-> > +                    ),
-> > +                power_name: CString::try_from_fmt(fmt!(
-> > +                    "{}:power",
-> > +                    model.led_power.as_c_str().to_str()?
-> > +                ))?,
-> > +                power <- led::DeviceBuilder::new()
-> > +                    .color(model.led_power)
-> > +                    .name(power_name)
-> > +                    .build(
-> > +                        dev,
-> > +                        try_pin_init!(LedHandler {
-> > +                            blink <- new_mutex!(true),
-> > +                            command: Command::PowerLed,
-> > +                        }),
-> > +                    ),
-> > +            }))
-> > +        })
-> > +    }
-> > +}
-> > +
-> > +#[derive(Copy, Clone)]
-> > +pub(crate) enum StatusLedColor {
-> > +    Green,
-> > +    Orange,
-> > +}
-> > +
-> > +#[derive(Copy, Clone)]
-> > +pub(crate) enum State {
-> > +    On,
-> > +    Blink,
-> > +    Off,
-> > +}
-> > +
-> > +#[pin_data]
-> > +struct LedHandler {
-> > +    #[pin]
-> > +    blink: Mutex<bool>,
-> > +    command: fn(State) -> Command,
-> > +}
-> > +
-> > +/// Blink delay measured using video recording on DS923+ for Power and=
- Status Led.
-> > +///
-> > +/// We assume it is the same for all other leds and models.
-> > +const BLINK_DELAY: usize =3D 167;
->=20
-> On C side time related consts are required to include the unit in their=
-=20
-> name. Perhaps Rust code should also follow this convention?
-How about `const BLINK_DELAY: Msecs` ? The unit would be implied
-through the already existing type alias `kernel::time::Msecs` for u32.
+Those are devices with the exactly same known feature set.
+i. e. ds1522p can act as a fallback for ds923p, and ds923p could act as
+a fallback for ds1522p.
 
 Thanks
 - Markus Probst
 
---=-RI/JmpCN3XD2kPkbtbAB
+[1]
+https://lore.kernel.org/all/8c8555b3375375dac47a22fad40080fd5b4228a5.camel@=
+posteo.de/
+
+>=20
+> Best regards,
+> Krzysztof
+
+--=-ouFJPOhX4k+ZvTsduuHi
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmnnhvMbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPShGUQAISQRB4yyJEVVouSMoSg
-vV6mXH2zS9xy4tG/XX+jnlpmAZDO7FmUVq70g9tRVjzwNPTuBahK47jzhBpPdT1j
-YUnH6TFhK1aEEO4cZKmY6g4cZc/H0WrOHJFSNQPJSpVCyZ1K08KA9cjo4A5JY4Jl
-wsmECCNJuns753aEPdOG+pSTlk3fnnzeukPmiCRz54SDJd7/UaVjmyc+AM1dGNLt
-6aRDULEx0+idA7+DT+3a6s/jY6PdpNG9Iet7n80b3jTjdocLrYoeqVk44xRmWlBX
-dL06/A6NxwidfSr3Sei0Lov1JMTp2bCUul73VxOjYGFf4AKGV8FKUgHS71gjhfEe
-7LL8gs3tbJoSK25yuH/j5n7fDNhBIR4vi8oGfyoeCO5enFCvow3XMKEQ4Bjhf9cN
-vTkH3w577/mKlVlpQAKkCrfl045P4NcOWTvIehO5djGvOQGr2UuFgWnhfH0GM8s6
-Z8zxJcfYCzry6xNo6B4x2ZnVKSUUFzW4L87MlAtabPE2nTos6fuKoKz8IYMWc6is
-9iTxKICtpzUt5FvAZC/TYTG58C+OdESCFKBprbSwEVORaElb94JPHF6Gsr5vvTw6
-H2tW7alhPrzNWK1cZpXq2UcswM0Y+9sZMgfea9q1ZlJFWNMcPyHjFMuTcgdb5Pm5
-OOBcx4uYgAMpLojgVurERoQ9
-=GyTZ
+iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmnnjrIbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSHuEQAIpiqPMRrlkhnm07/QrT
+RLp2ptrq7z2C8MeEyHrkGj4kKb1d9oV0+jMOkUasvHis8lJKEy1KGtOleWDCKseF
+/kiLt9noo9LXEQp82O7RL8zPXjE87X0UusmHjfQSypkYwO7z5OuXVJhWJusLxaO1
+mrvVMeDI0neYn7ZbkRTGCa376gr3Q/tllWwG4sbTMTdhWCPoM+yc1VwqVlJEYzs7
+3bKabYcO+aGk7EtZDFuHWmFCDR7pZfeb0kDfa2wGFT2IwF1v/sO/6ogDm7pfbWh3
+JVBgy9dm99GYZAq8zvFysPPEpiyXk0KecPIPXzzsoNCkV8MUledLTxanxfgjaiss
+u7JN/l1hg0xa89MRDTqhbmW4Q90x/difpaIRktOFWfbp914fhUQgNpW86hr8eHUv
+6vFFmboVIao9q6PQf1+GQ0qrUh1zpfktkIoroG13GSg5FEmg5wtFcp1HN+JL8QpR
+S+CzDKy4u4mNAxKGbY/qwkLip1TJ3zmcBzUbtbVN6nPaq283sRhohPfR3v30ABFT
+bV/h+gCOyBcsytahxfNLdp03AVHkRC+bBrdIB35rWz4ky1a8VIVuU5/THHoq53jn
+hAEC3wD/WVFnfNjZCBigI47mG7tGqJmslwsecZG3rkG9bSFJHvvottrFPsi+FQ6M
+Zksa4a+RKfeCp4yeVj4abaWv
+=ZQCk
 -----END PGP SIGNATURE-----
 
---=-RI/JmpCN3XD2kPkbtbAB--
+--=-ouFJPOhX4k+ZvTsduuHi--
 
