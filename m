@@ -1,188 +1,130 @@
-Return-Path: <linux-leds+bounces-7849-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7850-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CChgBv537mkGuQAAu9opvQ
-	(envelope-from <linux-leds+bounces-7849-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sun, 26 Apr 2026 22:39:26 +0200
+	id QNZmHrID72lz3QAAu9opvQ
+	(envelope-from <linux-leds+bounces-7850-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Apr 2026 08:35:30 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660C546B153
-	for <lists+linux-leds@lfdr.de>; Sun, 26 Apr 2026 22:39:25 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BDE46D99F
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Apr 2026 08:35:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 386953021708
-	for <lists+linux-leds@lfdr.de>; Sun, 26 Apr 2026 20:38:31 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 000873004D2B
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Apr 2026 06:35:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1755138C2D0;
-	Sun, 26 Apr 2026 20:38:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF4EC37187C;
+	Mon, 27 Apr 2026 06:35:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="DZt2ERlL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BSsyHOTM"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-77.smtpout.orange.fr [80.12.242.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4F2390231
-	for <linux-leds@vger.kernel.org>; Sun, 26 Apr 2026 20:38:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B530737104E;
+	Mon, 27 Apr 2026 06:35:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777235911; cv=none; b=TG/Vdt/62FJIOSjdzn6ouCP+84Fk6Vt+mPKFLR+YQToVJjWhE3IuLxussL1HTRpmM6JUYB0fkJAtslnk0MrEUk6KGsbwsJ9k4V75EFOQl72rZExH+EZfZ5hF68ZpjiQsuE41nOLi3nPb4Qmnp/bk60mnUr2pLPaZiX0gnckwOZ4=
+	t=1777271727; cv=none; b=nghQx6tKewAZQ9U4vUB8O0XMeu4yi0Dl4IldpPcBWw3wT4q3UznTnt3xs+HvlWDngxRjdExNF+aqqgPhF280vnu3gfLLbcXBgC+Sv0MlSOXyQCKIdqY8HlEQYGeEuACTAP092bSL4oNTNmsOFUpZc29gyB/2VyAnDbhLYTHbtJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777235911; c=relaxed/simple;
-	bh=vhIqbUdv4595pfGZ0r1BCSrtI+d5+f71OXeW7HFEL7s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WRM3+avob4s8umGsVM6pyh2kC51GqSr36OTenmqE9OInM5t5WKu/SEX9XYmCrBWSoBUAp6WNBENLUOor2lDn6LhsuauVeV6fmIG5Q2IZL5u4qd0wXrWA6q2d8sIZyElWT52BEcfcsemUku8XwGB6/tO3MyxDt1RXSJZAyd6y/vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=DZt2ERlL; arc=none smtp.client-ip=80.12.242.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662] ([10.65.86.53])
-	by smtp.orange.fr with ESMTP
-	id H6EAwd89ZFywtH6EAw9gFk; Sun, 26 Apr 2026 22:37:18 +0200
-Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
- ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
-	by smtp.orange.fr with ESMTPSA
-	id H6E1wlaVCPPElH6E1wZ6pU; Sun, 26 Apr 2026 22:37:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1777235830;
-	bh=dpSb/V5MnjDzQ2Iuwgc4ruJLtguDARugkMy+ZbUbnDI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=DZt2ERlLZ8GixYw1Q2FI5NAn048uiRletnSzioPwZxoODjDi6yllUPlequW8fYDOI
-	 wm94GPJKKCPP2Zn5Y2gSC0VRjVFXxb7b0EmZOLuhxDcXu8/edbEz421uPTj26ZZtEA
-	 DoikVL7If4BZ9eXYEC/6ds2oo6kBYYcdtz4WQcr8FB8EhXylyZy2jvianSheuW45/x
-	 7hElyrM3o14gVtQuttiJVjywuih668e2p++U/IPSazZnoPchCEeP7l/0mn27DXo5tv
-	 336lN4u06KDdu4dyD7oBMUefWxq+gb1MPlGsdwrsfUbKAfI1eTYkyNSCQubhWE77J/
-	 7ZHy9znNWJrnQ==
-X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 26 Apr 2026 22:37:10 +0200
-X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-Message-ID: <9bd95631-a783-475d-b046-63bc93d713d9@wanadoo.fr>
-Date: Sun, 26 Apr 2026 22:37:08 +0200
+	s=arc-20240116; t=1777271727; c=relaxed/simple;
+	bh=0pyENmb/HQwmaYVpGR5rXZtsc4oxwHYbzRginezGzZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VFwjOhfnLPy8NBNe3OcSmOuDYud+qijUvaO5Xc56vmBvBQenu6YQ5sQ7vjOZHaaiLL+lKVEfEEBdIIPNpREPqe24XS9gXMP1WL2U17Ko8e+T/8OHbF6F4geBMHLh0m9ePSSW7eN4PVk4BMpiAgeWSh7RBd1lL8+IC4wRs5izX0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BSsyHOTM; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777271726; x=1808807726;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0pyENmb/HQwmaYVpGR5rXZtsc4oxwHYbzRginezGzZA=;
+  b=BSsyHOTMRy/Aq1lFXxEYvf0bjNzbcu4oyOvIklN0CPAoS87U97OOwSsG
+   9gueUz2n8bODydAac6VgChaVYTaFzBgBJpq0mW9lut4rOVXNhptm70Mzh
+   mPOdPQu+JSMvm1Ngq6nr7lR7d+ygsLmCxAb7N1/KlDRJl6nqpH8dqOJoV
+   KIQbRbYSiPa4USZbY0sFudDHcIfdNznrHOgkrxPgRZ6E2iAFtI0NgQdON
+   rk52+f6imuhr6cKrKjHRMZSXcdwO9PDgcXPIphntRMx7vA3D5WLh7ZmAf
+   IWAiqaNfJk8qmUR09S0rWH2Uox5ZashGaajfscKbzkdMqAAaRPxQI1F8O
+   w==;
+X-CSE-ConnectionGUID: EwKrm6SARTmvLhvniX9qbQ==
+X-CSE-MsgGUID: eH5qV53CRdSeV8tYOWOLtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="77176415"
+X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
+   d="scan'208";a="77176415"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2026 23:35:25 -0700
+X-CSE-ConnectionGUID: SVQM0icQSv60/me0RqDkIg==
+X-CSE-MsgGUID: D3j6rEvBSbWyWkT10b2UoQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
+   d="scan'208";a="271676692"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.26])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2026 23:35:23 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 9760611FA44;
+	Mon, 27 Apr 2026 09:35:26 +0300 (EEST)
+Date: Mon, 27 Apr 2026 09:35:26 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Lee Jones <lee@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] media: lm3560: convert to use OF bindings
+Message-ID: <ae8Drq6IUy_M-jVq@kekkonen.localdomain>
+References: <20260424072230.90354-1-clamor95@gmail.com>
+ <CAPVz0n3osf5=013w7=EhJKNeYmrRNg_JT2s9a9_tKWL_teQm-A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9] leds: add support for TI LP5860 LED driver chip
-To: Steffen Trumtrar <s.trumtrar@pengutronix.de>,
- Nam Tran <trannamatk@gmail.com>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-References: <20260424-v6-14-topic-ti-lp5860-v9-1-b44d7025d741@pengutronix.de>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20260424-v6-14-topic-ti-lp5860-v9-1-b44d7025d741@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 660C546B153
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPVz0n3osf5=013w7=EhJKNeYmrRNg_JT2s9a9_tKWL_teQm-A@mail.gmail.com>
+X-Rspamd-Queue-Id: B1BDE46D99F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[wanadoo.fr,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[wanadoo.fr:s=t20230301];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7849-lists,linux-leds=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-7850-lists,linux-leds=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[pengutronix.de,gmail.com,kernel.org];
-	FREEMAIL_FROM(0.00)[wanadoo.fr];
+	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[wanadoo.fr:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christophe.jaillet@wanadoo.fr,linux-leds@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-leds];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,pengutronix.de:email]
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,kekkonen.localdomain:mid]
 
-Le 24/04/2026 à 15:28, Steffen Trumtrar a écrit :
-> Add support for the Texas Instruments LP5860 LED driver chip
-> via SPI interfaces.
-> 
-> The LP5860 is an LED matrix driver for up to 196 LEDs, which supports
-> short and open detection of the individual channel select lines.
-> 
-> It can be connected to SPI or I2C bus. For now add support for SPI only.
-> 
-> Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-> ---
+On Fri, Apr 24, 2026 at 07:14:06PM +0300, Svyatoslav Ryhel wrote:
+> Hello Sakari! May you please not yet pick this patchset if you had
+> such intention. It has a few slight flaws I would like to address in
+> v4 next week. Thank you.
 
-Hi,
+Ack, thanks for the info!
 
-> +static int lp5860_init_dt(struct lp5860 *lp)
-> +{
-> +	struct led_init_data init_data = {};
-> +	struct led_classdev *led_cdev;
-> +	struct mc_subled *mc_led_info;
-> +	struct lp5860_led *led;
-> +	int led_index = 0;
-> +	int chan;
-> +	int ret;
-> +
-> +	device_for_each_child_node_scoped(lp->dev, multi_led) {
-> +		led = &lp->leds[led_index];
-> +
-> +		init_data.fwnode = multi_led;
-> +
-> +		/* Count the number of channels in this multi_led */
-> +		chan = fwnode_get_child_node_count(multi_led);
-> +		if (!chan || chan > LP5860_MAX_LED_CHANNELS)
-> +			return -EINVAL;
-> +
-> +		led->mc_cdev.num_colors = chan;
-> +
-> +		mc_led_info = devm_kcalloc(lp->dev, chan, sizeof(*mc_led_info), GFP_KERNEL);
-> +		if (!mc_led_info)
-> +			return -ENOMEM;
-> +
-> +		led->chip = lp;
-> +		led->mc_cdev.subled_info = mc_led_info;
-> +		led_cdev = &led->mc_cdev.led_cdev;
-> +		led_cdev->max_brightness = LP5860_MAX_BRIGHTNESS;
-> +		led_cdev->brightness_set_blocking = lp5860_set_mc_brightness;
-> +
-> +		ret = lp5860_iterate_subleds(led, &init_data);
-> +		if (ret)
-> +			continue;
-> +
-> +		ret = lp5860_set_mc_brightness(&led->mc_cdev.led_cdev, led->brightness);
-> +		if (ret) {
-> +			dev_err_probe(lp->dev, ret, "%pfwP: Failed to set Multi-Color brightness\n",
-> +				      multi_led);
-> +			return ret;
-
-This could be return dev_err_probe();
-This is slightly less verbose and saves the { }
-
-> +		}
-> +
-> +		ret = devm_led_classdev_multicolor_register_ext(lp->dev, &led->mc_cdev, &init_data);
-> +		if (ret) {
-> +			dev_err_probe(lp->dev, ret, "%pfwP: Failed to register Multi-Color LEDs\n",
-> +				      multi_led);
-> +			return ret;
-
-This could be return dev_err_probe();
-This is slightly less verbose and saves the { }
-
-> +		}
-> +		led_index++;
-> +	}
-> +
-> +	return 0;
-> +}
-
-
+-- 
+Sakari Ailus
 
