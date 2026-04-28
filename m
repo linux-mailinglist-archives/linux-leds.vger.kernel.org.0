@@ -1,386 +1,176 @@
-Return-Path: <linux-leds+bounces-7882-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7883-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4IH0F5eg8GnrWQEAu9opvQ
-	(envelope-from <linux-leds+bounces-7882-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 13:57:11 +0200
+	id oHxrO47G8GkqYgEAu9opvQ
+	(envelope-from <linux-leds+bounces-7883-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 16:39:10 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7729484622
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 13:57:10 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC41487282
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 16:39:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DDC3D3141FEE
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 11:40:20 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 21EAB31F93C6
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 13:59:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24B703F2112;
-	Tue, 28 Apr 2026 11:39:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D27A3438FF3;
+	Tue, 28 Apr 2026 13:59:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c1gzpOYL"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KhkbB3lT"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934773EF0D3
-	for <linux-leds@vger.kernel.org>; Tue, 28 Apr 2026 11:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB52D10F1
+	for <linux-leds@vger.kernel.org>; Tue, 28 Apr 2026 13:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777376393; cv=none; b=XfPjeWeDeZPmkOfj147QU72o54bOLf8zxtsvBbfGK5RvqG+OrlP9sXYFO+6WBtXIPWf7IJCIjCWLCzc3EMYhuMXpCXr6MMoteU5ZdoYxOnk1fnwPA/ZRhxIX1uqm62ht/QvVx8v2uG6nWEhRmJbTqA+8Eu1USjt2e3A23NkRm18=
+	t=1777384758; cv=none; b=QZvAnndAO9rUi3Yc78oVSGTn7Gh6auNjWGf9HVSdAryrU+V8/zuY1yMxc/LIKAzgKi/qb0S3jOFPbPf3+YCr9TlhNJzFpS8kkCP06OVFpxMPmqFedwWNBQsMSZ9fyynMJ38t9nbAIdaw8kk3LhCmpDdqJZ/n9w7Hep/C2nTEpgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777376393; c=relaxed/simple;
-	bh=liWseIjFkuXVt4TWv2i3U3BN73xnSKmtLaF9Z6gcVcY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KeIi5aVs/DmtDY+b1eCaFLCNzTqm6ANk7zhh8RVjx/0yQi796QNFQve7sJTcv0QWPHL3USyuXz0vTvalv0jGSr7v7bpABb7vs/gQZs2oFoZaFf9eJmWrcWkTgprgc8EbbUZHRN49ck3XizlBYm4Rc76UmRM4bHf7HwPJv5R1m+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c1gzpOYL; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso94085585e9.3
-        for <linux-leds@vger.kernel.org>; Tue, 28 Apr 2026 04:39:49 -0700 (PDT)
+	s=arc-20240116; t=1777384758; c=relaxed/simple;
+	bh=fStomxOM1crQBf2dh5jW011uYO0a7/MEjHDN74nHXvk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NFufEGhYkaLdE4icRfFwN7pKfQRjM3qrPs8zpE+0aTalWkj5HqNrrHOavzU6h6AQroDd/aq2lGIKrl44Yc7q7xxjfq8iiphhaSWExqZWdToCHKwrQHY+etqnumcWxOuwh8qZnwUxkpySEds4m8GR8TUHT08rAC1g7BYu+RD+1N4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KhkbB3lT; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48909558b3aso114973105e9.0
+        for <linux-leds@vger.kernel.org>; Tue, 28 Apr 2026 06:59:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777376388; x=1777981188; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iONjqkBbha9vIXYKPOr4JdhI2heccbufxTPWG9w70fs=;
-        b=c1gzpOYLEp6OZtxkgha/y4PHz86quAHV0F6O18LwvgydXWjUvzoP2cX2qNKaTZ8HeP
-         wCQHpz4z1owhcpvaONdrR+ETgXzgtFjY/823KCboBSXRgqxAftvQRV2itTcigTS0G1os
-         XRN7Ta6HhifMDsaRhuR6LcU07cpd6ECRrluucI5sbNSHfeV0hhEl1eVQig54KLDAAZo3
-         c13OkUwll9+uA3kyfrfk18Qca7b3FLDPkXBNYy8gN4AIDL05pTVp+QoFb51zir5pJD61
-         skZ7a6EXksvKl2X8QL21QOTQdPH+fb24LU7l0ZZRfyhPsEI6P3DgqRQc+1IPK36YeV+L
-         7rnA==
+        d=linaro.org; s=google; t=1777384754; x=1777989554; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=udhA8FYIygeULMf2spSguXELNb0LFsPfqpfV0jbfFB0=;
+        b=KhkbB3lTU6Uv5nLMt102SpEg0R+VLKCUDz5wDRE3UyKYEFodShHJO3H5TLqFEpSdx5
+         WeLAL5t3mesZj0OTsf4lUrZkXRNw/9pndj9WK5zKTww3/19k7WNan07iwteZscrKCsJm
+         x+ztriazgLny25x/CLPqVJTXrkH/KTbWYGU78my7zKMpRlvoQUeSffgDMe+wCR9Nje/f
+         bNTJwwuyLAm8PHB4Nn3Enq5fUMNSDZFfxXEliLsPYp9n1qS8T2qJMPAuiuGGzYcZK5KC
+         ByYddzpjPt3QDiG7mhWOQ5Ut2i9mppNvSptGPD5waS4twvtaAHwfQ3b7UBcUIf8qkZvp
+         hM/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777376388; x=1777981188;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iONjqkBbha9vIXYKPOr4JdhI2heccbufxTPWG9w70fs=;
-        b=RZnwa4KtHVmdJFRWO1a3rRfksIPvCfytLUuF9VS7gwfbCG3hdufwcIXomhKDfp1e/b
-         nQf0cAgDQkboUQnulq/6qNR3ueusG46EG3cGDahIFI/c0NuhpAaGr+XZn4/Yj4jYg6QJ
-         ujAzSZotVR6+fzb54pxDSXvg6527AlPN5uHs1RASaJ7weGwXWJRf93Zt16Q6Ie772bz8
-         dIVgXp5j2TC/2bVENWTzGOIH2IvQmLXlH2/HBsmTE6nvcQuFmGMmsIWFls4evHZOJPNv
-         y7QcX+mFVXPk2UPVd6FDDjSE7g5NrmpT+bnXIStAXTfqisJWS8RAydTtXByq+/eeHtr+
-         VA4w==
-X-Gm-Message-State: AOJu0YxcVkR4xhiySaMbIIwrcgBEjZnmW0MoZlCoG/TfuQXWIr5I1PP+
-	/yWJhIZCZaAlf2vu7JB/AA0qGZ4U0JcxB7VsIqixmD3DwMmzfN/ECpN8
-X-Gm-Gg: AeBDieuqDLESYORgvhGnqp/ySoHorGfaIdwrCOg/DAzhCj47v94hZu313c9ckIgW3kd
-	+Cb4pN0QbfqWg/fpxVlJrlwwcdnODFW8FKW0szXKI7dXCDuNrUu67+xmN81Cu5ZSRv7QsVDuyjh
-	42Rgh9Jq1UEkE3WS/F6+wdZB0a6QTrDJFXnWWt00oTHzgH/5m46W2gtawALUTYxlMqMepuyWl9e
-	xy9p7boG3XiyMmH3l61cGgUalwYwAD5um12tnfjSuBPxTj/M7/6dVyYFmk8M7JEVaDK0mYJrj5e
-	374FPnSWz6rVqafoUP6TzovQQNX9gp7bqHYoA4HU/kKhhsGSGfCS37npAPYGNP9QNLangIFjRHr
-	Kw77jlrCZ1D59Ap9g8zn4EHboo9R7vo+wGZwfLn7mXuzXwJ5/0AKgQHum4agnBayU8z3kT9QBM0
-	G6I0OJwN6VryXGSQOLyPrwHzM=
-X-Received: by 2002:a05:600c:8582:b0:485:3abe:ab86 with SMTP id 5b1f17b1804b1-48a77af3ddamr28904405e9.4.1777376387345;
-        Tue, 28 Apr 2026 04:39:47 -0700 (PDT)
-Received: from xeon ([188.163.112.56])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a77aeb223sm43541125e9.3.2026.04.28.04.39.46
+        d=1e100.net; s=20251104; t=1777384754; x=1777989554;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=udhA8FYIygeULMf2spSguXELNb0LFsPfqpfV0jbfFB0=;
+        b=Af2o+NK3g5aJJUdkuI9MIb7Tj2el6OEKRAFXlPXrm4sjGafXEOVBOkkmAjDX6A3ERX
+         F9k3ucLD/1s+hysJKQTB06xh/FtSdxUCKvoJgU1HE6SmH8UZ6fYSaVV5mOT+QuYXbnZ3
+         /GO4cIrDtg4zMdyDGpJj9fHC4uMgIJPmB31tfMkKbfaq88dMbKkYWl/I5BOWuyRg0zEA
+         Jb1b54x5hvWeWAe9px67PkvHtmHCPdNqXWKwFzux8kFluDCyNEpsCR3Yssdj6Cow05Ok
+         M50UrjhkdtB7160FBteCzfc2NnpaG+UQq4M9fFWxRXP8mrwdbSupKnApmoKaHag3FEvC
+         l1XA==
+X-Forwarded-Encrypted: i=1; AFNElJ8dG9/9qP8eqFLvoIv3cq+xUxMkOf5tlb6bblamF1ZpUHgK3oJZh85VyY/GI7VSX3egjsZUkc9+TIPW@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOLzTb+NH5SPx8q80X/bhFM4jWFoKWIsdmliWwIMt4qMoBHk9D
+	WsbmeQo17qBTRxMQhlKIYHtthPy54MgZPLccAv6lXvtYTg3XnBGGtI8X94So292NEm4=
+X-Gm-Gg: AeBDietndu8FRTDPJIQC7TDy/O9aLK28JCkcYOCyV76UplCfNybp9D4XYJ7YgyXSLjS
+	0wMO/jVRXoKGUu5nHWEE09dyBHYB/Le3aOy8I4KuJeDiAy/N4hsDv+hAdLhQFrCdoS39tl7kkJP
+	plAmOTALwpg/6XsiGGLtjGeTpK95R9iTDeLah0cx3QZejWvnhpE2Oqsl8YkkeFO9XgIwpuZO2yv
+	fsCd02CtULGCnDx+L/+m3M8f7nwh7nD5vz8PSJTrgPNnamaFt+5jb5KEv+s9yITtjjDlyz6fwNX
+	f1xJx3L5a+ARLBXdPuSEJcZ39Z2TW0MSddWO+m+woSx6k/yiZP/N03cXUeD4/5eJg6CfNIA9T1B
+	vnJvLJK5FeZbs8tnh70roGgSLkkEHnT4IdsjCDArr6Ycgt1rudROOloFlgFSVEdF816EeTDuJyI
+	MNUjXetd2+6lseFL9zpoZyBDnk87bBpCSlAbJeJ4IjsVaZhApJX0y52FU8Jxzf5tViRQ==
+X-Received: by 2002:a05:600c:8b2f:b0:485:3b9e:caa7 with SMTP id 5b1f17b1804b1-48a77b19d6fmr55500725e9.23.1777384754118;
+        Tue, 28 Apr 2026 06:59:14 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a773efe04sm60811155e9.12.2026.04.28.06.59.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 04:39:46 -0700 (PDT)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH v4 5/5] media: i2c: lm3560: Add support for PM features
-Date: Tue, 28 Apr 2026 14:39:22 +0300
-Message-ID: <20260428113923.112920-6-clamor95@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260428113923.112920-1-clamor95@gmail.com>
-References: <20260428113923.112920-1-clamor95@gmail.com>
+        Tue, 28 Apr 2026 06:59:13 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH 0/2] backlight: Add SY7758 6-channel High Efficiency LED
+ Driver support
+Date: Tue, 28 Apr 2026 15:59:10 +0200
+Message-Id: <20260428-topic-sm8650-ayaneo-pocket-s2-sy7758-v1-0-0caade5fdb32@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: B7729484622
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC698GkC/yXNQQ7CIBBA0as0s3YSQCnEqxgXiFMdjUAYNDZN7
+ y7q8m3+X0CoMgnshwUqvVg4pw69GSBeQ7oQ8rkbjDKj2hmPLReOKA8/WoVhDokylhzv1FAMyuy
+ c9bhVXhO5SZOx0FOl0sTv3+Zw/FuepxvF9m3Dun4AbzFq8IgAAAA=
+X-Change-ID: 20260428-topic-sm8650-ayaneo-pocket-s2-sy7758-3081ee7f1e25
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>
+Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, KancyJoe <kancy2333@outlook.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=928;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=fStomxOM1crQBf2dh5jW011uYO0a7/MEjHDN74nHXvk=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBp8L0vzGcnPNa1ZX01cDX2xFb+HU61fFeMMwl6DH2F
+ niCN/+KJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCafC9LwAKCRB33NvayMhJ0S/1D/
+ 9IGhCG7NAXzhBOSkBWur+HPJ04e478uoCh3E5AtZa7bb7QZDxv2o5d6Ior4uxN4kmXwBkRB2xvOB9e
+ ty9eMPNe2OUD5P8ldWalWQxt0ez1fe2MF5woGGODSG+CVmnx8TIjsU0QZHrIqZPyECCoeLgCewIZ1f
+ ASbx1dFC6OBW3GD5O+Pt84j+a7NzC35fJX4AFr0LQPS1PBez1rnOtsiXbhuKQw5f7TvBf5ANjTSTuH
+ R0h6a/Ob7RAAcnzg+BXizPUmGTSyFaSgyhGIl3kznUYZae5HwmxLRao4J8z+RoYUhIQOqB+GEvMWkK
+ n/O5r5zqzfQkMqU2X9iHzADB1XGGAQon4RSO/znZjDtvMlNVN46/dJPnFSnKMlCL1jjPgnSkfsg1CJ
+ SvxfH4G9LjLAu5myBS1wh9JNvzoYzveq4CReN9UqJLYLYEE507y/UCbhMD/8RmzqazWyvp8nm+3ahs
+ gYhiO9UuVSMMJCXdhjIpS1NuLPUPDNdddaZOhOAXtXcBQD3kHDOSogHFBI15hLemEGX/GxOy/J2QvP
+ CQIO2cC53n/Uf48FWz4leqpsmQE4z/0NuHyTXfV/SgAVyfOhKvn9TyB6oKAmSDajmDBprAwUye4Tbk
+ 9rvsoSN7ThYC75Xt2qIu2z5c5UmLJrkwqmRxH+fOVC0w/6fgmWKGP3qH/GWg==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+X-Rspamd-Queue-Id: 6DC41487282
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-7882-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-7883-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,gmx.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,outlook.com,linaro.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:email,linaro.org:dkim,linaro.org:mid]
 
-Add support for power management features to better control the LM3560
-within the media framework. To achieve the desired PM support, the HWEN
-GPIO and VIN power supply were added and configured into power on/off
-sequences. Added PM operations along with the PM configuration setup.
+Implement support for the Silergy SY7758 6-channel High Efficiency LED Driver
+used for backlight brightness control in the Ayaneo Pocket S2 dual-DSI panel.
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- drivers/media/i2c/lm3560.c | 117 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 110 insertions(+), 7 deletions(-)
+KancyJoe (1):
+      backlight: Add SY7758 6-channel High Efficiency LED Driver support
 
-diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
-index 1052c11f42e8..29f3ee98e0ca 100644
---- a/drivers/media/i2c/lm3560.c
-+++ b/drivers/media/i2c/lm3560.c
-@@ -12,12 +12,15 @@
- #include <linux/bitmap.h>
- #include <linux/delay.h>
- #include <linux/module.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/slab.h>
- #include <linux/mod_devicetable.h>
- #include <linux/mutex.h>
-+#include <linux/pm_runtime.h>
- #include <linux/property.h>
- #include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
- #include <linux/videodev2.h>
- #include <media/i2c/lm3560.h>
- #include <media/v4l2-ctrls.h>
-@@ -48,6 +51,8 @@ enum led_enable {
-  * @dev: pointer to &struct device
-  * @regmap: reg. map for i2c
-  * @lock: muxtex for serial access.
-+ * @hwen_gpio: line connected to HWEN pin
-+ * @vin_supply: line connected to IN supply (2.5V - 5.5V)
-  * @led_mode: V4L2 LED mode
-  * @ctrls_led: V4L2 controls
-  * @subdev_led: V4L2 subdev
-@@ -62,6 +67,9 @@ struct lm3560_flash {
- 	struct regmap *regmap;
- 	struct mutex lock;
- 
-+	struct gpio_desc *hwen_gpio;
-+	struct regulator *vin_supply;
-+
- 	enum v4l2_flash_led_mode led_mode;
- 	struct v4l2_ctrl_handler ctrls_led[LM3560_LED_MAX];
- 	struct v4l2_subdev subdev_led[LM3560_LED_MAX];
-@@ -176,12 +184,17 @@ static int lm3560_get_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
- 	struct lm3560_flash *flash = to_lm3560_flash(ctrl, led_no);
- 	int rval = -EINVAL;
- 
-+	if (!pm_runtime_get_if_in_use(flash->dev))
-+		return 0;
-+
- 	if (ctrl->id == V4L2_CID_FLASH_FAULT) {
- 		s32 fault = 0;
- 		unsigned int reg_val;
- 		rval = regmap_read(flash->regmap, REG_FLAG, &reg_val);
--		if (rval < 0)
-+		if (rval < 0) {
-+			pm_runtime_put(flash->dev);
- 			return rval;
-+		}
- 		if (reg_val & FAULT_SHORT_CIRCUIT)
- 			fault |= V4L2_FLASH_FAULT_SHORT_CIRCUIT;
- 		if (reg_val & FAULT_OVERTEMP)
-@@ -191,6 +204,8 @@ static int lm3560_get_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
- 		ctrl->cur.val = fault;
- 	}
- 
-+	pm_runtime_put(flash->dev);
-+
- 	return rval;
- }
- 
-@@ -200,6 +215,9 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
- 	u8 tout_bits;
- 	int rval = -EINVAL;
- 
-+	if (!pm_runtime_get_if_in_use(flash->dev))
-+		return 0;
-+
- 	switch (ctrl->id) {
- 	case V4L2_CID_FLASH_LED_MODE:
- 		flash->led_mode = ctrl->val;
-@@ -245,6 +263,8 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
- 		break;
- 	}
- 
-+	pm_runtime_put(flash->dev);
-+
- 	return rval;
- }
- 
-@@ -408,6 +428,38 @@ static int lm3560_init_device(struct lm3560_flash *flash)
- 	return rval;
- }
- 
-+static int lm3560_power_off(struct device *dev)
-+{
-+	struct lm3560_flash *flash = dev_get_drvdata(dev);
-+
-+	gpiod_set_value_cansleep(flash->hwen_gpio, 0);
-+	regulator_disable(flash->vin_supply);
-+
-+	return 0;
-+}
-+
-+static int lm3560_power_on(struct device *dev)
-+{
-+	struct lm3560_flash *flash = dev_get_drvdata(dev);
-+	int rval;
-+
-+	rval = regulator_enable(flash->vin_supply);
-+	if (rval < 0) {
-+		dev_err(flash->dev, "failed to enable vin power supply\n");
-+		return rval;
-+	}
-+
-+	gpiod_set_value_cansleep(flash->hwen_gpio, 1);
-+
-+	rval = lm3560_init_device(flash);
-+	if (rval < 0) {
-+		lm3560_power_off(dev);
-+		return rval;
-+	}
-+
-+	return 0;
-+}
-+
- static void lm3560_subdev_cleanup(struct lm3560_flash *flash)
- {
- 	int led_no;
-@@ -441,6 +493,17 @@ static int lm3560_probe(struct i2c_client *client)
- 
- 	bitmap_zero(flash->led_id, LM3560_LED_MAX);
- 
-+	flash->hwen_gpio = devm_gpiod_get_optional(flash->dev, "enable",
-+						   GPIOD_OUT_LOW);
-+	if (IS_ERR(flash->hwen_gpio))
-+		return dev_err_probe(flash->dev, PTR_ERR(flash->hwen_gpio),
-+				     "failed to get hwen gpio\n");
-+
-+	flash->vin_supply = devm_regulator_get(flash->dev, "vin");
-+	if (IS_ERR(flash->vin_supply))
-+		return dev_err_probe(flash->dev, PTR_ERR(flash->vin_supply),
-+				     "failed to get vin-supply\n");
-+
- 	flash->peak = LM3560_PEAK_1600mA;
- 	rval = device_property_read_u32(flash->dev,
- 					"ti,peak-current-microamp", &peak_ua);
-@@ -468,9 +531,19 @@ static int lm3560_probe(struct i2c_client *client)
- 				 &flash->max_flash_timeout);
- 	flash->max_flash_timeout /= 1000;
- 
-+	rval = regulator_enable(flash->vin_supply);
-+	if (rval < 0)
-+		return dev_err_probe(flash->dev, rval,
-+				     "failed to enable vin power supply\n");
-+
-+	gpiod_set_value_cansleep(flash->hwen_gpio, 1);
-+
- 	rval = lm3560_init_device(flash);
- 	if (rval < 0)
--		return rval;
-+		goto error_disable;
-+
-+	pm_runtime_set_active(flash->dev);
-+	pm_runtime_enable(flash->dev);
- 
- 	device_for_each_child_node(flash->dev, node) {
- 		rval = fwnode_property_read_u32(node, "reg", &reg);
-@@ -490,10 +563,10 @@ static int lm3560_probe(struct i2c_client *client)
- 			rval = lm3560_subdev_init(flash, reg, node);
- 			if (rval < 0) {
- 				fwnode_handle_put(node);
--				lm3560_subdev_cleanup(flash);
--				return dev_err_probe(flash->dev, rval,
--						    "failed to register led%d\n",
--						    reg);
-+				dev_err(flash->dev,
-+					"failed to register led%d: %d\n",
-+					reg, rval);
-+				goto error_clean;
- 			}
- 
- 			set_bit(reg, flash->led_id);
-@@ -502,7 +575,23 @@ static int lm3560_probe(struct i2c_client *client)
- 
- 	i2c_set_clientdata(client, flash);
- 
-+	pm_runtime_set_autosuspend_delay(flash->dev, 1000);
-+	pm_runtime_use_autosuspend(flash->dev);
-+	pm_runtime_idle(flash->dev);
-+
- 	return 0;
-+
-+error_clean:
-+	pm_runtime_disable(flash->dev);
-+	pm_runtime_set_suspended(flash->dev);
-+
-+	lm3560_subdev_cleanup(flash);
-+
-+error_disable:
-+	gpiod_set_value_cansleep(flash->hwen_gpio, 0);
-+	regulator_disable(flash->vin_supply);
-+
-+	return rval;
- }
- 
- static void lm3560_remove(struct i2c_client *client)
-@@ -510,8 +599,22 @@ static void lm3560_remove(struct i2c_client *client)
- 	struct lm3560_flash *flash = i2c_get_clientdata(client);
- 
- 	lm3560_subdev_cleanup(flash);
-+
-+	/*
-+	 * Disable runtime PM. In case runtime PM is disabled in the kernel,
-+	 * make sure to turn power off manually.
-+	 */
-+	pm_runtime_disable(&client->dev);
-+	if (!pm_runtime_status_suspended(&client->dev)) {
-+		lm3560_power_off(&client->dev);
-+		pm_runtime_set_suspended(&client->dev);
-+	}
- }
- 
-+static const struct dev_pm_ops lm3560_pm_ops = {
-+	SET_RUNTIME_PM_OPS(lm3560_power_off, lm3560_power_on, NULL)
-+};
-+
- static const struct of_device_id lm3560_of_match[] = {
- 	{ .compatible = "ti,lm3559" },
- 	{ .compatible = "ti,lm3560" },
-@@ -530,7 +633,7 @@ MODULE_DEVICE_TABLE(i2c, lm3560_id_table);
- static struct i2c_driver lm3560_i2c_driver = {
- 	.driver = {
- 		   .name = LM3560_NAME,
--		   .pm = NULL,
-+		   .pm = pm_ptr(&lm3560_pm_ops),
- 		   .of_match_table = lm3560_of_match,
- 		   },
- 	.probe = lm3560_probe,
--- 
-2.51.0
+Neil Armstrong (1):
+      dt-bindings: regulator: document the SY7758 6-channel High Efficiency LED Driver
+
+ .../bindings/leds/backlight/silergy,sy7758.yaml    |  53 ++++
+ drivers/video/backlight/Kconfig                    |   8 +
+ drivers/video/backlight/Makefile                   |   1 +
+ drivers/video/backlight/sy7758.c                   | 311 +++++++++++++++++++++
+ 4 files changed, 373 insertions(+)
+---
+base-commit: 39704f00f747aba3144289870b5fd8ac230a9aaf
+change-id: 20260428-topic-sm8650-ayaneo-pocket-s2-sy7758-3081ee7f1e25
+
+Best regards,
+--  
+Neil Armstrong <neil.armstrong@linaro.org>
 
 
