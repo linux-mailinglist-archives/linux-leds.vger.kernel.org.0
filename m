@@ -1,150 +1,177 @@
-Return-Path: <linux-leds+bounces-7894-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7895-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UKl5Mknt8Gn9bAEAu9opvQ
-	(envelope-from <linux-leds+bounces-7894-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 19:24:25 +0200
+	id MP6WOndH8WmBfgEAu9opvQ
+	(envelope-from <linux-leds+bounces-7895-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2026 01:49:11 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA4B489DE8
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 19:24:25 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9989748D80F
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2026 01:49:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 02D5230BED5E
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 17:16:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id EBFF330C0CAE
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 23:38:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 994C4423A88;
-	Tue, 28 Apr 2026 17:15:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D5093815C5;
+	Tue, 28 Apr 2026 23:35:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I1xtkjv3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lqhu2+sG"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11733947B0;
-	Tue, 28 Apr 2026 17:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777396551; cv=none; b=crxfjioenMMKyPf2u51pgfhyekH3mG0GXuumSI3/rF93vWtUvRXSGzhMiarB0NMbz9k2J41gr1/aVBrtw+Ej0KK1Wy6vwVopTOw54nl8lHzTCirbwBKymlLwZGbx64zXo0MbdO/M+vZt5Cv5LF1C0wv1+y32ms2eHb/P/W8WY60=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777396551; c=relaxed/simple;
-	bh=QWfEq6gUlnAeK6XQ6Qanv4z6/M5X52A4bB2elgt2z4w=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=M1M3oZt0KYKIP7O7QGXAZniZvDdOeOlykCtOoOBsqBSoGHsjHsyXWeCGuKEdapQ6j+1l5WQm6oh7sBQGZ/faT0+eF3tg1QwZNHnjlwVpCh252xc6ZxxsW8Bocw4t6P4ZSw5NJ3B6EDr4UXMVos3H7w4zLF4wvVFyJ11+X9PXMoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I1xtkjv3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45B99C2BCAF;
-	Tue, 28 Apr 2026 17:15:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777396550;
-	bh=QWfEq6gUlnAeK6XQ6Qanv4z6/M5X52A4bB2elgt2z4w=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=I1xtkjv3s2UMpQSKJiMlo/BpkRkkOuE0sudgr/xnfXf6C4Ccyn5msPuZ2A8aq6mSE
-	 PpfbDElRewlLf0NXAL5E2+DJnKlzJX2Em3MhjGdtB2dieqA4zdR8cTm8hVJPPrTjAp
-	 AHkrYg0q1K8N6cc6aFUjjHmZ6NS2ZBGhYc619kFNCwCBwrwBCCLXGQ8y2AtfRNAAHR
-	 OXLiGeAk20Wk1nUXxw/N2EB+jGeXoqQP763nWe1YU7pQiuWgW1ILnN0NXw3z3PRa39
-	 3pfL29V7esdUOfutEMLDZXcv5cE9zbzOxd5JckG/3b0q92o/wlAqBqT1Y1stIqIexV
-	 XtcnpqNDDz90Q==
-Date: Tue, 28 Apr 2026 12:15:49 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6333624CB
+	for <linux-leds@vger.kernel.org>; Tue, 28 Apr 2026 23:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777419355; cv=pass; b=jSlKGIRyOC5VPtK0nlpTRmtvkojZvwH5u3MJpLB2xRbUc0G3md7HYfDdDO2h/BEXZeZsupmXyPE8cH7o0TxJxm+Zo9eGVmIw82got8Rl0KI2x4xS6+W+zZDtNU68yRoOpB2C8bdiuVeELSJBLrt7D43uh6NLCfsSfuib+XhANNY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777419355; c=relaxed/simple;
+	bh=p24DGe2ChYsLvCmBXf6Kp5TWFFLOr7i+/3Xsm2m1l9M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VinKe5e3Tvs0Vzp7qomozAOVuokyUTE1WTx33Vdsnw2jpbUGEk9IrzI/OgYkpUgVFY1i62L77BTDk79keAILUYm+hsOz/EEYU4APXtrpbAxl8WoTuQeYaiVn/iC8aEVjqmZ1kNQpHNVm9Eiz2aJ6NrpXHxqAthimpda3JJzv2yo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lqhu2+sG; arc=pass smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2b25cf1b5f0so65870115ad.3
+        for <linux-leds@vger.kernel.org>; Tue, 28 Apr 2026 16:35:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777419354; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZzczMPrc5c4g6GhJzEk0wFOGYd6Sibxa7rtMR290WJMARzQnCtFDV24ky1/03ANHM0
+         kx8lJia68Mmxp3ZUM53MCC1ekhr9PVhNGH8OSRW4ufO9+ykXLrxcNhr4Y4GqbVcuNLW2
+         GNIt+K5YRv3K0CJ8ynka4Z9coaQa+1U97pXfCyfPdotDiKOaR3O5xps6SzAyF4NdnQY3
+         ICqccNTyGZC8Ncy775yU5Ar1l9Bs2Y3+wG2nAfIQFHVY2S3eaN7d7Yl240IjnE0Dexg+
+         JuRRadI3/N86jqYKLQdKC4PsypsGjedMvx5/ls9VbmKe1LM6YSh3C7pwkFDpt9gLGx76
+         7WPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=0db33wYSB/VKxNPenizKPNWOjqB/3saiIIrw++PQlmA=;
+        fh=94XbC3KTtOt36R1PqUj8bQQHMWFQJmXEWoJmS904GCs=;
+        b=V1sFuZOGJOuTv3xAjWb4fc3KyxfOgOKuwpW48kJe+0WunRcXSyp7ofjb4ZIeckS1no
+         hQJ7QbRxBzjaCgqEutNItDS5MI4eiU5cLRDyUsuGZ19bYGNyb5yehTBrHFmI6482ePRF
+         fNfv5CBWl0F5DPEeoCQmhIngHYx+0iGvAYKjyhRjHJjoxtqpnK2oPUy6caU9M6R9LOre
+         PuR5ZaL2udrznYxGb/DSgb73WIYpmSbLkrcO14nqgFmSCsalrmD3g65BFuj828Stj/8K
+         dJy7klORYn5+P4zLTKQrCMENyIEAUVUo2CXb0EgB+MyCQg/WahTiMBQYKTJyG6U91A+Q
+         UOvg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777419354; x=1778024154; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0db33wYSB/VKxNPenizKPNWOjqB/3saiIIrw++PQlmA=;
+        b=lqhu2+sGzhBTsyZRRos2jZ387BvKCfAcc1fKf1A/JtGEisIHLLncDhhkhhRlvdUIMJ
+         Dlg3Jve5tuMahEqtI8RpjhflyeAMzsEIi3hfFO6jBbs2PLnQBwAKxE8w8h5rWhIu/b7h
+         i+1ggRanMO3AgRtgI6tcLrx4Anl5NaM4VL1nKJ7UaCeVYW34Bh8SvOqkrjGoFf+B4m3z
+         XwhrlcC7MepsVB3dW4Sa6QjGUZJZW5ERxk8/PwiX1ZKWInGa07LASTJi254vjO4TYUf8
+         KsgPXB1etH51a2Ky1hoCINE5EHN+oYpO5Ep8rRjv2b9Dl1aRPtQdeWinaMksZwxTenym
+         bY2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777419354; x=1778024154;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0db33wYSB/VKxNPenizKPNWOjqB/3saiIIrw++PQlmA=;
+        b=brFzNf6uOR3Y7B5umE0sGWpD37S+dvKaac/kI+akAxUEpj5eJGE2XOcfbA4f8aUXxU
+         RqizH9JPs68BHyFp6WCSciJ8qILH0zS6LCSk0dW7DdLVjUdPaadmGD5iHm8cdUfn+vOA
+         9nV0dEzpu+tku24lKW3eE4b1SB9LioNfWCzDuXgosrXE2+6Lg3hB7dCx7IiAmLOgwW33
+         OXgD6Xvfdx9q1Z25OQ959wub3nxz4eHnJuoA8Ssf7OQGfUCvQHalae1x28LE9LZS6mTK
+         c7atBmxvaR1CQYBdIL/PJFFSjN7JN3gh5VnkE3KHk94p1w1iALBbGWjo80tST6YtVnOa
+         1otQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9EIbnnt1ipaqcNgCL73vbVTXW+bd1QfpZWo+bFP8s8aWkfVSOQJvPEp6okSmF1DieJgMfB/w57nUau@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQX8vXRlFYwA1REv1l/FyVYw65gmUfFaRa7buC8G5wv/ZQwWAS
+	+0ptx6HlMKt7UZiogkt1KX5nvax49D8oy0GnmeBVY69xrhh8VNTZ8daN90LYr6fHhZZ/8rmojOP
+	4BoNKZBLmuJXL4fX/OYTIzZKPad6irK8=
+X-Gm-Gg: AeBDievZZcKBpxbTAJj41lzLL1lTvEEL3D9/Z3iyFO7ACwis2l97GpR8ZXNHJqhlrD8
+	uRrsMn2CfSCY3YOcycm6DvNss9yJZGbHa5aumpL4jDgslU0O1vxX+8in1Nm6Hrf3y1JmwR0+zzH
+	NW8FFtJwMdm2/cc3/vZBuhvKY6bigEaSvBJTplmu/33rU9Gq9zzaFJ14Z9B8oBFsBWThDCpVft2
+	cMm3W4cBDuRwUzeDHfJRKf5pNl9DnAWo4UdoSQmcVn0pdkO3ed9/ZZ4quLtHbvZ20KjWuDw9014
+	HhS002jZmArv/jvHI2WVv1YAhN3olN1LFQF4ayPCJMo9tgNzxhQ=
+X-Received: by 2002:a17:903:1c5:b0:2b2:4b4e:e4d8 with SMTP id
+ d9443c01a7336-2b98730ca87mr13536075ad.4.1777419353607; Tue, 28 Apr 2026
+ 16:35:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Tony Lindgren <tony@atomide.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- David Lechner <dlechner@baylibre.com>, Lee Jones <lee@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, 
- Pavel Machek <pavel@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-In-Reply-To: <20260428153611.142816-3-clamor95@gmail.com>
-References: <20260428153611.142816-1-clamor95@gmail.com>
- <20260428153611.142816-3-clamor95@gmail.com>
-Message-Id: <177739654665.2299307.14959755210536638419.robh@kernel.org>
-Subject: Re: [PATCH v4 2/6 RESEND] dt-bindings: input: cpcap-pwrbutton:
- convert to DT schema
-X-Rspamd-Queue-Id: 4BA4B489DE8
+References: <20260428-topic-sm8650-ayaneo-pocket-s2-sy7758-v1-0-0caade5fdb32@linaro.org>
+ <20260428-topic-sm8650-ayaneo-pocket-s2-sy7758-v1-2-0caade5fdb32@linaro.org>
+In-Reply-To: <20260428-topic-sm8650-ayaneo-pocket-s2-sy7758-v1-2-0caade5fdb32@linaro.org>
+From: Gyeyoung Baek <gye976@gmail.com>
+Date: Wed, 29 Apr 2026 08:35:41 +0900
+X-Gm-Features: AVHnY4IUG0aEhSqiUeS0javv0LFZ7gitoer-tm54oLakxbwVeIPwDa7HUcbCYTI
+Message-ID: <CAKbEznvPAYFUt-ykH7rCQwMFUq6N68B9x7Dd97WRDm3Mvj34fw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] backlight: Add SY7758 6-channel High Efficiency LED
+ Driver support
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, KancyJoe <kancy2333@outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 9989748D80F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7894-lists,linux-leds=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-7895-lists,linux-leds=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-leds@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,atomide.com,baylibre.com,gmail.com];
+	FROM_NEQ_ENVFROM(0.00)[gye976@gmail.com,linux-leds@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,gmx.de,lists.freedesktop.org,vger.kernel.org,outlook.com];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+
+Hi,
+
+> +
+> +static int sy7758_probe(struct i2c_client *client)
+> +{
+
+> +
+> +       /* try read and check device id */
+> +       ret = regmap_read(sydev->regmap, REG_DEV_ID, &dev_id);
+> +       if (ret < 0)
+> +               return dev_err_probe(dev, -EPROBE_DEFER,
+> +                                    "failed to read device id\n");
+
+regmap_read() seems it can return errors other than -EPROBE_DEFER
+(like -EINVAL,), and hardcoding -EPROBE_DEFER here might drop the
+actual error.
+And maybe would keep retrying probe forever
+
+How about this?
+> +               return dev_err_probe(dev, ret, "failed to read device id\n");
 
 
-On Tue, 28 Apr 2026 18:36:07 +0300, Svyatoslav Ryhel wrote:
-> Convert power button devicetree bindings for the Motorola CPCAP MFD from
-> TXT to YAML format. This patch does not change any functionality; the
-> bindings remain the same.
-> 
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  .../bindings/input/cpcap-pwrbutton.txt        | 20 ------------
->  .../input/motorola,cpcap-pwrbutton.yaml       | 32 +++++++++++++++++++
->  2 files changed, 32 insertions(+), 20 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt
->  create mode 100644 Documentation/devicetree/bindings/input/motorola,cpcap-pwrbutton.yaml
-> 
-
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-
-
-doc reference errors (make refcheckdocs):
-Warning: Documentation/devicetree/bindings/input/motorola,cpcap-pwrbutton.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
-Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt
-Documentation/devicetree/bindings/input/motorola,cpcap-pwrbutton.yaml: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
-Documentation/devicetree/bindings/mfd/motorola-cpcap.txt: Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt
-
-See https://patchwork.kernel.org/project/devicetree/patch/20260428153611.142816-3-clamor95@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+Thanks,
+Gyeyoung
 
