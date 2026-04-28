@@ -1,162 +1,145 @@
-Return-Path: <linux-leds+bounces-7865-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7866-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eNkiE/AA8GnYNAEAu9opvQ
-	(envelope-from <linux-leds+bounces-7865-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 02:36:00 +0200
+	id 8GJ2J5kQ8GmANwEAu9opvQ
+	(envelope-from <linux-leds+bounces-7866-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 03:42:49 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B25647C2E1
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 02:36:00 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1329F47C80D
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 03:42:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E9F263016F36
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 00:35:34 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id F3663301106A
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2026 01:42:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21E0427FD44;
-	Tue, 28 Apr 2026 00:35:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D99652D1303;
+	Tue, 28 Apr 2026 01:42:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="psnXqlbx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eWNdjQ6G"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83D12512DE
-	for <linux-leds@vger.kernel.org>; Tue, 28 Apr 2026 00:35:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64DFDF6C;
+	Tue, 28 Apr 2026 01:42:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777336510; cv=none; b=s5dguUIfjvaNnjUryfOsCpigGgQEClFVMS4o/DHYpRhyWSXJ3sXDS3KOXbKAdk4bK3Py9neauAtuaITGewszfsE6d6Rj9J9BSb7HujF9e/ZPV18M/zgu+crVlbFmNdTFj2BmGs2/2qETOSrzbcEyIgjmyvk0zRmow4OYOmSh1ys=
+	t=1777340565; cv=none; b=oe8878sCn0hwcj7JdOTItg9L4E57tWaNzI2XpAFtoGWJUUaOsb+7ENynQXb4dArvRKu2Qa+fcxoR4XLGk4G4RITSMHciiNgwnGgHFb8VdC29D5EC0/zNjbDPrYrDsb3B1qIDBEaFmqXixTP9BcWfDR9xwKotbifMTk3VOhbeuxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777336510; c=relaxed/simple;
-	bh=TxzwFKiJIPCCxZO7aT5q2yoHecnvGCv7WOi02z2Upck=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qZHV4e3i14jlAeT+7VdttiBS3KqVPcmFApH4BGcgitc4vkhBX27wDkiJHhI1qdsqSo3YetqUI3axUfW19J/R8Sx9SZ1/PlNeh/6RUWmP/Bc46VZOu0Ie9pXq13QatND9aGArzDCTUciZYZvYByGX3dbsTc3tt7wuGqlIcbGZ6nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=psnXqlbx; arc=none smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12c88e5f4aeso4801013c88.0
-        for <linux-leds@vger.kernel.org>; Mon, 27 Apr 2026 17:35:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777336508; x=1777941308; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wKFYblaOebuDYFHP1LoH1feqnKOl1rhPiXqAnvBgFgk=;
-        b=psnXqlbx4GgKxUZsDXj1DNfxvsfMVngcafyqc5kn4NRsTGqGmERr9IA49Wc8K3ea5i
-         QsQgTe8DXkbEFVSGCAcB0mXtM5SlJ497ZSwcfi5Q+rn4f7TNCHlAUaLRxWRccqTDrpbY
-         9p2TyvvXcKfqv1sIaPFT517190+EB490yIqcnndnBadDjTXjKUzw5o41XdfcqN2G5Wpj
-         YJmtP/AS+I3+8LPnTXr+iHriXmFWxt/iHfdg6p8y7sWKc+1aZRKWEKk4C6GolqyHyrw4
-         /g8gOt00CoB6LpZamTEPnDjMPIYuw1eTm5+bYhTk5qzEpomuKGB6bVGXwgkl9kSEFo4S
-         8Fbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777336508; x=1777941308;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wKFYblaOebuDYFHP1LoH1feqnKOl1rhPiXqAnvBgFgk=;
-        b=s0WzP6MHi7ogo8TzMlplKXVGhA6ctTDtd9jIovQk034ru/gO5J3K9WM7lhOQYrQz8s
-         oiGZWg/+H8/mJCjzhaXpZs7UJtw6Q3z1usxNnSiZR2mdPLnN6aEYMNZz87eE1LIffcfz
-         rS+6CfWKNOFbHmySLjWy8W6FThlw7JVe7RVxenrUw1YumgKaTQpNzVV+2+lUAtGasJ+G
-         VRhyFlnc5WTOqVAjrsq8UQvuTb8EyNIv+NLOY3wWE5nMm1sfc9ERRbW2NHPNF4bgzgtT
-         Bd9k/vIHzYvYz7ei6a09Y68w7K1pREY2Il4/lkBR0xHT/UKhDFRl/mg6yF8XLsV4cpF3
-         06kw==
-X-Forwarded-Encrypted: i=1; AFNElJ+nIhrLzijs/yAJeEj+H/YrUF+a2ZDtKFonb3Ayyay27C1tNNhIi0/1akxVV767UhGc0XFk2vYuCOR4@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFBO3jbh0IYB4RSURLT5/HcNifrMan16IpaWYjsvsfIl/CvcX2
-	y6wZaTzB5NEc8YdiTg3or1yNakQ7aJFrYrUzeV3hqySHMGiU412Kzw81
-X-Gm-Gg: AeBDieve1ASkW5EDt9q9Y2GZE5k12KIBq3vqo+OHtuP3ph/Iu38h69CuMWlgXAlM1Xp
-	+4SgwARbpraiCJ/nFmcAl97t97WgFX04uYgwPx6EVUEoVABEY5HOn9WZgGPrK5NWrCbLquH1DI1
-	8Ate2+Xz7Vhru+zCYSQ92Ct8Njbr+vUtKw162Gdag3S2dyU7Qvs6F9HUyG1Z72m4+idsoBctfo9
-	Xul+5egQYD5Vnlbw5TOyTKVTX6hQMFwIQFiWdhki/0mdHN4AAOZK2X/NmtqzDhYqeNMQKtHTKbk
-	FgNGFoH+EfYzku4PwPKf2TpRladnMe6NLztb4zjLOs3IuRI0JJ7Jnq9/oCpnTGqVi1xqDO5dWHP
-	VarqRLZz7bKnYxWjiRu7+JOM0y4Sha9cp1gz0wPTr7oSBT95w8O1Oj9LLnm6Qkka+EWMIS89SUL
-	pshLZWiyCEMLLY4s7RTSmOWzwbmhgXHco=
-X-Received: by 2002:a05:7022:4389:b0:12a:6d05:3938 with SMTP id a92af1059eb24-12dde46dd17mr78361c88.7.1777336507716;
-        Mon, 27 Apr 2026 17:35:07 -0700 (PDT)
-Received: from arch.localdomain ([2409:8a28:a59:55d1::1002])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12ddd927bbbsm957144c88.2.2026.04.27.17.35.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 17:35:07 -0700 (PDT)
-From: Jun Yan <jerrysteve1101@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Cc: lee@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	luccafachinetti@gmail.com,
-	pzalewski@thegoodpenguin.co.uk,
-	daniel@zonque.org,
-	Jun Yan <jerrysteve1101@gmail.com>
-Subject: [PATCH v1 RESEND 5/5] leds: is31f132xx: Fix missing brightness_steps for is31f13236
-Date: Tue, 28 Apr 2026 08:34:12 +0800
-Message-ID: <20260428003412.322032-6-jerrysteve1101@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260428003412.322032-1-jerrysteve1101@gmail.com>
-References: <20260428003412.322032-1-jerrysteve1101@gmail.com>
+	s=arc-20240116; t=1777340565; c=relaxed/simple;
+	bh=6cqbNEfZcOl5F5GbJtrNb3xDjtNGuT/O67xGDBTHb8Y=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=VpfKzx6Sxvav2n+QpkCm/8O+Ca75vH/FRPUxbeKFsNoblFbd5NWqZJez9ZOCow/OhfIhvwBABU5faDrkdVYe4srarImU+VyIDcSa69UinkWoDVFKUkS2DHdS8Ye9xa/eGrs4bQ0XC8mwNYJYy6yhpnoJpt+s/fFDWtxlG02yueE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eWNdjQ6G; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA9EC19425;
+	Tue, 28 Apr 2026 01:42:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777340565;
+	bh=6cqbNEfZcOl5F5GbJtrNb3xDjtNGuT/O67xGDBTHb8Y=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=eWNdjQ6Gg6LDCPIKdTxMntlJGX+UmVb7kePIMwuM0Z/gF28z0LTCXcNpUzn/GEZse
+	 CF0JYKTjg4/iOXg7VgOY+LKZ3iqnNW0E/X3je5Lnqh+SoA/VT9hjLNpf5+j3zPWW8O
+	 rhqcxDNJmSxDm8agu/+g/zdEEVtLYEWigMfXUE/bBAxOJMy7rwhpfFcyliiB1n4Fdo
+	 yQzOAJtMFeBdviWq6ImqYSA7doXFu+RX6WAPokZI7brFhZRLr3KP6qDz6ikBBaUG/I
+	 /E8hHWEAUcUc6JTKmiSvF04kkFI2s3azeCXJ/1Zj5sAkvhzY1RII7w5DtdAUOwnmq7
+	 E8740wFb0lUxQ==
+Date: Mon, 27 Apr 2026 20:42:43 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 2B25647C2E1
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: pzalewski@thegoodpenguin.co.uk, devicetree@vger.kernel.org, 
+ krzk+dt@kernel.org, luccafachinetti@gmail.com, conor+dt@kernel.org, 
+ linux-leds@vger.kernel.org, daniel@zonque.org, lee@kernel.org, 
+ linux-kernel@vger.kernel.org
+To: Jun Yan <jerrysteve1101@gmail.com>
+In-Reply-To: <20260428003412.322032-2-jerrysteve1101@gmail.com>
+References: <20260428003412.322032-1-jerrysteve1101@gmail.com>
+ <20260428003412.322032-2-jerrysteve1101@gmail.com>
+Message-Id: <177734056311.4191670.5747329049193393.robh@kernel.org>
+Subject: Re: [PATCH v1 RESEND 1/5] dt-bindings: leds: is31fl32xx: convert
+ the binding to yaml
+X-Rspamd-Queue-Id: 1329F47C80D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,thegoodpenguin.co.uk,zonque.org];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-7865-lists,linux-leds=lfdr.de];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[jerrysteve1101@gmail.com,linux-leds@vger.kernel.org];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[thegoodpenguin.co.uk,vger.kernel.org,kernel.org,gmail.com,zonque.org];
+	TAGGED_FROM(0.00)[bounces-7866-lists,linux-leds=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[thegoodpenguin.co.uk:email,devicetree.org:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-Add missing brightness_steps for is31fl3236 to fix brightness control.
 
-Fixes: a18983b95a61 ("leds: is31f132xx: Add support for is31fl3293")
-Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
----
- drivers/leds/leds-is31fl32xx.c | 1 +
- 1 file changed, 1 insertion(+)
+On Tue, 28 Apr 2026 08:34:08 +0800, Jun Yan wrote:
+> Convert leds-is31fl32xx to DT schema format.
+> 
+> Co-developed-by: Lucca Fachinetti <luccafachinetti@gmail.com>
+> Signed-off-by: Lucca Fachinetti <luccafachinetti@gmail.com>
+> Co-developed-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+> Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+> Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
+> ---
+>  .../bindings/leds/issl,is31fl32xx.yaml        | 163 ++++++++++++++++++
+>  .../bindings/leds/leds-is31fl32xx.txt         |  53 ------
+>  2 files changed, 163 insertions(+), 53 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/leds/issl,is31fl32xx.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
+> 
 
-diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-index d2be996dd4ea..5db7d91c6a34 100644
---- a/drivers/leds/leds-is31fl32xx.c
-+++ b/drivers/leds/leds-is31fl32xx.c
-@@ -487,6 +487,7 @@ static const struct is31fl32xx_chipdef is31fl3236_cdef = {
- 	.pwm_register_base			= 0x01,
- 	.led_control_register_base		= 0x26,
- 	.enable_bits_per_led_control_register	= 1,
-+	.brightness_steps			= 256,
- };
- 
- static const struct is31fl32xx_chipdef is31fl3236a_cdef = {
--- 
-2.53.0
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/issl,is31fl32xx.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
+ 	 $id: http://devicetree.org/schemas/leds/leds-is31fl32xx.yaml
+ 	file: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/issl,is31fl32xx.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.kernel.org/project/devicetree/patch/20260428003412.322032-2-jerrysteve1101@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
