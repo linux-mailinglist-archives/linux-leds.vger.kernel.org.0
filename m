@@ -1,61 +1,61 @@
-Return-Path: <linux-leds+bounces-7915-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7916-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2Eo1Aid58mnjrgEAu9opvQ
-	(envelope-from <linux-leds+bounces-7915-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2026 23:33:27 +0200
+	id uEDyLTt58mnjrgEAu9opvQ
+	(envelope-from <linux-leds+bounces-7916-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2026 23:33:47 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED65A49A9AF
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2026 23:33:25 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD95449A9C5
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2026 23:33:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 05EE83006225
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2026 21:33:09 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 102AB301B1DA
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2026 21:33:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15E8E3B47DA;
-	Wed, 29 Apr 2026 21:33:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E28813B38A0;
+	Wed, 29 Apr 2026 21:33:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=szelinsky.de header.i=@szelinsky.de header.b="lGnWxEqr"
+	dkim=temperror (0-bit key) header.d=szelinsky.de header.i=@szelinsky.de header.b="SMTVCpcM"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from szelinsky.de (szelinsky.de [85.214.127.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B63A3B38A9;
-	Wed, 29 Apr 2026 21:33:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017363B2FE1;
+	Wed, 29 Apr 2026 21:33:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.127.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777498382; cv=none; b=Y5whe09rr1HYExu0HypUJmMbOvGiVsyZ2XSF64ZqG2vwbhVoC2vdoar6w/0bjtvdHpPLmEcyawTQczabOXEpk6zkiYl4x8NUhSaZ2LDOlyCoZYA7vG6AW5guG8R0S4KdhF76Z5TIpNaasFVxF60OfcIGlZScOV0Xvpz7A1zgI7Y=
+	t=1777498386; cv=none; b=GfZWT+LgQg42w44XvENEeWwwRi8bOskCTuR/XBrv6Qr5D/KzcZhCAIKaAj+ByI6Z3vuqHWHy0c5oHZUmK+J1onxmLwIasqtrxh0ywr0p3EFG3rKH5OT4+IkCtUuM4NUce6phmXOmmCeWqCKE4xFrn7UsJV1HWQdOB5Nfb3dDkZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777498382; c=relaxed/simple;
-	bh=mZcmwZLKKEhnE7GQDGSXxsM/QNK458g7tqex2QpiSko=;
+	s=arc-20240116; t=1777498386; c=relaxed/simple;
+	bh=naMgGoPobYy3+Z53SE87atkPF93pxALNkBgCzwvHJRI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h3ifO1HUkwe+FgpwRKyLCTC/Gt+XRj14iQgNyd6S/1WEwxzLD1cF2XsvUvspD/CH8JB1ODMf5T12eXQJ+w0U++3C5HibzdfQW3X0Y14s/aSbBOPCQrumDRijqFmwNGlbshDCtP3NRfJ9O+Y1j9mLBqJNLT3ZDIyUNNsOO2h0Ht4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szelinsky.de; spf=pass smtp.mailfrom=szelinsky.de; dkim=temperror (0-bit key) header.d=szelinsky.de header.i=@szelinsky.de header.b=lGnWxEqr; arc=none smtp.client-ip=85.214.127.56
+	 MIME-Version; b=s/HxOfLQ0xRCaLw1sragzLSZvi9ZeoJkrvC1fAo0OcvAEaOyrDspHQK9uQrOmnV3AnBfVUFk+pXRDpWQVNUGEp8Ys71Q++MsV58XUaVbj7BtVnr31RAWZs2QiKFAUC/W4fiu9U+Auxjj+jD72yOi/EFeDSyidW1CwXseqAcOujQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szelinsky.de; spf=pass smtp.mailfrom=szelinsky.de; dkim=temperror (0-bit key) header.d=szelinsky.de header.i=@szelinsky.de header.b=SMTVCpcM; arc=none smtp.client-ip=85.214.127.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szelinsky.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szelinsky.de
 Received: from localhost (localhost [127.0.0.1])
-	by szelinsky.de (Postfix) with ESMTP id 50B08E83735;
-	Wed, 29 Apr 2026 23:32:53 +0200 (CEST)
+	by szelinsky.de (Postfix) with ESMTP id 3B107E83563;
+	Wed, 29 Apr 2026 23:33:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=szelinsky.de;
-	s=mail; t=1777498373;
+	s=mail; t=1777498383;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=21Hg9iwiNFQZe6EDCKJbi+24cPilqeuIOW1lFSBTBNI=;
-	b=lGnWxEqrSKYB285NZTMqsH2EISDm587xwsf5RBHzoa//hxv2PbkZvfQMXZabiQALLaOWcp
-	kvx/lSXWsVSRC8PCzWS8Q277XiLLBniI5foON+N9NIFIchmbjSQNt/Zxod4GM9kP1k5zNi
-	vFXcteoGiuT+/0/M1A1cg1oeWMPLDZTpSIcEN1GvbssKNXpo8DaNbc4Xz2pqKEJqX7dlX2
-	qHrWvpF9nJtJPPZU7vN3BjY6UXA6Mt1kf54W+IO4FHhg7y/xl3NlsHp3W6K8LxRAK+UpxC
-	7SbE0hTxSOazz/7xM6LIdOi5m/fbHM0XK2gN4CcGwZu6aSGH2Uv4g5QtEztAkg==
+	bh=CmPrjGiR21Cu6k9gRrkx6D5ePgbYzoL1rr4mVdnIeGg=;
+	b=SMTVCpcMbdPV4aXOEgkzZ02ufnoMTtq0V5N2ADqyPxagaYEsqiSaLqM9IUDTuQEcTWAds9
+	xxbY3QtAcQwPbBb+eEv7cZgY/Tcrqio8JrQuyf00ejdiQhGoaJnvt2WckMl+mtBt8M38hz
+	P9v3bBhW73KtuliRhAoIl6akv7JZIp0Jsttkfifq9ttC1yyHx06sjBfsF1jyv3gjsqmOmZ
+	8tu95+XD7267ysopLgXu3ofV18pB0HRvbSWtJ8HpmlyZgZOni9xt9wjqUD7o8Tc9hK+hvw
+	XfkufW9R3HNvzG42vxRSErGdpRD6OpOujGauvwmcYQ7Jj7VVXyGCX/8tcwriMw==
 X-Virus-Scanned: Debian amavis at szelinsky.de
 Received: from szelinsky.de ([127.0.0.1])
  by localhost (szelinsky.de [127.0.0.1]) (amavis, port 10025) with ESMTP
- id E5VpiegtBmeH; Wed, 29 Apr 2026 23:32:53 +0200 (CEST)
+ id ltVUqJReRUGy; Wed, 29 Apr 2026 23:33:03 +0200 (CEST)
 Received: from p14sgen5.fritz.box (dslb-002-205-089-102.002.205.pools.vodafone-ip.de [2.205.89.102])
 	by szelinsky.de (Postfix) with ESMTPSA;
-	Wed, 29 Apr 2026 23:32:52 +0200 (CEST)
+	Wed, 29 Apr 2026 23:33:01 +0200 (CEST)
 From: Carlo Szelinsky <github@szelinsky.de>
 To: Oleksij Rempel <o.rempel@pengutronix.de>,
 	Kory Maincent <kory.maincent@bootlin.com>
@@ -69,9 +69,9 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	linux-kernel@vger.kernel.org,
 	linux-leds@vger.kernel.org,
 	Carlo Szelinsky <github@szelinsky.de>
-Subject: [PATCH net-next v5 1/2] net: pse-pd: add devm_pse_poll_helper()
-Date: Wed, 29 Apr 2026 23:32:23 +0200
-Message-ID: <20260429213224.1747410-2-github@szelinsky.de>
+Subject: [PATCH net-next v5 2/2] net: pse-pd: add LED trigger support via notification path
+Date: Wed, 29 Apr 2026 23:32:24 +0200
+Message-ID: <20260429213224.1747410-3-github@szelinsky.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260429213224.1747410-1-github@szelinsky.de>
 References: <20260410124428.809943-1-github@szelinsky.de>
@@ -83,7 +83,7 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: ED65A49A9AF
+X-Rspamd-Queue-Id: AD95449A9C5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
@@ -93,12 +93,12 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[szelinsky.de,quarantine];
 	R_DKIM_ALLOW(-0.20)[szelinsky.de:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	TAGGED_FROM(0.00)[bounces-7915-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-7916-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -109,311 +109,348 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[github@szelinsky.de,linux-leds@vger.kernel.org];
 	DKIM_TRACE(0.00)[szelinsky.de:+];
-	NEURAL_HAM(-0.00)[-0.998];
+	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds,netdev];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FROM_HAS_DN(0.00)[]
 
-Extract the common event handling loop from pse_isr() into a shared
-pse_handle_events() function, and add a generic poll-based alternative
-to the IRQ path for PSE controllers that lack interrupt support or
-have IRQ lines not wired on the board.
+Add per-PI "delivering" and "enabled" LED triggers to the PSE core
+subsystem. LED state is updated from the shared pse_handle_events()
+function whenever the IRQ or poll path detects a state change, as well
+as from the regulator enable/disable paths so that host-initiated
+admin state changes via ethtool are immediately reflected.
 
-The new devm_pse_poll_helper() function sets up a delayed work that
-periodically calls the driver's map_event callback to detect state
-changes, feeding events into the existing ntf_fifo / pse_send_ntf_worker
-notification pipeline. This reuses the same pse_irq_desc interface as
-the IRQ path: the driver provides a map_event callback that populates
-per-PI notification arrays.
+Each trigger registers an .activate callback that syncs a freshly-bound
+LED to the cached state, so an LED bound after pse_controller_register()
+(e.g. via sysfs) does not stay dark until the next hardware event.
 
-The poll worker uses system_freezable_wq to avoid running during system
-suspend when the underlying hardware (e.g. I2C bus) may be inaccessible.
+The post-registration initial-state pass is run under pcdev->lock,
+matching pse_led_update()'s documented locking contract and avoiding
+races with concurrent regulator_enable() paths that share last_delivering
+/ last_enabled and the hardware ops.
 
-Cancel the poll work explicitly in pse_controller_unregister() (next to
-the existing disable_irq() for the IRQ path) so it cannot outlive the
-controller it pushes events into. This avoids relying on devres LIFO
-ordering between devm_pse_controller_register() and devm_pse_poll_helper()
-when a driver follows the standard pattern of setting up the helper
-before registering the controller.
+If pse_led_triggers_register() fails partway through, the partially-
+registered triggers are detached by clearing pcdev->pi_led_trigs, so the
+existing early-return guard in pse_led_update() is the single point of
+truth and a stale led_trigger.name cannot fool the dereference path
+into touching an unregistered trigger.
 
-The notifs_mask is allocated as a real bitmap via devm_bitmap_zalloc()
-and passed to pse_handle_events() and the driver's map_event callback
-as a pointer (mirroring the pattern from commit 5099807f335c
-("net: pse-pd: fix out-of-bounds bitmap access in pse_isr() on 32-bit"))
-so for_each_set_bit() does not read past a single unsigned long when
-nr_lines > BITS_PER_LONG.
+The per-PI trigger struct lives outside the CONFIG_LEDS_TRIGGERS ifdef
+to avoid forcing every reference site to be wrapped; the LED-specific
+code paths remain ifdef'd.
 
-The poll interval defaults to 500ms, balancing responsiveness against
-bus load (e.g. I2C).
-
+Link: https://lore.kernel.org/oe-kbuild-all/202603251254.o5PqMBRU-lkp@intel.com/
+Link: https://lore.kernel.org/oe-kbuild-all/202603251250.cuMCk5Yv-lkp@intel.com/
 Signed-off-by: Carlo Szelinsky <github@szelinsky.de>
 ---
- drivers/net/pse-pd/pse_core.c | 157 +++++++++++++++++++++++++++-------
- include/linux/pse-pd/pse.h    |  14 +++
- 2 files changed, 140 insertions(+), 31 deletions(-)
+ drivers/net/pse-pd/pse_core.c | 200 +++++++++++++++++++++++++++++++++-
+ include/linux/pse-pd/pse.h    |  18 +++
+ 2 files changed, 217 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/pse-pd/pse_core.c b/drivers/net/pse-pd/pse_core.c
-index 87aa4f4e9724..b7ffec0c942c 100644
+index b7ffec0c942c..bff97211ae22 100644
 --- a/drivers/net/pse-pd/pse_core.c
 +++ b/drivers/net/pse-pd/pse_core.c
-@@ -14,10 +14,17 @@
- #include <linux/regulator/driver.h>
- #include <linux/regulator/machine.h>
- #include <linux/rtnetlink.h>
-+#include <linux/workqueue.h>
- #include <net/net_trackers.h>
- 
- #define PSE_PW_D_LIMIT INT_MAX
- 
-+/* Default poll interval for controllers without IRQ support.
-+ * 500ms provides a reasonable trade-off between responsiveness
-+ * (event detection, PD detection) and I2C bus utilization.
-+ */
-+#define PSE_DEFAULT_POLL_INTERVAL_MS 500
-+
- static DEFINE_MUTEX(pse_list_mutex);
- static LIST_HEAD(pse_controller_list);
- static DEFINE_XARRAY_ALLOC(pse_pw_d_map);
-@@ -1118,6 +1125,8 @@ void pse_controller_unregister(struct pse_controller_dev *pcdev)
- 	pse_release_pis(pcdev);
- 	if (pcdev->irq)
- 		disable_irq(pcdev->irq);
-+	if (pcdev->polling)
-+		cancel_delayed_work_sync(&pcdev->poll_work);
- 	cancel_work_sync(&pcdev->ntf_work);
- 	kfifo_free(&pcdev->ntf_fifo);
- 	mutex_lock(&pse_list_mutex);
-@@ -1239,66 +1248,104 @@ static int pse_set_config_isr(struct pse_controller_dev *pcdev, int id,
+@@ -8,6 +8,7 @@
+ #include <linux/device.h>
+ #include <linux/ethtool.h>
+ #include <linux/ethtool_netlink.h>
++#include <linux/leds.h>
+ #include <linux/of.h>
+ #include <linux/phy.h>
+ #include <linux/pse-pd/pse.h>
+@@ -669,6 +670,168 @@ static int _pse_pi_delivery_power_sw_pw_ctrl(struct pse_controller_dev *pcdev,
+ 	return 0;
  }
  
- /**
-- * pse_isr - IRQ handler for PSE
-- * @irq: irq number
-- * @data: pointer to user interrupt structure
-+ * pse_handle_events - Process PSE events for all PIs
-+ * @pcdev: a pointer to the PSE controller device
-+ * @notifs: per-PI notification array
-+ * @notifs_mask: bitmap of PIs with events (sized for pcdev->nr_lines)
-  *
-- * Return: irqreturn_t - status of IRQ
-+ * Common event handling shared between IRQ and poll paths.
-+ * Caller must hold pcdev->lock.
-  */
--static irqreturn_t pse_isr(int irq, void *data)
-+static void pse_handle_events(struct pse_controller_dev *pcdev,
-+			      unsigned long *notifs,
-+			      unsigned long *notifs_mask)
- {
--	struct pse_controller_dev *pcdev;
--	struct pse_irq_desc *desc;
--	struct pse_irq *h = data;
--	int ret, i;
--
--	desc = &h->desc;
--	pcdev = h->pcdev;
--
--	/* Clear notifs mask */
--	memset(h->notifs, 0, pcdev->nr_lines * sizeof(*h->notifs));
--	bitmap_zero(h->notifs_mask, pcdev->nr_lines);
--	mutex_lock(&pcdev->lock);
--	ret = desc->map_event(irq, pcdev, h->notifs, h->notifs_mask);
--	if (ret || bitmap_empty(h->notifs_mask, pcdev->nr_lines)) {
--		mutex_unlock(&pcdev->lock);
--		return IRQ_NONE;
--	}
-+	int i;
- 
--	for_each_set_bit(i, h->notifs_mask, pcdev->nr_lines) {
--		unsigned long notifs, rnotifs;
-+	for_each_set_bit(i, notifs_mask, pcdev->nr_lines) {
-+		unsigned long pi_notifs, rnotifs;
- 		struct pse_ntf ntf = {};
-+		int ret;
- 
- 		/* Do nothing PI not described */
- 		if (!pcdev->pi[i].rdev)
- 			continue;
- 
--		notifs = h->notifs[i];
-+		pi_notifs = notifs[i];
- 		if (pse_pw_d_is_sw_pw_control(pcdev, pcdev->pi[i].pw_d)) {
--			ret = pse_set_config_isr(pcdev, i, notifs);
-+			ret = pse_set_config_isr(pcdev, i, pi_notifs);
- 			if (ret)
--				notifs |= ETHTOOL_PSE_EVENT_SW_PW_CONTROL_ERROR;
-+				pi_notifs |= ETHTOOL_PSE_EVENT_SW_PW_CONTROL_ERROR;
- 		}
- 
--		dev_dbg(h->pcdev->dev,
--			"Sending PSE notification EVT 0x%lx\n", notifs);
-+		dev_dbg(pcdev->dev,
-+			"Sending PSE notification EVT 0x%lx\n", pi_notifs);
- 
--		ntf.notifs = notifs;
-+		ntf.notifs = pi_notifs;
- 		ntf.id = i;
- 		kfifo_in_spinlocked(&pcdev->ntf_fifo, &ntf, 1,
- 				    &pcdev->ntf_fifo_lock);
- 		schedule_work(&pcdev->ntf_work);
- 
--		rnotifs = pse_to_regulator_notifs(notifs);
-+		rnotifs = pse_to_regulator_notifs(pi_notifs);
- 		regulator_notifier_call_chain(pcdev->pi[i].rdev, rnotifs,
- 					      NULL);
- 	}
-+}
-+
++#if IS_ENABLED(CONFIG_LEDS_TRIGGERS)
 +/**
-+ * pse_isr - IRQ handler for PSE
-+ * @irq: irq number
-+ * @data: pointer to user interrupt structure
++ * pse_pi_get_states - Fetch current delivering/enabled state for a PI
++ * @pcdev: PSE controller device
++ * @id: PI index
++ * @delivering: out, set to true if PI is currently delivering power
++ * @enabled: out, set to true if PI is administratively enabled
 + *
-+ * Return: irqreturn_t - status of IRQ
++ * Queries hardware via the controller ops. Caller must hold pcdev->lock.
++ *
++ * Return: 0 on success, negative errno on failure.
 + */
-+static irqreturn_t pse_isr(int irq, void *data)
++static int pse_pi_get_states(struct pse_controller_dev *pcdev, int id,
++			     bool *delivering, bool *enabled)
 +{
-+	struct pse_controller_dev *pcdev;
-+	struct pse_irq *h = data;
++	struct pse_pw_status pw_status = {};
++	struct pse_admin_state admin_state = {};
 +	int ret;
 +
-+	pcdev = h->pcdev;
- 
-+	/* Clear notifs mask */
-+	memset(h->notifs, 0, pcdev->nr_lines * sizeof(*h->notifs));
-+	bitmap_zero(h->notifs_mask, pcdev->nr_lines);
-+	mutex_lock(&pcdev->lock);
-+	ret = h->desc.map_event(irq, pcdev, h->notifs, h->notifs_mask);
-+	if (ret || bitmap_empty(h->notifs_mask, pcdev->nr_lines)) {
-+		mutex_unlock(&pcdev->lock);
-+		return IRQ_NONE;
-+	}
++	ret = pcdev->ops->pi_get_pw_status(pcdev, id, &pw_status);
++	if (ret)
++		return ret;
++	ret = pcdev->ops->pi_get_admin_state(pcdev, id, &admin_state);
++	if (ret)
++		return ret;
 +
-+	pse_handle_events(pcdev, h->notifs, h->notifs_mask);
- 	mutex_unlock(&pcdev->lock);
- 
- 	return IRQ_HANDLED;
- }
- 
-+static void pse_poll_worker(struct work_struct *work)
-+{
-+	struct pse_controller_dev *pcdev =
-+		container_of(work, struct pse_controller_dev,
-+			     poll_work.work);
-+	int ret;
-+
-+	memset(pcdev->poll_notifs, 0,
-+	       pcdev->nr_lines * sizeof(*pcdev->poll_notifs));
-+	bitmap_zero(pcdev->poll_notifs_mask, pcdev->nr_lines);
-+	mutex_lock(&pcdev->lock);
-+	ret = pcdev->poll_desc.map_event(0, pcdev, pcdev->poll_notifs,
-+					 pcdev->poll_notifs_mask);
-+	if (!ret && !bitmap_empty(pcdev->poll_notifs_mask, pcdev->nr_lines))
-+		pse_handle_events(pcdev, pcdev->poll_notifs,
-+				  pcdev->poll_notifs_mask);
-+	mutex_unlock(&pcdev->lock);
-+
-+	queue_delayed_work(system_freezable_wq, &pcdev->poll_work,
-+			   msecs_to_jiffies(pcdev->poll_interval_ms));
-+}
-+
- /**
-  * devm_pse_irq_helper - Register IRQ based PSE event notifier
-  * @pcdev: a pointer to the PSE
-@@ -1356,6 +1403,54 @@ int devm_pse_irq_helper(struct pse_controller_dev *pcdev, int irq,
- }
- EXPORT_SYMBOL_GPL(devm_pse_irq_helper);
- 
-+/**
-+ * devm_pse_poll_helper - Register poll-based PSE event notifier
-+ * @pcdev: a pointer to the PSE controller device
-+ * @d: PSE event description (uses same pse_irq_desc as IRQ path)
-+ *
-+ * For PSE controllers without IRQ support or with IRQ not wired. Sets
-+ * up a delayed work that periodically calls the driver's map_event
-+ * callback to detect state changes, feeding events into the standard
-+ * notification pipeline.
-+ *
-+ * The poll worker uses system_freezable_wq to ensure it does not run
-+ * during system suspend while the hardware may be inaccessible.
-+ *
-+ * Return: 0 on success and errno on failure
-+ */
-+int devm_pse_poll_helper(struct pse_controller_dev *pcdev,
-+			 const struct pse_irq_desc *d)
-+{
-+	struct device *dev = pcdev->dev;
-+
-+	if (!d || !d->map_event || !d->name)
-+		return -EINVAL;
-+
-+	pcdev->poll_desc = *d;
-+	pcdev->poll_notifs = devm_kcalloc(dev, pcdev->nr_lines,
-+					  sizeof(*pcdev->poll_notifs),
-+					  GFP_KERNEL);
-+	if (!pcdev->poll_notifs)
-+		return -ENOMEM;
-+
-+	pcdev->poll_notifs_mask = devm_bitmap_zalloc(dev, pcdev->nr_lines,
-+						     GFP_KERNEL);
-+	if (!pcdev->poll_notifs_mask)
-+		return -ENOMEM;
-+
-+	if (!pcdev->poll_interval_ms)
-+		pcdev->poll_interval_ms = PSE_DEFAULT_POLL_INTERVAL_MS;
-+
-+	INIT_DELAYED_WORK(&pcdev->poll_work, pse_poll_worker);
-+	pcdev->polling = true;
-+
-+	queue_delayed_work(system_freezable_wq, &pcdev->poll_work,
-+			   msecs_to_jiffies(pcdev->poll_interval_ms));
++	*delivering = pw_status.c33_pw_status ==
++		ETHTOOL_C33_PSE_PW_D_STATUS_DELIVERING ||
++		pw_status.podl_pw_status ==
++		ETHTOOL_PODL_PSE_PW_D_STATUS_DELIVERING;
++	*enabled = admin_state.c33_admin_state ==
++		ETHTOOL_C33_PSE_ADMIN_STATE_ENABLED ||
++		admin_state.podl_admin_state ==
++		ETHTOOL_PODL_PSE_ADMIN_STATE_ENABLED;
 +
 +	return 0;
 +}
-+EXPORT_SYMBOL_GPL(devm_pse_poll_helper);
 +
- /* PSE control section */
++/**
++ * pse_led_update - Update LED triggers for a PI based on current state
++ * @pcdev: PSE controller device
++ * @id: PI index
++ *
++ * Queries the current power status and admin state of the PI and
++ * fires LED trigger events on state changes. Called from the
++ * notification path and the regulator enable/disable paths.
++ *
++ * Must be called with pcdev->lock held.
++ */
++static void pse_led_update(struct pse_controller_dev *pcdev, int id)
++{
++	struct pse_pi_led_triggers *trigs;
++	bool delivering, enabled;
++
++	if (!pcdev->pi_led_trigs)
++		return;
++
++	trigs = &pcdev->pi_led_trigs[id];
++	if (!trigs->delivering.name)
++		return;
++
++	if (pse_pi_get_states(pcdev, id, &delivering, &enabled))
++		return;
++
++	if (trigs->last_delivering != delivering) {
++		trigs->last_delivering = delivering;
++		led_trigger_event(&trigs->delivering,
++				  delivering ? LED_FULL : LED_OFF);
++	}
++
++	if (trigs->last_enabled != enabled) {
++		trigs->last_enabled = enabled;
++		led_trigger_event(&trigs->enabled,
++				  enabled ? LED_FULL : LED_OFF);
++	}
++}
++
++/* Sync a freshly-bound LED to the cached trigger state. Without these
++ * .activate callbacks, an LED bound to the trigger after
++ * pse_controller_register() (e.g. via sysfs) would stay dark until the
++ * next hardware event toggles state.
++ */
++static int pse_led_delivering_activate(struct led_classdev *led_cdev)
++{
++	struct pse_pi_led_triggers *trigs =
++		container_of(led_cdev->trigger, struct pse_pi_led_triggers,
++			     delivering);
++
++	led_set_brightness(led_cdev,
++			   trigs->last_delivering ? LED_FULL : LED_OFF);
++	return 0;
++}
++
++static int pse_led_enabled_activate(struct led_classdev *led_cdev)
++{
++	struct pse_pi_led_triggers *trigs =
++		container_of(led_cdev->trigger, struct pse_pi_led_triggers,
++			     enabled);
++
++	led_set_brightness(led_cdev,
++			   trigs->last_enabled ? LED_FULL : LED_OFF);
++	return 0;
++}
++
++static int pse_led_triggers_register(struct pse_controller_dev *pcdev)
++{
++	struct device *dev = pcdev->dev;
++	const char *dev_id;
++	int i, ret;
++
++	dev_id = dev_name(dev);
++
++	pcdev->pi_led_trigs = devm_kcalloc(dev, pcdev->nr_lines,
++					   sizeof(*pcdev->pi_led_trigs),
++					   GFP_KERNEL);
++	if (!pcdev->pi_led_trigs)
++		return -ENOMEM;
++
++	for (i = 0; i < pcdev->nr_lines; i++) {
++		struct pse_pi_led_triggers *trigs = &pcdev->pi_led_trigs[i];
++
++		/* Skip PIs not described in device tree */
++		if (!pcdev->no_of_pse_pi && !pcdev->pi[i].np)
++			continue;
++
++		trigs->delivering.name = devm_kasprintf(dev, GFP_KERNEL,
++							"pse-%s:port%d:delivering",
++							dev_id, i);
++		if (!trigs->delivering.name)
++			return -ENOMEM;
++		trigs->delivering.activate = pse_led_delivering_activate;
++
++		ret = devm_led_trigger_register(dev, &trigs->delivering);
++		if (ret) {
++			trigs->delivering.name = NULL;
++			return ret;
++		}
++
++		trigs->enabled.name = devm_kasprintf(dev, GFP_KERNEL,
++						     "pse-%s:port%d:enabled",
++						     dev_id, i);
++		if (!trigs->enabled.name)
++			return -ENOMEM;
++		trigs->enabled.activate = pse_led_enabled_activate;
++
++		ret = devm_led_trigger_register(dev, &trigs->enabled);
++		if (ret) {
++			trigs->enabled.name = NULL;
++			return ret;
++		}
++	}
++
++	return 0;
++}
++#else
++static inline void pse_led_update(struct pse_controller_dev *pcdev, int id) {}
++static int pse_led_triggers_register(struct pse_controller_dev *pcdev)
++{
++	return 0;
++}
++#endif /* CONFIG_LEDS_TRIGGERS */
++
+ static int pse_pi_enable(struct regulator_dev *rdev)
+ {
+ 	struct pse_controller_dev *pcdev = rdev_get_drvdata(rdev);
+@@ -694,6 +857,7 @@ static int pse_pi_enable(struct regulator_dev *rdev)
+ 			pcdev->pi[id].admin_state_enabled = 1;
+ 			ret = 0;
+ 		}
++		pse_led_update(pcdev, id);
+ 		mutex_unlock(&pcdev->lock);
+ 		return ret;
+ 	}
+@@ -701,6 +865,7 @@ static int pse_pi_enable(struct regulator_dev *rdev)
+ 	ret = ops->pi_enable(pcdev, id);
+ 	if (!ret)
+ 		pcdev->pi[id].admin_state_enabled = 1;
++	pse_led_update(pcdev, id);
+ 	mutex_unlock(&pcdev->lock);
  
- static void __pse_control_release(struct kref *kref)
+ 	return ret;
+@@ -718,6 +883,7 @@ static int pse_pi_disable(struct regulator_dev *rdev)
+ 	ret = _pse_pi_disable(pcdev, id);
+ 	if (!ret)
+ 		pi->admin_state_enabled = 0;
++	pse_led_update(pcdev, id);
+ 
+ 	mutex_unlock(&pcdev->lock);
+ 	return 0;
+@@ -1107,6 +1273,31 @@ int pse_controller_register(struct pse_controller_dev *pcdev)
+ 	if (ret)
+ 		return ret;
+ 
++	ret = pse_led_triggers_register(pcdev);
++	if (ret) {
++		/* LED triggers are non-essential for power delivery; warn
++		 * and continue. NULL out the array so pse_led_update()'s
++		 * early-return guard short-circuits any later calls onto
++		 * partially-registered triggers.
++		 */
++		dev_warn(pcdev->dev, "Failed to register LED triggers: %d\n",
++			 ret);
++		pcdev->pi_led_trigs = NULL;
++	}
++
++	/* Query initial LED state for all PIs so already-active ports
++	 * are reflected immediately without waiting for a hardware event.
++	 * Hold pcdev->lock: regulators are already exposed and a
++	 * concurrent regulator_enable() would race on the hw callbacks
++	 * and on last_delivering / last_enabled.
++	 */
++	mutex_lock(&pcdev->lock);
++	for (i = 0; i < pcdev->nr_lines; i++) {
++		if (pcdev->no_of_pse_pi || pcdev->pi[i].np)
++			pse_led_update(pcdev, i);
++	}
++	mutex_unlock(&pcdev->lock);
++
+ 	mutex_lock(&pse_list_mutex);
+ 	list_add(&pcdev->list, &pse_controller_list);
+ 	mutex_unlock(&pse_list_mutex);
+@@ -1267,7 +1458,14 @@ static void pse_handle_events(struct pse_controller_dev *pcdev,
+ 		struct pse_ntf ntf = {};
+ 		int ret;
+ 
+-		/* Do nothing PI not described */
++		/* Update LEDs for described PIs regardless of consumer state.
++		 * LED triggers are registered at controller init, before any
++		 * PHY claims a PSE control, so rdev may still be NULL here.
++		 */
++		if (pcdev->no_of_pse_pi || pcdev->pi[i].np)
++			pse_led_update(pcdev, i);
++
++		/* Skip regulator/netlink path for PIs without consumers */
+ 		if (!pcdev->pi[i].rdev)
+ 			continue;
+ 
 diff --git a/include/linux/pse-pd/pse.h b/include/linux/pse-pd/pse.h
-index 4e5696cfade7..4b5d5b11a084 100644
+index 4b5d5b11a084..ba321e669642 100644
 --- a/include/linux/pse-pd/pse.h
 +++ b/include/linux/pse-pd/pse.h
-@@ -292,6 +292,12 @@ struct pse_ntf {
-  * @pi: table of PSE PIs described in this controller device
-  * @no_of_pse_pi: flag set if the pse_pis devicetree node is not used
-  * @irq: PSE interrupt
-+ * @polling: flag indicating poll-based event detection is active
-+ * @poll_interval_ms: poll interval in milliseconds
-+ * @poll_work: delayed work for poll-based event detection
-+ * @poll_desc: copy of the driver's event descriptor for polling
-+ * @poll_notifs: per-PI notification scratch space for poll worker
-+ * @poll_notifs_mask: bitmap of PIs with events for poll worker
-  * @pis_prio_max: Maximum value allowed for the PSE PIs priority
-  * @supp_budget_eval_strategies: budget evaluation strategies supported
-  *				 by the PSE
-@@ -312,6 +318,12 @@ struct pse_controller_dev {
- 	struct pse_pi *pi;
- 	bool no_of_pse_pi;
- 	int irq;
-+	bool polling;
-+	unsigned int poll_interval_ms;
-+	struct delayed_work poll_work;
-+	struct pse_irq_desc poll_desc;
-+	unsigned long *poll_notifs;
-+	unsigned long *poll_notifs_mask;
- 	unsigned int pis_prio_max;
- 	u32 supp_budget_eval_strategies;
- 	struct work_struct ntf_work;
-@@ -345,6 +357,8 @@ int devm_pse_controller_register(struct device *dev,
- 				 struct pse_controller_dev *pcdev);
- int devm_pse_irq_helper(struct pse_controller_dev *pcdev, int irq,
- 			int irq_flags, const struct pse_irq_desc *d);
-+int devm_pse_poll_helper(struct pse_controller_dev *pcdev,
-+			 const struct pse_irq_desc *d);
+@@ -10,6 +10,7 @@
+ #include <linux/kfifo.h>
+ #include <uapi/linux/ethtool.h>
+ #include <uapi/linux/ethtool_netlink_generated.h>
++#include <linux/leds.h>
+ #include <linux/regulator/driver.h>
  
- struct pse_control *of_pse_control_get(struct device_node *node,
- 				       struct phy_device *phydev);
+ /* Maximum current in uA according to IEEE 802.3-2022 Table 145-1 */
+@@ -266,6 +267,21 @@ struct pse_pi {
+ 	int pw_allocated_mW;
+ };
+ 
++/**
++ * struct pse_pi_led_triggers - LED trigger state for a PSE PI
++ *
++ * @delivering: LED trigger for power delivering state
++ * @enabled: LED trigger for admin enabled state
++ * @last_delivering: cached delivering state for change detection
++ * @last_enabled: cached enabled state for change detection
++ */
++struct pse_pi_led_triggers {
++	struct led_trigger delivering;
++	struct led_trigger enabled;
++	bool last_delivering;
++	bool last_enabled;
++};
++
+ /**
+  * struct pse_ntf - PSE notification element
+  *
+@@ -304,6 +320,7 @@ struct pse_ntf {
+  * @ntf_work: workqueue for PSE notification management
+  * @ntf_fifo: PSE notifications FIFO
+  * @ntf_fifo_lock: protect @ntf_fifo writer
++ * @pi_led_trigs: per-PI LED trigger state array
+  */
+ struct pse_controller_dev {
+ 	const struct pse_controller_ops *ops;
+@@ -329,6 +346,7 @@ struct pse_controller_dev {
+ 	struct work_struct ntf_work;
+ 	DECLARE_KFIFO_PTR(ntf_fifo, struct pse_ntf);
+ 	spinlock_t ntf_fifo_lock; /* Protect @ntf_fifo writer */
++	struct pse_pi_led_triggers *pi_led_trigs;
+ };
+ 
+ /**
 -- 
 2.43.0
 
