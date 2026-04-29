@@ -1,116 +1,272 @@
-Return-Path: <linux-leds+bounces-7899-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7900-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CElnOOru8WmulgEAu9opvQ
-	(envelope-from <linux-leds+bounces-7899-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2026 13:43:38 +0200
+	id mPY+KCcK8mlXnAEAu9opvQ
+	(envelope-from <linux-leds+bounces-7900-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2026 15:39:51 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78CDE493B02
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2026 13:43:38 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 292FC494FAF
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2026 15:39:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C65233030E90
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2026 11:42:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1CC093008A74
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2026 13:21:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54D723DE427;
-	Wed, 29 Apr 2026 11:42:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5C143FCB2C;
+	Wed, 29 Apr 2026 13:21:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R58Smkwu"
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="Xp3Eqw6D"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B63B37F746;
-	Wed, 29 Apr 2026 11:42:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20223F2101;
+	Wed, 29 Apr 2026 13:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777462966; cv=none; b=bHRrUzKTPjxiEgUSZzz4gMpSFQ7zf0itCNobEKU1lkDYLrXKyGFxiW7dCKTsdj6XRgBANtb+Pkqr82UdLvD8q6sxejZ/8ZQtnWDxcj/4gj5lUe8+3lOsVaoNHVPGknH8ugVz3uJw1t+sYRI1xJl1EtjS7y/cMbe7RXcq/Iocul4=
+	t=1777468917; cv=none; b=YoaTuUPAGDbzFsuRGL4jEvQ/rqbEq9QZ9OC8hYFQdZSD46Pq2X3wafNy3Pj+oVJlm4gTCGx3jtzU1/jIs/Tyjy4z1Dr+gnXXCJMaWCqltz75LMVhpNFnvszfAXmxSMwrtlbgSS7oJg98xw+xAkrxhlDDQ8JSE9YxXPgCABU3hcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777462966; c=relaxed/simple;
-	bh=SsbTTYwYlbyQ+Fa8jyfz88tijB3m8NLLMKarM1z0z08=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=G6atCojJsvIvcexskE71nWlWboE0K3pwEd+dnLqax+i/2L8yHc8+ytoixrez2BrQmUxkKc7qpEAqccSglR6YUg+cOfLc7yoBrzX1kRC0nLKzZxSJfCKUJ18fjgHgyjnd9HLbYnmC/o/VauCLV3PxRAaSrn8U1UNYVjdUmbhXSUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R58Smkwu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C400FC19425;
-	Wed, 29 Apr 2026 11:42:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777462965;
-	bh=SsbTTYwYlbyQ+Fa8jyfz88tijB3m8NLLMKarM1z0z08=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=R58SmkwuiV8gLRyppUaa1aPYIcYYtWXSp5QCe3iNJDvuddtzgsDEC+Jn/uf1lBONV
-	 qVDzVSdEqnNCOQUF36YQmMr/WNlbK2iuJstOc6w/eDCATK25hNm8fin6SbW8qLa88Y
-	 U9azFRIYB3PAxg7e0CDJGc3KuJ4iOE27QGYFe0MZYqXn2eUQSTOC8tOgHnVivFyZWc
-	 C6gbpyke94jjuBBHZshV0Tlgf+twmz3+YlOeWOGvzy4lja0bZz8S4Yg3ObnTc9/kTP
-	 KpvrO23WY4NMRGF1K2QpGZtKadKOaugUkhDSQB7kUgWf7ktW+VrEdGavKL2cAXvjrH
-	 cSLnJBUM5cKyg==
-From: Lee Jones <lee@kernel.org>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Piotr Kubik <piotr@kubik.pl>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260408115106.379834-1-piotr@kubik.pl>
-References: <20260408115106.379834-1-piotr@kubik.pl>
-Subject: Re: (subset) [PATCH] leds: trigger: gpio: use
- GPIOD_FLAGS_BIT_NONEXCLUSIVE
-Message-Id: <177746296451.1823731.11668525721199850172.b4-ty@b4>
-Date: Wed, 29 Apr 2026 12:42:44 +0100
+	s=arc-20240116; t=1777468917; c=relaxed/simple;
+	bh=B+6vl6C/OV8+WpB8aWQtmkHIycQOFdlFNDQexZH3THM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=rAIbZqnXjGPjTZ+Z2qhm/mDQM2yGlS4NuLTKC1G/TDe2mAUAJZHC9l9ePmAjw8dZlDfN48dv6KVrg4c7cd9PuEsZxZzGMdnw6hciKkovlJQjLCvmSnOVwN37Qb6WylzeL6KWIiWUsFEQr6O8H8moDeVpRoY9MqEk3dO+iL4Q3TQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=Xp3Eqw6D; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id 570F826949;
+	Wed, 29 Apr 2026 15:12:35 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id RS3R83mpiQhH; Wed, 29 Apr 2026 15:12:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1777468354; bh=B+6vl6C/OV8+WpB8aWQtmkHIycQOFdlFNDQexZH3THM=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To;
+	b=Xp3Eqw6D2wdfqkrqtCXEGKpQarouGLQmdkkzDYQtDCU/Eg/HT8Nj2CKamRCYfW4N9
+	 PsmGt3/ne5sI9irdB8JmCGwilYHpUuT1zscLbLG5cq8DEh5BcnprzsHralTLVnJfzv
+	 yFigbtB3HB9/C79K8sFT/CsY6VriNOV2z81aoXp8XNy0A0L8FeKQ030/TaLKEhsUfv
+	 BQ10L9CBl3tIMVZ4YzSC5B0+S5NHamXeHPl+1TuV4cGAnERslQRq+sEpnG/ktD07/B
+	 wcihld4J9ADvSRNyVE0KU3qU//zC69p243KukM5aqOZofDt8MqloZncA5Y5wCQZEzW
+	 PXfPHLRbAswyw==
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.16-dev-ad80c
-X-Rspamd-Queue-Id: 78CDE493B02
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 29 Apr 2026 18:42:14 +0530
+Message-Id: <DI5NXS3PQ53R.L9JZEBHW5EGI@disroot.org>
+Subject: Re: [PATCH v5 03/11] dt-bindings: mfd: add documentation for
+ S2MU005 PMIC
+From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
+To: "Krzysztof Kozlowski" <krzk@kernel.org>, "Kaustabh Chakraborty"
+ <kauschluss@disroot.org>
+Cc: "Lee Jones" <lee@kernel.org>, "Pavel Machek" <pavel@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "MyungJoo Ham"
+ <myungjoo.ham@samsung.com>, "Chanwoo Choi" <cw00.choi@samsung.com>,
+ "Sebastian Reichel" <sre@kernel.org>, =?utf-8?q?Andr=C3=A9_Draszik?=
+ <andre.draszik@linaro.org>, "Alexandre Belloni"
+ <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, "Nam Tran" <trannamatk@gmail.com>,
+ =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>,
+ <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+References: <20260424-s2mu005-pmic-v5-0-fcbc9da5a004@disroot.org>
+ <20260424-s2mu005-pmic-v5-3-fcbc9da5a004@disroot.org>
+ <20260428-fortunate-olive-asp-fe4f53@quoll>
+In-Reply-To: <20260428-fortunate-olive-asp-fe4f53@quoll>
+X-Rspamd-Queue-Id: 292FC494FAF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+X-Spamd-Result: default: False [5.34 / 15.00];
+	SEM_URIBL(3.50)[0.0.0.0:email];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MV_CASE(0.50)[];
 	MAILLIST(-0.15)[generic];
+	BAD_REP_POLICIES(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[kernel.org,samsung.com,linaro.org,bootlin.com,lwn.net,linuxfoundation.org,gmail.com,lvkasz.us,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-7900-lists,linux-leds=lfdr.de];
+	DMARC_POLICY_ALLOW(0.00)[disroot.org,reject];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7899-lists,linux-leds=lfdr.de];
-	TO_DN_SOME(0.00)[];
+	R_DKIM_ALLOW(0.00)[disroot.org:s=mail];
+	GREYLIST(0.00)[pass,body];
+	DKIM_TRACE(0.00)[disroot.org:+];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	FROM_NEQ_ENVFROM(0.00)[kauschluss@disroot.org,linux-leds@vger.kernel.org];
+	NEURAL_SPAM(0.00)[0.996];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_SPF_ALLOW(0.00)[+ip4:172.234.253.10:c];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[]
 
-On Wed, 08 Apr 2026 13:51:06 +0200, Piotr Kubik wrote:
-> When a GPIO is shared between the LED trigger driver and another driver,
-> the LED trigger driver needs to request the GPIO with
-> GPIOD_FLAGS_BIT_NONEXCLUSIVE to allow both drivers to monitor the same
-> GPIO pin.
-> 
-> Without this flag, if another driver has already claimed the GPIO,
-> theLED trigger driver's gpiod_get_optional() call fails silently,
-> and the LED trigger doesn't work.
-> 
-> [...]
+Hi Krzysztof,
 
-Applied, thanks!
+This are no review comments here. Did you happen to miss anything?
 
-[1/1] leds: trigger: gpio: use GPIOD_FLAGS_BIT_NONEXCLUSIVE
-      commit: d9651eade266e822a3c152845dd2816de3e3a7a1
-
---
-Lee Jones [李琼斯]
-
+On 2026-04-28 08:01 +02:00, Krzysztof Kozlowski wrote:
+> On Fri, Apr 24, 2026 at 01:09:02AM +0530, Kaustabh Chakraborty wrote:
+>> Samsung's S2MU005 PMIC includes subdevices for a charger, an MUIC (Micro
+>> USB Interface Controller), and flash and RGB LED controllers.
+>>=20
+>> Add the compatible and documentation for the S2MU005 PMIC. Also, add an
+>> example for nodes for supported sub-devices, i.e. MUIC, flash LEDs, and
+>> RGB LEDs. Charger sub-device uses the node of the parent.
+>>=20
+>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+>> ---
+>>  .../bindings/mfd/samsung,s2mu005-pmic.yaml         | 120 ++++++++++++++=
++++++++
+>>  1 file changed, 120 insertions(+)
+> \r>=20
+>> diff --git a/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.=
+yaml b/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.yaml
+>> new file mode 100644
+>> index 0000000000000..0e6afb7d2017b
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.yaml
+>> @@ -0,0 +1,120 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/mfd/samsung,s2mu005-pmic.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Samsung S2MU005 Power Management IC
+>> +
+>> +maintainers:
+>> +  - Kaustabh Chakraborty <kauschluss@disroot.org>
+>> +
+>> +description: |
+>> +  The S2MU005 is a companion power management IC which includes subdevi=
+ces for
+>> +  a charger controller, an MUIC (Micro USB Interface Controller), and f=
+lash and
+>> +  RGB LED controllers.
+>> +
+>> +allOf:
+>> +  - $ref: /schemas/power/supply/power-supply.yaml#
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: samsung,s2mu005-pmic
+>> +
+>> +  flash:
+>> +    $ref: /schemas/leds/samsung,s2mu005-flash.yaml
+>> +    description:
+>> +      Child node describing flash LEDs.
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  muic:
+>> +    $ref: /schemas/extcon/samsung,s2mu005-muic.yaml#
+>> +    description:
+>> +      Child node describing MUIC device.
+>> +
+>> +  multi-led:
+>> +    type: object
+>> +
+>> +    allOf:
+>> +      - $ref: /schemas/leds/leds-class-multicolor.yaml#
+>> +
+>> +    properties:
+>> +      compatible:
+>> +        const: samsung,s2mu005-rgb
+>> +
+>> +    required:
+>> +      - compatible
+>> +
+>> +    unevaluatedProperties: false
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +
+>> +unevaluatedProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/interrupt-controller/irq.h>
+>> +    #include <dt-bindings/leds/common.h>
+>> +
+>> +    i2c {
+>> +        #address-cells =3D <1>;
+>> +        #size-cells =3D <0>;
+>> +
+>> +        pmic@3d {
+>> +            compatible =3D "samsung,s2mu005-pmic";
+>> +            reg =3D <0x3d>;
+>> +            interrupt-parent =3D <&gpa2>;
+>> +            interrupts =3D <7 IRQ_TYPE_LEVEL_LOW>;
+>> +
+>> +            monitored-battery =3D <&battery>;
+>> +
+>> +            flash {
+>> +                compatible =3D "samsung,s2mu005-flash";
+>> +                #address-cells =3D <1>;
+>> +                #size-cells =3D <0>;
+>> +
+>> +                led@0 {
+>> +                    reg =3D <0>;
+>> +                    color =3D <LED_COLOR_ID_WHITE>;
+>> +                    function =3D LED_FUNCTION_FLASH;
+>> +                };
+>> +
+>> +                led@1 {
+>> +                    reg =3D <1>;
+>> +                    color =3D <LED_COLOR_ID_WHITE>;
+>> +                    function =3D LED_FUNCTION_FLASH;
+>> +                    function-enumerator =3D <1>;
+>> +                };
+>> +            };
+>> +
+>> +            muic {
+>> +                compatible =3D "samsung,s2mu005-muic";
+>> +
+>> +                connector {
+>> +                    compatible =3D "usb-b-connector";
+>> +                    label =3D "micro-USB";
+>> +                    type =3D "micro";
+>> +                };
+>> +
+>> +                port {
+>> +                    muic_to_usb: endpoint {
+>> +                        remote-endpoint =3D <&usb_to_muic>;
+>> +                    };
+>> +                };
+>> +            };
+>> +
+>> +            multi-led {
+>> +                compatible =3D "samsung,s2mu005-rgb";
+>> +                color =3D <LED_COLOR_ID_RGB>;
+>> +                function =3D LED_FUNCTION_INDICATOR;
+>> +                linux,default-trigger =3D "pattern";
+>> +            };
+>> +        };
+>> +    };
+>>=20
+>> --=20
+>> 2.53.0
+>>=20
 
