@@ -1,222 +1,142 @@
-Return-Path: <linux-leds+bounces-7918-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7919-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QM1SLP0f82lsxQEAu9opvQ
-	(envelope-from <linux-leds+bounces-7918-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Apr 2026 11:25:17 +0200
+	id KIf7BDYl82nIxQEAu9opvQ
+	(envelope-from <linux-leds+bounces-7919-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Apr 2026 11:47:34 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FDE849FD26
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Apr 2026 11:25:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DFB34A025B
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Apr 2026 11:47:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 03AF43010258
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Apr 2026 09:25:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E62D0306B1B0
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Apr 2026 09:40:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76BA739FCD8;
-	Thu, 30 Apr 2026 09:25:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7871C3A4535;
+	Thu, 30 Apr 2026 09:40:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZM8IhKCc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bi7W1P5N"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5349D39F160;
-	Thu, 30 Apr 2026 09:25:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF7C28751B;
+	Thu, 30 Apr 2026 09:40:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777541114; cv=none; b=Oy9rOT7uq29qmOu+lsNwCmZQP6iisSLoB7GQobdRMl9iwPlQmm6/fY3Qw3oNsU9ld2hM9nKcXCm9cKZEm0sWGryos9vY96hP/4MiULfcDg+Qz6jyGi45OsxIyDDDdVUZg8yPJe47guJ+g3NuP7svsUChZHgdKNt8mBQMvULx9JU=
+	t=1777542035; cv=none; b=pe77fnV4LUaC+xqGDE6SS4Aop0Og1Vyavwlp7PGlaECeE4DCdvVPTZaqtNJuBcwWxiHwg5hAFvKdHL5HorX5xknGS9fh/V8W9Vd64NpVU0lOAUJiyVGtobGNfWw+YtzdDZOGT2OR+2NP2ovOVFV4sypFGpUIkt7R/MLIWJpfk6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777541114; c=relaxed/simple;
-	bh=zsvjEg5G040K3j1nWisvbk6/AZCHJNwK5aizXgBsEeA=;
+	s=arc-20240116; t=1777542035; c=relaxed/simple;
+	bh=Tj7K1qp7clDNye0BbLNXPFP5MofQdFJ7SeapubT7TdM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZLXQx8fNaVws/NfPKIYhm81MNncF6TLdxQDWR8z2s7uUjj07QuBVgRx4FX+XAlR46kshfiIeAFmbrW5qfXNOd+Iwz3+06j8FoeVDChGS1XLctpbGGVPeFEYf0kMQmSOqtZAjI0hAaFiYYUvJ8KluMiSgbSXmhbBggyI60UkeRv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZM8IhKCc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B398FC2BCB3;
-	Thu, 30 Apr 2026 09:25:11 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=s2XRgmTJLgy6KIMErNjE9SgwHSn7aLd4DWYXvV4cNCh90KmuS3SAv1fFaTjPO59GH+h6dz0YyWHxxlA15aIzLQ/oVvzbtdN/sOalWJjPKyLPn+T7qNvD7yg7ZSZxFp9FbbAZK4xXP3RYFbWtjrEjdzj6WgYt3X3IgTiVd4pYjmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bi7W1P5N; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AF26C2BCC4;
+	Thu, 30 Apr 2026 09:40:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777541114;
-	bh=zsvjEg5G040K3j1nWisvbk6/AZCHJNwK5aizXgBsEeA=;
+	s=k20201202; t=1777542035;
+	bh=Tj7K1qp7clDNye0BbLNXPFP5MofQdFJ7SeapubT7TdM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZM8IhKCczQuHkYXyCrzYAwaaemdQcN4w7CBnop5ZZuDchp0kbXUFB5oU10daK751k
-	 PgI+Vi1xOdMGO7UNq1CAGdjIVZi9g8FB0hJqJSezLtfnDOYD2l4G8IYGsOFxhblv7A
-	 dObApNe8ivL1j4wF0kryP+bj2dRs4h80K0GWKqauY6D2VND2yVbXddbZ8zTxt2B/GJ
-	 o+a7tsRGB0nVh9n4gdtSOcU6utgoJlCSoyS9ugOotvrH0heH64w5nhVCeQMMd8sZ4L
-	 LJLVJ4lPvqb7uAXMMbESQLZMJ7MzBrpZV0Gjns3Q97Y0pkEZ/AYU8G8B6mo+UakzJi
-	 /cP/MKRBnpffw==
-Date: Thu, 30 Apr 2026 10:25:08 +0100
-From: Lee Jones <lee@kernel.org>
-To: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Cc: Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Rishit Bansal <rishitbansal0@gmail.com>,
-	Carlos Ferreira <carlosmiguelferreira.2003@gmail.com>,
-	Edip Hazuri <edip@medip.dev>,
-	Mustafa =?utf-8?B?RWvFn2k=?= <mustafa.eskieksi@gmail.com>,
-	Xavier Bestel <xav@bes.tel>, linux-leds@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/1] Documentation: leds: leds-class: Document keyboard
- backlight LED class naming
-Message-ID: <20260430092508.GF1806155@google.com>
-References: <20260406174638.320135-1-johannes.goede@oss.qualcomm.com>
- <20260406174638.320135-2-johannes.goede@oss.qualcomm.com>
+	b=Bi7W1P5NJgq5JgaZXIam/iHdqEEAlfiLj7Mcclo9abxMfE34smq9+J23v+F0BA5o0
+	 2IL+vhwg4/+gBP6RaTxNJnUsP0zOrKn6G3RCVDpsG2dYr02CNH540qDfSeXxOcQdBp
+	 5u4y/gjsUb3TUUP1LdLm4wq7vm3nQdPLBGZVy19Bap5vYgbttxRlgWogIX+y2jGdQc
+	 3kZpOL/nh+GeUL1Qbs/Z/A0tjaUqcpi0tHot2hfV3vQc0BoJNg1j2hPXBeaAT8B4nM
+	 B9wJhzgPhxoTRLEB/lMaaz0Itu25mOemAeMXV0AKC30/EujE8GJdqq0IWERpWwALp4
+	 bGCuSSYKNrH4w==
+Date: Thu, 30 Apr 2026 11:40:32 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org, KancyJoe <kancy2333@outlook.com>
+Subject: Re: [PATCH 1/2] dt-bindings: regulator: document the SY7758
+ 6-channel High Efficiency LED Driver
+Message-ID: <20260430-interesting-pink-salmon-082def@quoll>
+References: <20260428-topic-sm8650-ayaneo-pocket-s2-sy7758-v1-0-0caade5fdb32@linaro.org>
+ <20260428-topic-sm8650-ayaneo-pocket-s2-sy7758-v1-1-0caade5fdb32@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260406174638.320135-2-johannes.goede@oss.qualcomm.com>
-X-Rspamd-Queue-Id: 0FDE849FD26
+In-Reply-To: <20260428-topic-sm8650-ayaneo-pocket-s2-sy7758-v1-1-0caade5fdb32@linaro.org>
+X-Rspamd-Queue-Id: 8DFB34A025B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7918-lists,linux-leds=lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,lwn.net,linuxfoundation.org,gmail.com,medip.dev,bes.tel,vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-7919-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,gmx.de,lists.freedesktop.org,vger.kernel.org,outlook.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:email]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,qualcomm.com:email,devicetree.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-On Mon, 06 Apr 2026, Hans de Goede wrote:
-
-> From: Carlos Ferreira <carlosmiguelferreira.2003@gmail.com>
+On Tue, Apr 28, 2026 at 03:59:11PM +0200, Neil Armstrong wrote:
+> Document the Silergy SY7758 6-channel High Efficiency LED Driver
+> used for backlight brightness control.
 > 
-> Document the existing practice of always using 'kbd_backlight' for
-> the function part of LED class device names for LED class devices which
-> control single-zone keyboard backlights.
-> 
-> Also extend this existing practice with a new naming scheme for keyboards
-> with zoned backlight control. There are several drivers in the works (see
-> the Link:tags below) which offer backlight control for keyboards where
-> the keyboard backlight is divided in a limited number of zones, e.g.
-> "main", "cursor" and "numpad" zones.
-> 
-> It is important to agree on a consistent naming scheme for these now,
-> so that userspace can support multiple different models / vendors through
-> a single unified naming scheme.
-> 
-> Link: https://lore.kernel.org/platform-driver-x86/20230131235027.36304-1-rishitbansal0@gmail.com/
-> Link: https://lore.kernel.org/platform-driver-x86/20240719100011.16656-1-carlosmiguelferreira.2003@gmail.com/
-> Link: https://lore.kernel.org/platform-driver-x86/20260304105831.119349-3-edip@medip.dev/
-> Link: https://lore.kernel.org/platform-driver-x86/20240806205001.191551-2-mustafa.eskieksi@gmail.com/
-> Link: https://lore.kernel.org/linux-input/20260402075239.3829699-1-xav@bes.tel/
-> Signed-off-by: Carlos Ferreira <carlosmiguelferreira.2003@gmail.com>
-> Co-authored-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
-> Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
-
-The premise is fine I think.
-
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > ---
->  Documentation/leds/leds-class.rst | 63 +++++++++++++++++++++++++++++++
->  1 file changed, 63 insertions(+)
-> 
-> diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
-> index 5db620ed27aa..d2b042519a66 100644
-> --- a/Documentation/leds/leds-class.rst
-> +++ b/Documentation/leds/leds-class.rst
-> @@ -116,6 +116,69 @@ above leaves scope for further attributes should they be needed. If sections
->  of the name don't apply, just leave that section blank.
->  
->  
-> +Keyboard backlight control LED Device Naming
-> +============================================
-> +
-> +For backlit keyboards with a single brightness / color settings a single
-> +(multicolor) LED class device should be used to allow userspace to change
-> +the backlight brightness (and if possible the color). This LED class device
-> +must use "kbd_backlight" for the function part of the LED class device name.
-> +IOW the name must end with ":kbd_backlight".
-> +
-> +For backlit keyboards with multiple control zones, one (multicolor) LED class
-> +device should be used per zone. These LED class devices' name must follow:
-> +
-> +	"<devicename>:<color>:kbd_zoned_backlight-<zone_name>"
-> +
-> +and <devicename> must be the same for all zones of the same keyboard.
-> +
-> +<zone_name> should be descriptive of which part of the keyboard backlight
-> +the zone covers and should be suitable for userspace to show to an end user
-> +in an UI for controlling the zones.
-> +
-> +Where possible <zone_name> should be a value already used by other
-> +zoned keyboards with a similar or identical zone layout, e.g.:
-> +
-> +<devicename>:<color>:kbd_zoned_backlight-right
-> +<devicename>:<color>:kbd_zoned_backlight-middle
-> +<devicename>:<color>:kbd_zoned_backlight-left
-> +<devicename>:<color>:kbd_zoned_backlight-corners
-> +<devicename>:<color>:kbd_zoned_backlight-wasd
-> +
-> +or:
-> +
-> +<devicename>:<color>:kbd_zoned_backlight-main
-> +<devicename>:<color>:kbd_zoned_backlight-cursor
-> +<devicename>:<color>:kbd_zoned_backlight-numpad
-> +<devicename>:<color>:kbd_zoned_backlight-corners
-> +<devicename>:<color>:kbd_zoned_backlight-wasd
-> +
-> +Note that this is intended for keyboards with a limited number of zones,
-> +keyboards with per key addressable backlighting must not use LED class devices
-> +since the sysfs API is not suitable for rapidly change multiple LEDs in one
-> +"commit" as is necessary to do animations / special effects on such keyboards.
-> +
-> +An exception to the rule that all zones must follow:
-> +
-> +	"<devicename>:<color>:kbd_zoned_backlight-<zone_name>"
-> +
-> +is made for the special case where there is a single big zone which controls
-> +the backlighting of almost all of the keyboard and there are some small areas
-> +with separate control, like just the 4 cursor keys, or the WASD keys. In this
-> +case the main zone should use 'kbd_backlight' for the function part of the name
-> +for compatiblity with (older) userspace code which is not aware of
-
-Nit: compatibility
-
-There may be others.  Please run it through a spell checker.
-
-> +the "kbd_zoned_backlight-<zone_name>" function naming scheme.
-> +
-> +While the smaller zones should use the new zoned naming scheme. Such a setup
-> +would result in e.g.:
-> +
-> +<devicename>:<color>:kbd_backlight
-> +<devicename>:<color>:kbd_zoned_backlight-wasd
-> +
-> +"kbd_zoned_backlight-<zone_name>" aware userspace should be aware of this
-> +exception and check for a main zone with a "kbd_backlight" function-name.
-> +
-> +
->  Brightness setting API
->  ======================
->  
-> -- 
-> 2.53.0
+>  .../bindings/leds/backlight/silergy,sy7758.yaml    | 53 ++++++++++++++++++++++
+>  1 file changed, 53 insertions(+)
 > 
 
--- 
-Lee Jones
+subject - not a regulator prefix
+
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/silergy,sy7758.yaml b/Documentation/devicetree/bindings/leds/backlight/silergy,sy7758.yaml
+> new file mode 100644
+> index 000000000000..dc44b3b502e2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/silergy,sy7758.yaml
+> @@ -0,0 +1,53 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/silergy,sy7758.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Silergy SY7758 6-channel High Efficiency LED Driver
+> +
+> +maintainers:
+> +  - Neil Armstrong <neil.armstrong@linaro.org>
+> +
+> +description: |
+
+Drop |
+
+With these two fixed:
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+
+Best regards,
+Krzysztof
+
 
