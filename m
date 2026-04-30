@@ -1,61 +1,61 @@
-Return-Path: <linux-leds+bounces-7928-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7929-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YAyDGqdw82m42gEAu9opvQ
-	(envelope-from <linux-leds+bounces-7928-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Apr 2026 17:09:27 +0200
+	id YLpHNFiN82n/4wEAu9opvQ
+	(envelope-from <linux-leds+bounces-7929-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Apr 2026 19:11:52 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94C04A4761
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Apr 2026 17:09:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 302CC4A63C8
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Apr 2026 19:11:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 034673044F25
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Apr 2026 15:05:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E378C3008D31
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Apr 2026 17:11:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB1D92D3EC1;
-	Thu, 30 Apr 2026 15:05:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8831646AEFB;
+	Thu, 30 Apr 2026 17:11:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rcKrk4KX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tGhNXYIg"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A54B35958;
-	Thu, 30 Apr 2026 15:05:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B9543637C;
+	Thu, 30 Apr 2026 17:11:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777561514; cv=none; b=TNZ4oMcYsIz1tePbHdNmpdJQoBCx3OlHRZYY6jEapXVlAy8svVRr0XxlG77HxPz7bVZFsm5iTVkshc+NOLhKBb4VG40RbUm47kdNs1+6uAd0vWYRZieZCJWJHWyBQDwLW9jEAqVDTJ+soPGKTDnB5zxrWGYowLl6CMoxk4E0uy4=
+	t=1777569110; cv=none; b=fw93+XgzFfeScyntMIMPbunzIBZVEX4FCDggn7mxtkI/N7ttwsmia/2ujLDfyQga+IuKPW7qG4asmYbOUNIm5vvu/njuY3mMKrbg42nVfcdwA2pTqUVis4QsGyA/dR49yvVjrsJkx8wUHjFoboQfume4ocbviUd0zvondGrMiOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777561514; c=relaxed/simple;
-	bh=VX6+ebjtO5Vyi+Sz/eN3qNfvydqEfu//paiGoORg9/Y=;
+	s=arc-20240116; t=1777569110; c=relaxed/simple;
+	bh=wNmEewzNaC0VXTccba+3GnfkmM93bPatQMeipc4txhY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FhQ7dRgnPIEk3onzeQ3MR/ClpVrUj+wNYTw+urPnoqNClD69+NEeaiXVRPsteqR2fsftpSRK/OdChvNbvJjkni4Ul1PSy4uqbNR0DJa3qAOM1Pd8Lkj1AD/LTGlEhz0dsW50X7AqmbXF2Q2ta7f9XVRYoi7yRqa07qhkGPgcdoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rcKrk4KX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BA59C2BCB9;
-	Thu, 30 Apr 2026 15:05:11 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=XlQUWspRzMN8mP3QqVYZTIJjE14jN5wiZMb0006DEzRBKke1d7iKJqRspMSZxZ9NwyWahpMS2f9WzkSZNzNkU+k61AVondqdl6BrDIdf2BPB8YTxef+WfhO9SSUpO4hu/9gni4Ut2Ai0KmIXvN5T3i+NSrvj2e0TNTZqmFNrGjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tGhNXYIg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4903AC2BCB3;
+	Thu, 30 Apr 2026 17:11:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777561513;
-	bh=VX6+ebjtO5Vyi+Sz/eN3qNfvydqEfu//paiGoORg9/Y=;
+	s=k20201202; t=1777569110;
+	bh=wNmEewzNaC0VXTccba+3GnfkmM93bPatQMeipc4txhY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rcKrk4KXGafBWtVNtX2QACShpm19N6Z8VsyeY2h2dm7uWfLwIOE+AHZMXTWiDSTKN
-	 Jbnt5lqr2INWpgbrrniEeKvMv8ZgrW6eEZMIPo7jjEKIoRaZtWSqd1zVILtvnzKFb6
-	 iJb/Po/j7YuVrcsk4qqMl26+SeI4DrOPpLcABq+BOSw0W9n1nlCCb7B4dYZp5K1CZM
-	 u0cP+VSo8OvZBNz1Zw5qnhqeSY1WUGLg8fmg96Be5Yx+HE3m0aemQ8ScbwwuCm0cOr
-	 ZvozkS3uUKpRYktXXXEl+QzFigmHF+p17MzzNDZ1lZVXz+iGENYEXtGa7nbGf7MW9E
-	 OPlvA6yXdDDAw==
-Date: Thu, 30 Apr 2026 16:05:08 +0100
+	b=tGhNXYIgu9Y98eRv6tCEiLXxu+VVSMxbtzmAbvRzR0wUtEXicZrcqLcXhSkyl97Mv
+	 VSJ3SUWL5shGepNzHvwu22ueLu7JhDDX1YMU+XXm2MPNrQB6JJXPrghxM64ylPnCUt
+	 nwk1CgqCHF7sWQRGPw0bktU0St86JOSrSP+5ZFiBSAIJPN/deiJqIps6oTqUakXRYP
+	 wBTS9UFPgiYnagJU6pP6W6YDnTftIXixcDccqcRxQvH9AY6oq9E3Dz9/E1sg2oxlwY
+	 gXXleYxgcpehR+1Eh+vo9SClYuUKXgGZ1zRhU05cPrem6LaxUoUZ7yDfdS54j3oF6M
+	 ilxr68kaYpQxg==
+Date: Thu, 30 Apr 2026 18:11:45 +0100
 From: Lee Jones <lee@kernel.org>
-To: Jan Carlo Roleda <jancarlo.roleda@analog.com>
+To: Edelweise Escala <edelweise.escala@analog.com>
 Cc: Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] leds: ltc3208: Add driver for LTC3208
- Multidisplay LED Driver
-Message-ID: <20260430150508.GK1806155@google.com>
-References: <20260416-upstream-ltc3208-v4-0-3884ed3e49f5@analog.com>
- <20260416-upstream-ltc3208-v4-2-3884ed3e49f5@analog.com>
+	Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 2/2] leds: ltc3220: Add Support for LTC3220 18 channel
+ LED Driver
+Message-ID: <20260430171145.GA2661693@google.com>
+References: <20260417-ltc3220-driver-v6-0-18157871eddd@analog.com>
+ <20260417-ltc3220-driver-v6-2-18157871eddd@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -64,8 +64,8 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260416-upstream-ltc3208-v4-2-3884ed3e49f5@analog.com>
-X-Rspamd-Queue-Id: D94C04A4761
+In-Reply-To: <20260417-ltc3220-driver-v6-2-18157871eddd@analog.com>
+X-Rspamd-Queue-Id: 302CC4A63C8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
@@ -76,7 +76,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7928-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-7929-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -93,445 +93,526 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[analog.com:url,analog.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-On Thu, 16 Apr 2026, Jan Carlo Roleda wrote:
+On Fri, 17 Apr 2026, Edelweise Escala wrote:
 
-> Kernel driver implementation for LTC3208 Multidisplay LED Driver.
+> Add driver for the LTC3220 18-channel LED driver
+> with I2C interface, individual brightness control, and hardware-assisted
+> blink/gradation features.
 > 
-> The LTC3208 is a Multi-display LED driver, designed to control up to
-> 7 distinct LED channels (MAIN, SUB, AUX, CAMHI, CAMLO, RED, GREEN, BLUE),
-> each configurable with its own current level that is equally set to its
-> respective output current source pins for external LEDs.
-> 
-> It is programmed via the I2C serial interface.
-> MAIN and SUB support 8-bit current level resolution,
-> while AUX, CAMHI/LO, RED, GREEN, and BLUE support 4-bit levels.
-> 
-> The AUX LED channel can be configured to mirror the CAM, SUB, and MAIN
-> channel current levels, or as its own independent AUX channel.
-> 
-> The CAM LED channel is configured as 2 separate CAMHI and CAMLO register
-> sub-channels, which currnet is selected via the CAMHL pin, or set to
-> CAMHI register only via setting the S_CAMHILO bit high in register G (0x7).
-> 
-> Signed-off-by: Jan Carlo Roleda <jancarlo.roleda@analog.com>
+> Signed-off-by: Edelweise Escala <edelweise.escala@analog.com>
 > ---
->  MAINTAINERS                 |   2 +-
+>  MAINTAINERS                 |   1 +
 >  drivers/leds/Kconfig        |  12 ++
 >  drivers/leds/Makefile       |   1 +
->  drivers/leds/leds-ltc3208.c | 278 ++++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 292 insertions(+), 1 deletion(-)
+>  drivers/leds/leds-ltc3220.c | 418 ++++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 432 insertions(+)
 > 
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index 19b0b84e934d..48bae02057d5 100644
+> index 5c10cc3e3022..7467537938bf 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -15131,7 +15131,7 @@ M:	Jan Carlo Roleda <jancarlo.roleda@analog.com>
->  L:	linux-leds@vger.kernel.org
+> @@ -14961,6 +14961,7 @@ L:	linux-leds@vger.kernel.org
 >  S:	Maintained
 >  W:	https://ez.analog.com/linux-software-drivers
-> -F:	Documentation/devicetree/bindings/leds/adi,ltc3208.yaml
-
-Is this related to this change?  Was it intentional?
-
-> +F:	drivers/leds/leds-ltc3208.c
+>  F:	Documentation/devicetree/bindings/leds/adi,ltc3220.yaml
+> +F:	drivers/leds/leds-ltc3220.c
 >  
 >  LTC4282 HARDWARE MONITOR DRIVER
 >  M:	Nuno Sa <nuno.sa@analog.com>
 > diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index 597d7a79c988..d13bbec73f06 100644
+> index 597d7a79c988..f00cdc11c978 100644
 > --- a/drivers/leds/Kconfig
 > +++ b/drivers/leds/Kconfig
-> @@ -1029,6 +1029,18 @@ config LEDS_ACER_A500
->  	  This option enables support for the Power Button LED of
->  	  Acer Iconia Tab A500.
+> @@ -1001,6 +1001,18 @@ config LEDS_ST1202
+>  	  Say Y to enable support for LEDs connected to LED1202
+>  	  LED driver chips accessed via the I2C bus.
 >  
-> +config LEDS_LTC3208
-> +	tristate "LED Driver for Analog Devices LTC3208"
-> +	depends on LEDS_CLASS && I2C
-> +	select REGMAP_I2C
+> +config LEDS_LTC3220
+> +	tristate "LED Driver for Analog Devices Inc. LTC3220"
+> +	depends on I2C && LEDS_CLASS
 > +	help
-> +	  Say Y to enable the LTC3208 LED driver.
-> +	  This enables the LED device LTC3208, a 7-channel, 17-current source
-> +	  multidisplay high-current LED driver, configured via I2C.
+> +	  Say Y to enable support for the Analog Devices LTC3220
+> +	  18-channel LED controller with I2C interface.
+> +	  The driver supports individual LED brightness control (64 steps),
+> +	  hardware-assisted blinking and gradation effects.
 > +
 > +	  To compile this driver as a module, choose M here: the module will
-> +	  be called ltc3208.
+> +	  be called leds-ltc3220.
 > +
->  source "drivers/leds/blink/Kconfig"
->  
->  comment "Flash and Torch LED drivers"
+>  config LEDS_TPS6105X
+>  	tristate "LED support for TI TPS6105X"
+>  	depends on LEDS_CLASS
 > diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index 8fdb45d5b439..b08b539112b6 100644
+> index 8fdb45d5b439..5301568d9e00 100644
 > --- a/drivers/leds/Makefile
 > +++ b/drivers/leds/Makefile
 > @@ -61,6 +61,7 @@ obj-$(CONFIG_LEDS_LP8788)		+= leds-lp8788.o
 >  obj-$(CONFIG_LEDS_LP8860)		+= leds-lp8860.o
 >  obj-$(CONFIG_LEDS_LP8864)		+= leds-lp8864.o
 >  obj-$(CONFIG_LEDS_LT3593)		+= leds-lt3593.o
-> +obj-$(CONFIG_LEDS_LTC3208)		+= leds-ltc3208.o
+> +obj-$(CONFIG_LEDS_LTC3220)		+= leds-ltc3220.o
 >  obj-$(CONFIG_LEDS_MAX5970)		+= leds-max5970.o
 >  obj-$(CONFIG_LEDS_MAX77650)		+= leds-max77650.o
 >  obj-$(CONFIG_LEDS_MAX77705)		+= leds-max77705.o
-> diff --git a/drivers/leds/leds-ltc3208.c b/drivers/leds/leds-ltc3208.c
+> diff --git a/drivers/leds/leds-ltc3220.c b/drivers/leds/leds-ltc3220.c
 > new file mode 100644
-> index 000000000000..9da8f4b359e3
+> index 000000000000..5e1f994cc35b
 > --- /dev/null
-> +++ b/drivers/leds/leds-ltc3208.c
-> @@ -0,0 +1,278 @@
+> +++ b/drivers/leds/leds-ltc3220.c
+> @@ -0,0 +1,418 @@
 > +// SPDX-License-Identifier: GPL-2.0
 > +/*
-> + * LED driver for Analog Devices LTC3208 Multi-Display Driver
+> + * LTC3220 18-Channel LED Driver
 > + *
 > + * Copyright 2026 Analog Devices Inc.
 > + *
-> + * Author: Jan Carlo Roleda <jancarlo.roleda@analog.com>
+> + * Author: Edelweise Escala <edelweise.escala@analog.com>
 > + */
+> +
 > +#include <linux/bitfield.h>
-> +#include <linux/errno.h>
+> +#include <linux/delay.h>
+> +#include <linux/device.h>
+> +#include <linux/gpio/consumer.h>
 > +#include <linux/i2c.h>
 > +#include <linux/leds.h>
 > +#include <linux/mod_devicetable.h>
 > +#include <linux/module.h>
-> +#include <linux/property.h>
 > +#include <linux/regmap.h>
 > +#include <linux/types.h>
 > +
-> +#define LTC3208_LED_SET_HIGH_BYTE_DATA	GENMASK(7, 4)
-> +#define LTC3208_LED_SET_LOW_BYTE_DATA	GENMASK(3, 0)
+> +/* LTC3220 Registers */
+> +#define LTC3220_COMMAND_REG				0x00
+> +#define   LTC3220_QUICK_WRITE_MASK			BIT(0)
+> +#define   LTC3220_SHUTDOWN_MASK				BIT(3)
 > +
-> +/* Registers */
-> +#define LTC3208_REG_A_GRNRED		0x1 /* Green (High half-byte) */
-> +					/* and Red (Low half-byte) current DAC*/
-> +#define LTC3208_REG_B_AUXBLU		0x2 /* AUX (High half-byte) */
-> +					/* and Blue (Low half-byte) current DAC*/
-> +#define LTC3208_REG_C_MAIN		0x3 /* Main current DAC */
-> +#define LTC3208_REG_D_SUB		0x4 /* Sub current DAC */
-> +#define LTC3208_REG_E_AUX_SELECT	0x5 /* AUX DAC Select */
-> +#define  LTC3208_AUX1_MASK		GENMASK(1, 0)
-> +#define  LTC3208_AUX2_MASK		GENMASK(3, 2)
-> +#define  LTC3208_AUX3_MASK		GENMASK(5, 4)
-> +#define  LTC3208_AUX4_MASK		GENMASK(7, 6)
-> +#define LTC3208_REG_F_CAM		0x6 /* CAM (High half-byte and Low half-byte) current DAC*/
-> +#define LTC3208_REG_G_OPT		0x7 /* Device Options */
-> +#define  LTC3208_OPT_CPO_MASK		GENMASK(7, 6)
-> +#define  LTC3208_OPT_DIS_RGBDROP	BIT(3)
-> +#define  LTC3208_OPT_DIS_CAMHILO	BIT(2)
-> +#define  LTC3208_OPT_EN_RGBS		BIT(1)
+> +#define LTC3220_ULED_REG(x)				(0x01 + (x))
+> +#define   LTC3220_LED_CURRENT_MASK			GENMASK(5, 0)
+> +#define   LTC3220_LED_MODE_MASK				GENMASK(7, 6)
 > +
-> +#define LTC3208_MAX_BRIGHTNESS_4BIT	0xF
-> +#define LTC3208_MAX_BRIGHTNESS_8BIT	0xFF
+> +#define LTC3220_GRAD_BLINK_REG				0x13
+> +#define   LTC3220_GRADATION_MASK			GENMASK(2, 0)
+> +#define   LTC3220_GRADATION_DIRECTION_MASK		BIT(0)
+> +#define   LTC3220_GRADATION_PERIOD_MASK			GENMASK(2, 1)
+> +#define   LTC3220_BLINK_MASK				GENMASK(4, 3)
 > +
-> +#define LTC3208_NUM_LED_GRPS		8
-> +#define LTC3208_NUM_AUX_LEDS		4
+> +#define LTC3220_NUM_LEDS				18
 > +
-> +#define LTC3208_NUM_AUX_OPT		4
-> +#define LTC3208_MAX_CPO_OPT		3
+> +#define LTC3220_GRADATION_START_VALUE			128
+> +#define LTC3220_GRADATION_RAMP_TIME_240MS		240
+> +#define LTC3220_GRADATION_RAMP_TIME_480MS		480
 > +
-> +enum ltc3208_aux_channel {
-> +	LTC3208_AUX_CHAN_AUX = 0,
-> +	LTC3208_AUX_CHAN_MAIN,
-> +	LTC3208_AUX_CHAN_SUB,
-> +	LTC3208_AUX_CHAN_CAM
+> +#define LTC3220_BLINK_ON_156MS				156
+> +#define LTC3220_BLINK_ON_625MS				625
+> +#define LTC3220_BLINK_PERIOD_1250MS			1250
+> +#define LTC3220_BLINK_PERIOD_2500MS			2500
+> +
+> +#define LTC3220_BLINK_SHORT_ON_TIME			BIT(0)
+> +#define LTC3220_BLINK_LONG_PERIOD			BIT(1)
+> +
+> +enum ltc3220_blink_mode {
+> +	LTC3220_BLINK_MODE_625MS_1250MS,
+> +	LTC3220_BLINK_MODE_156MS_1250MS,
+> +	LTC3220_BLINK_MODE_625MS_2500MS,
+> +	LTC3220_BLINK_MODE_156MS_2500MS
 > +};
 > +
-> +enum ltc3208_channel {
-> +	LTC3208_CHAN_MAIN = 0,
-> +	LTC3208_CHAN_SUB,
-> +	LTC3208_CHAN_AUX,
-> +	LTC3208_CHAN_CAML,
-> +	LTC3208_CHAN_CAMH,
-> +	LTC3208_CHAN_RED,
-> +	LTC3208_CHAN_BLUE,
-> +	LTC3208_CHAN_GREEN
+> +enum ltc3220_gradation_mode {
+> +	LTC3220_GRADATION_MODE_DISABLED,
+> +	LTC3220_GRADATION_MODE_240MS_RAMP_TIME,
+> +	LTC3220_GRADATION_MODE_480MS_RAMP_TIME,
+> +	LTC3220_GRADATION_MODE_960MS_RAMP_TIME
 > +};
 > +
-> +static const char * const ltc3208_dt_aux_channels[] = {
-> +	"adi,aux1-channel", "adi,aux2-channel",
-> +	"adi,aux3-channel", "adi,aux4-channel"
-> +};
-> +
-> +static const char * const ltc3208_aux_opt[] = {
-> +	"aux", "main", "sub", "cam"
-> +};
-> +
-> +struct ltc3208_led {
-> +	struct led_classdev cdev;
-> +	struct i2c_client *client;
-> +	enum ltc3208_channel channel;
-> +};
-> +
-> +struct ltc3208_dev {
-> +	struct i2c_client *client;
-
-We don't need 2 of these.
-
-> +	struct regmap *map;
-
-'regmap' throughout.
-
-> +	struct ltc3208_led *leds;
-
-__counted_by?
-
-> +};
-> +
-> +static const struct regmap_config ltc3208_regmap_cfg = {
+> +static const struct regmap_config ltc3220_regmap_config = {
 > +	.reg_bits = 8,
 > +	.val_bits = 8,
+> +	.max_register = LTC3220_GRAD_BLINK_REG,
 > +};
 
-'.cache_type'?
+.cache_type?
 
 > +
-> +static int ltc3208_led_set_current_low(struct regmap *regmap, u8 reg, u8 level)
-> +{
-> +	return regmap_update_bits(regmap, reg, LTC3208_LED_SET_LOW_BYTE_DATA, level);
-> +}
+> +struct ltc3220_uled_cfg {
+> +	struct ltc3220_state *ltc3220_state;
+
+This is not a linked list.  Use container_of() instead.
+
+> +	u8 reg_value;
+> +	u8 led_index;
+> +};
 > +
-> +static int ltc3208_led_set_current_high(struct regmap *regmap, u8 reg, u8 level)
-> +{
-> +	return regmap_update_bits(regmap, reg, LTC3208_LED_SET_HIGH_BYTE_DATA, level);
-> +}
+> +struct ltc3220_state {
 
-No abstraction for the sake of it.  Use regmap_update_bits() in place instead.
+Drop the "_state" part.
 
-It looks like 'level' is not shifted here, which means 'level & mask' inside
-'regmap_update_bits' will evaluate to 0.  Could we use 'regmap_field' for these
-bit-level accesses instead, as it handles the shifting automatically?
-
-> +
-> +static int ltc3208_led_set_brightness(struct led_classdev *led_cdev, enum led_brightness brightness)
-> +{
-> +	struct ltc3208_led *led = container_of(led_cdev, struct ltc3208_led, cdev);
-> +	struct i2c_client *client = led->client;
-> +	struct ltc3208_dev *dev = i2c_get_clientdata(client);
-
-This confused me for a moment.
-
-Drop the '_dev" part and call the variable 'ddata'.
-
-> +	struct regmap *regmap = dev->map;
-
-'regmap' throughout.
-
-> +	u8 current_level = brightness;
-> +
-> +	switch (led->channel) {
-> +	case LTC3208_CHAN_MAIN:
-> +		return regmap_write(regmap, LTC3208_REG_C_MAIN, current_level);
-> +	case LTC3208_CHAN_SUB:
-> +		return regmap_write(regmap, LTC3208_REG_D_SUB, current_level);
-> +	case LTC3208_CHAN_AUX:
-> +		return ltc3208_led_set_current_high(regmap, LTC3208_REG_B_AUXBLU, current_level);
-> +	case LTC3208_CHAN_BLUE:
-> +		return ltc3208_led_set_current_low(regmap, LTC3208_REG_B_AUXBLU, current_level);
-> +	case LTC3208_CHAN_CAMH:
-> +		return ltc3208_led_set_current_high(regmap, LTC3208_REG_F_CAM, current_level);
-> +	case LTC3208_CHAN_CAML:
-> +		return ltc3208_led_set_current_low(regmap, LTC3208_REG_F_CAM, current_level);
-> +	case LTC3208_CHAN_GREEN:
-> +		return ltc3208_led_set_current_high(regmap, LTC3208_REG_A_GRNRED, current_level);
-> +	case LTC3208_CHAN_RED:
-> +		return ltc3208_led_set_current_low(regmap, LTC3208_REG_A_GRNRED, current_level);
-> +	default:
-> +		dev_err(&client->dev, "Invalid LED Channel\n");
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static int ltc3208_update_options(struct ltc3208_dev *dev,
-> +				  bool is_sub, bool is_cam_hi, bool is_rgb_drop)
-> +{
-
-Since this helper function only has one call site, should we inline its logic
-directly into the probe function to reduce superfluous abstractions?
-
-> +	struct regmap *map = dev->map;
-> +	u8 val;
-> +
-> +	val =	FIELD_PREP(LTC3208_OPT_EN_RGBS, is_sub) |
-> +		FIELD_PREP(LTC3208_OPT_DIS_CAMHILO, is_cam_hi) |
-> +		FIELD_PREP(LTC3208_OPT_DIS_RGBDROP, is_rgb_drop);
-> +
-> +	return regmap_write(map, LTC3208_REG_G_OPT, val);
-> +}
-> +
-> +static int ltc3208_update_aux_dac(struct ltc3208_dev *dev, enum ltc3208_aux_channel *aux_chan)
-> +{
-
-Similarly, as this function is only called once, could we inline its logic into
-the probe function?
-
-> +	struct regmap *map = dev->map;
-> +	u8 val;
-> +
-> +	val =	FIELD_PREP(LTC3208_AUX1_MASK, aux_chan[0]) |
-> +		FIELD_PREP(LTC3208_AUX2_MASK, aux_chan[1]) |
-> +		FIELD_PREP(LTC3208_AUX3_MASK, aux_chan[2]) |
-> +		FIELD_PREP(LTC3208_AUX4_MASK, aux_chan[3]);
-> +
-> +	return regmap_write(map, LTC3208_REG_E_AUX_SELECT, val);
-> +}
-> +
-> +static int ltc3208_probe(struct i2c_client *client)
-> +{
-> +	enum ltc3208_aux_channel aux_channels[LTC3208_NUM_AUX_LEDS];
-> +	struct ltc3208_dev *dev_data;
-
-Consistency.
-
-> +	struct ltc3208_led *leds;
+> +	struct ltc3220_uled_cfg uled_cfg[LTC3220_NUM_LEDS];
 > +	struct regmap *regmap;
+> +	bool is_aggregated;
+> +};
+> +
+> +static int ltc3220_shutdown(struct ltc3220_state *ltc3220_state)
+> +{
+> +	return regmap_update_bits(ltc3220_state->regmap, LTC3220_COMMAND_REG,
+> +				  LTC3220_SHUTDOWN_MASK, LTC3220_SHUTDOWN_MASK);
+> +}
+> +
+> +static int ltc3220_resume_from_shutdown(struct ltc3220_state *ltc3220_state)
+> +{
+> +	return regmap_update_bits(ltc3220_state->regmap, LTC3220_COMMAND_REG,
+> +				  LTC3220_SHUTDOWN_MASK, 0);
+> +}
+
+These do not need to be abstracted out.
+
+> +
+> +/*
+> + * Set LED brightness and mode.
+> + * The brightness value determines both the LED current and operating mode:
+> + * 0-63:    Normal mode - LED current from 0-63 (off to full brightness)
+> + * 64-127:  Blink mode - LED blinks with current level (brightness - 64)
+> + * 128-191: Gradation mode - LED gradually changes brightness (brightness - 128)
+> + * 192-255: GPO mode - LED operates as general purpose output (brightness - 192)
+> + */
+> +static int ltc3220_set_led_data(struct led_classdev *led_cdev,
+> +				enum led_brightness brightness)
+> +{
+> +	struct ltc3220_state *ltc3220_state;
+> +	struct ltc3220_uled_cfg *uled_cfg;
 > +	int ret;
-> +	u32 val;
-
-'val' is a weak variable name.  How about 'chan'?
-
-> +	bool dropdis_rgb_aux4;
-> +	bool dis_camhl;
-> +	bool en_rgbs;
-
-All of these variable names are non-forthcoming.
-
-Please improve the nomenclature of each of them.
-
-> +	regmap = devm_regmap_init_i2c(client, &ltc3208_regmap_cfg);
-> +	if (IS_ERR(regmap))
-> +		return dev_err_probe(&client->dev, PTR_ERR(regmap),
-> +				     "Failed to initialize regmap\n");
+> +	int i;
 > +
-> +	dev_data = devm_kzalloc(&client->dev, sizeof(*dev_data), GFP_KERNEL);
-> +	if (!dev_data)
-> +		return -ENOMEM;
+> +	uled_cfg = container_of(led_cdev, struct ltc3220_uled_cfg, led_cdev);
+> +	ltc3220_state = uled_cfg->ltc3220_state;
 > +
-> +	leds = devm_kcalloc(&client->dev, LTC3208_NUM_LED_GRPS,
-> +			    sizeof(struct ltc3208_led), GFP_KERNEL)u
-> +	if (!leds)
-> +		return -ENOMEM;
+> +	ret = regmap_write(ltc3220_state->regmap, LTC3220_ULED_REG(uled_cfg->led_index),
+> +			   brightness);
+> +	if (ret < 0)
+
+Should we be using 'if (ret)' to check for errors here instead of 'if (ret < 0)'?
+
+> +		return ret;
 > +
-> +	dev_data->client = client;
-> +	dev_data->map = regmap;
+> +	uled_cfg->reg_value = brightness;
 > +
-> +	dis_camhl = device_property_read_bool(&client->dev, "adi,disable-camhl-pin");
-> +	en_rgbs = device_property_read_bool(&client->dev, "adi,cfg-enrgbs-pin");
-> +	dropdis_rgb_aux4 = device_property_read_bool(&client->dev, "adi,disable-rgb-aux4-dropout");
-> +
-> +	ret = ltc3208_update_options(dev_data, en_rgbs, dis_camhl,
-> +				     dropdis_rgb_aux4);
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret, "error writing to options register\n");
-> +
-> +	/* Initialize aux channel configurations from devicetree */
+> +	/*
+> +	 * When aggregated LED mode is enabled, writing to LED 1 updates all
+> +	 * LEDs simultaneously via quick-write mode. Update cached values for
+> +	 * all LEDs to reflect the synchronized state.
+> +	 * See Documentation/devicetree/bindings/leds/adi,ltc3220.yaml for how
+> +	 * to configure aggregated LED mode.
+> +	 */
+> +	if (ltc3220_state->is_aggregated && uled_cfg->led_index == 0) {
+> +		for (i = 0; i < LTC3220_NUM_LEDS; i++)
 
-No need to shorten words in comments and drop the "from devicetree"
-part.  It doesn't really add anything.
+for (int i = 0; ...
 
-> +	for (int i = 0; i < LTC3208_NUM_AUX_LEDS; i++) {
-> +		ret = device_property_match_property_string(&client->dev,
-> +							    ltc3208_dt_aux_channels[i],
-> +							    ltc3208_aux_opt,
-> +							    LTC3208_NUM_AUX_OPT);
-> +		/* Use default value if absent in devicetree */
-
-"Fall-back to default value if not found"
-
-> +		if (ret == -EINVAL)
-> +			aux_channels[i] = LTC3208_AUX_CHAN_AUX;
-> +		else if (ret >= 0)
-> +			aux_channels[i] = ret;
-> +		else
-> +			return dev_err_probe(&client->dev, ret,
-> +					     "Failed getting aux-channel %d\n", i);
-
-"Failed to set the auxiliary channel"
-
-But when would this happen?
-
-If we have an acceptable default value, why not use it?
-
+> +			ltc3220_state->uled_cfg[i].reg_value = brightness;
 > +	}
-> +
-> +	ret = ltc3208_update_aux_dac(dev_data, aux_channels);
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret, "error writing to aux channel register.\n");
-> +
-> +	i2c_set_clientdata(client, dev_data);
-> +
-> +	device_for_each_child_node_scoped(&client->dev, child) {
-> +		struct ltc3208_led *led;
-> +		struct led_init_data init_data = {};
-> +
-> +		ret = fwnode_property_read_u32(child, "reg", &val);
-> +		if (ret)
-> +			return dev_err_probe(&client->dev, -EINVAL,
-> +					     "Failed to get reg value of LED.\n");
-
-Could we propagate the original error code returned by
-'fwnode_property_read_u32' instead of hard-coding '-EINVAL' here?
-
-> +		else if (val >= LTC3208_NUM_LED_GRPS)
-> +			return dev_err_probe(&client->dev, -EINVAL,
-> +					     "LED reg value not supported.\n");
-
-"LED channel out of range" ?
-
-> +
-> +		led = &leds[val];
-> +		led->client = client;
-> +		led->channel = val;
-> +		led->cdev.brightness_set_blocking = ltc3208_led_set_brightness;
-> +		led->cdev.max_brightness = LTC3208_MAX_BRIGHTNESS_4BIT;
-
-Nit: '\n' here.
-
-> +		if (val == LTC3208_CHAN_MAIN || val == LTC3208_CHAN_SUB)
-> +			led->cdev.max_brightness = LTC3208_MAX_BRIGHTNESS_8BIT;
-> +
-> +		init_data.fwnode = child;
-> +
-> +		ret = devm_led_classdev_register_ext(&client->dev, &led->cdev,
-> +			&init_data);
-
-Surely this is shorter than the one 2 lines down?  Use 100-chars throughout.
-
-> +		if (ret)
-> +			return dev_err_probe(&client->dev, ret, "Failed to register LED %u\n", val);
-> +	}
-> +
-> +	dev_data->leds = leds;
 > +
 > +	return 0;
 > +}
 > +
-> +static const struct of_device_id ltc3208_match_table[] = {
-> +	{.compatible = "adi,ltc3208"},
+> +static enum led_brightness ltc3220_get_led_data(struct led_classdev *led_cdev)
+> +{
+> +	struct ltc3220_uled_cfg *uled_cfg = container_of(led_cdev,
+> +							 struct ltc3220_uled_cfg, led_cdev);
+> +
+> +	return uled_cfg->reg_value;
+> +}
+> +
+> +/*
+> + * LTC3220 pattern support for hardware-assisted breathing/gradation.
+> + * The hardware supports 3 gradation ramp time 240ms, 480ms, 960ms)
+> + * and can ramp up or down.
+> + *
+> + * Pattern array interpretation:
+> + *   pattern[0].brightness = start brightness (0-63)
+> + *   pattern[0].delta_t = ramp time in milliseconds
+> + *   pattern[1].brightness = end brightness (0-63)
+> + *   pattern[1].delta_t = (optional, can be 0 or same as pattern[0].delta_t)
+> + */
+> +static int ltc3220_pattern_set(struct led_classdev *led_cdev,
+> +			       struct led_pattern *pattern,
+> +			       u32 len, int repeat)
+> +{
+> +	struct ltc3220_uled_cfg *uled_cfg = container_of(led_cdev, struct ltc3220_uled_cfg,
+> +							 led_cdev);
 
-Spaces between the '{' and '}'.
+This is the 3rd time we do this and every time has been different.
+
+> +	struct ltc3220_state *ltc3220_state = uled_cfg->ltc3220_state;
+> +	u8 gradation_period;
+> +	u8 start_brightness;
+> +	u8 end_brightness;
+> +	u8 reg_val;
+
+Something a little more descriptive please.
+
+> +	bool is_increasing;
+> +	int ret;
+> +
+> +	if (len != 2)
+> +		return -EINVAL;
+> +
+> +	start_brightness = pattern[0].brightness & LTC3220_LED_CURRENT_MASK;
+> +	end_brightness = pattern[1].brightness & LTC3220_LED_CURRENT_MASK;
+> +
+> +	is_increasing = end_brightness > start_brightness;
+> +
+> +	if (pattern[0].delta_t == 0)
+> +		gradation_period = LTC3220_GRADATION_MODE_DISABLED;
+> +	else if (pattern[0].delta_t <= LTC3220_GRADATION_RAMP_TIME_240MS)
+> +		gradation_period = LTC3220_GRADATION_MODE_240MS_RAMP_TIME;
+> +	else if (pattern[0].delta_t <= LTC3220_GRADATION_RAMP_TIME_480MS)
+> +		gradation_period = LTC3220_GRADATION_MODE_480MS_RAMP_TIME;
+> +	else
+> +		gradation_period = LTC3220_GRADATION_MODE_960MS_RAMP_TIME;
+> +
+> +	reg_val = FIELD_PREP(LTC3220_GRADATION_PERIOD_MASK, gradation_period);
+> +	reg_val |= FIELD_PREP(LTC3220_GRADATION_DIRECTION_MASK, is_increasing);
+> +
+> +	ret = regmap_update_bits(ltc3220_state->regmap, LTC3220_GRAD_BLINK_REG,
+> +				 LTC3220_GRADATION_MASK, reg_val);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = ltc3220_set_led_data(led_cdev, start_brightness);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return ltc3220_set_led_data(led_cdev, LTC3220_GRADATION_START_VALUE + end_brightness);
+> +}
+> +
+> +static int ltc3220_pattern_clear(struct led_classdev *led_cdev)
+> +{
+> +	struct ltc3220_uled_cfg *uled_cfg = container_of(led_cdev, struct ltc3220_uled_cfg,
+> +							 led_cdev);
+> +	struct ltc3220_state *ltc3220_state = uled_cfg->ltc3220_state;
+> +
+> +	return regmap_update_bits(ltc3220_state->regmap, LTC3220_GRAD_BLINK_REG,
+> +							  LTC3220_GRADATION_MASK, 0);
+
+Odd tabbing.
+
+> +}
+> +
+> +/*
+> + * LTC3220 has a global blink configuration that affects all LEDs.
+> + * This implementation allows per-LED blink requests, but the blink timing
+> + * will be shared across all LEDs. The delay values are mapped to the
+> + * hardware's discrete blink rates.
+> + */
+> +static int ltc3220_blink_set(struct led_classdev *led_cdev,
+> +			     unsigned long *delay_on,
+> +			     unsigned long *delay_off)
+> +{
+> +	struct ltc3220_uled_cfg *uled_cfg = container_of(led_cdev, struct ltc3220_uled_cfg,
+> +							 led_cdev);
+> +	struct ltc3220_state *ltc3220_state = uled_cfg->ltc3220_state;
+> +	u8 blink_mode = 0;
+> +
+> +	if (*delay_on <= LTC3220_BLINK_ON_156MS)
+> +		blink_mode = LTC3220_BLINK_SHORT_ON_TIME;
+> +
+> +	if (*delay_on + *delay_off > LTC3220_BLINK_PERIOD_1250MS)
+> +		blink_mode |= LTC3220_BLINK_LONG_PERIOD;
+> +
+> +	switch (blink_mode) {
+> +	case LTC3220_BLINK_MODE_625MS_1250MS:
+> +		*delay_on = LTC3220_BLINK_ON_625MS;
+> +		*delay_off = LTC3220_BLINK_PERIOD_1250MS - LTC3220_BLINK_ON_625MS;
+> +		break;
+> +	case LTC3220_BLINK_MODE_156MS_1250MS:
+> +		*delay_on = LTC3220_BLINK_ON_156MS;
+> +		*delay_off = LTC3220_BLINK_PERIOD_1250MS - LTC3220_BLINK_ON_156MS;
+> +		break;
+> +	case LTC3220_BLINK_MODE_625MS_2500MS:
+> +		*delay_on = LTC3220_BLINK_ON_625MS;
+> +		*delay_off = LTC3220_BLINK_PERIOD_2500MS - LTC3220_BLINK_ON_625MS;
+> +		break;
+> +	case LTC3220_BLINK_MODE_156MS_2500MS:
+> +		*delay_on = LTC3220_BLINK_ON_156MS;
+> +		*delay_off = LTC3220_BLINK_PERIOD_2500MS - LTC3220_BLINK_ON_156MS;
+> +		break;
+> +	}
+> +
+> +	return regmap_update_bits(ltc3220_state->regmap, LTC3220_GRAD_BLINK_REG,
+> +				  LTC3220_BLINK_MASK, blink_mode);
+> +}
+> +
+> +static void ltc3220_reset_gpio_action(void *data)
+> +{
+> +	struct gpio_desc *reset_gpio = data;
+> +
+> +	gpiod_set_value_cansleep(reset_gpio, 1);
+> +}
+> +
+> +static int ltc3220_reset(struct ltc3220_state *ltc3220_state, struct i2c_client *client)
+> +{
+> +	struct gpio_desc *reset_gpio;
+> +	int ret;
+> +	int i;
+> +
+> +	reset_gpio = devm_gpiod_get_optional(&client->dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(reset_gpio))
+> +		return dev_err_probe(&client->dev, PTR_ERR(reset_gpio), "Failed on reset GPIO\n");
+> +
+> +	if (reset_gpio) {
+> +		gpiod_set_value_cansleep(reset_gpio, 0);
+> +
+> +		return devm_add_action_or_reset(&client->dev, ltc3220_reset_gpio_action,
+> +						reset_gpio);
+> +	}
+> +
+> +	ret = regmap_write(ltc3220_state->regmap, LTC3220_COMMAND_REG, 0);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	for (i = 0; i < LTC3220_NUM_LEDS; i++) {
+
+As above.
+
+> +		ret = regmap_write(ltc3220_state->regmap, LTC3220_ULED_REG(i), 0);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> +
+> +	return regmap_write(ltc3220_state->regmap, LTC3220_GRAD_BLINK_REG, 0);
+> +}
+> +
+> +static int ltc3220_suspend(struct device *dev)
+> +{
+> +	struct ltc3220_state *ltc3220_state = i2c_get_clientdata(to_i2c_client(dev));
+> +
+> +	return ltc3220_shutdown(ltc3220_state);
+> +}
+> +
+> +static int ltc3220_resume(struct device *dev)
+> +{
+> +	struct ltc3220_state *ltc3220_state = i2c_get_clientdata(to_i2c_client(dev));
+> +
+> +	return ltc3220_resume_from_shutdown(ltc3220_state);
+> +}
+> +
+> +static DEFINE_SIMPLE_DEV_PM_OPS(ltc3220_pm_ops, ltc3220_suspend, ltc3220_resume);
+> +
+> +static int ltc3220_probe(struct i2c_client *client)
+> +{
+> +	struct ltc3220_state *ltc3220_state;
+> +	bool aggregated_led_found = false;
+> +	int num_leds = 0;
+> +	u8 led_index = 0;
+> +	int ret;
+> +
+> +	ltc3220_state = devm_kzalloc(&client->dev, sizeof(*ltc3220_state), GFP_KERNEL);
+> +	if (!ltc3220_state)
+> +		return -ENOMEM;
+> +
+> +	ltc3220_state->regmap = devm_regmap_init_i2c(client, &ltc3220_regmap_config);
+> +	if (IS_ERR(ltc3220_state->regmap))
+> +		return dev_err_probe(&client->dev, PTR_ERR(ltc3220_state->regmap),
+> +				     "Failed to initialize regmap\n");
+> +
+> +	i2c_set_clientdata(client, ltc3220_state);
+> +
+> +	ret = ltc3220_reset(ltc3220_state, client);
+> +	if (ret)
+> +		return dev_err_probe(&client->dev, ret, "Failed to reset device\n");
+> +
+> +	device_for_each_child_node_scoped(&client->dev, child) {
+> +		struct led_init_data init_data = {};
+> +		struct ltc3220_uled_cfg *led;
+> +		u32 source;
+> +
+> +		ret = fwnode_property_read_u32(child, "reg", &source);
+> +		if (ret)
+> +			return dev_err_probe(&client->dev, ret, "Couldn't read LED address\n");
+> +
+> +		if (!source || source > LTC3220_NUM_LEDS)
+> +			return dev_err_probe(&client->dev, -EINVAL, "LED address out of range\n");
+> +
+> +		init_data.fwnode = child;
+> +		init_data.devicename = "ltc3220";
+> +
+> +		if (fwnode_property_present(child, "led-sources")) {
+> +			if (source != 1)
+> +				return dev_err_probe(&client->dev, -EINVAL,
+> +						     "Aggregated LED out of range\n");
+> +
+> +			if (aggregated_led_found)
+> +				return dev_err_probe(&client->dev, -EINVAL,
+> +						     "One Aggregated LED only\n");
+> +
+> +			aggregated_led_found = true;
+> +			ltc3220_state->is_aggregated = true;
+> +
+> +			ret = regmap_update_bits(ltc3220_state->regmap,
+> +						 LTC3220_COMMAND_REG,
+> +						 LTC3220_QUICK_WRITE_MASK,
+> +						 LTC3220_QUICK_WRITE_MASK);
+> +			if (ret < 0)
+> +				return dev_err_probe(&client->dev, ret,
+> +						     "Failed to set quick write mode\n");
+> +		}
+> +
+> +		num_leds++;
+> +
+> +		/* LED node reg/index/address goes from 1 to 18 */
+> +		led_index = source - 1;
+> +		led = &ltc3220_state->uled_cfg[led_index];
+> +		led->led_index = led_index;
+> +		led->reg_value = 0;
+> +		led->ltc3220_state = ltc3220_state;
+> +		led->led_cdev.brightness_set_blocking = ltc3220_set_led_data;
+> +		led->led_cdev.brightness_get = ltc3220_get_led_data;
+> +		led->led_cdev.max_brightness = 255;
+> +		led->led_cdev.blink_set = ltc3220_blink_set;
+> +		led->led_cdev.pattern_set = ltc3220_pattern_set;
+> +		led->led_cdev.pattern_clear = ltc3220_pattern_clear;
+> +
+> +		ret = devm_led_classdev_register_ext(&client->dev, &led->led_cdev, &init_data);
+> +		if (ret)
+> +			return dev_err_probe(&client->dev, ret, "Failed to register LED class\n");
+> +	}
+> +
+> +	/*
+> +	 * Aggregated LED mode uses hardware quick-write to control all 18 LEDs
+> +	 * simultaneously. This is mutually exclusive with individual LED control.
+> +	 * See Documentation/devicetree/bindings/leds/adi,ltc3220.yaml for details
+> +	 * on how to configure aggregated LED mode.
+> +	 */
+> +	if (aggregated_led_found && num_leds > 1)
+> +		return dev_err_probe(&client->dev, -EINVAL,
+> +				     "Aggregated LED must be the only LED node\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id ltc3220_of_match[] = {
+> +	{ .compatible = "adi,ltc3220" },
 > +	{ }
 > +};
-> +MODULE_DEVICE_TABLE(of, ltc3208_match_table);
+> +MODULE_DEVICE_TABLE(of, ltc3220_of_match);
 > +
-> +static const struct i2c_device_id ltc3208_idtable[] = {
-> +	{ "ltc3208" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, ltc3208_idtable);
-> +
-> +static struct i2c_driver ltc3208_driver = {
+> +static struct i2c_driver ltc3220_led_driver = {
 > +	.driver = {
-> +		.name = "ltc3208",
-> +		.of_match_table = ltc3208_match_table,
+> +		.name = "ltc3220",
+> +		.of_match_table = ltc3220_of_match,
+> +		.pm = pm_sleep_ptr(&ltc3220_pm_ops),
 > +	},
-> +	.id_table = ltc3208_idtable,
-> +	.probe = ltc3208_probe,
+> +	.probe = ltc3220_probe,
 > +};
-> +module_i2c_driver(ltc3208_driver);
+> +module_i2c_driver(ltc3220_led_driver);
 > +
+> +MODULE_AUTHOR("Edelweise Escala <edelweise.escala@analog.com>");
+> +MODULE_DESCRIPTION("LED driver for LTC3220 controllers");
 > +MODULE_LICENSE("GPL");
-> +MODULE_AUTHOR("Jan Carlo Roleda <jancarlo.roleda@analog.com>");
-> +MODULE_DESCRIPTION("LTC3208 LED Driver");
+> 
+> -- 
+> 2.43.0
+> 
 
 -- 
 Lee Jones
