@@ -1,80 +1,81 @@
-Return-Path: <linux-leds+bounces-7945-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7946-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ILECMcL49mkyawIAu9opvQ
-	(envelope-from <linux-leds+bounces-7945-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sun, 03 May 2026 09:26:58 +0200
+	id GC+hA8n49mkyawIAu9opvQ
+	(envelope-from <linux-leds+bounces-7946-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sun, 03 May 2026 09:27:05 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323114B4AE7
-	for <lists+linux-leds@lfdr.de>; Sun, 03 May 2026 09:26:58 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 172294B4AF7
+	for <lists+linux-leds@lfdr.de>; Sun, 03 May 2026 09:27:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E67563007CAC
-	for <lists+linux-leds@lfdr.de>; Sun,  3 May 2026 07:26:56 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0DB233001CD9
+	for <lists+linux-leds@lfdr.de>; Sun,  3 May 2026 07:27:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CA2F36E473;
-	Sun,  3 May 2026 07:26:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA8832E11D2;
+	Sun,  3 May 2026 07:26:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QOvl7mDy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MViRjv7S"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E812E11D2
-	for <linux-leds@vger.kernel.org>; Sun,  3 May 2026 07:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F2F299AAB
+	for <linux-leds@vger.kernel.org>; Sun,  3 May 2026 07:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777793215; cv=none; b=s5XVC7smeBL+ZjYHp0i5Cg8FUS4lIQRxHgka3a4vnZ8vlqSMU46vEQAFg6eH20A5BTe9UBlYgXL8TC7inmVnXXr34LBXVb1+9RTi5TALvC2G5j7UBuH8dC0E1KCpDrMbUsc4AVE7d0ZaCGqWgE6HkUV7A5UIXLyHbwHF70I3M34=
+	t=1777793219; cv=none; b=u0wFfduBjSyavJbetJX7ftVhjGQB5H2T+ok1QXvYo3jpx8t0MKXaNTNRq8yPLjzR3pV2QmZh3c2DCOAjgqpJ7p4plfFWpaQiDHVzNF7tRr+G7XgvmooZUQj/A5EmdAnC14DPwekT3n6zUMo+T3eUgn7MsGskHAS//s4kDVF504E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777793215; c=relaxed/simple;
-	bh=UpoJXL13k7fWNX5kvg8RKcGJAk6mYEmoxDqLy7+7nKs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IQVeIoZGTey0H4fp0s089L1FIoKNQeiwxnXMjorVpV2++k3cJrxk93NLmMhe+anS2k2VrGOrVHfwthQo+K/G0UVOIi1u6zcSTE8PT587C8eBdQ6OFlaZcd0Xb26mCy0PWPfqNTjkP33uzpXSR4rBbXycCmrB+1aHVOs63VxWbBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QOvl7mDy; arc=none smtp.client-ip=209.85.216.52
+	s=arc-20240116; t=1777793219; c=relaxed/simple;
+	bh=MAnhnGSHDh4DLEx17HlkmYqXOA6wnOEn0B10wMuS0ok=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DL0S+0cicjxKRDN4YQcH0rZwATbCx5xunLpjcLM5VQtn12+3a8HqBsoTcXlPisVFu384lZ8Sa3FZXbb1Kh0oibnlU0ZyXrEQAVM4QfHmPfL9ChU7zToCAio84TE1garzgF+v4RVLXqfUgOQrIjwQWhheP4ZznOw59Zw5Ypzm/Mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MViRjv7S; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-356337f058aso1970538a91.2
-        for <linux-leds@vger.kernel.org>; Sun, 03 May 2026 00:26:53 -0700 (PDT)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2b23fcf90b2so28434475ad.3
+        for <linux-leds@vger.kernel.org>; Sun, 03 May 2026 00:26:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777793213; x=1778398013; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/YtxFZp0eNrtQnNfc9ZwPYsuCM0PoH8dZHMhxhkiOR4=;
-        b=QOvl7mDy2P3IKQKvaQrbYBWZB+qljo4Q/PMTUbkJbpQtoLOQUHCCmS+yuWItS0SjtH
-         50j4wb6386TfWwAiHEfLq1J99PkW+Pfw1tF65o93EzFibHYoS/KOCy6UlJplJymhZI/G
-         C3mfGVSrmzl5t3f+KZCPsHxcUs72UZN6CnshWUkQXKErUknHuCQkqN/Re1ALzFYCOba7
-         SF8bP2KvEt1pO659F1InnASGXQ6fswquzaeinStBW9jsMmdMhR70xCR6J2eVamoEZ5bs
-         Opl9ltgeMeVzq7laG04d/JWwKhlNen9WnbthjUyuelegLVwIEgMjaObouD9xnMnNlqPI
-         En4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777793213; x=1778398013;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1777793218; x=1778398018; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/YtxFZp0eNrtQnNfc9ZwPYsuCM0PoH8dZHMhxhkiOR4=;
-        b=FVOvgsVE4i9dpjsbdtRg0vtCAhB9Mf8AcBQIgcl6E0drzjmL2XOTSEQUYHRmOU3uG9
-         46SDZTUip1hohzR0VslG2SYQWpIg1edRRJQk4OXeH2MKnQQzSVSjgX8O1/H//OdqRkhI
-         S0h85VXfXnF9WD9y6XGEI5Fo6Eh89DoAyOoVXDXqJ/TnfsSI7TAHhNR3OOMW3HoXmhlg
-         w48rMbpXVYevJGQCaNWWfKQ7yK+25FawP60ABBofnl6TZTGDAErBWzAZO5MYnp/1ht+/
-         F3fWuuxXsuQhoxKU99iPANKkJjsW6qxh0mFSE6bRAiFvRljDVY25WDbaQnBub7reIcaG
-         s5ng==
-X-Forwarded-Encrypted: i=1; AFNElJ/ppm4j6m6eysnP+usISgLe9GFEYT9YWvHaoLYj2eTKIjpNku7MmEkin4l0LCrisFJUAPNqwXS+hZFC@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxCaBrfxu6SoNtKQJyXIyZ0TJlk3HXLyVqEYnxd1BC0r436Sau
-	cgZeoQKp9J8H7vgjvjmZgJNRtGTNoKIqVWf7eumShyznBfRBIYFHj3xI
-X-Gm-Gg: AeBDievGthMzDI3ov19QbVfoEo8YgWsk9GorXqtcjsnCypkukpWcfyLNGZHlS86hdo/
-	WRjOJmj8rJdA8yM08EEQ0QGLsOXZZLCZFeRi8fFoXbPD+naA3ouMpzGSfDYPRomdqYC/Arn66Dw
-	wLdOjSZYFy5MK358UVmclkv9fUsy6axITfdvskm4ZEP7F/hzrfJb8jOaa3f8fAQPq89epTa5DHy
-	DI07MADoyfO9oga0++qfbc8oZ0O+CRVeSrA/rWtOIuLvFWmyCoyQSlNB7/CYd5DHm2FV7z2Zbpg
-	QiJsAX06z4uPLAc+xigdtuUzXcQHxR8Q/8wAyqMjwo3uIwMVXavYRK5hYMwo9/YDw+ECVMr2efe
-	G2sdFafqg2N9BIzoDyfiA21X2SxWNHmR1cXJRk0HGSIvgEljnkK0Nm6G5/7HcucEaC1pCB3D/wR
-	ApRevyWmeQDVDb4L+OhfFOCxbJXYRegKkIB6UW0jHYwuxT6CiAP27aSlqGo3AaPCoo1n292AoxL
-	L+F8ArA
-X-Received: by 2002:a17:903:1d1:b0:2b9:fb9a:1103 with SMTP id d9443c01a7336-2b9fb9a1206mr40015365ad.38.1777793213276;
-        Sun, 03 May 2026 00:26:53 -0700 (PDT)
+        bh=SOg4qBHTe+7jqP3ABxr8VsEBH6RAq2wSVE0e7j4wKpE=;
+        b=MViRjv7SDWq3aY+LO6csNEAFE/EMgX3BjBmRvQs2aumUWOAwoAWTwyRzHVTlSccXJV
+         BLeItDqqWMkgWml9P2ij0j8A8jgtORErzUMjCEm/KPayo4aGaOcogBFJRHOh56YKPBtj
+         tQGQXrwNvVP5t8OItb0ow3GxyyCMFdS6xvjFl+v9mfnOE6Vt5JgP9FJtK02ZtwFvO4tL
+         dRRxY4KxiMGgq1LeMCCdRoskjHKWGCZ42nE6F1q+ABefbgWsDW72U7Karz9WB4P4aXRO
+         5XbBLkOtwN7vSmHusbQkTvVTSrN1pP23GEfxYyrumdesNqk5/CoSnJcJR2wifoZw98qx
+         fj9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777793218; x=1778398018;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SOg4qBHTe+7jqP3ABxr8VsEBH6RAq2wSVE0e7j4wKpE=;
+        b=GXb2zd2rIpmEfzi6bt4sctjiQRBBd6txUqGTrDoQYiKpgX4M8y/VNheEJvSUU9N1aZ
+         q4n0n9IcnwpNHV1I+8XOLOnV/mJxzEmucmKnaOpOFinsHuGnK43cSJLyRtaMWFikaHEp
+         YAzItE7q7aqL9B8WZkswTV6HV2VDsABIBQoEV1QCePop2ZJRcaG7/66OmTjQ811+3j1X
+         OpUONpcv1ATxzrb5NQvz3K+3x0iCzXfYcQMg7NtscVuP95XhddKhJjCjndToFYa05cPM
+         GMgjcs7mU+cU3M6DxBUbgNJyqKJg4aCi32knBNYn3Qpq3OPKMACMcSEsnzlt4zNKcnIF
+         fbZA==
+X-Forwarded-Encrypted: i=1; AFNElJ9m8PvFdtk2C66HK4stOwS9WiMQ0OGuP+07mdysu9DL6BujNff5hL8a/WBQNwWfKhD6xzdJ/LPRVYHh@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLLJBX1j4V76+ZNBlzPnDFVGfzzUqLwYdARJFsgZj4vkIk8D8K
+	uDSrCvRcjFDSQ3y3bRQ7VJwgFgu30i0tyqjGPSMXBCEvfCyrBG6rKIlX
+X-Gm-Gg: AeBDietmWPj6R1sPmvfKdNGfHn9EEw3+5I6UJ5Mu53xwQMGDUWAfzDdQVDCQuChrhz5
+	yLxICOIBU2V191YNIewvK9QKiSlKWka1vC8LBiutNA93CukYKp3IXIFWfl10R6ApgcePAgSIhra
+	SSCBsIikBR8YmblKKyUN8j+PjiIb9tjEH+YB6Rrc0NLXOfC+JEAJsvqTczfHUVOe/bIaYXnri7+
+	RbOjYP9vU2z2lzkzGsezjLu38WCQkiPxDkwQ8iFZyZFMNVzIE4mDHJmvoJp7fvREh4nZDZjJ8Kv
+	Da6GRUQYlZq0DWfBlkMx2FhMbNdV6rTS1lr4qzMrNtoqTriaQWGHA3JAeFNowi0e/svMnIFuaxa
+	kHXyPbUmefPh0EsQ+HuLrmKUr2PXWsyc3FubRFoQy+pJKqGt3P+CPDvDw4Y93aqxEsi7ikI+0x+
+	WhnQLTmU2IKgI7Ti5xzOpfHi+sAwcPhTzHU9YhxePJ0/YLCe9w3yAO0d9+sYzBDW6ZHBnRtQ==
+X-Received: by 2002:a17:902:e548:b0:2b0:6e60:9586 with SMTP id d9443c01a7336-2b9f2579a38mr55557645ad.17.1777793217743;
+        Sun, 03 May 2026 00:26:57 -0700 (PDT)
 Received: from tranquility.wa.lan (60-241-74-71.static.tpgi.com.au. [60.241.74.71])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9cae16a9esm64942945ad.50.2026.05.03.00.26.49
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9cae16a9esm64942945ad.50.2026.05.03.00.26.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2026 00:26:52 -0700 (PDT)
+        Sun, 03 May 2026 00:26:57 -0700 (PDT)
 From: James Ye <jye836@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org,
@@ -85,10 +86,12 @@ Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	denis.benato@linux.dev,
 	James Ye <jye836@gmail.com>
-Subject: [PATCH 0/6] HID: asus: add support for T3304 keyboard
-Date: Sun,  3 May 2026 17:26:37 +1000
-Message-ID: <20260503072643.2774762-1-jye836@gmail.com>
+Subject: [PATCH 1/6] HID: input: delete hid_battery on disconnect
+Date: Sun,  3 May 2026 17:26:38 +1000
+Message-ID: <20260503072643.2774762-2-jye836@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260503072643.2774762-1-jye836@gmail.com>
+References: <20260503072643.2774762-1-jye836@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -96,7 +99,7 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 323114B4AE7
+X-Rspamd-Queue-Id: 172294B4AF7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -105,13 +108,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,linux.dev,gmail.com];
-	TAGGED_FROM(0.00)[bounces-7945-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-7946-lists,linux-leds=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -126,40 +129,44 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-leds];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 
-This series adds support for the ASUS Vivobook Slate 13 OLED (T3304)
-detachable keyboard. The keyboard is a USB device presenting two
-interfaces: keyboard and touchpad. Basic functionality already works
-with hid-generic and hid-multitouch, but Fn key chords including media
-keys and LEDs do not work.
+This fixes a use-after-free when an HID device containing a battery is
+disconnected then reconnected, such as due to binding to a different
+driver.
 
-To add support, bind the keyboard interface to hid-asus. However, the
-ASUS-specific report descriptors are on the touchpad interface, so fixup
-the descriptor so that hid-asus knows about them. Media keys are also
-sent via the touchpad interface, so add MT_CLS_ASUS to this device in
-hid-multitouch.
+    BUG: KASAN: slab-use-after-free in hidinput_setup_battery.isra.0+0x15a/0x9db [hid]
 
-Also included is a fix for a use-after-free in hid-input.c discovered
-during development, but technically unrelated to the device.
-("HID: input: delete hid_battery on disconnect")
+Signed-off-by: James Ye <jye836@gmail.com>
+---
+ drivers/hid/hid-input.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-James Ye (6):
-  HID: input: delete hid_battery on disconnect
-  HID: asus: check feature reports when determining is_vendor
-  HID: asus: add support for T3304 detachable keyboard
-  HID: multitouch: add support for ASUS T3304 media keys
-  HID: asus: add microphone mute LED support for T3304
-  leds: led-class: mark classdev as unregistering early
-
- drivers/hid/hid-asus.c       | 117 ++++++++++++++++++++++++++++++++---
- drivers/hid/hid-ids.h        |   1 +
- drivers/hid/hid-input.c      |   5 ++
- drivers/hid/hid-multitouch.c |  10 +++
- drivers/leds/led-class.c     |   4 +-
- 5 files changed, 126 insertions(+), 11 deletions(-)
-
---
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index d73cfa2e73d3..ae0e11c61eb8 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -2408,6 +2408,7 @@ EXPORT_SYMBOL_GPL(hidinput_connect);
+ void hidinput_disconnect(struct hid_device *hid)
+ {
+ 	struct hid_input *hidinput, *next;
++	struct hid_battery *bat, *bat_next;
+ 
+ 	list_for_each_entry_safe(hidinput, next, &hid->inputs, list) {
+ 		list_del(&hidinput->list);
+@@ -2419,6 +2420,10 @@ void hidinput_disconnect(struct hid_device *hid)
+ 		kfree(hidinput);
+ 	}
+ 
++	list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
++		list_del(&bat->list);
++	}
++
+ 	/* led_work is spawned by input_dev callbacks, but doesn't access the
+ 	 * parent input_dev at all. Once all input devices are removed, we
+ 	 * know that led_work will never get restarted, so we can cancel it
+-- 
 2.54.0
+
 
