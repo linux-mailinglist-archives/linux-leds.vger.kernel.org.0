@@ -1,222 +1,202 @@
-Return-Path: <linux-leds+bounces-7965-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7966-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eCSXCADQ92nBmQIAu9opvQ
-	(envelope-from <linux-leds+bounces-7965-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 00:45:20 +0200
+	id PEjqOv3192kUowIAu9opvQ
+	(envelope-from <linux-leds+bounces-7966-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 03:27:25 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896044B7B41
-	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 00:45:19 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 819D84B7F49
+	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 03:27:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5C4BB300514A
-	for <lists+linux-leds@lfdr.de>; Sun,  3 May 2026 22:45:18 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6E1D93000B18
+	for <lists+linux-leds@lfdr.de>; Mon,  4 May 2026 01:27:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7D16382F10;
-	Sun,  3 May 2026 22:45:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 227431A76BB;
+	Mon,  4 May 2026 01:27:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TYh54jYt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XrlJO5CX"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF441A238F
-	for <linux-leds@vger.kernel.org>; Sun,  3 May 2026 22:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777848317; cv=none; b=tPgwqRfroWoNz7h66bKXh8F9ojkQlbKintlIhkYWWU27DCw2Bc7ykpAV3ecsRU68//Tki+j+R0+mLDD7PYAsPZoRbqjLozqM1uTgDP/MKvnVLuopKJ3uhj7h0JNSG36rPuHQkha0vz0NFY1ry0klMCLlrGgASQLBt+ZrPFqARPE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777848317; c=relaxed/simple;
-	bh=jEBnJL30isogjB1gWG2CwQutedg1PqXtxnHBHMZXP4k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qfhk2iHoXcDb/yQUBXF+XiJjrpABsKpQtka1H1Qtk2742H1XpNEmpWhDUYJeSMn/OvGru17D0CAUjdy8Wux4HEYMZUKdkFJlWd/oy8FqcoBNxiURQ6cGwTyCnN/vJ0gyczSVG++t2Sbq3/LhGF+DsflaZujPQFMkFjDH+cxYcWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TYh54jYt; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <769ce05a-3148-408f-b012-74a85c1a2343@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777848303;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=09YnTtSFx5JEHn5ZHH5nW53KtVkIO6gYciU7VNJW1rg=;
-	b=TYh54jYtmIXvyXtVidvFYKWnJRszjGA/Qmx4+W/JnE1W8MsVE2w77CbS7B1vtM/lQKUPho
-	n2ggteMmZsdspDqihgSi0Zw/mY+l7fwwnq4G6oIolQrdO0WGWZ1Erm1H1EmkWMGhqjtA8J
-	mZlpifPe+GU0n+I8MSv4x5yOfYOUdvs=
-Date: Mon, 4 May 2026 00:45:01 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C225513B58C
+	for <linux-leds@vger.kernel.org>; Mon,  4 May 2026 01:27:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777858042; cv=pass; b=lAcrJNjV2T/GJyuH815PBRgWEcqPsQ5vLTmrHJrsOjH4aJKtA5AbfI5d2aNLdp60aJLFsOWL/UycXS1P/bx1yYNV1vDVN0W9l8eUwLzr6jqVZKUblbR8TcB2VrSadq0lBKaPyjnJpqOf6tDg+y+gtgz2iuTZdCbGxXdvbuwXzJg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777858042; c=relaxed/simple;
+	bh=l4g5Cnxwyg4GB/mKplMPUSrP+qwGfFb0vQX7A+4hzBw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XOOGZUSkYwWD68/r+Y6sa3Yli3cKklV9tzEu1NMiJrNRXDpyl3xgQdt34HGxeiTkgnxjvIn8i74sGN4zIYyChUxEoUeRTB3oOHXwhPlefJWYrO2PiAi8MSI781b9XX400mSROB65KJLstjViwhB54b1mNzuhVcKRIeK3iBw3u/s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XrlJO5CX; arc=pass smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-89fc4147f2eso47740606d6.3
+        for <linux-leds@vger.kernel.org>; Sun, 03 May 2026 18:27:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777858040; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Ny1iPnjBCLjn36lDmtBNDojaP/Pm5bUolY6aQTq6ZVPQouQbUIxKqCxcrsiCgncCjB
+         H3z8In7nSdFMrgFwLra+42MjrBUaDkFDsJSAGIpdPbip1lZGAUkYNOysYKEwAG7Zfok/
+         HcBbxOiEiKRAbCXz3ORLn4jL6J8JZ0wT5U+zPJK5nm5Xv9v36EUVvfLjlMK4Qr4Ed3/P
+         KWBaNMe8oJZk6hZ4/5chLNdfe4DvTucwy4xgiCEudkONsABDeMJnQyjkUGzzddr2LKis
+         lZ1bgi/rUkBK9FA0rBg/NrlemNkd+XMN7yiQrPuP4JmF1hmTmuQ41sPOwragBslYpiGv
+         piGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=l4g5Cnxwyg4GB/mKplMPUSrP+qwGfFb0vQX7A+4hzBw=;
+        fh=GJwKBragq07ZzGV6WyZjG++bg7kq/BEXvJBstA3CyLc=;
+        b=JGTye9HYf3AGix8r89o5cq6DWnYwmCg4hT5jdaC5z53eT/bBa1u/M/IvBfE7CgbuO4
+         Br+xOQttfBl7163kWIUK6Swu8C989JCCFjrjwvM2lTfPQfAPIzoBtnjcVIOU9c5v/1dZ
+         BpLE/ltvAaBSGZiok38qHu+VYJVXzTcaJBfnnDAidIcCMRKSKqoK8sHkjlclb03i1uXq
+         K1YEJntU1daEV2ZrYyATmCF2eLixqSr0mFJE/23k+Gt3vztDECUAvpp0MVOBsF1y5zi6
+         lDmmn/P4MFdMcoKFN4obXcfOC5XbUx+GvL5rX5WuhoIL4JX5wrH6SBrQzB2DdwDdZKIz
+         CTyg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777858040; x=1778462840; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=l4g5Cnxwyg4GB/mKplMPUSrP+qwGfFb0vQX7A+4hzBw=;
+        b=XrlJO5CXaOkziiuRwTlDtkA2zp0FZ6YKZlOFOoce3oN82OIQcVc7aGHg6vduL+vnIS
+         LxqGG1/CF5XVbTjSJDZ6dPOt/zZiRWNR4zx8RwLMg2Yn5QYwBXQw94GdPSiLQzsSn89+
+         7X6ODesCH6h+yiy24XZA9hFkthVcHYSv+9o5UM4JhDooSkEwKhoSMLZbsKYf3tdaeVMC
+         0aDIHNdqJvhabYOLjHzBOKNDfYYyvqSbx2DbcOfDIc/OvWVtsYdmscio+bYqQw/O8i69
+         fwEyzibP21/h1BDhiW1vr62w/axi8qGB6sD+p0ZbR9DymPkk1hGHrA66rDXzgvW4ma+j
+         oOSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777858040; x=1778462840;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l4g5Cnxwyg4GB/mKplMPUSrP+qwGfFb0vQX7A+4hzBw=;
+        b=O0y1+ByM55UPwTn8D5VQJ8oopXDCHvd4gg6/mdgDDXsd3bmYf/qB7Gsa26qW/wDOBv
+         KvWGDlFvNBClNjltmLXhaAsNGi0zlR/WW3O5l46nyDgKDJRNHxeXsdz8IPj177LzJcR7
+         FTv8eFnQ7Wu5F2UY9rVYIIQogOKIaZnvha8B1ltIcP3iRIPfNDvZgVidItjBgYTdNuaG
+         lKIT+GLRvyfZZ/J2iKjCCbCkgi1itPm09rWSM8RnB56fNe804sdSsaTG8UfScGmX32Aa
+         kPQrPsvpu6rGnUxRtdCw42J1WiMQha6eUX93htoQIZUc2U7N6pg9/xIxVav6CoPGphBH
+         Fh/A==
+X-Forwarded-Encrypted: i=1; AFNElJ97ucakNC0X/b6jVBHx8T0AF/rYPNQ7g/Y5N2g18QWgjJlB/RgnveiRsWkna/yJ7gJpChEzcBlj4OR2@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHyGUFco7kRvFolk4MOESyMoo4NnvW57NKA/WGLhh9v/OeETH9
+	TMktw09iwpoyLVvsQ0c6Yd0BBRAVFCNEEAglh8Jg7jbPtH06aLOAD2Rg0WItSOlJW2UXFtaWmqE
+	1akC60osHDROz4mqB3cujnaMqBLHV7EM=
+X-Gm-Gg: AeBDievdwgDFCDD0qlUvPkOy3h6f5VWpUTAyV53PAAnY5BW78R8dHhs1cdxkDWfXWPy
+	Q7AQX90QXma/o6s6fFB9hTg/E6cpKGqDn3nOghSAfhFeO0Slk+ZYM+8LMkqs3+uOBj4P3uQUNrr
+	afa63bA02hXfDdCmTvwVaOkp31Bdr+oIyxP7S2k13sk9oEUlgf5/kshiJCEZiTZe84jhHZDcWGE
+	saEXVdhu0hCWVdvFGAeshzGFBNkF2XNvuoVe3ri97nFETIuwVMslYp3l3xTsyrYjCP9N5w5Of98
+	ZT2+n6j7tupRJmXe
+X-Received: by 2002:a05:6214:8014:b0:89c:e5f0:8f33 with SMTP id
+ 6a1803df08f44-8b665c16b14mr121335896d6.10.1777858039703; Sun, 03 May 2026
+ 18:27:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260503072643.2774762-1-jye836@gmail.com> <20260503072643.2774762-6-jye836@gmail.com>
+ <769ce05a-3148-408f-b012-74a85c1a2343@linux.dev>
+In-Reply-To: <769ce05a-3148-408f-b012-74a85c1a2343@linux.dev>
+From: James Ye <jye836@gmail.com>
+Date: Mon, 4 May 2026 11:27:08 +1000
+X-Gm-Features: AVHnY4KOOclnC_MZbxgLb-vdcjxHx60EFQt1kvDovJkmfkC6hle_r_NMWoYF9V0
+Message-ID: <CAEV1_7FPDWxgSqtxCCVbgjXeOO+pBK4ki0Ac+WagVX1pRPrG6A@mail.gmail.com>
 Subject: Re: [PATCH 5/6] HID: asus: add microphone mute LED support for T3304
-To: James Ye <jye836@gmail.com>, jikos@kernel.org, bentiss@kernel.org,
- lee@kernel.org, pavel@kernel.org
-Cc: linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260503072643.2774762-1-jye836@gmail.com>
- <20260503072643.2774762-6-jye836@gmail.com>
-Content-Language: en-US, it-IT, en-US-large
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Denis Benato <denis.benato@linux.dev>
-In-Reply-To: <20260503072643.2774762-6-jye836@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Rspamd-Queue-Id: 896044B7B41
+To: Denis Benato <denis.benato@linux.dev>
+Cc: jikos@kernel.org, bentiss@kernel.org, lee@kernel.org, pavel@kernel.org, 
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 819D84B7F49
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7965-lists,linux-leds=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-7966-lists,linux-leds=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[denis.benato@linux.dev,linux-leds@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jye836@gmail.com,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds];
-	TO_DN_SOME(0.00)[]
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mail.gmail.com:mid,linux.dev:email]
 
+On Mon, 4 May 2026 at 08:45, Denis Benato <denis.benato@linux.dev> wrote:
+> Isn't QUIRK_T3304_KEYBOARD enough? Or are you saying you know there is more than one keyboard
+> model that requires this?
 
-On 5/3/26 09:26, James Ye wrote:
-> T3304 keyboard has a microphone mute LED indicator on the same key
-> (Fn+F9). Look this up with a led_classdev.
+I don't know for certain if there are any other such keyboards with
+LEDs that need to be handled like this, but I can imagine that there
+are.
+
+I decided to introduce an additional quirk because:
+- I don't know how to detect if a micmute LED is present.
+- The quirk could be used to implement support in other devices.
+- asus_kbd_register_leds is also gated by QUIRK_USE_KBD_BACKLIGHT,
+adding a device-specific quirk didn't feel appropriate.
+
+If there turns out to be a widely-supported detection method and T330
+doesn't support this, then just QUIRK_T3304_KEYBOARD would be better.
+
+If you would prefer then I shall remove QUIRK_HID_MICMUTE. This can be
+revisited when more than one device uses this code.
+
 >
-> It does not have backlight LEDs, so return without failure from
-> asus_kbd_register_leds if backlight support is not present.
+> Do we really want to use strlen?
 >
-> Signed-off-by: James Ye <jye836@gmail.com>
-> ---
->  drivers/hid/hid-asus.c | 51 +++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 48 insertions(+), 3 deletions(-)
+> Do we really want to use strlen on the result of a function without additional checks?
+
+My understanding is that this is safe, as this name is set by the
+kernel. Existing use of dev_name appears to not involve additional
+checks.
+
+> This doesn't look like a good idea to change this for all laptops under the sun...
 >
-> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> index e4c97fddfaf1..4f68bc40b8bf 100644
-> --- a/drivers/hid/hid-asus.c
-> +++ b/drivers/hid/hid-asus.c
-> @@ -100,6 +100,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
->  #define QUIRK_ROG_ALLY_XPAD		BIT(13)
->  #define QUIRK_HID_FN_LOCK		BIT(14)
->  #define QUIRK_T3304_KEYBOARD		BIT(15)
-> +#define QUIRK_HID_MICMUTE		BIT(16)
->  
-Isn't QUIRK_T3304_KEYBOARD enough? Or are you saying you know there is more than one keyboard
-model that requires this?
->  #define I2C_KEYBOARD_QUIRKS			(QUIRK_FIX_NOTEBOOK_REPORT | \
->  						 QUIRK_NO_INIT_REPORTS | \
-> @@ -144,6 +145,7 @@ struct asus_drvdata {
->  	unsigned long battery_next_query;
->  	struct work_struct fn_lock_sync_work;
->  	bool fn_lock;
-> +	struct led_classdev led_micmute;
->  };
->  
->  static int asus_report_battery(struct asus_drvdata *, u8 *, int);
-> @@ -578,6 +580,26 @@ static int asus_kbd_disable_oobe(struct hid_device *hdev)
->  	return 0;
->  }
->  
-> +static int asus_kbd_set_micmute_led(struct hid_device *hdev, bool enabled)
-> +{
-> +	u8 buf[] = { FEATURE_KBD_REPORT_ID, 0xd0, 0x7c, enabled };
-> +
-> +	return asus_kbd_set_report(hdev, buf, sizeof(buf));
-> +}
-> +
-> +static int asus_led_brightness_set(struct led_classdev *led_cdev,
-> +		enum led_brightness value)
-> +{
-> +	struct device *dev = led_cdev->dev->parent;
-> +	struct hid_device *hdev = to_hid_device(dev);
-> +	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
-> +
-> +	if (led_cdev == &drvdata->led_micmute)
-> +		return asus_kbd_set_micmute_led(hdev, !!value);
-> +
-> +	return -ENODEV;
-> +}
-> +
->  static int asus_kbd_set_fn_lock(struct hid_device *hdev, bool enabled)
->  {
->  	u8 buf[] = { FEATURE_KBD_REPORT_ID, 0xd0, 0x4e, !!enabled };
-> @@ -752,9 +774,31 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
->  	if (ret < 0)
->  		return ret;
->  
-> +	if (drvdata->quirks & QUIRK_HID_MICMUTE) {
-> +		char *name_micmute;
-> +		size_t name_sz = strlen(dev_name(&hdev->dev)) + 16;
-> +
-Do we really want to use strlen?
+>
+> Perhaps might make sense to move this check before? Maybe not?
 
-Do we really want to use strlen on the result of a function without additional checks?
-> +		name_micmute = devm_kzalloc(&hdev->dev, name_sz, GFP_KERNEL);
-> +		if (name_micmute == NULL)
-> +			return -ENOMEM;
-> +
-> +		snprintf(name_micmute, name_sz, "%s::micmute", dev_name(&hdev->dev));
-> +		drvdata->led_micmute.name = name_micmute;
-> +		drvdata->led_micmute.default_trigger = "audio-micmute";
-> +		drvdata->led_micmute.brightness_set_blocking = asus_led_brightness_set;
-> +		drvdata->led_micmute.max_brightness = 1;
-> +		drvdata->led_micmute.flags = LED_CORE_SUSPENDRESUME | LED_HW_PLUGGABLE;
-> +		drvdata->led_micmute.dev = &hdev->dev;
-> +		ret = devm_led_classdev_register(&hdev->dev, &drvdata->led_micmute);
-> +		if (ret < 0) {
-> +			hid_err(hdev, "Failed to register LED: %d.\n", ret);
-> +			return ret;
-> +		}
-> +	}
-> +
->  	/* Check for backlight support */
->  	if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
-> -		return -ENODEV;
-> +		return 0;
->  
-This doesn't look like a good idea to change this for all laptops under the sun...
+Returning an error from asus_kbd_register_leds is currently non-fatal,
+so the only difference in behaviour is that devices with
+QUIRK_USE_KBD_BACKLIGHT that do not report supporting a backlight will
+no longer log a warning.
 
+T3304 indeed lacks a backlight, so we can't proceed with the backlight
+setup code, but asus_kbd_get_functions() is still a prerequisite for
+the micmute LED.
 
-Perhaps might make sense to move this check before? Maybe not?
+I think the alternative is:
+- Move the asus_kbd_get_functions() call site from
+asus_kbd_register_leds() to asus_probe(), and
+- Separate asus_kbd_register_leds() into two functions for backlight
+and micmute LEDs respectively, keeping the current behaviour for
+backlight registration.
 
-Denis
->  	if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
->  		ret = asus_kbd_disable_oobe(hdev);
-> @@ -1315,7 +1359,8 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  	}
->  
->  	/* Laptops keyboard backlight is always at 0x5a */
-> -	if (is_vendor && (drvdata->quirks & QUIRK_USE_KBD_BACKLIGHT) &&
-> +	if (is_vendor &&
-> +	    (drvdata->quirks & (QUIRK_USE_KBD_BACKLIGHT | QUIRK_HID_MICMUTE)) &&
->  	    (asus_has_report_id(hdev, FEATURE_KBD_REPORT_ID)) &&
->  		(asus_kbd_register_leds(hdev)))
->  		hid_warn(hdev, "Failed to initialize backlight.\n");
-> @@ -1587,7 +1632,7 @@ static const struct hid_device_id asus_devices[] = {
->  		USB_VENDOR_ID_ASUSTEK, USB_DEVICE_ID_ASUSTEK_T101HA_KEYBOARD) },
->  	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
->  		USB_VENDOR_ID_ASUSTEK, USB_DEVICE_ID_ASUSTEK_T3304_KEYBOARD),
-> -	  QUIRK_T3304_KEYBOARD },
-> +	  QUIRK_T3304_KEYBOARD | QUIRK_HID_MICMUTE },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(hid, asus_devices);
+Your thoughts?
+
+Cheers,
+James
+
+>
+> Denis
 
