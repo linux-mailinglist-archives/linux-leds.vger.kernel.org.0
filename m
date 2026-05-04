@@ -1,84 +1,78 @@
-Return-Path: <linux-leds+bounces-7972-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7973-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CGRPHJ4++GkxrwIAu9opvQ
-	(envelope-from <linux-leds+bounces-7972-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 08:37:18 +0200
+	id aPQnOtlL+GmQsQIAu9opvQ
+	(envelope-from <linux-leds+bounces-7973-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 09:33:45 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C274B8F4A
-	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 08:37:17 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57CBE4B963E
+	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 09:33:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 14306300102D
-	for <lists+linux-leds@lfdr.de>; Mon,  4 May 2026 06:37:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E27233019B85
+	for <lists+linux-leds@lfdr.de>; Mon,  4 May 2026 07:31:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D244D29CB24;
-	Mon,  4 May 2026 06:37:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1618D2F12B3;
+	Mon,  4 May 2026 07:31:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VsbHWmRp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T2k0UDfl"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BACA27380A;
-	Mon,  4 May 2026 06:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590D12EAD1B;
+	Mon,  4 May 2026 07:31:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777876634; cv=none; b=Yvh8lwQJz8ajG26QNfDWaJ/jhvzIZ62vCV3JHCyYGuhSygygOitdC6sj02JbKUhzq+9/8AC/E4eOWUeF3KvU5M8NEA+tuQ+t50Z82XqSwGHpt2UBaFhbih3enYZ9//7tGz1u0ceH5GUIscRStpKnAJetj8h2RjAEjRPbdgTdOng=
+	t=1777879890; cv=none; b=n6p7a9xMWJ+tRTO4zbrwTmjHASEg5OVVt3j4UBzf5LgEF6akFRN2QY/pb5Q8i9SX0KaWyi+uCHepW+1X9WxNodEJSZyZCLZThzzm+y6yQQZTQaAIk4BZgY/aoBShWZ8btp+TCak8B+7OStcdI8crg1ZHb8HQ1LzlceeQkLkOLWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777876634; c=relaxed/simple;
-	bh=VtoRALB7sC9UgeWTtrvjstB79Q/ifbeHt78WAQUTn8k=;
+	s=arc-20240116; t=1777879890; c=relaxed/simple;
+	bh=6g7xp08WTGLosFsZvjTI5s8npg6GBiLQJ2IOqbWCD6M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XsMAHrC+p/rSYH7F8RG8n2igh+R9WlNfaOS9hZi3UHq+9nSrIgPhaBOXnttB/t6WNDI0pejvGbAGufJoyLJ8LbAy4CCtTVWckgdZCKs7v6DS7a+4klgiZ7nQ+Wg8CyKpQMjkBQFHyxv6FVIvL/HyMcji29mmX6PbHlRLnc3/TOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VsbHWmRp; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=UIZe+IwvbsCmoX7yEd9mx/Nvvrq1R230JHoa5/Ce9N5gNkX/AmO1YGI5j2QHBx+yVUO4xNIRTAB6I/9AaYKfW07NPIYctBO1lY57mcjPc79iSAQG4kfWPr/xi1xgRAF4kMU8OpTVIUjRAk4/vX/8MOn9VzKbho77kRQgOKI04zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T2k0UDfl; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777876634; x=1809412634;
+  t=1777879888; x=1809415888;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=VtoRALB7sC9UgeWTtrvjstB79Q/ifbeHt78WAQUTn8k=;
-  b=VsbHWmRpuw4KgB/rISmacdXY3I9+OEXObwIEIk9UCeorngJDmhHe0ZIF
-   i5qWl7nqcNu0q02E2/YvlAgmXeT59kYb0BTNpvRT9VmlRFmD5y2w6x2ov
-   CsTO6VkzhXfhuQcViFZTZwEqN1rYUKLf55/MGZS0i3PD+XQ5j+C0p6rUo
-   ssNFThGtrx0w7LEUOwvSsujewOsIIEO68soAZYFRewQX1tXa6N7KxA+dE
-   2sgaVRTbwtVYFfFM4U1VLmgKv36HWLbEtkY4JhVqyqHt6nA7L2RM6SP5C
-   H3Pc9GAU8V7LIhxny2r7YgD0Aaw2iBah0ofiaJBdiCzKjoNO37QaZdyFI
+  bh=6g7xp08WTGLosFsZvjTI5s8npg6GBiLQJ2IOqbWCD6M=;
+  b=T2k0UDfluzMoJr7bnVGvgrBsdSzorhFL+RGZqW1MvWRhkmTtbZq2DNEs
+   T/NHwXvsqeF19PRjlXF70ALPFXKClTz7+RPkSmcp2dIL6KhE0gCtzPGwS
+   VnQaB8pTkyH9JpmiUIKQUhjIW42VM4YtLITLEmHZ7v/pX0LATehdwp2Cv
+   T12NU/o1pVpAS4/LlLQ3AyiTtdn5Gx7Z3/eARL0nRgB+nFGS1X02Ux6kq
+   E3AXXhhQjQ9AUuF6eCnQ92lvoxvaFDw3CobROLRgH3PEK3RxZho8EC6bF
+   2d9oPcp4aas09ggdQrm2LRO1oZ6Vy+TlTBFZB17JCn/jLygNCwPVJp8y8
    g==;
-X-CSE-ConnectionGUID: GjHeBl/uTTu4diwu3wQaOw==
-X-CSE-MsgGUID: tgQnKXjLRCahGEu+LGrcWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="89037125"
+X-CSE-ConnectionGUID: Fy8Ehq95SLqta0CO1+UjYg==
+X-CSE-MsgGUID: 8T/YpU5HRj+c7dVXy+AnBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="78758081"
 X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="89037125"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 23:37:13 -0700
-X-CSE-ConnectionGUID: 5mCGxOw4Q8SjdVIBV20oqg==
-X-CSE-MsgGUID: 6bZPOJqrSaSBuYhPeCuVNg==
+   d="scan'208";a="78758081"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 00:31:28 -0700
+X-CSE-ConnectionGUID: N0ky8Wf5Q/+58WxIh3WUQg==
+X-CSE-MsgGUID: TJdHNHWNQ8y+rSV7qyMi4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="265778467"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.114])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 23:37:10 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 3F69B121CC4;
-	Mon, 04 May 2026 09:37:09 +0300 (EEST)
-Date: Mon, 4 May 2026 09:37:09 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
+   d="scan'208";a="232797863"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.78])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 00:31:25 -0700
+Date: Mon, 4 May 2026 10:31:23 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
 Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 5/6] media: i2c: lm3560: Add support for PM features
-Message-ID: <afg-ldFd7hockYn-@kekkonen.localdomain>
-References: <20260503164445.215540-1-clamor95@gmail.com>
- <20260503164445.215540-6-clamor95@gmail.com>
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH] [v2] leds: gpio: make legacy gpiolib interface optional
+Message-ID: <afhLS6xwHGm9_mLy@ashevche-desk.local>
+References: <20260430091202.2724109-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -87,292 +81,75 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260503164445.215540-6-clamor95@gmail.com>
-X-Rspamd-Queue-Id: 15C274B8F4A
+In-Reply-To: <20260430091202.2724109-1-arnd@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-Rspamd-Queue-Id: 57CBE4B963E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-7972-lists,linux-leds=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,arndb.de,vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	HAS_ORG_HEADER(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-leds@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-7973-lists,linux-leds=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
+	TAGGED_RCPT(0.00)[linux-leds];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[]
 
-Hi Svyatoslav,
+On Thu, Apr 30, 2026 at 11:11:55AM +0200, Arnd Bergmann wrote:
 
-On Sun, May 03, 2026 at 07:44:44PM +0300, Svyatoslav Ryhel wrote:
-> Add support for power management features to better control the LM3560
-> within the media framework. To achieve the desired PM support, the HWEN
-> GPIO and VIN power supply were added and configured into power on/off
-> sequences. Added PM operations along with the PM configuration setup.
+> There are still a handful of ancient mips/armv5/sh boards that use the
+> gpio_led:gpio member to pass an old-style gpio number, but all modern
+> users have been converted to gpio descriptors.
 > 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  drivers/media/i2c/lm3560.c | 117 ++++++++++++++++++++++++++++++++++---
->  1 file changed, 110 insertions(+), 7 deletions(-)
+> While the CONFIG_GPIOLIB_LEGACY option that guards devm_gpio_request_one()
+> and related helpers is currently turned on in all kernel builds,
+> the plan is to only enable it on the few platforms that actually
+> pass gpio numbers in any platform_data.
 > 
-> diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
-> index ce4b09d1f208..15741ea5684f 100644
-> --- a/drivers/media/i2c/lm3560.c
-> +++ b/drivers/media/i2c/lm3560.c
-> @@ -12,13 +12,16 @@
->  #include <linux/bitmap.h>
->  #include <linux/delay.h>
->  #include <linux/module.h>
-> +#include <linux/gpio/consumer.h>
->  #include <linux/i2c.h>
->  #include <linux/slab.h>
->  #include <linux/mod_devicetable.h>
->  #include <linux/mutex.h>
->  #include <linux/of.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/property.h>
->  #include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
->  #include <linux/videodev2.h>
->  #include <media/i2c/lm3560.h>
->  #include <media/v4l2-ctrls.h>
-> @@ -49,6 +52,8 @@ enum led_enable {
->   * @dev: pointer to &struct device
->   * @regmap: reg. map for i2c
->   * @lock: muxtex for serial access.
-> + * @hwen_gpio: line connected to HWEN pin
-> + * @vin_supply: line connected to IN supply (2.5V - 5.5V)
->   * @led_mode: V4L2 LED mode
->   * @ctrls_led: V4L2 controls
->   * @subdev_led: V4L2 subdev
-> @@ -63,6 +68,9 @@ struct lm3560_flash {
->  	struct regmap *regmap;
->  	struct mutex lock;
->  
-> +	struct gpio_desc *hwen_gpio;
-> +	struct regulator *vin_supply;
-> +
->  	enum v4l2_flash_led_mode led_mode;
->  	struct v4l2_ctrl_handler ctrls_led[LM3560_LED_MAX];
->  	struct v4l2_subdev subdev_led[LM3560_LED_MAX];
-> @@ -177,12 +185,17 @@ static int lm3560_get_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
->  	struct lm3560_flash *flash = to_lm3560_flash(ctrl, led_no);
->  	int rval = -EINVAL;
->  
-> +	if (!pm_runtime_get_if_in_use(flash->dev))
-> +		return 0;
-> +
->  	if (ctrl->id == V4L2_CID_FLASH_FAULT) {
->  		s32 fault = 0;
->  		unsigned int reg_val;
->  		rval = regmap_read(flash->regmap, REG_FLAG, &reg_val);
-> -		if (rval < 0)
-> +		if (rval < 0) {
-> +			pm_runtime_put(flash->dev);
->  			return rval;
-> +		}
->  		if (reg_val & FAULT_SHORT_CIRCUIT)
->  			fault |= V4L2_FLASH_FAULT_SHORT_CIRCUIT;
->  		if (reg_val & FAULT_OVERTEMP)
-> @@ -192,6 +205,8 @@ static int lm3560_get_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
->  		ctrl->cur.val = fault;
+> Split out the legacy portion of the platform_data handling into a custom
+> helper function that is guarded with in #ifdef block, to allow the
+> the leds-gpio driver to compile cleanly when CONFIG_GPIOLIB_LEGACY
+> gets turned off. Once the last user is converted, this function can
+> be removed.
+
+...
+
+>  		return gpiod;
 >  	}
 >  
-> +	pm_runtime_put(flash->dev);
-> +
->  	return rval;
->  }
->  
-> @@ -201,6 +216,9 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
->  	u8 tout_bits;
->  	int rval = -EINVAL;
->  
-> +	if (!pm_runtime_get_if_in_use(flash->dev))
+> -	/*
+> -	 * This is the legacy code path for platform code that
+> -	 * still uses GPIO numbers. Ultimately we would like to get
+> -	 * rid of this block completely.
+> -	 */
+> +	return gpiod;
 
-This should be pm_runtime_get_if_active().
-
-> +		return 0;
-> +
->  	switch (ctrl->id) {
->  	case V4L2_CID_FLASH_LED_MODE:
->  		flash->led_mode = ctrl->val;
-> @@ -246,6 +264,8 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
->  		break;
->  	}
->  
-> +	pm_runtime_put(flash->dev);
-> +
->  	return rval;
->  }
->  
-> @@ -409,6 +429,38 @@ static int lm3560_init_device(struct lm3560_flash *flash)
->  	return rval;
->  }
->  
-> +static int __maybe_unused lm3560_power_off(struct device *dev)
-> +{
-> +	struct lm3560_flash *flash = dev_get_drvdata(dev);
-> +
-> +	gpiod_set_value_cansleep(flash->hwen_gpio, 0);
-> +	regulator_disable(flash->vin_supply);
-> +
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused lm3560_power_on(struct device *dev)
-> +{
-> +	struct lm3560_flash *flash = dev_get_drvdata(dev);
-> +	int rval;
-> +
-> +	rval = regulator_enable(flash->vin_supply);
-> +	if (rval < 0) {
-> +		dev_err(flash->dev, "failed to enable vin power supply\n");
-> +		return rval;
-> +	}
-> +
-> +	gpiod_set_value_cansleep(flash->hwen_gpio, 1);
-> +
-> +	rval = lm3560_init_device(flash);
-> +	if (rval < 0) {
-> +		lm3560_power_off(dev);
-> +		return rval;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static void lm3560_subdev_cleanup(struct lm3560_flash *flash)
->  {
->  	int led_no;
-> @@ -442,6 +494,17 @@ static int lm3560_probe(struct i2c_client *client)
->  
->  	bitmap_zero(flash->led_id, LM3560_LED_MAX);
->  
-> +	flash->hwen_gpio = devm_gpiod_get_optional(flash->dev, "enable",
-> +						   GPIOD_OUT_LOW);
-> +	if (IS_ERR(flash->hwen_gpio))
-> +		return dev_err_probe(flash->dev, PTR_ERR(flash->hwen_gpio),
-> +				     "failed to get hwen gpio\n");
-> +
-> +	flash->vin_supply = devm_regulator_get(flash->dev, "vin");
-> +	if (IS_ERR(flash->vin_supply))
-> +		return dev_err_probe(flash->dev, PTR_ERR(flash->vin_supply),
-> +				     "failed to get vin-supply\n");
-> +
->  	flash->peak = LM3560_PEAK_1600mA;
->  	rval = device_property_read_u32(flash->dev,
->  					"ti,peak-current-microamp", &peak_ua);
-> @@ -469,9 +532,19 @@ static int lm3560_probe(struct i2c_client *client)
->  				 &flash->max_flash_timeout);
->  	flash->max_flash_timeout /= 1000;
->  
-> +	rval = regulator_enable(flash->vin_supply);
-> +	if (rval < 0)
-> +		return dev_err_probe(flash->dev, rval,
-> +				     "failed to enable vin power supply\n");
-> +
-> +	gpiod_set_value_cansleep(flash->hwen_gpio, 1);
-> +
->  	rval = lm3560_init_device(flash);
->  	if (rval < 0)
-> -		return rval;
-> +		goto error_disable;
-> +
-> +	pm_runtime_set_active(flash->dev);
-> +	pm_runtime_enable(flash->dev);
->  
->  	for_each_available_child_of_node(dev_of_node(flash->dev), node) {
->  		u32 reg;
-> @@ -492,10 +565,10 @@ static int lm3560_probe(struct i2c_client *client)
->  
->  			rval = lm3560_subdev_init(flash, reg, node);
->  			if (rval < 0) {
-> -				lm3560_subdev_cleanup(flash);
-> -				return dev_err_probe(flash->dev, rval,
-> -						    "failed to register led%d\n",
-> -						    reg);
-> +				dev_err(flash->dev,
-> +					"failed to register led%d: %d\n",
-> +					reg, rval);
-> +				goto error_clean;
->  			}
->  
->  			set_bit(reg, flash->led_id);
-> @@ -504,7 +577,23 @@ static int lm3560_probe(struct i2c_client *client)
->  
->  	i2c_set_clientdata(client, flash);
->  
-> +	pm_runtime_set_autosuspend_delay(flash->dev, 1000);
-> +	pm_runtime_use_autosuspend(flash->dev);
-> +	pm_runtime_idle(flash->dev);
-> +
->  	return 0;
-> +
-> +error_clean:
-> +	pm_runtime_disable(flash->dev);
-> +	pm_runtime_set_suspended(flash->dev);
-> +
-> +	lm3560_subdev_cleanup(flash);
-> +
-> +error_disable:
-> +	gpiod_set_value_cansleep(flash->hwen_gpio, 0);
-> +	regulator_disable(flash->vin_supply);
-> +
-> +	return rval;
->  }
->  
->  static void lm3560_remove(struct i2c_client *client)
-> @@ -512,8 +601,22 @@ static void lm3560_remove(struct i2c_client *client)
->  	struct lm3560_flash *flash = i2c_get_clientdata(client);
->  
->  	lm3560_subdev_cleanup(flash);
-> +
-> +	/*
-> +	 * Disable runtime PM. In case runtime PM is disabled in the kernel,
-> +	 * make sure to turn power off manually.
-> +	 */
-> +	pm_runtime_disable(&client->dev);
-> +	if (!pm_runtime_status_suspended(&client->dev)) {
-> +		lm3560_power_off(&client->dev);
-> +		pm_runtime_set_suspended(&client->dev);
-> +	}
->  }
->  
-> +static const struct dev_pm_ops lm3560_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(lm3560_power_off, lm3560_power_on, NULL)
-> +};
-> +
->  static const struct of_device_id lm3560_of_match[] = {
->  	{ .compatible = "ti,lm3559" },
->  	{ .compatible = "ti,lm3560" },
-> @@ -532,7 +635,7 @@ MODULE_DEVICE_TABLE(i2c, lm3560_id_table);
->  static struct i2c_driver lm3560_i2c_driver = {
->  	.driver = {
->  		   .name = LM3560_NAME,
-> -		   .pm = NULL,
-> +		   .pm = pm_ptr(&lm3560_pm_ops),
->  		   .of_match_table = lm3560_of_match,
->  		   },
->  	.probe = lm3560_probe,
+Do we need to repeat the upper `return gpiod;` statement? With this split
+I don't see that we need to have two repetitive return statements.
 
 -- 
-Kind regards,
+With Best Regards,
+Andy Shevchenko
 
-Sakari Ailus
+
 
