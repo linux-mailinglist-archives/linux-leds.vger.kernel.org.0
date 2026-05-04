@@ -1,241 +1,251 @@
-Return-Path: <linux-leds+bounces-7985-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7986-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ICMaKjL1+Glr3gIAu9opvQ
-	(envelope-from <linux-leds+bounces-7985-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 21:36:18 +0200
+	id 6LhxOIAU+WkY5QIAu9opvQ
+	(envelope-from <linux-leds+bounces-7986-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 23:49:52 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CD04C34C4
-	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 21:36:17 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3FF4C4390
+	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 23:49:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8535C3014BEF
-	for <lists+linux-leds@lfdr.de>; Mon,  4 May 2026 19:33:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C6E7230160E7
+	for <lists+linux-leds@lfdr.de>; Mon,  4 May 2026 21:49:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3B8A3E714A;
-	Mon,  4 May 2026 19:33:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACAB7369998;
+	Mon,  4 May 2026 21:49:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ug2Kv2/5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aCM2vi2q"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444333E1D04
-	for <linux-leds@vger.kernel.org>; Mon,  4 May 2026 19:33:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA98D364029;
+	Mon,  4 May 2026 21:49:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777923231; cv=none; b=dLKLs9H1LVx+s5y9Y5ZHRRpjN7hyVYQwGLm2XYRi1HwBnORFmP+2OLJUErbNY66/7n0cp4MRuMqB6HFPFdxRpTdzLwJNXSsLDc4HVuwkgZ31w9Am+FF4B1JL0jFMVgyNhA+JP1yEeIo02Xlu1GARgDpOs/TjJbO0UduB5EnVJvk=
+	t=1777931389; cv=none; b=NY4yH7N3ZViFxn7Oh57Chd/4hXj75us6m01h969szP8tEkCWo8gjjtbeHNyV0fr4gdHKHkggQMlPHj9TuFkU1iXSOukaA7iOzWBx16ZIbZpcbNiL/rJ9Naji2GMDU0YgiLgnyQFjPef/UMTp9Qu83ksQux4BWwz1cJR0hdGIgNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777923231; c=relaxed/simple;
-	bh=5WyRL87onO1XJCtyrIXJ2QnKJSXvw8KDL3SttCQ6cl4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j0gzbx7tOV1+7lTkO22JB0mDFlF9fhMWXQcRZnkIrFaGMAv5+v4blAGFOUTOAz0Oq951eEaXvRtI9QA+Ge1Lj33MQWzN2W7PjqPCoCOf6zDiSSPLjG/AtA76T5BVVrvwJOqoxBtwrjl0nOjAi8DIGN3bMsk7S5NWvjSpcjNOFTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ug2Kv2/5; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-67b6dc50b61so6571740a12.2
-        for <linux-leds@vger.kernel.org>; Mon, 04 May 2026 12:33:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777923228; x=1778528028; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IQ9C7d4LuBV4MAX9CZ/HitKy1k918s0TWggFmSPxal4=;
-        b=Ug2Kv2/5uhO90u0fS1e3kMa+6Rp3ulwEvI+IAdrmanNKkk1UmBrdiNxCcanh13BNcD
-         /sqqIQxUr+IPKrC5YF/gmIamHZWUb4CQ0pxd0zm5bHSiqiEdfVTQBHIy1rX0FVBr7Okm
-         wZ6TxYf22TFugNZlMM0PmHEto2UxN8kfy6i25rP6PBWp+QzPgS/CahXl+G26Iorz5UxZ
-         5egJ3XYYaZpDMHjGIyKhBVoQosIntqUzNfA8SlewrHQs+car8mwnY7Z/kcrEOXVfROob
-         OmVTclmA9J4k72Ycv3w8oepJmxvjhV9D+stF+DcDgkPONedbYboUZj1I3cGguqP7cyMD
-         /MEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777923228; x=1778528028;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IQ9C7d4LuBV4MAX9CZ/HitKy1k918s0TWggFmSPxal4=;
-        b=ZzjOEA/EtlukrJxFBKjT7Gr9W4z4Gc/58UNrnpdrWiZrZdEZXFLTtxl36zQeJCXDHC
-         lcoS2MSB5i7HVf29WdE/nxZMEWyP9G4hbLB+LEaN5XTmupiylmcQviLqYsb0cPBF76yS
-         MBQk/sXKdsz5vSvDfzR69l3cbH7yIVB2SQXPn39WArb1HIiDe5ZKQfUBoHWRWxlQp2dG
-         sYrcm0M0RP55mjWGY7O2uiy9Pl6yrGqWchKN3573fMRiom5Xc5Pdm7HV/aF7ODvihge0
-         2iPa4plxmq58+GaVDHdRZ2+1d04sWdqdWUPPs7WXLHzjgcyjug7WV17ky57daTu6HGn8
-         yI7Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8p8kNcCeSU6BWZLUeq9yuI/OmYBepqJUcZ/iI4znMJP1QT908aiWYJDbDlpRReX1LrFujR6Lqm6gmz@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMNU4f1z3moJ9PmCKn9sf4qJToJXxxr/47dpJlEWI/eroqfzAr
-	KnaAClQmc7p9KY27wlUi5BVLJoyKk2thaBlApFVJQStJtnco5HLg8o3YmUO30Ws7
-X-Gm-Gg: AeBDietvS4DbNGdCYCo/i06TCwmrT+XhQNXjtsgHLcoBz6JFuZYxwskCZcQvwwTKwv1
-	7HSOkm3B9KJa/MGa9C6rRu4MLbXa5Xm4CpHIdy5BaHBHau2O6CcJi06KDiX2Bd7aZ7oKOkASwrR
-	RR553hA7kzw1dOaXLbrmOdRHMRSU/2CViyJxFXnQmFpY2DHa5CQLBr1bveGVlFcs7ZBi1vt6a79
-	IFfF3pDLTCw3Qi/fqVTkntNWzVKb7a7z57ybTfuwi/3wgeotW58L4rjD+HRiS8slzKOg4E6otVf
-	WFdgc5Tg0sjxYI3uwc6QHIH7XDzp3Q1wpD+JiV5YF/CuJsYUTDIgFPZskrVAY5Ky3jDpr/tKl9K
-	gKR9oWvffLG65fil6iSe+5GNMhlWqJT0CcK4v2JY8jTYnPnHEZs/I9ijuQdpuX3M+uBmvHG3j/F
-	17zbGTnlx0yzCqMwScbJv5blimKOReOhhBbhC2nYndcA/DLw==
-X-Received: by 2002:aa7:d319:0:b0:677:866c:6bb2 with SMTP id 4fb4d7f45d1cf-67c1a2e5f85mr3533539a12.16.1777923228085;
-        Mon, 04 May 2026 12:33:48 -0700 (PDT)
-Received: from [192.168.0.193] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-67cc90aecc6sm13310a12.26.2026.05.04.12.33.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 May 2026 12:33:46 -0700 (PDT)
-Message-ID: <1b418b30-7b28-4559-9808-7a68132c273a@gmail.com>
-Date: Mon, 4 May 2026 21:33:45 +0200
+	s=arc-20240116; t=1777931389; c=relaxed/simple;
+	bh=cbnU6gj7O0ry9v8dc64v8x0h01WyetZZ+GqiP32svHw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o9TX6DUgeTGKjjYxSUMrVDrkxfvACIGxBllij3GTd9Rwz99FiGHBrMWCG2azScFm3wwWLju1Y94p6l9+Y29gGKSsOxrT4DwgKJ88QNDei0bLFjUusZjA2RMEuwLbMVXN5K/tmkejKZenNyCaaKUI/fbboIzPwoIWqp54658s1KA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aCM2vi2q; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777931388; x=1809467388;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cbnU6gj7O0ry9v8dc64v8x0h01WyetZZ+GqiP32svHw=;
+  b=aCM2vi2qEx5MWlQE4d9f+4k1unqOpsWb26QnNglIrHFOuZ9gl445UtPY
+   hTTgk8kn62yFSj23akBkx/UYVAIWxL1mD7MTMRWqI/CDwf24aROS6Aiaf
+   XeurpeoRymz9BlXbtQvKhbNQ8PwfbB258EocXOXo1Dp/JCW0CTyUP3fJL
+   XFj6aAlgnE0taxj7ZcIEZiKhKtKsBUrf5LfwzMfV1yLj1Y8tPV4yxUa2G
+   Q1rtJIwmyWbWgB3DxwCTUX5ARNcdTlr9CXiDJbMnsoFi6PlP9OAffSzTg
+   f5bgYNrNpCyKMeD0jyi68iFx5/eJLXCEkFDI/zM51eWzLnch0hl8hYqZP
+   g==;
+X-CSE-ConnectionGUID: hs7IP025TiyV+3RULHZdcA==
+X-CSE-MsgGUID: F6GiE9l8RP6MK0Q7NJkYXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="78698824"
+X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
+   d="scan'208";a="78698824"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 14:49:47 -0700
+X-CSE-ConnectionGUID: dRKqUbYQQWuKkdWo+jsxiA==
+X-CSE-MsgGUID: X6zScUrHRR+LKzFLUZum9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
+   d="scan'208";a="232492386"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 04 May 2026 14:49:45 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wK1Ac-000000005yv-3Mng;
+	Mon, 04 May 2026 21:49:42 +0000
+Date: Mon, 4 May 2026 23:49:38 +0200
+From: kernel test robot <lkp@intel.com>
+To: James Ye <jye836@gmail.com>, jikos@kernel.org, bentiss@kernel.org,
+	lee@kernel.org, pavel@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, denis.benato@linux.dev,
+	James Ye <jye836@gmail.com>
+Subject: Re: [PATCH 6/6] leds: led-class: mark classdev as unregistering early
+Message-ID: <202605042355.hVEd8jjX-lkp@intel.com>
+References: <20260503072643.2774762-7-jye836@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9] leds: add support for TI LP5860 LED driver chip
-To: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Cc: Nam Tran <trannamatk@gmail.com>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org
-References: <20260424-v6-14-topic-ti-lp5860-v9-1-b44d7025d741@pengutronix.de>
- <aae0901b-ebfd-4d40-9880-116b881c9a90@gmail.com>
- <87zf2gqrsv.fsf@pengutronix.de>
-Content-Language: en-US
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <87zf2gqrsv.fsf@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 06CD04C34C4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260503072643.2774762-7-jye836@gmail.com>
+X-Rspamd-Queue-Id: 4C3FF4C4390
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-7985-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[lists.linux.dev,vger.kernel.org,linux.dev,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacekanaszewski@gmail.com,linux-leds@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-7986-lists,linux-leds=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-leds];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-On 5/3/26 8:19 PM, Steffen Trumtrar wrote:
-> On 2026-04-26 at 14:41 +02, Jacek Anaszewski 
-> <jacek.anaszewski@gmail.com> wrote:
-> 
-> Hi,
-> 
->> Hi Steffen,
->>
->> On 4/24/26 3:28 PM, Steffen Trumtrar wrote:
->> > Add support for the Texas Instruments LP5860 LED driver chip
->> > via SPI interfaces.
->> > The LP5860 is an LED matrix driver for up to 196 LEDs, which supports
->> > short and open detection of the individual channel select lines.
->> > It can be connected to SPI or I2C bus. For now add support for SPI 
->> only.
->> > Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
->> > ---
->> [...]
->> > diff --git a/drivers/leds/rgb/leds-lp5860-core.c b/drivers/leds/rgb/ 
->> leds-lp5860-core.c
->> > new file mode 100644
->> > index 0000000000000..648bf168f94bf
->> > --- /dev/null
->> > +++ b/drivers/leds/rgb/leds-lp5860-core.c
->> > @@ -0,0 +1,231 @@
->> > +// SPDX-License-Identifier: GPL-2.0-only
->> > +/*
->> > + * Copyright (c) 2025 Pengutronix
->> > + *
->> > + * Author: Steffen Trumtrar <kernel@pengutronix.de>
->> > + */
->> > +
->> > +#include <linux/led-class-multicolor.h>
->> > +#include <linux/module.h>
->> > +#include <linux/of_platform.h>
->> > +#include <linux/property.h>
->> > +#include <linux/regmap.h>
->> > +
->> > +#include "leds-lp5860.h"
->> > +
->> > +static struct lp5860_led *mcled_cdev_to_led(struct led_classdev_mc 
->> *mc_cdev)
->> > +{
->> > +    return container_of(mc_cdev, struct lp5860_led, mc_cdev);
->> > +}
->> > +
->> > +static int lp5860_set_dot_onoff(struct lp5860_led *led, unsigned 
->> int dot, bool enable)
->> > +{
->> > +    unsigned int offset = dot / LP5860_MAX_DOT_ONOFF_GROUP_NUM;
->> > +    unsigned int mask = BIT(dot % LP5860_MAX_DOT_ONOFF_GROUP_NUM);
->> > +
->> > +    if (dot > LP5860_MAX_LED)
->> > +        return -EINVAL;
->> > +
->> > +    return regmap_update_bits(led->chip->regmap,
->> > +                  LP5860_REG_DOT_ONOFF_START + offset, mask,
->> > +                  enable ? LP5860_DOT_ALL_ON : LP5860_DOT_ALL_OFF);
->> > +}
->> > +
->> > +static int lp5860_set_mc_brightness(struct led_classdev *cdev,
->> > +                    enum led_brightness brightness)
->> > +{
->> > +    struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(cdev);
->> > +    struct lp5860_led *led = mcled_cdev_to_led(mc_cdev);
->>
->> You need mutex locking while accessing hw to avoid leaving the
->> device in an inconsistent state in case of two parallel requests from
->> different processes.
->>
-> 
-> The hw is only accessed via regmap. It handles locking AFAIK or do I 
-> misunderstand you?
+Hi James,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on lee-leds/for-leds-next linus/master v6.16-rc1 next-20260430]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Ye/HID-input-delete-hid_battery-on-disconnect/20260504-013406
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20260503072643.2774762-7-jye836%40gmail.com
+patch subject: [PATCH 6/6] leds: led-class: mark classdev as unregistering early
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260504/202605042355.hVEd8jjX-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260504/202605042355.hVEd8jjX-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605042355.hVEd8jjX-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/hid/hid-input.c:2423:48: error: no member named 'batteries' in 'struct hid_device'
+    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
+         |                                                  ~~~  ^
+   include/linux/list.h:869:30: note: expanded from macro 'list_for_each_entry_safe'
+     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
+         |                                     ^~~~
+   include/linux/list.h:620:14: note: expanded from macro 'list_first_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |                     ^~~
+   include/linux/list.h:609:15: note: expanded from macro 'list_entry'
+     609 |         container_of(ptr, type, member)
+         |                      ^~~
+   include/linux/container_of.h:20:26: note: expanded from macro 'container_of'
+      20 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+>> drivers/hid/hid-input.c:2423:48: error: no member named 'batteries' in 'struct hid_device'
+    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
+         |                                                  ~~~  ^
+   include/linux/list.h:869:30: note: expanded from macro 'list_for_each_entry_safe'
+     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
+         |                                     ^~~~
+   include/linux/list.h:620:14: note: expanded from macro 'list_first_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |                     ^~~
+   include/linux/list.h:609:15: note: expanded from macro 'list_entry'
+     609 |         container_of(ptr, type, member)
+         |                      ^~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:610:63: note: expanded from macro '__same_type'
+     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                               ^
+   include/linux/build_bug.h:79:50: note: expanded from macro 'static_assert'
+      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                                  ^~~~
+   include/linux/build_bug.h:80:56: note: expanded from macro '__static_assert'
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+>> drivers/hid/hid-input.c:2423:48: error: no member named 'batteries' in 'struct hid_device'
+    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
+         |                                                  ~~~  ^
+   include/linux/list.h:869:30: note: expanded from macro 'list_for_each_entry_safe'
+     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
+         |                                     ^~~~
+   include/linux/list.h:620:14: note: expanded from macro 'list_first_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |                     ^~~
+   include/linux/list.h:609:15: note: expanded from macro 'list_entry'
+     609 |         container_of(ptr, type, member)
+         |                      ^~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:610:63: note: expanded from macro '__same_type'
+     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                               ^
+   include/linux/build_bug.h:79:50: note: expanded from macro 'static_assert'
+      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                                  ^~~~
+   include/linux/build_bug.h:80:56: note: expanded from macro '__static_assert'
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+>> drivers/hid/hid-input.c:2423:48: error: no member named 'batteries' in 'struct hid_device'
+    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
+         |                                                  ~~~  ^
+   include/linux/list.h:871:32: note: expanded from macro 'list_for_each_entry_safe'
+     871 |              !list_entry_is_head(pos, head, member);                    \
+         |                                       ^~~~
+   include/linux/list.h:773:30: note: expanded from macro 'list_entry_is_head'
+     773 |         list_is_head(&pos->member, (head))
+         |                                     ^~~~
+   4 errors generated.
 
 
-You're calling regmap_write() per subLED, so internal regmap
-locking has nothing to do with synchronizing the state of multicolor
-LED. It is possible that another Process2 jumps in while Process1
-has already written two subLEDs. Let's say that there are two
-parallel calls, where Process2 has greater priority:
+vim +2423 drivers/hid/hid-input.c
 
-Process1:
-echo "10 20 30" > multi_intensity
-Process2:
-echo "40 50 60" > multi_intensity
+  2407	
+  2408	void hidinput_disconnect(struct hid_device *hid)
+  2409	{
+  2410		struct hid_input *hidinput, *next;
+  2411		struct hid_battery *bat, *bat_next;
+  2412	
+  2413		list_for_each_entry_safe(hidinput, next, &hid->inputs, list) {
+  2414			list_del(&hidinput->list);
+  2415			if (hidinput->registered)
+  2416				input_unregister_device(hidinput->input);
+  2417			else
+  2418				input_free_device(hidinput->input);
+  2419			kfree(hidinput->name);
+  2420			kfree(hidinput);
+  2421		}
+  2422	
+> 2423		list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
+  2424			list_del(&bat->list);
+  2425		}
+  2426	
+  2427		/* led_work is spawned by input_dev callbacks, but doesn't access the
+  2428		 * parent input_dev at all. Once all input devices are removed, we
+  2429		 * know that led_work will never get restarted, so we can cancel it
+  2430		 * synchronously and are safe. */
+  2431		cancel_work_sync(&hid->led_work);
+  2432	}
+  2433	EXPORT_SYMBOL_GPL(hidinput_disconnect);
+  2434	
 
-Process1:
-	regmap_write subLED 1 10
-	regmap_write subLED 2 20
-Process2:
-	regmap_write subLED 1 40
-	regmap_write subLED 2 50
-	regmap_write subLED 3 60
-Process1:
-	regmap_write subLED 3 30
-	
-
-Which leaves the multicolor LED registers in the state:
-
-subLED1: 40
-subLED2: 50
-subLED3: 30
-
--- 
-Best regards,
-Jacek Anaszewski
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
