@@ -1,70 +1,70 @@
-Return-Path: <linux-leds+bounces-7977-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7978-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wJ7UCGJR+GmQsQIAu9opvQ
-	(envelope-from <linux-leds+bounces-7977-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 09:57:22 +0200
+	id 0PphMghU+GnSswIAu9opvQ
+	(envelope-from <linux-leds+bounces-7978-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 10:08:40 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6ED4B9B90
-	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 09:57:21 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 467B54B9E9B
+	for <lists+linux-leds@lfdr.de>; Mon, 04 May 2026 10:08:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 7B59B3007B3D
-	for <lists+linux-leds@lfdr.de>; Mon,  4 May 2026 07:56:47 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 2D2F53004631
+	for <lists+linux-leds@lfdr.de>; Mon,  4 May 2026 08:08:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B97BF313550;
-	Mon,  4 May 2026 07:56:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC66531619C;
+	Mon,  4 May 2026 08:08:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LrXLITtU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WaSdUhi/"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADB33033D6;
-	Mon,  4 May 2026 07:56:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7FB2E8B83;
+	Mon,  4 May 2026 08:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777881400; cv=none; b=TNQOFLWxc9GobZLBNU4EMbePqIUOCTaazIr8huD5wCBorcX6oduEcghk8u/jiGVmBBrXK+aCb+OAEwu+Li7eG7laYEnzJBu64csosg1OFk/gjPf62BJorIMmN39BQv9UJsk0nyIaxqfzJPWQ6ng/vvSMv7dVvAdazsPLjT9u9gY=
+	t=1777882118; cv=none; b=f/X3DlDcCCXX3WiSGq3D9h0V8xAOb0lB3uDvk7q88DGGAqAtjB8XxFsqX0KOZCXvIkuFlJullTIj3+H73djh30hYsLYzu++HOTmugBI3SSMfLsNeWyQ49FhCDbJ0TndruDo1NqykJkRdulpMFhPvWHrwHVZ03NIrvkd8M+/pSgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777881400; c=relaxed/simple;
-	bh=EU6GNMPxyqZpjatfpAqkrmjlNPcqAxcQGexzOkAfu0w=;
+	s=arc-20240116; t=1777882118; c=relaxed/simple;
+	bh=tLsBX+m8gP/K8gBVV15xtOcviHYjmI7E7XgYAG2bLbY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ESSl03gMzroynf7IX4DcywvuygrBH7bphw+YmOSq01Ged/WhiM5hMf6wZTWaRD0OgYWJEUq8J2m1uuGwJUi5y9OQ38fFE/BCoAY8YJa8SpleWFg1s10u0lB8v8s4mDwBwjDW5gbV8Al3QSh4GpUDi05LfphMexXOYTS0rDtnPcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LrXLITtU; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=oQKwgM4sf8WXpq/bxTaLw2tFb0SLjcVjnlGla74jds8meL3+yyFFgo+E5mjxniGOr91yHMkCyFDbZOyOna0/RvwMqKrJRkGLKVYq/g//Dgx91AyS5D44bND3u5P7sNGsrkCKkwZ6Xflfzw2oNAiMPlCKKrcDVKU5LQuPvqDDL6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WaSdUhi/; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777881400; x=1809417400;
+  t=1777882116; x=1809418116;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=EU6GNMPxyqZpjatfpAqkrmjlNPcqAxcQGexzOkAfu0w=;
-  b=LrXLITtUxdHC4SWJ/MEhJWbn4KLyvQS1GeetJRLWcpyXOtDGWKqvA8sh
-   b3O5XS233WdtJCrqLr4Pexw9+QLKEzWqGaPgL+wJzlBVbafSGnXImTOD3
-   C55eYmWtGG3hz60u91mj5lo9tg6du9JLqoqP+CWhJNdgEObQ0LB0g/Kze
-   xYmmko+8x9D8CNQ8gKp1JKSradRi9l52t/JdyFjdvpfwQLUpRYIefOIRx
-   TeAAdBXSd8NWtiROuBewxEtbk14NouM/Gdd+V2VAP1xqcsxIduIk7lIq9
-   v2CVpxwM/blXDsZeEI928C9ut5iDImqV13ZfEddKnbQxVWWnvzbLdp4Ki
-   w==;
-X-CSE-ConnectionGUID: X6hIBdWnRWSufaSfY57znQ==
-X-CSE-MsgGUID: N60SBKrgTaijisu7eI4eXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="78441258"
+  bh=tLsBX+m8gP/K8gBVV15xtOcviHYjmI7E7XgYAG2bLbY=;
+  b=WaSdUhi/jORrMtck9ZvzXTJS2zFFq7X0ViSzqfslchDoxe8DNSrtZw8D
+   WuzXJ4ZjLRBl137MCTBZxz5EBGN9OBH4selaJY42oJ8ZGpIUv6DG+CY0/
+   vyFnpOHS63n6D2/dP/oq83B/Ki2FYTl8R9XY8VlHGJ/pY/Rzz04wcOIDx
+   q3YrJeg0GjOGl3R1jYzVWWS+YcOtSDdOVyjPatqah92MxTa0Zg8IOapaa
+   TN24yDJv6MRlx5411FSm3kLu6B/orMi675+2PU5c38L2nMgWIUke8z/Qw
+   xxqSYp1irSyxM5FCoLJbyEP/QjMfe0lDqWDWELVtQ85vsaKB46g0EkBhC
+   g==;
+X-CSE-ConnectionGUID: 6oALWWPVRPC0QRG0ngCc0w==
+X-CSE-MsgGUID: A3kZzS6DSn+Q6whihEWV4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="66266873"
 X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="78441258"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 00:56:39 -0700
-X-CSE-ConnectionGUID: lCvPEamETZq0u/3UJ7xUqg==
-X-CSE-MsgGUID: pT1gv9KjQPilMC7nT4onIQ==
+   d="scan'208";a="66266873"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 01:08:36 -0700
+X-CSE-ConnectionGUID: aQ186U18TC6KYz7SbTEzMQ==
+X-CSE-MsgGUID: VbU7FiFjQdqPYAV5e4rrDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="235705935"
+   d="scan'208";a="232805044"
 Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.114])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 00:56:36 -0700
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 01:08:33 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id A7621121CC4;
-	Mon, 04 May 2026 10:56:34 +0300 (EEST)
-Date: Mon, 4 May 2026 10:56:34 +0300
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 48264121CC4;
+	Mon, 04 May 2026 11:08:33 +0300 (EEST)
+Date: Mon, 4 May 2026 11:08:33 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Svyatoslav Ryhel <clamor95@gmail.com>
@@ -75,12 +75,12 @@ Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 3/6] media: i2c: lm3560: Optimize mutex lock usage
-Message-ID: <afhRMmtzOwQllJ6-@kekkonen.localdomain>
+Subject: Re: [PATCH v5 4/6] media: i2c: lm3560: Convert to use OF bindings
+Message-ID: <afhUAYVWkJ4OiH8B@kekkonen.localdomain>
 References: <20260503164445.215540-1-clamor95@gmail.com>
- <20260503164445.215540-4-clamor95@gmail.com>
- <afg8JPS3KGMO4xj9@kekkonen.localdomain>
- <CAPVz0n1JjHY2R3fEhkt4Ejwq81K=uHVrZQjkJ5dUDYJOFN_mmQ@mail.gmail.com>
+ <20260503164445.215540-5-clamor95@gmail.com>
+ <afg-Xl7A7E0qowHR@kekkonen.localdomain>
+ <CAPVz0n0YwUZ0TPSQV-Yb_4e7Di12ZWPVaKdde1v+7gHtWT1nuQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -90,27 +90,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPVz0n1JjHY2R3fEhkt4Ejwq81K=uHVrZQjkJ5dUDYJOFN_mmQ@mail.gmail.com>
-X-Rspamd-Queue-Id: 1C6ED4B9B90
+In-Reply-To: <CAPVz0n0YwUZ0TPSQV-Yb_4e7Di12ZWPVaKdde1v+7gHtWT1nuQ@mail.gmail.com>
+X-Rspamd-Queue-Id: 467B54B9E9B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7977-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-7978-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
 	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
@@ -120,131 +120,337 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,intel.com:dkim,intel.com:email,kekkonen.localdomain:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,kekkonen.localdomain:mid,ti.com:email]
 
-Hi Svyatoslav,
-
-On Mon, May 04, 2026 at 10:37:40AM +0300, Svyatoslav Ryhel wrote:
-> пн, 4 трав. 2026 р. о 09:26 Sakari Ailus <sakari.ailus@linux.intel.com> пише:
+On Mon, May 04, 2026 at 10:40:11AM +0300, Svyatoslav Ryhel wrote:
+> пн, 4 трав. 2026 р. о 09:36 Sakari Ailus <sakari.ailus@linux.intel.com> пише:
 > >
 > > Hi Svyatoslav,
 > >
-> > On Sun, May 03, 2026 at 07:44:42PM +0300, Svyatoslav Ryhel wrote:
-> > > Pass the device's own mutex lock to the control handler so that the media
-> > > framework can handle control access instead of managing it manually. The
-> > > lock must be common to both sub-devices since they share same hardware,
-> > > so the individual sub-device locks will not work here.
+> > On Sun, May 03, 2026 at 07:44:43PM +0300, Svyatoslav Ryhel wrote:
+> > > Since there are no users of this driver via platform data, remove the
+> > > platform data support and switch to using Device Tree bindings.
+> > >
+> > > Converting to Device Tree assumes dynamic and independent registration of
+> > > LEDs. To monitor the configured LEDs, a bitmap has been added. This makes
+> > > LED cleanup more robust and less context dependent.
 > > >
 > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > > > ---
-> > >  drivers/media/i2c/lm3560.c | 19 ++++++-------------
-> > >  1 file changed, 6 insertions(+), 13 deletions(-)
+> > >  drivers/media/i2c/lm3560.c | 143 ++++++++++++++++++++++++++-----------
+> > >  include/media/i2c/lm3560.h |  15 ----
+> > >  2 files changed, 102 insertions(+), 56 deletions(-)
 > > >
 > > > diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
-> > > index edfb07587cab..5b568ed9536b 100644
+> > > index 5b568ed9536b..ce4b09d1f208 100644
 > > > --- a/drivers/media/i2c/lm3560.c
 > > > +++ b/drivers/media/i2c/lm3560.c
-> > > @@ -162,14 +162,12 @@ static int lm3560_get_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
-> > >       struct lm3560_flash *flash = to_lm3560_flash(ctrl, led_no);
-> > >       int rval = -EINVAL;
+> > > @@ -9,11 +9,15 @@
+> > >   *                   Ldd-Mlp <ldd-mlp@list.ti.com>
+> > >   */
 > > >
-> > > -     mutex_lock(&flash->lock);
-> > > -
-> > >       if (ctrl->id == V4L2_CID_FLASH_FAULT) {
-> > >               s32 fault = 0;
-> > >               unsigned int reg_val;
-> > >               rval = regmap_read(flash->regmap, REG_FLAG, &reg_val);
-> > >               if (rval < 0)
-> > > -                     goto out;
-> > > +                     return rval;
-> > >               if (reg_val & FAULT_SHORT_CIRCUIT)
-> > >                       fault |= V4L2_FLASH_FAULT_SHORT_CIRCUIT;
-> > >               if (reg_val & FAULT_OVERTEMP)
-> > > @@ -179,8 +177,6 @@ static int lm3560_get_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
-> > >               ctrl->cur.val = fault;
-> > >       }
+> > > +#include <linux/bitmap.h>
+> > >  #include <linux/delay.h>
+> > >  #include <linux/module.h>
+> > >  #include <linux/i2c.h>
+> > >  #include <linux/slab.h>
+> > > +#include <linux/mod_devicetable.h>
+> > >  #include <linux/mutex.h>
+> > > +#include <linux/of.h>
+> > > +#include <linux/property.h>
+> > >  #include <linux/regmap.h>
+> > >  #include <linux/videodev2.h>
+> > >  #include <media/i2c/lm3560.h>
+> > > @@ -43,22 +47,33 @@ enum led_enable {
+> > >   * struct lm3560_flash
+> > >   *
+> > >   * @dev: pointer to &struct device
+> > > - * @pdata: platform data
+> > >   * @regmap: reg. map for i2c
+> > >   * @lock: muxtex for serial access.
+> > >   * @led_mode: V4L2 LED mode
+> > >   * @ctrls_led: V4L2 controls
+> > >   * @subdev_led: V4L2 subdev
+> > > + * @led_id: LED status holder
+> > > + * @peak: peak current
+> > > + * @max_flash_timeout: flash timeout
+> > > + * @max_flash_brt: flash mode led brightness
+> > > + * @max_torch_brt: torch mode led brightness
+> > >   */
+> > >  struct lm3560_flash {
+> > >       struct device *dev;
+> > > -     struct lm3560_platform_data *pdata;
+> > >       struct regmap *regmap;
+> > >       struct mutex lock;
 > > >
-> > > -out:
-> > > -     mutex_unlock(&flash->lock);
-> > >       return rval;
-> > >  }
-> > >
-> > > @@ -190,8 +186,6 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
-> > >       u8 tout_bits;
-> > >       int rval = -EINVAL;
-> > >
-> > > -     mutex_lock(&flash->lock);
-> > > -
-> > >       switch (ctrl->id) {
-> > >       case V4L2_CID_FLASH_LED_MODE:
-> > >               flash->led_mode = ctrl->val;
-> > > @@ -202,14 +196,12 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
-> > >       case V4L2_CID_FLASH_STROBE_SOURCE:
-> > >               rval = regmap_update_bits(flash->regmap,
-> > >                                         REG_CONFIG1, 0x04, (ctrl->val) << 2);
-> > > -             if (rval < 0)
-> > > -                     goto err_out;
-> > >               break;
-> > >
-> > >       case V4L2_CID_FLASH_STROBE:
-> > >               if (flash->led_mode != V4L2_FLASH_LED_MODE_FLASH) {
-> > >                       rval = -EBUSY;
-> > > -                     goto err_out;
-> > > +                     break;
-> > >               }
-> > >               flash->led_mode = V4L2_FLASH_LED_MODE_FLASH;
-> > >               rval = lm3560_mode_ctrl(flash);
-> > > @@ -218,7 +210,7 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
-> > >       case V4L2_CID_FLASH_STROBE_STOP:
-> > >               if (flash->led_mode != V4L2_FLASH_LED_MODE_FLASH) {
-> > >                       rval = -EBUSY;
-> > > -                     goto err_out;
-> > > +                     break;
-> > >               }
-> > >               flash->led_mode = V4L2_FLASH_LED_MODE_NONE;
-> > >               rval = lm3560_mode_ctrl(flash);
-> > > @@ -239,8 +231,6 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
-> > >               break;
-> > >       }
-> > >
-> > > -err_out:
-> > > -     mutex_unlock(&flash->lock);
-> > >       return rval;
-> > >  }
-> > >
-> > > @@ -328,6 +318,8 @@ static int lm3560_init_controls(struct lm3560_flash *flash,
-> > >       if (fault != NULL)
-> > >               fault->flags |= V4L2_CTRL_FLAG_VOLATILE;
-> > >
-> > > +     hdl->lock = &flash->lock;
+> > >       enum v4l2_flash_led_mode led_mode;
+> > >       struct v4l2_ctrl_handler ctrls_led[LM3560_LED_MAX];
+> > >       struct v4l2_subdev subdev_led[LM3560_LED_MAX];
 > > > +
-> > >       if (hdl->error)
-> > >               return hdl->error;
+> > > +     DECLARE_BITMAP(led_id, LM3560_LED_MAX);
+> > > +
+> > > +     enum lm3560_peak_current peak;
+> > > +     u32 max_flash_timeout;
+> > > +
+> > > +     u32 max_flash_brt[LM3560_LED_MAX];
+> > > +     u32 max_torch_brt[LM3560_LED_MAX];
+> > >  };
 > > >
-> > > @@ -363,6 +355,7 @@ static int lm3560_subdev_init(struct lm3560_flash *flash,
-> > >       if (rval < 0)
+> > >  #define to_lm3560_flash(_ctrl, _no)  \
+> > > @@ -269,8 +284,8 @@ static int lm3560_init_controls(struct lm3560_flash *flash,
+> > >                               enum lm3560_led_id led_no)
+> > >  {
+> > >       struct v4l2_ctrl *fault;
+> > > -     u32 max_flash_brt = flash->pdata->max_flash_brt[led_no];
+> > > -     u32 max_torch_brt = flash->pdata->max_torch_brt[led_no];
+> > > +     u32 max_flash_brt = flash->max_flash_brt[led_no];
+> > > +     u32 max_torch_brt = flash->max_torch_brt[led_no];
+> > >       struct v4l2_ctrl_handler *hdl = &flash->ctrls_led[led_no];
+> > >       const struct v4l2_ctrl_ops *ops = &lm3560_led_ctrl_ops[led_no];
+> > >
+> > > @@ -295,9 +310,9 @@ static int lm3560_init_controls(struct lm3560_flash *flash,
+> > >       /* flash strobe timeout */
+> > >       v4l2_ctrl_new_std(hdl, ops, V4L2_CID_FLASH_TIMEOUT,
+> > >                         LM3560_FLASH_TOUT_MIN,
+> > > -                       flash->pdata->max_flash_timeout,
+> > > +                       flash->max_flash_timeout,
+> > >                         LM3560_FLASH_TOUT_STEP,
+> > > -                       flash->pdata->max_flash_timeout);
+> > > +                       flash->max_flash_timeout);
+> > >
+> > >       /* flash brt */
+> > >       v4l2_ctrl_new_std(hdl, ops, V4L2_CID_FLASH_INTENSITY,
+> > > @@ -339,15 +354,18 @@ static const struct regmap_config lm3560_regmap = {
+> > >  };
+> > >
+> > >  static int lm3560_subdev_init(struct lm3560_flash *flash,
+> > > -                           enum lm3560_led_id led_no, char *led_name)
+> > > +                           enum lm3560_led_id led_no,
+> > > +                           struct device_node *np)
+> > >  {
+> > >       struct i2c_client *client = to_i2c_client(flash->dev);
+> > >       int rval;
+> > >
+> > >       v4l2_i2c_subdev_init(&flash->subdev_led[led_no], client, &lm3560_ops);
+> > >       flash->subdev_led[led_no].flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > > -     strscpy(flash->subdev_led[led_no].name, led_name,
+> > > -             sizeof(flash->subdev_led[led_no].name));
+> > > +     snprintf(flash->subdev_led[led_no].name,
+> > > +              sizeof(flash->subdev_led[led_no].name),
+> > > +              "lm3560-led%d", led_no);
+> > > +     flash->subdev_led[led_no].fwnode = of_fwnode_handle(np);
+> > >       rval = lm3560_init_controls(flash, led_no);
+> > >       if (rval)
 > > >               goto err_out;
-> > >       flash->subdev_led[led_no].entity.function = MEDIA_ENT_F_FLASH;
-> > > +     flash->subdev_led[led_no].state_lock = &flash->lock;
-> >
-> > I must have missed it earlier but you can use the control handler's mutex
-> > here. As a result, I believe you can drop the driver's own mutex
-> > altogether.
-> >
-> 
-> Control handler mutexes are per device, but both devices share the
-> same hardware so those mutexes will not prevent simultaneous access
-> from both devices. For this reason driver's own mutex is used.
-
-Right. You could still use one for the other handler.
-
-Feel free to keep it as-is, too.
-
-> 
+> > > @@ -378,7 +396,7 @@ static int lm3560_init_device(struct lm3560_flash *flash)
 > > >
-> > >       rval = v4l2_async_register_subdev(&flash->subdev_led[led_no]);
-> > >       if (rval < 0) {
+> > >       /* set peak current */
+> > >       rval = regmap_update_bits(flash->regmap,
+> > > -                               REG_FLASH_TOUT, 0x60, flash->pdata->peak);
+> > > +                               REG_FLASH_TOUT, 0x60, flash->peak);
+> > >       if (rval < 0)
+> > >               return rval;
+> > >       /* output disable */
+> > > @@ -391,18 +409,22 @@ static int lm3560_init_device(struct lm3560_flash *flash)
+> > >       return rval;
+> > >  }
+> > >
+> > > -static void lm3560_subdev_cleanup(struct lm3560_flash *flash,
+> > > -                               enum lm3560_led_id led_no)
+> > > +static void lm3560_subdev_cleanup(struct lm3560_flash *flash)
+> > >  {
+> > > -     v4l2_async_unregister_subdev(&flash->subdev_led[led_no]);
+> > > -     v4l2_ctrl_handler_free(&flash->ctrls_led[led_no]);
+> > > -     media_entity_cleanup(&flash->subdev_led[led_no].entity);
+> > > +     int led_no;
+> > > +
+> > > +     for_each_set_bit(led_no, flash->led_id, LM3560_LED_MAX) {
+> > > +             v4l2_async_unregister_subdev(&flash->subdev_led[led_no]);
+> > > +             v4l2_ctrl_handler_free(&flash->ctrls_led[led_no]);
+> > > +             media_entity_cleanup(&flash->subdev_led[led_no].entity);
+> > > +     }
+> > >  }
+> > >
+> > >  static int lm3560_probe(struct i2c_client *client)
+> > >  {
+> > >       struct lm3560_flash *flash;
+> > > -     struct lm3560_platform_data *pdata = dev_get_platdata(&client->dev);
+> > > +     struct device_node *node;
+> > > +     u32 peak_ua;
+> > >       int rval;
+> > >
+> > >       flash = devm_kzalloc(&client->dev, sizeof(*flash), GFP_KERNEL);
+> > > @@ -415,36 +437,69 @@ static int lm3560_probe(struct i2c_client *client)
+> > >               return rval;
+> > >       }
+> > >
+> > > -     /* if there is no platform data, use chip default value */
+> > > -     if (pdata == NULL) {
+> > > -             pdata = devm_kzalloc(&client->dev, sizeof(*pdata), GFP_KERNEL);
+> > > -             if (pdata == NULL)
+> > > -                     return -ENODEV;
+> > > -             pdata->peak = LM3560_PEAK_3600mA;
+> > > -             pdata->max_flash_timeout = LM3560_FLASH_TOUT_MAX;
+> > > -             /* led 1 */
+> > > -             pdata->max_flash_brt[LM3560_LED0] = LM3560_FLASH_BRT_MAX;
+> > > -             pdata->max_torch_brt[LM3560_LED0] = LM3560_TORCH_BRT_MAX;
+> > > -             /* led 2 */
+> > > -             pdata->max_flash_brt[LM3560_LED1] = LM3560_FLASH_BRT_MAX;
+> > > -             pdata->max_torch_brt[LM3560_LED1] = LM3560_TORCH_BRT_MAX;
+> > > -     }
+> > > -     flash->pdata = pdata;
+> > >       flash->dev = &client->dev;
+> > >       mutex_init(&flash->lock);
+> > >
+> > > +     bitmap_zero(flash->led_id, LM3560_LED_MAX);
+> > > +
+> > > +     flash->peak = LM3560_PEAK_1600mA;
+> > > +     rval = device_property_read_u32(flash->dev,
+> > > +                                     "ti,peak-current-microamp", &peak_ua);
+> > > +     if (!rval) {
+> > > +             switch (peak_ua) {
+> > > +             case 1600000:
+> > > +                     flash->peak = LM3560_PEAK_1600mA;
+> > > +                     break;
+> > > +             case 2300000:
+> > > +                     flash->peak = LM3560_PEAK_2300mA;
+> > > +                     break;
+> > > +             case 3000000:
+> > > +                     flash->peak = LM3560_PEAK_3000mA;
+> > > +                     break;
+> > > +             case 3600000:
+> > > +                     flash->peak = LM3560_PEAK_3600mA;
+> > > +                     break;
+> > > +             default:
+> > > +                     return -EINVAL;
+> > > +             }
+> > > +     }
+> > > +
+> > > +     flash->max_flash_timeout = LM3560_FLASH_TOUT_MIN * 1000;
+> > > +     device_property_read_u32(flash->dev, "flash-max-timeout-us",
+> > > +                              &flash->max_flash_timeout);
+> > > +     flash->max_flash_timeout /= 1000;
+> > > +
+> > >       rval = lm3560_init_device(flash);
+> > >       if (rval < 0)
+> > >               return rval;
+> > >
+> > > -     rval = lm3560_subdev_init(flash, LM3560_LED0, "lm3560-led0");
+> > > -     if (rval < 0)
+> > > -             return rval;
+> > > +     for_each_available_child_of_node(dev_of_node(flash->dev), node) {
 > >
+> > device_for_each_child_node(), please.
+> >
+> > > +             u32 reg;
+> > >
+> > > -     rval = lm3560_subdev_init(flash, LM3560_LED1, "lm3560-led1");
+> > > -     if (rval < 0) {
+> > > -             lm3560_subdev_cleanup(flash, LM3560_LED0);
+> > > -             return rval;
+> > > +             rval = of_property_read_u32(node, "reg", &reg);
+> >
+> > device_property_read_u32() here and elsewhere.
+> >
+> 
+> I have switched to OF equivalent deliberately because if I use
+> device_for_each_child_node I found no sane way to pass fwnode to
+> subdev_led since device_for_each_child_node releases fwnode handle it
+> uses and I cannot assign it to subdev_led.fwnode since it will result
+> in NULL pointer on loop exit
+
+device_for_each_child_node() is indeed meant the be functionally equivalent
+to for_each_available_child_of_node().
+
+If you need to hold a reference to the child node -- as I think you do --
+you'll need to call fwnode_handle_get() on it, as you'd call of_node_get()
+on OF API.
+
+> 
+> > > +             if (rval < 0)
+> > > +                     /* We care only about nodes with reg property */
+> > > +                     continue;
+> > > +
+> > > +             if (reg == LM3560_LED0 || reg == LM3560_LED1) {
+> > > +                     flash->max_flash_brt[reg] = LM3560_FLASH_BRT_MIN;
+> > > +                     of_property_read_u32(node, "flash-max-microamp",
+> > > +                                          &flash->max_flash_brt[reg]);
+> > > +
+> > > +                     flash->max_torch_brt[reg] = LM3560_TORCH_BRT_MIN;
+> > > +                     of_property_read_u32(node, "led-max-microamp",
+> > > +                                          &flash->max_torch_brt[reg]);
+> > > +
+> > > +                     rval = lm3560_subdev_init(flash, reg, node);
+> > > +                     if (rval < 0) {
+> > > +                             lm3560_subdev_cleanup(flash);
+> > > +                             return dev_err_probe(flash->dev, rval,
+> > > +                                                 "failed to register led%d\n",
+> > > +                                                 reg);
+> > > +                     }
+> > > +
+> > > +                     set_bit(reg, flash->led_id);
+> > > +             }
+> > >       }
+> > >
+> > >       i2c_set_clientdata(client, flash);
+> > > @@ -455,12 +510,17 @@ static int lm3560_probe(struct i2c_client *client)
+> > >  static void lm3560_remove(struct i2c_client *client)
+> > >  {
+> > >       struct lm3560_flash *flash = i2c_get_clientdata(client);
+> > > -     unsigned int i;
+> > >
+> > > -     for (i = LM3560_LED0; i < LM3560_LED_MAX; i++)
+> > > -             lm3560_subdev_cleanup(flash, i);
+> > > +     lm3560_subdev_cleanup(flash);
+> > >  }
+> > >
+> > > +static const struct of_device_id lm3560_of_match[] = {
+> > > +     { .compatible = "ti,lm3559" },
+> > > +     { .compatible = "ti,lm3560" },
+> > > +     { }
+> > > +};
+> > > +MODULE_DEVICE_TABLE(of, lm3560_of_match);
+> > > +
+> > >  static const struct i2c_device_id lm3560_id_table[] = {
+> > >       { LM3559_NAME },
+> > >       { LM3560_NAME },
+> > > @@ -473,6 +533,7 @@ static struct i2c_driver lm3560_i2c_driver = {
+> > >       .driver = {
+> > >                  .name = LM3560_NAME,
+> > >                  .pm = NULL,
+> > > +                .of_match_table = lm3560_of_match,
+> > >                  },
+> > >       .probe = lm3560_probe,
+> > >       .remove = lm3560_remove,
+> > > diff --git a/include/media/i2c/lm3560.h b/include/media/i2c/lm3560.h
+> > > index 770d8c72c94a..b56c1ff8fd49 100644
+> > > --- a/include/media/i2c/lm3560.h
+> > > +++ b/include/media/i2c/lm3560.h
+> > > @@ -66,19 +66,4 @@ enum lm3560_peak_current {
+> > >       LM3560_PEAK_3600mA = 0x60
+> > >  };
+> > >
+> > > -/* struct lm3560_platform_data
+> > > - *
+> > > - * @peak :  peak current
+> > > - * @max_flash_timeout: flash timeout
+> > > - * @max_flash_brt: flash mode led brightness
+> > > - * @max_torch_brt: torch mode led brightness
+> > > - */
+> > > -struct lm3560_platform_data {
+> > > -     enum lm3560_peak_current peak;
+> > > -
+> > > -     u32 max_flash_timeout;
+> > > -     u32 max_flash_brt[LM3560_LED_MAX];
+> > > -     u32 max_torch_brt[LM3560_LED_MAX];
+> > > -};
+> > > -
+> > >  #endif /* __LM3560_H__ */
+> >
+> > --
+> > Kind regards,
+> >
+> > Sakari Ailus
 
 -- 
 Sakari Ailus
