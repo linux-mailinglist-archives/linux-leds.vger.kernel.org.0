@@ -1,194 +1,176 @@
-Return-Path: <linux-leds+bounces-7998-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7999-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +N88LPH8+WkqFwMAu9opvQ
-	(envelope-from <linux-leds+bounces-7998-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 16:21:37 +0200
+	id jmUuJY7/+WljHAMAu9opvQ
+	(envelope-from <linux-leds+bounces-7999-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 16:32:46 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2953E4CF4BE
-	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 16:21:37 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A5454CF735
+	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 16:32:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CB90F305025D
-	for <lists+linux-leds@lfdr.de>; Tue,  5 May 2026 14:21:25 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id F35483004F13
+	for <lists+linux-leds@lfdr.de>; Tue,  5 May 2026 14:32:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71A6947F2E7;
-	Tue,  5 May 2026 14:21:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95D563793DC;
+	Tue,  5 May 2026 14:32:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="sDI00jQ1";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Rc0SZmpq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JAsz+C2b"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A8E4611C9;
-	Tue,  5 May 2026 14:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83D0377542
+	for <linux-leds@vger.kernel.org>; Tue,  5 May 2026 14:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777990881; cv=none; b=U/H6JdPglnDQou5JCYR1IDrr6mbqfOrreUYppx4cRC9qJup6pFqXY+sXLvMT23iAESgSsPf+uHBgqSV7AfbwuzGjfWjym5MnjzEzylY65w0uOadwKBCgMGTp7h+QL2uWSWLvNvh8agW7T/HcTZjEhBxuh1r1kXHDTXvsBHpqHT0=
+	t=1777991559; cv=none; b=XQtd4jRgAcdXClz/Y7Macz8ScX6Qft896PqvLj9adB6aCoY30T9BP/RqEnYluGA7ck2c4kpIKKf9zN7+xB6o1pySwPUvIQ0RW1J1zg8X11Ix+oz3AIGyZYrd2gKeB/mL/MuKdLflb8gDkQVuM0/lVX6Lo9UIDG2rNyYjqb8rzG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777990881; c=relaxed/simple;
-	bh=UHABoaJaVAWd4iASQin7/N6ZwFW6w62RIrEygv6fM24=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Djw5psbjH9JKuxDMq10cfIEzjELE6dGe3u8vvsGGRvLdpXUsHAQRDuCtX/t5Dngf3yxVkpwv3FIEOYmBwoHe3bfl7yatA78OJ8tjvlxH6H5qP/UK+4UTbAjQKplK0KyDg8ZJpfLG7MjFpYPP0ma4VxoZgE6zCj9L71YWP8cbBLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=sDI00jQ1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Rc0SZmpq; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 115D47A00AF;
-	Tue,  5 May 2026 10:21:17 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Tue, 05 May 2026 10:21:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1777990877;
-	 x=1778077277; bh=spFn28IaAcyoH75JuQR6dT/DLGGLgNP5S3NEjUd/CRQ=; b=
-	sDI00jQ1mC4Pg6tf3qeKQAxXsJ3xtCjh6xetpPiOP1xKXXK0FAH4NJ9/5XZYkrfJ
-	3PLo7byYiRJKfoBfw9B6hhgfzyWnCQL5ghwKTr9bMrEFLDqMpGs2CuPjRdTZLDWK
-	yCi8GOsjbtCxlDbaoSxNXEVWUQDkaIWya7Pyf4aMFdONDxg9Gg/iRq/Qv1RI30AR
-	ufE254QXO4ICKodpzg2ZaRg/nBLYJfRZOtFvyJaVZZVFcWAAw7+9eslBYhVAp5AJ
-	C2fmu+K/P+2GxUuaV/n1MIz5PTT6VCzztbDa1Ayyfw6otORsPLB1JGrGlDkcSp5i
-	5R6YuiBTiq6Ap5eZBjvzBw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777990877; x=
-	1778077277; bh=spFn28IaAcyoH75JuQR6dT/DLGGLgNP5S3NEjUd/CRQ=; b=R
-	c0SZmpqeFb4SraOePaaYXwRhDyeFDmKj51TEsazDbnMXeamuhBm9fIqXr7HRhSeQ
-	oIZIqfGFawiEGrW+TPwZNKze7byhvAm9dCcBL5II80mCt//mefSQ97ho3ZRC1cDu
-	+OCzbgdyIXtZSl+0NJRQvelSBmB76furUoj/16IRKY1OpD5l+bwi4PX/jq3UgArd
-	cblnzKUjw78oGAj35ltb/Gv09oR+UcWyY7I63RfYUJJxeQCYqzA0ml1zMf34viC5
-	wSXeHFar+y2vEpUGoE9o3sa3DodD1xzXHBT1zzswyOtdB3i4BBi8mK8MQHLf4Hmw
-	SVJaL5tQxxGU4ZgNtMADA==
-X-ME-Sender: <xms:3fz5aa9bT07BlI9ppMeRKRVUqVS8AH9LX57xJ6FbFdGlPD-gz9f7Ng>
-    <xme:3fz5aVgXDMdG0fmJcGSb2HHk4GlIbagpvC8mmQSDYeWy5-Gs3QQ1OkCHecmNa_ukS
-    qRFPQCAcC3vfsQMbfBkUB95RV9v7qG1LQqQ3XrMrMk_zVeTuATPHA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdduleefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopegumhhithhrhidrthhorhhokhhhohhvsehgmhgrihhlrdgtohhmpd
-    hrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrhhglhes
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheplhhinhhushifsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprghvvghl
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkh
-    hosehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheplhhinhhugidqghhpihho
-    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvg
-    hlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:3fz5aYpzM_D91L2EudDcttTAhTNrbjM6a5rfgon85XBdkuJKw-OKyQ>
-    <xmx:3fz5ac6zZhEWzL0MwImdb7EMRbKUjIaBkAJuvEQlykTBG4-bdHmEDg>
-    <xmx:3fz5aWjmewvPrre4rhQOf7L7kvdFAYfYbb6T-D0rmA4kXG0a4FCcLA>
-    <xmx:3fz5aS5dh8Pe6pGqUcJvBPlCmdNz0Rh2jPggWWiY95RUBbkVg9-_hA>
-    <xmx:3fz5aXiYm3iey7TdUl8ArUKW_wOh1aOAYVKpcrehHyedAw1z5LGwywNz>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 47C3D70006A; Tue,  5 May 2026 10:21:17 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1777991559; c=relaxed/simple;
+	bh=FDHbGuhskbBYK9B3ZIhL8JMcMmvyjfLkUA3LYinKnrs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=swkXqrvKXPdtIFr12lBScKPC7dkZTEXKKZoycchkkShFtyGRcb4WmiFvt0vcDGbktQkTjpaJWsQNr/WQb6XAKL84+hQ0zV6Ul5JTPY06c1HA1O8+dIrENVHZOqUD2kQwYXavQ+hwlnrct5G+D4/6LpM5CsaXNtqrq2H781SXXJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JAsz+C2b; arc=none smtp.client-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2b4520f6b32so8068546eec.0
+        for <linux-leds@vger.kernel.org>; Tue, 05 May 2026 07:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777991556; x=1778596356; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c88BAr8bO221fRKGDOrgPFzIl4l9xrFfjEQLmK4BdhM=;
+        b=JAsz+C2bnaQanMnMgZkPtYQcRLIjFDR01mIkrNxBPD5T56XgbWbHqbAnnWfIGiOZEJ
+         LVE4I4cLf050fLRUyl4fXfDlBqu84emJw0VBlFjFyhizfmBUDBPMVd9GlRc+xDo3Bk0C
+         pDG4FiEOv1ZEmlFtoO4AQb35AJhEon0jV6HoXfXKJ03dZ7nLPpE54S/PBy6791OSN6vn
+         YJr9Cf5GwjrKftGhiB25M9DABE3KkvcBuLGST++5XrPYEnRVdx4vOnlWYmPtLbOUgDmD
+         oGNIH/mROxxCmTB2+xvpiSGPsaMlUpsUAFZ69dxgNWINw9cP2oDXSVooX0rg1Wuox2mO
+         rRPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777991556; x=1778596356;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=c88BAr8bO221fRKGDOrgPFzIl4l9xrFfjEQLmK4BdhM=;
+        b=Rwz295C6s3WWkOTUhkuEvbcYfjiJlD9a9Q41QxLmVmpwOvp6a6/QwOI/x6gBkeWOvc
+         4L1jYLY+P8Yi+sO37+Vi9CCaiIqpKCcw2x30avYlKbP6GIN/r+gQHrRjniOWKxaF69UE
+         GYNFStncplAlxOwj0bpZR4vHevJrnTKHINmfzVije84r7IP4AUz4BXWZSvG9uxLR3OcS
+         Jndu6X2PfUbi5Dm7dFn/TWbDvCMc36g/fp4b/iNFos6bWvVlGJKAMj1nZgYCkRlPKh/j
+         xbES4/a3JOpU9GYUnW0bu7nVFHJt4V/Omu+RWPiS374U9AnempupEbi4rk2Xtb0AeuQP
+         9Eaw==
+X-Forwarded-Encrypted: i=1; AFNElJ8UK1HktfbjCgXd2ddjYPPzzRPvNiHvjC70eTKdyCQMUcUApuXta0ZOlrSrt5DbgG3KncAc0NOWPBTD@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyajd/+pxF9GTEcLWRioxwNolj9huzM/JePOqZYc4VERhM/Gwb5
+	GpETCQe9ik+8o6rggHLDggx867P6xHpDsP69Yftng5+bAYLltLkOrwRE
+X-Gm-Gg: AeBDieu+iTtCCyDmVVjDNChhM88YfVoynRxPayYrprhzpaf7zA5FrKAk9zq2mskwDFz
+	rAhpWA0/9lg/XC74XtSLLJvcDyC86YlvrWutWZxMvW9AgspSMeFxJxlrS7KKxkR1zt566tGBoYS
+	P6wjUDkLUvQUpp/wvzFh5em0pMao2wbzU6Wcp3zzj2cv1cKCZ8P3F67yiX/SRf9+6TaI3ZqMti/
+	PI4cqrwmkdAEiXucIgKm4LMlA4NvgM8cqY/mHgApE+c2pKLd7BPJnLLHQCLvhKSMp6CFYGV7VZe
+	IQhIP3e2G/fPW7LMs8RKqUrONu1zCydeFHNsH0QpN0AbUh5Q1ADrqGdk1uBCaQpC7wydp0suBh5
+	L9ii+l968YxVd9kk+YM9yQWEtcLkUVnLMZ1KTcSX2wmFnTo9Zd/KzZ99JVI42Dy1R++Y910gEDv
+	VX+YXhbxeQjJ0cvXhj/QbaTSsSdzOaGSY=
+X-Received: by 2002:a05:7300:d0f:b0:2ef:2878:7ad0 with SMTP id 5a478bee46e88-2efba5a7783mr6780606eec.27.1777991555590;
+        Tue, 05 May 2026 07:32:35 -0700 (PDT)
+Received: from arch.localdomain ([2409:8a28:a59:55d1::1002])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee3b29b11fsm20803843eec.19.2026.05.05.07.32.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2026 07:32:35 -0700 (PDT)
+From: Jun Yan <jerrysteve1101@gmail.com>
+To: krzk@kernel.org
+Cc: conor+dt@kernel.org,
+	daniel@zonque.org,
+	devicetree@vger.kernel.org,
+	jerrysteve1101@gmail.com,
+	krzk+dt@kernel.org,
+	lee@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	luccafachinetti@gmail.com,
+	pzalewski@thegoodpenguin.co.uk,
+	robh@kernel.org
+Subject: Re: [PATCH v2 3/5] dt-bindings: leds: leds-is31fl32xx: Add shutdown-gpios property
+Date: Tue,  5 May 2026 22:32:27 +0800
+Message-ID: <20260505143227.1263876-1-jerrysteve1101@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <b50cbdf4-a101-4ec5-8767-b62dcdb7d1e9@kernel.org>
+References: <b50cbdf4-a101-4ec5-8767-b62dcdb7d1e9@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: ARrtNTmGjyOc
-Date: Tue, 05 May 2026 16:19:47 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
-Cc: "Arnd Bergmann" <arnd@kernel.org>, "Lee Jones" <lee@kernel.org>,
- "Pavel Machek" <pavel@kernel.org>, "Linus Walleij" <linusw@kernel.org>,
- "Bartosz Golaszewski" <brgl@kernel.org>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Message-Id: <ffc24364-6732-47a1-8b56-e5d8b1488c57@app.fastmail.com>
-In-Reply-To: <afnvtid9rSoZ2dkQ@ashevche-desk.local>
-References: <20260430091202.2724109-1-arnd@kernel.org>
- <afhLS6xwHGm9_mLy@ashevche-desk.local>
- <bfecac99-3ec1-473a-bd5f-e49ae48aebf3@app.fastmail.com>
- <afnuY6IPvC7dgUC9@ashevche-desk.local> <afnvtid9rSoZ2dkQ@ashevche-desk.local>
-Subject: Re: [PATCH] [v2] leds: gpio: make legacy gpiolib interface optional
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 2953E4CF4BE
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 5A5454CF735
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.65 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[arndb.de,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[arndb.de:s=fm2,messagingengine.com:s=fm3];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_CC(0.00)[kernel.org,zonque.org,vger.kernel.org,gmail.com,thegoodpenguin.co.uk];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7998-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_FROM(0.00)[bounces-7999-lists,linux-leds=lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arnd@arndb.de,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[linux-leds];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[app.fastmail.com:mid,arndb.de:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,messagingengine.com:dkim]
+	FROM_NEQ_ENVFROM(0.00)[jerrysteve1101@gmail.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-0.995];
+	TO_DN_NONE(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 
-On Tue, May 5, 2026, at 15:25, Andy Shevchenko wrote:
-> On Tue, May 05, 2026 at 04:19:36PM +0300, Andy Shevchenko wrote:
->> On Tue, May 05, 2026 at 03:10:28PM +0200, Arnd Bergmann wrote:
->> > On Mon, May 4, 2026, at 09:31, Andy Shevchenko wrote:
->> >        struct gpio_desc *gpiod;
->> > 
->> >        gpiod = devm_gpiod_get_index_optional(dev, NULL, idx, GPIOD_OUT_LOW);
->> 
->> >        if (gpiod && !IS_ERR(gpiod));
->> 
->> And this is not needed. The below is NULL-aware.
->
-> To be clear
->
->         struct gpio_desc *gpiod;
->
->         gpiod = devm_gpiod_get_index_optional(dev, NULL, idx, GPIOD_OUT_LOW);
->         if (!IS_ERR(gpiod))
->                 gpiod_set_consumer_name(gpiod, template->name);
->
->         return gpiod;
->
-> But looking at the original code, I would leave another return, so
+> On 28/04/2026 04:33, Jun Yan wrote:
+> > The IS31FL32XX series features an SDB shutdown pin.
+> > Driving it low (active low) places the chip into hardware shutdown mode
+> > for power saving, while all register contents are preserved
+> > and registers are not reset.
+> > 
+> > Add shutdown-gpios property to describe the GPIO connected to the
+> > SDB pin of IS31FL32XX series LED controllers.
+> > 
+> > Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
+> > ---
+> >  .../devicetree/bindings/leds/issl,is31fl32xx.yaml    | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/leds/issl,is31fl32xx.yaml b/Documentation/devicetree/bindings/leds/issl,is31fl32xx.yaml
+> > index 25ce67940c88..4654aa07dc63 100644
+> > --- a/Documentation/devicetree/bindings/leds/issl,is31fl32xx.yaml
+> > +++ b/Documentation/devicetree/bindings/leds/issl,is31fl32xx.yaml
+> > @@ -45,6 +45,15 @@ properties:
+> >        When present, the chip's PWM will operate at ~22kHz as opposed
+> >        to ~3kHz to move the operating frequency out of the audible range.
+> >  
+> > +  shutdown-gpios:
+> 
+> powerdown-gpios (see gpio-consumer-common)
 
-Right, I actually had this at first, but decided to keep the NULL
-check because that was used in the driver already.
+Thanks for the reminder.This has already been implemented in v3. 
+Sorry for the late reply.
 
-I've dropped it again now.
-
->> >   gpiod = devm_gpiod_get_index_optional(dev, template->name, i, GPIOD_OUT_LOW);
->> > 
->> > Did I get that right? If so, I'll fold that in as another
 >
-> Nope, the con_id != consumer name. Can't be done this way.
+> > +    maxItems: 1
+> 
+> 
+> 
+> Best regards,
+> Krzysztof
 
-I see. I had tried to find an existing interface that sets
-the consumer name and saw that gpiod_get_index() internally
-uses con_id as the label if set, but I missed that this would
-break the actual lookup in gpio_desc_table_match() because the
-13 lookup tables are of course all defined by index rather than
-by name.
-
-      Arnd
 
