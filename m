@@ -1,153 +1,194 @@
-Return-Path: <linux-leds+bounces-7997-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7998-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mL0DKa38+WkqFwMAu9opvQ
-	(envelope-from <linux-leds+bounces-7997-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 16:20:29 +0200
+	id +N88LPH8+WkqFwMAu9opvQ
+	(envelope-from <linux-leds+bounces-7998-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 16:21:37 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BBB14CF44D
-	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 16:20:28 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2953E4CF4BE
+	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 16:21:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 596053048399
-	for <lists+linux-leds@lfdr.de>; Tue,  5 May 2026 14:17:35 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CB90F305025D
+	for <lists+linux-leds@lfdr.de>; Tue,  5 May 2026 14:21:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D1EE48034A;
-	Tue,  5 May 2026 14:17:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71A6947F2E7;
+	Tue,  5 May 2026 14:21:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pzl3OPmN"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="sDI00jQ1";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Rc0SZmpq"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD32147F2E7
-	for <linux-leds@vger.kernel.org>; Tue,  5 May 2026 14:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777990629; cv=pass; b=VGqWRkHcAP0euQQNUa7XH2GdkVh4dY2O6ZySen/UsBdUHDw7FQpmOiiX/yLniaiq5N44FmljJs7QAQtO7r+0ZLBFSHbHStJpL0ancwAiAcP0nRwQBkjEBxtVdQAMSv0KHPH32BM0iFI48bP4VDI0+V6IIXcLQpgcOXP5oNbqDMM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777990629; c=relaxed/simple;
-	bh=FB2RoDWHRP5TG5kB/5M7XrFIp8sR/BsgKWGfpjGsJ7Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NGIrjg1fG6Yr7+WsCpyasKv459+1qycJAj5uqayy0B2y7i4UIwbsrlLMej1ucflVFvyS3yWImyw48DQZIS7EzLSNbjhYzPxtVZMW5gD5rAkUVIfBVDHIZbtNgFSb+qzlQslPxuVnTb5XoqYU4xud+MAyQ/ffibrAKgOstW9p0fU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pzl3OPmN; arc=pass smtp.client-ip=209.85.167.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-464bba3a9easo2693160b6e.0
-        for <linux-leds@vger.kernel.org>; Tue, 05 May 2026 07:17:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777990627; cv=none;
-        d=google.com; s=arc-20240605;
-        b=SEuB9AIL3Ip5F4MCziTkHRvcYwy5zzS65i3k/YgvXn8/1Oct0cie8lTsYO3aNZdOYv
-         D8PwFFM4Q9+e5+6sm8p8lJsCmkzLoR4oLlKkzPkMdP0rmEMReXJIxXDVM8ORSWO8yXte
-         KN7zK2Q2Frno17FrU+dOyLz/jnS1l7N9c5oqqaElrnGIpTV6Ba9T4C+IptVVtas+of8H
-         LDXVwebWgWsrlQhX9nGqX6qlYHh3zzZbSiRnQE/sd0JE56fdNcHd7nZP8+ev+FPOAruD
-         ODMqi6m9do/2KqPAEv5ESQIvjWI4AcDw4oEEQ2SMd/Sij9uLge/VzorUX/nG8dnkdiNU
-         zEHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=FB2RoDWHRP5TG5kB/5M7XrFIp8sR/BsgKWGfpjGsJ7Q=;
-        fh=QZZJltXDTdH3hag43w31ymmH0RrVsijlEwlC9ZoS77Y=;
-        b=gUJeCNTJEkLZTKPwOtq9Cb8zzKxKzpiI9ZhXdf/3W3HphAz8zdVv6AfJp1B+1qxILx
-         kiG6COa+hmkzgzWEwGZzAaZuuCGfWMxC2sbUYciL/zAgeKT968K0UcjmS7vH4oRMlYpk
-         J/FUiMmTAgiwelLqwOMkUblZ6qgMxkykJja5o8uIyhOuRQhobFUD5XklSxm5DN2aReK7
-         4jms+shJnixJb9+RFuVvFG3U06hijpSS0ME0K/Q19pfj8Xx0kJK7MrRLv/g2emH9EzAN
-         8pWTjYikZWRDqE474E0JLmvmJ2g7qrJ5jrIUNUxOQkn16bcaVGsV4ZzYSX2eWu9zGXqp
-         0uPw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777990627; x=1778595427; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FB2RoDWHRP5TG5kB/5M7XrFIp8sR/BsgKWGfpjGsJ7Q=;
-        b=Pzl3OPmNbRFXefl9IcOnZA7H9fMzRofk5oQ+2HSS1vsO9iD9sJrjwwbXTK5YieAQMF
-         CaJ1+dTVLk6GYf8mryxwZegBd+xDZq6ZC9yBqF6/6K34p625kz6Q2ARKA2cZ29CWbUpd
-         FLHdSBHl5xAKp7GGfHvxDWtedmG2JKpCX0aBvTzk5EiYUopWd09qkD+oh8NwgFmnCMGj
-         ZAc5rE85g8uC++QPdij++lKYb1Ibe4ycdaTLUkd5dZq1HbSh2pUCV57EenppwJxsetWX
-         MRh3sY/2kfJegNqkrCa+UGe3Yp6OdgVbd7Cj743W3oeiKU2Cisf4pv42h+GaU8M10Eew
-         Wflw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777990627; x=1778595427;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FB2RoDWHRP5TG5kB/5M7XrFIp8sR/BsgKWGfpjGsJ7Q=;
-        b=rkaPag92ZtdUSMp+S3X3Wf7C2lOIagAObFq83J4GadBHc2bs2xw5OZQI6uj+pdY5sw
-         WsLPj+zAJ0aduWERjdb1nxAU9vFyHtak+lMPOG7HVslOJI4yOdKzFvSslfbHjaot7YzN
-         hMI++293SkubuD2fWEcv2t3tALo4Ul1zYc72DWFlngFUHMHRQXTznF3hazxAVATZkEnn
-         IyHO3x4kPncjcxOee+n/oB1Z5KxI0agA/rkNra8mHMWwrgDS0AFiYu67/M+CfvSJs3sW
-         KULRgLhVCRWM5G+nluDoNxQD/CwvhipibbOt2Md0BGrM+k41fgW9eID+u6s/BvqDqCyV
-         xYSg==
-X-Forwarded-Encrypted: i=1; AFNElJ+snM6Dkiug8m5hZLu01AzHJcIB2I5YU8cLfylI3MO+GNUPYN5s4mI5KR6WJIxMzjyWI31yTavxbAH0@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWlFtWtzef1nqMceyH4+ptPxiLzSJzBh/NPOFfj6Tn1Ba7Ss3n
-	XXJhfkBG6jAj5GgSd7dQ7kRdsmSQAJ+8WpYnNJ7p3GfgXeufGA8GvwWoEB/6ySt7jvAm+WEi3FM
-	AolBTMl37SCvWr2m1LWVqH/ixXRxy55E=
-X-Gm-Gg: AeBDievFa98LAuJuZtgI9/DKKNf2ijWWg6j3rFlwpoXgLR7hEBgCYULof/GzUbM5Ju4
-	ETUG1nTdvxATUqPhrMYe8W/lHZ2i6wEaSwP6TLH7+JgBBej+sJIyo9I74n/zGUFYYUw7f8L9+mN
-	TAyzPWc9uFmgtmFI+lNzmTlvnJ3K4D/JAwHx4iz13JmmKPFU7X6MnVN7xYq4wJInxrg8z++kSCL
-	HdGZhqrpNbiQBaKJl/czWTDdBrFTU/SClH5Pj3P6tYAuyIsAjq0lXCUfPlD4UsVrrUFBT+lH8P6
-	fIZGqW8D7SAcPL4IKHoa8zEDdC4=
-X-Received: by 2002:a05:6808:f8c:b0:47c:374:20cc with SMTP id
- 5614622812f47-47c892445ccmr6953376b6e.27.1777990626486; Tue, 05 May 2026
- 07:17:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A8E4611C9;
+	Tue,  5 May 2026 14:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777990881; cv=none; b=U/H6JdPglnDQou5JCYR1IDrr6mbqfOrreUYppx4cRC9qJup6pFqXY+sXLvMT23iAESgSsPf+uHBgqSV7AfbwuzGjfWjym5MnjzEzylY65w0uOadwKBCgMGTp7h+QL2uWSWLvNvh8agW7T/HcTZjEhBxuh1r1kXHDTXvsBHpqHT0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777990881; c=relaxed/simple;
+	bh=UHABoaJaVAWd4iASQin7/N6ZwFW6w62RIrEygv6fM24=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Djw5psbjH9JKuxDMq10cfIEzjELE6dGe3u8vvsGGRvLdpXUsHAQRDuCtX/t5Dngf3yxVkpwv3FIEOYmBwoHe3bfl7yatA78OJ8tjvlxH6H5qP/UK+4UTbAjQKplK0KyDg8ZJpfLG7MjFpYPP0ma4VxoZgE6zCj9L71YWP8cbBLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=sDI00jQ1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Rc0SZmpq; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 115D47A00AF;
+	Tue,  5 May 2026 10:21:17 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Tue, 05 May 2026 10:21:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1777990877;
+	 x=1778077277; bh=spFn28IaAcyoH75JuQR6dT/DLGGLgNP5S3NEjUd/CRQ=; b=
+	sDI00jQ1mC4Pg6tf3qeKQAxXsJ3xtCjh6xetpPiOP1xKXXK0FAH4NJ9/5XZYkrfJ
+	3PLo7byYiRJKfoBfw9B6hhgfzyWnCQL5ghwKTr9bMrEFLDqMpGs2CuPjRdTZLDWK
+	yCi8GOsjbtCxlDbaoSxNXEVWUQDkaIWya7Pyf4aMFdONDxg9Gg/iRq/Qv1RI30AR
+	ufE254QXO4ICKodpzg2ZaRg/nBLYJfRZOtFvyJaVZZVFcWAAw7+9eslBYhVAp5AJ
+	C2fmu+K/P+2GxUuaV/n1MIz5PTT6VCzztbDa1Ayyfw6otORsPLB1JGrGlDkcSp5i
+	5R6YuiBTiq6Ap5eZBjvzBw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777990877; x=
+	1778077277; bh=spFn28IaAcyoH75JuQR6dT/DLGGLgNP5S3NEjUd/CRQ=; b=R
+	c0SZmpqeFb4SraOePaaYXwRhDyeFDmKj51TEsazDbnMXeamuhBm9fIqXr7HRhSeQ
+	oIZIqfGFawiEGrW+TPwZNKze7byhvAm9dCcBL5II80mCt//mefSQ97ho3ZRC1cDu
+	+OCzbgdyIXtZSl+0NJRQvelSBmB76furUoj/16IRKY1OpD5l+bwi4PX/jq3UgArd
+	cblnzKUjw78oGAj35ltb/Gv09oR+UcWyY7I63RfYUJJxeQCYqzA0ml1zMf34viC5
+	wSXeHFar+y2vEpUGoE9o3sa3DodD1xzXHBT1zzswyOtdB3i4BBi8mK8MQHLf4Hmw
+	SVJaL5tQxxGU4ZgNtMADA==
+X-ME-Sender: <xms:3fz5aa9bT07BlI9ppMeRKRVUqVS8AH9LX57xJ6FbFdGlPD-gz9f7Ng>
+    <xme:3fz5aVgXDMdG0fmJcGSb2HHk4GlIbagpvC8mmQSDYeWy5-Gs3QQ1OkCHecmNa_ukS
+    qRFPQCAcC3vfsQMbfBkUB95RV9v7qG1LQqQ3XrMrMk_zVeTuATPHA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdduleefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopegumhhithhrhidrthhorhhokhhhohhvsehgmhgrihhlrdgtohhmpd
+    hrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrhhglhes
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtoheplhhinhhushifsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprghvvghl
+    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkh
+    hosehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheplhhinhhugidqghhpihho
+    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvg
+    hlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:3fz5aYpzM_D91L2EudDcttTAhTNrbjM6a5rfgon85XBdkuJKw-OKyQ>
+    <xmx:3fz5ac6zZhEWzL0MwImdb7EMRbKUjIaBkAJuvEQlykTBG4-bdHmEDg>
+    <xmx:3fz5aWjmewvPrre4rhQOf7L7kvdFAYfYbb6T-D0rmA4kXG0a4FCcLA>
+    <xmx:3fz5aS5dh8Pe6pGqUcJvBPlCmdNz0Rh2jPggWWiY95RUBbkVg9-_hA>
+    <xmx:3fz5aXiYm3iey7TdUl8ArUKW_wOh1aOAYVKpcrehHyedAw1z5LGwywNz>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 47C3D70006A; Tue,  5 May 2026 10:21:17 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260503072643.2774762-7-jye836@gmail.com> <202605050414.YJmW3t4y-lkp@intel.com>
-In-Reply-To: <202605050414.YJmW3t4y-lkp@intel.com>
-From: James Ye <jye836@gmail.com>
-Date: Wed, 6 May 2026 00:16:53 +1000
-X-Gm-Features: AVHnY4IHW_EApghA23w0AimDU8GeJhlp8R6o_CN6px5MGNoaZm9YKYzSqzJ4U4c
-Message-ID: <CAEV1_7HRUhPHorhKoaC5a1f7-hyLpDWrLG29XHfc4SmeffpmpA@mail.gmail.com>
-Subject: Re: [PATCH 6/6] leds: led-class: mark classdev as unregistering early
-To: kernel test robot <lkp@intel.com>
-Cc: jikos@kernel.org, bentiss@kernel.org, lee@kernel.org, pavel@kernel.org, 
-	oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org, 
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	denis.benato@linux.dev
-Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: 4BBB14CF44D
+X-ThreadId: ARrtNTmGjyOc
+Date: Tue, 05 May 2026 16:19:47 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
+Cc: "Arnd Bergmann" <arnd@kernel.org>, "Lee Jones" <lee@kernel.org>,
+ "Pavel Machek" <pavel@kernel.org>, "Linus Walleij" <linusw@kernel.org>,
+ "Bartosz Golaszewski" <brgl@kernel.org>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, linux-leds@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Message-Id: <ffc24364-6732-47a1-8b56-e5d8b1488c57@app.fastmail.com>
+In-Reply-To: <afnvtid9rSoZ2dkQ@ashevche-desk.local>
+References: <20260430091202.2724109-1-arnd@kernel.org>
+ <afhLS6xwHGm9_mLy@ashevche-desk.local>
+ <bfecac99-3ec1-473a-bd5f-e49ae48aebf3@app.fastmail.com>
+ <afnuY6IPvC7dgUC9@ashevche-desk.local> <afnvtid9rSoZ2dkQ@ashevche-desk.local>
+Subject: Re: [PATCH] [v2] leds: gpio: make legacy gpiolib interface optional
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 2953E4CF4BE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+X-Spamd-Result: default: False [-0.65 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[arndb.de,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[arndb.de:s=fm2,messagingengine.com:s=fm3];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7997-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jye836@gmail.com,linux-leds@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-7998-lists,linux-leds=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[arnd@arndb.de,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
+	NEURAL_HAM(-0.00)[-0.998];
 	TAGGED_RCPT(0.00)[linux-leds];
 	RCPT_COUNT_SEVEN(0.00)[10];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email,mail.gmail.com:mid]
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[app.fastmail.com:mid,arndb.de:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,messagingengine.com:dkim]
 
-On Tue, 5 May 2026 at 12:24, kernel test robot <lkp@intel.com> wrote:
+On Tue, May 5, 2026, at 15:25, Andy Shevchenko wrote:
+> On Tue, May 05, 2026 at 04:19:36PM +0300, Andy Shevchenko wrote:
+>> On Tue, May 05, 2026 at 03:10:28PM +0200, Arnd Bergmann wrote:
+>> > On Mon, May 4, 2026, at 09:31, Andy Shevchenko wrote:
+>> >        struct gpio_desc *gpiod;
+>> > 
+>> >        gpiod = devm_gpiod_get_index_optional(dev, NULL, idx, GPIOD_OUT_LOW);
+>> 
+>> >        if (gpiod && !IS_ERR(gpiod));
+>> 
+>> And this is not needed. The below is NULL-aware.
 >
-> Hi James,
+> To be clear
 >
-> kernel test robot noticed the following build errors:
+>         struct gpio_desc *gpiod;
+>
+>         gpiod = devm_gpiod_get_index_optional(dev, NULL, idx, GPIOD_OUT_LOW);
+>         if (!IS_ERR(gpiod))
+>                 gpiod_set_consumer_name(gpiod, template->name);
+>
+>         return gpiod;
+>
+> But looking at the original code, I would leave another return, so
 
-This is due to CONFIG_HID_BATTERY_STRENGTH being turned off, I will
-fix it in the next version.
+Right, I actually had this at first, but decided to keep the NULL
+check because that was used in the driver already.
+
+I've dropped it again now.
+
+>> >   gpiod = devm_gpiod_get_index_optional(dev, template->name, i, GPIOD_OUT_LOW);
+>> > 
+>> > Did I get that right? If so, I'll fold that in as another
+>
+> Nope, the con_id != consumer name. Can't be done this way.
+
+I see. I had tried to find an existing interface that sets
+the consumer name and saw that gpiod_get_index() internally
+uses con_id as the label if set, but I missed that this would
+break the actual lookup in gpio_desc_table_match() because the
+13 lookup tables are of course all defined by index rather than
+by name.
+
+      Arnd
 
