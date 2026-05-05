@@ -1,862 +1,243 @@
-Return-Path: <linux-leds+bounces-7991-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7992-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mJ9FCjeL+Wnh9gIAu9opvQ
-	(envelope-from <linux-leds+bounces-7991-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 08:16:23 +0200
+	id UO9zOFvL+Wn3EAMAu9opvQ
+	(envelope-from <linux-leds+bounces-7992-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 12:50:03 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8DA64C723E
-	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 08:16:22 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE704CBD3A
+	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 12:50:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id ABB7D3006149
-	for <lists+linux-leds@lfdr.de>; Tue,  5 May 2026 06:16:21 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C277B304A099
+	for <lists+linux-leds@lfdr.de>; Tue,  5 May 2026 10:29:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D85C233DED9;
-	Tue,  5 May 2026 06:16:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1791F2D8DC3;
+	Tue,  5 May 2026 10:29:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="E+WBRSuH";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UaTFZKTi"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C8531717D
-	for <linux-leds@vger.kernel.org>; Tue,  5 May 2026 06:16:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84903016F5
+	for <linux-leds@vger.kernel.org>; Tue,  5 May 2026 10:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777961780; cv=none; b=uoboLg2IIrBpGf7ttjjqUICVvkPcsezJoDGlvqC9taxqZhLUVCd8NyTt1a/9toxX9PkAqG+ezV5y3jficZtv5toGHisn4O9g4+GMXtX3DvPBdaOPeHhly2nNzVbc+0o3vjxVPpGO2yWSXp8TIDL8f6ASQAaNMhOZAXHAW/AdyzM=
+	t=1777976941; cv=none; b=VjeVtup9zLEKqMkd419zpl962qsbblmyy2akiY1Fff0IClj5zDEh1fPoz8QieR0nABNj6u3/BSQEVnJtgzyMlhcz+fiASIIA2hqURIEOTTfY2Axa6iisPZvuAtPRPfnyj4brdefcicpUUkVh+C7AMEgyc3X8GwO8Ax3LiZUDz0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777961780; c=relaxed/simple;
-	bh=/XFG0m/gvSN0pgOJDOEFJS8PeUNJF4lBm7hTaFH6Vdg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=FK7mSCcWVtGG9GKdcWqOAHAd4pqjAd1UZjnJbgNGxDDQYBJV5j9thkYZHU5LRBoA5nZRTS4pQnk1BlFsJ/1dFjMja0cGdbpVCAcjwvMUthbpu8tb0tUY2vcRfCeQ1zaB9t5gAx7rGm+VWcZ0LeV2hkYs8SETGMc/BcRpmLvT40w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=ratatoskr.trumtrar.info)
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <s.trumtrar@pengutronix.de>)
-	id 1wK94q-0002oY-Rr; Tue, 05 May 2026 08:16:16 +0200
-From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Date: Tue, 05 May 2026 08:16:10 +0200
-Subject: [PATCH v10] leds: add support for TI LP5860 LED driver chip
+	s=arc-20240116; t=1777976941; c=relaxed/simple;
+	bh=kILhQAgY3kLM16GxFMfnMK5G+NAgnlyKR3dgRK8YfZk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rmNe5HwiWcdlIA2Q3EpQOIgP8QQRFA4qV54CICHSOB6oNYNB6V8NixDHVcKjdbB0ygeDv6a9Jcqdx4G0VgHl+rDgkVf9YsToSWEUNYZolm73ZRjvOw3aLXFaLc8hC/ndkfa5BHippyDZ7PyOXQRu+ALVGLfyldpfukipGzM3dcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=E+WBRSuH; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UaTFZKTi; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6456HHmr331125
+	for <linux-leds@vger.kernel.org>; Tue, 5 May 2026 10:28:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=HNlj60pJs02U5K85HJFOtq
+	Zd7kl+At2FS1ldDOM8a5U=; b=E+WBRSuHgX8tuxSzKI1QFKFVkIjX265Hi2b9Rk
+	qt2ZUpzOxrqWTxNzjWrWv5od9PCeXOFmgSOcyevZ+NDTeysIICCkOxDrmaxwRpkT
+	q0KIdSvZ2c68X1ap6eCnC+8YVfvjp0ay4Nc9r85Hvwp5rY7EoE1XeCK4JWuUWRxp
+	773SCZVke0K280g13Ok02Qu2zN625zq4NYUqfg8SqmGtq5gxLMpwTeGqN6lzu4ca
+	TZhdhJkB4keP1btznh9QYLxyLVhxRN6RvSKn0j7HG0WEyL2zhA9eSbuIB9BijW//
+	mJIxj9+kqo7T0mEXVWW52rFcU4AdY/IJWk8laI4k0++DF56g==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dxvr1c0s8-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-leds@vger.kernel.org>; Tue, 05 May 2026 10:28:58 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-5104b861649so22560951cf.1
+        for <linux-leds@vger.kernel.org>; Tue, 05 May 2026 03:28:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1777976938; x=1778581738; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HNlj60pJs02U5K85HJFOtqZd7kl+At2FS1ldDOM8a5U=;
+        b=UaTFZKTiGXDC3fsd5aDDEOGfQcqQfhMYwn8/KVaC97TnFBd2XUzKrAz3lrbb7dPtIO
+         XcuCjGFio5OrdjFK+qgdTuAKzKh8WQ03bJzDfB/eeTnrEv9GlCHj6+gjNkPlygvfjydH
+         mygqsDIHax38KqD1WvLryr1za7KiVt6B56FF2H0ICUd3qPJpN/XDRUsqOGXyEMn5F/42
+         Na3Dn+QHDZxYo9ZAgwNr/7vgUYWgdG8FyLz48tRxaOzlpR4CW6j+lnuDAVqshhsAoCDA
+         mMsJoZl2BxaO6Nu1Zc6nlw0zrHEHm91SK/iDAPMS0Kh7DhYyMbDfwoYyM7x9Ynz8LAA9
+         0dyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777976938; x=1778581738;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HNlj60pJs02U5K85HJFOtqZd7kl+At2FS1ldDOM8a5U=;
+        b=AitsUwI6Er4xC3uWf1yUmvMVXsdHyyWmuKBTjodFL4HLEQuitcL1YYf2MLbLSdjekb
+         9kqa9xTbVOt0wgYyZK6ykvFCZRZ3xLwq56iT3fJmRLfBEaj4j4NGGsrGoaYo1/zeh+p3
+         EteQslSPk1QiJogMbCSfXFwa0ogBFvyDGqvBTTYDMCgZHF5bmVU97M29B2TJisr1jRzX
+         1OoTte/YGCG7+HZr6TzCHoJneS4zI5+njt+7xr1ZV1cxF9FIOxmXSVCSemZPzIT4tswk
+         N5VNrxWxMIBeIzczoQ1qHjlkkxS9nSvFB8btypkADQIRfmjGj1p71OMIF0jW0or75fen
+         vjSw==
+X-Forwarded-Encrypted: i=1; AFNElJ/oGDGIgTPMMZYEHBynIIaeKhkQtta/eahjEaDrYRxTbZ8qVTl20lWOLcUMrwQrD+Hla4flaso5XMEP@vger.kernel.org
+X-Gm-Message-State: AOJu0YwosGbi0gQFrtBBSn26db+TD95YOD2mPNzNce1NG4E7lIms8w28
+	UtrNYPrIH85valHPdBOWJk4RET0zWABmo5xbDHoYIyM1BLw+jlb6gwjoY6qSVA0gNJIAMW47Pge
+	usCfRbTDh+8tmi/ZuoEpnuSpFwm5WtCLJFOOoFvsOE6KtVvSm6PFlHprQlofExFlG
+X-Gm-Gg: AeBDiesOYEoQ7RBrfIJMprgKci244g0f4oZ1dY0Nq6iGagAuPGvMT3taZOrposAojW6
+	zj58J0iep9RTruvoWJ2ne89oBCf/aSTGiGkykhXg+VWrDBzPd5+AfTEBCYe9Pd2GgfHvnR0Ew/I
+	99xOq0dx5qQj860gwLZn1dpH9tf+39Ml6aYBc5xqFdSk5aHUImnrIs1PQJGMCTBolaPtyPacvy3
+	YHAYBgDWYgG0tNOBpdFixfxwsEPZFjJpNBwDlwyw4PkDmbHvO8IQ8yeoBticNs4wvvc8l59Uhee
+	xXBNcZlLPBJTT2UfaDpgUXYnGEpv5VnSZu15HmVogzcFhlg0Rp1YZBfqmZRfBLmYrQHxvL/KqkV
+	TN06V9Mw6ZhUMmFImelzi4e77ZxXEyAjfvXY9cbvpOuGiaAs=
+X-Received: by 2002:a05:622a:a12:b0:50e:5b04:810b with SMTP id d75a77b69052e-51306a53f21mr35472601cf.32.1777976931471;
+        Tue, 05 May 2026 03:28:51 -0700 (PDT)
+X-Received: by 2002:a05:622a:a12:b0:50e:5b04:810b with SMTP id d75a77b69052e-51306a53f21mr35472161cf.32.1777976930638;
+        Tue, 05 May 2026 03:28:50 -0700 (PDT)
+Received: from quoll ([178.197.219.94])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a8eba865fsm307039245e9.10.2026.05.05.03.28.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2026 03:28:49 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        William Zhang <william.zhang@broadcom.com>,
+        Anand Gore <anand.gore@broadcom.com>,
+        Kursad Oney <kursad.oney@broadcom.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
+        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+        =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        chrome-platform@lists.linux.dev
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH] leds: Move MODULE_DEVICE_TABLE next to the table itself
+Date: Tue,  5 May 2026 12:28:45 +0200
+Message-ID: <20260505102846.186219-2-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260505-v6-14-topic-ti-lp5860-v10-1-ee29341a75e4@pengutronix.de>
-X-B4-Tracking: v=1; b=H4sIACmL+WkC/3XSzWrDMAwH8FcpPs9D/pTd095j7ODYTmsYSUiy0
- FH67lPLtgxmHyXwz0J/XdmS55IXdjxc2Zy3spRxoELA04HFcxhOmZdEDSZBGpDC881yofk6TiX
- ytfD3yTgLvJcmaNdZGdEzejvNuS+XB/z6RvW5LOs4fz7+2cS9+y1KaIib4MC1dKi7FNEI9TLl4
- fSxzuNQLs8pszu7yZ0yhDQoSRTKHKPrgw4Jq5TaKS9Ei1JEKQ+oXO59QlGl9C8lALBFaaK8RTQ
- OrO8sVCmzU0I0d2WIMh0idt4HD6ZK2R/KUpDNqajLjQ5obaI8QVYp3CkFrZvYkKhO5GSjDRpjr
- lJupzSoFuWIykJidpAdmlCl/B9KNo/B36fSOiHtNKH+n+DtdvsC0irzpBgDAAA=
-X-Change-ID: 20250219-v6-14-topic-ti-lp5860-f25a48b62c79
-To: Nam Tran <trannamatk@gmail.com>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
- Steffen Trumtrar <s.trumtrar@pengutronix.de>
-X-Mailer: b4 0.15.2
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: s.trumtrar@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Rspamd-Queue-Id: B8DA64C723E
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2053; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=kILhQAgY3kLM16GxFMfnMK5G+NAgnlyKR3dgRK8YfZk=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBp+cZe19spmhey6vI4b/7yFmBq15pM1VGw4Lnc/
+ 0yugqzzGR+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCafnGXgAKCRDBN2bmhouD
+ 1+IREACFnSRy7ju4VscC9G9J/FnjAyyotS+ISKZWGydzAX1MOB9PooZ37Sf5UDalokelUZojWyx
+ +WlYegVlUgcHuj/owKI0xzKKlWPvAiZvZBJF8xpz7fB//0+gOLZTmASdI7KAc5m5baDtLHlCRU3
+ yff/QwPa9U7qxINvtbwkiehLmw5d3kX2DBty0i0w1HsYcwsKuy3dEMamsQOyuugpFVUGg0vVnCv
+ ElCuozk6ISPxKfqvd45OW/Tkc97bsYI5CcMMwcjJLxX4iQcJ6fKfVWC6rPEgiNlWYwflU8chPGz
+ ZmbMxsaWTHZFcs1jiuui6sdmWSzjErhXteLFfaMg2NasVX4D6tnOpzF/Kl365cs1RBwryLXuvob
+ WH40NocFZJsHEUelaeXcj6Ac10I2mP3CL8tet14HSRM/8SZEIhwsgvdTA2bTMEmHngqHIGhwvJZ
+ nxnMOGPyFkORQDTKppoyrEwt4QCdexA3JMjD5q2kQSQocvIZtO5w9c2tmp0E7VOo8UneY5k16pM
+ Iiwuc8ycvpIFz1YByD45DRaYhWEnUGX8Hy+I17MvaP5mTrutYXVLlUGo4r0LyahbdA1HnfIvrfU
+ B0/GdY76K0MGfugaaFX6+dWIvth2w1djgET7sYBihXCBz2OC3o7iZ7PkwdhD7iIqMxppz9GjGf/ YrfAMNmEyXD8bVQ==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: 5Nc4ICJmj_W4AE3omHQDvGrsFUQgoxz_
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA1MDA5NyBTYWx0ZWRfX0dHBS3FswShJ
+ LNkFkTiKPQBWH3t1W9hIbUDZF2uv/9xe8pEL0zg7RKzBvbCd7d//WDS6N1+Jy5phWODd45rpQwj
+ 3dayh0+rwmbOOnAC/kzDmbeRLge3x4Yz/5HR0u5vHGEvnTDbfFZVINXEp7CcsPNH4Nh3SHmJAsc
+ S9BEuh5vMg44RMSM/YyL1L/C8UK3aAVxFBfH2tuV7CEKM7f3KYrj6mazfaM+hU31kBbxkrap09X
+ jQRfio+r4oq10X4doCr+LIQ7ob6lXO/vjIyMHDj/mAzJryMBmfmMOBhHG64g/RxFyYro29nH8ix
+ afIMC6gzJAXWuBvkLLgT10RiJN8ctXeyWdml9h3CguIMEEWd0NxgY9/eLEtpKB6Fi3aJ3bf6wEU
+ RLNbhIVX0XctbX/M8/AkFQJqT+R3YymYMy7fDPVXBCxmpowmikPzhlFrQ4RY6CIsdZJvhiMBYro
+ iN1IPX0vi6gHlTv5ZQQ==
+X-Proofpoint-GUID: 5Nc4ICJmj_W4AE3omHQDvGrsFUQgoxz_
+X-Authority-Analysis: v=2.4 cv=RvL16imK c=1 sm=1 tr=0 ts=69f9c66a cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=EUspDBNiAAAA:8 a=VTue-mJiAAAA:8 a=UPwjdVLwzqKTMXskr54A:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22 a=S9YjYK_EKPFYWS37g-LV:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-05_02,2026-04-30_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0 clxscore=1015 priorityscore=1501 bulkscore=0
+ impostorscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605050097
+X-Rspamd-Queue-Id: 7DE704CBD3A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.46 / 15.00];
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[pengutronix.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-7992-lists,linux-leds=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,weissschuh.net:email,qualcomm.com:dkim,qualcomm.com:email];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7991-lists,linux-leds=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
-	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzysztof.kozlowski@oss.qualcomm.com,linux-leds@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[s.trumtrar@pengutronix.de,linux-leds@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.987];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,msgid.link:url,pengutronix.de:mid,pengutronix.de:email]
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 
-Add support for the Texas Instruments LP5860 LED driver chip
-via SPI interfaces.
+By convention MODULE_DEVICE_TABLE() immediately follows the ID table it
+exports, because this is easier to read and verify.  It also makes more
+sense since #ifdef for ACPI or OF could hide both of them.
 
-The LP5860 is an LED matrix driver for up to 196 LEDs, which supports
-short and open detection of the individual channel select lines.
+Most of the privers already have this correctly placed, so adjust
+the missing ones.  No functional impact.
 
-It can be connected to SPI or I2C bus. For now add support for SPI only.
-
-Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
-Changes in v10:
-- add guard mutex for chip access
-- trivial dev_err_probe fix
-- Link to v9: https://patch.msgid.link/20260424-v6-14-topic-ti-lp5860-v9-1-b44d7025d741@pengutronix.de
+ drivers/leds/blink/leds-bcm63138.c | 2 +-
+ drivers/leds/leds-cros_ec.c        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Changes in v9:
-- disable chip on error
-- use dev_err_probe in whole probe sequence
-- fail on missing reg property -> binding specifies this as mandatory
-- fix double free in lp5860_iterate_subleds if reg property is missing
-- Link to v8: https://patch.msgid.link/20260403-v6-14-topic-ti-lp5860-v8-1-e127e80e875a@pengutronix.de
-
-Changes in v8:
-- Kconfig fix help text
-- move header back to local folder
-- remove unused gpio.h
-- fix define used to check invalid dot usage
-- fix led_brightness usage as boolean
-- rename variable name led -> lp
-- split subled iteration to function
-- fail subled on missing color property
-- set mc_brightness once after subleds are parsed
-- rename *_OFFSET to *_SHIFT
-- document uncommon regmap setup
-- use dev_err_probe instead of dev_err to handle deferred probing
-- Link to v7: https://lore.kernel.org/r/20260309-v6-14-topic-ti-lp5860-v7-1-b1ed6c6a47ce@pengutronix.de
-
-Changes in v7:
-- s/spi/SPI/
-- rebase to current leds-for-next (v7.0-rc1)
-
-Changes since v6:
-- fix compilation as module
-- remove unnecessary select on FW_LOADER
-- Link to v6: https://lore.kernel.org/r/20251201-v6-14-topic-ti-lp5860-v6-0-be9a21218157@pengutronix.de
-
-Changes since v5:
-- Kconfig depends -> select
-- change some function/variable names
-- change line breaks (80char -> 100char)
-- call led_init_default_state_get once
-- rename index variable i -> led_index
-- don't fail on missing dt-properties
-- remove sysfs_create_group residue from v5
-- Link to v5: https://lore.kernel.org/r/20251110-v6-14-topic-ti-lp5860-v5-0-5b777b99a905@pengutronix.de
-
-Changes since v4:
-- remove global_brightness code and sysfs ABI
-- rebase to v6.18-rc1
-- Link to v4: https://lore.kernel.org/r/20251007-v6-14-topic-ti-lp5860-v4-0-967758069b60@pengutronix.de
-
-Changes since v3:
-- move to drivers/leds/rgb
-- fix some upper/lowercase
-- use ATTRIBUTE_GROUPS macro
-- unwrap some lines
-- Link to v3: https://lore.kernel.org/r/20250911-v6-14-topic-ti-lp5860-v3-0-390738ef9d71@pengutronix.de
-
-Changes since v2:
-- fix c-styling errors
-- rename functions/defines/variables
-- split out ABI documentation
-- rename [rgb]_current* to [rgb]_global_brightness*
-- rework multi-led probing
-- Link to v2: https://lore.kernel.org/r/20250514-v6-14-topic-ti-lp5860-v2-0-72ecc8fa4ad7@pengutronix.de
-
-Changes since v1:
-- add open and short detection
-- add ABI documentation
-- fix devicetree binding (maxItems/minItems)
-- fix commit message to imperative mood
-- minor cleanup
-- Link to v1: https://lore.kernel.org/r/20250220-v6-14-topic-ti-lp5860-v1-0-42874bdc7513@pengutronix.de
----
- drivers/leds/rgb/Kconfig            |  25 ++++
- drivers/leds/rgb/Makefile           |   2 +
- drivers/leds/rgb/leds-lp5860-core.c | 234 +++++++++++++++++++++++++++++++
- drivers/leds/rgb/leds-lp5860-spi.c  |  98 +++++++++++++
- drivers/leds/rgb/leds-lp5860.h      | 268 ++++++++++++++++++++++++++++++++++++
- 5 files changed, 627 insertions(+)
-
-diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
-index 28ef4c487367c..9a4ba6531cf87 100644
---- a/drivers/leds/rgb/Kconfig
-+++ b/drivers/leds/rgb/Kconfig
-@@ -39,6 +39,31 @@ config LEDS_LP5812
+diff --git a/drivers/leds/blink/leds-bcm63138.c b/drivers/leds/blink/leds-bcm63138.c
+index ef2e511438cc..45c0662df933 100644
+--- a/drivers/leds/blink/leds-bcm63138.c
++++ b/drivers/leds/blink/leds-bcm63138.c
+@@ -296,6 +296,7 @@ static const struct of_device_id bcm63138_leds_of_match_table[] = {
+ 	{ .compatible = "brcm,bcm63138-leds", },
+ 	{ },
+ };
++MODULE_DEVICE_TABLE(of, bcm63138_leds_of_match_table);
  
- 	  If unsure, say N.
+ static struct platform_driver bcm63138_leds_driver = {
+ 	.probe = bcm63138_leds_probe,
+@@ -310,4 +311,3 @@ module_platform_driver(bcm63138_leds_driver);
+ MODULE_AUTHOR("Rafał Miłecki");
+ MODULE_DESCRIPTION("Broadcom BCM63138 SoC LED driver");
+ MODULE_LICENSE("GPL");
+-MODULE_DEVICE_TABLE(of, bcm63138_leds_of_match_table);
+diff --git a/drivers/leds/leds-cros_ec.c b/drivers/leds/leds-cros_ec.c
+index bea3cc3fbfd2..6592ceee866a 100644
+--- a/drivers/leds/leds-cros_ec.c
++++ b/drivers/leds/leds-cros_ec.c
+@@ -249,6 +249,7 @@ static const struct platform_device_id cros_ec_led_id[] = {
+ 	{ "cros-ec-led", 0 },
+ 	{}
+ };
++MODULE_DEVICE_TABLE(platform, cros_ec_led_id);
  
-+config LEDS_LP5860_CORE
-+	tristate "Core Driver for TI LP5860"
-+	depends on LEDS_CLASS
-+	depends on OF
-+	select REGMAP
-+	help
-+	  This option supports common operations for LP5860 devices.
-+	  The LP5860 is a LED matrix driver with 18 constant current
-+	  sinks and 11 scan switches for 198 LED dots. Each dot can be
-+	  controlled individually and supports 8/16-bit PWM dimming.
-+	  The chip supports individual LED open and short detection.
-+
-+	  The device can be used with SPI or I2C bus.
-+
-+config LEDS_LP5860_SPI
-+	tristate "LED Support for TI LP5860 SPI LED driver chip"
-+	depends on SPI
-+	select LEDS_LP5860_CORE
-+	help
-+	  If you say yes here you get support for the Texas Instruments
-+	  LP5860 LED driver for SPI bus connections.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called leds-lp5860-spi.
-+
- config LEDS_NCP5623
- 	tristate "LED support for NCP5623"
- 	depends on I2C
-diff --git a/drivers/leds/rgb/Makefile b/drivers/leds/rgb/Makefile
-index be45991f63f50..f3b365ea082d1 100644
---- a/drivers/leds/rgb/Makefile
-+++ b/drivers/leds/rgb/Makefile
-@@ -3,6 +3,8 @@
- obj-$(CONFIG_LEDS_GROUP_MULTICOLOR)	+= leds-group-multicolor.o
- obj-$(CONFIG_LEDS_KTD202X)		+= leds-ktd202x.o
- obj-$(CONFIG_LEDS_LP5812)		+= leds-lp5812.o
-+obj-$(CONFIG_LEDS_LP5860_CORE)		+= leds-lp5860-core.o
-+obj-$(CONFIG_LEDS_LP5860_SPI)		+= leds-lp5860-spi.o
- obj-$(CONFIG_LEDS_NCP5623)		+= leds-ncp5623.o
- obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+= leds-pwm-multicolor.o
- obj-$(CONFIG_LEDS_QCOM_LPG)		+= leds-qcom-lpg.o
-diff --git a/drivers/leds/rgb/leds-lp5860-core.c b/drivers/leds/rgb/leds-lp5860-core.c
-new file mode 100644
-index 0000000000000..fd0e2f6e6e0f4
---- /dev/null
-+++ b/drivers/leds/rgb/leds-lp5860-core.c
-@@ -0,0 +1,234 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2025 Pengutronix
-+ *
-+ * Author: Steffen Trumtrar <kernel@pengutronix.de>
-+ */
-+
-+#include <linux/led-class-multicolor.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/of_platform.h>
-+#include <linux/property.h>
-+#include <linux/regmap.h>
-+
-+#include "leds-lp5860.h"
-+
-+static struct lp5860_led *mcled_cdev_to_led(struct led_classdev_mc *mc_cdev)
-+{
-+	return container_of(mc_cdev, struct lp5860_led, mc_cdev);
-+}
-+
-+static int lp5860_set_dot_onoff(struct lp5860_led *led, unsigned int dot, bool enable)
-+{
-+	unsigned int offset = dot / LP5860_MAX_DOT_ONOFF_GROUP_NUM;
-+	unsigned int mask = BIT(dot % LP5860_MAX_DOT_ONOFF_GROUP_NUM);
-+
-+	if (dot > LP5860_MAX_LED)
-+		return -EINVAL;
-+
-+	return regmap_update_bits(led->chip->regmap,
-+				  LP5860_REG_DOT_ONOFF_START + offset, mask,
-+				  enable ? LP5860_DOT_ALL_ON : LP5860_DOT_ALL_OFF);
-+}
-+
-+static int lp5860_set_mc_brightness(struct led_classdev *cdev,
-+				    enum led_brightness brightness)
-+{
-+	struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(cdev);
-+	struct lp5860_led *led = mcled_cdev_to_led(mc_cdev);
-+
-+	led_mc_calc_color_components(mc_cdev, brightness);
-+
-+	guard(mutex)(&led->chip->lock);
-+	for (int i = 0; i < led->mc_cdev.num_colors; i++) {
-+		unsigned int channel = mc_cdev->subled_info[i].channel;
-+		unsigned int led_brightness = mc_cdev->subled_info[i].brightness;
-+		int ret;
-+
-+		ret = lp5860_set_dot_onoff(led, channel, !!led_brightness);
-+		if (ret)
-+			return ret;
-+
-+		ret = regmap_write(led->chip->regmap,
-+				   LP5860_REG_PWM_BRI_START + channel, led_brightness);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int lp5860_chip_enable(struct lp5860 *lp, bool enable)
-+{
-+	guard(mutex)(&lp->lock);
-+	return regmap_write(lp->regmap, LP5860_REG_CHIP_EN, enable);
-+}
-+
-+static int lp5860_led_init(struct lp5860_led *led, struct fwnode_handle *fwnode,
-+			   unsigned int channel)
-+{
-+	enum led_default_state default_state;
-+	unsigned int brightness;
-+	int ret;
-+
-+	guard(mutex)(&led->chip->lock);
-+	ret = regmap_read(led->chip->regmap, LP5860_REG_PWM_BRI_START + channel, &brightness);
-+	if (ret)
-+		return ret;
-+
-+	default_state = led_init_default_state_get(fwnode);
-+
-+	switch (default_state) {
-+	case LEDS_DEFSTATE_ON:
-+		led->brightness = LP5860_MAX_BRIGHTNESS;
-+		break;
-+	case LEDS_DEFSTATE_KEEP:
-+		led->brightness = min(brightness, LP5860_MAX_BRIGHTNESS);
-+		break;
-+	default:
-+		led->brightness = 0;
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int lp5860_iterate_subleds(struct lp5860_led *led, struct led_init_data *init_data)
-+{
-+	struct fwnode_handle *led_node = NULL;
-+	struct fwnode_handle *multi_led = init_data->fwnode;
-+	int subled = 0;
-+
-+	fwnode_for_each_child_node(multi_led, led_node) {
-+		u32 channel;
-+		u32 color_index;
-+		int ret;
-+
-+		ret = fwnode_property_read_u32(led_node, "color", &color_index);
-+		if (ret) {
-+			dev_err_probe(led->chip->dev, ret,
-+				      "%pfwP: Cannot read 'color' property. Skipping.\n", led_node);
-+			fwnode_handle_put(led_node);
-+			return ret;
-+		}
-+
-+		ret = fwnode_property_read_u32(led_node, "reg", &channel);
-+		if (ret < 0 || channel > LP5860_MAX_LED) {
-+			dev_err_probe(led->chip->dev, ret,
-+				      "%pfwP: 'reg' property is missing. Skipping.\n", led_node);
-+			fwnode_handle_put(led_node);
-+			return ret;
-+		}
-+
-+		led->mc_cdev.subled_info[subled].color_index = color_index;
-+		led->mc_cdev.subled_info[subled].channel = channel;
-+		ret = lp5860_led_init(led, init_data->fwnode, channel);
-+		if (ret) {
-+			dev_err_probe(led->chip->dev, ret,
-+				      "%pfwP: Failed to init LED\n", led_node);
-+			fwnode_handle_put(led_node);
-+			return ret;
-+		}
-+
-+		subled++;
-+	}
-+
-+	return 0;
-+}
-+
-+static int lp5860_init_dt(struct lp5860 *lp)
-+{
-+	struct led_init_data init_data = {};
-+	struct led_classdev *led_cdev;
-+	struct mc_subled *mc_led_info;
-+	struct lp5860_led *led;
-+	int led_index = 0;
-+	int chan;
-+	int ret;
-+
-+	device_for_each_child_node_scoped(lp->dev, multi_led) {
-+		led = &lp->leds[led_index];
-+
-+		init_data.fwnode = multi_led;
-+
-+		/* Count the number of channels in this multi_led */
-+		chan = fwnode_get_child_node_count(multi_led);
-+		if (!chan || chan > LP5860_MAX_LED_CHANNELS)
-+			return -EINVAL;
-+
-+		led->mc_cdev.num_colors = chan;
-+
-+		mc_led_info = devm_kcalloc(lp->dev, chan, sizeof(*mc_led_info), GFP_KERNEL);
-+		if (!mc_led_info)
-+			return -ENOMEM;
-+
-+		led->chip = lp;
-+		led->mc_cdev.subled_info = mc_led_info;
-+		led_cdev = &led->mc_cdev.led_cdev;
-+		led_cdev->max_brightness = LP5860_MAX_BRIGHTNESS;
-+		led_cdev->brightness_set_blocking = lp5860_set_mc_brightness;
-+
-+		ret = lp5860_iterate_subleds(led, &init_data);
-+		if (ret)
-+			continue;
-+
-+		ret = lp5860_set_mc_brightness(&led->mc_cdev.led_cdev, led->brightness);
-+		if (ret)
-+			return dev_err_probe(lp->dev, ret, "%pfwP: Failed to set Multi-Color brightness\n",
-+					     multi_led);
-+
-+		ret = devm_led_classdev_multicolor_register_ext(lp->dev, &led->mc_cdev, &init_data);
-+		if (ret)
-+			return dev_err_probe(lp->dev, ret, "%pfwP: Failed to register Multi-Color LEDs\n",
-+					     multi_led);
-+		led_index++;
-+	}
-+
-+	return 0;
-+}
-+
-+int lp5860_device_init(struct device *dev)
-+{
-+	struct lp5860 *lp = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = lp5860_chip_enable(lp, LP5860_CHIP_ENABLE);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Set to 8-bit PWM data without VSYNC.
-+	 * Data is sent out for display instantly after received.
-+	 */
-+	mutex_lock(&lp->lock);
-+	ret = regmap_update_bits(lp->regmap, LP5860_REG_DEV_INITIAL, LP5860_MODE_MASK,
-+				 LP5860_MODE_1 << LP5860_MODE_SHIFT);
-+	if (ret)
-+		goto err_disable;
-+	mutex_unlock(&lp->lock);
-+
-+	ret = lp5860_init_dt(lp);
-+	if (ret)
-+		goto err_disable;
-+
-+	return 0;
-+
-+err_disable:
-+	mutex_unlock(&lp->lock);
-+	lp5860_chip_enable(lp, LP5860_CHIP_DISABLE);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(lp5860_device_init);
-+
-+void lp5860_device_remove(struct device *dev)
-+{
-+	struct lp5860 *lp = dev_get_drvdata(dev);
-+
-+	lp5860_chip_enable(lp, LP5860_CHIP_DISABLE);
-+}
-+EXPORT_SYMBOL_GPL(lp5860_device_remove);
-+
-+MODULE_AUTHOR("Steffen Trumtrar <kernel@pengutronix.de>");
-+MODULE_DESCRIPTION("TI LP5860 RGB LED core driver");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/leds/rgb/leds-lp5860-spi.c b/drivers/leds/rgb/leds-lp5860-spi.c
-new file mode 100644
-index 0000000000000..5e0c44854a680
---- /dev/null
-+++ b/drivers/leds/rgb/leds-lp5860-spi.c
-@@ -0,0 +1,98 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2025 Pengutronix
-+ *
-+ * Author: Steffen Trumtrar <kernel@pengutronix.de>
-+ */
-+
-+#include <linux/init.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/spi/spi.h>
-+
-+#include "leds-lp5860.h"
-+
-+#define LP5860_SPI_WRITE_FLAG BIT(13)
-+
-+/*
-+ * The lp5860 uses a rather uncommon SPI data format: The R/W flag is on BIT(5) in the two address
-+ * bytes; BIT(4) to BIT(0) are don't care. Therefore it has 10 bits for the address and 6 bits for
-+ * padding the address. The address bytes are sent MSB first. Matching the cores registers to regmap
-+ * results in write_flag_mask being BIT(13).
-+ */
-+static const struct regmap_config lp5860_regmap_config = {
-+	.name = "lp5860",
-+	.reg_bits = 10,
-+	.pad_bits = 6,
-+	.val_bits = 8,
-+	.write_flag_mask = LP5860_SPI_WRITE_FLAG,
-+	.reg_format_endian = REGMAP_ENDIAN_BIG,
-+	.max_register = LP5860_MAX_REG,
-+};
-+
-+static int lp5860_probe(struct spi_device *spi)
-+{
-+	struct device *dev = &spi->dev;
-+	struct lp5860 *lp5860;
-+	unsigned int multi_leds;
-+
-+	multi_leds = device_get_child_node_count(dev);
-+	if (!multi_leds) {
-+		dev_err(dev, "LEDs are not defined in Device Tree!");
-+		return -ENODEV;
-+	}
-+
-+	if (multi_leds > LP5860_MAX_LED) {
-+		dev_err(dev, "Too many LEDs specified.\n");
-+		return -EINVAL;
-+	}
-+
-+	lp5860 = devm_kzalloc(dev, struct_size(lp5860, leds, multi_leds),
-+			      GFP_KERNEL);
-+	if (!lp5860)
-+		return -ENOMEM;
-+
-+	lp5860->regmap = devm_regmap_init_spi(spi, &lp5860_regmap_config);
-+	if (IS_ERR(lp5860->regmap))
-+		return dev_err_probe(&spi->dev, PTR_ERR(lp5860->regmap),
-+				     "Failed to initialise Regmap.\n");
-+
-+	lp5860->dev = dev;
-+	mutex_init(&lp5860->lock);
-+
-+	spi_set_drvdata(spi, lp5860);
-+
-+	return lp5860_device_init(dev);
-+}
-+
-+static void lp5860_remove(struct spi_device *spi)
-+{
-+	struct lp5860 *lp5860 = spi_get_drvdata(spi);
-+
-+	mutex_destroy(&lp5860->lock);
-+
-+	lp5860_device_remove(&spi->dev);
-+}
-+
-+static const struct of_device_id lp5860_of_match[] = {
-+	{ .compatible = "ti,lp5860" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, lp5860_of_match);
-+
-+static struct spi_driver lp5860_driver = {
-+	.driver = {
-+		.name = "lp5860-spi",
-+		.of_match_table = lp5860_of_match,
-+	},
-+	.probe	= lp5860_probe,
-+	.remove = lp5860_remove,
-+};
-+module_spi_driver(lp5860_driver);
-+
-+MODULE_AUTHOR("Steffen Trumtrar <kernel@pengutronix.de>");
-+MODULE_DESCRIPTION("TI LP5860 RGB LED SPI driver");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/leds/rgb/leds-lp5860.h b/drivers/leds/rgb/leds-lp5860.h
-new file mode 100644
-index 0000000000000..940be0c6e8daa
---- /dev/null
-+++ b/drivers/leds/rgb/leds-lp5860.h
-@@ -0,0 +1,268 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2025 Pengutronix
-+ *
-+ * Author: Steffen Trumtrar <kernel@pengutronix.de>
-+ */
-+
-+#ifndef _DRIVERS_LEDS_RGB_LP5860_H
-+#define _DRIVERS_LEDS_RGB_LP5860_H
-+
-+#include <linux/led-class-multicolor.h>
-+#include <linux/regmap.h>
-+
-+#define LP5860_REG_CHIP_EN		0x00
-+#define LP5860_REG_DEV_INITIAL		0x01
-+#define LP5860_REG_DEV_CONFIG1		0x02
-+#define LP5860_REG_DEV_CONFIG2		0x03
-+#define LP5860_REG_DEV_CONFIG3		0x04
-+#define LP5860_REG_GLOBAL_BRI		0x05
-+#define LP5860_REG_GROUP0_BRI		0x06
-+#define LP5860_REG_GROUP1_BRI		0x07
-+#define LP5860_REG_GROUP2_BRI		0x08
-+#define LP5860_REG_R_CURRENT_SET	0x09
-+#define LP5860_REG_G_CURRENT_SET	0x0A
-+#define LP5860_REG_B_CURRENT_SET	0x0B
-+#define LP5860_REG_GRP_SEL_START	0x0C
-+#define LP5860_REG_DOT_ONOFF_START	0x43
-+#define LP5860_REG_DOT_ONOFF_MAX	0x63
-+#define LP5860_REG_FAULT_STATE		0x64
-+#define LP5860_REG_DOT_LOD_START	0x65
-+#define LP5860_REG_DOT_LSD_START	0x86
-+#define LP5860_REG_LOD_CLEAR		0xA7
-+#define LP5860_REG_LSD_CLEAR		0xA8
-+#define LP5860_REG_RESET		0xA9
-+#define LP5860_REG_DC_START		0x0100
-+#define LP5860_REG_PWM_BRI_START	0x0200
-+#define LP5860_MAX_REG			0x038B
-+
-+/* Register chip_enable value */
-+#define LP5860_CHIP_SHIFT		0
-+#define LP5860_CHIP_MASK		BIT(0)
-+#define LP5860_CHIP_DISABLE		false
-+#define LP5860_CHIP_ENABLE		true
-+
-+/* Register dev_initial value */
-+#define LP5860_MAX_LINE_SHIFT		3
-+#define LP5860_MAX_LINE_MASK		GENMASK(6, 3)
-+#define LP5860_MAX_LINE_11		0x0B
-+#define LP5860_MAX_LINE_10		0x0A
-+#define LP5860_MAX_LINE_9		0x09
-+#define LP5860_MAX_LINE_8		0x08
-+#define LP5860_MAX_LINE_7		0x07
-+#define LP5860_MAX_LINE_6		0x06
-+#define LP5860_MAX_LINE_5		0x05
-+#define LP5860_MAX_LINE_4		0x04
-+#define LP5860_MAX_LINE_3		0x03
-+#define LP5860_MAX_LINE_2		0x02
-+#define LP5860_MAX_LINE_1		0x01
-+
-+#define LP5860_MODE_SHIFT		1
-+#define LP5860_MODE_MASK		GENMASK(2, 1)
-+#define LP5860_MODE_3_1			0x03
-+#define LP5860_MODE_3			0x02
-+#define LP5860_MODE_2			0x01
-+#define LP5860_MODE_1			0x00
-+
-+#define LP5860_PWM_FREQUENCY_SHIFT	0
-+#define LP5860_PWM_FREQUENCY_MASK	BIT(0)
-+#define LP5860_PWM_FREQUENCY_62_5K	0x01
-+#define LP5860_PWM_FREQUENCY_125K	0x00
-+
-+/* Register dev_config1 value */
-+#define LP5860_SW_BLK_SHIFT		3
-+#define LP5860_SW_BLK_MASK		BIT(3)
-+#define LP5860_SW_BLK_05US		0x01
-+#define LP5860_SW_BLK_1US		0x00
-+
-+#define LP5860_PWM_SCALE_MODE_SHIFT	2
-+#define LP5860_PWM_SCALE_MODE_MASK	BIT(2)
-+#define LP5860_PWM_SCALE_EXPONENTIAL	0x01
-+#define LP5860_PWM_SCALE_LINEAR		0x00
-+
-+#define LP5860_PWM_PHASESHIFT_SHIFT	1
-+#define LP5860_PWM_PHASESHIFT_MASK	BIT(1)
-+#define LP5860_PWM_PHASESHIFT_ON	0x01
-+#define LP5860_PWM_PHASESHIFT_OFF	0x00
-+
-+#define LP5860_CS_ON_SHIFT_SHIFT	0
-+#define LP5860_CS_ON_SHIFT_MASK		BIT(0)
-+#define LP5860_CS_DELAY_ON		0x01
-+#define LP5860_CS_DELAY_OFF		0x00
-+
-+/* Register dev_config2 value */
-+#define LP5860_COMP_GROUP3_SHIFT	6
-+#define LP5860_COMP_GROUP3_MASK		GENMASK(7, 6)
-+#define LP5860_COMP_GROUP3_3CLOCK	0x03
-+#define LP5860_COMP_GROUP3_2CLOCK	0x02
-+#define LP5860_COMP_GROUP3_1CLOCK	0x01
-+#define LP5860_COMP_GROUP3_OFF		0x00
-+
-+#define LP5860_COMP_GROUP2_SHIFT	4
-+#define LP5860_COMP_GROUP2_MASK		GENMASK(5, 4)
-+#define LP5860_COMP_GROUP2_3CLOCK	0x03
-+#define LP5860_COMP_GROUP2_2CLOCK	0x02
-+#define LP5860_COMP_GROUP2_1CLOCK	0x01
-+#define LP5860_COMP_GROUP2_OFF		0x00
-+
-+#define LP5860_COMP_GROUP1_SHIFT	2
-+#define LP5860_COMP_GROUP1_MASK		GENMASK(3, 2)
-+#define LP5860_COMP_GROUP1_3CLOCK	0x03
-+#define LP5860_COMP_GROUP1_2CLOCK	0x02
-+#define LP5860_COMP_GROUP1_1CLOCK	0x01
-+#define LP5860_COMP_GROUP1_OFF		0x00
-+
-+#define LP5860_LOD_REMOVAL_SHIFT	1
-+#define LP5860_LOD_REMOVAL_MASK		BIT(1)
-+#define LP5860_LOD_REMOVAL_EN		0x01
-+#define LP5860_LOD_REMOVAL_OFF		0x00
-+
-+#define LP5860_LSD_REMOVAL_SHIFT	0
-+#define LP5860_LSD_REMOVAL_MASK		BIT(0)
-+#define LP5860_LSD_REMOVAL_EN		0x01
-+#define LP5860_LSD_REMOVAL_OFF		0x00
-+
-+/* Register dev_config3 value */
-+#define LP5860_DOWN_DEGHOST_SHIFT	6
-+#define LP5860_DOWN_DEGHOST_MASK	GENMASK(7, 6)
-+#define LP5860_DOWN_DEGHOST_STRONG	0x03
-+#define LP5860_DOWN_DEGHOST_MEDIUM	0x02
-+#define LP5860_DOWN_DEGHOST_WEAK	0x01
-+#define LP5860_DOWN_DEGHOST_OFF		0x00
-+
-+#define LP5860_UP_DEGHOST_SHIFT	4
-+#define LP5860_UP_DEGHOST_MASK		GENMASK(5, 4)
-+#define LP5860_UP_DEGHOST_GND		0x03
-+#define LP5860_UP_DEGHOST_3		0x02
-+#define LP5860_UP_DEGHOST_2_5		0x01
-+#define LP5860_UP_DEGHOST_2		0x00
-+
-+#define LP5860_MAXIMUM_CURRENT_SHIFT	1
-+#define LP5860_MAXIMUM_CURRENT_MASK	GENMASK(3, 1)
-+#define LP5860_MAXIMUM_CURRENT_50	0x07
-+#define LP5860_MAXIMUM_CURRENT_40	0x06
-+#define LP5860_MAXIMUM_CURRENT_30	0x05
-+#define LP5860_MAXIMUM_CURRENT_20	0x04
-+#define LP5860_MAXIMUM_CURRENT_15	0x03
-+#define LP5860_MAXIMUM_CURRENT_10	0x02
-+#define LP5860_MAXIMUM_CURRENT_5	0x01
-+#define LP5860_MAXIMUM_CURRENT_3	0x00
-+
-+#define LP5860_UP_DEGHOST_ENABLE_SHIFT	0
-+#define LP5860_UP_DEGHOST_ENABLE_MASK	BIT(0)
-+#define LP5860_UP_DEGHOST_ENABLE_EN	0x01
-+#define LP5860_UP_DEGHOST_ENABLE_OFF	0x00
-+
-+/* Register PWM */
-+#define LP5860_PWM_GLOBAL_MAX		0xff
-+#define LP5860_PWM_GROUP_MAX		0xff
-+
-+/* Register CC group select */
-+#define LP5860_CC_GROUP_MASK		GENMASK(7, 0)
-+#define LP5860_CC_GROUP_MAX		0x7F
-+
-+/* Register dot group select */
-+#define LP5860_DOT_0_SHIFT		0
-+#define LP5860_DOT_1_SHIFT		2
-+#define LP5860_DOT_2_SHIFT		4
-+#define LP5860_DOT_3_SHIFT		6
-+
-+#define LP5860_DOT_GROUP3		0x03
-+#define LP5860_DOT_GROUP2		0x02
-+#define LP5860_DOT_GROUP1		0x01
-+#define LP5860_DOT_GROUP_NONE		0x00
-+
-+#define LP5860_DOT_ALL_ON		0xff
-+#define LP5860_DOT_ALL_OFF		0x0
-+#define LP5860_PWM_DOT_MAX		0xff
-+/* Dot onoff value */
-+#define LP5860_DOT_CS0_SHIFT		0
-+#define LP5860_DOT_CS1_SHIFT		1
-+#define LP5860_DOT_CS2_SHIFT		2
-+#define LP5860_DOT_CS3_SHIFT		3
-+#define LP5860_DOT_CS4_SHIFT		4
-+#define LP5860_DOT_CS5_SHIFT		5
-+#define LP5860_DOT_CS6_SHIFT		6
-+#define LP5860_DOT_CS7_SHIFT		7
-+
-+#define LP5860_DOT_CS_ON		0x01
-+#define LP5860_DOT_CS_OFF		0x00
-+
-+/* Dot lod value */
-+#define LP5860_DOT_LOD0_SHIFT		0
-+#define LP5860_DOT_LOD1_SHIFT		1
-+#define LP5860_DOT_LOD2_SHIFT		2
-+#define LP5860_DOT_LOD3_SHIFT		3
-+#define LP5860_DOT_LOD4_SHIFT		4
-+#define LP5860_DOT_LOD5_SHIFT		5
-+#define LP5860_DOT_LOD6_SHIFT		6
-+#define LP5860_DOT_LOD7_SHIFT		7
-+
-+#define LP5860_DOT_LOD_ON		0x01
-+#define LP5860_DOT_LOD_OFF		0x00
-+
-+/* dot lsd value */
-+#define LP5860_DOT_LSD0_SHIFT		0
-+#define LP5860_DOT_LSD1_SHIFT		1
-+#define LP5860_DOT_LSD2_SHIFT		2
-+#define LP5860_DOT_LSD3_SHIFT		3
-+#define LP5860_DOT_LSD4_SHIFT		4
-+#define LP5860_DOT_LSD5_SHIFT		5
-+#define LP5860_DOT_LSD6_SHIFT		6
-+#define LP5860_DOT_LSD7_SHIFT		7
-+
-+#define LP5860_DOT_LSD_ON		0x01
-+#define LP5860_DOT_LSD_OFF		0x00
-+
-+/* Register lod state */
-+#define LP5860_GLOBAL_LOD_SHIFT	1
-+#define LP5860_GLOBAL_LOD_STATE		BIT(1)
-+#define LP5860_GLOBAL_LSD_SHIFT	0
-+#define LP5860_GLOBAL_LSD_STATE		BIT(0)
-+
-+#define LP5860_FAULT_STATE_ON		0x01
-+#define LP5860_FAULT_STATE_OFF		0x00
-+
-+#define LP5860_GLOBAL_LOD_CLEAR		0x00
-+#define LP5860_GLOBAL_LSD_CLEAR		0x00
-+
-+
-+#define LP5860_LOD_CLEAR_EN		0xff
-+#define LP5860_LSD_CLEAR_EN		0xff
-+#define LP5860_RESET_EN			0xff
-+
-+#define LP5860_MAX_BRIGHTNESS		255
-+#define LP5860_REG_R_PWM		0x0
-+#define LP5860_REG_G_PWM		0x1
-+#define LP5860_REG_B_PWM		0x2
-+
-+#define LP5860_MAX_LED_CONSTANT		18
-+#define LP5860_MAX_LED_SCAN		11
-+#define LP5860_MAX_LED			(LP5860_MAX_LED_CONSTANT * LP5860_MAX_LED_SCAN)
-+
-+#define LP5860_MAX_DOT_ONOFF_GROUP_NUM	8
-+
-+/*
-+ * Theoretically, there is no max channel per LED,
-+ * limit this to a reasonable value for RGBW LEDs
-+ */
-+#define LP5860_MAX_LED_CHANNELS		4
-+
-+struct lp5860_led {
-+	struct lp5860 *chip;
-+	struct led_classdev_mc mc_cdev;
-+	u8 brightness;
-+};
-+
-+struct lp5860 {
-+	struct device *dev;
-+	struct regmap *regmap;
-+	struct mutex lock;
-+
-+	DECLARE_FLEX_ARRAY(struct lp5860_led, leds);
-+};
-+
-+int lp5860_device_init(struct device *dev);
-+void lp5860_device_remove(struct device *dev);
-+
-+#endif /* _DRIVERS_LEDS_RGB_LP5860_H */
-
----
-base-commit: 54d4d240c99f2df63b8a60d1f6f5427197fda708
-change-id: 20250219-v6-14-topic-ti-lp5860-f25a48b62c79
-
-Best regards,
---  
-Steffen Trumtrar <s.trumtrar@pengutronix.de>
+ static struct platform_driver cros_ec_led_driver = {
+ 	.driver.name	= "cros-ec-led",
+@@ -257,7 +258,6 @@ static struct platform_driver cros_ec_led_driver = {
+ };
+ module_platform_driver(cros_ec_led_driver);
+ 
+-MODULE_DEVICE_TABLE(platform, cros_ec_led_id);
+ MODULE_DESCRIPTION("ChromeOS EC LED Driver");
+ MODULE_AUTHOR("Thomas Weißschuh <linux@weissschuh.net");
+ MODULE_LICENSE("GPL");
+-- 
+2.51.0
 
 
