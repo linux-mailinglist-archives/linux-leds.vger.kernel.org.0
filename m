@@ -1,188 +1,168 @@
-Return-Path: <linux-leds+bounces-7994-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7995-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EEqEK8bt+WlqFQMAu9opvQ
-	(envelope-from <linux-leds+bounces-7994-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 15:16:54 +0200
+	id KN8IMQrv+WlqFQMAu9opvQ
+	(envelope-from <linux-leds+bounces-7995-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 15:22:18 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C658F4CE487
-	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 15:16:53 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 899454CE5F1
+	for <lists+linux-leds@lfdr.de>; Tue, 05 May 2026 15:22:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id ADE4B3002F53
-	for <lists+linux-leds@lfdr.de>; Tue,  5 May 2026 13:11:14 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 556DF3054319
+	for <lists+linux-leds@lfdr.de>; Tue,  5 May 2026 13:22:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 405A2392C32;
-	Tue,  5 May 2026 13:11:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F05DB3E7140;
+	Tue,  5 May 2026 13:22:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="V/mPaVc4";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="G7G/cpe1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YC3A8T78"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF6B25C80E;
-	Tue,  5 May 2026 13:11:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC91335555;
+	Tue,  5 May 2026 13:22:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777986672; cv=none; b=SV6obWutl3OVe0eu9pcHySTCWCJv6y1ZLvn3qs6s9V80QeXRixO1OtsYJGUb1OqgFINoIjXxN7hJZsxCxPpNVvguBlWioyYgU53EOuYlELVXKLcwBjbY5M4zBUNFNhm2EPR5pBtXT6z5avZJmgnj013eM00o9LLxHEqmhgl6lZE=
+	t=1777987325; cv=none; b=e50v/zujOBa3QMKLQMwmnvnXREup/S7J5ci8pozwsQJMAznw8tr0/e9/XJL2mnpNiVV7pBcyyNz40y7lOgASf9OYA/WffmCEur1PUIxqyGvT+C2cQ+IaDfbpCefEc7aMwQAzKfU8Q0md9GRLoUF1KDHtHcb+YAG/k8TSZzd/rfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777986672; c=relaxed/simple;
-	bh=nveebzya/Kf6xBzraTxBxu4ebcxUp05l3nvWHdnMvLY=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=qPmpZF79bEbu9qDmCPkdL5I1UBwkhaDLmikL69EJ/imJ6ScOPpovOcfcmDvhg6OfSawCHjdOmpNpL5nRf04kI2qoK2ydOHvgUNupsTiC5HOKRFCokzhpaIZqp0+I+I9E8UuWgAIGEevz1xiprDvYs6yH7TvCCDqqfopRg/8dwfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=V/mPaVc4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=G7G/cpe1; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 5BACE1D0003F;
-	Tue,  5 May 2026 09:11:09 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Tue, 05 May 2026 09:11:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1777986669;
-	 x=1778073069; bh=vLCw6VwPgBUbbgjiBde52etDTlj453NlTbVSXUs0f8g=; b=
-	V/mPaVc4dY6XQ9MSQe1q+mwS8JfW1Z5R3V3X1ysEp8It+G5H8yZyEa+me+VOjadc
-	rfG1ArbK9sXaLh9iSeYYdsJsoPVESAaU08YK3ZUKz0FClXX3CqyXv6cVVPBWV4r8
-	2+9GpnKWrp4osc7IN4igY1JgTOxlJGwg5cxALqB94R9fhRzTVSckLLH969GVX42Y
-	/gRGZy4QYhfmle9Tw3vv1H+gXqcVgJlMSf25TrbELJq1nVqRtszNHSE7QhIYaM1a
-	HJ078Qdk3aqiUgwBLmQ9jbowhsi57FxeSFyzipQkVYSW71Fc8fna5DetBQlfae3u
-	UgoSrBoJbYWU9BJRs7XkXA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777986669; x=
-	1778073069; bh=vLCw6VwPgBUbbgjiBde52etDTlj453NlTbVSXUs0f8g=; b=G
-	7G/cpe1NhtHEAAe5AT/nGejtJ822kJfb7IHaEc5tRVq3BpPwi5lqSTMIFJtpnOUU
-	wfa6yUiivYAmUd+aFHurx6IgLXABmV7+jo0zWeu2OyImRBxNaq+Gt8OwlMie/L5b
-	z/V3dLBgvIanqwyhQEuSp8ycw/P/H3CGVA2pbyYkBhiRJCPGZkwTf7DX4Ovo+Y8m
-	V90bfQWFa0dtkoH0QhtGNzzwCA+Vv6epmfzE1bEKVqSkzhP4PzCJC7O1b2nn46v4
-	Lf3MMB10RX56xp99dIH1gqq9IcmoJcOJHYj1uOiV2GWwq0af9o00MJhChB9P+04c
-	cO5SQz4k0q9dYw4MYtcEA==
-X-ME-Sender: <xms:bOz5aQe0kTJ6z5iQHZsJLyZhxIZG7fftCZvYJegzCwxF6tpZfdWuFA>
-    <xme:bOz5adDEylOJiOT09-4EXY2g03vsFEtXX1ikhHVIIj4OrzjaygxzGPzhVo876wlca
-    lX0BUGktaNVGjpD4kpXEDB03uadTCHkNmcMGzj2tforX-5HdLS0lg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutddujeelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopegumhhithhrhidrthhorhhokhhhohhvsehgmhgrihhlrdgtohhmpd
-    hrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrhhglhes
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheplhhinhhushifsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprghvvghl
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkh
-    hosehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheplhhinhhugidqghhpihho
-    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvg
-    hlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:bOz5aYYtg6rhgT-1pYbvJOzA4RALQkJ7q7NsZ0H5gJkCDwlJvnMPzA>
-    <xmx:bOz5acAJl5fg-2HOcBDere1eg8JG9RsCzUvdcMt1enMt0YQHn4kzxg>
-    <xmx:bOz5aaZ59rGRqohhkczVzi2ysKoDGtVMtm6pd1mdssXMejF_DnjItw>
-    <xmx:bOz5ackKECD5WxiM6mlY0IOr5T7hTojK7_-Kyqec6s6CsmjZm9ULcw>
-    <xmx:bez5aZNXhk8KDdpFRzZciM7vNn3okGNrnKG2PrV2Zq7jWQ9tUsJOI1sB>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 613B7700065; Tue,  5 May 2026 09:11:08 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1777987325; c=relaxed/simple;
+	bh=Ij/RKBgYy56O0uzaxUs3gQoxepG4M1vO6rUuWWatVlo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=seQzBr0gTDOV0rMajnW5UkCfRmL4Ycbxbm4H8I0UWDwvHJwbjmbhtOzdPupAcWFTO6h9sOnJXQD2aWulVUub7GOnZl0yhkRjpA2Q5A7Yd+qAwkinZ8LMktnIdWzir6ZT3oBFFtpnXFW30PLhVOOVGb599Cfe97hgegX2Ihw3ojA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YC3A8T78; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777987324; x=1809523324;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ij/RKBgYy56O0uzaxUs3gQoxepG4M1vO6rUuWWatVlo=;
+  b=YC3A8T78LtR5ttteE4V2SIfoCSjEBG4R6trC0w07kOEBwTLDk4oVksCl
+   5glQ7kIoMK8gNB9GRvzDXqHEOwuKGJHjQUj2kSxfpQSAgHTW/wrQY+wMr
+   M9zbQ7ieTjGEUXsvfRvD2gPp4H2SIyY+QU1E7uu91nGoaugzfTXxGYa6j
+   swvr/AfI4aSp+bO0DgjaziZjaCjrG3KnjvOa491HLuZY1tdcsGw1OS6JU
+   34rH4HSXYbL3jAYGY5DLAwH19CGNBCzDeAqM8EtIK/24+w3UPwnH5GFFo
+   pt15dVyFodKWmsBQYMfvvFxZtGnRSIqSallcPMrEOb8GTbjAJdZedjmQ8
+   g==;
+X-CSE-ConnectionGUID: A3IEFTGPQyew7d7HdFw4rg==
+X-CSE-MsgGUID: bNNOhoipSJy7gcgrqL+t+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="78847355"
+X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
+   d="scan'208";a="78847355"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 06:19:36 -0700
+X-CSE-ConnectionGUID: r7vLLG3aT0abFqy7ISkkxA==
+X-CSE-MsgGUID: vTupwnkYSm2EyyQgnNW/rA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
+   d="scan'208";a="240807974"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.5])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 06:19:34 -0700
+Date: Tue, 5 May 2026 16:19:31 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Arnd Bergmann <arnd@kernel.org>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Subject: Re: [PATCH] [v2] leds: gpio: make legacy gpiolib interface optional
+Message-ID: <afnuY6IPvC7dgUC9@ashevche-desk.local>
+References: <20260430091202.2724109-1-arnd@kernel.org>
+ <afhLS6xwHGm9_mLy@ashevche-desk.local>
+ <bfecac99-3ec1-473a-bd5f-e49ae48aebf3@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: ARrtNTmGjyOc
-Date: Tue, 05 May 2026 15:10:28 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
- "Arnd Bergmann" <arnd@kernel.org>
-Cc: "Lee Jones" <lee@kernel.org>, "Pavel Machek" <pavel@kernel.org>,
- "Linus Walleij" <linusw@kernel.org>, "Bartosz Golaszewski" <brgl@kernel.org>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Message-Id: <bfecac99-3ec1-473a-bd5f-e49ae48aebf3@app.fastmail.com>
-In-Reply-To: <afhLS6xwHGm9_mLy@ashevche-desk.local>
-References: <20260430091202.2724109-1-arnd@kernel.org>
- <afhLS6xwHGm9_mLy@ashevche-desk.local>
-Subject: Re: [PATCH] [v2] leds: gpio: make legacy gpiolib interface optional
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: C658F4CE487
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bfecac99-3ec1-473a-bd5f-e49ae48aebf3@app.fastmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-Rspamd-Queue-Id: 899454CE5F1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.65 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[arndb.de,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[arndb.de:s=fm2,messagingengine.com:s=fm3];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-7994-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-7995-lists,linux-leds=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arnd@arndb.de,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-leds];
 	RCPT_COUNT_SEVEN(0.00)[10];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,app.fastmail.com:mid,arndb.de:dkim,messagingengine.com:dkim]
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:dkim,ashevche-desk.local:mid]
 
-On Mon, May 4, 2026, at 09:31, Andy Shevchenko wrote:
-> On Thu, Apr 30, 2026 at 11:11:55AM +0200, Arnd Bergmann wrote:
->> -	/*
->> -	 * This is the legacy code path for platform code that
->> -	 * still uses GPIO numbers. Ultimately we would like to get
->> -	 * rid of this block completely.
->> -	 */
->> +	return gpiod;
->
-> Do we need to repeat the upper `return gpiod;` statement? With this split
-> I don't see that we need to have two repetitive return statements.
+On Tue, May 05, 2026 at 03:10:28PM +0200, Arnd Bergmann wrote:
+> On Mon, May 4, 2026, at 09:31, Andy Shevchenko wrote:
+> > On Thu, Apr 30, 2026 at 11:11:55AM +0200, Arnd Bergmann wrote:
+> >> -	/*
+> >> -	 * This is the legacy code path for platform code that
+> >> -	 * still uses GPIO numbers. Ultimately we would like to get
+> >> -	 * rid of this block completely.
+> >> -	 */
+> >> +	return gpiod;
+> >
+> > Do we need to repeat the upper `return gpiod;` statement? With this split
+> > I don't see that we need to have two repetitive return statements.
+> 
+> Right, I've simplified this now to
+> 
+> static struct gpio_desc *gpio_led_get_gpiod(struct device *dev, int idx,
+>                                            const struct gpio_led *template)
+> {
+>        struct gpio_desc *gpiod;
+> 
+>        gpiod = devm_gpiod_get_index_optional(dev, NULL, idx, GPIOD_OUT_LOW);
 
-Right, I've simplified this now to
+>        if (gpiod && !IS_ERR(gpiod));
+
+And this is not needed. The below is NULL-aware.
+
+>                gpiod_set_consumer_name(gpiod, template->name);
+> 
+>        return gpiod;
+> }
+> 
+> which still keeps the existing behavior but is a bit more compact.
+> 
+> I think we can actually just remove that function altogether
+> and just pass the name into devm_gpiod_get_index_optional()
+> from the caller like
+> 
+>   gpiod = devm_gpiod_get_index_optional(dev, template->name, i, GPIOD_OUT_LOW);
+> 
+> Did I get that right? If so, I'll fold that in as another
+> simplification.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-static struct gpio_desc *gpio_led_get_gpiod(struct device *dev, int idx,
-                                           const struct gpio_led *template)
-{
-       struct gpio_desc *gpiod;
-
-       gpiod = devm_gpiod_get_index_optional(dev, NULL, idx, GPIOD_OUT_LOW);
-       if (gpiod && !IS_ERR(gpiod));
-               gpiod_set_consumer_name(gpiod, template->name);
-
-       return gpiod;
-}
-
-which still keeps the existing behavior but is a bit more compact.
-
-I think we can actually just remove that function altogether
-and just pass the name into devm_gpiod_get_index_optional()
-from the caller like
-
-  gpiod = devm_gpiod_get_index_optional(dev, template->name, i, GPIOD_OUT_LOW);
-
-Did I get that right? If so, I'll fold that in as another
-simplification.
-
-     Arnd
 
