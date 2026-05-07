@@ -1,404 +1,301 @@
-Return-Path: <linux-leds+bounces-8032-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8033-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eEaXDn6a/Gk6RwAAu9opvQ
-	(envelope-from <linux-leds+bounces-8032-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 07 May 2026 15:58:22 +0200
+	id wONgD3Sd/GnJRwAAu9opvQ
+	(envelope-from <linux-leds+bounces-8033-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 07 May 2026 16:11:00 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985094E9B6B
-	for <lists+linux-leds@lfdr.de>; Thu, 07 May 2026 15:58:21 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A69FA4E9DF2
+	for <lists+linux-leds@lfdr.de>; Thu, 07 May 2026 16:10:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2FBC8301D4D4
-	for <lists+linux-leds@lfdr.de>; Thu,  7 May 2026 13:55:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AA29B300EAA8
+	for <lists+linux-leds@lfdr.de>; Thu,  7 May 2026 14:05:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9ED0D3FADE6;
-	Thu,  7 May 2026 13:55:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CF723FCB07;
+	Thu,  7 May 2026 14:05:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mirtsHe2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lr9ZAuld"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4273F9F46
-	for <linux-leds@vger.kernel.org>; Thu,  7 May 2026 13:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF34F3FBEBD;
+	Thu,  7 May 2026 14:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778162127; cv=none; b=nM7XRR0nVmMiBqcTBJNHlnchIluVdYITN5QXPjd27RpyKjiFquSYjOsWtwHnq2Zl5m4BU4QaFmXre1GVLdneeaJiAvI7xBs2EtA+04kOW/4zSWJ7mZUYg3Y0ez49t4hRxke7qT1BHtop2CcANtsfno73BNCSxAVM4vFnCNUTcoA=
+	t=1778162725; cv=none; b=sCDOCy+7LLOsivFS6RZk+ZKqY7JiVYbra/Dh0cPyM0LatkLm+Su675J/87nP0V0rTdcICGLiYhNbS+yerC3aTE+qvH1z2aIHLAu8wFA9p7w+V4W92nQIkbRyZ33srRhKKXR+igMqLu2J46MRICrqu+kB6XqDkJPkxSLF1b/gsKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778162127; c=relaxed/simple;
-	bh=vLUqd2wF3I09DLEoj0Q1HeEyyR5NnRjBt5S4LdbbjVI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k3oGM/XAgZDdpU/po3Oqr4aO5wc460dDL5i5kCpLTcN7aFcwEsN69wFkAXi4GTGjdltUO6dkF03bpgJt3cirLVf+0i0IBdvTuBSh380bpUAXCBzhHuZx6Xm7F4HSdeRaPozX+eTffz4P7yFkPVJj4txFnGDZ2gGD33AHf761Ics=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mirtsHe2; arc=none smtp.client-ip=74.125.82.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-12c8f9846c8so1297064c88.0
-        for <linux-leds@vger.kernel.org>; Thu, 07 May 2026 06:55:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778162125; x=1778766925; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6uKuIwz5ttJFhZbFp/Yx6dYZyHlJKa3vlWe5jeAlGXA=;
-        b=mirtsHe2ZJUOrc1pZQunyg67PP1zarVNPWO9n+p+fbBXbihtGclwa0OoA9aaYJCdNA
-         BF3GqGeddhlc1hFEfo3JwmDeq4SJ347rzyQYnl/25IDevEDpYNyb5GgYkUx3rqRoCIzQ
-         mfOx9fY+tNI+MpZUAh4qEjZjlRvcoe1y1NZ9RecFQMToJ1yE0dehcDR+WUs9mhUNOFfS
-         7/HINcW1DAdshXwjl/qAhIFbemJHhdFGMVLvgnITLzrvmKVqi8zGS5lSnJlEk3j99BNw
-         5umXrsdrxgwpf1UeVokgvkcrnqCwa3I/+Ipk2Q/gntyymfGa4bIBBV1g5ZFiMinHWlhx
-         l9Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778162125; x=1778766925;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6uKuIwz5ttJFhZbFp/Yx6dYZyHlJKa3vlWe5jeAlGXA=;
-        b=SeKrB74DU3QZAr3cjcSYz86mR2n4lun/O0NPo2vQiNSGY1YXOkdosrb3+pkAgfgztv
-         kbSzIbC4A1EXK9gNs99lfkdBNwvlzWThu8p7aEQJdRIrPovPxaR+vhGd6H5YyevsIClY
-         FNDCp505TNK6TCOORTtfRdkztj1NSiJkPZy8CKFGG9fTg2QvAE7F0XWaXk4PJ6L9ZPPY
-         Ofwzn3X/2A2BcQGuMqRiF3b+rfS2+Vq/04pRU35nxBZjncpWli3btQqT2QEbB/1DKYuP
-         k9CxR2j9UDaF461soLm4VHovcNe8YQFTWaMMdMENG7VIhFTWSJnIYsmBE0bUXSDrTb47
-         q3MA==
-X-Forwarded-Encrypted: i=1; AFNElJ+UJTJW4fV8iiPOiL89cId+AWeST9i2f+k3yXsoR6PQARM3wZI/+eYC9PfYe4ZgHIvagw+Qty9/qOUA@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsnHrO4W9/CedO2Z+ZND0wvI3orojH2A6pRtWrXHrSCSnpEUA8
-	CeQ8peezMb513G1ac0H3R9mUhnu9+iE7h0YQhPXXknaTsEB5OHO5wWWJ
-X-Gm-Gg: AeBDiesePQRoOvojHWqgBRp0eFb3tYVHrQ+y2gvYNl28KrUEF9RHG7bi2XLytXpSIBF
-	xW/n5OYD0AN4oOkNarzgjNFUjUNwZz8+0hvBNDBd4y3ccHZZSTaKEm82ld39UPZriY199ZAdzBu
-	aomt+0ZaKdApL64WHmVSUko98MipZRsFjMeOVpywTfg+gk6AJ8ueY894L24N5DQn3O3PsLaumd0
-	xRrAUV9epxGIqIS53H3V9/maZN5OnMbWFTRC/K4IOwu1b6ERhrJ8ktofk/POH6VJ3Yw8bmcpPbH
-	tWFb8H6cqtwqobOk5aMc/5/YcOBn9R4Ya9JtNvqrJvSxXFHBCvgkzN/D1HVr4m1ZZq02qbqVzvC
-	xwjDact7JOrfJGMEAR2wTiP9by7PUghs4Lc7PtI8bwvySyzJDdtjrs3V3TG8iy1mBi2+ATRnsI2
-	xE4pGUJ07+Yx5auvs4oSm0Ll++Y1uH
-X-Received: by 2002:a05:7022:459b:b0:128:d967:4673 with SMTP id a92af1059eb24-131854f9a7cmr3589620c88.16.1778162125063;
-        Thu, 07 May 2026 06:55:25 -0700 (PDT)
-Received: from arch.localdomain ([2409:8a28:a53:11::1002])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1321e00e146sm6388817c88.0.2026.05.07.06.55.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 06:55:24 -0700 (PDT)
-From: Jun Yan <jerrysteve1101@gmail.com>
-To: robh@kernel.org
-Cc: conor+dt@kernel.org,
-	daniel@zonque.org,
-	devicetree@vger.kernel.org,
-	jerrysteve1101@gmail.com,
-	krzk+dt@kernel.org,
-	lee@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	luccafachinetti@gmail.com,
-	pzalewski@thegoodpenguin.co.uk
-Subject: Re: [PATCH v3 1/5] dt-bindings: leds: is31fl32xx: convert the binding to yaml
-Date: Thu,  7 May 2026 21:55:15 +0800
-Message-ID: <20260507135515.1449588-1-jerrysteve1101@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260506194124.GA2989390-robh@kernel.org>
-References: <20260506194124.GA2989390-robh@kernel.org>
+	s=arc-20240116; t=1778162725; c=relaxed/simple;
+	bh=EKMDsmwqLSGT/Kkw16i+yDPEMLTAQksaw1ClVRVSdsg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OZp+RXkb4a1W9DS2bvxq9GZ9F8oxxGvEXlfnLHn/V6WnLCqr+X1lcJrBTGrC9nhSdkV9gYjwWX/2HcCRdJ0Bg4GYXrRTl8utdFao4A4QDaNvStwfl4Y9DGse+dSYMrFpQKKoXON6VJfH+In95mxDYP2tP+AbobZPtwau9DV9lsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lr9ZAuld; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0798FC2BCB2;
+	Thu,  7 May 2026 14:05:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778162724;
+	bh=EKMDsmwqLSGT/Kkw16i+yDPEMLTAQksaw1ClVRVSdsg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Lr9ZAuldYfLzt/kXH0O8Btwvqyt5ogLYR2WkxLk08B+KA8M4WG/QzGr9aEeIQSrhY
+	 UiYQ02sgdPUmEZS7VIKPbdfkj58eOA63+nT0/sVJlSIAX8u96YqjPkd3eV0+EBQTHD
+	 h0GUSKYTObKWCOzE1nQtaGOuDGx4BCKOKhFgtVZoKJokuulRCDitwHflmumqryMbxP
+	 ggmnS+NnXa79G2ea9zW49W4TkTJxTAbG/zc1Zgqn8Wq4qkxFYxR0Rc64DmBIwsm/Jt
+	 ALZ7MThK0fuzSBk1e5eHtxJPEJ+liCRBskZTYuVh2ndPTTlwCMU7i8IPEN30H5QE6C
+	 Rbz+EH375MPQQ==
+Date: Thu, 7 May 2026 15:05:19 +0100
+From: Lee Jones <lee@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Tony Lindgren <tony@atomide.com>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH v4 5/6 RESEND] mfd: motorola-cpcap: diverge configuration
+ per-board
+Message-ID: <20260507140519.GO305027@google.com>
+References: <20260428153611.142816-1-clamor95@gmail.com>
+ <20260428153611.142816-6-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 985094E9B6B
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260428153611.142816-6-clamor95@gmail.com>
+X-Rspamd-Queue-Id: A69FA4E9DF2
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8032-lists,linux-leds=lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,zonque.org,vger.kernel.org,gmail.com,thegoodpenguin.co.uk];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jerrysteve1101@gmail.com,linux-leds@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-8033-lists,linux-leds=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,baylibre.com,atomide.com,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-> On Wed, Apr 29, 2026 at 11:44:45PM +0800, Jun Yan wrote:
-> > Convert leds-is31fl32xx to DT schema format.
-> > 
-> > Co-developed-by: Lucca Fachinetti <luccafachinetti@gmail.com>
-> > Signed-off-by: Lucca Fachinetti <luccafachinetti@gmail.com>
-> > Co-developed-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-> > Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-> > Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
-> > ---
-> >  .../bindings/leds/issl,is31fl32xx.yaml        | 163 ++++++++++++++++++
-> >  .../bindings/leds/leds-is31fl32xx.txt         |  53 ------
-> >  2 files changed, 163 insertions(+), 53 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/leds/issl,is31fl32xx.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
-> > 
-> > diff --git a/Documentation/devicetree/bindings/leds/issl,is31fl32xx.yaml b/Documentation/devicetree/bindings/leds/issl,is31fl32xx.yaml
-> > new file mode 100644
-> > index 000000000000..cb4741dee12e
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/leds/issl,is31fl32xx.yaml
-> > @@ -0,0 +1,163 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/leds/issl,is31fl32xx.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: IS31FL32xx and Si-En SN32xx LED controller
-> > +
-> > +maintainers:
-> > +  - Lucca Fachinetti <luccafachinetti@gmail.com>
-> > +  - Pavel Machek <pavel@ucw.cz>
-> > +  - Jun Yan <jerrysteve1101@gmail.com>
-> > +
-> > +description: |
-> > +  The IS31FL32xx/SN32xx family of LED drivers are I2C devices with multiple
-> > +  constant-current channels, each with independent 256-level PWM control.
-> > +  Each LED is represented as a sub-node of the device.
-> > +
-> > +  For more product information please see the links below:
-> > +    https://www.lumissil.com/assets/pdf/core/IS31FL3216_DS.pdf
-> > +    https://www.lumissil.com/assets/pdf/core/IS31FL3218_DS.pdf
-> > +    https://www.lumissil.com/assets/pdf/core/IS31FL3235_DS.pdf
-> > +    https://www.lumissil.com/assets/pdf/core/IS31FL3236_DS.pdf
-> > +    https://www.lumissil.com/assets/pdf/core/IS31FL3293_DS.pdf
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - issi,is31fl3216
-> > +      - issi,is31fl3218
-> > +      - issi,is31fl3235
-> > +      - issi,is31fl3236
-> > +      - issi,is31fl3293
-> > +      - si-en,sn3216
-> > +      - si-en,sn3218
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  "#address-cells":
-> > +    const: 1
-> > +
-> > +  "#size-cells":
-> > +    const: 0
-> > +
-> > +patternProperties:
-> > +  "^led@([1-9])+$":
+On Tue, 28 Apr 2026, Svyatoslav Ryhel wrote:
+
+> MFD have rigid subdevice structure which does not allow flexible dynamic
+> subdevice linking. Address this by diverging CPCAP subdevice composition
+> to take into account board specific configuration.
 > 
-> Unit-addresses are hex.
-
-Got it.
-
-> > +    type: object
-> > +    $ref: common.yaml#
-> > +    unevaluatedProperties: false
-> > +
-> > +    properties:
-> > +      reg:
-> > +        description:
-> > +          LED channel number (1..N)
-> > +        minimum: 1
-> > +        maximum: 36
-> > +
-> > +    required:
-> > +      - reg
-> > +
-> > +allOf:
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - issi,is31fl3293
-> > +    then:
-> > +      patternProperties:
-> > +        "^led@([1-9])+$":
+> Create a common default subdevice composition, rename existing subdevice
+> composition into cpcap_mapphone_mfd_devices since it targets mainly
+> Mapphone board.
 > 
-> No need to repeat the unit-address pattern here. Just "^led@".
-
-Got it.
-
-> > +          properties:
-> > +            reg:
-> > +              maximum: 3
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - issi,is31fl3216
-> > +              - si-en,sn3216
-> > +    then:
-> > +      patternProperties:
-> > +        "^led@([1-9])+$":
-> > +          properties:
-> > +            reg:
-> > +              maximum: 16
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - issi,is31fl3218
-> > +              - si-en,sn3218
-> > +    then:
-> > +      patternProperties:
-> > +        "^led@([1-9])+$":
-> > +          properties:
-> > +            reg:
-> > +              maximum: 18
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - issi,is31fl3235
-> > +    then:
-> > +      patternProperties:
-> > +        "^led@([1-9])+$":
-> > +          properties:
-> > +            reg:
-> > +              maximum: 28
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - issi,is31fl3236
-> > +    then:
-> > +      patternProperties:
-> > +        "^led@([1-9])+$":
-> > +          properties:
-> > +            reg:
-> > +              maximum: 36
+> Removed st,6556002 as it is no longer applicable to all cases and
+> duplicates motorola,cpcap, which is used as the default composition.
 > 
-> That's the default max, so you can drop this if/then.
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
 
-Agreed.
+Changelog?
 
-
-These changes will be implemented in v5.
-
+>  drivers/mfd/motorola-cpcap.c | 101 ++++++++++++++++++++++++++++-------
+>  1 file changed, 83 insertions(+), 18 deletions(-)
 > 
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - "#address-cells"
-> > +  - "#size-cells"
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/leds/common.h>
-> > +
-> > +    i2c {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        led-controller@3c {
-> > +            compatible = "issi,is31fl3236";
-> > +            reg = <0x3c>;
-> > +            #address-cells = <1>;
-> > +            #size-cells = <0>;
-> > +
-> > +            led@1 {
-> > +                reg = <1>;
-> > +                color = <LED_COLOR_ID_RED>;
-> > +                function = LED_FUNCTION_STATUS;
-> > +            };
-> > +
-> > +            led@5 {
-> > +                reg = <5>;
-> > +                color = <LED_COLOR_ID_GREEN>;
-> > +                function = LED_FUNCTION_POWER;
-> > +                linux,default-trigger = "default-on";
-> > +            };
-> > +        };
-> > +    };
-> > +...
-> > +
-> > diff --git a/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt b/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
-> > deleted file mode 100644
-> > index 7082ed186dd9..000000000000
-> > --- a/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
-> > +++ /dev/null
-> > @@ -1,53 +0,0 @@
-> > -Binding for ISSI IS31FL32xx and Si-En SN32xx LED Drivers
-> > -
-> > -The IS31FL32xx/SN32xx family of LED drivers are I2C devices with multiple
-> > -constant-current channels, each with independent 256-level PWM control.
-> > -Each LED is represented as a sub-node of the device.
-> > -
-> > -Required properties:
-> > -- compatible: one of
-> > -	issi,is31fl3236
-> > -	issi,is31fl3235
-> > -	issi,is31fl3218
-> > -	issi,is31fl3216
-> > -	issi,is31fl3293
-> > -	si-en,sn3218
-> > -	si-en,sn3216
-> > -- reg: I2C slave address
-> > -- address-cells : must be 1
-> > -- size-cells : must be 0
-> > -
-> > -LED sub-node properties:
-> > -- reg : LED channel number (1..N)
-> > -- label :  (optional)
-> > -  see Documentation/devicetree/bindings/leds/common.txt
-> > -- linux,default-trigger :  (optional)
-> > -  see Documentation/devicetree/bindings/leds/common.txt
-> > -
-> > -
-> > -Example:
-> > -
-> > -is31fl3236: led-controller@3c {
-> > -	compatible = "issi,is31fl3236";
-> > -	reg = <0x3c>;
-> > -	#address-cells = <1>;
-> > -	#size-cells = <0>;
-> > -
-> > -	led@1 {
-> > -		reg = <1>;
-> > -		label = "EB:blue:usr0";
-> > -	};
-> > -	led@2 {
-> > -		reg = <2>;
-> > -		label = "EB:blue:usr1";
-> > -	};
-> > -	...
-> > -	led@36 {
-> > -		reg = <36>;
-> > -		label = "EB:blue:usr35";
-> > -	};
-> > -};
-> > -
-> > -For more product information please see the links below:
-> > -http://www.issi.com/US/product-analog-fxled-driver.shtml
-> > -http://www.si-en.com/product.asp?parentid=890
-> > -- 
-> > 2.53.0
-> > 
+> diff --git a/drivers/mfd/motorola-cpcap.c b/drivers/mfd/motorola-cpcap.c
+> index d8243b956f87..516d1e33affa 100644
+> --- a/drivers/mfd/motorola-cpcap.c
+> +++ b/drivers/mfd/motorola-cpcap.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+>  #include <linux/mod_devicetable.h>
+> +#include <linux/property.h>
+>  #include <linux/regmap.h>
+>  #include <linux/sysfs.h>
+>  
+> @@ -24,10 +25,16 @@
+>  #define CPCAP_REGISTER_SIZE	4
+>  #define CPCAP_REGISTER_BITS	16
+>  
+> +struct cpcap_chip_data {
+> +	const struct mfd_cell *mfd_devices;
+> +	unsigned int num_devices;
+> +};
 
+This is a red flag.
+
+>  struct cpcap_ddata {
+>  	struct spi_device *spi;
+>  	struct regmap_irq *irqs;
+>  	struct regmap_irq_chip_data *irqdata[CPCAP_NR_IRQ_CHIPS];
+> +	const struct cpcap_chip_data *cdata;
+>  	const struct regmap_config *regmap_conf;
+>  	struct regmap *regmap;
+>  };
+> @@ -195,20 +202,6 @@ static int cpcap_init_irq(struct cpcap_ddata *cpcap)
+>  	return 0;
+>  }
+>  
+> -static const struct of_device_id cpcap_of_match[] = {
+> -	{ .compatible = "motorola,cpcap", },
+> -	{ .compatible = "st,6556002", },
+> -	{},
+> -};
+> -MODULE_DEVICE_TABLE(of, cpcap_of_match);
+> -
+> -static const struct spi_device_id cpcap_spi_ids[] = {
+> -	{ .name = "cpcap", },
+> -	{ .name = "6556002", },
+> -	{},
+> -};
+> -MODULE_DEVICE_TABLE(spi, cpcap_spi_ids);
+> -
+>  static const struct regmap_config cpcap_regmap_config = {
+>  	.reg_bits = 16,
+>  	.reg_stride = 4,
+> @@ -241,7 +234,56 @@ static int cpcap_resume(struct device *dev)
+>  
+>  static DEFINE_SIMPLE_DEV_PM_OPS(cpcap_pm, cpcap_suspend, cpcap_resume);
+>  
+> -static const struct mfd_cell cpcap_mfd_devices[] = {
+> +static const struct mfd_cell cpcap_default_mfd_devices[] = {
+> +	{
+> +		.name          = "cpcap_adc",
+> +		.of_compatible = "motorola,cpcap-adc",
+> +	}, {
+> +		.name          = "cpcap_battery",
+> +		.of_compatible = "motorola,cpcap-battery",
+> +	}, {
+> +		.name          = "cpcap-regulator",
+> +		.of_compatible = "motorola,cpcap-regulator",
+> +	}, {
+> +		.name          = "cpcap-rtc",
+> +		.of_compatible = "motorola,cpcap-rtc",
+> +	}, {
+> +		.name          = "cpcap-pwrbutton",
+> +		.of_compatible = "motorola,cpcap-pwrbutton",
+> +	}, {
+> +		.name          = "cpcap-usb-phy",
+> +		.of_compatible = "motorola,cpcap-usb-phy",
+> +	}, {
+> +		.name          = "cpcap-led",
+> +		.id            = 0,
+> +		.of_compatible = "motorola,cpcap-led-red",
+> +	}, {
+> +		.name          = "cpcap-led",
+> +		.id            = 1,
+> +		.of_compatible = "motorola,cpcap-led-green",
+> +	}, {
+> +		.name          = "cpcap-led",
+> +		.id            = 2,
+> +		.of_compatible = "motorola,cpcap-led-blue",
+> +	}, {
+> +		.name          = "cpcap-led",
+> +		.id            = 3,
+> +		.of_compatible = "motorola,cpcap-led-adl",
+> +	}, {
+> +		.name          = "cpcap-led",
+> +		.id            = 4,
+> +		.of_compatible = "motorola,cpcap-led-cp",
+> +	}, {
+> +		.name          = "cpcap-codec",
+> +	},
+> +};
+> +
+> +static const struct cpcap_chip_data cpcap_default_data = {
+> +	.mfd_devices = cpcap_default_mfd_devices,
+> +	.num_devices = ARRAY_SIZE(cpcap_default_mfd_devices),
+> +};
+> +
+> +static const struct mfd_cell cpcap_mapphone_mfd_devices[] = {
+>  	{
+>  		.name          = "cpcap_adc",
+>  		.of_compatible = "motorola,mapphone-cpcap-adc",
+> @@ -285,7 +327,12 @@ static const struct mfd_cell cpcap_mfd_devices[] = {
+>  		.of_compatible = "motorola,cpcap-led-cp",
+>  	}, {
+>  		.name          = "cpcap-codec",
+> -	}
+> +	},
+> +};
+> +
+> +static const struct cpcap_chip_data cpcap_mapphone_data = {
+> +	.mfd_devices = cpcap_mapphone_mfd_devices,
+> +	.num_devices = ARRAY_SIZE(cpcap_mapphone_mfd_devices),
+>  };
+>  
+>  static int cpcap_probe(struct spi_device *spi)
+> @@ -297,9 +344,17 @@ static int cpcap_probe(struct spi_device *spi)
+>  	if (!cpcap)
+>  		return -ENOMEM;
+>  
+> +	cpcap->cdata = device_get_match_data(&spi->dev);
+> +	if (!cpcap->cdata)
+> +		return -ENODEV;
+> +
+>  	cpcap->spi = spi;
+>  	spi_set_drvdata(spi, cpcap);
+>  
+> @@ -331,16 +382,24 @@ static int cpcap_probe(struct spi_device *spi)
+>  	spi->dev.coherent_dma_mask = 0;
+>  	spi->dev.dma_mask = &spi->dev.coherent_dma_mask;
+>  
+> -	return devm_mfd_add_devices(&spi->dev, 0, cpcap_mfd_devices,
+> -				    ARRAY_SIZE(cpcap_mfd_devices), NULL, 0, NULL);
+> +	return devm_mfd_add_devices(&spi->dev, 0, cpcap->cdata->mfd_devices,
+> +				    cpcap->cdata->num_devices, NULL, 0, NULL);
+>  }
+>  
+> +static const struct of_device_id cpcap_of_match[] = {
+> +	{ .compatible = "motorola,cpcap", .data = &cpcap_default_data },
+> +	{ .compatible = "motorola,mapphone-cpcap", .data = &cpcap_mapphone_data	},
+
+We don't allow data from one device registration API (MFD) to be passed
+through another (OF) because it tends to lead to all sorts of "creative
+solutions".  Pass a value instead and match on that in a switch()
+statement like all of the other MFD drivers do.
+
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, cpcap_of_match);
+> +
+> +static const struct spi_device_id cpcap_spi_ids[] = {
+> +	{ .name = "cpcap", .driver_data = (kernel_ulong_t)&cpcap_default_data },
+> +	{ .name = "mapphone-cpcap", .driver_data = (kernel_ulong_t)&cpcap_mapphone_data },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(spi, cpcap_spi_ids);
+> +
+>  static struct spi_driver cpcap_driver = {
+>  	.driver = {
+>  		.name = "cpcap-core",
+> -- 
+> 2.51.0
+> 
+> 
+
+-- 
+Lee Jones
 
