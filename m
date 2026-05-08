@@ -1,268 +1,183 @@
-Return-Path: <linux-leds+bounces-8053-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8054-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6C8iBzjs/WlJkwAAu9opvQ
-	(envelope-from <linux-leds+bounces-8053-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 08 May 2026 15:59:20 +0200
+	id cOMjM+cA/mkBmAAAu9opvQ
+	(envelope-from <linux-leds+bounces-8054-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 08 May 2026 17:27:35 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861F44F77B9
-	for <lists+linux-leds@lfdr.de>; Fri, 08 May 2026 15:59:19 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6994F8A9B
+	for <lists+linux-leds@lfdr.de>; Fri, 08 May 2026 17:27:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 73F6730082BD
-	for <lists+linux-leds@lfdr.de>; Fri,  8 May 2026 13:57:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 251C230265BD
+	for <lists+linux-leds@lfdr.de>; Fri,  8 May 2026 15:25:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD7B43E1CF6;
-	Fri,  8 May 2026 13:57:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8139E3FA5D0;
+	Fri,  8 May 2026 15:25:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oPX+KzVj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ctz1wJui"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B403D646C;
-	Fri,  8 May 2026 13:57:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E613F7AA1
+	for <linux-leds@vger.kernel.org>; Fri,  8 May 2026 15:25:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778248639; cv=none; b=KEBNNqcMF4Th1fi8DVo3lflfWnKBps1tNlKNphHA0uaPzLsut9168FCTDS7inMmTcQsZll01DyyxQoDFUgbsDJP9UptPEYYNYBNxNPwfrZcKUQODiw0Yhhf8lyhn18EGL8ZF5YjCACd1rJ69PGe6iw95dpc/FeKSh2EHU6sHtWA=
+	t=1778253923; cv=none; b=SqexMtGGBFOp9VLeeG38CLperdBM5iIpPMatO2V/Wr7uhvd35KQix6rMyX4O47EFMjWWfp6B1EFMVr4bDfPTDQsJwmkA2OaHTNNSJFCrAaDbu694eVP7i31H60eznpaWpe2ReHDoLS9aod8bWe2n/whDXYiOU5VfY23dw/iSA/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778248639; c=relaxed/simple;
-	bh=joxHu0FV93uMH4e5Bzp95xJasxmA6c6AdKqcG4gkwzU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ks8HHVdCKnnEPYEv/pxWrtC9lKyj9Aago6unNrqUPmi2qLslvWbmBvT3T8PX/amoq7j4k1ukC5DgT2hMKOBrBdsgAeqkZoU//YZqBTeCSaOGamibk2VVL6aKEGnbHFqZ/ICLBkGNG9060ph+oOpBamuXUig0wS1QYuLYLaNQWq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oPX+KzVj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2480EC2BCB0;
-	Fri,  8 May 2026 13:57:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778248639;
-	bh=joxHu0FV93uMH4e5Bzp95xJasxmA6c6AdKqcG4gkwzU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oPX+KzVjKN7TpD/u+aWdy9CusQ8pgFvnnbhRa0I58SpmdbG9N6oNgSQNa/NgODTc+
-	 bWQflHKuVJVI3GsQDQq4HKGQHm3q4bAWpEnwxBUxbpXlBCpqDGvNQBHzUa8RcmoHCm
-	 t0tvyQtYhscMLbmKo8JQNhiYmPKFQkWwDmR1DUIbr4DC7tdj3/3ArVTfkUMPOPJJ6i
-	 IBodOT59LbmQ9pQSxpwPGuTD130TCfLisZMyfBkkOgsn4S0JD6YQeAHFlGBBvGyVYi
-	 qMQ+fAUcdvMXP+Ap7pDsLScArk4JIWZoD0/HUh+uC6AFyurH9Ejm4Wh6ul0JXVZyOK
-	 179MyEIkMbQAA==
-Date: Fri, 8 May 2026 08:57:17 -0500
-From: Rob Herring <robh@kernel.org>
-To: Edelweise Escala <edelweise.escala@analog.com>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	s=arc-20240116; t=1778253923; c=relaxed/simple;
+	bh=RSPgHsHKv3HIrehtClGsNwtFl5zAlbG9AEbp2U8tqtA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a7kbChOiqeqQh+ywgDxhj25Ut4SyRB20BciK5agZusOi3AaeSirqamqKtMqLHGLT6dCU39iIAhdK2N9wtDs3/YUGxOMLFttgTwUhkFz1inlq2qEw6fJ7B8lGAlhD4/8Jbma3PbyWv/Cg5jUR7ndMG7T/XM+4qPJbHJq4wLXlG0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ctz1wJui; arc=none smtp.client-ip=74.125.82.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2ef2a1cc06dso430441eec.0
+        for <linux-leds@vger.kernel.org>; Fri, 08 May 2026 08:25:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778253921; x=1778858721; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TRoQ+3Yekl1sBGcIilVshMHtKIfsx7cqVK42rev6z2U=;
+        b=ctz1wJuimUDdg7t0nXpjXKv8S4b97HhfvkiXTBKoS96VabLDxZkXDJPAxDxsgmK1sP
+         ZVN2fIdgx9PB354V2okPs062GUhanMOokn3hWu3XGWHwF2dNkPZtsLCmq7cOLIUFjXeJ
+         V9IiVH7lrJMhlNZ1T7PbCIlasYlZOjqrxTKV1yihr4SzwvwPPwEi7cr951pg4TpHGzss
+         lc5i7yipQD5BAF3RbvJ41QMN1+LHJr+syk5iQm9r+qKascxOkpchGlPtXACNGpTqXSMZ
+         EdJ3Rpaa7kK9QRuy5+WJwUdVkmmbVTESUrGU7ltvSC46mKYInT01PdUocsGQmaNUvgTo
+         Imdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778253921; x=1778858721;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TRoQ+3Yekl1sBGcIilVshMHtKIfsx7cqVK42rev6z2U=;
+        b=AkscPusCnFI9d/jIaXSZF6CzRDkFzO2sH+6/jwzSoEtlFdPDKrXC/polAK7sK++Glh
+         TJvxwK2jBHwfbW89RiZ3YP8ml+XmdZDFxLaOFOta+W4PkAEH+7M7+5xNyoM1OCtvAosH
+         ZAMFsRlYD3mFwR1h4lcLALkvtiC1okz85xPfw6NIV42bBgRBImGbVxT2yEvqro6KjQyG
+         WEB/3r9Kd+IN84VIzqEkNKaaeSiJ5oF066DyCNtrB5sAiOuu1jE+8QvhXQY7lHstfJ9x
+         Nnf1uB41MA4IVnd4OI9+nZjMa6sA1JNdoUVMnAsCk4cnENDNJle1wKkPeR7E/1+D6on0
+         Y59A==
+X-Forwarded-Encrypted: i=1; AFNElJ/ojYf3LAago5SqPBbHaiLp7xjbx6Z21ntCGTYFvKUmfmhszRxbGqj+eXcq2oaHJfGWub2S+lFqq/3m@vger.kernel.org
+X-Gm-Message-State: AOJu0YzS6TPKKua53Z+D6raY68zh6LqPY8Yq3qsr6MEKHXqSTs0OiRR6
+	x7Wts8y/a3/Br9EdA1qbfptIHWOi1ZrYIZ4MVbvMTXkzvolJhcI97BA/
+X-Gm-Gg: Acq92OGwP7BpOFs2ltD6Sp873xezpjxfYc82dhzA/LBdQb6YWWmHyYA5hOsEHV3hVhf
+	hA2ew2MuPHA8rkITaDn15S9x+/Y50OHy9xy8SyYWUe5/DKAb7iNtheovROC5OILKwoaTVehbdOG
+	Eq6+jb9oFqFrOR9lvCIV89hjYOjfqPCkEA2U3m2mS5ZTfH48ewqhvtG8kT/9R4M/J4UIhD68cw2
+	ZjyBO+e1G4osEppvEYZitNZYCYvkLPixFyVIdmeckMF/qYWYgsDK9j3EhW2NoEwqmQvzVDF5hw4
+	R3Z+UMsQVR5K08a4doGoyErLRYzryAAbTaXUHirqRi461Xe1xLKwaH7rmzPI0MkMItu3KV4sqZL
+	qYNl8EG5MagaIMbjLzW+ksTBdCDmP1pwnC9Vxout6O4pUDZ/FGZZEV1NIcCH6Gfee+vLqUeOYX1
+	Yu44VLjgfNpv4WUmc6MbgyAicEnIBgPSVcueL/w/tIQZz+Uoo=
+X-Received: by 2002:a05:7300:d70d:b0:2d9:6373:ad10 with SMTP id 5a478bee46e88-2f548065445mr6402720eec.7.1778253921033;
+        Fri, 08 May 2026 08:25:21 -0700 (PDT)
+Received: from arch.localdomain ([2409:8a28:a53:11:5d6e:9aed:ce1b:4ae9])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f8862d43b4sm2535486eec.11.2026.05.08.08.25.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2026 08:25:20 -0700 (PDT)
+From: Jun Yan <jerrysteve1101@gmail.com>
+To: Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v7 1/2] dt-bindings: leds: Add LTC3220 18 channel LED
- Driver
-Message-ID: <20260508135717.GA1218557-robh@kernel.org>
-References: <20260508-ltc3220-driver-v7-0-0f092ba54f23@analog.com>
- <20260508-ltc3220-driver-v7-1-0f092ba54f23@analog.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Vincent Knecht <vincent.knecht@mailoo.org>,
+	Grant Feng <von81@163.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Baruch Siach <baruch@tkos.co.il>,
+	Nick Hawkins <nick.hawkins@hpe.com>,
+	Robert Marko <robert.marko@sartura.hr>
+Cc: Jun Yan <jerrysteve1101@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 0/5] leds: is31fl319x: Fix shutdown GPIO and update DT bindings
+Date: Fri,  8 May 2026 23:24:17 +0800
+Message-ID: <20260508152435.21389-1-jerrysteve1101@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260508-ltc3220-driver-v7-1-0f092ba54f23@analog.com>
-X-Rspamd-Queue-Id: 861F44F77B9
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 6D6994F8A9B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8053-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[gmail.com,ucw.cz,kernel.org,vger.kernel.org,lists.infradead.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-8054-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	DBL_PROHIBIT(0.00)[0.0.0.2:email];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-leds@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,lunn.ch,bootlin.com,gmail.com,mailoo.org,163.com,arm.com,linaro.org,tkos.co.il,hpe.com,sartura.hr];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	RCPT_COUNT_SEVEN(0.00)[9];
 	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jerrysteve1101@gmail.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[devicetree.org:url,0.0.0.1:email,analog.com:email,analog.com:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,microchip.com:email,1c:email,0.0.0.3:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Fri, May 08, 2026 at 12:09:49PM +0800, Edelweise Escala wrote:
-> LTC3220 is a multi-display LED driver with I2C interface.
-> The LTC3220 provides individual brightness control (64-step),
-> blinking, and gradation features for up to 18 LED outputs.
-> 
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Edelweise Escala <edelweise.escala@analog.com>
-> ---
->  .../devicetree/bindings/leds/adi,ltc3220.yaml      | 120 +++++++++++++++++++++
->  MAINTAINERS                                        |   7 ++
->  2 files changed, 127 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/adi,ltc3220.yaml b/Documentation/devicetree/bindings/leds/adi,ltc3220.yaml
-> new file mode 100644
-> index 000000000000..62f760d517aa
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/adi,ltc3220.yaml
-> @@ -0,0 +1,120 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/adi,ltc3220.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Analog Devices LTC3220 LED Driver
-> +
-> +maintainers:
-> +  - Edelweise Escala <edelweise.escala@analog.com>
-> +
-> +description:
+This series fixes incorrect shutdown GPIO polarity and improves
+shutdown-gpios description in DT bindings.
 
-You need a '>' to maintain paragraphs.
+Patch 1 adds detailed shutdown-gpios description and fixes example
+in DT bindings.
 
-> +  The LTC3220 is a multi-display LED driver, which contains a high-efficiency,
-> +  low-noise charge pump to provide power to up to 18 LED current sources.
-> +  The LEDs are individually configurable to 64-step linear brightness control,
-> +  blinking and gradation control via 2-wire I2C interface.
-> +
-> +  For more product information please see the link below
-> +    https://www.analog.com/en/products/ltc3220.html
-> +
-> +properties:
-> +  compatible:
-> +    const: adi,ltc3220
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +patternProperties:
-> +  '^led@([1-9]|1[0-8])$':
+Patch 2 fixes shutdown GPIO initial state and removes redundant
+startup toggling.
 
-Unit-addresses are hex.
+Patches 3-5 correct shutdown GPIO polarity in board DTS files.
 
-> +    type: object
-> +    $ref: /schemas/leds/common.yaml#
-> +    unevaluatedProperties: false
-> +    properties:
-> +      reg:
-> +        description:
-> +          Output channel for the LED (1-18 maps to LED outputs D1-D18).
-> +          For aggregated LED control, define only one LED node with reg = <1>
-> +          and use led-sources to list all controlled outputs. Only reg 1 should
-> +          be present when using led-sources.
-> +        minimum: 1
-> +        maximum: 18
-> +
-> +    required:
-> +      - reg
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    // Independent LEDs
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        led-controller@1c {
-> +            compatible = "adi,ltc3220";
-> +            reg = <0x1c>;
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            reset-gpios = <&gpio 17 GPIO_ACTIVE_LOW>;
-> +
-> +            led@1 {
-> +                reg = <1>;
-> +                function = LED_FUNCTION_INDICATOR;
-> +                function-enumerator = <1>;
-> +            };
-> +
-> +            led@2 {
-> +                reg = <2>;
-> +                function = LED_FUNCTION_INDICATOR;
-> +                function-enumerator = <2>;
-> +            };
-> +
-> +            led@3 {
-> +                reg = <3>;
-> +                function = LED_FUNCTION_INDICATOR;
-> +                function-enumerator = <3>;
-> +            };
-> +        };
-> +    };
-> +
-> +  - |
-> +    // Aggregated LED
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        led-controller@1c {
-> +            compatible = "adi,ltc3220";
-> +            reg = <0x1c>;
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            led@1 {
-> +                reg = <1>;
-> +                led-sources = <1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18>;
-> +                function = LED_FUNCTION_BACKLIGHT;
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 327d74ca7ecb..5c10cc3e3022 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14955,6 +14955,13 @@ W:	https://ez.analog.com/linux-software-drivers
->  F:	Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml
->  F:	drivers/iio/temperature/ltc2983.c
->  
-> +LTC3220 LED DRIVER
-> +M:	Edelweise Escala <edelweise.escala@analog.com>
-> +L:	linux-leds@vger.kernel.org
-> +S:	Maintained
-> +W:	https://ez.analog.com/linux-software-drivers
-> +F:	Documentation/devicetree/bindings/leds/adi,ltc3220.yaml
-> +
->  LTC4282 HARDWARE MONITOR DRIVER
->  M:	Nuno Sa <nuno.sa@analog.com>
->  L:	linux-hwmon@vger.kernel.org
-> 
-> -- 
-> 2.43.0
-> 
+Jun Yan (5):
+  dt-bindings: leds: issi,is31fl319x: Add description for the
+    shutdown-gpios property
+  leds: is31fl319x: Fix shutdown GPIO initial state and remove redundant
+    startup pulse
+  arm64: dts: qcom: msm8916-alcatel-idol347: Fix sn3190 shutdown GPIO
+    polarity
+  ARM: dts: qcom: msm8974-oneplus-bacon: Fix sn3193 shutdown GPIO
+    polarity
+  arm64: dts: marvell: armada-7040-mochabin: Fix is31fl3199 shutdown
+    GPIO polarity
+
+ .../devicetree/bindings/leds/issi,is31fl319x.yaml        | 9 +++++++--
+ arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dts | 2 +-
+ arch/arm64/boot/dts/marvell/armada-7040-mochabin.dts     | 2 +-
+ arch/arm64/boot/dts/qcom/msm8916-alcatel-idol347.dts     | 2 +-
+ drivers/leds/leds-is31fl319x.c                           | 8 +-------
+ 5 files changed, 11 insertions(+), 12 deletions(-)
+
+-- 
+2.54.0
+
 
