@@ -1,126 +1,147 @@
-Return-Path: <linux-leds+bounces-8072-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8073-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QIeBNGBrAGoyIwEAu9opvQ
-	(envelope-from <linux-leds+bounces-8072-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 13:26:24 +0200
+	id kH3kA7mDAGoLJwEAu9opvQ
+	(envelope-from <linux-leds+bounces-8073-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 15:10:17 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id D739C503CB7
-	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 13:26:23 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4656750445F
+	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 15:10:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id CD53E3001CFE
-	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 11:26:14 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0E045304A4D1
+	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 12:45:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADDAA37E2E1;
-	Sun, 10 May 2026 11:26:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DD07389455;
+	Sun, 10 May 2026 12:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="okjxQ6ZO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pVm7IEAe"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891D63242BE;
-	Sun, 10 May 2026 11:26:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 586B138911B;
+	Sun, 10 May 2026 12:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778412373; cv=none; b=aRSZfob8TwLEtuZ3ZQvgbDYUeNTiaCazpEzLHOJmwire8zBHP4yvosEU2Xl31SiZvK3jQw3wISqJjXveFe8jQzJ6YkvK1oq9KN/idDfyyX91DDjFbsCMfSaH3s4bktCtLqXp6//k1+y2HhhQTWO5q9FXmoYrrhUCB1v6q1vYFpc=
+	t=1778417048; cv=none; b=ClSZKC/S+U+ISb1K9con6TaaTPQaKqASalPouQS7YnWdQpx+jmocxcLgd/zZn5kRFCJOWL6EUSEvbHgPgtX9JxTvWUuSWOYEn6YnMfkzB4G1xwOxp5OUYTleyKldGQuIaU6g2jgjYSklNmyNRYkfSMvY3xh9RRA6we0mP1dLkXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778412373; c=relaxed/simple;
-	bh=2KRTjZ2Lq8ZGRTyfYZPEXXRsQjgKx/NzMCHPT9+g3SI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uYK4mkAhEvu7lHJNpQO5A7QIR0poBteYmJBPpp9QZwMOArgqQxe6wXA4JlFhVvKcRA698J8MYQFZpILEsshtfrCimhlqb01fhtcH88p8JI194TFGJ5ld3Zf3irXNyj2C6Q/DF80pjPoxx9ei2VC4aKgPc1eIjZQGRLh/A353rPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=okjxQ6ZO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DB5EC2BCB8;
-	Sun, 10 May 2026 11:26:12 +0000 (UTC)
+	s=arc-20240116; t=1778417048; c=relaxed/simple;
+	bh=UXZunLOTwritnG0Uroa7+WRHucRVxpgDVVzKmx6QNkA=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=OO4mwdnpEwchPaT86KPmGaPah0O5at2bny/eXi05w3LEskZ2alpr8i4TUQTR42TL8XW7hwoAtDDsGx914aIcVXNngoWAYqu98UQxsT6BComPfZAIkgH4SMx9cPQY9xNyGjVog5kNDmokIgdjxyHdlUx92tJkjtE8HIIsPCyDNm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pVm7IEAe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2087C2BCC9;
+	Sun, 10 May 2026 12:44:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778412373;
-	bh=2KRTjZ2Lq8ZGRTyfYZPEXXRsQjgKx/NzMCHPT9+g3SI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=okjxQ6ZO2rCXK0FiyK77U2aTNgcVTcTMEALrRzyYXJoz/CRP62qy1NUH6tWADKkf0
-	 isu7QOlxxiBapWJhB4qY3oU6FAtuX+C5Yzx+8B0tGvmqPuIG2u+RliTjjhRkaEpHlg
-	 UIWjvvw+YhY910QWp9EIktPQ7gwAtBzz+HbHHhsDBcXLm91Hzh6NGOyydPmJ6gO+QX
-	 PE+Is2ED9RuUB225NOZ10NmtI1cg60/A0X1T4wQnyF3xtBnFhEdddYYNkKFk53xDlY
-	 J3As1YwnIgvhxHQZgXAvH54TOotwgSSPrXJfQQEfTJxY12U1cU/THOsOuTCZpbJX3H
-	 kp9cdbXw1mVbA==
-Date: Sun, 10 May 2026 16:56:08 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Peter Rosin <peda@axentia.se>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
-	Tom Rix <trix@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-spi@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-fpga@vger.kernel.org, driver-core@lists.linux.dev
-Subject: Re: [PATCH 02/10] phy: core: switch to using
- class_find_device_by_fwnode()
-Message-ID: <agBrUA7SsOLwhOMc@vaman>
-References: <20260322-remove-device-find-by-of-node-v1-0-b72eb22a1215@gmail.com>
- <20260322-remove-device-find-by-of-node-v1-2-b72eb22a1215@gmail.com>
+	s=k20201202; t=1778417047;
+	bh=UXZunLOTwritnG0Uroa7+WRHucRVxpgDVVzKmx6QNkA=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=pVm7IEAeN+m8awpt5JYnu1BkGHYi0ZLyx2/P2bHsz7ZitHMvX/BdY+C7aIlWOrRYH
+	 e/G5J58BCpGDiCwXZjNj4isTyKaYs2oK9rEKBcBZrxCYqNU4WlFtCQwz4eD5bXim+i
+	 istYimUJbvsT3otA2F3XGb9D5QQV0+6JxndaarTrCPMpEYW0IGZGbxfoeHDchPS3U1
+	 /draodfYYxnADGiKERmGoN7RhyLihq8HLi2nsl4aBDluxeM1fioxYJ8xLqq2LnNXQ8
+	 Knbti7nYmWvoERFkWsAtZ7fEpYNa89A+bCxaJOlii2kzSU6hE2DfhM5xAavpX/P8a3
+	 r9QP/zahBipAw==
+Date: Sun, 10 May 2026 07:44:05 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260322-remove-device-find-by-of-node-v1-2-b72eb22a1215@gmail.com>
-X-Rspamd-Queue-Id: D739C503CB7
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Lee Jones <lee@kernel.org>, Tony Lindgren <tony@atomide.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ David Lechner <dlechner@baylibre.com>, linux-kernel@vger.kernel.org, 
+ linux-leds@vger.kernel.org, linux-input@vger.kernel.org
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+In-Reply-To: <20260510110804.33045-2-clamor95@gmail.com>
+References: <20260510110804.33045-1-clamor95@gmail.com>
+ <20260510110804.33045-2-clamor95@gmail.com>
+Message-Id: <177841704471.2552402.10905662666589462480.robh@kernel.org>
+Subject: Re: [PATCH v5 1/6] dt-bindings: leds: leds-cpcap: convert to DT
+ schema
+X-Rspamd-Queue-Id: 4656750445F
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8072-lists,linux-leds=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[28];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,atomide.com,gmail.com,baylibre.com];
+	TAGGED_FROM(0.00)[bounces-8073-lists,linux-leds=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vkoul@kernel.org,linux-leds@vger.kernel.org];
-	FREEMAIL_CC(0.00)[lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,linaro.org,gmail.com,axentia.se,armlinux.org.uk,intel.com,linuxfoundation.org,vger.kernel.org,lists.infradead.org,lists.linux.dev];
-	TAGGED_RCPT(0.00)[linux-leds,netdev];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-On 22-03-26, 18:54, Dmitry Torokhov wrote:
-> In preparation to class_find_device_by_of_node() going away switch to
-> using class_find_device_by_fwnode().
 
-Acked-by: Vinod Koul <vkoul@kernel.org>
+On Sun, 10 May 2026 14:07:59 +0300, Svyatoslav Ryhel wrote:
+> Convert LEDs devicetree bindings for the Motorola CPCAP MFD from TXT to
+> YAML format. This patch does not change any functionality; the bindings
+> remain the same.
+> 
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/leds/leds-cpcap.txt   | 29 -------------
+>  .../bindings/leds/motorola,cpcap-leds.yaml    | 42 +++++++++++++++++++
+>  2 files changed, 42 insertions(+), 29 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/leds/leds-cpcap.txt
+>  create mode 100644 Documentation/devicetree/bindings/leds/motorola,cpcap-leds.yaml
+> 
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
 
 
--- 
-~Vinod
+doc reference errors (make refcheckdocs):
+Warning: Documentation/devicetree/bindings/leds/motorola,cpcap-leds.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/leds/leds-cpcap.txt
+Documentation/devicetree/bindings/leds/motorola,cpcap-leds.yaml: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+Documentation/devicetree/bindings/mfd/motorola-cpcap.txt: Documentation/devicetree/bindings/leds/leds-cpcap.txt
+
+See https://patchwork.kernel.org/project/devicetree/patch/20260510110804.33045-2-clamor95@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
