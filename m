@@ -1,206 +1,198 @@
-Return-Path: <linux-leds+bounces-8064-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8065-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cJrUG2NNAGqsGAEAu9opvQ
-	(envelope-from <linux-leds+bounces-8064-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 11:18:27 +0200
+	id gRDiBzRnAGq1IgEAu9opvQ
+	(envelope-from <linux-leds+bounces-8065-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 13:08:36 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEAFF5034BD
-	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 11:18:26 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A66F4503B3D
+	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 13:08:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DA5B1300D863
-	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 09:18:03 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 9C0D23001FED
+	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 11:08:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55095366067;
-	Sun, 10 May 2026 09:18:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4889237DE9E;
+	Sun, 10 May 2026 11:08:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="GOLPhyCv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BwL/I45x"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1E7257452
-	for <linux-leds@vger.kernel.org>; Sun, 10 May 2026 09:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD55B367F5E
+	for <linux-leds@vger.kernel.org>; Sun, 10 May 2026 11:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778404682; cv=none; b=lNHLx6vGCdFXhCY9D5ko5Wu/7n32zD+zj+6Mq/TQxY5kLVSaTKTKeQi/NLyaHILRtlYMKmsHLjJ+tdruoAG3bHtIbboeFy47NtFR40aiu08RsGVdYARhGl4Yk2iA6MY4NHu4BUmR4WdrxJrzgE1Oyl1OnwTD4qg7J48iwjOtQCQ=
+	t=1778411313; cv=none; b=ZgxNXExoF6frSuIOyL+OmQ8h7F1OeCYLB5+A4bWR8KYz0KCfBR/mtHWCULRxsv0ilakiaRxSc+Rn4WRMVAQh8pjyiPkdGH4XeVq4QDgQ2giacRS34OxXE1BORiJzIZLLsojh7uyAIm1o+ggDlyNw6TNQ0QYf4SHtJA4cncHZuOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778404682; c=relaxed/simple;
-	bh=VawkETnX8PoJzHvUasVU2WbedSBrxD6+b377xMUR2tY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=pCoe5dDpUPcEeGXOvWxpeeX25DQ2BZr9cao6QmqYrIdqxF5VlZKepPagw5LrEKp/OWD/KAi71Vjir1G2tv8izq3FSFQcB0Fs6uwigeVVCx/TMEcS2AtsexNPaaxj81Ps5Qnxl0Hr3QZvbrQl0mNITMp1NCfPQHmKI1L0SQEs/M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=GOLPhyCv; arc=none smtp.client-ip=84.16.241.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
-Received: from [IPv6:2a02:1812:162d:3d00:649f:659d:f6c1:d42] (2a02-1812-162d-3d00-649f-659d-f6c1-d42.ip6.access.telenet.be [IPv6:2a02:1812:162d:3d00:649f:659d:f6c1:d42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sander@svanheule.net)
-	by polaris.svanheule.net (Postfix) with ESMTPSA id 825D377C82E;
-	Sun, 10 May 2026 11:07:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-	s=mail1707; t=1778404069;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sOyjSRnXMke/uMfYW5oFYQefgV2luLs/zo2rvA+MaDE=;
-	b=GOLPhyCvxpCgmMnPMqLWIzQn7yjmN33oZErIHT6PpCPMp8U4lZgn3V+hM0S20GpQ9rKeLl
-	VZ6IFyVCEiy+F/QmSqidAD1E/2B3c4jvqazzee9T4t48UtXV1WeXEsPIaWuZAg4Ba9YP0K
-	qYvguvPaLAnvLFdogQCaE2czZclPmSTKBdVbHiKPnwo80P1UWYV4NNgris7PrYft6GInMZ
-	9fhEqwUuoNawg1UPhnfoNgXUDk4Qcqm03jpP7mZGX+9v2fRiXGpvwgAWlYScq0er10LknJ
-	b3SQuFtPX37W99AgGv/Rb5XBv5pAwoEi9YnChVL4nMlXUHWbToPKO1YMk7LxHQ==
-Message-ID: <32d4a57c074c766c8ad83e4b220e44b1df9ae485.camel@svanheule.net>
-Subject: Re: [PATCH v7 2/2] leds: ltc3220: Add Support for LTC3220 18
- channel LED Driver
-From: Sander Vanheule <sander@svanheule.net>
-To: Edelweise Escala <edelweise.escala@analog.com>, Lee Jones
- <lee@kernel.org>,  Pavel Machek <pavel@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
- <conor+dt@kernel.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Sun, 10 May 2026 11:07:48 +0200
-In-Reply-To: <20260508-ltc3220-driver-v7-2-0f092ba54f23@analog.com>
-References: <20260508-ltc3220-driver-v7-0-0f092ba54f23@analog.com>
-	 <20260508-ltc3220-driver-v7-2-0f092ba54f23@analog.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	s=arc-20240116; t=1778411313; c=relaxed/simple;
+	bh=VZr/KgDt/hGxG6GZ4EDdLnrAIFerfJ7PgEKpMx+t91E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b1j3vZQt+VwcPE9kbAtDUOEb7nt5NzKhoUBhygC7aYkHQRpzMQ8AMWD909/dPDmVsSVcITJuFMDYHjq8mHyzQKGStK/d81VapfILVNCcrzidEebhZMwAfqum1xvl6VeK7DTM2i8klWABgg8QJ5JXOJVH/MzToiFpdNPzBHywneo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BwL/I45x; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b8f9568e074so526560066b.0
+        for <linux-leds@vger.kernel.org>; Sun, 10 May 2026 04:08:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778411310; x=1779016110; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=w7VsOIce7RBjPGjcbUBZuNu1NQetW/4tiS7UIOUx/bI=;
+        b=BwL/I45xrnylbMqje1bY0+ecBHS2i5T6II4g3p6x4SZpptZPt+nVNYhzfHK/36i2n6
+         SzuZQGyctdMCvxKzuISXL0tZ8V3+e4C9x0eEQ9hNfyACkkyBjn/exrp5kCFti5eUG3Cp
+         KftpP95gAb/SKaXLrdXgJk0ZCD6p2aADJFWkgW7dHKQtjUKcFQXkE6hv1rawZcDsLHpl
+         2+M1urt3dFs4U9HdEhYtyPRXQL1pysQBahEVJ6F0OEgGC8RHA1U6FzF0Xwkn0Dtz4Q05
+         jjBvhpFFSca6cXG7mlfyQJMPVwLtSaFj1We2WZE2ROIvG/7za6csN4Yrn4NfS7gcDkvR
+         Ablg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778411310; x=1779016110;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w7VsOIce7RBjPGjcbUBZuNu1NQetW/4tiS7UIOUx/bI=;
+        b=lf87QuZP0nyzFqntZv57CwQocfg6ZA3+0huLRgTUFfri6hb6B7Whi2pIFJfKBeGuPy
+         mwi5t2Qk1Cp8OGYyTCD/WjcOLBj3EnH2wesI3nVkX1tvUhwbXpR+cKcPvvn/cPAhDdR+
+         8U8JcNaeM6tbMZTyaHm9+3HqYem2No4dReSeADylLvo2eDZDcwxyMhppQrDhPGxtpEHO
+         2Hg0U7aW05dhXEPZfMoo42GZSBA3jYRR7tyjaiUHu1wTG02FUCZc9Dd2ai3bK/JJJ3rj
+         X+paw/90S76U1K72jiNoft5d3P68vQrm06P0GcYu9RQV2HnTq83zEuHuE4/9dVn3ZWno
+         kyag==
+X-Forwarded-Encrypted: i=1; AFNElJ/XNk7wM20WBdwHlZqo8zBNT3p8ps/5xOhvWQfWNccaGrxLWUT+MzYkqt+9VkGWHTDnwKleFEnEm0xs@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8EBuEqpSEE/4QYV6q1K25D7zdvZLIV9bi+oxJZO37yM1s2Uvv
+	B4KjHuptyBHJO8357Red7RMjU7EQjtDVnCUR5rrMg9vd85a9sxHRBdUB
+X-Gm-Gg: Acq92OHs4vsAUHxI3OeJxqViWVdeFAeSYMoI69gFGKuM6E0fAJgPlZbtsbR22qyohF9
+	ZPtVZQrbJZ8j+h8ThCEFEMCQStU+WPm3ZSbC8d8sJ+fKhMOda2oc/j4BIZmHeIMo2WU/IpyKghB
+	K2JCRIKymOX7Wp6Tbq/eMwEUUA+dYu+iE5GqUsnEbpPG8TcTdyPfE1ccZLRwyyvCmnsq2yPGK+Z
+	Iu4xt7TbsE/1Hi7roueQkvbQ/EHY4lJiiLnESq3p7/VNP5DphOlZs1lpVO/wmDJIlWeru9ZGtpM
+	S93TSnmJ+CW+jPmw1v0mZwtjSdsAakgrV3L/WEDJOGo7dQBslPMKg/VL0PRHAo4kywA4aLi/U/T
+	z2OYTez212VZycuo8U5MY8pfjk5a0Tdd4eWBJvOZuzD3a4I0Vw8lmgh9vyHL9w44ZhM9zvhXcJE
+	rXsqMJ/4koIwoieDd6kpI3GZw=
+X-Received: by 2002:a17:906:f58e:b0:bce:e7ac:3682 with SMTP id a640c23a62f3a-bcee7ac45c8mr61385966b.33.1778411309862;
+        Sun, 10 May 2026 04:08:29 -0700 (PDT)
+Received: from xeon ([188.163.112.56])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bce7a3fcb57sm68146866b.60.2026.05.10.04.08.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 May 2026 04:08:29 -0700 (PDT)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Tony Lindgren <tony@atomide.com>
+Cc: linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: [PATCH v5 0/6] mfd: cpcap: convert documentation to schema and add Mot board support
+Date: Sun, 10 May 2026 14:07:58 +0300
+Message-ID: <20260510110804.33045-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: CEAFF5034BD
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: A66F4503B3D
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[svanheule.net,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[svanheule.net:s=mail1707];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8064-lists,linux-leds=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[svanheule.net:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-8065-lists,linux-leds=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,baylibre.com,atomide.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sander@svanheule.net,linux-leds@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-0.975];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,svanheule.net:mid,svanheule.net:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Hi Edelweise,
+The initial goal was only to add support for the CPCAP used in the Mot
+Tegra20 board; however, since the documentation was already partially
+converted, I decided to complete the conversion to schema too.
 
-On Fri, 2026-05-08 at 12:09 +0800, Edelweise Escala wrote:
-> +static const struct regmap_config ltc3220_regmap_config =3D {
-> +	.reg_bits =3D 8,
-> +	.val_bits =3D 8,
-> +	.max_register =3D LTC3220_GRAD_BLINK_REG,
-> +	.cache_type =3D REGCACHE_FLAT,
-> +	.volatile_reg =3D ltc3220_volatile_reg,
-> +};
+The CPCAP regulator, leds, rtc, pwrbutton and core files were converted
+from TXT to YAML while preserving the original structure. Mot board
+compatibility was added to the regulator and core schema. Since these
+were one-line patches, they were not separated into dedicated commits;
+however, the commit message notes this for both cases.
 
-With this config, you are assuming that all register values will default to=
- 0,
-otherwise the cache will not work properly. While the datasheet seems to
-indicate this is the case, I also suspect you are now seeing the warning
+Finally, the CPCAP MFD was slightly refactored to improve support for
+multiple subcell compositions.
 
-    "using zero-initialized flat cache, this may cause unexpected behavior"
+---
+Changes in v2:
+- fixed code style
+- rtc conversion was picked, so patch dropped
+- added audio ports description into mfd schema
+- splitted schema conversion and compatible addition
+- minor style improvements and typo fixes
 
-I would suggest to use REGCACHE_FLAT_S instead.
+Changes in v3:
+- added regulator node names list into pattern
+- filled spi_device_id with driver data
+- ADC patches were picked, so changes dropped
 
-[...]
+Changes in v4:
+- dropped regulator patches (applied)
 
-> +static int ltc3220_reset(struct ltc3220 *ltc3220, struct i2c_client *cli=
-ent)
-> +{
-> +	struct gpio_desc *reset_gpio;
-> +	int ret;
-> +
-> +	reset_gpio =3D devm_gpiod_get_optional(&client->dev, "reset",
-> GPIOD_OUT_HIGH);
-> +	if (IS_ERR(reset_gpio))
-> +		return dev_err_probe(&client->dev, PTR_ERR(reset_gpio),
-> "Failed on reset GPIO\n");
-> +
-> +	if (reset_gpio) {
-> +		gpiod_set_value_cansleep(reset_gpio, 0);
-> +
-> +		return devm_add_action_or_reset(&client->dev,
-> ltc3220_reset_gpio_action,
-> +						reset_gpio);
-> +	}
-> +
-> +	ret =3D regmap_write(ltc3220->regmap, LTC3220_COMMAND_REG, 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (int i =3D 0; i < LTC3220_NUM_LEDS; i++) {
-> +		ret =3D regmap_write(ltc3220->regmap, LTC3220_ULED_REG(i), 0);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return regmap_write(ltc3220->regmap, LTC3220_GRAD_BLINK_REG, 0);
-> +}
+Changes in v5:
+- switched to MFD_CELL_* macros
+- switched to use determinator of model
+- switched to spi_get_device_match_data
+---
 
-regmap_write() will always go to hardware, so this feels a bit like you're
-manually forcing the hardware to match the cache state. The implied all-0 c=
-ache
-could otherwise prevent later regmap_update_bits() calls from actually
-performing a write.=20
+Svyatoslav Ryhel (6):
+  dt-bindings: leds: leds-cpcap: convert to DT schema
+  dt-bindings: input: cpcap-pwrbutton: convert to DT schema
+  dt-bindings: mfd: motorola-cpcap: convert to DT schema
+  dt-bindings: mfd: motorola-cpcap: document Mapphone and Mot CPCAP
+  mfd: motorola-cpcap: diverge configuration per-board
+  mfd: motorola-cpcap: add support for Mot CPCAP composition
 
-> +static DEFINE_SIMPLE_DEV_PM_OPS(ltc3220_pm_ops, ltc3220_suspend,
-> ltc3220_resume);
-> +
-> +static int ltc3220_probe(struct i2c_client *client)
-> +{
-> +	struct ltc3220 *ltc3220;
-> +	bool aggregated_led_found =3D false;
-> +	int num_leds =3D 0;
-> +	u8 led_index =3D 0;
-> +	int ret;
-> +
-> +	ltc3220 =3D devm_kzalloc(&client->dev, sizeof(*ltc3220), GFP_KERNEL);
-> +	if (!ltc3220)
-> +		return -ENOMEM;
-> +
-> +	ltc3220->regmap =3D devm_regmap_init_i2c(client,
-> &ltc3220_regmap_config);
-> +	if (IS_ERR(ltc3220->regmap))
-> +		return dev_err_probe(&client->dev, PTR_ERR(ltc3220->regmap),
-> +				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to initialize regmap\n");
-> +
-> +	i2c_set_clientdata(client, ltc3220);
-> +
-> +	ret =3D ltc3220_reset(ltc3220, client);
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret, "Failed to reset
-> device\n");
+ .../bindings/input/cpcap-pwrbutton.txt        |  20 -
+ .../input/motorola,cpcap-pwrbutton.yaml       |  32 ++
+ .../devicetree/bindings/leds/leds-cpcap.txt   |  29 --
+ .../bindings/leds/motorola,cpcap-leds.yaml    |  42 ++
+ .../bindings/mfd/motorola,cpcap.yaml          | 419 ++++++++++++++++++
+ .../bindings/mfd/motorola-cpcap.txt           |  78 ----
+ drivers/mfd/motorola-cpcap.c                  | 172 ++++---
+ include/linux/mfd/motorola-cpcap.h            |   7 +
+ 8 files changed, 611 insertions(+), 188 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt
+ create mode 100644 Documentation/devicetree/bindings/input/motorola,cpcap-pwrbutton.yaml
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-cpcap.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/motorola,cpcap-leds.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+ delete mode 100644 Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
 
-Up to you if you want to clear the device configuration (maybe this causes =
-LED
-flickering?), but with REGCACHE_FLAT_S, you should be able to maintain the =
-boot
-state of the device.
+-- 
+2.51.0
 
-Best,
-Sander
 
