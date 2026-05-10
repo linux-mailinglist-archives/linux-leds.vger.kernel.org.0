@@ -1,170 +1,206 @@
-Return-Path: <linux-leds+bounces-8063-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8064-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OLiyAjY5AGo7EgEAu9opvQ
-	(envelope-from <linux-leds+bounces-8063-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 09:52:22 +0200
+	id cJrUG2NNAGqsGAEAu9opvQ
+	(envelope-from <linux-leds+bounces-8064-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 11:18:27 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1136C50302A
-	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 09:52:20 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEAFF5034BD
+	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 11:18:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B47153004689
-	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 07:52:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DA5B1300D863
+	for <lists+linux-leds@lfdr.de>; Sun, 10 May 2026 09:18:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C488136166F;
-	Sun, 10 May 2026 07:52:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55095366067;
+	Sun, 10 May 2026 09:18:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tM00DmCm"
+	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="GOLPhyCv"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC9713A86C
-	for <linux-leds@vger.kernel.org>; Sun, 10 May 2026 07:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1E7257452
+	for <linux-leds@vger.kernel.org>; Sun, 10 May 2026 09:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778399524; cv=none; b=sIzAuMPeXRTDJP1vKa3MLFGNcYWAE/F6Akgc12jeIv/y3dnpTxyVBEzTqJQgqDPLao9b4IJU7cnEQLi2/jFLkKmHJXGnl+s+8keLezub3pdmHYavyWlU9UKRtXRB+5fOmCQ40i40LqXAlIBkNRofAHp6lBGd/Lnr+tWXDcgMsWU=
+	t=1778404682; cv=none; b=lNHLx6vGCdFXhCY9D5ko5Wu/7n32zD+zj+6Mq/TQxY5kLVSaTKTKeQi/NLyaHILRtlYMKmsHLjJ+tdruoAG3bHtIbboeFy47NtFR40aiu08RsGVdYARhGl4Yk2iA6MY4NHu4BUmR4WdrxJrzgE1Oyl1OnwTD4qg7J48iwjOtQCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778399524; c=relaxed/simple;
-	bh=I3RbvvixJNBu1E4egMQ60g4m3BIXi222hdQIEG7C75U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VS2xImqGsqtuzFbBsQeGc6IgEz7TfX7LF8qIBhP/MSDTTJhRPpjw6llp9CvvUF+T9xNrB08j0dzZjcLXFDr8DhKNiEj2lUlBH25p85ffZ9W1ls1cnuTyFJGJJipXJEyHzYUIQsl6RDZtQsrRDJb/ix4HX3FzKp/536qOqHjXCXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tM00DmCm; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4830b67aa6bso4032295e9.0
-        for <linux-leds@vger.kernel.org>; Sun, 10 May 2026 00:52:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778399521; x=1779004321; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZdfLct2boN8QS13w2Se+IjvTiv/vdm99vdvUaY+gQmM=;
-        b=tM00DmCmvkKFxuZ3/bGRCCkVBrKckHq/SM5Dp94Dol94tN+I31ISiFxeXkCFXhs0S4
-         q2OD8oqrIeayrVceJ+D53Bi/LQ+hk7SUTNKwx208se6kkwrtrssVjoDkTK8A+xLMEXY/
-         lffPx1tcKcxWNT8kEurLxeRd3Fng0TYOBBl1+JLT3DQDpGFhgeOU787n+wst151QIr/q
-         5MrhT56nodMM7YAj50+BEnYEswN1503UJsMj/+jIk71sbKEbXa+XJwrhGVbyYLtlyYvn
-         eUIvTFlGxEFuQSc3T3Rc4tKyN4KXpOLSAgxKQk+X/z3kQs663+aN/Ew2BJriK8fK/bUm
-         0pcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778399521; x=1779004321;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZdfLct2boN8QS13w2Se+IjvTiv/vdm99vdvUaY+gQmM=;
-        b=m0PjfKoj1lZhi/KUMhhZaghVn9GkrBPkTjR4dotCAQdCbnqVY3t0D+xiJaIiNzbIcv
-         qrAHtAQiuv+OtF8lv7dnPtZGaCQ7sVZpake6S6RNaTA7REVsxky7DTQV1eRU25bfx3Wd
-         F8YmvUBV5ZK+laBtBdK2efv4L0DOBjd+BNBJS9h4zIVhekCClFR/VKu8AtTy4JUZtbVV
-         esz2jIdGrQbdQhnsT5QSQI9BMshtfUQNnlp0E/8Xn9uiCnIPfbScNuc6EmrogiaW5GtP
-         LtCOKnUik7ta68ZiDJIe102KD1Z20yn+siknGySGz5UWFkmwnAO5olHmjtIAbcs1wbGt
-         NkpA==
-X-Forwarded-Encrypted: i=1; AFNElJ9RvRn1GOToumcwczbBbETWMS/RWkrNtMSbSdbCTQM554kRE5yolBWqf9AzFH+C2JgkOBYdC3pUO+TZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YzyJe8bRFmQeV/r8MS5rA8xLBN/h1+UX/ZkcQVh6mTpMBcGdAhK
-	bBmy8WoZE5G0SKRD9d4zw/WkSugw/01SPjTuKA/f8Vtz06KhJwJXqU8M
-X-Gm-Gg: Acq92OHTCJ7QGjle0DPs2nw6+HhoCiynld8MwYlzdrEFKDGNn94cwUwHsWCtQMCuPvG
-	xyluMHjbouVdoFz6ZoS1Ii4dJNFsNvvi0rLf5TLNQatgeQ4IAiOrSX9iynfNHsQlD9Jb+UpHxKZ
-	PyGvy1G576a/PKmH0EavZm/4lY+Dd8Df4mxxoaN194dS0B97TIEYj9+3i+4OIBcMsf6pmaGagMW
-	HtMdI6OM+ujXkDtBWdlB/ZTWPwT3V7SicNJy1mB9IP+4jRdmmSQh1xab5kLyAB7ZPR286FJdvtd
-	eT4INjpSOj93TNYArjJXxe/NajWn7TjfWzZKg/bixVrN4S5G7XrR/wpXBGH1J2KcTKcI4eQ7dF9
-	TAMU2YJCOIkQXVBt8XbImUjwYwUWvp6fFZb5AzqM1u81i+5JH3u7/PTT/4EvOkO58/Dmn2dqtgI
-	+/Er/IcIAtLmcgduQpjb7iQ1M3YnKzvhfk513d81B+cCNnGNeXURNijj4wqWlNpQ/r
-X-Received: by 2002:a05:600c:1c1e:b0:487:1fbb:5a28 with SMTP id 5b1f17b1804b1-48e52f6f153mr158295875e9.1.1778399520864;
-        Sun, 10 May 2026 00:52:00 -0700 (PDT)
-Received: from localhost.localdomain ([94.158.58.43])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6db0b08asm49641235e9.8.2026.05.10.00.51.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 May 2026 00:52:00 -0700 (PDT)
-From: Stepan Ionichev <sozdayvek@gmail.com>
-To: lee@kernel.org
-Cc: pavel@kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	sozdayvek@gmail.com
-Subject: [PATCH] leds: dac124s085: declare SPI command word as __le16
-Date: Sun, 10 May 2026 05:36:32 +0500
-Message-Id: <20260510003632.35942-1-sozdayvek@gmail.com>
-X-Mailer: git-send-email 2.33.0.windows.2
+	s=arc-20240116; t=1778404682; c=relaxed/simple;
+	bh=VawkETnX8PoJzHvUasVU2WbedSBrxD6+b377xMUR2tY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=pCoe5dDpUPcEeGXOvWxpeeX25DQ2BZr9cao6QmqYrIdqxF5VlZKepPagw5LrEKp/OWD/KAi71Vjir1G2tv8izq3FSFQcB0Fs6uwigeVVCx/TMEcS2AtsexNPaaxj81Ps5Qnxl0Hr3QZvbrQl0mNITMp1NCfPQHmKI1L0SQEs/M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=GOLPhyCv; arc=none smtp.client-ip=84.16.241.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
+Received: from [IPv6:2a02:1812:162d:3d00:649f:659d:f6c1:d42] (2a02-1812-162d-3d00-649f-659d-f6c1-d42.ip6.access.telenet.be [IPv6:2a02:1812:162d:3d00:649f:659d:f6c1:d42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sander@svanheule.net)
+	by polaris.svanheule.net (Postfix) with ESMTPSA id 825D377C82E;
+	Sun, 10 May 2026 11:07:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+	s=mail1707; t=1778404069;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sOyjSRnXMke/uMfYW5oFYQefgV2luLs/zo2rvA+MaDE=;
+	b=GOLPhyCvxpCgmMnPMqLWIzQn7yjmN33oZErIHT6PpCPMp8U4lZgn3V+hM0S20GpQ9rKeLl
+	VZ6IFyVCEiy+F/QmSqidAD1E/2B3c4jvqazzee9T4t48UtXV1WeXEsPIaWuZAg4Ba9YP0K
+	qYvguvPaLAnvLFdogQCaE2czZclPmSTKBdVbHiKPnwo80P1UWYV4NNgris7PrYft6GInMZ
+	9fhEqwUuoNawg1UPhnfoNgXUDk4Qcqm03jpP7mZGX+9v2fRiXGpvwgAWlYScq0er10LknJ
+	b3SQuFtPX37W99AgGv/Rb5XBv5pAwoEi9YnChVL4nMlXUHWbToPKO1YMk7LxHQ==
+Message-ID: <32d4a57c074c766c8ad83e4b220e44b1df9ae485.camel@svanheule.net>
+Subject: Re: [PATCH v7 2/2] leds: ltc3220: Add Support for LTC3220 18
+ channel LED Driver
+From: Sander Vanheule <sander@svanheule.net>
+To: Edelweise Escala <edelweise.escala@analog.com>, Lee Jones
+ <lee@kernel.org>,  Pavel Machek <pavel@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Sun, 10 May 2026 11:07:48 +0200
+In-Reply-To: <20260508-ltc3220-driver-v7-2-0f092ba54f23@analog.com>
+References: <20260508-ltc3220-driver-v7-0-0f092ba54f23@analog.com>
+	 <20260508-ltc3220-driver-v7-2-0f092ba54f23@analog.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 1136C50302A
+X-Rspamd-Queue-Id: CEAFF5034BD
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[svanheule.net,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[svanheule.net:s=mail1707];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-8063-lists,linux-leds=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-8064-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sozdayvek@gmail.com,linux-leds@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[svanheule.net:+];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	NEURAL_HAM(-0.00)[-0.999];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sander@svanheule.net,linux-leds@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,svanheule.net:mid,svanheule.net:dkim]
 X-Rspamd-Action: no action
 
-dac124s085_set_brightness() builds a 16-bit SPI command word:
+Hi Edelweise,
 
-	u16 word;
-	...
-	word = cpu_to_le16(((led->id) << 14) | REG_WRITE_UPDATE |
-			   (brightness & 0xfff));
-	ret = spi_write(led->spi, (const u8 *)&word, sizeof(word));
+On Fri, 2026-05-08 at 12:09 +0800, Edelweise Escala wrote:
+> +static const struct regmap_config ltc3220_regmap_config =3D {
+> +	.reg_bits =3D 8,
+> +	.val_bits =3D 8,
+> +	.max_register =3D LTC3220_GRAD_BLINK_REG,
+> +	.cache_type =3D REGCACHE_FLAT,
+> +	.volatile_reg =3D ltc3220_volatile_reg,
+> +};
 
-cpu_to_le16() returns __le16, but the local 'word' is declared as
-plain u16, which sparse flags:
+With this config, you are assuming that all register values will default to=
+ 0,
+otherwise the cache will not work properly. While the datasheet seems to
+indicate this is the case, I also suspect you are now seeing the warning
 
-  drivers/leds/leds-dac124s085.c:42:14: warning: incorrect type in
-  assignment (different base types)
+    "using zero-initialized flat cache, this may cause unexpected behavior"
 
-The bytes that hit the wire are correct because cpu_to_le16() does
-the right thing on either endianness, but mixing the annotated and
-unannotated types defeats sparse's __bitwise checking and would let
-a future reader treat the buffer as a host-endian u16 by mistake.
+I would suggest to use REGCACHE_FLAT_S instead.
 
-Declare 'word' as __le16 to match how it is built and consumed.
+[...]
 
-No functional change.
+> +static int ltc3220_reset(struct ltc3220 *ltc3220, struct i2c_client *cli=
+ent)
+> +{
+> +	struct gpio_desc *reset_gpio;
+> +	int ret;
+> +
+> +	reset_gpio =3D devm_gpiod_get_optional(&client->dev, "reset",
+> GPIOD_OUT_HIGH);
+> +	if (IS_ERR(reset_gpio))
+> +		return dev_err_probe(&client->dev, PTR_ERR(reset_gpio),
+> "Failed on reset GPIO\n");
+> +
+> +	if (reset_gpio) {
+> +		gpiod_set_value_cansleep(reset_gpio, 0);
+> +
+> +		return devm_add_action_or_reset(&client->dev,
+> ltc3220_reset_gpio_action,
+> +						reset_gpio);
+> +	}
+> +
+> +	ret =3D regmap_write(ltc3220->regmap, LTC3220_COMMAND_REG, 0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	for (int i =3D 0; i < LTC3220_NUM_LEDS; i++) {
+> +		ret =3D regmap_write(ltc3220->regmap, LTC3220_ULED_REG(i), 0);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return regmap_write(ltc3220->regmap, LTC3220_GRAD_BLINK_REG, 0);
+> +}
 
-Signed-off-by: Stepan Ionichev <sozdayvek@gmail.com>
----
- drivers/leds/leds-dac124s085.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+regmap_write() will always go to hardware, so this feels a bit like you're
+manually forcing the hardware to match the cache state. The implied all-0 c=
+ache
+could otherwise prevent later regmap_update_bits() calls from actually
+performing a write.=20
 
-diff --git a/drivers/leds/leds-dac124s085.c b/drivers/leds/leds-dac124s085.c
-index cf5fb1195..192b43333 100644
---- a/drivers/leds/leds-dac124s085.c
-+++ b/drivers/leds/leds-dac124s085.c
-@@ -35,7 +35,7 @@ static int dac124s085_set_brightness(struct led_classdev *ldev,
- {
- 	struct dac124s085_led *led = container_of(ldev, struct dac124s085_led,
- 						  ldev);
--	u16 word;
-+	__le16 word;
- 	int ret;
- 
- 	mutex_lock(&led->mutex);
--- 
-2.43.0
+> +static DEFINE_SIMPLE_DEV_PM_OPS(ltc3220_pm_ops, ltc3220_suspend,
+> ltc3220_resume);
+> +
+> +static int ltc3220_probe(struct i2c_client *client)
+> +{
+> +	struct ltc3220 *ltc3220;
+> +	bool aggregated_led_found =3D false;
+> +	int num_leds =3D 0;
+> +	u8 led_index =3D 0;
+> +	int ret;
+> +
+> +	ltc3220 =3D devm_kzalloc(&client->dev, sizeof(*ltc3220), GFP_KERNEL);
+> +	if (!ltc3220)
+> +		return -ENOMEM;
+> +
+> +	ltc3220->regmap =3D devm_regmap_init_i2c(client,
+> &ltc3220_regmap_config);
+> +	if (IS_ERR(ltc3220->regmap))
+> +		return dev_err_probe(&client->dev, PTR_ERR(ltc3220->regmap),
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to initialize regmap\n");
+> +
+> +	i2c_set_clientdata(client, ltc3220);
+> +
+> +	ret =3D ltc3220_reset(ltc3220, client);
+> +	if (ret)
+> +		return dev_err_probe(&client->dev, ret, "Failed to reset
+> device\n");
 
+Up to you if you want to clear the device configuration (maybe this causes =
+LED
+flickering?), but with REGCACHE_FLAT_S, you should be able to maintain the =
+boot
+state of the device.
+
+Best,
+Sander
 
