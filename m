@@ -1,232 +1,367 @@
-Return-Path: <linux-leds+bounces-8092-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8093-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mHQaAZSoBGqPMgIAu9opvQ
-	(envelope-from <linux-leds+bounces-8092-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 13 May 2026 18:36:36 +0200
+	id EAmHFJGtBGoSNAIAu9opvQ
+	(envelope-from <linux-leds+bounces-8093-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 13 May 2026 18:57:53 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5B7537337
-	for <lists+linux-leds@lfdr.de>; Wed, 13 May 2026 18:36:35 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6C65378BC
+	for <lists+linux-leds@lfdr.de>; Wed, 13 May 2026 18:57:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 50FDA31D32D9
-	for <lists+linux-leds@lfdr.de>; Wed, 13 May 2026 15:56:18 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id F41D73036483
+	for <lists+linux-leds@lfdr.de>; Wed, 13 May 2026 16:47:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BA4049250D;
-	Wed, 13 May 2026 15:56:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA68F38887A;
+	Wed, 13 May 2026 16:47:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="n5PQweja";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZTfk1H5x"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lIZ9PX2m"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220D23B583D
-	for <linux-leds@vger.kernel.org>; Wed, 13 May 2026 15:56:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778687771; cv=none; b=pyldNUKdkL49TeTomFfDwBZUs3E611qGCviWVesxzam/FfaIVc+qShUPJNZ3gZJRiVE1r4u6GRNBh2SgGz2x3UTdEvCKkFdtG7PQwRjz6btDpl9E65j3chcYz+vqZAsNkWzBMQLnCrgHw1f5EzbJhl/gy3MT0PlAIOI1YPPlMuU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778687771; c=relaxed/simple;
-	bh=9mPNCinHnbhstt0b+g8l4cy2ftNyDXQeq2rRfKU7a6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uydc7m5MzPtln/HH3y7YEu4nL8/dx0EslOha0DwZMneRg0WH8ZE8TcTlYIF6FyT/ejncCyBE8aSQ4UuV6Ptw+QnZcdb/Oebcro+t14+InDp9N4XsyduenGKcspD0IXgIq4OVqxfB3r4Wi+NJmfg8QMJEaAnf4rmHdPfCauFE+uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=n5PQweja; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZTfk1H5x; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64DAVqAG1393146
-	for <linux-leds@vger.kernel.org>; Wed, 13 May 2026 15:56:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=FV62wPVqhcL8BTl6zWBGVeKP
-	No6dhCw0zP2Wz9XZfdg=; b=n5PQwejakgy1Saq6D2G03GmD6kBJncnv8hU27ZiB
-	Uto/DUdOe3r/ZM6zSO3Eo81hzGMzxZNu7eYrUsjLon2XAQt1D2EWQyr1wMgyLr95
-	flB4aeyO5XZ54jLVAlqceRmj/BPzMcISmh7epxztJjuZ9XNP0X+OznK7MZJZocnE
-	Pb2teSiY+ISgraRD4+ooddaQdytqdA0sbUi2aS/Zrt1TA2PGwdpQN0nm6kHQM18n
-	DJJylK5gT7yPDfog79SgA7uUK7JJEfA7ZoY0+/YWMkPAKNjBa/bzb0Y4jnGl6mBn
-	bA9p9Xl5tTsMGpCL4G4jSai102pKgP8ypLlqDtkqUZwUig==
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com [209.85.217.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e4k262fu5-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-leds@vger.kernel.org>; Wed, 13 May 2026 15:56:09 +0000 (GMT)
-Received: by mail-vs1-f72.google.com with SMTP id ada2fe7eead31-6343b1bcbe8so2572993137.3
-        for <linux-leds@vger.kernel.org>; Wed, 13 May 2026 08:56:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17300349CDA
+	for <linux-leds@vger.kernel.org>; Wed, 13 May 2026 16:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778690861; cv=pass; b=gePl9iQdOSVg5A23ReP0Q59zzgFA895+tkpfyWK5eZ7iOqDTad6YBBo1CdR0L2334DtV0tE0IRntL+pKgxYQAZVjvXpaABNaT6lkDQqe1epqr2n8ONN1eZHkZd2bbmRjeLBGAUKTC8LaifVF9RDOP4CfdpYVLhsut/d5zLHFL4A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778690861; c=relaxed/simple;
+	bh=ExnqDUkLINkKlD7+NygXVUJUo+YyZ6a9VvYiVKG7QhQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oCJBgHrrEcW5Jm4Uv9qCiT3awNDBpzrbP0S90aASaUF47qk8NR3/YWQS2s3QOS4CuNoQHG7NC8ljKPCEoKlpQ+6ZVp+dAR1c+xMW3fq/sl7NYLTI/mcCEukBs/OaWTooFEuSQ8BTDuWWLBUQgo0awY8Ql8ncv8ftqBS4I5P0YXw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lIZ9PX2m; arc=pass smtp.client-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2f30a4601bbso7602426eec.1
+        for <linux-leds@vger.kernel.org>; Wed, 13 May 2026 09:47:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778690858; cv=none;
+        d=google.com; s=arc-20240605;
+        b=CSp6UYXllVgmxLKm66ei8/6q+f2y2VOraDKZ5plrgduDHIhtiFEjg78mnep+wHmFet
+         u3/39K6xvyrZsM5e/IrEXtQykMIzsp+TLA5VqGTSmczzNyGFGlxHa6XPA2PB4Q67Tk9P
+         xbWp9FVeh8pdrSJ39+zynj2q2jiOp2CCWGFwcdw448lhrI8d7tJkO++neeq/urHaz+Z0
+         jCD/TVWNogd5+5L0levUC3BaIQP2fAxhBuYNE87dTXfJex4piAyCGe4otJMOqZVwgCe1
+         W/QYsHBymA9ftKcdhV6o0KF97HzhzhM67aLpydx8/yWCVSrzEWTEAPlV1LADJoXSGi8q
+         TTVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=JerA/KHdCfuyoaygNVbCtHqii4aEtRRNxbe67luduQk=;
+        fh=TG3x8Fxm7dHx0wprE2ApFnSoBoSf4hahXJGS9KA3ljI=;
+        b=SK2vS0oNdoGCELokvbB3xUmUrCXUmH+IHomCnwwpcM+TAVBoCmGDPdgOMt+BO37u6E
+         XLZfrkSrGfRjG58AM++O5abJcKFKx8RzZzXD9vDH7HhV/aDS/ATxRoplQfUpXtXvMOgv
+         gV0yURx8rhDZdj8Qt53Twsi1zf8JtyGHZJe3xCymrWghHpgnRM6IoZI/Bl1Pa/3W6x0X
+         /xKa3MPA31yBBHzGyddVY+9PlKRxvNJrhtP2nRxb7aAnVS7fsCi4kvkCaPogjQ3ZUT4/
+         3dZqdgBe4tw3xptIWWOo/SV1y0KVQjCwV2JuIFaGL4Jrv+JcLOTmkcs+1gL392wtBU4T
+         e0gQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1778687768; x=1779292568; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FV62wPVqhcL8BTl6zWBGVeKPNo6dhCw0zP2Wz9XZfdg=;
-        b=ZTfk1H5xlrP4lXexznhE41a0YlW0VqOwrqVJpGJvTZoHxHcdAm9EPh9WqxQAISt9n7
-         njv0CBDGXeK/6lVzt+xhq281vkOruUa5OguExb+mTpSanye/EDMhsd+kV/KAmzNej1hu
-         F5y6LGF2mvO2k5KTAwTISMs/IhkKfg2lfexXvOp/pMsGMLpHgw0TEWxDUlgVR4yZdGiq
-         jRzvF+y2h924lPwRY/YPeQvaA0v8wgH6daYzch+69KKBnZQRpAIodB9HXIuO3CiHvrMW
-         nFnigtGavDt2yb2fcAgThtJ+xeBIxAZQSYGhCAdC/Gkj3rFMXFqPDeJq2eRvLJHsUpcq
-         EHzQ==
+        d=gmail.com; s=20251104; t=1778690858; x=1779295658; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JerA/KHdCfuyoaygNVbCtHqii4aEtRRNxbe67luduQk=;
+        b=lIZ9PX2m+1rVFo5ukZcGjeoyRdBnG2brHCNsvJn3YrWZ0eQ29u1kRVdRQ9/aLLPa9v
+         efPhw0n2Fu2v8dULGYccwLniNlpdGlt9CWGx+JcstZ092nDRu3ecYoT60Yif/nC04Xf+
+         U8FyuDL8Jg3wxdUVPP2AevdlFjvBulirFKO7dmcUJ0jXz4CMTyDrAwcvhza0b6DzpxKm
+         9CvlWUHw+VcpNiEdNQyLQwXy+eVgZ6DU/5gLRhgwaJ303IsKIv0jTgY7TXtD3r44fAoI
+         4CLU0R/YZHMxgbNXFvWiigsLLgjn7b5vwFUSHZMBfd50D9Qiwtq7zMYrPy+XF70jQo1R
+         +4mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778687768; x=1779292568;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FV62wPVqhcL8BTl6zWBGVeKPNo6dhCw0zP2Wz9XZfdg=;
-        b=dsFpZsBl6SfDfcldF5dacCgIjsoq22iCii+V4tlli7k/mPG0UxUB/Po2yeLYYit77U
-         NjV8qQv5+PQiHYWw3SJelwN9x7E864CcDgA3ofjvIIwr3je+9XltbdkhQk+htmgOu/S6
-         DD2bvGegO8xXj457+xJhg/idp19BB3YdwTpS1LOVfLgQJ6VC3WoW0nL1w0AtZda7/w3u
-         OJPDiAhva15O515g4nRrMWX8GJPjR2JGY40XXh3eB4e8Tuthn8XVRdCp070RDSFL1aSS
-         qlHwSYZh/ShTWzwPgNFL55YuowuZgoKz5GtHA0j3nulSLU0pxZi9+/r+MQeW8tmcMuZX
-         Qhgw==
-X-Forwarded-Encrypted: i=1; AFNElJ89/VawTGAxhqWlz/apcbvaNxeFN18oUrclHc+fBzV6Un8b12098rtehcw0PDp8V+K/TjcIwgSkXR2d@vger.kernel.org
-X-Gm-Message-State: AOJu0YzThwB7ydZz18cqhEmCfJxVFTSsWrUpLngyQHgNaoYoj/OfzonL
-	C4NKvZA/cBxg+nbHnsk4VcYxlu6Zt7GwtxyCqKmiyLC/yGLJkGV/agiFh9f5wbIwkcmSoY2dWcQ
-	wLoBVjoh+yBUV1pbikzhCKI4FGkM8zIF1Sdi8iS04eWVPcWT+7JNO4Svjt4qoXfso
-X-Gm-Gg: Acq92OFL4UBdVKJiy64qf1jKsetQX/3K9qjExraQEQK+vsc45Enn0jA0/RGQfoK85bK
-	bBzpvi2NTQZf8WTJq8iF7N9iQwRwBITJ3dVdoWXMJ0CW5gZQNu6a6EffzJP1UM8fIDI0Fnq/v3y
-	p1O85XzxBcWEnWJrgOknmmI21qKXnaRG0IYpu5VkK58owpOYgjg9bc7sZBsZumgm8MLwZQjqlxb
-	CYkspNwBvRBDyVkTYKcyFL2iXDoagjdzaetJZqlCAAGZvVN6xRQEa0noO5LkIamYa1S9YtEaKHY
-	87TObphT0TKt2EEtXSBv4ZfvDmskHSp8Y33CDyHfAvvSVNpCN7tgwud5tg/JJ3zYlscgqD2gyK0
-	HXqhyrhD8rBBlLaGMRW/YKvDS7f1G3AOq1bz0YMMWeo0ay93PBVc5mH9zJ9epvypumDc/GbUtv/
-	ZUclJNBWkagbCqhEqyRBW+N2Xff8fdCMW3lMo=
-X-Received: by 2002:a05:6102:3909:b0:631:d3e4:efb6 with SMTP id ada2fe7eead31-637749a964amr1944856137.21.1778687768456;
-        Wed, 13 May 2026 08:56:08 -0700 (PDT)
-X-Received: by 2002:a05:6102:3909:b0:631:d3e4:efb6 with SMTP id ada2fe7eead31-637749a964amr1944833137.21.1778687767933;
-        Wed, 13 May 2026 08:56:07 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8c873fd59sm2547257e87.57.2026.05.13.08.56.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 08:56:05 -0700 (PDT)
-Date: Wed, 13 May 2026 18:56:02 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jun Yan <jerrysteve1101@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Vincent Knecht <vincent.knecht@mailoo.org>, Grant Feng <von81@163.com>,
-        Andre Przywara <andre.przywara@arm.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Baruch Siach <baruch@tkos.co.il>, Nick Hawkins <nick.hawkins@hpe.com>,
-        Robert Marko <robert.marko@sartura.hr>, Pavel Machek <pavel@ucw.cz>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 0/5] leds: is31fl319x: Fix shutdown GPIO and update DT
- bindings
-Message-ID: <tyzqx4s6puwkee4i65ysimcayc54a5wy3sgps4h5cgb76zpsl5@r5ijowlt5ujw>
-References: <20260508152435.21389-1-jerrysteve1101@gmail.com>
+        d=1e100.net; s=20251104; t=1778690858; x=1779295658;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=JerA/KHdCfuyoaygNVbCtHqii4aEtRRNxbe67luduQk=;
+        b=H2ED2UQIHrq63nGtUD4JOi6Fhvdd7PLfjQQ6mzOJwKM1WInG4B4le8pnfqQlIwQRR6
+         vI8A9IBW3hwyRMg7Y+v+iGy/s3sZ/tedEASJ5BMalp6zvicTfdZBLAaFO5rsleZfNbzP
+         eciXtTmPWYKdwrhrXcrEieVE6kDCFXcoHBVsaTTy631AYVy4CVz7chM7pxjQ2zBdspos
+         uOIArTBpWmmXb2zTnHhsstQxZCQFsPEP5CK4VZeyfj0FDwbmGbEjUw5SSCdzT4bmPiXN
+         EfKBguckQXpzgPElA/o3L5eV1P6upegiLxc9ho7BWImQ/wHDngO5Ved1MzP5X6TXVQB5
+         viJw==
+X-Forwarded-Encrypted: i=1; AFNElJ+Zzc59pgpH1GETesJi7oqYbdvXMREzYQd1BqxWIfQi6XoAD4VmFazUE451WGn/5hmhs6cJPRr0uDDX@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzKbC2HjQjT+/PZC7/CRK0oHAKmANJGPKjS9JqiW3Ts9kfGD/Q
+	at/y7so7n9UHm2rkGAi0evLR9liV86A1AX6Fja068QDz/r7dBES/IDMi7FanYZDNYXPPXMEHaTa
+	Soex441SyZ2NlrLDqEvZugCmf87vT6vY=
+X-Gm-Gg: Acq92OH0pVz8zSsIKGo2DmfyY+PMGlyIWmyAFgf7xg90yQ2z6c+pQJYfmvlPH7KWtz5
+	nq7dQHUZsKSLGGUchAEcNpS0+UdpvXLWE3QfiuA4Fsx9a8y4ZqlbQDmfrbXzmrQiytq41LJSBLX
+	T8L5/IlJ9GC7EDO1NwR3HrWhXEOyeCVlzThjB6/xi4VovZcwKy7LzfeplSXW6hmsEd4xbJ9SKMM
+	dSwcVvDFwetDQumEJgYkEtJc/3LjpVxPFIMV2sxOk6H77myNOQmP5c4EfiJxAHM833gXBUm3+D1
+	wq4WiPpX
+X-Received: by 2002:a05:7300:a984:b0:2dd:5641:f01 with SMTP id
+ 5a478bee46e88-30155b4d27bmr1845952eec.28.1778690857870; Wed, 13 May 2026
+ 09:47:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260508152435.21389-1-jerrysteve1101@gmail.com>
-X-Authority-Analysis: v=2.4 cv=M/l97Sws c=1 sm=1 tr=0 ts=6a049f19 cx=c_pps
- a=DUEm7b3gzWu7BqY5nP7+9g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=nkdmZr8mgQ_COcTxPvYA:9
- a=CjuIK1q_8ugA:10 a=-aSRE8QhW-JAV6biHavz:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDE2MiBTYWx0ZWRfX9FbvLo+ylbd6
- nHk48GETnxoMT3lO/M8JaENkTnEZpvVrqkxqhDE+MkLWl58ss0DW2W4R4NbTIRXVmTnE8E0ZpOa
- Wt2yAbkf+q0oXcPnZOjhSRGp2tPysMIWlslAkVBFezM0dbiMj8M8k5Z6ycRfpVsvt8Z/fCuH7Cg
- sga3Ja6hET2NbjnFCA5pNl+2S3iw6jFqMi71zDhmQQrVh8aS46iAgFNrfd8oae9qgBJVPu+TWF6
- jKIJgW6TqhhODypkC2BkK1Jbne/Ag2MRKF4enozLUyWk7H4K4Cy9nAYBbRWGpOGo+KCPt8Mrcqi
- JBmzgaI6K110mLJa5y+5OCA59IhxLukrauUUu/nO/4sfVeZYT4waxeNdTqin0n297yYYYkmaKsb
- p0i/w6PLaycgUiVhOC4FXniyFVY0B1DrpTC2A02cYpWN/e33TwcdbNxPBmx1ZhCq8ORE7WN3QSB
- Te65hpRs+Z8n0lgSawA==
-X-Proofpoint-ORIG-GUID: KusE3TKRJB8D0knEfoN9SMlRcIYJG1M5
-X-Proofpoint-GUID: KusE3TKRJB8D0knEfoN9SMlRcIYJG1M5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-13_01,2026-05-13_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 impostorscore=0 malwarescore=0 suspectscore=0
- spamscore=0 phishscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605050000 definitions=main-2605130162
-X-Rspamd-Queue-Id: 9B5B7537337
+References: <20260428153611.142816-1-clamor95@gmail.com> <20260428153611.142816-6-clamor95@gmail.com>
+ <20260507140519.GO305027@google.com> <CAPVz0n1Ubvj9MHHMcM2BpxAcTCCheMihr3aJUqcDVoi_V0OQ5g@mail.gmail.com>
+ <20260513140550.GD305027@google.com>
+In-Reply-To: <20260513140550.GD305027@google.com>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Wed, 13 May 2026 19:47:26 +0300
+X-Gm-Features: AVHnY4L_UPed0nI0jqBJd7980GApXqp_CTeeRBwMRPJX6vgRQaMZTKXyU_fde7I
+Message-ID: <CAPVz0n0ynA-ab1Frwy2vXsrYPm+SB+0oOoKAiHw9D7BT=+ieDQ@mail.gmail.com>
+Subject: Re: [PATCH v4 5/6 RESEND] mfd: motorola-cpcap: diverge configuration per-board
+To: Lee Jones <lee@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Tony Lindgren <tony@atomide.com>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: EB6C65378BC
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8092-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8093-lists,linux-leds=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,lunn.ch,bootlin.com,gmail.com,mailoo.org,163.com,arm.com,linaro.org,tkos.co.il,hpe.com,sartura.hr,ucw.cz,vger.kernel.org,lists.infradead.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:dkim];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,baylibre.com,atomide.com,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-leds@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-On Fri, May 08, 2026 at 11:24:17PM +0800, Jun Yan wrote:
-> This series fixes incorrect shutdown GPIO polarity and improves
-> shutdown-gpios description in DT bindings.
-> 
-> Patch 1 adds detailed shutdown-gpios description and fixes example
-> in DT bindings.
-> 
-> Patch 2 fixes shutdown GPIO initial state and removes redundant
-> startup toggling.
-> 
-> Patches 3-5 correct shutdown GPIO polarity in board DTS files.
-> 
-> Jun Yan (5):
->   dt-bindings: leds: issi,is31fl319x: Add description for the
->     shutdown-gpios property
->   leds: is31fl319x: Fix shutdown GPIO initial state and remove redundant
->     startup pulse
->   arm64: dts: qcom: msm8916-alcatel-idol347: Fix sn3190 shutdown GPIO
->     polarity
->   ARM: dts: qcom: msm8974-oneplus-bacon: Fix sn3193 shutdown GPIO
->     polarity
->   arm64: dts: marvell: armada-7040-mochabin: Fix is31fl3199 shutdown
->     GPIO polarity
+=D1=81=D1=80, 13 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 17:0=
+5 Lee Jones <lee@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Thu, 07 May 2026, Svyatoslav Ryhel wrote:
+>
+> > =D1=87=D1=82, 7 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 1=
+7:05 Lee Jones <lee@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+> > >
+> > > On Tue, 28 Apr 2026, Svyatoslav Ryhel wrote:
+> > >
+> > > > MFD have rigid subdevice structure which does not allow flexible dy=
+namic
+> > > > subdevice linking. Address this by diverging CPCAP subdevice compos=
+ition
+> > > > to take into account board specific configuration.
+> > > >
+> > > > Create a common default subdevice composition, rename existing subd=
+evice
+> > > > composition into cpcap_mapphone_mfd_devices since it targets mainly
+> > > > Mapphone board.
+> > > >
+> > > > Removed st,6556002 as it is no longer applicable to all cases and
+> > > > duplicates motorola,cpcap, which is used as the default composition=
+.
+> > > >
+> > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > ---
+> > >
+> > > Changelog?
+> > >
+> >
+> > Changelog is in the cover.
+> >
+> > > >  drivers/mfd/motorola-cpcap.c | 101 ++++++++++++++++++++++++++++---=
+----
+> > > >  1 file changed, 83 insertions(+), 18 deletions(-)
+> > > >
+> > > > diff --git a/drivers/mfd/motorola-cpcap.c b/drivers/mfd/motorola-cp=
+cap.c
+> > > > index d8243b956f87..516d1e33affa 100644
+> > > > --- a/drivers/mfd/motorola-cpcap.c
+> > > > +++ b/drivers/mfd/motorola-cpcap.c
+> > > > @@ -12,6 +12,7 @@
+> > > >  #include <linux/kernel.h>
+> > > >  #include <linux/module.h>
+> > > >  #include <linux/mod_devicetable.h>
+> > > > +#include <linux/property.h>
+> > > >  #include <linux/regmap.h>
+> > > >  #include <linux/sysfs.h>
+> > > >
+> > > > @@ -24,10 +25,16 @@
+> > > >  #define CPCAP_REGISTER_SIZE  4
+> > > >  #define CPCAP_REGISTER_BITS  16
+> > > >
+> > > > +struct cpcap_chip_data {
+> > > > +     const struct mfd_cell *mfd_devices;
+> > > > +     unsigned int num_devices;
+> > > > +};
+> > >
+> > > This is a red flag.
+> > >
+> > > >  struct cpcap_ddata {
+> > > >       struct spi_device *spi;
+> > > >       struct regmap_irq *irqs;
+> > > >       struct regmap_irq_chip_data *irqdata[CPCAP_NR_IRQ_CHIPS];
+> > > > +     const struct cpcap_chip_data *cdata;
+> > > >       const struct regmap_config *regmap_conf;
+> > > >       struct regmap *regmap;
+> > > >  };
+> > > > @@ -195,20 +202,6 @@ static int cpcap_init_irq(struct cpcap_ddata *=
+cpcap)
+> > > >       return 0;
+> > > >  }
+> > > >
+> > > > -static const struct of_device_id cpcap_of_match[] =3D {
+> > > > -     { .compatible =3D "motorola,cpcap", },
+> > > > -     { .compatible =3D "st,6556002", },
+> > > > -     {},
+> > > > -};
+> > > > -MODULE_DEVICE_TABLE(of, cpcap_of_match);
+> > > > -
+> > > > -static const struct spi_device_id cpcap_spi_ids[] =3D {
+> > > > -     { .name =3D "cpcap", },
+> > > > -     { .name =3D "6556002", },
+> > > > -     {},
+> > > > -};
+> > > > -MODULE_DEVICE_TABLE(spi, cpcap_spi_ids);
+> > > > -
+> > > >  static const struct regmap_config cpcap_regmap_config =3D {
+> > > >       .reg_bits =3D 16,
+> > > >       .reg_stride =3D 4,
+> > > > @@ -241,7 +234,56 @@ static int cpcap_resume(struct device *dev)
+> > > >
+> > > >  static DEFINE_SIMPLE_DEV_PM_OPS(cpcap_pm, cpcap_suspend, cpcap_res=
+ume);
+> > > >
+> > > > -static const struct mfd_cell cpcap_mfd_devices[] =3D {
+> > > > +static const struct mfd_cell cpcap_default_mfd_devices[] =3D {
+> > > > +     {
+> > > > +             .name          =3D "cpcap_adc",
+> > > > +             .of_compatible =3D "motorola,cpcap-adc",
+> > > > +     }, {
+> > > > +             .name          =3D "cpcap_battery",
+> > > > +             .of_compatible =3D "motorola,cpcap-battery",
+> > > > +     }, {
+> > > > +             .name          =3D "cpcap-regulator",
+> > > > +             .of_compatible =3D "motorola,cpcap-regulator",
+> > > > +     }, {
+> > > > +             .name          =3D "cpcap-rtc",
+> > > > +             .of_compatible =3D "motorola,cpcap-rtc",
+> > > > +     }, {
+> > > > +             .name          =3D "cpcap-pwrbutton",
+> > > > +             .of_compatible =3D "motorola,cpcap-pwrbutton",
+> > > > +     }, {
+> > > > +             .name          =3D "cpcap-usb-phy",
+> > > > +             .of_compatible =3D "motorola,cpcap-usb-phy",
+> > > > +     }, {
+> > > > +             .name          =3D "cpcap-led",
+> > > > +             .id            =3D 0,
+> > > > +             .of_compatible =3D "motorola,cpcap-led-red",
+> > > > +     }, {
+> > > > +             .name          =3D "cpcap-led",
+> > > > +             .id            =3D 1,
+> > > > +             .of_compatible =3D "motorola,cpcap-led-green",
+> > > > +     }, {
+> > > > +             .name          =3D "cpcap-led",
+> > > > +             .id            =3D 2,
+> > > > +             .of_compatible =3D "motorola,cpcap-led-blue",
+> > > > +     }, {
+> > > > +             .name          =3D "cpcap-led",
+> > > > +             .id            =3D 3,
+> > > > +             .of_compatible =3D "motorola,cpcap-led-adl",
+> > > > +     }, {
+> > > > +             .name          =3D "cpcap-led",
+> > > > +             .id            =3D 4,
+> > > > +             .of_compatible =3D "motorola,cpcap-led-cp",
+> > > > +     }, {
+> > > > +             .name          =3D "cpcap-codec",
+> > > > +     },
+> > > > +};
+> > > > +
+> > > > +static const struct cpcap_chip_data cpcap_default_data =3D {
+> > > > +     .mfd_devices =3D cpcap_default_mfd_devices,
+> > > > +     .num_devices =3D ARRAY_SIZE(cpcap_default_mfd_devices),
+> > > > +};
+> > > > +
+> > > > +static const struct mfd_cell cpcap_mapphone_mfd_devices[] =3D {
+> > > >       {
+> > > >               .name          =3D "cpcap_adc",
+> > > >               .of_compatible =3D "motorola,mapphone-cpcap-adc",
+> > > > @@ -285,7 +327,12 @@ static const struct mfd_cell cpcap_mfd_devices=
+[] =3D {
+> > > >               .of_compatible =3D "motorola,cpcap-led-cp",
+> > > >       }, {
+> > > >               .name          =3D "cpcap-codec",
+> > > > -     }
+> > > > +     },
+> > > > +};
+> > > > +
+> > > > +static const struct cpcap_chip_data cpcap_mapphone_data =3D {
+> > > > +     .mfd_devices =3D cpcap_mapphone_mfd_devices,
+> > > > +     .num_devices =3D ARRAY_SIZE(cpcap_mapphone_mfd_devices),
+> > > >  };
+> > > >
+> > > >  static int cpcap_probe(struct spi_device *spi)
+> > > > @@ -297,9 +344,17 @@ static int cpcap_probe(struct spi_device *spi)
+> > > >       if (!cpcap)
+> > > >               return -ENOMEM;
+> > > >
+> > > > +     cpcap->cdata =3D device_get_match_data(&spi->dev);
+> > > > +     if (!cpcap->cdata)
+> > > > +             return -ENODEV;
+> > > > +
+> > > >       cpcap->spi =3D spi;
+> > > >       spi_set_drvdata(spi, cpcap);
+> > > >
+> > > > @@ -331,16 +382,24 @@ static int cpcap_probe(struct spi_device *spi=
+)
+> > > >       spi->dev.coherent_dma_mask =3D 0;
+> > > >       spi->dev.dma_mask =3D &spi->dev.coherent_dma_mask;
+> > > >
+> > > > -     return devm_mfd_add_devices(&spi->dev, 0, cpcap_mfd_devices,
+> > > > -                                 ARRAY_SIZE(cpcap_mfd_devices), NU=
+LL, 0, NULL);
+> > > > +     return devm_mfd_add_devices(&spi->dev, 0, cpcap->cdata->mfd_d=
+evices,
+> > > > +                                 cpcap->cdata->num_devices, NULL, =
+0, NULL);
+> > > >  }
+> > > >
+> > > > +static const struct of_device_id cpcap_of_match[] =3D {
+> > > > +     { .compatible =3D "motorola,cpcap", .data =3D &cpcap_default_=
+data },
+> > > > +     { .compatible =3D "motorola,mapphone-cpcap", .data =3D &cpcap=
+_mapphone_data },
+> > >
+> > > We don't allow data from one device registration API (MFD) to be pass=
+ed
+> > > through another (OF) because it tends to lead to all sorts of "creati=
+ve
+> > > solutions".  Pass a value instead and match on that in a switch()
+> > > statement like all of the other MFD drivers do.
+> > >
+> >
+> > You don't allow this. I have not seen this enforced anywhere in the
+> > kernel except the mfd subsystem. Fine, does not matter, if this makes
+> > you happy I will adjust.
+>
+> Where else would this rule be applicable?  I can't think of anywhere.
+>
 
-There is no easy way to merge the series. LEDs and DT patches go to
-different trees (well, three different trees). So when any of them is
-merged, the branch after the patch will be broken until all the patches
-hit the same branch.
+I have adjusted as you requested and already sent v5.
 
-> 
->  .../devicetree/bindings/leds/issi,is31fl319x.yaml        | 9 +++++++--
->  arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dts | 2 +-
->  arch/arm64/boot/dts/marvell/armada-7040-mochabin.dts     | 2 +-
->  arch/arm64/boot/dts/qcom/msm8916-alcatel-idol347.dts     | 2 +-
->  drivers/leds/leds-is31fl319x.c                           | 8 +-------
->  5 files changed, 11 insertions(+), 12 deletions(-)
-> 
-> -- 
-> 2.54.0
-> 
-
--- 
-With best wishes
-Dmitry
+> --
+> Lee Jones
 
