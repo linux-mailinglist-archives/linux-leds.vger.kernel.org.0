@@ -1,126 +1,260 @@
-Return-Path: <linux-leds+bounces-8113-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8114-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8B76BT/NBmrynwIAu9opvQ
-	(envelope-from <linux-leds+bounces-8113-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 15 May 2026 09:37:35 +0200
+	id UeEgEgz+BmpjqgIAu9opvQ
+	(envelope-from <linux-leds+bounces-8114-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 15 May 2026 13:05:48 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C5354AAD4
-	for <lists+linux-leds@lfdr.de>; Fri, 15 May 2026 09:37:30 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2D0154E078
+	for <lists+linux-leds@lfdr.de>; Fri, 15 May 2026 13:05:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3E6F43004F19
-	for <lists+linux-leds@lfdr.de>; Fri, 15 May 2026 07:37:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3A44A30BCD24
+	for <lists+linux-leds@lfdr.de>; Fri, 15 May 2026 10:39:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 698E43E9F8E;
-	Fri, 15 May 2026 07:37:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A1B644CAE6;
+	Fri, 15 May 2026 10:39:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IvCFukU+"
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="NSUsCuvn"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F7B3E3173;
-	Fri, 15 May 2026 07:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE0844BC93;
+	Fri, 15 May 2026 10:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778830647; cv=none; b=O/FdPtWIcDWtnQwfBojhtR72t4CWK1oJI1uBgcrS/OutGRfph6LIItqIxJ6l1ZHxtF0G/lM2fISYpTZCzQnxchGvcm7yGf+5EDcL1ZNdcWWDxh6R++aesq4rx2j5TLHMG8pvK/jC+sI4e4m+wGtt85CaZELCw+9AQ019rnba7ZU=
+	t=1778841564; cv=none; b=q6OFUFT2UCqnfepVWKejN8uVftPJfC3vFboLCwWGw1ENIGawLDpzhDUvDP5deQP3UDuZjnoNhIh58T7bcJKb66HcWjHFl0CuLOjajU2Kf8PE7HH6QGTlcrdi4U5d+2/xf6GhnL1Fx8oQWiaHW2RyDVI/BXnlYLDjCnfkqumUz5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778830647; c=relaxed/simple;
-	bh=a8EYgOEz++YwUaCdJC5iuFQH3G+D7Z3AA/LV/KjouHQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VQ8KaKEfPqxJZ8s2ApaE7UvLEGWcfsCyWUgSgPLDhENVgwaz0nsKR6CdyaXNuBa625gf9JOZKoETXWiMpCIYzWcvBKGB6x0acsuWjh7uIN8bdD0zyBsSMeT8h8w61pkdpLswK0Z0PORI1m0MMITijACtMdkCD1Lc2sBBTWwffBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IvCFukU+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64A80C2BCB8;
-	Fri, 15 May 2026 07:37:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778830646;
-	bh=a8EYgOEz++YwUaCdJC5iuFQH3G+D7Z3AA/LV/KjouHQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IvCFukU+krehMgs77r1eo1DOe8p6PhMicmvj3a2hns+H7LMtIip+pPzY/sklR7o2s
-	 +KB9LebJmj3GJJxDcscEY9TQo4ZA3NyhuNHhpEaao1szG3L7D+LLMtE68Vf/3L1iGP
-	 AuVAqPf30D73I4Gc/fV5p6yFZjkaG5xcjLcak61mclalI4bs6SKAV5bmsHZnUmqOXW
-	 wCFVoYZdMJFkXOSjZsu/7e1DUBgHZuX9dvGvmqR+SK/EurDnrwD8tQkAw9Pd/uQfXR
-	 ciPYKQCiRuPbWNHrzvSo8bhagrEr91UH5eS4marGBbBkpilrSMWE8jqr+eOGKG4KSg
-	 EXd+BEohmQXKw==
-Date: Fri, 15 May 2026 09:37:24 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Alexandre Hamamdjian <azkali.limited@gmail.com>
-Cc: Philippe Simons <simons.philippe@gmail.com>, 
-	Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: leds: backlight: add Silergy SY7758
-Message-ID: <20260515-friendly-anaconda-of-dew-abd4dd@quoll>
-References: <20260511-sy7758-v1-0-999a33081304@gmail.com>
- <20260511-sy7758-v1-1-999a33081304@gmail.com>
+	s=arc-20240116; t=1778841564; c=relaxed/simple;
+	bh=xqJosKum8u3HfaS4s7QBFPoBoRkyRsgBlwzVgVbWZZQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jgb58ymvvTQxPNAgPYvCxyI+W/kv8WZpR5bGRXLVlkLuL/cla5LP0OpmWlYiakrOOAzn2xqW9vTZXiEAD/szBca8f9ZwD4OQTE6s/CSxYg3852e258F7zUPSbw4LwBm//5IHFxAIsAm1crNq13BmSoTADHaPLwS9BYAhjO3+6ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=NSUsCuvn; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id EDAD8270D2;
+	Fri, 15 May 2026 12:39:20 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id nitB1vRL07iJ; Fri, 15 May 2026 12:39:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1778841560; bh=xqJosKum8u3HfaS4s7QBFPoBoRkyRsgBlwzVgVbWZZQ=;
+	h=From:Subject:Date:To:Cc;
+	b=NSUsCuvn9Hk64UQi5BXEvj2kJV376hVGDOyGiZQJXq+eLhE3Y06LdENJto7rmWPg1
+	 c9W2KuAr4jEQp4Pg6CEdYgLIhbmNi6f+bRy3hXsnhSngHkwVfL2rMXT7ywjFs5BW7q
+	 s9utDh4Ysc0mTfHNlrDvVJBs9kmENlDJ+kGHUEVh19sG3HAfVn3Fw02FXF96matvbh
+	 d8cHLhlj7AKFYVdqII42TO64CFZKgH9nkNrB0McM6JcMb5F8E33ojgtuBrZYnuHuA7
+	 xanlu0ALGlj4iUonamZ9j6/X4RIgCm9+MZ0t/mYcqzFaw7Qhx5+5g+SUqkg+lZUoyN
+	 t1kM/xGMSHvGg==
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+Subject: [PATCH v6 00/11] Support for Samsung S2MU005 PMIC and its
+ sub-devices
+Date: Fri, 15 May 2026 16:08:56 +0530
+Message-Id: <20260515-s2mu005-pmic-v6-0-1979106992d4@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260511-sy7758-v1-1-999a33081304@gmail.com>
-X-Rspamd-Queue-Id: C9C5354AAD4
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMH3BmoC/2XOQW7DIBCF4atErEs1DAPYWfUeVRcYDwmLhAhSq
+ 1XkuxdHitLYy4f0/cNNVC6Jq9jvbqLwlGrK5zbs206Eoz8fWKaxbYGARimFsuLpG8DIyykFCcG
+ 66O3ggw6ikUvhmH7uuc+vto+pXnP5vdcntbw+QvQampQE2bNWHY3aQ+g/xlRLztf3XA5iSU344
+ BYU2hXHxl0XlXcmGnJ+y/WTI5oV140P5CNzT86C3nJ6ctp8npbrkR11YJxju+XmH8c1N43HMIR
+ +9MYD0Cuf5/kPAcWbmKYBAAA=
+X-Change-ID: 20251112-s2mu005-pmic-0c67fa6bac3c
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Nam Tran <trannamatk@gmail.com>, 
+ =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Rspamd-Queue-Id: C2D0154E078
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[disroot.org,reject];
+	R_DKIM_ALLOW(-0.20)[disroot.org:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-8114-lists,linux-leds=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,samsung.com,linaro.org,bootlin.com,lwn.net,linuxfoundation.org,gmail.com,lvkasz.us];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8113-lists,linux-leds=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	RCPT_COUNT_TWELVE(0.00)[24];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-leds@vger.kernel.org];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,gmx.de,lists.freedesktop.org,vger.kernel.org];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[disroot.org:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kauschluss@disroot.org,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[disroot.org:email,disroot.org:mid,disroot.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Mon, May 11, 2026 at 12:08:02AM +0700, Alexandre Hamamdjian wrote:
-> The Silergy SY7758 is an I2C-controlled multi-channel LED backlight
-> driver typically used to drive the edge-lit LED strings of LCD panels
-> in handheld and embedded devices. Brightness is programmed as a 12-bit
-> linear value through two 8-bit registers.
-> 
-> Document the binding for the new compatible "silergy,sy7758" so it can
-> be referenced by board device trees and the matching driver, and add a
-> MAINTAINERS entry covering both the binding and the upcoming driver.
-> 
-> Co-developed-by: Philippe Simons <simons.philippe@gmail.com>
-> Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
-> Signed-off-by: Alexandre Hamamdjian <azkali.limited@gmail.com>
-> ---
->  .../bindings/leds/backlight/silergy,sy7758.yaml    | 47 ++++++++++++++++++++++
+S2MU005 is an MFD chip manufactured by Samsung Electronics. This is
+found in various devices manufactured by Samsung and others, including
+all Exynos 7870 devices. It is known to have the following features:
 
-This was already sent two weeks ago:
-<20260430-topic-sm8650-ayaneo-pocket-s2-sy7758-v2-1-308140640de9@linaro.org>
-and that posting looks closer to complete.
+1. Two LED channels with adjustable brightness for use as a torch, or a
+   flash strobe.
+2. An RGB LED with 8-bit channels. Usually programmed as a notification
+   indicator.
+3. An MUIC, which works with USB micro-B (and USB-C?). For the micro-B
+   variant though, it measures the ID-GND resistance using an internal
+   ADC.
+4. A charger device, which reports if charger is online, voltage,
+   resistance, etc.
+
+This patch series implements a lot of these features. Naturally, this
+series touches upon a lot of subsystems. The 'parent' is the MFD driver,
+so the subsystems have some form of dependency to the MFD driver, so
+they are not separable.
+
+Here are the subsystems corresponding to the patch numbers:
+dt-bindings - 01, 02, 03
+mfd         - 03, 04, 05, 06
+led         - 01, 07, 08, 09
+extcon      - 02, 10
+power       - 11
+
+Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+---
+Changes in v6:
+- Fix build, UAF, and functional errors with
+  CONFIG_V4L2_FLASH_LED_CLASS=m (Lee Jones)
+- Remove (ret < 0) wherever redundant (Lee Jones)
+- Remove extra conditionals for supporting multiple variants (Lee Jones)
+- Fix OOB condition in initailizing flash LED channels (Lee Jones)
+- declare i inside for, like: for (int i = 0; ...) (Lee Jones)
+- Rewrite and simplify closest timing function for clarity (Lee Jones)
+- Link to v5: https://lore.kernel.org/r/20260424-s2mu005-pmic-v5-0-fcbc9da5a004@disroot.org
+
+Changes in v5:
+- Drop port property from charger dt binding (Krzysztof Kozlowski)
+- Create separate dt binding for S2MU005 MFD (Krzysztof Kozlowski)
+- Move RGB LED and charger schema to parent schema (Rob Herring)
+- Fix error of using invalid revision mask
+- Link to v4: https://lore.kernel.org/r/20260414-s2mu005-pmic-v4-0-7fe7480577e6@disroot.org
+
+Changes in v4:
+- Use OF graph to connect charger with MUIC in device tree
+- Move DMA coherent mask to all MFD PMICs (André Draszik)
+- Modify pointer names for flash/RGB drivers (Lee Jones)
+- Use 100-char line wrap for flash/RGB drivers (Lee Jones)
+- Revamp LED device initialization in flash driver (Lee Jones)
+- Add proper USB 2.0 support in charger driver (Łukasz Lebiedziński)
+- Link to v3: https://lore.kernel.org/r/20260225-s2mu005-pmic-v3-0-b4afee947603@disroot.org
+
+Changes in v3:
+- Remove "extcon" text from dt-bindings documentation (Rob Herring)
+- Add connector for MUIC node
+- Fix dt binding errors reported by robh's bot
+- Fix kernel test robot const errors 
+- Remove FIELD_PREP() values in register header file (André Draszik)
+- Add max_register, volatile_reg, cache_type (André Draszik)
+- Redo [v2 07/12] to NOT store the PMIC revision (André Draszik)
+- Add a commit to fix DMA coherent mask in I2C PMICs
+- Implement various flow changes in flash LED driver (André Draszik)
+- Use device_for_each_child_node_scoped() (André Draszik)
+- Fix CFI panic in devm_add_action_or_reset()
+- Link to v2: https://lore.kernel.org/r/20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org
+
+Changes in v2:
+- Drop [v1 06/13], instead use regmap_irq_chip::get_irq_regs() 
+- Remove references to driver in devicetree commits (Conor Dooley)
+- Propagate errors of sec_pmic_store_rev() (André Draszik)
+- Fix documentation language errors (Randy Dunlap)
+- Link to v1: https://lore.kernel.org/r/20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org
+
+To: Lee Jones <lee@kernel.org>
+To: Pavel Machek <pavel@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+To: MyungJoo Ham <myungjoo.ham@samsung.com>
+To: Chanwoo Choi <cw00.choi@samsung.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+To: André Draszik <andre.draszik@linaro.org>
+To: Nam Tran <trannamatk@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Sebastian Reichel <sre@kernel.org>
+Cc: linux-leds@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-pm@vger.kernel.org
+
+---
+Kaustabh Chakraborty (11):
+      dt-bindings: leds: document Samsung S2M series PMIC flash LED device
+      dt-bindings: extcon: document Samsung S2M series PMIC extcon device
+      dt-bindings: mfd: add documentation for S2MU005 PMIC
+      mfd: sec: add support for S2MU005 PMIC
+      mfd: sec: set DMA coherent mask
+      mfd: sec: resolve PMIC revision in S2MU005
+      leds: flash: add support for Samsung S2M series PMIC flash LED device
+      leds: rgb: add support for Samsung S2M series PMIC RGB LED device
+      Documentation: leds: document pattern behavior of Samsung S2M series PMIC RGB LEDs
+      extcon: add support for Samsung S2M series PMIC extcon devices
+      power: supply: add support for Samsung S2M series PMIC charger device
+
+ .../bindings/extcon/samsung,s2mu005-muic.yaml      |  40 ++
+ .../bindings/leds/samsung,s2mu005-flash.yaml       |  52 +++
+ .../bindings/mfd/samsung,s2mu005-pmic.yaml         | 120 ++++++
+ Documentation/leds/index.rst                       |   1 +
+ Documentation/leds/leds-s2m-rgb.rst                |  60 +++
+ drivers/extcon/Kconfig                             |  10 +
+ drivers/extcon/Makefile                            |   1 +
+ drivers/extcon/extcon-s2m.c                        | 345 +++++++++++++++++
+ drivers/leds/flash/Kconfig                         |  12 +
+ drivers/leds/flash/Makefile                        |   1 +
+ drivers/leds/flash/leds-s2m-flash.c                | 352 +++++++++++++++++
+ drivers/leds/rgb/Kconfig                           |  11 +
+ drivers/leds/rgb/Makefile                          |   1 +
+ drivers/leds/rgb/leds-s2m-rgb.c                    | 416 +++++++++++++++++++++
+ drivers/mfd/sec-common.c                           |  37 +-
+ drivers/mfd/sec-i2c.c                              |  29 ++
+ drivers/mfd/sec-irq.c                              |  74 ++++
+ drivers/power/supply/Kconfig                       |  11 +
+ drivers/power/supply/Makefile                      |   1 +
+ drivers/power/supply/s2m-charger.c                 | 299 +++++++++++++++
+ include/linux/mfd/samsung/core.h                   |   1 +
+ include/linux/mfd/samsung/irq.h                    |  66 ++++
+ include/linux/mfd/samsung/s2mu005.h                | 332 ++++++++++++++++
+ 23 files changed, 2266 insertions(+), 6 deletions(-)
+---
+base-commit: e98d21c170b01ddef366f023bbfcf6b31509fa83
+change-id: 20251112-s2mu005-pmic-0c67fa6bac3c
 
 Best regards,
-Krzysztof
+--  
+Kaustabh Chakraborty <kauschluss@disroot.org>
 
 
