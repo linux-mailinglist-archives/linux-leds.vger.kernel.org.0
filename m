@@ -1,81 +1,81 @@
-Return-Path: <linux-leds+bounces-8155-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8156-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aCUBEvyBCGo2tAMAu9opvQ
-	(envelope-from <linux-leds+bounces-8155-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sat, 16 May 2026 16:41:00 +0200
+	id yFK/AliCCGo2tAMAu9opvQ
+	(envelope-from <linux-leds+bounces-8156-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sat, 16 May 2026 16:42:32 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A887655C21A
-	for <lists+linux-leds@lfdr.de>; Sat, 16 May 2026 16:40:59 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2BC55C257
+	for <lists+linux-leds@lfdr.de>; Sat, 16 May 2026 16:42:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 07E28300A7D8
-	for <lists+linux-leds@lfdr.de>; Sat, 16 May 2026 14:40:55 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 8E80930054EE
+	for <lists+linux-leds@lfdr.de>; Sat, 16 May 2026 14:42:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D94A26CE2C;
-	Sat, 16 May 2026 14:40:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 586CB266B46;
+	Sat, 16 May 2026 14:42:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="L0XHx+I1"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="nimfZOwB"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from WA1P291CU004.outbound.protection.outlook.com (mail-polandcentralazolkn19010005.outbound.protection.outlook.com [52.103.53.5])
+Received: from WA0P291CU002.outbound.protection.outlook.com (mail-polandcentralazolkn19013081.outbound.protection.outlook.com [52.103.53.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF18213957E;
-	Sat, 16 May 2026 14:40:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.53.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67413DE42F;
+	Sat, 16 May 2026 14:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.53.81
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778942454; cv=fail; b=rVWV4a2yM1c5xls3b0NlnFA6syR3deITkRjSyXTpjn+HvF6kWI8S8W49bd3HqFfnApSzlpBJXykpwgCaBC4SKgbv8GI/UJzC4NpfQIsotwa7fLrK6xIQcEBqPhnwfLJREFBkcLDmvsCvh001FaVArulxcqRCehdV8fLftvy4zlc=
+	t=1778942548; cv=fail; b=p2wf+sGoCAorPIp4x+XSuLIGRZsbtcRJcLZeLmFG7LoaXEAGq9D4GaXXeKuqbNFmyVwrI4U2QI9Uni4a2I82YKAVC5eBeqirTKgr3QSZKowh0AuBjTpvxGOcUyX2pW8JzBumAFtj+D9RX4iFQommHNqJMyF7dcnQmA8qm4VAoAQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778942454; c=relaxed/simple;
-	bh=qAD2X8qlfIKCWXQkcwlcS80uoJxGRIy9oBW16ELni7o=;
+	s=arc-20240116; t=1778942548; c=relaxed/simple;
+	bh=22Qz+xQHyn+cUIbVjgBhmu2IzCiUoouGkTZWvYukaS8=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MeIzvRjq00dWxOKmeiv+F+MEifyLfzoQX3pHqBDW84lidX/FJj+WQ1jbjHyo/NC9lnN9F62LYxlF/BEHy4CN5ZMq1qQY9QKQStb2zEvLa08mAprGawBKoaoylTwe2U8oAJJAvkZz6fdMNZl6c6XEye5FYttsbkyKGrxD9fvJ4BM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=L0XHx+I1; arc=fail smtp.client-ip=52.103.53.5
+	 Content-Type:MIME-Version; b=pJXxXWg/ZvZzkBCEXymroNMM1AbDRuakXJfXaGceZnTXLTv6QQ1iJaiTw4GvPpVfNC7z0V5qlp2engYKKRxa4CZKO1QxpTzWbL87HEFOjoTOYnYzWCfrJcq5GtH1SeIiKdKEHVnUThDSsJjV9TdyMmoSF5qJopB48/ewJwgMLuA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=nimfZOwB; arc=fail smtp.client-ip=52.103.53.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kqJKF4ciZyslz1jEnSLUtYO7x/7UNihGkBz0h6WfkTdfRG9kBBwQzId0dcvu8jb/1FP7V0ioW9YUOATWCka4CvczHusUiPzkVhqylfihGo4ENJUDZuMo5wNibk83Pgr0kzzVnByLUtimeW1FW6t/hdCmZMrHil3lDYfH7R+Eo+eXCzAe9as7aEzPra8pXUVxzYNnyEik2scQc3FrrMPAbgydRsCVxWHvGt3sNQgbslIpeUmAlCs570hCPriFK+SLBMol5cy8Dk+olFvbsF+iDA2pzuR9UC6SrUgoJc0WDb7v9eubyYaFaQw+wnXZNTf5KwbccxQfYJL7XLR4mlhA+w==
+ b=v5AT9KbBOknZcYyLUiJhi5q4kbkFWMzpvXwInJfWipun4Bfr7/HvgyrYQLlkwSTiwgiHqaWtSNnF2+I1XONo1NzHJ4vaNRkUApjJkXUL12mRL/kOSMdfI9C5qxVbPYl05SPF765q+2/spZseuV9H8s/+nlKFlVMbH5UNXzUN0Cwxn26rb1bqr5zNVwe42cODvwP0twj7HpqXfbbG3KSC/phgI9XF9mMkpPkjS8mRO+056bobYGYOecLd2LorQH4gUQK6Yeyxq79hFYmyFarDbeN+jmW7hHeJJj7/QDHP2hnjTFpYNnRdbEtFgCvSuxn14u6x3xG91bqzWiV1Jk1zfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JW2Xc39MAvnYk3TKXNpIpQmjzwz71UOAOA9Ni8Bb8iU=;
- b=qpY44fPzCgeee/fF8tGbKC4XrvKWas+GtJ9jAx9RNzbiPloQxL0dlVAYTsPCn9zgkHw6wW5LJ+gUORgBJ5dbmFQvNY0tdUe1J8LC5z8NGfrE/SbkBQEEbVkbZs+GjZxdgWK/RR3QkTFEJGvBcJuGbJuKSjXLjytlU/s2NfnJqIdtMhPXnHPkcBt+XGJjGj8//BGJ2z6imP2BmbSOLCoOvoumLo95k4qWW/LOQx+d38fCq0uNbiX4FxgQyIQDqi0hl5cNezIPkercx5I2plwrgnPE+WBZCLIw5bSZ8cEkTw8g8zk3nKaIfgEBS+WnLzQsovGZGrg7edCdz7s4hj9Xag==
+ bh=DhrVZZYpPj1JyCMJJzn25XqXhH2NxPT4Cmkw4eFmZ7A=;
+ b=sZkTRXu76w5nqisQRMl8COtROgb5nC7TTpfLYeKVIFLCsRLYNMutWB/+BvG2E1qxfTC9S4JHwEEnioNsH1Xfzca+TAlcavBh3n2umW4jIZJXAjnsz9eEz3ZDbMxe7PFQBZJiURmhLAgAMD2JDFsO1I6gxvGEI8aDXh5sjYcbIuzZAQWothKobSb/NrkoPXvfnUCJWT3vOEHbd5MMiokEeBPJ7KP8jLG/XDkrWcfkYi29GMM76Q+vAeAFSNVhQeleBvXiF/F3E3R/Xja/WDrAePwPtrSSw7i7K2GkhkFWZdijoHh66RHf4qO4VO7NL2dtPrO72R0t5h6y9L9C5dyJAA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JW2Xc39MAvnYk3TKXNpIpQmjzwz71UOAOA9Ni8Bb8iU=;
- b=L0XHx+I1kNpSNc4+Hzp5cnJvmLXKVvermAyXl3jlqrnMqeOO+sIpEgHv2j0MFYMnXD186LtAgBiTED993bvIHlGyBKbGv81d4GNGgpMvhlkMEkbH/09QBzEpiyzyffSIlt3hWh8CXwbEr/vGzhqg5ARAfGTB7BCzNwtE3NgjDD2mVAUdeliyK4F4tCHDjRoXT5N5rCVpe2WRvYzZ+2lg4NYlb2Y6YLufUebyVnuo2Z4cU+Hg8IEFEseY0KDxsW3r0o1UJ/8DrRvQiMNeBvamE8d33xUmjF0EpUl1njEPL6kSwZz3Nxu2fUd4l/Z/KKJ50CllY4Wga5+2xHW0d/dPpA==
+ bh=DhrVZZYpPj1JyCMJJzn25XqXhH2NxPT4Cmkw4eFmZ7A=;
+ b=nimfZOwBwYk/x1yJ4bWnzjz/1GM9M2x9U8SUwpk6MRjX2gGr5pCt4/IRrBehJZD7uPR1TPKffO9hxdTp9xP6l/BhkAT4wnxT8QUL8C5aeKyp0bVzs0RjuIUgOon4AroRA/a6sz74NDI/8NeU62Hk0aYU7Na2PUiUe63xpWLS283OBnWmfWASOEoNKin92B6yI7YEIi/KJ1DpjTG9T7Ig8U1YK/39SOA4PDAJF3eLw77YLF3RZbyeWjGLSgLFI0blSG6givf4SLVVmvqMno4Y3NxIPESzhTQcIXy3KJ263K46fx5cRPye14tNzw9Lyz6qUtQmY5YzuJTus8ATN0Cb1g==
 Received: from WA0P291MB0385.POLP291.PROD.OUTLOOK.COM (2603:10a6:1d0:e::21) by
  WA1P291MB0061.POLP291.PROD.OUTLOOK.COM (2603:10a6:1d0:2::21) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.25.21; Sat, 16 May 2026 14:40:49 +0000
+ 15.21.25.21; Sat, 16 May 2026 14:42:23 +0000
 Received: from WA0P291MB0385.POLP291.PROD.OUTLOOK.COM
  ([fe80::84dd:c148:c19f:98a6]) by WA0P291MB0385.POLP291.PROD.OUTLOOK.COM
  ([fe80::84dd:c148:c19f:98a6%7]) with mapi id 15.21.0025.020; Sat, 16 May 2026
- 14:40:49 +0000
+ 14:42:23 +0000
 From: Manuel Fombuena <fombuena@outlook.com>
 To: lee@kernel.org,
 	pavel@kernel.org,
 	vicentiu.galanopulo@remote-tech.co.uk,
 	linux-leds@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 09/10] leds: st1202: disable channel when brightness is set to zero
-Date: Sat, 16 May 2026 15:40:37 +0100
+Subject: [PATCH 10/10] leds: st1202: correct and extend hw_pattern documentation
+Date: Sat, 16 May 2026 15:42:10 +0100
 Message-ID:
- <WA0P291MB0385B176D127BDD50A525745C5052@WA0P291MB0385.POLP291.PROD.OUTLOOK.COM>
+ <WA0P291MB03850ECE39A2FD2CC2EC365DC5052@WA0P291MB0385.POLP291.PROD.OUTLOOK.COM>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <WA0P291MB03850F4E9B4EC7389FE89779C5052@WA0P291MB0385.POLP291.PROD.OUTLOOK.COM>
 References: <WA0P291MB03850F4E9B4EC7389FE89779C5052@WA0P291MB0385.POLP291.PROD.OUTLOOK.COM>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: PR3P189CA0077.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:b4::22) To WA0P291MB0385.POLP291.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO2P265CA0427.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a0::31) To WA0P291MB0385.POLP291.PROD.OUTLOOK.COM
  (2603:10a6:1d0:e::21)
 X-Microsoft-Original-Message-ID:
- <20260516144037.1651142-1-fombuena@outlook.com>
+ <20260516144210.1658363-1-fombuena@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -85,78 +85,79 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: WA0P291MB0385:EE_|WA1P291MB0061:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b465826-3eb4-4cb4-f02d-08deb3591f6c
+X-MS-Office365-Filtering-Correlation-Id: aa01a826-d3fd-4ef5-550c-08deb3595746
 X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|24021099003|5072599009|19110799012|8060799015|41001999006|15080799012|23021999003|55001999006|37011999003|51005399006|3412199025|440099028|40105399003;
+	BCL:0;ARA:14566002|24021099003|5072599009|19110799012|8060799015|41001999006|15080799012|23021999003|55001999006|16051099003|37011999003|51005399006|3412199025|440099028|40105399003;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?VZIppj/r9xayA/GpS4CKEFYYbZatpRwO0LjslrkKi/A9J1mpyp0jE0gUBf1d?=
- =?us-ascii?Q?PSsfrS0ES5hAOEj8req7hYS/XwCaZrNdvCN7Fv59nqQd4J5vpgd5PiLPsZqE?=
- =?us-ascii?Q?TPyta76PvvclZoxMwgxyGtisgLzixSYzdVb8JJGv0aFvJOXQps7lkuUkGKfx?=
- =?us-ascii?Q?1WdTY+7UGNX+I5vU3nw5QNNkEeohDWFRl5rvtquibFYNXvfbi+bzw+o0J0tH?=
- =?us-ascii?Q?Lwmp4szkeGV/bhfsOQ1jHegoz6wcGAKXIquLOQvTvIEzYUiXQO72OFoiC0z9?=
- =?us-ascii?Q?p1zO/mmu3k12AsyCYe8a6bdTILARuhg7o8as4RGuTS2gs4gGMXtVL4W5gXVX?=
- =?us-ascii?Q?bspMlBOv9jJ+wHwPkoccIVNsr0NsyKpMwTpdboZGge6bhcfMrhU/HrKg37If?=
- =?us-ascii?Q?umtDI112wRXYsBC/DjEIX85EsrcPxoNM1RtsBW2/KE6bWgu6HutxJ6T5XuUj?=
- =?us-ascii?Q?sYrh3PZvO+YCf8+dMhLmgaIqxuvChoHxWxNEbOsbitdBomKI1e8ECxNmi8Y+?=
- =?us-ascii?Q?WRpm7MX29g/mEHW1Scc1WRnHKfrY041BPM4GmF5QmFiWZB5Dw5rXtDrgxHHj?=
- =?us-ascii?Q?kABzLCvw41j3XXFmVlnDKaVJ6pKk5mlvthhIz2IsuIFJ4n/gnyjepvVp7sV8?=
- =?us-ascii?Q?qQk1W3Ds1l3xdrggPj0e9gxHo69nLWcRSsyMI22QhaheMaktkXtgCc2spLQs?=
- =?us-ascii?Q?ph4CaYSe16bCtKUMEnMWvYXv3ROkBdWmV7L7f90rWEGe99uUe76hNqAB6r38?=
- =?us-ascii?Q?gerdhB/CH+YXeRRU7SwVuaASuNQFtMFmSwsDHMvt6c+ReFi5dDGOg6JJaCAZ?=
- =?us-ascii?Q?wPqRIaxqv4Cu2hs37mfsLFAwjaCQX3zuLqJdXsprbNYmktpPDd1xSCAZDDbw?=
- =?us-ascii?Q?7/HZ7wr4pOMT7ia9H1e1OmHYSxitn9IZ/hFGdZibAnNd8mUBrvgjEaxVTpUw?=
- =?us-ascii?Q?oEXzUtWkV5tqKNXGfGHDolm3GatTMC3ug04RGDnjutwBv/0HlRWR/JwU6EsM?=
- =?us-ascii?Q?BJGFNlwnC8GiWJYPliDJ/cUE3oxFjiVyvJUKFo+LrtK00pM=3D?=
+	=?us-ascii?Q?TgYzzICp+lDbu6WKZkT8Axt9wuj8elhFmf1wSeKCPWMzuASzzFFpu8h0vk1D?=
+ =?us-ascii?Q?JcIg9YxGXP3F7z8z7M3zd+Y5UhUhQ+B7eXlUDjU9vjtGDCRSlQP4Q4WeU0cY?=
+ =?us-ascii?Q?YMuFzvOxJmXBgVuou6X2U5Wuk72e9ScgquUnT5EAV3Cw9mJ1zOJuHf0wko+G?=
+ =?us-ascii?Q?P9jPUddNzNy8x5AWKBAlOjAJgBUDPSXw/2qsw/X6uYQP0vPi/V7CaG0L5R2m?=
+ =?us-ascii?Q?xYQgwZ0kSnRmk4toNbXkSCg1wT1vAW4fDs1jvUkGOO/6FvbKvJVPsNwMoW8N?=
+ =?us-ascii?Q?I/GScUPtN/gawfIG2fta8AQMlduxdm/7YS4FtDQidovnt69CIiHWGGhDg4n/?=
+ =?us-ascii?Q?41DkH1SFB7uYClKj89VHrmrjREFRIgO2xdJc4/jw8RbpilmKnDrO1sysv2zS?=
+ =?us-ascii?Q?BTI1FSgcmc694nqu3PMxC57HZlPDO5ATfVqYO2yP8JDO0/bHRyaU/c04uYLG?=
+ =?us-ascii?Q?IjRfSjvFE3b5sMV/8VbkQhr3mmx5dTZ7e+fcfo8cvrZ7OzZaFSeqB7p5XegN?=
+ =?us-ascii?Q?5oiPSAH5ozvYcZMplQbxy5kPITOxj6Msgj2I2j/m37cr19oKHCaHLXjrHp1j?=
+ =?us-ascii?Q?5Nn1vV/J90zo5easir63xBZ3yweJtlXvNcBLfMrses45piTnb24YJFEo/nUT?=
+ =?us-ascii?Q?l/ZXh/jpgtUtYmPjz7fYZ8fTN4ljSt8oGAwY++Zsr6xgzy6zuF/Agy+sriIo?=
+ =?us-ascii?Q?4PIiijujMQByoH8wUVoriZ+hAdSTlx6u8TU/T7SJ/rpk9BA6IXbIt0Ztw9Mw?=
+ =?us-ascii?Q?3f6ohGlb8NpvzCyv7Lh3PtXEs6ZvlNs5xsPXNr9XEefCA/D06PtR8hCR5SGc?=
+ =?us-ascii?Q?DtU+Grac2cGFjIkLJaWj/eOE/dIPpX3fhqwGw7n6oieS5wqPZPAD8Dt7q3cK?=
+ =?us-ascii?Q?rnvDiZvKZphc3v+EIbFv/8RqGBAiD6BswJwn/uQmEIcGGEO1Xo0u69QbpxRJ?=
+ =?us-ascii?Q?uSBut7FRR9vvkAOMSDHIuX1WHYX/auKBBR4mAJg4drjbLAVuMSZWKua/B1Er?=
+ =?us-ascii?Q?Fgb+QfBchr/Wrn6PhgEgt4X0tt+DCYr8XoOxaTE+u0jEyiYl5nvICj/f2uQ6?=
+ =?us-ascii?Q?jUAchanL?=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?zAO0E+oPJUU8ghG+09o6Y1EvbcTozR5R+c6ZwK3lqGStmhYa4i9RPKgGWMtO?=
- =?us-ascii?Q?+JtCZn9f6pfkz18DA9N1xs0khCsVM7jJkeNDe2VWIgwKdfAUEMQmHr2pna7t?=
- =?us-ascii?Q?rKcgdHAZaGPL64nfKMr6w+wgRclKdKelXYTuktNu+krq1ZERzeGE21wN9qDG?=
- =?us-ascii?Q?iuXo0NysbqO9KaaWVdqWq1CBw3ZU31frPl3syDmp6vJRDsXyyqlaDXZc5S52?=
- =?us-ascii?Q?gmtDIZhOnqMifJHvSIfMy8B6PRLao/MvcEjrWoPWCE5NNn+BxvuKO8YCy/j0?=
- =?us-ascii?Q?J62T6m3l94/Bzr54CERWl0SQteH0snRwfJmic8d5gULt5Uz+CLuWRoBXGWoU?=
- =?us-ascii?Q?ViOINhuGaCTMxPVCVGPtj3zjdZTsicY/4jxbx6A0rWsDx9QSn68BR5ncLqXW?=
- =?us-ascii?Q?yrWvCzf0s1Q/nGtaFZ2hXNRShujcJVSXUCKd4YL2fB5noJwWU7adVNk8+YHh?=
- =?us-ascii?Q?8pKB1Guz7XBsn4eu7CInBZrjI3pcnh3eKqxAlF09TYzslnTpYufn+ApUQlA6?=
- =?us-ascii?Q?SPYYquFrF34WCFjHGILL29vUCxNZR5wsvXlP/SaXLBD7P593be+nM6Qg9EzH?=
- =?us-ascii?Q?4itq+3v0FTX1UTxhK2RBJEc466Z/It2+caqjBzoOYasS1CeTrKSnRjySInqH?=
- =?us-ascii?Q?WADnIt73aYzq4sgZ1OnLso3gMbzggkyhYvUomZDH+9Iyt7HAYU9PMc1K9HJo?=
- =?us-ascii?Q?3t+AI0j1effhCvMI50mpmA7ywZRyjavTzPqvlZTFH7a5DgxKacFXj2AvNtI+?=
- =?us-ascii?Q?kPL9rR7DQJ6kUKdOIrBO26/uFQjgE5ZY3L/8fDXVoRyJVGdryF4S2xXHbZMO?=
- =?us-ascii?Q?rfGUDQVvcNrvkjQazo3GqPLrJeeza/EfMYHHSOOXHD4XgWERHAO60Po6CdcR?=
- =?us-ascii?Q?y8AIJSbW6M9jx5/rkhoGba+3h0+joMqNrk0jlWvMHI1ojrzt6b6R9BsiHYsP?=
- =?us-ascii?Q?gxIydRcAN5DORy0Uo6Mx7Jr7nKGZKNh/Gv0cGxW57AkIgxZ9HuV+Sc2qM5qb?=
- =?us-ascii?Q?zfDsMr0AU+p246RmuNaqD3Xfa/E3pwalfD7zmvWcnWWo+n20l7ngR7Jk7mv9?=
- =?us-ascii?Q?TygwPqsJ++bk8K+egFZYBSb6WUADUbRVBhB+bO7WPlebo8xj14ZBJj5PoCha?=
- =?us-ascii?Q?nLwZ79dsrjoX2MShehPNzBJwrcL4xhob79wPyhGvPGgfV/0LjVcSDiwElR+H?=
- =?us-ascii?Q?CCTm6e6y1wM2CHJp99H7/V/5sXBja8MMtRMLCia6E2HqwhlVftZcTDXq/FdG?=
- =?us-ascii?Q?uFPLzY75yKwHGV+CpDAXIqoIG5mnf6410nIhYPaxItMhztk9giX0zZnucfpV?=
- =?us-ascii?Q?rGG22lyTaFpj9hksv4irmvbtGQ25xlgC03xvVgS8l3uaEQHWZWdEwJJsjO31?=
- =?us-ascii?Q?DF4xSonpv/pGUdL179wS/xg9PmLyPyKGh985XI5v+9Tl/jpXzKZHXv3KU1r1?=
- =?us-ascii?Q?9CJDhVmjTnibwXjYXVVskDTaBF+xYOCU?=
+	=?us-ascii?Q?Ywyd0y+Pc8tYo7p7ascVyP7dfy+TqFTZLkI6p/v0B3XauhZvURvtYOR7UDLC?=
+ =?us-ascii?Q?NtqNHUVbVRjHxiEJmEpQ2nvbkef0KGrb+37gk4KZj7/chetHngEQG392gqFB?=
+ =?us-ascii?Q?81Fs5Ch+9uxO76BCY7+Fxyebhq81ipSlhTGun+QQ339L6wawK3P89eLmkVnU?=
+ =?us-ascii?Q?SurY08f6gM7fMDk2r//Yv/APSwdRsWFI0L01q5Yas/KXy9T1cFX+8r8Jf5cf?=
+ =?us-ascii?Q?rwihFaO+bSoYs8moEV2bSpP8MFRJrcRDGYO5NcACOQQiA6q0/RSbAO+R64pV?=
+ =?us-ascii?Q?9Rnx5z6SmkUFHLmwU7feuHFkw32CT9ToD6Fcbu4UFYUnjc7cgIKrpAlE2XFF?=
+ =?us-ascii?Q?WPH5gJUuGGMcItWgWhB0PVXbuJ6lH/9H+fihNtXs1c45h38+CYqOMWHp8Oks?=
+ =?us-ascii?Q?SC3/xczEAAnvMVfAnoHiVm5i7fG0UfF1pnleRZKQiL7ZnUT/az6mCbu9915i?=
+ =?us-ascii?Q?ZPfSmX67sejlbTZa4E/eVA04Tb+MTzyUqWU3N2rpBSxXKXbjFzGcd8nie9gh?=
+ =?us-ascii?Q?Uk+1Z60GM/bg6ZrdXtIsviNOQxucQWE79pBNJSIaoHUWyUyWG+NsMJnJ0uQc?=
+ =?us-ascii?Q?2/H47mza1WGA325eQFQoULb5hyN2HOrMjEZ1L9/L3KLkp8Qo4efHeCXWjeKI?=
+ =?us-ascii?Q?rLypYlth8cNqmHNjskBE4f0WwLTV/RX2KAZP4jSDkOKISUUdUDbDX0f14kEA?=
+ =?us-ascii?Q?KCBwizWkyPUxsa8/ZYcTfLfgAWifZiYY64oRdv8ugx86ewUsExGiZ/mU0KP/?=
+ =?us-ascii?Q?7K5zbhcxYjqrbyAdPBKevSuMRgIeU83Csgk5QkYTRMGseW10ilwgLjY6cv9D?=
+ =?us-ascii?Q?y4tQz3bAaWqt1U3YzvsVORne7Vp8wUoA6+iIXcrOWyZ0t2E8V/edVfHT/WU1?=
+ =?us-ascii?Q?2vdsB9qfkrX/gaD8oHx3CzZwX/AHfzBqBkHHPe0T+9+/9a2JOC59cjWM6Wre?=
+ =?us-ascii?Q?tdfYhSFUqoyxZc5sscSAuE9k5bMTp+qcRYbtGEQUTMFx3CDDmdJJeA5jGExQ?=
+ =?us-ascii?Q?TPZaM6rYW5I/2h3sYME4CU7Ze/TaMKSjKp5y+ZDIcBV0asMyq7UUPciarVU5?=
+ =?us-ascii?Q?efDtbhTAYPPu6rJYnwfkagbsGaXlsUSf46tLWsMfI4MrPFW5Aih92OLOBlFc?=
+ =?us-ascii?Q?/PxoW1WwSGEr680fXmwC2KGJUj2rsRF2F3j1/AJCctyz/WZT0OGJvqxhMcDN?=
+ =?us-ascii?Q?5fjlaoXKDFLAFHTHS3lHthxjwQ8Rbo5x7ZkFheY0+vt8xEFZgq4OtVy0WaXm?=
+ =?us-ascii?Q?5SnUTO4TmAjaYXiGKCGRrgfFjGlUzcSwfkKXQ75nXuCa36UXIe7B2Yd9fHTH?=
+ =?us-ascii?Q?PgIYRorlHZezA7Eaur+WaIiuEF5ZPZZ8yYRbI5LFIu5ig89d+p5/TPLgxD2S?=
+ =?us-ascii?Q?3dvr+gU/sKu70bKA/qMWov1/+Jq2L4ENePz+hAkhEkOX0+WyS9nZurfCs8FV?=
+ =?us-ascii?Q?EcrIy1a7D7e8k+AuEVue6qZKKFqzztWR?=
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b465826-3eb4-4cb4-f02d-08deb3591f6c
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa01a826-d3fd-4ef5-550c-08deb3595746
 X-MS-Exchange-CrossTenant-AuthSource: WA0P291MB0385.POLP291.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2026 14:40:49.6550
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2026 14:42:23.3138
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
 	00000000-0000-0000-0000-000000000000
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: WA1P291MB0061
-X-Rspamd-Queue-Id: A887655C21A
+X-Rspamd-Queue-Id: 9C2BC55C257
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.34 / 15.00];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[outlook.com,none];
 	R_DKIM_ALLOW(-0.20)[outlook.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8155-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8156-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -172,112 +173,50 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-leds];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,WA0P291MB0385.POLP291.PROD.OUTLOOK.COM:mid,outlook.com:email,outlook.com:dkim]
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[WA0P291MB0385.POLP291.PROD.OUTLOOK.COM:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,outlook.com:email,outlook.com:dkim]
 X-Rspamd-Action: no action
 
-When brightness_set() is called with LED_OFF, only the ILED register is
-zeroed; the channel enable bit is left set from probe time. A hardware
-channel enabled with ILED=0 still draws a small residual current, causing
-a dim glow even when the LED is supposed to be off.
+Fix the repeat section: -1 is a valid value meaning infinite repeat,
+as accepted by the ledtrig-pattern sysfs interface; only 0 and values
+below -1 are rejected. The previous text incorrectly stated all negative
+numbers were invalid. Also remove the redundant trailing sentence since
+the behaviour is now covered inline.
 
-Fix this by splitting st1202_channel_set() into a lockless inner function
-__st1202_channel_set() and a locking wrapper, then calling the inner
-function from brightness_set() while it already holds the mutex. The
-channel is now disabled when value is zero and re-enabled when non-zero,
-in the same lock region as the ILED write.
+Add the brightness range (0-255) to the hw_pattern section, which was
+previously undocumented.
 
-Fixes: 259230378c65 ("leds: Add LED1202 I2C driver")
+Fixes: b1816b22381b (Documentation:leds: Add leds-st1202.rst)
 Signed-off-by: Manuel Fombuena <fombuena@outlook.com>
 Assisted-by: Claude:claude-sonnet-4-6
 ---
- drivers/leds/leds-st1202.c | 62 +++++++++++++++++++++-----------------
- 1 file changed, 34 insertions(+), 28 deletions(-)
+ Documentation/leds/leds-st1202.rst | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/leds/leds-st1202.c b/drivers/leds/leds-st1202.c
-index bca2d9a80b63..a3f9057408e1 100644
---- a/drivers/leds/leds-st1202.c
-+++ b/drivers/leds/leds-st1202.c
-@@ -128,38 +128,11 @@ static int st1202_duration_pattern_write(struct st1202_chip *chip, int pattern,
- 				st1202_prescalar_to_miliseconds(value));
- }
+diff --git a/Documentation/leds/leds-st1202.rst b/Documentation/leds/leds-st1202.rst
+index a2353549469e..ed32eb3a27d4 100644
+--- a/Documentation/leds/leds-st1202.rst
++++ b/Documentation/leds/leds-st1202.rst
+@@ -16,6 +16,7 @@ in terms of PWM duty-cycle and duration (ms).
+ To be compatible with the hardware pattern format, maximum 8 tuples of
+ brightness (PWM) and duration must be written to hw_pattern.
  
--static void st1202_brightness_set(struct led_classdev *led_cdev,
--				enum led_brightness value)
--{
--	struct st1202_led *led = cdev_to_st1202_led(led_cdev);
--	struct st1202_chip *chip = led->chip;
--
--	guard(mutex)(&chip->lock);
--
--	st1202_write_reg(chip, ST1202_CONFIG_REG, ST1202_CONFIG_REG_SHFT);
--	st1202_write_reg(chip, ST1202_ILED_REG0 + led->led_num, value);
--}
--
--static enum led_brightness st1202_brightness_get(struct led_classdev *led_cdev)
--{
--	struct st1202_led *led = cdev_to_st1202_led(led_cdev);
--	struct st1202_chip *chip = led->chip;
--	u8 value = 0;
--
--	guard(mutex)(&chip->lock);
--
--	st1202_read_reg(chip, ST1202_ILED_REG0 + led->led_num, &value);
--
--	return value;
--}
--
--static int st1202_channel_set(struct st1202_chip *chip, int led_num, bool active)
-+static int __st1202_channel_set(struct st1202_chip *chip, int led_num, bool active)
- {
- 	u8 chan_low, chan_high;
- 	int ret;
++- Brightness range: 0-255
+ - Min pattern duration: 22 ms
+ - Max pattern duration: 5610 ms
  
--	guard(mutex)(&chip->lock);
--
- 	if (led_num <= 7) {
- 		ret = st1202_read_reg(chip, ST1202_CHAN_ENABLE_LOW, &chan_low);
- 		if (ret < 0)
-@@ -187,6 +160,39 @@ static int st1202_channel_set(struct st1202_chip *chip, int led_num, bool active
- 	return 0;
- }
+@@ -26,9 +27,7 @@ The format of the hardware pattern values should be:
+ ----------------------------
  
-+static int st1202_channel_set(struct st1202_chip *chip, int led_num, bool active)
-+{
-+	guard(mutex)(&chip->lock);
-+
-+	return __st1202_channel_set(chip, led_num, active);
-+}
-+
-+static void st1202_brightness_set(struct led_classdev *led_cdev,
-+				enum led_brightness value)
-+{
-+	struct st1202_led *led = cdev_to_st1202_led(led_cdev);
-+	struct st1202_chip *chip = led->chip;
-+
-+	guard(mutex)(&chip->lock);
-+
-+	st1202_write_reg(chip, ST1202_CONFIG_REG, ST1202_CONFIG_REG_SHFT);
-+	st1202_write_reg(chip, ST1202_ILED_REG0 + led->led_num, value);
-+	__st1202_channel_set(chip, led->led_num, !!value);
-+}
-+
-+static enum led_brightness st1202_brightness_get(struct led_classdev *led_cdev)
-+{
-+	struct st1202_led *led = cdev_to_st1202_led(led_cdev);
-+	struct st1202_chip *chip = led->chip;
-+	u8 value = 0;
-+
-+	guard(mutex)(&chip->lock);
-+
-+	st1202_read_reg(chip, ST1202_ILED_REG0 + led->led_num, &value);
-+
-+	return value;
-+}
-+
- static int st1202_led_set(struct led_classdev *ldev, enum led_brightness value)
- {
- 	struct st1202_led *led = cdev_to_st1202_led(ldev);
+ Specify a pattern repeat number, which is common for all channels.
+-Default is 1; negative numbers and 0 are invalid.
++Default is 1. Writing 0 is invalid. Writing -1 or 255 repeats the
++pattern indefinitely.
+ 
+ This file will always return the originally written repeat number.
+-
+-When the 255 value is written to it, all patterns will repeat
+-indefinitely.
 -- 
 2.54.0
 
