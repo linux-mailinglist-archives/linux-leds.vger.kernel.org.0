@@ -1,235 +1,134 @@
-Return-Path: <linux-leds+bounces-8157-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8158-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CIqPM/vuCGriAQQAu9opvQ
-	(envelope-from <linux-leds+bounces-8157-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sun, 17 May 2026 00:26:03 +0200
+	id uCBqDSVFCWqzSgQAu9opvQ
+	(envelope-from <linux-leds+bounces-8158-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sun, 17 May 2026 06:33:41 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA5D55E16A
-	for <lists+linux-leds@lfdr.de>; Sun, 17 May 2026 00:26:03 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id E468855F35F
+	for <lists+linux-leds@lfdr.de>; Sun, 17 May 2026 06:33:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E8C4D3012E9B
-	for <lists+linux-leds@lfdr.de>; Sat, 16 May 2026 22:26:00 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5AFF030059B8
+	for <lists+linux-leds@lfdr.de>; Sun, 17 May 2026 04:33:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B2FC38CFFE;
-	Sat, 16 May 2026 22:26:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E93ED2D0292;
+	Sun, 17 May 2026 04:33:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bGyv3taR"
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="CahdXBr+"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from outbound.ms.icloud.com (ms-2001i-snip4-11.eps.apple.com [57.103.73.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AAE35FF58;
-	Sat, 16 May 2026 22:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF7530C15F
+	for <linux-leds@vger.kernel.org>; Sun, 17 May 2026 04:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.73.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778970359; cv=none; b=fxff+zGJe+W6INMddQWiWfgM5btgklt158lyIyBhTQN1vkrznyaUmrjwn+TTk4YNWEswey485CFOqfkO6JcvwWfhyra+dWuW6ErhLqYj+CP/g37JJxjAvUIAIQfoL0lQX+bveVfFIfWp8NjYs9pQ6zOYjiTdcEEgERGB9HkBPR4=
+	t=1778992416; cv=none; b=sfsM+NZ+2HaVZ1DyRhEP9flipA7z4prrAvEjMsWxcZ6+gDUVd4GDe9r1WGIsdK8weR+UKQCdxH/KtIFvEnm3EhUHV4iScLdFChGwSpr8WYcRpUFPX0EyNBvOfc7bKTCzcgjMsJD2GqdMf9uy/Pkl9qglj6nRbJu6INQuzhhfuss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778970359; c=relaxed/simple;
-	bh=5nuPSDXwXXI1QlcU8CMtcUqyC9vn/weJSX9GgChGGvI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UepDJYEcErIt1xIpDoOXKPExi4J8WSvvdMPjB4YU2Qg3qT7Sqzr+aCoMC/YHH2fYFlcjdFRY6DCjjSidd6aIRDOsGcCmqYhwtIrCbjRDTqJZvLz5dg+Fv5lofzYNrvGrs0LBgDawqhh3KVSS3MxBu58c1XbEgXAOvvT/t2dheOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bGyv3taR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4382DC19425;
-	Sat, 16 May 2026 22:25:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778970359;
-	bh=5nuPSDXwXXI1QlcU8CMtcUqyC9vn/weJSX9GgChGGvI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bGyv3taRr2+TNdsQzb9eKRhOujnF19Fy5WDzL5XrdjELsZHjW4y7wtbe1/4iGbwVU
-	 /Kv7gv2B8qNNQ7sjekIOKxKluW5Xng0VTOnyciymMpR94VViVd349pdUbyv0oFK4L/
-	 bVs6ouljOkBYdSZOVh8RDZWSF9MZoIDJSUvCFh9GcMQA4rbMcm0IqQWNWtRYQ9pLy3
-	 5gAoteO7XXYvUGdxLTspaQj9mXDffqL+5Rdv7Zt3GKQJV60pXou24DBdECulFu7oHp
-	 twUQYCo1jMkRjVvTGlLgQFGgmP/ZFMgk2F/Iq5n39yXRndeyz2qlRnfG2c7YY1KkBM
-	 pf6gEG2pEEGvA==
-Date: Sat, 16 May 2026 23:25:52 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Kaustabh Chakraborty <kauschluss@disroot.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	s=arc-20240116; t=1778992416; c=relaxed/simple;
+	bh=jJGaahjb9QGkjkJ48lJ+jlmft1IfBzoed2hrRRynJPg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kz1op4EaZfzAx4Y2zZhtS6g0GqdsA+Eov0+WyKclVXBY1hQ1iQtFX3GrVSRyfJDQEdcbvfaAHDOqXcCC7BpjMnS2gf+30wP8ljqU7TT/6579cvuVw7dAWNxe6cKmA/Rg1g4I2JdN61cfKMDiznkOim0VMwM9KGS36w1mDnXBGWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=CahdXBr+; arc=none smtp.client-ip=57.103.73.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+Received: from outbound.ms.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-3a-100-percent-0 (Postfix) with ESMTPS id C732C18000BF;
+	Sun, 17 May 2026 04:33:33 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhKBUMDRQBBCFYBWANLVxQEC0AFBlgARnkRUAFYHlZeWhdeTVEPDwNKEAJeBV1yGVoUXBhTRVEfVFhBDgpTEhhcFFxQWB5GElYNXQkZBkFeUBtfAkIPHBNWFRMdQxkPKwhKBEMHRQJeCyUTCVNWWxNVF0YJGQhdHRkVWgkKVwBAC04DWAZcAkQKSwNeGVoFQQhJHlwaGEEYCEsBW3cCURxWDVdDVARfThkMSh1SVlsTVRdGCQ==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778992415; x=1781584415; bh=pntJZz4ASNwNYeCzPrxG6rNSHK6j2SdyBylMTqcBJCE=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=CahdXBr+oKRn6v7pMcGXHeyVMaYYuKrKg8uOsUnArGYkJ/YCYwfl8io7C1H2v4RKrSJdkk9Imdz4cEMWsCBIIOfEpEhhbFw+STodBhxgGglUVolaKIGkqVQlSjviVUcVXBWGnrpAYO36bpic4p6kjykc9qhrclw6jXUmUDWoVsydt5EibjuUBZCS3sOPWvfvxo/uhApNYdwBp31GvMcqrNb5xgx3ay+tnOMqP2tQrpEXDp7MGZpLB3zZ8yQknogxVdHCJTH0QwHTQdVVgmtufS8LdnMpuBVXM+pcxnnU2EAB1ODQ2/oM3r34vM/fZsVl+P7vZ+Y5RPO3ltomC96GMw==
+mail-alias-created-date: 1778972301885
+Received: from localhost.localdomain (unknown [17.57.154.37])
+	by p00-icloudmta-asmtp-us-west-3a-100-percent-0 (Postfix) with ESMTPSA id 3AF2618000A9;
+	Sun, 17 May 2026 04:33:31 +0000 (UTC)
+From: Sakurai Shun <ssh1326@icloud.com>
+To: Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Nam Tran <trannamatk@gmail.com>,
-	=?utf-8?B?xYF1a2FzeiBMZWJpZWR6acWEc2tp?= <kernel@lvkasz.us>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 03/11] dt-bindings: mfd: add documentation for S2MU005
- PMIC
-Message-ID: <20260516-esquire-chitchat-0fffa597e2f3@spud>
-References: <20260515-s2mu005-pmic-v6-0-1979106992d4@disroot.org>
- <20260515-s2mu005-pmic-v6-3-1979106992d4@disroot.org>
- <20260515-justly-recite-6028f4bfb24a@spud>
- <DIJK5FTQ5KWG.HOKZAOXHTGU7@disroot.org>
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Sakurai Shun <ssh1326@icloud.com>,
+	linux-leds@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: fix typo in leds-lp55xx.rst
+Date: Sun, 17 May 2026 13:32:53 +0900
+Message-ID: <20260517043303.17111-1-ssh1326@icloud.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="OXmzgMHNmty/qj6e"
-Content-Disposition: inline
-In-Reply-To: <DIJK5FTQ5KWG.HOKZAOXHTGU7@disroot.org>
-X-Rspamd-Queue-Id: 7BA5D55E16A
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: J0wsYnZzPUUqh3meEAHVTnIbeJbLuspE
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE3MDA0NiBTYWx0ZWRfX3LPqcK8EgBwO
+ F5Ctrc2KDwIZIj9witADuDUOVy2okwzp1tdLlHJHYoeiyIYsnnhzoPo5JAGsvdklrkid+LINKBC
+ WSNXx6MbXVws1BoJtDGuG9S82pwf2aCtEemD0qov9ijuJFdWmf4mkS/3ybm7ZWsC/F+oNX5TLJL
+ QfOl2J/bXKdebNk9TUWJRbZSHSj1iTP3u7AqJ7ejmmRoi5F0QVNW5fVgidzCd6QmL4pRu6lAqeo
+ /7YW9+NnSOFA/NmhFqxMOnntoFPryPnzy/PnIn7t0dR7h4L2BAGPOeQZ5TROoRy2Lyok33PVg88
+ qluFO647XLEuE0JCJPia5tCkW/OuQddYV3jluaYYMDGrDYk9XfcRsu7a1pdbd4=
+X-Proofpoint-GUID: J0wsYnZzPUUqh3meEAHVTnIbeJbLuspE
+X-Authority-Info-Out: v=2.4 cv=NcHrFmD4 c=1 sm=1 tr=0 ts=6a09451e
+ cx=c_apl:c_pps:t_out a=qkKslKyYc0ctBTeLUVfTFg==:117 a=NGcC8JguVDcA:10
+ a=x7bEGLp0ZPQA:10 a=ZxuoajvSgW0A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=v3ZZPjhaAAAA:8 a=7JAg27UwQIotZMEet8MA:9
+X-Apple-Category-Label: MjE0Nzk4NjU5NzY6JGNhdGVnb3J5JF9QZXJzb25hbCw=
+X-Rspamd-Queue-Id: E468855F35F
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[icloud.com,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[icloud.com:s=1a1hai];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8157-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FREEMAIL_CC(0.00)[icloud.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-8158-lists,linux-leds=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FREEMAIL_CC(0.00)[kernel.org,samsung.com,linaro.org,bootlin.com,lwn.net,linuxfoundation.org,gmail.com,lvkasz.us,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[ssh1326@icloud.com,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[icloud.com:+];
+	TAGGED_RCPT(0.00)[linux-leds];
+	FREEMAIL_FROM(0.00)[icloud.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[devicetree.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,icloud.com:email,icloud.com:mid,icloud.com:dkim]
 X-Rspamd-Action: no action
 
+Replace "regsister" with "register"
 
---OXmzgMHNmty/qj6e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Sakurai Shun <ssh1326@icloud.com>
+---
+ Documentation/leds/leds-lp55xx.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Sat, May 16, 2026 at 02:41:29AM +0530, Kaustabh Chakraborty wrote:
-> On 2026-05-15 18:14 +01:00, Conor Dooley wrote:
-> > On Fri, May 15, 2026 at 04:08:59PM +0530, Kaustabh Chakraborty wrote:
-> >> Samsung's S2MU005 PMIC includes subdevices for a charger, an MUIC (Mic=
-ro
-> >> USB Interface Controller), and flash and RGB LED controllers.
-> >>=20
-> >> Add the compatible and documentation for the S2MU005 PMIC. Also, add an
-> >> example for nodes for supported sub-devices, i.e. MUIC, flash LEDs, and
-> >> RGB LEDs. Charger sub-device uses the node of the parent.
-> >>=20
-> >> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
-> >> ---
-> >>  .../bindings/mfd/samsung,s2mu005-pmic.yaml         | 120 ++++++++++++=
-+++++++++
-> >>  1 file changed, 120 insertions(+)
-> >>=20
-> >> diff --git a/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmi=
-c.yaml b/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.yaml
-> >> new file mode 100644
-> >> index 0000000000000..0e6afb7d2017b
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.yaml
-> >> @@ -0,0 +1,120 @@
-> >> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/mfd/samsung,s2mu005-pmic.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: Samsung S2MU005 Power Management IC
-> >> +
-> >> +maintainers:
-> >> +  - Kaustabh Chakraborty <kauschluss@disroot.org>
-> >> +
-> >> +description: |
-> >> +  The S2MU005 is a companion power management IC which includes subde=
-vices for
-> >> +  a charger controller, an MUIC (Micro USB Interface Controller), and=
- flash and
-> >> +  RGB LED controllers.
-> >> +
-> >> +allOf:
-> >> +  - $ref: /schemas/power/supply/power-supply.yaml#
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    const: samsung,s2mu005-pmic
-> >> +
-> >> +  flash:
-> >> +    $ref: /schemas/leds/samsung,s2mu005-flash.yaml
-> >> +    description:
-> >> +      Child node describing flash LEDs.
-> >> +
-> >> +  interrupts:
-> >> +    maxItems: 1
-> >> +
-> >> +  muic:
-> >> +    $ref: /schemas/extcon/samsung,s2mu005-muic.yaml#
-> >> +    description:
-> >> +      Child node describing MUIC device.
-> >> +
-> >> +  multi-led:
-> >> +    type: object
-> >> +
-> >> +    allOf:
-> >> +      - $ref: /schemas/leds/leds-class-multicolor.yaml#
-> >
-> > Does this need to be an allOf when the other refs are not?
->=20
-> It has it's own properties, that's the reason. This used to be it's own
-> thing in dt-bindings/leds, but I was asked to move it here in prior
-> reviews.
+diff --git a/Documentation/leds/leds-lp55xx.rst b/Documentation/leds/leds-lp55xx.rst
+index 632e41cec..f60c7ec39 100644
+--- a/Documentation/leds/leds-lp55xx.rst
++++ b/Documentation/leds/leds-lp55xx.rst
+@@ -18,7 +18,7 @@ The LP55xx common driver provides these features using exported functions.
+ 
+   lp55xx_init_device() / lp55xx_deinit_device()
+   lp55xx_register_leds() / lp55xx_unregister_leds()
+-  lp55xx_regsister_sysfs() / lp55xx_unregister_sysfs()
++  lp55xx_register_sysfs() / lp55xx_unregister_sysfs()
+ 
+ ( Driver Structure Data )
+ 
+-- 
+2.54.0
 
-What do you mean by "its own properties"?
-
->=20
-> >> +
-> >> +    properties:
-> >> +      compatible:
-> >> +        const: samsung,s2mu005-rgb
-> >> +
-> >> +    required:
-> >> +      - compatible
-> >> +
-> >> +    unevaluatedProperties: false
-> >> +
-> >> +  reg:
-> >> +    maxItems: 1
-> >
-> > Move this above the child nodes please.
->=20
-> But properties are sorted in lex order?
-
-Typically the binding is sorted in the same order as properties go in
-nodes. Common stuff like reg/clocks/interrupts therefore send up above
-child nodes.
-
---OXmzgMHNmty/qj6e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCagju7QAKCRB4tDGHoIJi
-0tjjAP0QsRcLbAtRF7Rn4i6Ab0p2bDEVzxlNA01dpuXvDbgO6wD8CJqmCw9C5IDb
-CgukiLh67dRUC0V2lBjZP7sW7or87AQ=
-=Qrl5
------END PGP SIGNATURE-----
-
---OXmzgMHNmty/qj6e--
 
