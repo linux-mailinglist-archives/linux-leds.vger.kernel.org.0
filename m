@@ -1,231 +1,187 @@
-Return-Path: <linux-leds+bounces-8169-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8170-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CNKXBkGRCWrIfwQAu9opvQ
-	(envelope-from <linux-leds+bounces-8169-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sun, 17 May 2026 11:58:25 +0200
+	id uP0NBUyUCWqOgQQAu9opvQ
+	(envelope-from <linux-leds+bounces-8170-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sun, 17 May 2026 12:11:24 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD2C5605A0
-	for <lists+linux-leds@lfdr.de>; Sun, 17 May 2026 11:58:20 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D6BB560649
+	for <lists+linux-leds@lfdr.de>; Sun, 17 May 2026 12:11:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 75C81301C169
-	for <lists+linux-leds@lfdr.de>; Sun, 17 May 2026 09:57:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CF05430094FF
+	for <lists+linux-leds@lfdr.de>; Sun, 17 May 2026 10:11:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60A6A3587DE;
-	Sun, 17 May 2026 09:57:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9CED35DA61;
+	Sun, 17 May 2026 10:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rciXCJPe"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35F134F498
-	for <linux-leds@vger.kernel.org>; Sun, 17 May 2026 09:57:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779011864; cv=none; b=ZXfzAeKfzw9X2eR4nhL1FsEbe8+R8s1cbLNT3y0ZNGvmYddzajk5NKMbI32H3x/stxPYF6mh8P5GONxChRWu0PfKudLttiBs8w2SxSlFjE8PVNni3QdLaghc3G64D37kGvmrY8qb6zsb6FGTr/gn07GeCpOyOhG/DAYEXs5B4HU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779011864; c=relaxed/simple;
-	bh=9yxTgSmcxMcQF7W/Zfd9dDhpHTGFsYq+RF8Gcosneng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TqtHY3/wSeMYFcHHR0p7RTVMdLDMLWdwRmcXQOo8fGjS3xCCHHuDn1Lxxn8zFxPyEp5D8KwYhxGawJYLLpXt0PN5knpBNmHI/dVkFgk8iC6rPXYzJGOnreCxVib8lbupEjPJOR4/IIhZZ4bmjOdVYhIiT9VOYTI8CFObP3PMkLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1wOYFS-0006Jt-Pd; Sun, 17 May 2026 11:57:26 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1wOYFR-000PHi-1w;
-	Sun, 17 May 2026 11:57:26 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1wOYFS-0000000CTNw-0CKx;
-	Sun, 17 May 2026 11:57:26 +0200
-Date: Sun, 17 May 2026 11:57:26 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Carlo Szelinsky <github@szelinsky.de>
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH net-next v5 1/2] net: pse-pd: add devm_pse_poll_helper()
-Message-ID: <agmRBryQW3PkcJMJ@pengutronix.de>
-References: <20260505015757.831372-1-kuba@kernel.org>
- <20260516101720.1686465-1-github@szelinsky.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5158D359703
+	for <linux-leds@vger.kernel.org>; Sun, 17 May 2026 10:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779012678; cv=pass; b=oDHtJ2giqQtu7HnZHkEEVRidvl++7JmRkbGf2Xlus3KcvmiMXkrMFuwZMCMkdV2DZh3Ltq3MfswUAHgxIbZVFpzOW9y7EHBn2DghsbYRXx1np/fYs0ZYZXLJ8WMEn/m2q8lMoqy7rhwuTjiliy1wuCMGnIkAi7Fq2AmEZlsKvF0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779012678; c=relaxed/simple;
+	bh=ifauxA5VPfHKLiYlXWLHFvyPEzmbAuAokN126eppTSk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cfrkgFoCEQMvURff+J7lKXoH7zUcYd4CAsmW9KeJIcJpSQHjcJvjNTgvSlEXac4jz6waNoLRU/6GGw4c6UIwlMlhnUgt9QHfTKQPRIXPUjdxuiNVookTSHG328KtmlieLaIuRh6CNwbtkR2SQB9lpUiEVp4msDaYOzeliSsgEK0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rciXCJPe; arc=pass smtp.client-ip=74.125.82.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2f3c623322bso5009581eec.0
+        for <linux-leds@vger.kernel.org>; Sun, 17 May 2026 03:11:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779012676; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PwgIiHxjVfwEbWINqdOHUaikvzQbhYXtPpPK2SF0bYLlxtMo201OCM3C4pkuRqv+GC
+         FPH5DZTYQvULkQSD62z6QUnBKGadZNkR2I8oqmus9crMHaGqVoGjJE/7Js4gpuTrMs9i
+         cZ3T4N+k6QcnfdxJXNvJYl6F0DdHx3Kc441JxZRxN5rLX+G9jbL3tWBDDocuGHaJA7rC
+         7XwTqVy3OLe85MWTtWdh5cMiEiLfylVS+MHxTINsmwNmIDLJUr+rrwEmHCrxSj0uTlPF
+         Jv2rJF9HNdljTYTtFr+Xa6vxhkQkWZyBcgSvLe9iyMuQrmZi9prIKdYBc54jUYGnSXoQ
+         fUNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ifauxA5VPfHKLiYlXWLHFvyPEzmbAuAokN126eppTSk=;
+        fh=L2Xw50BwKLnoj6vdpY8IVXSXdOvNj25x1s8QX/9ZB5o=;
+        b=QRnnLe7B0FCauzkwQVfzJoKl8fWoNiy/+dW9qYR6/QkQJpZSrg+3XP/55WTGivlyh4
+         JzyLXFIuS6AOqI6259f40T3MxDk6XlhhVuJxXVwo9LDYwciruMKe0Uccep+zCB7d/b5p
+         xaWHAPJ9TSbTxQ/cZ/HBgN3pGHC1a9m7Cb0GkqaJCV2w63N0n/yHKsrMH4tDOiQw1tvr
+         NKDjX+qcF8DgmqzYKG9Bj9ZL5tOdzDwro0xY4/gM3c6ZkSVZeNeHiOgw4KnqnwtUMEEz
+         IE5Ur6s+qGYBIkJpKpusUKrfqEKBEBtf0StAgOMIBBn1qZClkf9x4kciQJUB1ipQmZa9
+         VPeA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779012676; x=1779617476; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ifauxA5VPfHKLiYlXWLHFvyPEzmbAuAokN126eppTSk=;
+        b=rciXCJPeT566uKV/w+At0X8Rs0RZV/FR/rji3r7v5LvvlzTyLylSU/Xzt91AF8VNNW
+         XN8A0EauYbrgo4watG8Yts5hYBUsa709meo1B9CmObIghjF8H+BXZwjQt+yx2jMyDijH
+         2iwsLse01gO9RFaghvIQuT7SbEbt2SVzdL7E+wFMBA3OoPrhnAENZnH/VClpeWB4dxyk
+         oM3zMzSfboDWz8Vi28CYGvdqVRP3qZOWO5TjTgdfXKX1oNqoFXrB/XNvEegSWLQ3WnhM
+         tEgJK2s49ifJyLvNL2YCaFkq1OK7DDMjfXTPd1Q5PGC2tKUQv7RQv04N1Qz/BWVn3U/+
+         5DMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779012676; x=1779617476;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ifauxA5VPfHKLiYlXWLHFvyPEzmbAuAokN126eppTSk=;
+        b=jTB9xSydInQtIxJdFl0txCHhDkj28AaUEJRgg+/6MIddGTQ0xIjDyTgvtBCv3neh7I
+         FwTiBH3Sr4lOWEt6IIJTkneAzbu2/XSpD3/AJAx9089ckPy1Qe1Ym1vZBIJnvCON71Vz
+         28bNAlOUmScQLm/muZ3ucSXm250Vywm2Cyw11jzdJA3Wj2RaCG66iMophnOw8S7cnCv8
+         aLHY0l/ZdW/ND9O2ZdyqY0+1Z1QJARv1Zq0kHVSS9wFqwXP7tW4fnkT/RHfkB6dNnxMD
+         hMZXF6afzhXERtXqxjmLff+7jN3qTw6pVUh3X4B4EXZC89y5NlrZHK9jn7MqcbLE225n
+         3xJg==
+X-Forwarded-Encrypted: i=1; AFNElJ/ywRPGh26afFiLIhdtVn+PlGrjBBpShqQBc6wIfQb+1Nv+LWnwkOSr9H+14GKzdpyemlPlkTEw6Fbo@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAcoSdrb3HPxGFi/FguRzNOUYT93Yc3MSN6TNo0Q1SLyF75qzV
+	tuSpctA/UZ3Bz319B+bFMcAprV0meG8kGnHHfzYbeX+Y7eF9zhpHvtTXykSIEj24TMDfNCO+mSW
+	hrPsg++ZdNKk1A6uGnNlmcpG5l7nUmD4=
+X-Gm-Gg: Acq92OHacZKjGT1OqX/Ygb7FH9stXRcTOO0+LzwIEE2n2zOcwCYDLms03aknMWL15h/
+	Kkl6ijCv0dEkwjHOxIJDwBH3nRnCTxiMODThhpbABCIqd2r8/V6ZYdGuQ49bgeyOO7C6S5swoz3
+	7+8lDn7JauCm5dkdVJzPZbK2mUs7cUb2KmBmC3xawzbnmjB8X7VbMTWtIaVGT1DfPDWiQdrRknu
+	OzMF6SRJedZ6lhD0gnpNqkCyc7GSVU5DHX8y9VSJ3Q4aFJv1+dCVVuyah6AoIFDpvD4RLyw9Xon
+	BQFiJgkq
+X-Received: by 2002:a05:7301:3d12:b0:2ea:5057:a304 with SMTP id
+ 5a478bee46e88-3039818a65bmr4929254eec.2.1779012676435; Sun, 17 May 2026
+ 03:11:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260516101720.1686465-1-github@szelinsky.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Rspamd-Queue-Id: 9DD2C5605A0
+References: <20260517074306.30937-1-clamor95@gmail.com> <20260517074306.30937-3-clamor95@gmail.com>
+ <agl0Z_EGzX8X4No4@ashevche-desk.local>
+In-Reply-To: <agl0Z_EGzX8X4No4@ashevche-desk.local>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Sun, 17 May 2026 13:11:05 +0300
+X-Gm-Features: AVHnY4L0_43-8RfJ6hM5f4ALu2Syvstfg64dnmlFGgfmiwaNMhHznD8dW2kFuMQ
+Message-ID: <CAPVz0n2D7q5kEECPr+bo=W=5OU=w4eni-FccdMEUMupkzHhvLw@mail.gmail.com>
+Subject: Re: [PATCH v1 2/6] mfd: lm3533: Convert to use OF bindings
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org, 
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 7D6BB560649
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-8169-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DMARC_NA(0.00)[pengutronix.de];
+	TAGGED_FROM(0.00)[bounces-8170-lists,linux-leds=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,netdev];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[o.rempel@pengutronix.de,linux-leds@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,baylibre.com,analog.com,gmx.de,lists.freedesktop.org,vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.993];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	R_DKIM_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,pengutronix.de:url,pengutronix.de:mid]
+	NEURAL_HAM(-0.00)[-0.997];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-On Sat, May 16, 2026 at 12:17:20PM +0200, Carlo Szelinsky wrote:
-> Hi Jakub,
-> 
-> Thanks for sending the AI review. I checked the code again... both
-> points are real, but one of them looks to me like more theory than practice.
-> Out of curiosity, what prompt do you use for these reviews, so I can use it 
-> before sending the next version?
+=D0=BD=D0=B4, 17 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 10:5=
+5 Andy Shevchenko <andriy.shevchenko@intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Sun, May 17, 2026 at 10:43:02AM +0300, Svyatoslav Ryhel wrote:
+> > Since there are no users of this driver via platform data, remove the
+> > platform data support and switch to using Device Tree bindings.
+> > Additionally, optimize functions used only by platform data.
+>
+> This is a mixture of at least (!) three patches:
 
-Sashiko is using https://github.com/masoncl/review-prompts
+Maybe you can make a list of how to split it then. I have tried to
+make it complete and remain readable. I am open to your suggestions.
 
-I personally run pre-review with opencode + review-prompts +
- gemini-3.1-pro-preview-customtools / or claude-sonnet-4-5
+> - devm conversion
 
-After installing review-prompts to opencode config the review can be
-done with "/kreview commit_id"
+This will be dropped.
 
-But sashiko still finds things, i do not know what is the difference.
+> - the change of some constants
 
-> Replying inline:
-> 
-> On Mon, 4 May 2026 18:57:57 -0700 Jakub Kicinski wrote:
-> > > @@ -1118,6 +1125,8 @@ void pse_controller_unregister(struct pse_controller_dev *pcdev)
-> > >  	pse_release_pis(pcdev);
-> > >  	if (pcdev->irq)
-> > >  		disable_irq(pcdev->irq);
-> > > +	if (pcdev->polling)
-> > > +		cancel_delayed_work_sync(&pcdev->poll_work);
-> >
-> > Because pse_release_pis() executes kfree(pcdev->pi) before the delayed work
-> > is cancelled, can pse_poll_worker() run concurrently and access the freed
-> > pcdev->pi array inside pse_handle_events() before the cancellation completes?
-> 
-> Yes, seems like a real bug. The IRQ thread and the poll worker can still run
-> after pse_release_pis() frees pcdev->pi, and both end up in
-> pse_handle_events() touching pcdev->pi[i]. We need to stop them
-> first. v6 will reorder pse_controller_unregister() to:
-> 
-> 	if (pcdev->irq)
-> 		disable_irq(pcdev->irq);
-> 	if (pcdev->polling)
-> 		cancel_delayed_work_sync(&pcdev->poll_work);
-> 	cancel_work_sync(&pcdev->ntf_work);
-> 	pse_release_pis(pcdev);
-> 
-> The IRQ side seem to be already broken before this patch. I went
-> through the git log:
-> 
-> * fc0e6db30941 ("net: pse-pd: Add support for reporting events")
->   added pse_isr but never called disable_irq() in unregister at all.
-> * ffef61d6d273 ("net: pse-pd: Add support for budget evaluation
->   strategies") added the disable_irq() call, but put it in the
->   wrong place (after pse_release_pis()).
-> 
-> What do you suggest to do, I could imagine: ... 
-> 
-> 1) Send the fix as a standalone "Fixes:" patch to net first,
->    then rebase v6 on top once it lands? Or fold it into v6 as
->    patch 1/3? My vote is standalone since the fix stands on its
->    own, but up to you.
+If you mean LM3533_ALS_RESISTOR_MIN and LM3533_ALS_RESISTOR_MAX they
+are used explicitly in r_select value. Previously it was passed via
+pdata as register value and now it is obtained from the device tree as
+resistance in Ohms and register value is actually calculated.
+Naturally ALS_RESISTOR boundaries changed.
 
-Yes, please send the fix to stable. In this case you will need to wait
-until net-next includes stable fixes.
-
-> 2) Which commit for the Fixes: tag? I'd pick ffef61d6d273
->    (that's where the broken order came from), but fc0e6db30941
->    also works (no protection at all back then). wdyt?
-
-If it is introduce by ffef61d6d273, then use this for Fixes.
-
-> > > +int devm_pse_poll_helper(struct pse_controller_dev *pcdev,
-> > > +			 const struct pse_irq_desc *d)
-> > > +{
-> > [...]
-> > > +	queue_delayed_work(system_freezable_wq, &pcdev->poll_work,
-> > > +			   msecs_to_jiffies(pcdev->poll_interval_ms));
-> >
-> > Since memory is allocated with devm_ helpers but no devm cleanup action is
-> > registered to cancel the delayed work, what happens if a driver's probe
-> > function encounters an error after calling this helper? [...]
-> >
-> > The commit message mentions that drivers typically set up the helper before
-> > registering the controller. If queue_delayed_work() schedules the worker
-> > to run before devm_pse_controller_register() completes, will
-> > pse_poll_worker() attempt to acquire pcdev->lock and push events into
-> > pcdev->ntf_fifo before they are initialized?
-> 
-> The probe-failure case is a real bug. If probe fails between this
-> helper and devm_pse_controller_register(), the work stays queued
-> and fires later on a pcdev whose devres memory is gone. UAF.
-> 
-> The "worker fires before mutex/kfifo are ready" case is real in
-> theory, but I don't think you can actually hit it?! Default
-> poll_interval_ms is 1000 ms, so pse_controller_register() would
-> need to take over a second to lose the race. Worth fixing to keep
-> the code clean, but not urgent or?
-
-The probe() is a process and can be outscheduled by any high prio process
-at any time. May be on a single core SoC with pse-pd core build
-as module and squashfs root it will make the boot load heavy enough
-to reproduce it?
-
-> Same fix for both: move queue_delayed_work() out of the helper.
-> The helper just allocates the state and does INIT_DELAYED_WORK.
-> pse_controller_register() then arms the work as the very last
-> step on success, gated on pcdev->polling. So the work only ever
-> runs when everything is set up AND register has succeeded.
-
-Sounds good.
-
-> Should I fix both in v6, or just the probe-failure leak? One
-> change covers both, so I would suggest to do both. wdyt?
-
-Fixes for pre-existing bugs to net, new bugs to net-next :) 
-
-Best Regards,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> - the rest
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
 
