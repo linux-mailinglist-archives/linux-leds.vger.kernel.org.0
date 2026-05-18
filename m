@@ -1,376 +1,218 @@
-Return-Path: <linux-leds+bounces-8196-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8197-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yGw2JtzpCmqR9QQAu9opvQ
-	(envelope-from <linux-leds+bounces-8196-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 12:28:44 +0200
+	id mE6EIRAnC2pAEAUAu9opvQ
+	(envelope-from <linux-leds+bounces-8197-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 16:49:52 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 437B356AB69
-	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 12:28:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0630A56F3B3
+	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 16:49:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A70A2302BCE0
-	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 10:28:07 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id DCBFF3078295
+	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 14:36:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D47A83E5571;
-	Mon, 18 May 2026 10:28:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D3F62D0610;
+	Mon, 18 May 2026 14:33:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j4VCjgKQ"
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="ZvSOvHLX"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1E83E9C07
-	for <linux-leds@vger.kernel.org>; Mon, 18 May 2026 10:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779100082; cv=pass; b=HBTM6kwvauUlGkL5SGwNq+LiEG0szeQ78CtNg2NibLnl8s5QmdItNGeHv6RPbSvHjTwBQX+4ZSpFMBQ3b+4ETyteJ9XRFdrCgoQMCxbYIqLNF3/L4b7CKKw9Mbk1NBUGXAF/J3mOD003uHyakMaM+GJk19LcvJ5Y+oi6oqyz3EM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779100082; c=relaxed/simple;
-	bh=de/RGNl8I6Jd7XzCUxqk4t5+7GUeTAKsKoZdeyJFxBY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pNmsCowquE4Pboumq1s1eM25NjzYixiVr/0747pAB2uFLgjOwxivoBp11d7ccFn3jskULQaFvbGK9iJna0PK2gMA86Db9m5l4ZtHWOVNkt6vnOLpxJnvfoE0f91sc/c0aIjV/zvVK7uZjOFCKb3Z7IqMbZd2reZWHJqt7vTQ9H8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j4VCjgKQ; arc=pass smtp.client-ip=74.125.82.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2c156c4a9efso2469537eec.1
-        for <linux-leds@vger.kernel.org>; Mon, 18 May 2026 03:27:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779100074; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PFWFkgiP2Q60D2aSHkgtoNS+2YrkXdLbxdI6MgDcj/Uz79knzjAXsM2xZMDpWcU4qG
-         VTtW5mtE+Rx41l52uw+u4gL85NdYOiRdLrmvkUy9CYYay/EcEASU0aA0b/jKpyZ9TbGQ
-         cPtp3CqlFHAhctcFSXvVyofMiMBvzI+qdsnwfzqlSpG10QODWqfJCJTTh8dKdoe5g2cr
-         fwhu8dYtLkNTP7qw1RXyKCiUHlGbpEY8DaefAHDYfe6WJfN9dY2mM6vIOwlwC+WHddNC
-         UVbp/mxH0aYuEwy9glkNVjF9EZBgAkEczyhXy/CgIwvWj4gSpUHXvWg+9P2kaQBc2QtX
-         8ydg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KDtWok6ghcbMOh+aRUPuJcRSWIrIOfWKuyRB73ATInw=;
-        fh=fTXhpLSm02u9+vm55qkFDFfLUyv17AU3+j4MM54c1h4=;
-        b=QQcCZ0FXvTVwMG3ukNuH0kx4gdMExFKKOH2OIwpbjUixbX/D2Md9kgBn1QNx5ALOeX
-         ZgS6kWu7uSXC/5U0RzkT4w5kuPRAxKY76mqg+LKLVaH1E272YQLD7Y59VyInqPJGRjZL
-         Cr+itA1CwLagmsCiS82C76QkHP9jihQoO+CK8AV1XBvaS4v/FmId1oLqtx1svKOkgaNL
-         /E2W2D1otG5wUkbjBHo8Uyex0DA/1J+b7V2JkJBZRjGFM3JSQ0lMEjNI9r4hfeZja+C8
-         +AbJMEiRBFtSG5wDEMQRAVw+pvsM9cIxHcWWuydvjHbeuPdyQmiASJWg4gmEzuyROFYI
-         6fRQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF2E2D3EEB
+	for <linux-leds@vger.kernel.org>; Mon, 18 May 2026 14:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779114823; cv=none; b=hZLRAubTwTjW3gpZ9EI8Dy5BwSRgs/7sor0qOFJ+rqLZ51V5RbKr5w8xjCR8V/TPjiecj1M8F89dQxHy94HqAs9OdnAVJ52g489rxWgPwSC2rknsUYWutt7Yo/stPY2GYnXchIdZmwpX2oAHEnD5DgLHAEARRG3Gd8TzmGz/B5c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779114823; c=relaxed/simple;
+	bh=eJPl/zXhUpCYop2ExONzTSOkm9uyGEAju8KR7xfzSEM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GnvcaleEhNE0ivonr6s2aEcyBugxIOQtpOVF+kUKMI/Gt9tLzziWdVY2On/u6Woshh7mpSltqBDed9B+G3rtf5iQY7YxOoTgRlTuiJlEVdDtRQeYWOgbWa8IdUpJGUbh7slmlIF1sQ4gZbgUClv3sHoF6Mah6sQ+HqdxCBMolXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=ZvSOvHLX; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48d146705b4so25639635e9.3
+        for <linux-leds@vger.kernel.org>; Mon, 18 May 2026 07:33:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779100074; x=1779704874; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KDtWok6ghcbMOh+aRUPuJcRSWIrIOfWKuyRB73ATInw=;
-        b=j4VCjgKQipWlMtiav+oRaPR0f0v1nvfzZapNCxenZbUZ3Mt3Rn7gmUEXq4oi7jkUIb
-         4HgX5uvcMi0RszlVOneYbNm1DM+mJU/JrJR0h0GO8g4bukkzMC7zMlBHjCSOgPkhMpTV
-         c4wzllyPVJm2XMA+DbO43unohFkJBR7zJC8kPgscsLXOrQoLc889x8CXLMCrjb7k7adz
-         Gsbumo9YHGirJUU0vfb33Y11pt7G3APC6WK3KmfUzHGeFwpngQRJCoM4161ft4aApt6w
-         Kt1L2d49HbFBUptVzh8i1FeIDgJkVcLkQkauv8bG7uF5x1ddFs4dXIs3THiHDz4MjsjJ
-         8/Rg==
+        d=baylibre.com; s=google; t=1779114820; x=1779719620; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=T2SDu6zdWn+sIZKsBCkye8sIkPDm9xEFNCddyoi7RY0=;
+        b=ZvSOvHLXebCGNWGUq6JXROFwRFu5/OwLNx7rcksMrwL7b3gEdsxfWEod5MDdx5i6De
+         Yac6+YCQaVdBESC/5vzcmHhvmF43/IPyD40yorCmAFN9j9YI4ZAhoTyMufLT4HUzkj4A
+         83Lb5LKUYbPcsfE2c9Q9Nir7d85N4QsuGVQrrh3O3CdPaGyYA8zwHE7wXS33vk+w21Sz
+         BOJIH5lR0oYZPKkQEBpCMTg+J75QIeJ5GgbbKrAvc/PF5C9xqjwCTwfz65HKmX6JpGFP
+         AwPBXanT3sLJ88uc+4/q4MKUcDZqhXuscd2qwxc4DvCgd3MgUnRhOJolH4GHy+HSNbTe
+         TnGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779100074; x=1779704874;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KDtWok6ghcbMOh+aRUPuJcRSWIrIOfWKuyRB73ATInw=;
-        b=Ap00dutcxWd5Q9E5J6HbKpNc4fEXhGETZAAX1vs1Jnz9JUS6sjpAwIt/ejRFvnlLar
-         cPnixz4LRXmNdtEoWtTFWP9shgqbOnbOmSu0G8jSHGkSKMZx/Cbnv1dEOSNb9aYe1O3J
-         J5nc6OanVIZ31eNs8X0qWO5FWxKM9ed01UUsyv0SKO/OT2aXvsZ5U4OyYK9668lD9KGq
-         Wxlo6XtfGSK5MBG1JBOyhAmZ4LdIfVhXKP2MNHMGzXJZGLZVTQIFkvOHxTNpRRbpo5Kx
-         iOdqNd7/vSDlBJRB3h9dzozWmCsLLHJWpQEJ2C9OeZ5eOfiMAy85ZdGsiSisCRfTZGSn
-         6jww==
-X-Forwarded-Encrypted: i=1; AFNElJ9+hohjakDsJqmaJtK3u4dvFbC7JHQiU8zeI2OY135gasL8SNkKiDxAOuiQXibvya3PUPxS5XjTPn7Y@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyg3SL6iLTVg2HoBJnyGbdigOmhA6cS8EtHHDwSEHW074YBdEQd
-	eRypcSIL/IHxz5G3UrQFCvLqXgcfYv4odruYi7x0KqZxVKnqLCdmxSplykKttjBkkqXjb5sbUbb
-	mvvl5WKRPqw5I4Mgv4GRqygoM1eRabw0=
-X-Gm-Gg: Acq92OHGWQA8Q40M/evoswni7wWQac77YJPEaVglRZntRgYHxDze+ftGRxZFAg4K2AD
-	4Z1i6D218pw2xjHmOTdtyTihNwfat+eemxadqVtWWl3cZq7YwBif6/vKpkzr8yqBA+qg4UqS6kI
-	A/ik4Qdy8j6ZOqbBUsvIesQ75w8fdIYEoimqpm6i0/LTYi6hJn8CoRYxzGFrmGadsdX8AoYUoLg
-	DgWpEeojCGjDo+W23Sd6BdzCBFDAOumfi8dF3slMogFSiQ14WZM4fqVlb3w1kAEslk2a+/iKhud
-	lZ3XOZBS
-X-Received: by 2002:a05:7300:8b95:b0:2e0:1f09:d924 with SMTP id
- 5a478bee46e88-3039813cab5mr6740822eec.5.1779100073932; Mon, 18 May 2026
- 03:27:53 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779114820; x=1779719620;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T2SDu6zdWn+sIZKsBCkye8sIkPDm9xEFNCddyoi7RY0=;
+        b=cvf+mPkAApbzc9YTYhZPnF0wmN9eLwjKqY2z8TdM+9Xfmr1l8h+jhL/T28PRoiPrMe
+         tyFjPCm005WQAPyaR7+CTy6xJdWda/mZy3kgMwLnzrQnvqVrGX81ptSPNFzJ8wm75DKd
+         zADC+lUlaLiiBhVFXDwgZZG4oc6lsDKZznNrEKBiPFCTHAeU0oT7qz8rOpFIcsh5eziG
+         EaDeSPo7Wmwkks/X/YcnMdkHEiuzRi/icbPS0+5L/cc+busaItPzovdeL1UgwvHoUi6f
+         6zBidHruk5lo+AsYhD+G5USi1wuMohpv16f8KojA7WoMrkPuMNTwQRNasUx3son/8LkF
+         0NLA==
+X-Gm-Message-State: AOJu0YzHe8YcKwlCHj6ItSWaMgMB2EzgZwZHULplHvX+8pS69Nrpyz6g
+	+0KM21vDXG14KvQoxi3t4I6qxjk1jW/JG2JFFNCn05lIdejnJxBnwXwZPS2Q2r9fBJq7eMjZ3dp
+	azu3P
+X-Gm-Gg: Acq92OHeSlg6T/1q4+RmQDL7c66I8Wt1NVNupkqNY1gCcQSIl8OGM8IuZQKKM6gQ8Rk
+	IItwPmo01urJLh+ujm3j9PFiE0LRxqEkRiWF0ACH8Wb2mJ5b4xhorpAgZHpoH7NWVmfHjqOSB8O
+	ecPeOIdCjvM0Cqdmzs4hp7FWgIKNCepCdg3H7v64nMAbGhZf6XO1g8TjSrwS8TEOLWDC65nPOgi
+	vF13/ztI3HOswdKt1CSCTbjdKe7zRmTubSqE5FsfNhWw4OsRF2Ck98/fDGIC5s5nB6R+F+5LXY/
+	p8xlvA2NAdHwqVxA/qyEAlXZOxX0atGD2hh4aRg8ka+KsNS28qB25oMYpHxT9ZoNkCvhe9y3FFK
+	kOqENBCnK13CtM3rJHl3kMiKmYMch64I0E5NAAFOx132fG6xDixa1yvE9E/wZttWhovoly0lhgv
+	0+PAsUa7qY3a5nAIY6UUAx1JAZbv7fCRilI24v35y3NoHIAC6wBNsYnXjRL9zltiTh4Fc=
+X-Received: by 2002:a05:600c:491e:b0:48e:978f:c45a with SMTP id 5b1f17b1804b1-48fed455991mr137027185e9.19.1779114819691;
+        Mon, 18 May 2026 07:33:39 -0700 (PDT)
+Received: from localhost (p200300f65f47db00000000000000081d.dip0.t-ipconnect.de. [2003:f6:5f47:db00::81d])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-48fe5ab3977sm283478885e9.9.2026.05.18.07.33.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 07:33:39 -0700 (PDT)
+Date: Mon, 18 May 2026 16:33:37 +0200
+From: "u.kleine-koenig@baylibre.com" <u.kleine-koenig@baylibre.com>
+To: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
+Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] leds: Use named initializers for arrays of
+ i2c_device_data
+Message-ID: <agsgRWNCh3oKSKLQ@monoceros>
+References: <20260515163325.471175-2-u.kleine-koenig@baylibre.com>
+ <b8223eeed0835423b39cfb59e080efb362f347e2.camel@siemens.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260502124055.22475-1-clamor95@gmail.com> <20260502124055.22475-3-clamor95@gmail.com>
- <20260514100205.GG305027@google.com> <CAPVz0n07EKiF=Gi=Po0zFVSuU=g4pbhJam7VHgiQsPTwtT2wQg@mail.gmail.com>
- <20260514155004.GO305027@google.com> <CAPVz0n1drWV6zMzOx93gHNaw+Tt0M9oAF2RyKW6tZcC2gF_HAQ@mail.gmail.com>
- <20260518101328.GS305027@google.com>
-In-Reply-To: <20260518101328.GS305027@google.com>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Mon, 18 May 2026 13:27:42 +0300
-X-Gm-Features: AVHnY4Kz1QJoA09br8muwyHJF2ZDsix5B0qlI6Cm2ua-EB9O61W3wDAYlVInIYQ
-Message-ID: <CAPVz0n0imF_ESoGMJSrEX7NOnBShFj8wehDtQKXZV_DMcGqq=A@mail.gmail.com>
-Subject: Re: [PATCH v6 2/7] mfd: Add driver for ASUS Transformer embedded controller
-To: Lee Jones <lee@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Pavel Machek <pavel@kernel.org>, Sebastian Reichel <sre@kernel.org>, Ion Agorria <ion@agorria.com>, 
-	=?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 437B356AB69
-X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="erpskybci55a36dh"
+Content-Disposition: inline
+In-Reply-To: <b8223eeed0835423b39cfb59e080efb362f347e2.camel@siemens.com>
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	FROM_DN_EQ_ADDR(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[baylibre.com:s=google];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,linux-leds@vger.kernel.org];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	DMARC_NA(0.00)[baylibre.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8196-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,agorria.com,rere.qmqm.pl,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_FROM(0.00)[bounces-8197-lists,linux-leds=lfdr.de];
+	RCPT_COUNT_THREE(0.00)[3];
+	DKIM_TRACE(0.00)[baylibre.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qmqm.pl:email,mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre.com:email,baylibre.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,googlesource.com:url]
+X-Rspamd-Queue-Id: 0630A56F3B3
 X-Rspamd-Action: no action
+X-Rspamd-Server: lfdr
 
-=D0=BF=D0=BD, 18 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 13:1=
-3 Lee Jones <lee@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Thu, 14 May 2026, Svyatoslav Ryhel wrote:
->
-> > =D1=87=D1=82, 14 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE =
-18:50 Lee Jones <lee@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
-> > >
-> > > On Thu, 14 May 2026, Svyatoslav Ryhel wrote:
-> > >
-> > > > =D1=87=D1=82, 14 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=
-=BE 13:02 Lee Jones <lee@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > > >
-> > > > > On Sat, 02 May 2026, Svyatoslav Ryhel wrote:
-> > > > >
-> > > > > > From: Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.pl>
-> > > > > >
-> > > > > > Support Nuvoton NPCE795-based ECs as used in Asus Transformer T=
-F201,
-> > > > > > TF300T, TF300TG, TF300TL and TF700T pad and dock, as well as TF=
-101 dock
-> > > > > > and TF600T, P1801-T and TF701T pad. This is a glue driver handl=
-ing
-> > > > > > detection and common operations for EC's functions.
-> > > > > >
-> > > > > > Co-developed-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > > > > Signed-off-by: Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.=
-pl>
-> > > > > > ---
-> > > > > >  drivers/mfd/Kconfig                     |  14 +
-> > > > > >  drivers/mfd/Makefile                    |   1 +
-> > > > > >  drivers/mfd/asus-transformer-ec.c       | 762 ++++++++++++++++=
-++++++++
-> > > > > >  include/linux/mfd/asus-transformer-ec.h | 162 +++++
-> > > > > >  4 files changed, 939 insertions(+)
-> > > > > >  create mode 100644 drivers/mfd/asus-transformer-ec.c
-> > > > > >  create mode 100644 include/linux/mfd/asus-transformer-ec.h
-> > >
-> > > [...]
-> > >
-> > > > > > +     unsigned int num_devices;
-> > > > > > +     bool clr_fmode; /* clear Factory Mode bit in EC control r=
-egister */
-> > > > > > +};
-> > > > > > +
-> > > > > > +struct asus_ec_data {
-> > > > > > +     struct asusec_info info;
-> > > > >
-> > > > > You have 'data' and 'info' which a) using non-forthcoming nomencl=
-ature
-> > > > > and doesn't tell me anything and then you b) put 'info' in the de=
-vice's
-> > > > > driver_data attribute which is very confusing.  driver_data shoul=
-d be
-> > > > > for what we call ddata which I assume is expressed as 'data' here=
-.
-> > > > >
-> > > >
-> > > > asusec_info is shared among all child devices and is exposed while
-> > > > remaining elements of this struct are for internal use only.
-> > >
-> > > Our terminology for that is usually ddata, that gets stored in
-> > > 'struct devices' device_data attribute.
-> > >
-> > > > > > +     struct mutex ecreq_lock; /* prevent simultaneous access *=
-/
-> > > > > > +     struct gpio_desc *ecreq;
-> > > > >
-> > > > > If I hadn't seen the declaration, I'd have no idea this was a GPI=
-O
-> > > > > descriptor.  Please improve the nomenclature throughout.
-> > > > >
-> > > > > > +     struct i2c_client *self;
-> > > > >
-> > > > > Again, please use standard naming conventions:
-> > > > >
-> > > > > % git grep "struct i2c_client" | grep "\*self" | wc -l
-> > > > > 0
-> > > > >
-> > > > > % git grep "struct i2c_client" | grep "\*client" | wc -l
-> > > > > 6304
-> > > > >
-> > > > > % git grep "struct i2c_client" | grep "\*i2c" | wc -l
-> > > > > 903
-> > > > >
-> > > >
-> > > > ok, noted.
-> > > >
-> > > > > > +     const struct asus_ec_chip_data *data;
-> > > > >
-> > > > > 'data', 'priv' and 'info' should be improved.
-> > > > >
-> > > > > > +     char ec_data[DOCKRAM_ENTRY_BUFSIZE];
-> > > > >
-> > > > > An array of chars called 'data'.  This could be anything.
-> > > > >
-> > > >
-> > > > Do you have a comprehensive list of name conventions you find suita=
-ble?
-> > >
-> > > Anything descriptive that alludes to the type of data being held ther=
-e.
-> > >
-> > > There are 100's of good examples, but a handful of generic / bad ones=
-.
-> > >
-> > > > > > +     bool logging_disabled;
-> > > > >
-> > > > > This debugging tool is probably never going to be used again.
-> > > > >
-> > > > > Keep it local.
-> > > > >
-> > > > > > +};
-> > > > > > +
-> > > > > > +struct dockram_ec_data {
-> > > > > > +     struct mutex ctl_lock; /* prevent simultaneous access */
-> > > > > > +     char ctl_data[DOCKRAM_ENTRY_BUFSIZE];
-> > > > > > +};
-> > > > > > +
-> > > > > > +#define to_ec_data(ec) \
-> > > > > > +     container_of(ec, struct asus_ec_data, info)
-> > > > > > +
-> > > > > > +/**
-> > > > > > + * asus_dockram_read - Read a register from the DockRAM device=
-.
-> > > > > > + * @client: Handle to the DockRAM device.
-> > > > > > + * @reg: Register to read.
-> > > > > > + * @buf: Byte array into which data will be read; must be larg=
-e enough to
-> > > > > > + *    hold the data returned by the DockRAM.
-> > > > > > + *
-> > > > > > + * This executes the DockRAM read based on the SMBus "block re=
-ad" protocol
-> > > > > > + * or its emulation. It extracts DOCKRAM_ENTRY_SIZE bytes from=
- the set
-> > > > > > + * register address.
-> > > > > > + *
-> > > > > > + * Returns a negative errno code else zero on success.
-> > > > > > + */
-> > > > > > +int asus_dockram_read(struct i2c_client *client, int reg, char=
- *buf)
-> > > > > > +{
-> > > > >
-> > > > > Have you considered using Regmap for register access instead of
-> > > > > implementing custom functions?  Remaps already deals with caching=
- and
-> > > > > locking mechanisms that you'd get for free.
-> > > > >
-> > > > > This looks like it would be replaced with devm_regmap_init_i2c().
-> > > > >
-> > > >
-> > > > I will consider this, thank you.
-> > > >
-> >
-> > It seems that regmap does not fit for this purpose, but I might switch
-> > to plain i2c_smbus_read_i2c_block_data
->
-> Can you explain why Regmap doesn't work for you?
->
-> Regmap is just a wrapper about i2c_smbus_read_i2c_block_data() and friend=
-s.
->
 
-Honestly, it seems that this will cause more hassle. Regmap has max
-bit size of reg 64 which will require use of regmap_read/write_raw and
-obviously no regmap bit update operations will be possible. If this
-chip was a plain 8 bit register i2c device, obviously I would use
-regmap.
+--erpskybci55a36dh
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] leds: Use named initializers for arrays of
+ i2c_device_data
+MIME-Version: 1.0
 
-I have removed most of custom functions in favor for i2c smbus block
-helpers and left only asus_dockram_access_ctl since it is used in many
-places.
+Hello,
 
-> > > > > > +     struct device *dev =3D &client->dev;
-> > > > > > +     int ret;
-> > > > > > +
-> > > > > > +     memset(buf, 0, DOCKRAM_ENTRY_BUFSIZE);
-> > > > > > +     ret =3D i2c_smbus_read_i2c_block_data(client, reg,
-> > > > > > +                                         DOCKRAM_ENTRY_BUFSIZE=
-, buf);
-> > > > > > +     if (ret < 0)
-> > > > > > +             return ret;
-> > > > > > +
-> > > > > > +     if (buf[0] > DOCKRAM_ENTRY_SIZE) {
-> > > > > > +             dev_err(dev, "bad data len; buffer: %*ph; ret: %d=
-\n",
-> > > > > > +                     DOCKRAM_ENTRY_BUFSIZE, buf, ret);
-> > > > > > +             return -EPROTO;
-> > > > > > +     }
-> > > > > > +
-> > > > > > +     dev_dbg(dev, "got data; buffer: %*ph; ret: %d\n",
-> > > > > > +             DOCKRAM_ENTRY_BUFSIZE, buf, ret);
-> > > > >
-> > > > > Please remove all of these debug messages.
-> > > > >
-> > > >
-> > > > Why debug messages cannot be preserved? They are specifically marke=
-d as dev_dbg
-> > >
-> > > It's a general convention.
-> > >
-> > > After initial development, they tend to just litter the code-base.
-> > >
-> > > Debug prints can be useful higher up the stack though.
-> > >
-> >
-> > I am fine with removing all debugs and logging but I strongly would
-> > like to keep EC model and firmware version along with susb and factory
-> > status. That may be quite useful in identifying EC used and its
-> > behavior without need in rebuilding the kernel and digging huge piles
-> > of downstream code in order to find how to dump these values.
->
-> Yes, you can keep this sort of thing as INFO.
->
+On Mon, May 18, 2026 at 09:53:42AM +0000, Sverdlin, Alexander wrote:
+> On Fri, 2026-05-15 at 18:33 +0200, Uwe Kleine-K=F6nig (The Capable Hub) w=
+rote:
+> > While being less compact, using named initializers allows to more easily
+> > see which members of the structs are assigned which value without having
+> > to lookup the declaration of the struct. And it's also more robust
+> > against changes to the struct definition.
+> >=20
+> > The mentioned robustness is relevant for a planned change to struct
+> > i2c_device_id that replaces .driver_data by an anonymous union.
+> >=20
+> > While touching all these arrays, unify usage of whitespace and commas.
+> >=20
+> > This patch doesn't modify the compiled arrays, only their representation
+> > in source form benefits. The former was confirmed with x86 and arm64
+> > builds.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=F6nig (The Capable Hub) <u.kleine-koenig@ba=
+ylibre.com>
+>=20
+> the patch looks good overall, except one minor nit below and the fact that
+> https://kernel.googlesource.com/pub/scm/linux/kernel/git/lee/leds for-led=
+s-next
+> branch already has commit c7dd343a37567e650c263d4c068418b0bb82bf79
+> ("leds: as3668: Driver for the ams Osram 4-channel i2c LED driver"), whic=
+h is
+> not converted. Would it make sense to rebase and convert as3668 driver as=
+ well?
 
-Noted. I have send v7 with your suggestions applied. Change log is in
-the cover commit.
+My tree is based on v7.1-rc1 and I expect to have missed some more
+drivers. So I'm well aware that I won't be done with the quest when I
+sent one patch per subsystem. I hesitate to base my development on top
+of next because I juggle ~100 patches currently and there are more to
+come.
 
-> --
-> Lee Jones
+I plan to address the missed drivers separately, so my preference would
+be to not stop this patch from going in because of that missed driver,
+but I adapt to whatever the LED maintainers POV is on that.
+=20
+> > diff --git a/drivers/leds/leds-lp8501.c b/drivers/leds/leds-lp8501.c
+> > index ee4ff4586bc0..946c27fd74cc 100644
+> > --- a/drivers/leds/leds-lp8501.c
+> > +++ b/drivers/leds/leds-lp8501.c
+> > @@ -130,7 +130,7 @@ static struct lp55xx_device_config lp8501_cfg =3D {
+> >  };
+> > =20
+> >  static const struct i2c_device_id lp8501_id[] =3D {
+> > -	{ "lp8501",  .driver_data =3D (kernel_ulong_t)&lp8501_cfg, },
+> > +	{ .name =3D "lp8501",  .driver_data =3D (kernel_ulong_t)&lp8501_cfg },
+>                            ^^
+> duplicate whitespace
+
+Ah right, the double space is also in the source and my script kept
+that. I fixed that in my tree, so if it comes to a v2 this will be
+fixed.
+
+Thanks for your feedback.
+
+Best regards
+Uwe
+
+--erpskybci55a36dh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmoLIzcACgkQj4D7WH0S
+/k4m6Af8CPH/jHIYSPa54vHkd15rTijpNnrgk34VApYFi1mJ8nbTFpFqMp4R1ETG
+OUtwxdu6tPkgBQROKlefk800J4QWec9iteurBoPBkdQxm6T+skOy/8KoYaOztcXQ
+oMaa4TuyGXCAmeM0JTc1pehdqo3qIG/SD4P3KlzX+efk9+vvx3t1p9tNlu1YlGsX
+3H13p1/sixm8IjGLwQg34MzSV8o4HhqyX3nPJ+C6sgo/4rg9oROCqRgfJqEeoaA1
+O2yJJNktfH3ATz9CXFGfdCJlcZQJWN5XEWKupOIJi1QnH2M61vWGhvgj4cLkKIXJ
+uc9TodjxvJgruZJY1ltRjPxpO5y73g==
+=mcY5
+-----END PGP SIGNATURE-----
+
+--erpskybci55a36dh--
 
