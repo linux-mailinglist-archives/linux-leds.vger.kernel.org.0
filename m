@@ -1,202 +1,231 @@
-Return-Path: <linux-leds+bounces-8181-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8182-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8F53IJe8CmqF7AQAu9opvQ
-	(envelope-from <linux-leds+bounces-8181-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 09:15:35 +0200
+	id 0DbnL8zbCmog8wQAu9opvQ
+	(envelope-from <linux-leds+bounces-8182-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 11:28:44 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20521567460
-	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 09:15:35 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB2D569B3E
+	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 11:28:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DF160302F585
-	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 07:15:18 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 57A503006445
+	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 09:28:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32CA83CF671;
-	Mon, 18 May 2026 07:15:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFD563E558C;
+	Mon, 18 May 2026 09:28:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W0ka2vxW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ESY+xpJZ"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB253C455B;
-	Mon, 18 May 2026 07:15:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861693D5645;
+	Mon, 18 May 2026 09:28:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779088518; cv=none; b=LPggO9lFlVevJbwaCKDdjhmaO0qnwvyKRvLFKsJnbZbhMOPTIDEsqJ7u8HoFj47R2qYrpsQurIpK5lp3cdGTnWG31kEQucVdNNjIde9k1dmR/HXtztPZwpcaCoLmx778UWl7IT9ZASx6uhPVajpAsloQVqVeKDxVal7EIUGDhpU=
+	t=1779096520; cv=none; b=IACjQ5GP83dqu1lTdVQdmDx90JYE1d9i/hFlE70aHBLSBuy7G8/+XPHSY9RADUJNIgoSYRCLAdN3OOCK5evSBmRgZ/Rlfw4pHRM396lAekBQqDySMEWS07LMI7M3h4Ql4XLj2aVmZwkEPg+W8P3QpR4saeS8TNizcxYfvJDdO9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779088518; c=relaxed/simple;
-	bh=n7/YL3GElLBfX4jr0KLAsez9u8gpICuLSYYSFrl/+cA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VFt1XdIqu9MentljnCFNEJ1BmVqh6QOBLmmk8MCmBN6e0AoKVLO0aCDW0h/lbg6hs7+RsGScAOWSzmBSVRXeCmDTRrUZ0/0xc+HIbG8AQT+QY2cRoCephflMkZqMFn0ntscXZjmYFG/4tdEySaEnxIaK9f11gPPU49Xr1D9P9l8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W0ka2vxW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07C9FC2BCC9;
-	Mon, 18 May 2026 07:15:12 +0000 (UTC)
+	s=arc-20240116; t=1779096520; c=relaxed/simple;
+	bh=7jiJVFaVHqEpa/vY/b3zqTBK38U2WD0zOHsbX172uxU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dahGcXgZmLhZaYDaE7m1VeOguTJxNM2Cp0UQkZdUCbAiP0U4D/yu9SPnHm2VippfPX2F/cCE4PK21bmou+7usqxLIRuNEaBCniCoF2U2NUo91s5u1TvBRKZrq5qI+ReZCnSHjZdNsbCHtucBaTxjyccuua/1gtcObhwVoWfxCjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ESY+xpJZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 868EFC2BCB7;
+	Mon, 18 May 2026 09:28:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779088517;
-	bh=n7/YL3GElLBfX4jr0KLAsez9u8gpICuLSYYSFrl/+cA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=W0ka2vxWYwc3CRzbeajOPL2FKgeOQQAeLvaOCODyJkV3OjYGRUVC+B1/jL8GfNVpb
-	 p29b3ZNy/XeZEqX85paVN0ks97ellsE8nqFUnhNuoBWUTgP2e7ZWfi+LJ/6ORbDB/y
-	 mOtbejVQdAuPD4o20n9X7mIp+ncOetIhH+wk0iIRpAjRoo+Te0Fxrl3x/JC5x2van7
-	 Z/JVrChg/4ioCn+RJLWO7LmDLfr+b0hscswX9n3XBLe60QC+Q+ixxAChB57kDS4Gzf
-	 rQHwMoxESIRsOxGH51QcsbQoEF6Gv5GLtde2dLOpCFcGdqc7nqyPyxs9f7n8TaGu1b
-	 ydQep04jp2OyQ==
-Message-ID: <d2f4cb7d-5c3e-4b9a-86ca-04262cbb9775@kernel.org>
-Date: Mon, 18 May 2026 09:15:11 +0200
+	s=k20201202; t=1779096520;
+	bh=7jiJVFaVHqEpa/vY/b3zqTBK38U2WD0zOHsbX172uxU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ESY+xpJZgiiW4dRX8xsLvNDZmYnhOex4lRiGucdsAAVVJtLaDyolBvPLJSdT8VfIW
+	 tckw9m8JIdJKD5ofNEYNKcKoqL6AyHGgQ8QbbM3vv8RO4uLRccRI4juJk2casLeUZq
+	 QpuS6UrR10ckEjX9x1Ko6iWj0BEkwLRNt3R2xWIcsAaeAvzg5PWgiTqLxvLxc5K3Ve
+	 cRX71Qfiut2MUbDlDb0TbAqauT35lOXrnhnX2nteQVbwmena0k2Ss2JF22zbsb3a6+
+	 /hvcbfD/anLXCJ5qvgofQzBIaCQ6x4U7ho8U+pg0y5RvxVkKD0ImFMO8YFfoNyEf6P
+	 Q9j3aLarx5boA==
+Date: Mon, 18 May 2026 10:28:33 +0100
+From: Lee Jones <lee@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+	Rob Herring <robh@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, Andy Shevchenko <andy@kernel.org>
+Subject: Re: [PATCH v1 2/6] mfd: lm3533: Convert to use OF bindings
+Message-ID: <20260518092833.GR305027@google.com>
+References: <20260517074306.30937-1-clamor95@gmail.com>
+ <20260517074306.30937-3-clamor95@gmail.com>
+ <CAPVz0n3gLYXab4H+DihfTkdBkGPqTvmoFVY1Cwuafd70KPtYbA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 03/11] dt-bindings: mfd: add documentation for S2MU005
- PMIC
-To: Conor Dooley <conor@kernel.org>,
- Kaustabh Chakraborty <kauschluss@disroot.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
- =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Nam Tran <trannamatk@gmail.com>, =?UTF-8?B?xYF1a2FzeiBMZWJpZWR6acWEc2tp?=
- <kernel@lvkasz.us>, linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260515-s2mu005-pmic-v6-0-1979106992d4@disroot.org>
- <20260515-s2mu005-pmic-v6-3-1979106992d4@disroot.org>
- <20260515-justly-recite-6028f4bfb24a@spud>
- <DIJK5FTQ5KWG.HOKZAOXHTGU7@disroot.org>
- <20260516-esquire-chitchat-0fffa597e2f3@spud>
- <DIKZ5L2HC2CV.YL3MZUJQ2EV6@disroot.org>
- <20260517-corrode-tuesday-a598ca734b38@spud>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260517-corrode-tuesday-a598ca734b38@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 20521567460
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPVz0n3gLYXab4H+DihfTkdBkGPqTvmoFVY1Cwuafd70KPtYbA@mail.gmail.com>
+X-Rspamd-Queue-Id: 6AB2D569B3E
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8181-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,samsung.com,linaro.org,bootlin.com,lwn.net,linuxfoundation.org,gmail.com,lvkasz.us,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-8182-lists,linux-leds=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,baylibre.com,analog.com,gmx.de,lists.freedesktop.org,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-leds@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On 17/05/2026 22:52, Conor Dooley wrote:
-> On Sun, May 17, 2026 at 06:39:37PM +0530, Kaustabh Chakraborty wrote:
->>>>>>> +
->>>>>> +    properties:
->>>>>> +      compatible:
->>>>>> +        const: samsung,s2mu005-rgb
->>>>>> +
->>>>>> +    required:
->>>>>> +      - compatible
->>>>>> +
->>>>>> +    unevaluatedProperties: false
->>>>>> +
->>>>>> +  reg:
->>>>>> +    maxItems: 1
->>>>>
->>>>> Move this above the child nodes please.
->>>>
->>>> But properties are sorted in lex order?
->>>
->>> Typically the binding is sorted in the same order as properties go in
->>> nodes. Common stuff like reg/clocks/interrupts therefore send up above
->>> child nodes.
->>
->> So, do I change this? For one, I don't see the same being followed in
->> other schemas of samsung in the same dir (not that I'm trying to pose it
->> as an argument against your suggestion), and this was reviewed by
->> Krzysztof and is adderssed in v7.
+On Sun, 17 May 2026, Svyatoslav Ryhel wrote:
+
+> нд, 17 трав. 2026 р. о 10:43 Svyatoslav Ryhel <clamor95@gmail.com> пише:
+> >
+> > Since there are no users of this driver via platform data, remove the
+> > platform data support and switch to using Device Tree bindings.
+> > Additionally, optimize functions used only by platform data.
+> >
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > ---
+> >  drivers/iio/light/lm3533-als.c      | 123 +++++--------
+> >  drivers/leds/leds-lm3533.c          |  60 ++++---
+> >  drivers/mfd/lm3533-core.c           | 257 +++++++++-------------------
+> >  drivers/video/backlight/lm3533_bl.c |  52 ++++--
+> >  include/linux/mfd/lm3533.h          |  51 +-----
+> >  5 files changed, 202 insertions(+), 341 deletions(-)
+
+Please snip replies.
+
+[...]
+
+> > -static int lm3533_device_led_init(struct lm3533 *lm3533)
+> > -{
+> > -       struct lm3533_platform_data *pdata = dev_get_platdata(lm3533->dev);
+> > -       int i;
+> > -       int ret;
+> > -
+> > -       if (!pdata->leds || pdata->num_leds == 0)
+> > -               return 0;
+> > -
+> > -       if (pdata->num_leds > ARRAY_SIZE(lm3533_led_devs))
+> > -               pdata->num_leds = ARRAY_SIZE(lm3533_led_devs);
+> > -
+> > -       for (i = 0; i < pdata->num_leds; ++i) {
+> > -               lm3533_led_devs[i].platform_data = &pdata->leds[i];
+> > -               lm3533_led_devs[i].pdata_size = sizeof(pdata->leds[i]);
+> > +               dev_err(dev, "failed to set boost ovp\n");
+> > +               goto err_disable;
+> >         }
+> >
+> > -       ret = mfd_add_devices(lm3533->dev, 0, lm3533_led_devs,
+> > -                             pdata->num_leds, NULL, 0, NULL);
+> > +       ret = devm_mfd_add_devices(dev, 0, lm3533_child_devices,
+> > +                                  ARRAY_SIZE(lm3533_child_devices),
+> > +                                  NULL, 0, NULL);
 > 
-> If Krzysztof doesn't care, then I won't ask you to change it.
+> Question to Lee Jones. Would you find acceptable if the driver will
+> build cell list dynamically based on the nodes in the device tree?
+> This is LED controller after all, not all leds can be populated and
+> same LED control bank can be linked to all LVLEDs for example.
+> 
+> If you are ok, would this implementation satisfy you?
 
-This builds on top of bindings for previous Samsung PMIC devices, so
-that's why it keeps the compatibles for children, I guess. No one
-complained about this at v1-v2 reviews, so when I joined reviewing in v3
-I did not, either.
+Generally not.  Create the non-dynamical information statically
+(obviously not 'const'), then you can add dynamic data as you go.
 
-I don't think the compatible should be here, but I also don't want to
-stall that patchset. I understand that it is inconsistent review from my
-side, because other similar patchsets receive comment to drop the
-compatible. But I don't think we will be fair asking to drop the
-compatible now, when we did not ask for that in the early versions at all.
+>         struct mfd_cell lm3533_cells[LM3533_CELLS_MAX];
+>         u32 count = 0, reg;
+>         int ret;
+> 
+>         device_for_each_child_node_scoped(lm3533->dev, child) {
+>                 if (!fwnode_device_is_available(child))
+>                         continue;
+> 
+>                 if (count >= LM3533_CELLS_MAX)
+>                         break;
+> 
+>                 if (fwnode_device_is_compatible(child, "ti,lm3533-als")) {
+>                         lm3533_cells[count].name = "lm3533-als";
+>                         lm3533_cells[count].id = PLATFORM_DEVID_NONE;
+>                         lm3533_cells[count].of_compatible = "ti,lm3533-als";
+> 
+>                         lm3533->have_als = true;
+>                 }
+> 
+>                 if (fwnode_device_is_compatible(child, "ti,lm3533-backlight")) {
+>                         ret = fwnode_property_read_u32(child, "reg", &reg);
+>                         if (ret || reg > LM3533_HVLED_ID_MAX) {
+>                                 dev_err(dev, "invalid backlight reg %d\n", reg);
+>                                 continue;
+>                         }
+> 
+>                         lm3533_cells[count].name = "lm3533-backlight";
+>                         lm3533_cells[count].id = reg;
+>                         lm3533_cells[count].of_compatible =
+> "ti,lm3533-backlight";
+> 
+>                         lm3533->have_backlights = true;
+>                 }
+> 
+>                 if (fwnode_device_is_compatible(child, "ti,lm3533-leds")) {
+>                         ret = fwnode_property_read_u32(child, "reg", &reg);
+>                         if (ret || reg < LM3533_HVLED_ID_MAX ||
+>                             reg > LM3533_LVLED_ID_MAX) {
+>                                 dev_err(dev, "invalid LED reg %d\n", reg);
+>                                 continue;
+>                         }
+> 
+>                         lm3533_cells[count].name = "lm3533-leds";
+>                         lm3533_cells[count].id = reg - LM3533_HVLED_ID_MAX;
+>                         lm3533_cells[count].of_compatible = "ti,lm3533-leds";
+> 
+>                         lm3533->have_leds = true;
+>                 }
+> 
+>                 count++;
+>         }
+> 
+> >         if (ret) {
+> > -               dev_err(lm3533->dev, "failed to add LED devices\n");
+> > -               return ret;
+> > -       }
+> > -
+> > -       lm3533->have_leds = 1;
+> > -
+> > -       return 0;
+> > -}
 
-Best regards,
-Krzysztof
+[...]
+
+-- 
+Lee Jones
 
