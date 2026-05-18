@@ -1,81 +1,81 @@
-Return-Path: <linux-leds+bounces-8189-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8188-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qgpvAiLkCmqJ9AQAu9opvQ
-	(envelope-from <linux-leds+bounces-8189-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 12:04:18 +0200
+	id EKBZFBvjCmo29AQAu9opvQ
+	(envelope-from <linux-leds+bounces-8188-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 11:59:55 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDB356A4F0
-	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 12:04:17 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F1C956A32F
+	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 11:59:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6483E3054F70
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5A4E63003364
 	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 09:59:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9370B3E832C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64C433E7BD3;
 	Mon, 18 May 2026 09:59:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cm0lo1Af"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lnpOGEPK"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664C032470E
-	for <linux-leds@vger.kernel.org>; Mon, 18 May 2026 09:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 973CC381AF0
+	for <linux-leds@vger.kernel.org>; Mon, 18 May 2026 09:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779098387; cv=none; b=n1dFtLeD939pq7lliXmug3p7v+kIIEckB0b0fTDM/S1RhWne5YIieJxXC4675xEtCOYpXVbDvf00nEA95vehHwvLk2LTPTu+1W6LTWMy1S3UrOfjcevMfZmC82qppnRxFy1W1SRn4Yuus+Pwtq76+yvwJ402GdKF2sjFCsni5Zs=
+	t=1779098386; cv=none; b=dRCjYecwkXWPW3A1D5eReT9fCWimAqojiV4FRUMssUSbxYRf0K4rI82IpxUACsb++BQYbfNXqySp5zFP32gdom6kgvCCqmgDX51PnCvNQxN+K/9ZVpmHCppTx/7rwzhAPagX0BARj/EbU0is6YM8jDqhQiAXS0KszQVdo+SEv18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779098387; c=relaxed/simple;
-	bh=zJYQdWvlEOWRB0mr8dlPj6obABFOIpDPRyMrtXdd5nw=;
+	s=arc-20240116; t=1779098386; c=relaxed/simple;
+	bh=koUYT6oIlVScY5gU1jYmUWg4Yx2wOTmwaIkewSUV9Xg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IPX7gHyp0JXg//YqVMUfiHjrTguk/6KSwhxe9n08S0Kox6vOq2jCsQHAo0lxhmL9zDGsE2vvv5hPfea0lzObiuFD62U4LZmDB5TGt7H4oeFB43uDE4FsXDDk2VFmtZaIYXwCOVHGmwPK1gnCyVwR3nqZbKHHvyTqgT22QYv/x3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cm0lo1Af; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version:Content-Type; b=Dhvzu+YCdTW24c0iW3TVYolLDYctkCRA/8wszAOylEF2+UyavS59nrVClFjfXe2cRM6YXKiDNNDIGJ2RXicG71Y7YHp6n4/oh9qBMFMUTFpWbS5XHmdh4XZT9hk3DWbN3dtz+P5atBr5S4AFJLqIVT6NdBZVjuaqf+pROooCdZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lnpOGEPK; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48896199cbaso16135475e9.1
-        for <linux-leds@vger.kernel.org>; Mon, 18 May 2026 02:59:38 -0700 (PDT)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488ff90d6c7so14882675e9.2
+        for <linux-leds@vger.kernel.org>; Mon, 18 May 2026 02:59:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779098377; x=1779703177; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779098378; x=1779703178; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hp8JEa7WaV3zGPbFerop0itXvB7KKCS0SXSYruaKRlo=;
-        b=cm0lo1AfWF8wipIdCA/n1JUqAR24cfq11kP26SPsj+37e/hZElTwOMmcwZ67jOTkWr
-         4yuFThVnacyeldXuyoUkemA6d+aqAj4/+PLHxjlV1/AQ1LOV20Cz1rOyrSvQsausLrak
-         uYZwcDGicx3e7jThTa9YG15Yp4LNFel9UDaEJZs2Ebo5hKXWZV2l92yWCYP8WNIcQVJR
-         409p3Z17YT/8DDKnqrw06yCMIotEf4bxBC3EDHZea/qJMuDfBX+OTj5aT7Hf8Xv7NZ1E
-         +OqaI8WDsBnv/6RIG7wRRQpRyQpHIzmWofXAEx9bpZ+pX+YYjiYirJJUg07BWLkC52VO
-         hpVg==
+        bh=3KxfiEeXfPA610rf7xZkCD098z5IwIx3WZRfJqYAw7I=;
+        b=lnpOGEPK56jItIMBUvdurhM6p0zjyK5GuQa8hMSF4qhkz8RUmKKBno0BL1Vb0HTQpJ
+         6mgeXS1b0f06LCRNJpL0pv7g15MKS8pedEnBa+4NraHQpKQ5DGHxR0vPsrhLs3lEGAGt
+         KBHkgrN/OuaWcAn1p+6XKWFhcMt4rOYoJvEWW690NbENJheKmaKPyy4zxB0Wwdm57Vv3
+         38AqMrk/cQVp8SR90L9Ko1vi7A573jDAxoDGoWmPpwP4zbtS7po8GirEM217JRj57VQh
+         PhQYbBApY2km8EUzyZ8MK5ZpYWSJWJwO7Cvb5ldb4mxHBOiayjmDKTOnd5udIqIhyma6
+         2+pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779098377; x=1779703177;
+        d=1e100.net; s=20251104; t=1779098378; x=1779703178;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=hp8JEa7WaV3zGPbFerop0itXvB7KKCS0SXSYruaKRlo=;
-        b=OJWdY0sYfoaTa4mzdSAYo6e4hkCJogxDmZXT8r3yqidQK8yrpHE1sF9Aw32Ep0kLYl
-         S4SS0fPax4Ig46TFcuncCFPrDm7hXCMIxtWMzC12sK2uuBuDNriiyoAM5bJczBXBao4/
-         j8Q7mjdVHMeinwqGawbOAC648cRLzM7KkGdSIATLENBURnMshGshV1aamUk9asZk1Rzr
-         nqd3DzfqzLlf0Kl3jlTxuTQTOdBXOL3zDDZQOfaXu6n2uEjFu6cLkfiHcF5Hz0asYW4y
-         QhdP5/02JOttaOn+nGgaHEA+RcerZpICeHMVTvslLJ4qCUs7I9NWxPlCa9kH+otjs63i
-         i3lA==
-X-Forwarded-Encrypted: i=1; AFNElJ+HH6U+gxHUIrywAxlwRLfFY0Kh7i9C5+EWwAjq0uWPfj+6t70HvaxfK5G6DE5TykcXGRZXngYkWRKB@vger.kernel.org
-X-Gm-Message-State: AOJu0YyA0krL2OZpAs0XB94k7/xsnaNexCc6HlHs2LQOttIZRdNO53RC
-	1QQtbw7Kq7g20NMW19NC3b502Ggtj+d5I6jGqL7xpf4lHnR2Qh+JQuRe
-X-Gm-Gg: Acq92OFCncGrYC22IV1UbVtlWJjZbCCUAJkrus5TBgeCk0dU5p0uygskdimTiBlTP4K
-	mb2z6dmD3j1xkoBkK9PJv07HfGwsjFg0K8j75l+plPDkVh+XiSft7NEE9vx3QlyOdubYfSuswMw
-	IAuyoTOlN8I7PqpbTE3+hXxdRkfTcRYAtoUwcaAvP7zLXGNWIytvfw5p9KpCIDjHnx97RwTsUot
-	m+IjJGtXRZfoKGxOz+NUHi+xzrNvEbfmX61ca+G//ez3u9Q1fW1Z/81FjsnZ59ME0MQhlS9dK84
-	9B28+vtn74sLkg9f+1pzTKJkEgC9+UD5SVy3cnuDZap1fmshacr46ZHnzj4txG04H0UzOk3H5dW
-	+jjrLoxTInpZoO68Yt9pa+C3QNi+LH+uWSAl8qY+HsSdh6pd/y93tKmLyH5/AHaO3iJbecS38rm
-	A1c6NCldlg4uDl
-X-Received: by 2002:a05:600c:8b01:b0:48a:53ea:13eb with SMTP id 5b1f17b1804b1-48ff3345725mr151130225e9.5.1779098376657;
-        Mon, 18 May 2026 02:59:36 -0700 (PDT)
+        bh=3KxfiEeXfPA610rf7xZkCD098z5IwIx3WZRfJqYAw7I=;
+        b=jYX4/izn8LpGUcJFF9cyxX1OUUqs/pH029qK9Zs4e1wzW/L1RpSlh1+dEbYLtJQ176
+         z9+m5YU24mWuZUkUOJf2GhMUfT+dn8IZiz9o84Maismd35OgnOJ6HIU5WHoDFrkPmPs1
+         gvT3fOwx4WPvVjLhqe9yO8x+reC4HeDiWfyBatW0T5YVid6DHCRyy2QaCOVqESLR4hcO
+         834k6SbfbnDL74Nw9YlxDd4h3AZQPo4jQnFUH537E2HcrLu/y6T35Y3MXK/0o27TMRCu
+         yQ/OtpOcjTTvBFLLvxqmEerB+iI34zg+bdkNqbrnCgWP2Ohvu11R9XF3hCC9azkWxU06
+         v9cQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+80Bv42BHIqVvCbnYKtEPSowcwgxUBe96bWV9ocnNDxTXL+KEmPFWv+r1RsVm/GKvBap2I8idvMAL8@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOMCiDPez2sqSSI0Yxz1SCZXV2FxgcW6dCGe7GC0oJaQS2oMu5
+	GT398L0x5VW6N9nE07iI0pJIhd9gPIKs5M2RDxuTk1HHima05MVC7Xbv
+X-Gm-Gg: Acq92OFXslfhtJVqUmAAV5hvGCzb0A+DR8ozyzMadpRvRh9RAlUT11hk62GC+M59Hm6
+	eHifvuf2ugykvazvDcsJqd0RFHwMSX3gp8eAiUoQysjcnZz1MrLOHww7/lh9DtehH7YN1HuHqkx
+	I4Swa1GFNmRxPbh573Wh+5IjWGG9rgWqbzCbo2SnYlV6kY+w65RJk2yXSmbDYf7DZcNxgZ9L/Hm
+	6iKEAQ7njA7qSTMoLpFA99wJmlorEInbxZo9ue+8jBaYT7lqoIDVm2bC2P2jaMo78LwDiNMgllX
+	0gzhRpULx0o9jcR0U6O+OziCy9hcRbsPEkBvEVf/0EeyUQm9PT3QT1JZHbKysO2JjopHifleiyq
+	8Ykb0VelGZOijupJh2HZlUaXKu8PgGI3B62+r29pIfKwcUg+IIkUY84wFRpR550RJimLf+7IXt4
+	X7smEhzRXmfwEk
+X-Received: by 2002:a05:600c:a4f:b0:48f:e230:c3f9 with SMTP id 5b1f17b1804b1-48fe661df4dmr202769455e9.31.1779098378265;
+        Mon, 18 May 2026 02:59:38 -0700 (PDT)
 Received: from xeon ([188.163.112.61])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48febe7dd22sm102995005e9.7.2026.05.18.02.59.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48febe7dd22sm102995005e9.7.2026.05.18.02.59.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 02:59:36 -0700 (PDT)
+        Mon, 18 May 2026 02:59:37 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -92,9 +92,9 @@ Cc: devicetree@vger.kernel.org,
 	linux-input@vger.kernel.org,
 	linux-leds@vger.kernel.org,
 	linux-pm@vger.kernel.org
-Subject: [PATCH v7 2/7] mfd: Add driver for ASUS Transformer embedded controller
-Date: Mon, 18 May 2026 12:59:02 +0300
-Message-ID: <20260518095907.36158-3-clamor95@gmail.com>
+Subject: [PATCH v7 3/7] input: serio: Add driver for ASUS Transformer dock keyboard and touchpad
+Date: Mon, 18 May 2026 12:59:03 +0300
+Message-ID: <20260518095907.36158-4-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260518095907.36158-1-clamor95@gmail.com>
 References: <20260518095907.36158-1-clamor95@gmail.com>
@@ -106,20 +106,20 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 8FDB356A4F0
+X-Rspamd-Queue-Id: 1F1C956A32F
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8189-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8188-lists,linux-leds=lfdr.de];
 	FREEMAIL_TO(0.00)[kernel.org,gmail.com,agorria.com,rere.qmqm.pl];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -135,706 +135,230 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qmqm.pl:email]
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,qmqm.pl:email]
 X-Rspamd-Action: no action
 
 From: Michał Mirosław <mirq-linux@rere.qmqm.pl>
 
-Support Nuvoton NPCE795-based ECs as used in Asus Transformer TF201,
-TF300T, TF300TG, TF300TL and TF700T pad and dock, as well as TF101 dock
-and TF600T, P1801-T and TF701T pad. This is a glue driver handling
-detection and common operations for EC's functions.
+Add input driver for ASUS Transformer dock keyboard and touchpad.
 
-Co-developed-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+Some keys in ASUS Dock report keycodes that don't make sense according to
+their position, this patch modifies the incoming data that is sent to
+serio to send proper scancodes.
+
+Co-developed-by: Ion Agorria <ion@agorria.com>
+Signed-off-by: Ion Agorria <ion@agorria.com>
 Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/mfd/Kconfig                     |  16 +
- drivers/mfd/Makefile                    |   1 +
- drivers/mfd/asus-transformer-ec.c       | 534 ++++++++++++++++++++++++
- include/linux/mfd/asus-transformer-ec.h |  92 ++++
- 4 files changed, 643 insertions(+)
- create mode 100644 drivers/mfd/asus-transformer-ec.c
- create mode 100644 include/linux/mfd/asus-transformer-ec.h
+ drivers/input/serio/Kconfig                   |  15 ++
+ drivers/input/serio/Makefile                  |   1 +
+ drivers/input/serio/asus-transformer-ec-kbc.c | 157 ++++++++++++++++++
+ 3 files changed, 173 insertions(+)
+ create mode 100644 drivers/input/serio/asus-transformer-ec-kbc.c
 
-diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index 7192c9d1d268..e1c32505b97a 100644
---- a/drivers/mfd/Kconfig
-+++ b/drivers/mfd/Kconfig
-@@ -137,6 +137,22 @@ config MFD_AAT2870_CORE
- 	  additional drivers must be enabled in order to use the
- 	  functionality of the device.
+diff --git a/drivers/input/serio/Kconfig b/drivers/input/serio/Kconfig
+index 5f15a6462056..fad29b950309 100644
+--- a/drivers/input/serio/Kconfig
++++ b/drivers/input/serio/Kconfig
+@@ -84,6 +84,21 @@ config SERIO_RPCKBD
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called rpckbd.
  
-+config MFD_ASUS_TRANSFORMER_EC
-+	tristate "ASUS Transformer's embedded controller"
-+	select MFD_CORE
-+	depends on I2C && OF
++config SERIO_ASUS_TRANSFORMER_EC
++	tristate "Asus Transformer's Dock keyboard and touchpad controller"
++	depends on MFD_ASUS_TRANSFORMER_EC
 +	help
-+	  Select this to enable support for the Embedded Controller (EC)
-+	  found in Tegra based ASUS Transformer series tablets and mobile
-+	  docks.
++	  Say Y here if you want to use the keyboard and/or touchpad on
++	  Asus Transformed's Mobile Dock.
 +
-+	  This driver handles the core I2C communication with the EC and
-+	  provides support for its sub-devices, including battery management,
-+	  charger detection, LEDs and keyboard dock functions support.
++	  For keyboard support you also need atkbd driver.
 +
-+	  This driver can also be built as a module. If so, the module
-+	  will be called asus-transformer-ec.
++	  For touchpad support you also need psmouse driver with Elantech
++	  touchpad option enabled.
 +
- config MFD_AT91_USART
- 	tristate "AT91 USART Driver"
- 	select MFD_CORE
-diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-index e75e8045c28a..fd80088d8a9a 100644
---- a/drivers/mfd/Makefile
-+++ b/drivers/mfd/Makefile
-@@ -10,6 +10,7 @@ obj-$(CONFIG_MFD_88PM805)	+= 88pm805.o 88pm80x.o
- obj-$(CONFIG_MFD_88PM886_PMIC)	+= 88pm886.o
- obj-$(CONFIG_MFD_ACT8945A)	+= act8945a.o
- obj-$(CONFIG_MFD_SM501)		+= sm501.o
-+obj-$(CONFIG_MFD_ASUS_TRANSFORMER_EC)	+= asus-transformer-ec.o
- obj-$(CONFIG_ARCH_BCM2835)	+= bcm2835-pm.o
- obj-$(CONFIG_MFD_BCM590XX)	+= bcm590xx.o
- obj-$(CONFIG_MFD_BD9571MWV)	+= bd9571mwv.o
-diff --git a/drivers/mfd/asus-transformer-ec.c b/drivers/mfd/asus-transformer-ec.c
++	  To compile this driver as a module, choose M here: the module will
++	  be called asus-transformer-ec-kbc.
++
+ config SERIO_AMBAKMI
+ 	tristate "AMBA KMI keyboard controller"
+ 	depends on ARM_AMBA
+diff --git a/drivers/input/serio/Makefile b/drivers/input/serio/Makefile
+index 8ab98f4aa28d..fedc37ee102b 100644
+--- a/drivers/input/serio/Makefile
++++ b/drivers/input/serio/Makefile
+@@ -12,6 +12,7 @@ obj-$(CONFIG_SERIO_SERPORT)	+= serport.o
+ obj-$(CONFIG_SERIO_RPCKBD)	+= rpckbd.o
+ obj-$(CONFIG_SERIO_SA1111)	+= sa1111ps2.o
+ obj-$(CONFIG_SERIO_AMBAKMI)	+= ambakmi.o
++obj-$(CONFIG_SERIO_ASUS_TRANSFORMER_EC)	+= asus-transformer-ec-kbc.o
+ obj-$(CONFIG_SERIO_Q40KBD)	+= q40kbd.o
+ obj-$(CONFIG_SERIO_GSCPS2)	+= gscps2.o
+ obj-$(CONFIG_HP_SDC)		+= hp_sdc.o
+diff --git a/drivers/input/serio/asus-transformer-ec-kbc.c b/drivers/input/serio/asus-transformer-ec-kbc.c
 new file mode 100644
-index 000000000000..18bb3e5f384d
+index 000000000000..c9707c7fbede
 --- /dev/null
-+++ b/drivers/mfd/asus-transformer-ec.c
-@@ -0,0 +1,534 @@
++++ b/drivers/input/serio/asus-transformer-ec-kbc.c
+@@ -0,0 +1,157 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +
-+#include <linux/array_size.h>
-+#include <linux/debugfs.h>
-+#include <linux/delay.h>
-+#include <linux/device.h>
 +#include <linux/err.h>
-+#include <linux/gpio/consumer.h>
 +#include <linux/i2c.h>
-+#include <linux/interrupt.h>
++#include <linux/i8042.h>
 +#include <linux/mfd/asus-transformer-ec.h>
-+#include <linux/mfd/core.h>
-+#include <linux/mod_devicetable.h>
 +#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/property.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
-+#include <linux/types.h>
-+#include <linux/unaligned.h>
++#include <linux/platform_device.h>
++#include <linux/serio.h>
 +
-+#define ASUSEC_RSP_BUFFER_SIZE		(DOCKRAM_ENTRIES / DOCKRAM_ENTRY_SIZE)
-+
-+#define ASUSEC_RESET			0
-+#define ASUSEC_RETRY_MAX		3
-+#define ASUSEC_ACCESS_TIMEOUT		300
-+
-+enum asusec_variant {
-+	ASUSEC_SL101_DOCK = 1,
-+	ASUSEC_TF101_DOCK,
-+	ASUSEC_TF201_PAD,
-+	ASUSEC_TF600T_PAD,
-+	ASUSEC_MAX
++struct asus_ec_kbc_data {
++	struct notifier_block nb;
++	struct asusec_core *ec;
++	struct i2c_client *parent;
++	struct serio *sdev[2];
 +};
 +
-+enum asusec_mode {
-+	ASUSEC_MODE_NONE,
-+	ASUSEC_MODE_NORMAL,
-+	ASUSEC_MODE_FACTORY,
-+	ASUSEC_MODE_MAX
-+};
-+
-+/**
-+ * struct asus_ec_chip_info
-+ *
-+ * @name: prefix associated with the EC
-+ * @variant: id of programming model of EC
-+ * @mode: state of Factory Mode bit in EC control register
-+ */
-+struct asus_ec_chip_info {
-+	const char *name;
-+	enum asusec_variant variant;
-+	enum asusec_mode fmode;
-+};
-+
-+/**
-+ * struct asus_ec_data
-+ *
-+ * @ec: public part shared with all cells (must be first)
-+ * @ecreq_lock: prevents simultaneous access to EC
-+ * @ecreq_gpio: EC request GPIO
-+ * @client: pointer to EC's i2c_client
-+ * @info: pointer to EC's version description
-+ * @ec_buf: buffer for EC read
-+ * @logging_disabled: flag disabling logging on reset events
-+ */
-+struct asus_ec_data {
-+	struct asusec_core ec;
-+	struct mutex ecreq_lock;
-+	struct gpio_desc *ecreq_gpio;
-+	struct i2c_client *client;
-+	const struct asus_ec_chip_info *info;
-+	u8 ec_buf[DOCKRAM_ENTRY_BUFSIZE];
-+	bool logging_disabled;
-+};
-+
-+/**
-+ * struct dockram_ec_data
-+ *
-+ * @ctl_lock: prevent simultaneous access to Dockram
-+ * @ctl_buf: buffer for Dockram read
-+ */
-+struct dockram_ec_data {
-+	struct mutex ctl_lock;
-+	u8 ctl_buf[DOCKRAM_ENTRY_BUFSIZE];
-+};
-+
-+/**
-+ * asus_dockram_access_ctl - Read from or write to the DockRAM control register.
-+ * @client: Handle to the DockRAM device.
-+ * @out: Pointer to a variable where the register value will be stored.
-+ * @mask: Bitmask of bits to be cleared.
-+ * @xor: Bitmask of bits to be set (via XOR).
-+ *
-+ * This performs a control register read if @out is provided and both @mask
-+ * and @xor are zero. Otherwise, it performs a control register update if
-+ * @mask and @xor are provided.
-+ *
-+ * Returns a negative errno code else zero on success.
-+ */
-+int asus_dockram_access_ctl(struct i2c_client *client, u64 *out, u64 mask,
-+			    u64 xor)
++static int asus_ec_kbc_notify(struct notifier_block *nb,
++			      unsigned long action, void *data_)
 +{
-+	struct dockram_ec_data *ddata = i2c_get_clientdata(client);
-+	u8 *buf = ddata->ctl_buf;
-+	u64 val;
-+	int ret = 0;
++	struct asus_ec_kbc_data *priv = container_of(nb, struct asus_ec_kbc_data, nb);
++	unsigned int port_idx, n;
++	u8 *data = data_;
 +
-+	guard(mutex)(&ddata->ctl_lock);
-+
-+	memset(buf, 0, DOCKRAM_ENTRY_BUFSIZE);
-+	ret = i2c_smbus_read_i2c_block_data(client, ASUSEC_DOCKRAM_CONTROL,
-+					    DOCKRAM_ENTRY_SIZE, buf);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "failed to access control buffer: %d\n",
-+			ret);
-+		return ret;
-+	}
-+
-+	if (buf[0] != ASUSEC_CTL_SIZE) {
-+		dev_err(&client->dev, "buffer size exceeds %d: %d\n",
-+			ASUSEC_CTL_SIZE, buf[0]);
-+		return -EPROTO;
-+	}
-+
-+	val = get_unaligned_le64(buf + 1);
-+
-+	if (out)
-+		*out = val;
-+
-+	if (mask || xor) {
-+		put_unaligned_le64((val & ~mask) ^ xor, buf + 1);
-+		ret = i2c_smbus_write_i2c_block_data(client,
-+						     ASUSEC_DOCKRAM_CONTROL,
-+						     DOCKRAM_ENTRY_SIZE, buf);
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(asus_dockram_access_ctl);
-+
-+static int asus_ec_signal_request(struct asus_ec_data *ddata)
-+{
-+	guard(mutex)(&ddata->ecreq_lock);
-+
-+	gpiod_set_value_cansleep(ddata->ecreq_gpio, 1);
-+	msleep(50);
-+
-+	gpiod_set_value_cansleep(ddata->ecreq_gpio, 0);
-+	msleep(200);
-+
-+	return 0;
-+}
-+
-+static void asus_ec_clear_buffer(struct asus_ec_data *ddata)
-+{
-+	int ret, retry = ASUSEC_RSP_BUFFER_SIZE;
++	if (action & (ASUSEC_SMI_MASK | ASUSEC_SCI_MASK))
++		return NOTIFY_DONE;
++	else if (action & ASUSEC_AUX_MASK)
++		port_idx = 1;
++	else if (action & (ASUSEC_KBC_MASK | ASUSEC_KEY_MASK))
++		port_idx = 0;
++	else
++		return NOTIFY_DONE;
 +
 +	/*
-+	 * Read the buffer till we get valid data by checking ASUSEC_OBF_MASK
-+	 * of the status byte or till we reach end of the 256 byte buffer.
++	 * The data[0] is the length of the packet including itself. It has to
++	 * be at least 2 bytes (length + 1 data byte) and must not exceed
++	 * the EC buffer size.
 +	 */
-+	while (retry--) {
-+		ret = i2c_smbus_read_i2c_block_data(ddata->client, ASUSEC_READ_BUF,
-+						    sizeof(ddata->ec_buf),
-+						    ddata->ec_buf);
-+		if (ret < 0)
-+			continue;
++	if (data[0] < 2 || data[0] > DOCKRAM_ENTRY_BUFSIZE)
++		return NOTIFY_BAD;
 +
-+		if (ddata->ec_buf[ASUSEC_IRQ_STATUS] & ASUSEC_OBF_MASK)
-+			continue;
++	n = data[0] - 1;
++	data += 2;
 +
-+		break;
-+	}
-+}
++	if (port_idx == 0) {
++		/*
++		 * Remap keyboard key codes to match AT layout:
++		 * SEARCH: RIGHT-META [E0 27] -> LEFT-ALT   [11]
++		 * MENU:   COMPOSE    [E0 2F] -> RIGHT-META [E0 27]
++		 */
++		if ((n == 2 || (n == 3 && data[1] == 0xF0)) && data[0] == 0xE0) {
++			u8 *keycode = &data[n - 1];
 +
-+static int asus_ec_log_info(struct asus_ec_data *ddata, unsigned int reg,
-+			    const char *name, char **out)
-+{
-+	struct device *dev = &ddata->client->dev;
-+	u8 buf[DOCKRAM_ENTRY_BUFSIZE];
-+	int ret;
-+
-+	memset(buf, 0, DOCKRAM_ENTRY_BUFSIZE);
-+	ret = i2c_smbus_read_i2c_block_data(ddata->ec.dockram, reg,
-+					    DOCKRAM_ENTRY_SIZE, buf);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (buf[0] > DOCKRAM_ENTRY_SIZE) {
-+		dev_err(dev, "bad data len; buffer: %*ph; ret: %d\n",
-+			DOCKRAM_ENTRY_BUFSIZE, buf, ret);
-+		return -EPROTO;
++			switch (*keycode) {
++			case 0x27:
++				*keycode = 0x11;
++				++data;
++				--n;
++				break;
++			case 0x2F:
++				*keycode = 0x27;
++				break;
++			}
++		}
 +	}
 +
-+	if (!ddata->logging_disabled)
-+		dev_info(dev, "%-14s: %.*s\n", name, buf[0], buf + 1);
++	while (n--)
++		serio_interrupt(priv->sdev[port_idx], *data++, 0);
 +
-+	if (out)
-+		*out = kstrndup(buf + 1, buf[0], GFP_KERNEL);
-+
-+	return 0;
++	return NOTIFY_OK;
 +}
 +
-+static int asus_ec_reset(struct asus_ec_data *ddata)
++static int asus_ec_serio_write(struct serio *port, unsigned char data)
 +{
-+	int retry, ret;
++	struct asus_ec_kbc_data *priv = port->port_data;
 +
-+	guard(mutex)(&ddata->ecreq_lock);
-+
-+	for (retry = 0; retry < ASUSEC_RETRY_MAX; retry++) {
-+		ret = i2c_smbus_write_word_data(ddata->client, ASUSEC_WRITE_BUF,
-+						ASUSEC_RESET);
-+		if (!ret)
-+			return 0;
-+
-+		msleep(ASUSEC_ACCESS_TIMEOUT);
-+	}
-+
-+	return ret;
++	return i2c_smbus_write_word_data(priv->parent, ASUSEC_WRITE_BUF,
++					 (data << 8) | port->id.extra);
 +}
 +
-+static int asus_ec_susb_on_status(struct asus_ec_data *ddata)
++static void asus_ec_serio_remove(void *data)
 +{
-+	u64 flag;
-+	int ret;
-+
-+	ret = asus_dockram_access_ctl(ddata->ec.dockram, &flag, 0, 0);
-+	if (ret)
-+		return ret;
-+
-+	flag &= ASUSEC_CTL_SUSB_MODE;
-+	dev_info(&ddata->client->dev, "EC FW behaviour: %s\n",
-+		 flag ? "susb on when receive ec_req" :
-+		 "susb on when system wakeup");
-+
-+	return 0;
++	serio_unregister_port(data);
 +}
 +
-+static int asus_ec_set_factory_mode(struct asus_ec_data *ddata,
-+				    enum asusec_mode fmode)
++static int asus_ec_register_serio(struct platform_device *pdev, int idx,
++				  const char *name, int cmd)
 +{
-+	dev_info(&ddata->client->dev, "Entering %s mode.\n",
-+		 fmode == ASUSEC_MODE_FACTORY ? "factory" : "normal");
++	struct asus_ec_kbc_data *priv = platform_get_drvdata(pdev);
++	struct i2c_client *parent = priv->parent;
++	struct serio *port = kzalloc_obj(*port);
 +
-+	return asus_dockram_access_ctl(ddata->ec.dockram, NULL,
-+				       ASUSEC_CTL_FACTORY_MODE,
-+				       fmode == ASUSEC_MODE_FACTORY ?
-+				       ASUSEC_CTL_FACTORY_MODE : 0);
-+}
-+
-+static int asus_ec_detect(struct asus_ec_data *ddata)
-+{
-+	char *model __free(kfree) = NULL;
-+	int ret;
-+
-+	ret = asus_ec_reset(ddata);
-+	if (ret)
-+		goto err_exit;
-+
-+	asus_ec_clear_buffer(ddata);
-+
-+	ret = asus_ec_log_info(ddata, ASUSEC_DOCKRAM_INFO_MODEL, "Model", &model);
-+	if (ret)
-+		goto err_exit;
-+
-+	ret = asus_ec_log_info(ddata, ASUSEC_DOCKRAM_INFO_FW, "FW version", NULL);
-+	if (ret)
-+		goto err_exit;
-+
-+	ret = asus_ec_log_info(ddata, ASUSEC_DOCKRAM_INFO_CFGFMT, "Config format", NULL);
-+	if (ret)
-+		goto err_exit;
-+
-+	ret = asus_ec_log_info(ddata, ASUSEC_DOCKRAM_INFO_HW, "HW version", NULL);
-+	if (ret)
-+		goto err_exit;
-+
-+	/* Disable logging on next EC request */
-+	ddata->logging_disabled = true;
-+
-+	/* Check and inform about EC firmware behavior */
-+	ret = asus_ec_susb_on_status(ddata);
-+	if (ret)
-+		goto err_exit;
-+
-+	kfree(ddata->ec.model);
-+
-+	ddata->ec.model = no_free_ptr(model);
-+	ddata->ec.name = ddata->info->name;
-+
-+	/* Some EC require factory mode to be set normal on each request */
-+	if (ddata->info->fmode)
-+		ret = asus_ec_set_factory_mode(ddata, ddata->info->fmode);
-+
-+err_exit:
-+	if (ret)
-+		dev_err(&ddata->client->dev, "failed to access EC: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static void asus_ec_handle_smi(struct asus_ec_data *ddata, unsigned int code)
-+{
-+	switch (code) {
-+	case ASUSEC_SMI_HANDSHAKE:
-+	case ASUSEC_SMI_RESET:
-+		asus_ec_detect(ddata);
-+		break;
-+	}
-+}
-+
-+static irqreturn_t asus_ec_interrupt(int irq, void *dev_id)
-+{
-+	struct asus_ec_data *ddata = dev_id;
-+	unsigned long notify_action;
-+	int ret;
-+
-+	ret = i2c_smbus_read_i2c_block_data(ddata->client, ASUSEC_READ_BUF,
-+					    sizeof(ddata->ec_buf), ddata->ec_buf);
-+	if (ret <= 0 || !(ddata->ec_buf[ASUSEC_IRQ_STATUS] & ASUSEC_OBF_MASK))
-+		return IRQ_NONE;
-+
-+	notify_action = ddata->ec_buf[ASUSEC_IRQ_STATUS];
-+	if (notify_action & ASUSEC_SMI_MASK) {
-+		unsigned int code = ddata->ec_buf[ASUSEC_SMI_CODE];
-+
-+		asus_ec_handle_smi(ddata, code);
-+
-+		notify_action |= code << 8;
-+	}
-+
-+	blocking_notifier_call_chain(&ddata->ec.notify_list,
-+				     notify_action, ddata->ec_buf);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static void asus_ec_release_dockram_dev(void *client)
-+{
-+	i2c_unregister_device(client);
-+}
-+
-+static struct i2c_client *devm_asus_dockram_get(struct device *dev)
-+{
-+	struct i2c_client *parent = to_i2c_client(dev);
-+	struct i2c_client *dockram;
-+	struct dockram_ec_data *ddata;
-+	int ret;
-+
-+	dockram = i2c_new_ancillary_device(parent, "dockram",
-+					   parent->addr + 2);
-+	if (IS_ERR(dockram))
-+		return dockram;
-+
-+	ret = devm_add_action_or_reset(dev, asus_ec_release_dockram_dev,
-+				       dockram);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	ddata = devm_kzalloc(&dockram->dev, sizeof(*ddata), GFP_KERNEL);
-+	if (!ddata)
-+		return ERR_PTR(-ENOMEM);
-+
-+	i2c_set_clientdata(dockram, ddata);
-+	mutex_init(&ddata->ctl_lock);
-+
-+	return dockram;
-+}
-+
-+static const struct mfd_cell asus_ec_sl101_dock_mfd_devices[] = {
-+	MFD_CELL_NAME("asus-transformer-ec-kbc"),
-+};
-+
-+static const struct mfd_cell asus_ec_tf101_dock_mfd_devices[] = {
-+	MFD_CELL_BASIC("asus-transformer-ec-battery", NULL, NULL, 0, 1),
-+	MFD_CELL_BASIC("asus-transformer-ec-charger", NULL, NULL, 0, 1),
-+	MFD_CELL_BASIC("asus-transformer-ec-led", NULL, NULL, 0, 1),
-+	MFD_CELL_NAME("asus-transformer-ec-keys"),
-+	MFD_CELL_NAME("asus-transformer-ec-kbc"),
-+};
-+
-+static const struct mfd_cell asus_ec_tf201_pad_mfd_devices[] = {
-+	MFD_CELL_NAME("asus-transformer-ec-battery"),
-+	MFD_CELL_NAME("asus-transformer-ec-led"),
-+};
-+
-+static const struct mfd_cell asus_ec_tf600t_pad_mfd_devices[] = {
-+	MFD_CELL_NAME("asus-transformer-ec-battery"),
-+	MFD_CELL_NAME("asus-transformer-ec-charger"),
-+	MFD_CELL_NAME("asus-transformer-ec-led"),
-+};
-+
-+static int asus_ec_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct asus_ec_data *ddata;
-+	const struct mfd_cell *cells;
-+	unsigned int num_cells;
-+	unsigned long irqflags;
-+	int ret;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_I2C_BLOCK))
-+		return dev_err_probe(dev, -ENXIO,
-+			"I2C bus is missing required SMBus block mode support\n");
-+
-+	ddata = devm_kzalloc(dev, sizeof(*ddata), GFP_KERNEL);
-+	if (!ddata)
++	if (!port)
 +		return -ENOMEM;
 +
-+	ddata->info = device_get_match_data(dev);
-+	if (!ddata->info)
-+		return -ENODEV;
++	priv->sdev[idx] = port;
++	port->dev.parent = &pdev->dev;
++	port->id.type = SERIO_8042;
++	port->id.extra = cmd & 0xFF;
++	port->write = asus_ec_serio_write;
++	port->port_data = (void *)priv;
++	snprintf(port->name, sizeof(port->name), "%s %s",
++		 priv->ec->model, name);
++	snprintf(port->phys, sizeof(port->phys), "i2c-%u-%04x/serio%d",
++		 i2c_adapter_id(parent->adapter), parent->addr, idx);
 +
-+	switch (ddata->info->variant) {
-+	case ASUSEC_SL101_DOCK:
-+		cells = asus_ec_sl101_dock_mfd_devices;
-+		num_cells = ARRAY_SIZE(asus_ec_sl101_dock_mfd_devices);
-+		break;
-+	case ASUSEC_TF101_DOCK:
-+		cells = asus_ec_tf101_dock_mfd_devices;
-+		num_cells = ARRAY_SIZE(asus_ec_tf101_dock_mfd_devices);
-+		break;
-+	case ASUSEC_TF201_PAD:
-+		cells = asus_ec_tf201_pad_mfd_devices;
-+		num_cells = ARRAY_SIZE(asus_ec_tf201_pad_mfd_devices);
-+		break;
-+	case ASUSEC_TF600T_PAD:
-+		cells = asus_ec_tf600t_pad_mfd_devices;
-+		num_cells = ARRAY_SIZE(asus_ec_tf600t_pad_mfd_devices);
-+		break;
-+	default:
-+		return dev_err_probe(dev, -EINVAL,
-+				     "unknown device variant %d\n",
-+				     ddata->info->variant);
-+	}
++	serio_register_port(port);
 +
-+	i2c_set_clientdata(client, ddata);
-+	ddata->client = client;
-+
-+	ddata->ec.dockram = devm_asus_dockram_get(dev);
-+	if (IS_ERR(ddata->ec.dockram))
-+		return dev_err_probe(dev, PTR_ERR(ddata->ec.dockram),
-+				     "failed to get dockram\n");
-+
-+	ddata->ecreq_gpio = devm_gpiod_get(dev, "request", GPIOD_OUT_LOW);
-+	if (IS_ERR(ddata->ecreq_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ddata->ecreq_gpio),
-+				     "failed to get EC request GPIO\n");
-+
-+	BLOCKING_INIT_NOTIFIER_HEAD(&ddata->ec.notify_list);
-+	mutex_init(&ddata->ecreq_lock);
-+
-+	asus_ec_signal_request(ddata);
-+
-+	ret = asus_ec_detect(ddata);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to detect EC version\n");
-+
-+	/*
-+	 * Systems using device tree should set up interrupt via DTS,
-+	 * the rest will use the default low interrupt.
-+	 */
-+	irqflags = dev->of_node ? 0 : IRQF_TRIGGER_LOW;
-+
-+	ret = devm_request_threaded_irq(dev, client->irq, NULL,
-+					&asus_ec_interrupt,
-+					IRQF_ONESHOT | irqflags,
-+					client->name, ddata);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to register IRQ\n");
-+
-+	/* Parent I2C controller uses DMA, ASUS EC and child devices do not */
-+	client->dev.coherent_dma_mask = 0;
-+	client->dev.dma_mask = &client->dev.coherent_dma_mask;
-+
-+	return devm_mfd_add_devices(dev, 0, cells, num_cells, NULL, 0, NULL);
++	return devm_add_action_or_reset(&pdev->dev, asus_ec_serio_remove, port);
 +}
 +
-+static const struct asus_ec_chip_info asus_ec_sl101_dock_data = {
-+	.name = "dock",
-+	.variant = ASUSEC_SL101_DOCK,
-+	.fmode = ASUSEC_MODE_NONE,
-+};
++static int asus_ec_kbc_probe(struct platform_device *pdev)
++{
++	struct asusec_core *ec = dev_get_drvdata(pdev->dev.parent);
++	struct asus_ec_kbc_data *priv;
++	int error;
 +
-+static const struct asus_ec_chip_info asus_ec_tf101_dock_data = {
-+	.name = "dock",
-+	.variant = ASUSEC_TF101_DOCK,
-+	.fmode = ASUSEC_MODE_NONE,
-+};
++	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
 +
-+static const struct asus_ec_chip_info asus_ec_tf201_pad_data = {
-+	.name = "pad",
-+	.variant = ASUSEC_TF201_PAD,
-+	.fmode = ASUSEC_MODE_NORMAL,
-+};
++	platform_set_drvdata(pdev, priv);
 +
-+static const struct asus_ec_chip_info asus_ec_tf600t_pad_data = {
-+	.name = "pad",
-+	.variant = ASUSEC_TF600T_PAD,
-+	.fmode = ASUSEC_MODE_NORMAL,
-+};
++	priv->ec = ec;
++	priv->parent = to_i2c_client(pdev->dev.parent);
 +
-+static const struct of_device_id asus_ec_match[] = {
-+	{
-+		.compatible = "asus,sl101-ec-dock",
-+		.data = &asus_ec_sl101_dock_data
-+	}, {
-+		.compatible = "asus,tf101-ec-dock",
-+		.data = &asus_ec_tf101_dock_data
-+	}, {
-+		.compatible = "asus,tf201-ec-pad",
-+		.data = &asus_ec_tf201_pad_data
-+	}, {
-+		.compatible = "asus,tf600t-ec-pad",
-+		.data = &asus_ec_tf600t_pad_data
-+	},
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, asus_ec_match);
++	error = asus_ec_register_serio(pdev, 0, "Keyboard", 0);
++	if (error)
++		return error;
 +
-+static struct i2c_driver asus_ec_driver = {
-+	.driver	= {
-+		.name = "asus-transformer-ec",
-+		.of_match_table = asus_ec_match,
-+	},
-+	.probe = asus_ec_probe,
++	error = asus_ec_register_serio(pdev, 1, "Touchpad", I8042_CMD_AUX_SEND);
++	if (error)
++		return error;
++
++	priv->nb.notifier_call = asus_ec_kbc_notify;
++
++	return blocking_notifier_chain_register(&ec->notify_list, &priv->nb);
++}
++
++static void asus_ec_kbc_remove(struct platform_device *pdev)
++{
++	struct asus_ec_kbc_data *priv = platform_get_drvdata(pdev);
++	struct asusec_core *ec = priv->ec;
++
++	blocking_notifier_chain_unregister(&ec->notify_list, &priv->nb);
++}
++
++static struct platform_driver asus_ec_kbc_driver = {
++	.driver.name = "asus-transformer-ec-kbc",
++	.probe = asus_ec_kbc_probe,
++	.remove = asus_ec_kbc_remove,
 +};
-+module_i2c_driver(asus_ec_driver);
++module_platform_driver(asus_ec_kbc_driver);
 +
 +MODULE_AUTHOR("Michał Mirosław <mirq-linux@rere.qmqm.pl>");
-+MODULE_AUTHOR("Svyatoslav Ryhel <clamor95@gmail.com>");
-+MODULE_DESCRIPTION("ASUS Transformer's EC driver");
++MODULE_DESCRIPTION("ASUS Transformer's Dock keyboard and touchpad controller driver");
 +MODULE_LICENSE("GPL");
-diff --git a/include/linux/mfd/asus-transformer-ec.h b/include/linux/mfd/asus-transformer-ec.h
-new file mode 100644
-index 000000000000..980a31f6b25c
---- /dev/null
-+++ b/include/linux/mfd/asus-transformer-ec.h
-@@ -0,0 +1,92 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef __MFD_ASUS_TRANSFORMER_EC_H
-+#define __MFD_ASUS_TRANSFORMER_EC_H
-+
-+#include <linux/notifier.h>
-+#include <linux/platform_device.h>
-+
-+struct i2c_client;
-+
-+/**
-+ * struct asusec_core - public part shared with all cells
-+ *
-+ * @model: firmware version running on the EC
-+ * @name: prefix associated with the EC
-+ * @dockram: pointer to Dockram's i2c_client
-+ * @notify_list: notify list used by cells
-+ */
-+struct asusec_core {
-+	const char *model;
-+	const char *name;
-+	struct i2c_client *dockram;
-+	struct blocking_notifier_head notify_list;
-+};
-+
-+#define DOCKRAM_ENTRIES			0x100
-+#define DOCKRAM_ENTRY_SIZE		32
-+#define DOCKRAM_ENTRY_BUFSIZE		(DOCKRAM_ENTRY_SIZE + 1)
-+
-+/* interrupt sources */
-+#define ASUSEC_IRQ_STATUS		1
-+#define ASUSEC_OBF_MASK			BIT(0)
-+#define ASUSEC_KEY_MASK			BIT(2)
-+#define ASUSEC_KBC_MASK			BIT(3)
-+#define ASUSEC_AUX_MASK			BIT(5)
-+#define ASUSEC_SCI_MASK			BIT(6)
-+#define ASUSEC_SMI_MASK			BIT(7)
-+
-+/* SMI notification codes */
-+#define ASUSEC_SMI_CODE			2
-+#define ASUSEC_SMI_POWER_NOTIFY		0x31	/* USB cable plug event */
-+#define ASUSEC_SMI_HANDSHAKE		0x50	/* response to ec_req edge */
-+#define ASUSEC_SMI_WAKE			0x53
-+#define ASUSEC_SMI_RESET		0x5f
-+#define ASUSEC_SMI_ADAPTER_EVENT	0x60	/* charger to dock plug event */
-+#define ASUSEC_SMI_BACKLIGHT_ON		0x63
-+#define ASUSEC_SMI_AUDIO_DOCK_IN	0x70
-+
-+#define ASUSEC_SMI_ACTION(code)		(ASUSEC_SMI_MASK | ASUSEC_OBF_MASK | \
-+					(ASUSEC_SMI_##code << 8))
-+
-+/* control register [0x0a] layout */
-+#define ASUSEC_CTL_SIZE			8
-+
-+/*
-+ * EC reports power from 40-pin connector in the LSB of the control
-+ * register.  The following values have been observed (xor 0x02):
-+ *
-+ * PAD-ec no-plug  0x40 / PAD-ec DOCK     0x20 / DOCK-ec no-plug 0x40
-+ * PAD-ec AC       0x25 / PAD-ec DOCK+AC  0x24 / DOCK-ec AC      0x25
-+ * PAD-ec USB      0x45 / PAD-ec DOCK+USB 0x24 / DOCK-ec USB     0x41
-+ */
-+
-+#define ASUSEC_CTL_DIRECT_POWER_SOURCE	BIT_ULL(0)
-+#define ASUSEC_STAT_CHARGING		BIT_ULL(2)
-+#define ASUSEC_CTL_FULL_POWER_SOURCE	BIT_ULL(5)
-+#define ASUSEC_CTL_SUSB_MODE		BIT_ULL(9)
-+#define ASUSEC_CMD_SUSPEND_S3		BIT_ULL(33)
-+#define ASUSEC_CTL_TEST_DISCHARGE	BIT_ULL(35)
-+#define ASUSEC_CMD_SUSPEND_INHIBIT	BIT_ULL(37)
-+#define ASUSEC_CTL_FACTORY_MODE		BIT_ULL(38)
-+#define ASUSEC_CTL_KEEP_AWAKE		BIT_ULL(39)
-+#define ASUSEC_CTL_USB_CHARGE		BIT_ULL(40)
-+#define ASUSEC_CTL_LED_BLINK		BIT_ULL(40)
-+#define ASUSEC_CTL_LED_AMBER		BIT_ULL(41)
-+#define ASUSEC_CTL_LED_GREEN		BIT_ULL(42)
-+#define ASUSEC_CMD_SWITCH_HDMI		BIT_ULL(56)
-+#define ASUSEC_CMD_WIN_SHUTDOWN		BIT_ULL(62)
-+
-+#define ASUSEC_DOCKRAM_INFO_MODEL	0x01
-+#define ASUSEC_DOCKRAM_INFO_FW		0x02
-+#define ASUSEC_DOCKRAM_INFO_CFGFMT	0x03
-+#define ASUSEC_DOCKRAM_INFO_HW		0x04
-+#define ASUSEC_DOCKRAM_CONTROL		0x0a
-+#define ASUSEC_DOCKRAM_BATT_CTL		0x14
-+
-+#define ASUSEC_WRITE_BUF		0x64
-+#define ASUSEC_READ_BUF			0x6a
-+
-+int asus_dockram_access_ctl(struct i2c_client *client,
-+			    u64 *out, u64 mask, u64 xor);
-+
-+#endif /* __MFD_ASUS_TRANSFORMER_EC_H */
 -- 
 2.51.0
 
