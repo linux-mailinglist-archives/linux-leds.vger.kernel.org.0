@@ -1,283 +1,269 @@
-Return-Path: <linux-leds+bounces-8198-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8199-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +C4hK7AnC2pAEAUAu9opvQ
-	(envelope-from <linux-leds+bounces-8198-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 16:52:32 +0200
+	id QADADoW5C2qfLgUAu9opvQ
+	(envelope-from <linux-leds+bounces-8199-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 19 May 2026 03:14:45 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5747356F448
-	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 16:52:31 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D4EF575EEC
+	for <lists+linux-leds@lfdr.de>; Tue, 19 May 2026 03:14:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B5B233001026
-	for <lists+linux-leds@lfdr.de>; Mon, 18 May 2026 14:51:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5E3C73015887
+	for <lists+linux-leds@lfdr.de>; Tue, 19 May 2026 01:14:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 858B2272E56;
-	Mon, 18 May 2026 14:51:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54AD2257855;
+	Tue, 19 May 2026 01:14:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siemens.com header.i=@siemens.com header.b="IpK+n58p"
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="j1yjOouP"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013059.outbound.protection.outlook.com [52.101.72.59])
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CFE25CC79;
-	Mon, 18 May 2026 14:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.59
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779115910; cv=fail; b=Qv7QJN2+AhcL82kXMpEflopB9zq4fgARzLTBsZob1NVKEosAfiPNRdp3EgL+IK+0EO8+8iEBhO9+9ISx6L0yczEx0T/QCB2MZjk8v1MgBpejvNGw0ghRTN3rOJA5KQaOI7bNVXeMouj9LX12ahDTwkNuD2LMhEl+esCCgaYagB0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779115910; c=relaxed/simple;
-	bh=WwAZwZGdDtYkIpMDP9WeS9mZmEIWjQ8DfHdf/dUh67E=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Ei6U3MdUwA9b046RPL+yIPeprRonkqAkOOYt4oinMUOLVwQn+YSoRLaNhQOnLa/gr02gadCEEf5WABfFc1DlvgEWultHE9kHSylnUUWTKjfXDo3PWFkk7Cad05yL+fq93r9+w9LqKyx5UaqXNAHRl+zYrQr30wrd6o/T29qTMII=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=@siemens.com header.b=IpK+n58p; arc=fail smtp.client-ip=52.101.72.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siemens.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=h2wOATbIeyNLyxWjX7sdfVBRGTfTX7CK/PNKtcGIajGVzzlGn47yeWpgiGM08U+Y9+Ir2MSkxak6xDNJx+DsTBhRzapXk0iood7P99+IxL7KldXrDxwraqRv77J/gXQ+0hLCSONMvqJTy140VvAzGwJGxvJW9mcSNjO+JbAjgR8CcUz3IZe57ArFpCoLZEShcyeWTKvbI3E4UJbJby1+QUlKzNUZA+TSYPhqbQ+UUWwkoEXYPIAQXO0bk9HOgJI1DU1HVcLNS5r6eofR3P94YrzNTznpECBHble/D4BFsGhMIzs4ZqKyyguDhWjyRuCDZmQf/Rnt7nVkBwmFPL/P1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WwAZwZGdDtYkIpMDP9WeS9mZmEIWjQ8DfHdf/dUh67E=;
- b=u0Tnve918DxEevw7b5N51CJ9qpGDas29ul2XmEDhFg1ypPY6FZDPmQ3yiGeNh3M6g9CiqMASkkhSrOgDTnQaWawrMwuWX84CUjGp9xhjDhJVPOEOuzIX1tsbrid9aTQdPdZU+1Pe58T9nufwpmIRftzevGSwZEYY4eeRiPvwL1XjrOHunt/NUFk8Qm3DcWsM5OpKb0B2ZmAnr4PLg1tiO/7curUZX45KRVf2dA49meC2YA27odhPk+tabLIKBf9sibroFOuuD8+ExAogOD3sOWSWILI2WHjUzFRlc1fVSDEOMgJjM5MURPRktwysJvvo6EUcXf2LYHnOgjIV1uTQ9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WwAZwZGdDtYkIpMDP9WeS9mZmEIWjQ8DfHdf/dUh67E=;
- b=IpK+n58pzMdjXIT56I0qm0juVWrTxOspFb6xHEe94+uacGWVXHGqUV7JlCHiXhpifB0KIffgOPUV+p++gVsYrObfbVL2DUnkMGoDcWybvQDy4BC2Qc0BTPdCEqSgq6ACnoY/iM/RFZ/m+OSDG1muoSQbMWtkI8wMub10if56563jAurx8XpcExAnVdF9C0Gorn7KMSOUHdwGJnFOe/u2e9gJxzNYRoLq356sLvo5bmepZiIHsNmtqDEc7kX9ypJAUxkeHoP3QKKjyHkwmMluN2xUmSXFFwVYaP3ghX5OAOJZJqDoDIBwvaGzYxA97POc6WmQgedxhrG7x15X8EwjuQ==
-Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5b6::22)
- by PA1PR10MB9033.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:452::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.23; Mon, 18 May
- 2026 14:51:42 +0000
-Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::9126:d21d:31c4:1b9f]) by AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::9126:d21d:31c4:1b9f%6]) with mapi id 15.21.0025.012; Mon, 18 May 2026
- 14:51:42 +0000
-From: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
-To: "u.kleine-koenig@baylibre.com" <u.kleine-koenig@baylibre.com>
-CC: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] leds: Use named initializers for arrays of
- i2c_device_data
-Thread-Topic: [PATCH] leds: Use named initializers for arrays of
- i2c_device_data
-Thread-Index: AQHc5tXUm6mGByZ0Zkmha6bwAXZ7Tg==
-Date: Mon, 18 May 2026 14:51:42 +0000
-Message-ID: <7c8cc62e015032717ddd6a55facfb4a32795ed64.camel@siemens.com>
-References: <20260515163325.471175-2-u.kleine-koenig@baylibre.com>
-In-Reply-To: <20260515163325.471175-2-u.kleine-koenig@baylibre.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Evolution 3.54.3 (3.54.3-2.fc41) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR10MB6867:EE_|PA1PR10MB9033:EE_
-x-ms-office365-filtering-correlation-id: 0decea7e-0f4e-4899-dc6b-08deb4ecf987
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|22082099003|18002099003|56012099003|38070700021|55112099003|11063799003;
-x-microsoft-antispam-message-info:
- +fWRbDwx+TNaLOIYPdJP7gHfpJJ6PmpQCL2m/O9egqPc2LzMfiOGMbJTzuVZ8EH4cB4+9MoOeDn14DDFCqcn/0RC4t1xuUfyr62NSnV6xLyElM+Qcu16bhvfDlwCY4uXAnwSwCLddGnveLdulLv0FWceFRRYvnm2XlHYMBge/cRubpVs7Hd48qC7c1CpVCgRkm0WwviPC9fT6AA1Ta4+sNSwpfmT5g1DTUQTnN8ALNHc264zlYQPEyeVPiAE/keqcSL3Beyu141ssH+yjwKGK+gZrgeAWnPTBi0PaSpz3VVSBUACZoGL2ZzTBR2FymO6rMJeZcgO4XUbNc7ahNC55ipz8C1iSBAP+dqe4ScpPnEcX05WUiPDM1qDsmBW58Ksc6E61h0dlfoVbCNYFqwXt7dgPg7h2tZIH2eIf0ZLMtb2cVG3mjtKkGsGSxdwaoDOr0X5fG1ukqtTI6SyK14xVLTpPHsAHNn58NxLxick82Fp9coiu1VAI9e7B6O4/UqeLOGZh4K/XVj8ekjTg2gDl61str82wlLXXzWzJzEsm5xW1/73RQw58uwhMT2fvXFqpI07nqh/wKmfIitapxd+Uv31XHjk7uG3YvvXsBWuirqPIFnFCBGBxt0b7C7qJuhUNhU/rJNhEhu+be+aCx5be3Vj4Su+gMtdvohiNQ650RfjzZQvy0fdW3ll5va8e4RAWmgh9h3B6TmcBpSHN0wsrg==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(22082099003)(18002099003)(56012099003)(38070700021)(55112099003)(11063799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?ODZDMGZwTVpNMlNmV2hKbVV6T3dqcmxoR0doeDhKUnlIcVhBcTJUUGx0RTJE?=
- =?utf-8?B?cUhJTG9sVzVvQ3JyWjBlR1VPZy85alRlbEpRNHgxazU4cHZFM2ZVa2Raekow?=
- =?utf-8?B?alh4YWN3eEtRYnE5c2RkZDM3UFlXK1B6RTBhbk53cElpeHhzTzY0VE1jZUo1?=
- =?utf-8?B?MFlqaDRmWnp0N0hXclhSOFNGWG1kVGNXVTBBOTZjRGMwNGxWak9EYzQremRG?=
- =?utf-8?B?am9sYTR0MmdlelY5bmlVQ3ZxMGZTWDVUUHVxUlBpNC9zc284RkZ1ejNBMWZo?=
- =?utf-8?B?S2NJSkNpVGxxRnBZK25iUjhSamVaOTNvcG1XRHdTb0V3QTdMdTBuQ0FlOUsz?=
- =?utf-8?B?cXlJbVhnbE1pVExUelVNSS81bnI5ZCtrNUhxNVFmK0tYdmJlTFk5U1pBamJO?=
- =?utf-8?B?TEx4OC8wZWtyU1ZINXJaRmNXdGdSaytIYXdEajVRNjM3MzIydjB4dmRUZ1Yx?=
- =?utf-8?B?MXpwZUhTV1dpRmR6STNqbnFWbG5wcUNWbEVmNHlYYTZLMU13blNQSDlHNVVv?=
- =?utf-8?B?L3F1QXFNajNHS3JjclN0ZjEzdnNOOTl4NUxRZmhnR0hIZmlaRjhJME5YVXdT?=
- =?utf-8?B?WjJSc0NuQTdYbnJQdDFJNGpiN253YWZDMFRwMFoyRUtmampkMloxbTlvUjcw?=
- =?utf-8?B?YWVONWRodEF1N0JoeHNCZzh2V0cvdGh2dFJVdllndkFKZ0RudEtMdmR6ejN0?=
- =?utf-8?B?VWowaTFTTTdhazFOS0k5NGN4dVFCZCt3QmpmNFkzMlJhclBWUXR3ZVZvYWFt?=
- =?utf-8?B?R3JsNmdzM01pQzJwRlNNbGNEaWk3eDlNMWg3S1htWkdMdGU3VlBTSTFLRDlx?=
- =?utf-8?B?RlVCbWdOLzh5UmhoYW90eENjOCtCTDFpcDVka2JIcGRHT1R0MDBBZXJRa0Na?=
- =?utf-8?B?aGY5RzlTRCtCbEpNb2VFWHZ2VjlhLzlIWUg2K1dycXJjWUZodVUzSDhPSVNQ?=
- =?utf-8?B?dTZ4MlZ0Sjh5NUk0MTBZbEw5empMRjh0NDFSam1tMFNLeElHQmJLV2p4cjBU?=
- =?utf-8?B?NGhDRFFWY2dMQUtwODVGVTJ5OVN0Y2NlTnlTUHp1MUZVNmU0Ym1BK1hwZEsx?=
- =?utf-8?B?MUVzZ0RjUGZIem9Ja0JaVS9ocThyaFh4ZU1DSUZwaEp1elJzYWVtVmtOTmtt?=
- =?utf-8?B?R3dWbWFvaDRXYktONjJEbnl1eTFUKzRtUlJBSzY4T28zL3JUalNnMGJjdGdQ?=
- =?utf-8?B?TmxEQU5VNlB0T3JPYjU1YnkxMmhnSlZzUGIzNEVTQ2VZRUg5SURIVDdTbWg5?=
- =?utf-8?B?cGp0bWlaYi9LcVZObHkvQk51QVUybXl0a1BwS2owd0hBeElldHRWczAxaWVL?=
- =?utf-8?B?cTErWjdwaWVCdnFxZnViVTN6TjZqMUxLR251dmNVM1VnTkpWMlMwejJQT0lV?=
- =?utf-8?B?a0tpOFI1S3BBeFJ2MnNGOU05Z2hLYjR3UW5lbEV3TkI0NTVuWFJoMUFYMnFW?=
- =?utf-8?B?dlRydEE3QXVhUnJKVkQ0S2JJQndtakZaK2pPRDJBZzBNUEJsV1JwN3lMNTRG?=
- =?utf-8?B?WnU0SWJReG90UHhBa0xBY1d5SGhRMFk3Tm9JZ0t6amxBRll0dk5xMDJ1eEsz?=
- =?utf-8?B?YnBqeHQxdGt4QlNZV1ZnQ3hZRHRTVndnUzFkaHBNZ0FtVnJSMDBRL2xZME5P?=
- =?utf-8?B?b0dGbEFLOVF5N1A4UGZVNzlzcS95OXBUVnYyQVFJY0VicGltMkVCdUZFQVBX?=
- =?utf-8?B?QmtNM3hyb3dNM1FocTdkUkVYZWRQUDBMbGNhZTJQRm5CbUZ6V01SajJZRjFH?=
- =?utf-8?B?VTk1WnlwbHhZVkhRcVFiWUNsNnoreUptUms1TWpWMFgxK0R4OFN5d1BnSjZS?=
- =?utf-8?B?QUUwQzU3ai83QzJUZ2tnVkJwTWxmWlkxTGRUdElXTERaQmdUcGF3K3ptblo3?=
- =?utf-8?B?YW5PWmFKUGNPdUxTRnNhdjdFU1p2QWM5LzhHVnZ2VXhNeVRTQWR4Y2p0Mzky?=
- =?utf-8?B?TVhDdVNJOHRRKzBiSWQwazllOFBkOXM0QzBpSXA4a2pyaG03ZWE2Rk82dHJk?=
- =?utf-8?B?YUYyc214eFJ4TWs3ZDdqRHNuYjQ5Y0drTjVHV2NESEN1SGJuR045VGIrL3d3?=
- =?utf-8?B?M2hmVzdQdC8zL2FKa0VJODl6UFBBU0hpbWlCVjc0anpFNW44SEhKSXlqN2Rz?=
- =?utf-8?B?K2hXUTZvVTlxUnNtWjRHbHJWS0tsVHk2ZXJWdXlhbExJdWVKWlNDRC9peGRw?=
- =?utf-8?B?dGc4dlZ3K0dWTGpuUk9ESHBjdDVTc05EbGNUblJpQWw4RWQ1bGd2TFJqbFRo?=
- =?utf-8?B?RlZwM3NpQzY5cEtJL1VpNHBmR1NucTZCQkRZU3hEc3J3VWtTaG53L0ZsVXZW?=
- =?utf-8?B?MUlNcFptaW1zc3ZYeTQ0RG9vNE5idFRVdlNmUStDSkhFUzFhbHhCK1BtNWdN?=
- =?utf-8?Q?FKNRsz+c47bD71u0=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A09A030AABC9A64389B98262396EED68@EURPRD10.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B276272631;
+	Tue, 19 May 2026 01:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779153280; cv=none; b=SlzuDz9I6dmiyEJ6WAz8qS5KFRw/Nhgg6Z4Npt6QgBfoetqVGnKxZb7xzRDPZ64p9KiGIPm+ggr4IfcBGLoilWP/HVWzhOLhaLcRirJPdLXBrHUhPDrC9aOZ9OHW3p+cXFeJWeYQaV7YyQUTk4wlWZjPxQiJqmf5p3HQSUhwld4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779153280; c=relaxed/simple;
+	bh=fzIhQV90tCBithAYBkR7kBEj86fUz/RqnUF2cxz3K0s=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=NPamc8OLazguY+dzmT5rgIZpb3UqXA+ywuh7METnFCo5gKxYewy80z/whTSw+A2OqowbTsSxZeiddSA/9DPa5EQQl/kEc3e6DDwwh9moKUlCNZoAlMwgnpFXEL0fiKAzoER3SjoxXA7QHDA97Ca3dAQZLpMH9m/7+1HKM5wzLJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=j1yjOouP; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64IJUxtd175009;
+	Mon, 18 May 2026 21:14:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=0KFmRAnGetvIKHEUP1YN9rbfBBj
+	GCFEL/Y17m+jvn/0=; b=j1yjOouPCkEnibBzuLcKgoxG7AU46jOpVOagVNxQD6W
+	oKiWvxt18PZiQ35KfU+r1oNh4BmAWDwoA4TLoswMbkfoF233thvXXE+nQbtIsKEF
+	V6Ls78AdyHzouK2sg0qgxuY01n3PseESvrKGNs4FhOpkVptWhZZXPKOvVXOiPSCX
+	ywwODATlSayxMSZv4Y+BCDjXHUmq4kfIlSPG2HL1FPUmbcOqD1vvixlR+Je7qT4B
+	3XIrdeLKXhhIol4JQJXiCf4YMYaA/BTitM8sJ2F4AfAqeeAcRNuDwpRNm9L+E11y
+	f7Cpv7zL0xHppMmoM2YVnENP81ksq6ZA11yRyfkeH6A==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4e76wd67kt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 May 2026 21:14:35 -0400 (EDT)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 64J1EYD9049147
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 18 May 2026 21:14:34 -0400
+Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+ ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Mon, 18 May 2026 21:14:34 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by
+ ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Mon, 18 May 2026 21:14:34 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Mon, 18 May 2026 21:14:34 -0400
+Received: from HYB-7P5GeKnsiiX.ad.analog.com (HYB-7P5GeKnsiiX.ad.analog.com [10.118.4.71])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 64J1EMo4020456;
+	Mon, 18 May 2026 21:14:25 -0400
+From: Edelweise Escala <edelweise.escala@analog.com>
+Subject: [PATCH v8 0/2] Add Support for LTC3220 18 Channel LED Driver
+Date: Tue, 19 May 2026 09:14:17 +0800
+Message-ID: <20260519-ltc3220-driver-v8-0-e1771c1733f7@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0decea7e-0f4e-4899-dc6b-08deb4ecf987
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 May 2026 14:51:42.4193
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zWJSVkMDDrSemuv3gevFofLFVroLRFxpOReViP8EvedWmm2sv0ixlswLMVm/WgsQHBaJ0FB7ck4vBFfvAdKz8JWxGh+kMO6/k+sQTPxOE0k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR10MB9033
-X-Spamd-Result: default: False [-0.06 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[siemens.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[siemens.com:s=selector2];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGm5C2oC/33Oy07DMBCF4VepvMZoZnxnxXsgFo4vraWSVE4Vg
+ aq8O043DViwPGN9v3xjc6olzezlcGM1LWUu09iGfTqwcPLjMfES22YEpAFB8/M1CCLgsZYlVZ6
+ dH3QILmKSrKFLTbl83oNv722fynyd6te9v+B2/TO1IAduRHuLOqOW7tWP/jwdn8P0wbbWQjuP1
+ HlqPoIUoGwOMubOi51v7rcXzeeUNVIKMnvfebn3/f9l80E5hYZAB5KdV/971Twq8gKSs34wndc
+ PL9F0Xm/eojLWYIoxdt48vALbedM8ZHA0eCUziR9+XddvvyGM9C0CAAA=
+X-Change-ID: 20260106-ltc3220-driver-f9ab6cc9d1e4
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>
+CC: <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Edelweise Escala
+	<edelweise.escala@analog.com>,
+        Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779153262; l=4416;
+ i=edelweise.escala@analog.com; s=20260106; h=from:subject:message-id;
+ bh=fzIhQV90tCBithAYBkR7kBEj86fUz/RqnUF2cxz3K0s=;
+ b=0eWn0KmzUlVg1+mwMZTsYjHDiLo/2tK7V/d4QxbOkd4Zwm/BnmU0ky5I7Ykz5kp6HaGrWfNHT
+ SEbEoukeHZ6BA8LfmrWwQ00f17ZyqYU1a1zv4ZxbnxZhvSMvPxbyl0K
+X-Developer-Key: i=edelweise.escala@analog.com; a=ed25519;
+ pk=lf5HLFe8ZeQjXZgkBkFMK+u9qH5/tqZhCIushTKduNQ=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE5MDAwOSBTYWx0ZWRfX95s/hNsJArLi
+ vxdlepJsoNfBk3FT9Hai/+3DRJkeJ63ccc943X9EKP+Cc+OFxSO63r2GsG2yltwELBqHxHxtPx9
+ V+oyonpBxOYLZPoySQ/iBoLX/JKze5Sd7UrYHrPdHmOSiFyzvCzE9iRfme+pQoQzODr1qBmZI1V
+ oSNJ/FvwrNb0+qoqfRVAAJrlcjx5trqw83H5NFaaLN37BH4pV43DADYvTAc+JtXs/23Wfjw2um9
+ eR4leCwvbYO2hYLs5o/Q7lX+Kux88uBaHr9idZHQCRu+fjPNrM0JgI5pG6Cn0nhEEGJOsby8WxH
+ aeHLp0MHe8WToG/GxIRk0ILzqWv8pidJYTgvibGZM3Q/NzKqmPHZPfXLEwJ4Zr8j4l4hccYz/Td
+ aYi6puvFAwB/m8I1GMHlVxJgm36me/6SAA1ipuY2JEk9HRzJ/z2yXCkahSn5tfgD7aEGautz3Ug
+ TTrHg93OaJrKjuWe40w==
+X-Authority-Analysis: v=2.4 cv=bfRbluPB c=1 sm=1 tr=0 ts=6a0bb97b cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=0sLvza09kfJOxVLZPwjg:22 a=N--XFCr6TIEc_64PeIT2:22 a=VwQbUJbxAAAA:8
+ a=gAnH3GRIAAAA:8 a=XYAwZIGsAAAA:8 a=4Xd0EAwewyHj09yvGKcA:9 a=QEXdDO2ut3YA:10
+ a=E8ToXWR_bxluHZ7gmE-Z:22
+X-Proofpoint-ORIG-GUID: 0Pu8THvj_cIratMHdM0ODXM8C0AJrp7I
+X-Proofpoint-GUID: 0Pu8THvj_cIratMHdM0ODXM8C0AJrp7I
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-19_01,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 malwarescore=0
+ impostorscore=0 spamscore=0 phishscore=0 suspectscore=0 bulkscore=0
+ clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
+ definitions=main-2605190009
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[analog.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[analog.com:s=DKIM];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_BASE64_TEXT(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_EQ_ADDR_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8198-lists,linux-leds=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[siemens.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[analog.com:+];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-8199-lists,linux-leds=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[analog.com:email,analog.com:mid,analog.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[edelweise.escala@analog.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alexander.sverdlin@siemens.com,linux-leds@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-leds];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,baylibre.com:email,siemens.com:url,siemens.com:email,siemens.com:mid,siemens.com:dkim]
-X-Rspamd-Queue-Id: 5747356F448
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	RCVD_COUNT_SEVEN(0.00)[10]
+X-Rspamd-Queue-Id: 9D4EF575EEC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-SGkgVXdlLA0KDQpPbiBGcmksIDIwMjYtMDUtMTUgYXQgMTg6MzMgKzAyMDAsIFV3ZSBLbGVpbmUt
-S8O2bmlnIChUaGUgQ2FwYWJsZSBIdWIpIHdyb3RlOg0KPiBXaGlsZSBiZWluZyBsZXNzIGNvbXBh
-Y3QsIHVzaW5nIG5hbWVkIGluaXRpYWxpemVycyBhbGxvd3MgdG8gbW9yZSBlYXNpbHkNCj4gc2Vl
-IHdoaWNoIG1lbWJlcnMgb2YgdGhlIHN0cnVjdHMgYXJlIGFzc2lnbmVkIHdoaWNoIHZhbHVlIHdp
-dGhvdXQgaGF2aW5nDQo+IHRvIGxvb2t1cCB0aGUgZGVjbGFyYXRpb24gb2YgdGhlIHN0cnVjdC4g
-QW5kIGl0J3MgYWxzbyBtb3JlIHJvYnVzdA0KPiBhZ2FpbnN0IGNoYW5nZXMgdG8gdGhlIHN0cnVj
-dCBkZWZpbml0aW9uLg0KPiANCj4gVGhlIG1lbnRpb25lZCByb2J1c3RuZXNzIGlzIHJlbGV2YW50
-IGZvciBhIHBsYW5uZWQgY2hhbmdlIHRvIHN0cnVjdA0KPiBpMmNfZGV2aWNlX2lkIHRoYXQgcmVw
-bGFjZXMgLmRyaXZlcl9kYXRhIGJ5IGFuIGFub255bW91cyB1bmlvbi4NCj4gDQo+IFdoaWxlIHRv
-dWNoaW5nIGFsbCB0aGVzZSBhcnJheXMsIHVuaWZ5IHVzYWdlIG9mIHdoaXRlc3BhY2UgYW5kIGNv
-bW1hcy4NCj4gDQo+IFRoaXMgcGF0Y2ggZG9lc24ndCBtb2RpZnkgdGhlIGNvbXBpbGVkIGFycmF5
-cywgb25seSB0aGVpciByZXByZXNlbnRhdGlvbg0KPiBpbiBzb3VyY2UgZm9ybSBiZW5lZml0cy4g
-VGhlIGZvcm1lciB3YXMgY29uZmlybWVkIHdpdGggeDg2IGFuZCBhcm02NA0KPiBidWlsZHMuDQo+
-IA0KPiBTaWduZWQtb2ZmLWJ5OiBVd2UgS2xlaW5lLUvDtm5pZyAoVGhlIENhcGFibGUgSHViKSA8
-dS5rbGVpbmUta29lbmlnQGJheWxpYnJlLmNvbT4NCg0KTEdUTSwNClJldmlld2VkLWJ5OiBBbGV4
-YW5kZXIgU3ZlcmRsaW4gPGFsZXhhbmRlci5zdmVyZGxpbkBzaWVtZW5zLmNvbT4NCg0KPiAtLS0N
-Cj4gSGVsbG8sDQo+IA0KPiB0aGUgbWVudGlvbmVkIGNoYW5nZSB0byBpMmNfZGV2aWNlX2lkIGlz
-IHRoZSBmb2xsb3dpbmc6DQo+IA0KPiAJZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvbW9kX2Rl
-dmljZXRhYmxlLmggYi9pbmNsdWRlL2xpbnV4L21vZF9kZXZpY2V0YWJsZS5oDQo+IAlpbmRleCAy
-M2ZmMjQwODBkZmQuLmFlYmQzYTVlOTBhZiAxMDA2NDQNCj4gCS0tLSBhL2luY2x1ZGUvbGludXgv
-bW9kX2RldmljZXRhYmxlLmgNCj4gCSsrKyBiL2luY2x1ZGUvbGludXgvbW9kX2RldmljZXRhYmxl
-LmgNCj4gCUBAIC00NzcsNyArNDc3LDExIEBAIHN0cnVjdCBycG1zZ19kZXZpY2VfaWQgew0KPiAJ
-DQo+IAkgc3RydWN0IGkyY19kZXZpY2VfaWQgew0KPiAJwqAJY2hhciBuYW1lW0kyQ19OQU1FX1NJ
-WkVdOw0KPiAJLQlrZXJuZWxfdWxvbmdfdCBkcml2ZXJfZGF0YTvCoMKgwqDCoCAvKiBEYXRhIHBy
-aXZhdGUgdG8gdGhlIGRyaXZlciAqLw0KPiAJKwl1bmlvbiB7DQo+IAkrCQkvKiBEYXRhIHByaXZh
-dGUgdG8gdGhlIGRyaXZlciAqLw0KPiAJKwkJa2VybmVsX3Vsb25nX3QgZHJpdmVyX2RhdGE7DQo+
-IAkrCQljb25zdCB2b2lkICpkcml2ZXJfZGF0YV9wdHI7DQo+IAkrCX07DQo+IAkgfTsNCj4gCQ0K
-PiAJIC8qIHBjaV9lcGYgKi8NCj4gDQo+IGFuZCB0aGlzIHJlcXVpcmVzIHRoYXQgLmRyaXZlcl9k
-YXRhIGlzIGFzc2lnbmVkIHZpYSBhIG5hbWVkIGluaXRpYWxpemVyDQo+IGZvciBzdGF0aWMgZGF0
-YS4gVGhpcyByZXF1aXJlbWVudCBpc24ndCBhIGJhZCBvbmUgYmVjYXVzZSBuYW1lZA0KPiBpbml0
-aWFsaXplcnMgYXJlIGFsc28gbXVjaCBiZXR0ZXIgcmVhZGFibGUgdGhhbiBsaXN0IGluaXRpYWxp
-emVycy4NCj4gDQo+IFRoZSB1bmlvbiBhZGRlZCB0byBzdHJ1Y3QgaTJjX2RldmljZV9pZCBlbmFi
-bGVzIGZ1cnRoZXIgY2xlYW51cHMgbGlrZToNCj4gDQo+IAlkaWZmIC0tZ2l0IGEvZHJpdmVycy9y
-ZWd1bGF0b3IvYWQ1Mzk4LmMgYi9kcml2ZXJzL3JlZ3VsYXRvci9hZDUzOTguYw0KPiAJaW5kZXgg
-MDEyM2NhODE1N2E4Li5kZmIwYjA3NTAwYTcgMTAwNjQ0DQo+IAktLS0gYS9kcml2ZXJzL3JlZ3Vs
-YXRvci9hZDUzOTguYw0KPiAJKysrIGIvZHJpdmVycy9yZWd1bGF0b3IvYWQ1Mzk4LmMNCj4gCUBA
-IC0yMDcsOCArMjA3LDggQEAgc3RydWN0IGFkNTM5OF9jdXJyZW50X2RhdGFfZm9ybWF0IHsNCj4g
-CSBzdGF0aWMgY29uc3Qgc3RydWN0IGFkNTM5OF9jdXJyZW50X2RhdGFfZm9ybWF0IGRmXzEwXzRf
-MTIwID0gezEwLCA0LCAwLCAxMjAwMDB9Ow0KPiAJDQo+IAkgc3RhdGljIGNvbnN0IHN0cnVjdCBp
-MmNfZGV2aWNlX2lkIGFkNTM5OF9pZFtdID0gew0KPiAJLQl7IC5uYW1lID0gImFkNTM5OCIsIC5k
-cml2ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkmZGZfMTBfNF8xMjAgfSwNCj4gCS0JeyAubmFt
-ZSA9ICJhZDU4MjEiLCAuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3QpJmRmXzEwXzRfMTIw
-IH0sDQo+IAkrCXsgLm5hbWUgPSAiYWQ1Mzk4IiwgLmRyaXZlcl9kYXRhX3B0ciA9ICZkZl8xMF80
-XzEyMCB9LA0KPiAJKwl7IC5uYW1lID0gImFkNTgyMSIsIC5kcml2ZXJfZGF0YV9wdHIgPSAmZGZf
-MTBfNF8xMjAgfSwNCj4gCcKgCXsgfQ0KPiAJIH07DQo+IAkgTU9EVUxFX0RFVklDRV9UQUJMRShp
-MmMsIGFkNTM5OF9pZCk7DQo+IAlAQCAtMjE5LDggKzIxOSw3IEBAIHN0YXRpYyBpbnQgYWQ1Mzk4
-X3Byb2JlKHN0cnVjdCBpMmNfY2xpZW50ICpjbGllbnQpDQo+IAnCoAlzdHJ1Y3QgcmVndWxhdG9y
-X2luaXRfZGF0YSAqaW5pdF9kYXRhID0gZGV2X2dldF9wbGF0ZGF0YSgmY2xpZW50LT5kZXYpOw0K
-PiAJwqAJc3RydWN0IHJlZ3VsYXRvcl9jb25maWcgY29uZmlnID0geyB9Ow0KPiAJwqAJc3RydWN0
-IGFkNTM5OF9jaGlwX2luZm8gKmNoaXA7DQo+IAktCWNvbnN0IHN0cnVjdCBhZDUzOThfY3VycmVu
-dF9kYXRhX2Zvcm1hdCAqZGYgPQ0KPiAJLQnCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-KHN0cnVjdCBhZDUzOThfY3VycmVudF9kYXRhX2Zvcm1hdCAqKWlkLT5kcml2ZXJfZGF0YTsNCj4g
-CSsJY29uc3Qgc3RydWN0IGFkNTM5OF9jdXJyZW50X2RhdGFfZm9ybWF0ICpkZiA9IGlkLT5kcml2
-ZXJfZGF0YTsNCj4gCQ0KPiAJwqAJY2hpcCA9IGRldm1fa3phbGxvYygmY2xpZW50LT5kZXYsIHNp
-emVvZigqY2hpcCksIEdGUF9LRVJORUwpOw0KPiAJwqAJaWYgKCFjaGlwKQ0KPiANCj4gdGhhdCBh
-cmUgYW4gaW1wcm92ZW1lbnQgZm9yIHJlYWRhYmlsaXR5IChhZ2FpbiEpIGFuZCBpdCBrZWVwcyBz
-b21lDQo+IHByb3BlcnRpZXMgb2YgdGhlIHBvaW50ZXJzIChoZXJlOiBiZWluZyBjb25zdCkgd2l0
-aG91dCBoYXZpbmcgdG8gcGF5DQo+IGF0dGVudGlvbiBmb3IgdGhhdC4gKEkgZGlkbid0IGZpbmQg
-YSBuaWNlIGxlZCBkcml2ZXIgdGhhdCBiZW5lZml0cywgc28NCj4gdGhpcyBpcyAib25seSIgYSBy
-ZWd1bGF0b3IgZHJpdmVyIGV4YW1wbGUuKQ0KPiANCj4gTXkgYWRkaXRpb25hbCBtb3RpdmF0aW9u
-IGZvciB0aGlzIGVmZm9ydCBpcyBDSEVSSVsxXS4gVGhpcyBpcyBhIGhhcmR3YXJlDQo+IGV4dGVu
-c2lvbiB0aGF0IHVzZXMgMTI4IGJpdCBwb2ludGVycyBidXQgdW5zaWduZWQgbG9uZyBpcyBzdGls
-bCA2NCBiaXQuDQo+IFNvIHdpdGggQ0hFUkkgeW91IGNhbm5vdCBzdG9yZSBwb2ludGVycyBpbiB1
-bnNpZ25lZCBsb25nIHZhcmlhYmxlcy4NCj4gDQo+IEJlc3QgcmVnYXJkcw0KPiBVd2UNCj4gDQo+
-IMKgZHJpdmVycy9sZWRzL2ZsYXNoL2xlZHMtYXMzNjQ1YS5jIHzCoCAyICstDQo+IMKgZHJpdmVy
-cy9sZWRzL2ZsYXNoL2xlZHMtbG0zNjAxeC5jIHzCoCA0ICsrLS0NCj4gwqBkcml2ZXJzL2xlZHMv
-bGVkcy1hbjMwMjU5YS5jwqDCoMKgwqDCoCB8wqAgMiArLQ0KPiDCoGRyaXZlcnMvbGVkcy9sZWRz
-LWF3MjAweHguY8KgwqDCoMKgwqDCoCB8IDEwICsrKysrLS0tLS0NCj4gwqBkcml2ZXJzL2xlZHMv
-bGVkcy1iZDI4MDIuY8KgwqDCoMKgwqDCoMKgIHzCoCAyICstDQo+IMKgZHJpdmVycy9sZWRzL2xl
-ZHMtYmxpbmttLmPCoMKgwqDCoMKgwqDCoCB8wqAgNCArKy0tDQo+IMKgZHJpdmVycy9sZWRzL2xl
-ZHMtaXMzMWZsMzE5eC5jwqDCoMKgIHwgMjIgKysrKysrKysrKystLS0tLS0tLS0tLQ0KPiDCoGRy
-aXZlcnMvbGVkcy9sZWRzLWlzMzFmbDMyeHguY8KgwqDCoCB8IDE4ICsrKysrKysrKy0tLS0tLS0t
-LQ0KPiDCoGRyaXZlcnMvbGVkcy9sZWRzLWxtMzUzMC5jwqDCoMKgwqDCoMKgwqAgfMKgIDQgKyst
-LQ0KPiDCoGRyaXZlcnMvbGVkcy9sZWRzLWxtMzUzMi5jwqDCoMKgwqDCoMKgwqAgfMKgIDQgKyst
-LQ0KPiDCoGRyaXZlcnMvbGVkcy9sZWRzLWxtMzU1eC5jwqDCoMKgwqDCoMKgwqAgfMKgIDYgKysr
-LS0tDQo+IMKgZHJpdmVycy9sZWRzL2xlZHMtbG0zNjQyLmPCoMKgwqDCoMKgwqDCoCB8wqAgNCAr
-Ky0tDQo+IMKgZHJpdmVycy9sZWRzL2xlZHMtbG0zNjkyeC5jwqDCoMKgwqDCoMKgIHzCoCA0ICsr
-LS0NCj4gwqBkcml2ZXJzL2xlZHMvbGVkcy1sbTM2OTcuY8KgwqDCoMKgwqDCoMKgIHzCoCAyICst
-DQo+IMKgZHJpdmVycy9sZWRzL2xlZHMtbHAzOTQ0LmPCoMKgwqDCoMKgwqDCoCB8wqAgNCArKy0t
-DQo+IMKgZHJpdmVycy9sZWRzL2xlZHMtbHAzOTUyLmPCoMKgwqDCoMKgwqDCoCB8wqAgNCArKy0t
-DQo+IMKgZHJpdmVycy9sZWRzL2xlZHMtbHA1MHh4LmPCoMKgwqDCoMKgwqDCoCB8IDEyICsrKysr
-Ky0tLS0tLQ0KPiDCoGRyaXZlcnMvbGVkcy9sZWRzLWxwNTUyMS5jwqDCoMKgwqDCoMKgwqAgfMKg
-IDIgKy0NCj4gwqBkcml2ZXJzL2xlZHMvbGVkcy1scDU1MjMuY8KgwqDCoMKgwqDCoMKgIHzCoCA0
-ICsrLS0NCj4gwqBkcml2ZXJzL2xlZHMvbGVkcy1scDU1NjIuY8KgwqDCoMKgwqDCoMKgIHzCoCAy
-ICstDQo+IMKgZHJpdmVycy9sZWRzL2xlZHMtbHA1NTY5LmPCoMKgwqDCoMKgwqDCoCB8wqAgMiAr
-LQ0KPiDCoGRyaXZlcnMvbGVkcy9sZWRzLWxwODUwMS5jwqDCoMKgwqDCoMKgwqAgfMKgIDIgKy0N
-Cj4gwqBkcml2ZXJzL2xlZHMvbGVkcy1scDg4NjAuY8KgwqDCoMKgwqDCoMKgIHzCoCAyICstDQo+
-IMKgZHJpdmVycy9sZWRzL2xlZHMtbHA4ODY0LmPCoMKgwqDCoMKgwqDCoCB8wqAgNCArKy0tDQo+
-IMKgZHJpdmVycy9sZWRzL2xlZHMtcGNhOTUzMi5jwqDCoMKgwqDCoMKgIHzCoCA4ICsrKystLS0t
-DQo+IMKgZHJpdmVycy9sZWRzL2xlZHMtcGNhOTU1eC5jwqDCoMKgwqDCoMKgIHwgMTIgKysrKysr
-LS0tLS0tDQo+IMKgZHJpdmVycy9sZWRzL2xlZHMtcGNhOTYzeC5jwqDCoMKgwqDCoMKgIHzCoCA4
-ICsrKystLS0tDQo+IMKgZHJpdmVycy9sZWRzL2xlZHMtcGNhOTk1eC5jwqDCoMKgwqDCoMKgIHzC
-oCA4ICsrKystLS0tDQo+IMKgZHJpdmVycy9sZWRzL2xlZHMtc3QxMjAyLmPCoMKgwqDCoMKgwqDC
-oCB8wqAgMiArLQ0KPiDCoGRyaXZlcnMvbGVkcy9sZWRzLXRjYTY1MDcuY8KgwqDCoMKgwqDCoCB8
-wqAgMiArLQ0KPiDCoGRyaXZlcnMvbGVkcy9sZWRzLXRsYzU5MXh4LmPCoMKgwqDCoMKgIHzCoCA2
-ICsrKy0tLQ0KPiDCoGRyaXZlcnMvbGVkcy9sZWRzLXR1cnJpcy1vbW5pYS5jwqAgfMKgIDIgKy0N
-Cj4gwqBkcml2ZXJzL2xlZHMvcmdiL2xlZHMta3RkMjAyeC5jwqDCoCB8wqAgNiArKystLS0NCj4g
-wqAzMyBmaWxlcyBjaGFuZ2VkLCA5MCBpbnNlcnRpb25zKCspLCA5MCBkZWxldGlvbnMoLSkNCg0K
-LS0gDQpBbGV4YW5kZXIgU3ZlcmRsaW4NClNpZW1lbnMgQUcNCnd3dy5zaWVtZW5zLmNvbQ0K
+The LTC3220/LTC3220-1 is a multi-display LED driver, which contains a
+high-efficiency, low-noise charge pump to provide power to up to
+18 LED current sources. The LEDs are individually configurable to
+64-step linear brightness control, blinking and gradation control
+via 2-wire I2C interface. The blinking and gradation configuration
+is shared across all LED.
+
+LTC3220 has a quick write function which allows changing the brightness
+on all LEDS simultaneously when the brightness is changed on led 1.
+For this leds are aggregated in the device tree and on probe we check
+if led-sources exist to enable quick write. 
+We would like to know if this approach is alright?
+Another way we might want to know is, is it alright to just make a
+virtual led for the quick write function. Changing brightness on 
+the virtual led will change the brightness for all.
+
+Signed-off-by: Edelweise Escala <edelweise.escala@analog.com>
+---
+Changes in v8:
+- Add '>' on descriptions with multiple paragraph
+- Change led registers to hex
+- Change cache type to REGCACHE_FLAT_S
+- Link to v7: https://lore.kernel.org/r/20260508-ltc3220-driver-v7-0-0f092ba54f23@analog.com
+
+Changes in v7:
+- Add cahcetype on regmap
+- Dropped struct ltc3220_state *ltc3220_state and use container_of()
+- Rename ltc3220_state to ltc3220
+- Dropped functions only used once and used inline instead.
+- Loop variable changes
+- Consistent decalaration for container_of
+- Tabbing fixes
+- Link to v6: https://lore.kernel.org/r/20260417-ltc3220-driver-v6-0-18157871eddd@analog.com
+
+Changes in v6:
+- Fix commit message
+- Add manufacturer on Kconfig and improve description
+- Rearrange register map and bitmask and improve naming
+- Use regmap, also use update bits of regmap to avoid unnecessary
+  structs
+- Alignment and spacing fixes
+- Use Define for magic naumbers
+- Fix blink calculation
+- Add comments on aggregated LED
+- Fix variable name to something more understandable like i to led_index
+- Link to v5: https://lore.kernel.org/r/20260126-ltc3220-driver-v5-0-152a30e98ab7@analog.com
+
+Changes in v5:
+- Missed rename on bindings filename in MAINTAINERS file
+- Link to v4: https://lore.kernel.org/linux-leds/20260126-ltc3220-driver-v4-0-c59517206c24@analog.com
+
+Changes in v4:
+- Rename leds-ltc3220.yaml to adi,ltc3220.yaml
+- Add Reviewed-by: Conor Dooley <conor.dooley@microchip.com> on
+  adi,ltc3220.yaml
+Other V1 comments I think already addressed
+- Subject commit message was already changed to match hardware
+- Fixed wrapping after description
+- Dropped "Bindings for" in descriptions and improved description to match hardware
+- Dropped adi,ltc3220-1
+- Dropped redundant description on reset-gpios
+- Dropped adi,force-cpo-level
+- Dropped adi,quick-write in favor of aggregated LED
+- Used consistent quotes ^led@([1-9]|1[0-8])$
+- Fixed wrapping on error messages
+
+- Link to v3: https://lore.kernel.org/r/20260120-ltc3220-driver-v3-0-fef612ec4faa@analog.com
+
+Changes in v3:
+- Dropped quick-write on bindings and added aggregated led instead.
+- Add aggregated led example.
+- Modify quick write to check if there is aggregated led, if there is
+  aggregated led enable quick write.
+- Use DEFINE_SIMPLE_DEV_PM_OPS instead of SIMPLE_DEV_PM_OPS.
+- Link to v2: https://lore.kernel.org/r/20260112-ltc3220-driver-v2-0-d043058fc4df@analog.com
+
+Changes in v2:
+leds-ltc3220.yaml changes
+- Fix wrapping on description
+- Improve description and commit messge to describe hardware
+- Drop ltc3220-1
+- Drop charge pump
+ltc3220.c changes
+- Fix wrapping
+- Drop ltc3220-1
+- Drop devname_mandatory
+- Link to v1: https://lore.kernel.org/r/20260106-ltc3220-driver-v1-0-73601d6f1649@analog.com
+
+---
+Edelweise Escala (2):
+      dt-bindings: leds: Add LTC3220 18 channel LED Driver
+      leds: ltc3220: Add Support for LTC3220 18 channel LED Driver
+
+ .../devicetree/bindings/leds/adi,ltc3220.yaml      | 121 ++++++
+ MAINTAINERS                                        |   8 +
+ drivers/leds/Kconfig                               |  12 +
+ drivers/leds/Makefile                              |   1 +
+ drivers/leds/leds-ltc3220.c                        | 413 +++++++++++++++++++++
+ 5 files changed, 555 insertions(+)
+---
+base-commit: 8856d7fe1758937ac528770f552ec58c388c255b
+change-id: 20260106-ltc3220-driver-f9ab6cc9d1e4
+
+Best regards,
+-- 
+Edelweise Escala <edelweise.escala@analog.com>
+
 
