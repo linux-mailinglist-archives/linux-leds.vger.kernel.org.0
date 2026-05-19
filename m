@@ -1,203 +1,199 @@
-Return-Path: <linux-leds+bounces-8206-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8207-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ECvBOvNUDGptfgUAu9opvQ
-	(envelope-from <linux-leds+bounces-8206-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 19 May 2026 14:17:55 +0200
+	id GGgFEXleDGoVggUAu9opvQ
+	(envelope-from <linux-leds+bounces-8207-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 19 May 2026 14:58:33 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA7957E82D
-	for <lists+linux-leds@lfdr.de>; Tue, 19 May 2026 14:17:55 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76EE557F2C5
+	for <lists+linux-leds@lfdr.de>; Tue, 19 May 2026 14:58:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CEB0C301C3CF
-	for <lists+linux-leds@lfdr.de>; Tue, 19 May 2026 12:08:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 720F8306DAE8
+	for <lists+linux-leds@lfdr.de>; Tue, 19 May 2026 12:50:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C5684CA266;
-	Tue, 19 May 2026 12:08:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 115604C9576;
+	Tue, 19 May 2026 12:50:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="MDLo8o7h"
+	dkim=pass (1024-bit key) header.d=mcqueen.au header.i=craig@mcqueen.au header.b="MR8QQQuJ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E784C6F0A;
-	Tue, 19 May 2026 12:08:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779192493; cv=none; b=UB5Xs3YM+mIycGql/2odFPrPzuf+dJ2cYQMe/PRM2PfUfC+YxpRxEOp9OqtLMxrN9U5lZfsRBrP1uUZG+5axFLSVrSs/jTIDnQj00YLvYLPykfVPuf4zDNflUGzx4VhDSt8mgM9yQV7qCV6b1B97Yes+G0Wk2Nar4mNVXzM+8RI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779192493; c=relaxed/simple;
-	bh=HOH4zolnpjz17GuZevflHD1qmQ35A3RygmEY1pWBHCQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=TGX8zVy4Botg/+ps5sJumOeQEqqbT0WSZqMSR3by7mK7EIONDKaC2+dF8lHHtLe5LS1oTClty5ywEgOhXsXuf9wnQ0UT5XLxLvVuVrwzu/gfn+1PtliWmVhHxwG1ZRb/ZOeDSUpGynS6RbXYGeQEra5B+tQVLVAnLhSU24Wp6gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=MDLo8o7h; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id BDE7F27713;
-	Tue, 19 May 2026 14:08:08 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id HPM6vn7VwL0t; Tue, 19 May 2026 14:08:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1779192488; bh=HOH4zolnpjz17GuZevflHD1qmQ35A3RygmEY1pWBHCQ=;
-	h=Date:To:Cc:Subject:From:References:In-Reply-To;
-	b=MDLo8o7hPr4AET7m7AYF//xh93Cl0MwxKi543eqRJOXBWyE8iTv4D7kzUYU9dBcq6
-	 qcZSSf3ADrzc9GoNnTgHzkgiUZYsIGJoYZrPiJp54itCF0lySVkczMwPd1JadRRtsE
-	 nDREAOhOjI79bJTNQCq/rETRSH24HG48Esr7qg6R3GPFB5OtbLS6KA582enf4G9iaK
-	 V+hYaiqvNLsfHcWGdHQYzDrXUICAOkuj+pmeqH1OZeqsOuF9qRhuNBvCCRGRHVOVrY
-	 tytRUXhWDvSfYPxTsvVBTUtN0SENIOBjxeHvmiuajPUZ5QjGDu1dWL1DsWZ1OmbrNw
-	 P4cLbI8NqyU7g==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBBA4C9567
+	for <linux-leds@vger.kernel.org>; Tue, 19 May 2026 12:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779195036; cv=pass; b=RcJAkKbOtc1FLdMFP9mnKEgH3Wjm93bMUlj5yE08kimEUGirmS6jb8tzy/nWdXt+rlcxcf13fYfKWuLcL7DyV2ILjcfEXVJZof6lmV8EI/HBndDE0nSltVlQLjAe3PS4qLUd7vXNnlSjAwvYOChUFgXjxskqQzc0aWvi18yUUtQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779195036; c=relaxed/simple;
+	bh=CA2VsARVjPt/Zqsoh2ry/IhEIpUQkcxxlXPK9KOU1Xk=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=PIKj4emCR8zFMvuQSMvttQ/MKjnT/5/tezZ6Md9bIxFkA9/vvWhgs4LsEgV05e4PQyZjXGxoDyZGum64LvPqOZ406X7KVTKQ2OVcaH+wQgfro0PqYAD/GOsxnE/enyBisGUvJIRHPcEHjO284UOkhs2hEHRWSo/s+IpSKaNVCo8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mcqueen.au; spf=pass smtp.mailfrom=mcqueen.au; dkim=pass (1024-bit key) header.d=mcqueen.au header.i=craig@mcqueen.au header.b=MR8QQQuJ; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mcqueen.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mcqueen.au
+ARC-Seal: i=1; a=rsa-sha256; t=1779195030; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=WVpC3kfUNsUHojzVaQxXV3x4F0WsTy3RgCa+bXsG0MCfpoEIJYqYrllkMREHlFqOLLHb2bVvW8ew4v7lopOzBgsRZDQza476vsRp08shcdOYTjID9XN8zawRKFIWwPTIqBWH6NqteLJ0GSvDDrh6Y8nR7mJtw2HU3Eim2szw3fE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1779195030; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=p3c9e7Plum7gk5/KxDcNFaigTC2Q+qt4ll1SIM1kBW0=; 
+	b=InWPYcrAZ1L5jU37aD2iDXSMpHvPpPVmLPi6CI3doSv76j5yqSt4SvYKlZWFQsrEQsaXEJ7512MARmODNnuCLhEmGpGQOC7PiB5ASjcay0DXImsw+5UORefUdRxA3nhJHk/FwegcQWCRdBPCI5I29dUu12CAGJgf6H5ziCjgE6k=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=mcqueen.au;
+	spf=pass  smtp.mailfrom=craig@mcqueen.au;
+	dmarc=pass header.from=<craig@mcqueen.au>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779195030;
+	s=zmail; d=mcqueen.au; i=craig@mcqueen.au;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=p3c9e7Plum7gk5/KxDcNFaigTC2Q+qt4ll1SIM1kBW0=;
+	b=MR8QQQuJo/W9aF262ULfJdfAjYDoyFsDR8l0a4CE40Cc349GMtrYBQbXVb6wTBaU
+	9E2IL1RrUg+IFzJYYXXhvzFfj5Wf02UuoUGxsR+oZrT9A50rhNDa3RByDfa54G329NK
+	9Yk2EqXkW3G6opoTFSQBpkiVOr3AA+Gf4S1imjNc=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1779195028508240.31521311356812; Tue, 19 May 2026 05:50:28 -0700 (PDT)
+Date: Tue, 19 May 2026 22:50:28 +1000
+From: Craig McQueen <craig@mcqueen.au>
+To: "Lee Jones" <lee@kernel.org>
+Cc: "linux-leds" <linux-leds@vger.kernel.org>
+Message-ID: <19e4049a408.6f06f78b4616946.3248916341809186931@mcqueen.au>
+In-Reply-To: <20260514164031.GQ305027@google.com>
+References: <20260423113638.2079302-1-craig@mcqueen.au>
+ <20260507115907.GF305027@google.com>
+ <19e0507bcfe.b2da6346184484.1331248575877259177@mcqueen.au> <20260514164031.GQ305027@google.com>
+Subject: Re: [PATCH] leds: core: Fix race condition for software blink
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 19 May 2026 17:37:50 +0530
-Message-Id: <DIMN3D9E8YCT.3T2PGAYYB2IOO@disroot.org>
-To: "Krzysztof Kozlowski" <krzk@kernel.org>, "Conor Dooley"
- <conor@kernel.org>, "Kaustabh Chakraborty" <kauschluss@disroot.org>
-Cc: "Lee Jones" <lee@kernel.org>, "Pavel Machek" <pavel@kernel.org>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "MyungJoo Ham"
- <myungjoo.ham@samsung.com>, "Chanwoo Choi" <cw00.choi@samsung.com>,
- "Sebastian Reichel" <sre@kernel.org>, =?utf-8?q?Andr=C3=A9_Draszik?=
- <andre.draszik@linaro.org>, "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>, "Nam Tran" <trannamatk@gmail.com>,
- =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>,
- <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v6 03/11] dt-bindings: mfd: add documentation for
- S2MU005 PMIC
-From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
-References: <20260515-s2mu005-pmic-v6-0-1979106992d4@disroot.org>
- <20260515-s2mu005-pmic-v6-3-1979106992d4@disroot.org>
- <20260515-justly-recite-6028f4bfb24a@spud>
- <DIJK5FTQ5KWG.HOKZAOXHTGU7@disroot.org>
- <20260516-esquire-chitchat-0fffa597e2f3@spud>
- <DIKZ5L2HC2CV.YL3MZUJQ2EV6@disroot.org>
- <20260517-corrode-tuesday-a598ca734b38@spud>
- <d2f4cb7d-5c3e-4b9a-86ca-04262cbb9775@kernel.org>
- <20260518-succulent-plethora-2dba60fad426@spud>
- <0240eb13-6c56-4879-8db7-b990a220a78f@kernel.org>
-In-Reply-To: <0240eb13-6c56-4879-8db7-b990a220a78f@kernel.org>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[disroot.org,reject];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[disroot.org:s=mail];
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+X-Spamd-Result: default: False [-1.65 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_DKIM_ALLOW(-0.20)[mcqueen.au:s=zmail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8206-lists,linux-leds=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,samsung.com,linaro.org,bootlin.com,lwn.net,linuxfoundation.org,gmail.com,lvkasz.us,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	XM_UA_NO_VERSION(0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DMARC_NA(0.00)[mcqueen.au];
+	TO_DN_ALL(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[mcqueen.au:+];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kauschluss@disroot.org,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[disroot.org:+];
+	FROM_NEQ_ENVFROM(0.00)[craig@mcqueen.au,linux-leds@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-8207-lists,linux-leds=lfdr.de];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,disroot.org:mid,disroot.org:dkim]
-X-Rspamd-Queue-Id: 8EA7957E82D
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-leds];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,mcqueen.au:email,mcqueen.au:mid,mcqueen.au:dkim]
+X-Rspamd-Queue-Id: 76EE557F2C5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 2026-05-18 12:23 +02:00, Krzysztof Kozlowski wrote:
-> On 18/05/2026 11:45, Conor Dooley wrote:
->> On Mon, May 18, 2026 at 09:15:11AM +0200, Krzysztof Kozlowski wrote:
->>> On 17/05/2026 22:52, Conor Dooley wrote:
->>>> On Sun, May 17, 2026 at 06:39:37PM +0530, Kaustabh Chakraborty wrote:
->>>>>>>>>> +
->>>>>>>>> +    properties:
->>>>>>>>> +      compatible:
->>>>>>>>> +        const: samsung,s2mu005-rgb
->>>>>>>>> +
->>>>>>>>> +    required:
->>>>>>>>> +      - compatible
->>>>>>>>> +
->>>>>>>>> +    unevaluatedProperties: false
->>>>>>>>> +
->>>>>>>>> +  reg:
->>>>>>>>> +    maxItems: 1
->>>>>>>>
->>>>>>>> Move this above the child nodes please.
->>>>>>>
->>>>>>> But properties are sorted in lex order?
->>>>>>
->>>>>> Typically the binding is sorted in the same order as properties go i=
-n
->>>>>> nodes. Common stuff like reg/clocks/interrupts therefore send up abo=
-ve
->>>>>> child nodes.
->>>>>
->>>>> So, do I change this? For one, I don't see the same being followed in
->>>>> other schemas of samsung in the same dir (not that I'm trying to pose=
- it
->>>>> as an argument against your suggestion), and this was reviewed by
->>>>> Krzysztof and is adderssed in v7.
->>>>
->>>> If Krzysztof doesn't care, then I won't ask you to change it.
->>>
->>> This builds on top of bindings for previous Samsung PMIC devices, so
->>> that's why it keeps the compatibles for children, I guess. No one
->>> complained about this at v1-v2 reviews, so when I joined reviewing in v=
-3
->>> I did not, either.
->>>
->>> I don't think the compatible should be here, but I also don't want to
->>> stall that patchset. I understand that it is inconsistent review from m=
-y
->>> side, because other similar patchsets receive comment to drop the
->>> compatible. But I don't think we will be fair asking to drop the
->>> compatible now, when we did not ask for that in the early versions at a=
-ll.
->>=20
->>=20
->> I think you misunderstood, we were talking about the ordering of the
->> properties in the binding file being alphanumerical, rather than the
->> more typical approach of approximately following the order of
->> dts-coding-style.
->
->
-> Ah, then I misunderstood and, even though it is a nit, I do care because
-> old code is then used for new patches. Bindings follow DTS rules, thus
-> should be:
-> 1. compatible
-> 2. reg
-> 3. core properties
-> 4. vendor properties
->
-> Kaustabh, can you change it please?
+Lee Jones wrote:
+ > On Fri, 08 May 2026, Craig McQueen wrote: 
+ > > Lee Jones wrote 
+ > >  > On Thu, 23 Apr 2026, Craig McQueen wrote: 
+ > >  > 
+ > >  > > led_set_brightness() function: Change handling of software blink to 
+ > >  > > avoid race conditions when stopping blink and setting brightness. 
+ > >  > > 
+ > >  > > Triggers may call led_set_brightness(LED_OFF), 
+ > >  > > led_set_brightness(LED_FULL) in quick succession to disable blinking and 
+ > >  > > turn the LED on. If the delayed work task has not yet disabled blinking 
+ > >  > > by the time the second call occurs, then the brightness also needs to be 
+ > >  > > changed in the delayed work task. 
+ > >  > > 
+ > >  > > Signed-off-by: Craig McQueen <craig@mcqueen.au> 
+ > >  > > --- 
+ > >  > >  drivers/leds/led-core.c | 33 ++++++++++++++++++++------------- 
+ > >  > >  1 file changed, 20 insertions(+), 13 deletions(-) 
+ > >  > 
+ > >  > I think this needs more eyes on it and to be thoroughly tested by others. 
+ > > 
+ > > The problem I have seen is when a Linux driver controls a trigger to change it from flashing to steady-on. I've seen it specifically with LED core's software blinking. 
+ > > 
+ > > /* First stop the blinking */ 
+ > > led_trigger_event(&udev->led_trigger, LED_OFF); 
+ > > /* Next turn the LED steady-on */ 
+ > > led_trigger_event(&udev->led_trigger, LED_FULL); 
+ > > 
+ > > Without this patch, the LED usually ends up in the off state, rather than on. 
+ > > 
+ > > I have tested this patch on a Rockchip RK3328 based system (ARM 64). 
+ >  
+ > I'm sure that this patch does work for you.  Just as the last iteration 
+ > of this function has been working fine for everyone else for the last 10 
+ > years.  However, since this is core change, I shall be exercising 
+ > caution. 
 
-Ack, will do that in v8 then.
+I can readily reproduce this bug on multiple platforms:
 
-While at it, do you also want me to drop the multi-led compatible string?
-So it would be:
+* Texas Instruments AM335x 32-bit ARM (BeagleBone Black)
+* Rockchip RK3328 64-bit ARM
+* Ubuntu 25.10 on a laptop
+* Ubuntu 22.04 on a VMware Workstation 16 Player VM
 
-  multi-led:
-    $ref: /schemas/leds/leds-class-multicolor.yaml#
+If others haven't seen it, maybe it's because this bug appears only with the intersection of two conditions:
 
->
-> Best regards,
-> Krzysztof
+1. A kernel driver that changes an LED trigger from blinking to steady-on (uncommon)
+2. An LED that uses the kernel's LED software blinking, rather than hardware blinking
+
+Note also that this issue doesn't seem to occur when controlling an LED from the sysfs interface:
+
+echo timer > /sys/class/leds/test0/trigger
+sleep 3
+# First stop the blinking
+echo 0 > /sys/class/leds/test0/brightness
+# Next turn the LED steady-on
+echo 1 > /sys/class/leds/test0/brightness
+
+I guess because the sysfs interface adds enough extra time delays.
+
+ > If anyone would be kind enough to test it, or provide some extra eyes, 
+ > I'd be appreciative. 
+
+I can offer the following method to test it.
+I created a userspace LED trigger driver last year (submitted to linux-leds but not accepted).
+https://github.com/cmcqueen/linux-kernel-uledtriggers
+
+1. Make the Linux kernel driver out-of-tree.
+    cd driver
+    make
+2. Load the driver.
+    insmod ./ledtrig-user.ko
+3. Make the test program.
+    cd ../test/uledtriggers_c/
+    make
+4. Run the test program. It will create a new LED trigger named "blink-steady".
+    ./uledtriggers_blink_steady
+5. Connect an LED to the "blink-steady" trigger. It needs to be an LED that doesn't have hardware blinking. For example, using the Linux kernel uledmon.c:
+    gcc uledmon.c -o uledmon
+    modprobe uleds
+    ./uledmon "test::test"
+    echo "blink-steady" > "/sys/class/leds/test::test/trigger"
+
+The LED trigger should make the LED blink for 5 seconds, and then steady-on for 5 seconds, then repeat.
+
+With the kernel bug I've described, the LED is usually left OFF for 5 seconds rather than ON for 5 seconds as intended.
+
+With the patch I submitted, this should be fixed.
+
+-- 
+Craig McQueen
 
 
