@@ -1,81 +1,81 @@
-Return-Path: <linux-leds+bounces-8257-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8258-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aPSyDm0oDmpq6gUAu9opvQ
-	(envelope-from <linux-leds+bounces-8257-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 20 May 2026 23:32:29 +0200
+	id cMMeEt0nDmpq6gUAu9opvQ
+	(envelope-from <linux-leds+bounces-8258-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 20 May 2026 23:30:05 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AC6259AFE8
-	for <lists+linux-leds@lfdr.de>; Wed, 20 May 2026 23:32:28 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC9E59AEE0
+	for <lists+linux-leds@lfdr.de>; Wed, 20 May 2026 23:30:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 501493182BB5
-	for <lists+linux-leds@lfdr.de>; Wed, 20 May 2026 20:03:53 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C6C5C3187A4C
+	for <lists+linux-leds@lfdr.de>; Wed, 20 May 2026 20:04:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F02D935675D;
-	Wed, 20 May 2026 20:03:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AD24331209;
+	Wed, 20 May 2026 20:03:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Md6ZBBi6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tu9jzpTC"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CCD346E7D
-	for <linux-leds@vger.kernel.org>; Wed, 20 May 2026 20:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5AC355048
+	for <linux-leds@vger.kernel.org>; Wed, 20 May 2026 20:03:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779307423; cv=none; b=ly0GeVI4tcY3jGPI6c5olRwNYhAKgLZxe8nZyJ4iZlS11PC9ZTjMwtAl7PwyFC9FkmUY6HRarBO3/RqJusZxPL5fDG1Zsp9tSw5L/cmqzZNEMXVTSehqXHTekkwTwpI0LY2XaXTSCJrBt3jr6Gh1NZSaDXi5Ux58AcEtRWWGPds=
+	t=1779307425; cv=none; b=OIaWfh6HStl5x/IJfj17mgMhg1SPPAaJddrKAtH46qDF/lVCTHt/qeAQEFky99W3oN1NDFUb4STsedwmE2Ecl59BgdeqPU9/Y16WT6Vkqr080ITDHtVaDnas7qWhqONAXMxdCGq+j4GW+h890moi/asgafUmL8aPBMuqWW/4aUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779307423; c=relaxed/simple;
-	bh=w5MLQIaRpVU5SwkEFl0ywM8vQ/Epne164k8OfCiap98=;
+	s=arc-20240116; t=1779307425; c=relaxed/simple;
+	bh=Xvv5fQ5F5xIWtEaWElIAcf+23Bvf0pXPnm8EdudGugA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZRYzt5eZcIfak+CivcmRuudUmdgb/dZ0r+fvNCnnwSAxfHxlrUXBZfiMhKaP/H1k1+VsERPtB3ILfmqxBiqvW314dieP9huZxSYDKvvESj9AYzGJTgbpOKKHhhSHmYCxVycWWuatOJsIxM3W2R1WJRq2mfH/iJg4N2N0MC9XVWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Md6ZBBi6; arc=none smtp.client-ip=209.85.160.174
+	 MIME-Version; b=dswh8/UwH2ucfHFjCgNvcx9WMpqiFp9WgjzJqLQr4LSTKB0OMuU2fhdjeMYImk3s7BjSBy9iG3he+MFsb1oWmVerCSlv+s+bWNyR/n56Zq5KD33lRNAuIqP+NXHqyb8AJJialVUbSZxDWJDoV10jCQ7P0IrAawJLhp8TidYbASs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tu9jzpTC; arc=none smtp.client-ip=209.85.160.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-5164dafcf97so53622181cf.2
-        for <linux-leds@vger.kernel.org>; Wed, 20 May 2026 13:03:42 -0700 (PDT)
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-50e5c5033f6so46583591cf.0
+        for <linux-leds@vger.kernel.org>; Wed, 20 May 2026 13:03:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779307421; x=1779912221; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779307423; x=1779912223; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PJFwvFMqSeGHKF7YuuKfX7SCPCAWVzw/mYZh++eDvbM=;
-        b=Md6ZBBi6L891kRa3CYITpsH0nbL6nj2kyNEb29KVvms2HET7uyFGQyVCyFLfkbcovr
-         kB1Zlf98XxoHyKoKIoRaSbMdGjgnKZ6cm02BkNGVkRF27jretlWqPgxhasJmI9DVDGEB
-         hrDgErotK1SZ3f69OV5iJp/Ku6Zsnh+hNgUB/syoEZkTj/wImRB6vtkLHTcZWM/CrKe7
-         RC6f9uhBBn7D4vVizGoABok9Z1j8U1GZPIKv/QM6T1B1tBOJR7pzcGVKkzcTq6DDmFR3
-         L8cy6TQuiPiIMnEg8FeJki9MNmbnPn6EPKm8V6LiRgGYRVLgybrw5iH7slgEhPTHdu8T
-         EDRA==
+        bh=8pPtDRaFJhpJpi9KrC1PwJKKtOYZtFzoBHFHqlj56RU=;
+        b=Tu9jzpTCpVUUoJ2IHa+AOCrOEK2khueqdyh8456OVxgl9CnlLHpAVWtg7SQmuv8yAY
+         brFTb5lHB/7KRCQ9hZVHlCNnhHnIa18EqghllofejEoi9MKiOkjQ6X/S8rJ6YRTbhW4l
+         Mm2eOUqgMrXDrrL2r/quvFaux6JCmxxHUUob97km6GDbNT+d12cLCRNXZy3FZDRjB6aM
+         xzBOzH4jp4gGRKDOnMm+zGDEbzfNGrrKO23i0nWPePaAt0eYHaRVlQcQHKdHjN36o2nh
+         s9LFDdpAFssZ8X9wPwBpIUlgzq/DT6jfIJglWLm7xgAXwAdQRTy7wHxmq1eeZtFfnxi0
+         9NdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779307421; x=1779912221;
+        d=1e100.net; s=20251104; t=1779307423; x=1779912223;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=PJFwvFMqSeGHKF7YuuKfX7SCPCAWVzw/mYZh++eDvbM=;
-        b=Zp7O3XDXbW65Znd3ourLruBXZoboR3j5eR0AM4LaHEk9KxgkJ01bFC9r38klVT4gUd
-         cYXvioH4yLfpbMgpxhBXr7nsJu7o5ZYWhbqoS6/uV1z+o1Zl6qM5LJD+n4ZX64zuRMLA
-         oZZPkHLNf9h6UNrWpOR3WSUSq2sOmOalbSAeEO4/hzypETawNZSdqKn/NmjycsVp9Nvr
-         jbU0xbwA0rXYaXrTpuhrcb1UZhzL63wps9GuqKk8gDyvWqR+aFHFoMlmCIjX/Ek54em/
-         64bUFjX+2axqgwBDK8dGGiGwZ666Oxplc4si/E8ukccne35kOF/wHV6oVa0xrEZ7zMnD
-         TheA==
-X-Forwarded-Encrypted: i=1; AFNElJ9ce4b4VR4cJ6o7zAPqG5uC230vZkRuUHW1LbV2aO7dD1llG2AqPL2Bsoise0pLQ1utM7d6pxYFcKEx@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQTn8rZpYV3XKrvF91h0jb31W/vNFeHXjLIjiW6ekBF6S80ESD
-	zayrkXwHvb80iPstd5MiQxm+lzW+aJfdTlM4uSLO9bvHJ/uAKY3RIR+G
-X-Gm-Gg: Acq92OFnvH2qGM3j7xVbC2dykl9t2mEkxRtwO/gtUxMGVLWX/UBnyaVLJP+qIISimzm
-	tTjM62BkCgFiVE5aK7/FtArMBoMfIhE2shyYbE5mavE9Nt2UTP9bVlXQQIXEBwylIZq05bjMJSd
-	b6sAxGFEHmuKF4z+9iB7zsi8qNsSxlWVXY7SMcUqM602qDwL3usGVLfmaozaiYxoSHJZxXgjfdm
-	lFZJhrJCEsX/odvoqlf4jR9ucpXvFkF1vxebg3ZOIkmObi5NnVhXveb/fmVuezFbLV1s2d5g/cw
-	KRthKPAIVmfuSpoZp5Q5JkM3/Yijd4/ZripbOxYZIKlWWYuyX8CmFxM6UmVPK4G8kEDSEH6/Fs0
-	kVgmxsIkppK5FKhxlASlLfbL2e7Q3s3pIlLPgGpUgaJa7zXR7983YboePYBIaYqlgwKQ4lNSEAc
-	yXJwJAlZGlQli8uOwqC0o58qwhJfoXJfbNJeI9Jk/HzTlGfVhebs0mY+DZasLIzACL5FM=
-X-Received: by 2002:a05:622a:4d09:b0:509:2527:d789 with SMTP id d75a77b69052e-51659fde5ecmr365261451cf.6.1779307421006;
-        Wed, 20 May 2026 13:03:41 -0700 (PDT)
+        bh=8pPtDRaFJhpJpi9KrC1PwJKKtOYZtFzoBHFHqlj56RU=;
+        b=WXOga+K5+zkhECamVq1q+AO31ax0IQoL1W/HY+MqfKMYZfA5NkiFFJqwrn6S3qfaHG
+         cqH9QgHN3l/hqxPivVV+ROtGfxcGCozDF5iOpZffzvz9+uYmhCTAhWmsgJ+w3dzfFhSe
+         moeJkvncPXEhPjU6aUvSpcNZqGryoB8YsSfYaE6wCqBNj5PvPwFwvbN5fCkkR5rIneGT
+         IcXOkPvGpICtCWu6h+sMaJua6OnsuvSX9Oc1/8qnk80FfGmr5QLJ8xbH1Z+1nPjzYoCV
+         NoYcUqgn4obHPfxmvgIi+e8D38ya/4tThoMR0Z169X+OqkzlmJ2iTzYqB4CYYJYEUZHg
+         3aFg==
+X-Forwarded-Encrypted: i=1; AFNElJ+NzzQRdviTDgLNIL1OQvSjtDjpQ2zSrNs8pi/9lRfQi462ogt8DmukKJmlccXJgKLAGqjwnH86kvxo@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx88091/FA69hr0k3g63X2EtFSKRqat3L0CBsWXeAB0hPAm/TL3
+	uWCe2aZ6tHHDSg0/vQPH0oCGTfa1hQ3I46rx/TeL3YuiFvSlo2gwOw3w
+X-Gm-Gg: Acq92OESOTv6QgTsHV/KGit8bNqCdkVmcs90yYPBs8ZMnN9uGOAZWHUaWAN+Mmc2AQm
+	183Ot3shzYHnUtzG99eIlNvt5TarjISf0cfWsHNnvwN/whjN3IsUUjV4sdjUW1Xuq/qFIqN8bvj
+	gpnSgiKvsKvsdPIDxPQ4WGZy85pqniM7oZS2k3MgTn2kPv8KLtczbaGuX71sZCFayO6PFLwU4Bw
+	lLy7TRiLG0WWVPvAIPCTkyfcofhH8GhdL/ui160WXoVaXdDxrnZfiF0alCN4Dkg53lete2thyQE
+	l6IubGE6/vpGjp6iW3NrZfzaI9+T3LTdt+7fDuH15f/c3JTkYPGxPL97ufkb6hu6+IhippqQQYv
+	U1fP1ThRbaT87PYEX3zFyBUPra/ZfYLSR0hgCRyE6Dm1U4UnnR8Xd2evNJ6/MAl6SQy/xS2PNDC
+	TvYLgPwvHwTyv2ntFBM6zaZKHZW+QzjhJQL6ywLe1oJibjlHpTCwe+coPZ
+X-Received: by 2002:a05:622a:d1:b0:509:1b76:e9b2 with SMTP id d75a77b69052e-5165a276812mr354941421cf.55.1779307423016;
+        Wed, 20 May 2026 13:03:43 -0700 (PDT)
 Received: from PF5YBGDS.localdomain ([163.114.130.1])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-516514e0b91sm188849301cf.15.2026.05.20.13.03.39
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-516514e0b91sm188849301cf.15.2026.05.20.13.03.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 13:03:40 -0700 (PDT)
+        Wed, 20 May 2026 13:03:42 -0700 (PDT)
 From: mike.marciniszyn@gmail.com
 To: Lee Jones <lee@kernel.org>,
 	Pavel Machek <pavel@kernel.org>,
@@ -102,9 +102,9 @@ Cc: mike.marciniszyn@gmail.com,
 	linux-kernel@vger.kernel.org,
 	linux-leds@vger.kernel.org,
 	netdev@vger.kernel.org
-Subject: [PATCH net-next 1/3] leds: trigger: netdev: Extend speeds up to 100G
-Date: Wed, 20 May 2026 16:03:35 -0400
-Message-ID: <20260520200337.204431-2-mike.marciniszyn@gmail.com>
+Subject: [PATCH net-next 2/3] net: eth: fbnic: Store max_speed from firmware dialog
+Date: Wed, 20 May 2026 16:03:36 -0400
+Message-ID: <20260520200337.204431-3-mike.marciniszyn@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260520200337.204431-1-mike.marciniszyn@gmail.com>
 References: <20260520200337.204431-1-mike.marciniszyn@gmail.com>
@@ -120,13 +120,13 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_TO(0.00)[kernel.org,fb.com,meta.com,lunn.ch,davemloft.net,google.com,redhat.com,armlinux.org.uk,makrotopia.org,gmail.com,intel.com,trager.us,oracle.com,linux.intel.com];
-	TAGGED_FROM(0.00)[bounces-8257-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8258-lists,linux-leds=lfdr.de];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
@@ -145,143 +145,68 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds,netdev];
 	FROM_NO_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 5AC6259AFE8
+X-Rspamd-Queue-Id: 1AC9E59AEE0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: "Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>
 
-Add 25G, 40G, 50G, and 100G as available speeds to the netdev LED trigger.
+The OCP spec required LED signalling to signal the difference
+between both below and at max speed capability.
+
+The firmware init dialog already contains that attribute
+so store it to support follow-on patches.
 
 Signed-off-by: Mike Marciniszyn (Meta) <mike.marciniszyn@gmail.com>
 ---
- drivers/leds/trigger/ledtrig-netdev.c | 46 ++++++++++++++++++++++++++-
- include/linux/leds.h                  |  4 +++
- 2 files changed, 49 insertions(+), 1 deletion(-)
+ drivers/net/ethernet/meta/fbnic/fbnic_fw.c | 3 +++
+ drivers/net/ethernet/meta/fbnic/fbnic_fw.h | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index 12cb3311ea22..3c758a4cbaec 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -128,6 +128,22 @@ static void set_baseline_state(struct led_netdev_data *trigger_data)
- 		    trigger_data->link_speed == SPEED_10000)
- 			blink_on = true;
+diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_fw.c b/drivers/net/ethernet/meta/fbnic/fbnic_fw.c
+index 0c6812fcf185..59015769ca28 100644
+--- a/drivers/net/ethernet/meta/fbnic/fbnic_fw.c
++++ b/drivers/net/ethernet/meta/fbnic/fbnic_fw.c
+@@ -561,6 +561,7 @@ static const struct fbnic_tlv_index fbnic_fw_cap_resp_index[] = {
+ 	FBNIC_TLV_ATTR_U32(FBNIC_FW_CAP_RESP_ACTIVE_FW_SLOT),
+ 	FBNIC_TLV_ATTR_STRING(FBNIC_FW_CAP_RESP_VERSION_COMMIT_STR,
+ 			      FBNIC_FW_CAP_RESP_COMMIT_MAX_SIZE),
++	FBNIC_TLV_ATTR_U32(FBNIC_FW_CAP_RESP_FW_MAX_LINK_SPEED),
+ 	FBNIC_TLV_ATTR_U32(FBNIC_FW_CAP_RESP_BMC_ALL_MULTI),
+ 	FBNIC_TLV_ATTR_U32(FBNIC_FW_CAP_RESP_FW_LINK_SPEED),
+ 	FBNIC_TLV_ATTR_U32(FBNIC_FW_CAP_RESP_FW_LINK_FEC),
+@@ -667,6 +668,8 @@ static int fbnic_fw_parse_cap_resp(void *opaque, struct fbnic_tlv_msg **results)
  
-+		if (test_bit(TRIGGER_NETDEV_LINK_25000, &trigger_data->mode) &&
-+		    trigger_data->link_speed == SPEED_25000)
-+			blink_on = true;
-+
-+		if (test_bit(TRIGGER_NETDEV_LINK_40000, &trigger_data->mode) &&
-+		    trigger_data->link_speed == SPEED_40000)
-+			blink_on = true;
-+
-+		if (test_bit(TRIGGER_NETDEV_LINK_50000, &trigger_data->mode) &&
-+		    trigger_data->link_speed == SPEED_50000)
-+			blink_on = true;
-+
-+		if (test_bit(TRIGGER_NETDEV_LINK_100000, &trigger_data->mode) &&
-+		    trigger_data->link_speed == SPEED_100000)
-+			blink_on = true;
-+
- 		if (test_bit(TRIGGER_NETDEV_HALF_DUPLEX, &trigger_data->mode) &&
- 		    trigger_data->duplex == DUPLEX_HALF)
- 			blink_on = true;
-@@ -337,6 +353,10 @@ static ssize_t netdev_led_attr_show(struct device *dev, char *buf,
- 	case TRIGGER_NETDEV_LINK_2500:
- 	case TRIGGER_NETDEV_LINK_5000:
- 	case TRIGGER_NETDEV_LINK_10000:
-+	case TRIGGER_NETDEV_LINK_25000:
-+	case TRIGGER_NETDEV_LINK_40000:
-+	case TRIGGER_NETDEV_LINK_50000:
-+	case TRIGGER_NETDEV_LINK_100000:
- 	case TRIGGER_NETDEV_HALF_DUPLEX:
- 	case TRIGGER_NETDEV_FULL_DUPLEX:
- 	case TRIGGER_NETDEV_TX:
-@@ -373,6 +393,10 @@ static ssize_t netdev_led_attr_store(struct device *dev, const char *buf,
- 	case TRIGGER_NETDEV_LINK_2500:
- 	case TRIGGER_NETDEV_LINK_5000:
- 	case TRIGGER_NETDEV_LINK_10000:
-+	case TRIGGER_NETDEV_LINK_25000:
-+	case TRIGGER_NETDEV_LINK_40000:
-+	case TRIGGER_NETDEV_LINK_50000:
-+	case TRIGGER_NETDEV_LINK_100000:
- 	case TRIGGER_NETDEV_HALF_DUPLEX:
- 	case TRIGGER_NETDEV_FULL_DUPLEX:
- 	case TRIGGER_NETDEV_TX:
-@@ -396,7 +420,11 @@ static ssize_t netdev_led_attr_store(struct device *dev, const char *buf,
- 	     test_bit(TRIGGER_NETDEV_LINK_1000, &mode) ||
- 	     test_bit(TRIGGER_NETDEV_LINK_2500, &mode) ||
- 	     test_bit(TRIGGER_NETDEV_LINK_5000, &mode) ||
--	     test_bit(TRIGGER_NETDEV_LINK_10000, &mode)))
-+	     test_bit(TRIGGER_NETDEV_LINK_10000, &mode) ||
-+	     test_bit(TRIGGER_NETDEV_LINK_25000, &mode) ||
-+	     test_bit(TRIGGER_NETDEV_LINK_40000, &mode) ||
-+	     test_bit(TRIGGER_NETDEV_LINK_50000, &mode) ||
-+	     test_bit(TRIGGER_NETDEV_LINK_100000, &mode)))
- 		return -EINVAL;
- 
- 	cancel_delayed_work_sync(&trigger_data->work);
-@@ -433,6 +461,10 @@ DEFINE_NETDEV_TRIGGER(link_1000, TRIGGER_NETDEV_LINK_1000);
- DEFINE_NETDEV_TRIGGER(link_2500, TRIGGER_NETDEV_LINK_2500);
- DEFINE_NETDEV_TRIGGER(link_5000, TRIGGER_NETDEV_LINK_5000);
- DEFINE_NETDEV_TRIGGER(link_10000, TRIGGER_NETDEV_LINK_10000);
-+DEFINE_NETDEV_TRIGGER(link_25000, TRIGGER_NETDEV_LINK_25000);
-+DEFINE_NETDEV_TRIGGER(link_40000, TRIGGER_NETDEV_LINK_40000);
-+DEFINE_NETDEV_TRIGGER(link_50000, TRIGGER_NETDEV_LINK_50000);
-+DEFINE_NETDEV_TRIGGER(link_100000, TRIGGER_NETDEV_LINK_100000);
- DEFINE_NETDEV_TRIGGER(half_duplex, TRIGGER_NETDEV_HALF_DUPLEX);
- DEFINE_NETDEV_TRIGGER(full_duplex, TRIGGER_NETDEV_FULL_DUPLEX);
- DEFINE_NETDEV_TRIGGER(tx, TRIGGER_NETDEV_TX);
-@@ -521,6 +553,10 @@ static umode_t netdev_trig_link_speed_visible(struct kobject *kobj,
- 		CHECK_LINK_MODE_ATTR(2500);
- 		CHECK_LINK_MODE_ATTR(5000);
- 		CHECK_LINK_MODE_ATTR(10000);
-+		CHECK_LINK_MODE_ATTR(25000);
-+		CHECK_LINK_MODE_ATTR(40000);
-+		CHECK_LINK_MODE_ATTR(50000);
-+		CHECK_LINK_MODE_ATTR(100000);
- 	}
- 
- 	return 0;
-@@ -533,6 +569,10 @@ static struct attribute *netdev_trig_link_speed_attrs[] = {
- 	&dev_attr_link_2500.attr,
- 	&dev_attr_link_5000.attr,
- 	&dev_attr_link_10000.attr,
-+	&dev_attr_link_25000.attr,
-+	&dev_attr_link_40000.attr,
-+	&dev_attr_link_50000.attr,
-+	&dev_attr_link_100000.attr,
- 	NULL
+ 	fbd->fw_cap.active_slot =
+ 		fta_get_uint(results, FBNIC_FW_CAP_RESP_ACTIVE_FW_SLOT);
++	fbd->fw_cap.max_link_speed =
++		fta_get_uint(results, FBNIC_FW_CAP_RESP_FW_MAX_LINK_SPEED);
+ 	fbd->fw_cap.link_speed =
+ 		fta_get_uint(results, FBNIC_FW_CAP_RESP_FW_LINK_SPEED);
+ 	fbd->fw_cap.link_fec =
+diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_fw.h b/drivers/net/ethernet/meta/fbnic/fbnic_fw.h
+index d84723e4cfa3..55c2ebc223d0 100644
+--- a/drivers/net/ethernet/meta/fbnic/fbnic_fw.h
++++ b/drivers/net/ethernet/meta/fbnic/fbnic_fw.h
+@@ -58,6 +58,7 @@ struct fbnic_fw_cap {
+ 	u8	need_bmc_macda_sync	: 1;
+ 	u8	all_multi		: 1;
+ 	u8	link_speed;
++	u8	max_link_speed;
+ 	u8	link_fec;
+ 	u32	anti_rollback_version;
  };
- 
-@@ -668,6 +708,10 @@ static void netdev_trig_work(struct work_struct *work)
- 			 test_bit(TRIGGER_NETDEV_LINK_2500, &trigger_data->mode) ||
- 			 test_bit(TRIGGER_NETDEV_LINK_5000, &trigger_data->mode) ||
- 			 test_bit(TRIGGER_NETDEV_LINK_10000, &trigger_data->mode) ||
-+			 test_bit(TRIGGER_NETDEV_LINK_25000, &trigger_data->mode) ||
-+			 test_bit(TRIGGER_NETDEV_LINK_40000, &trigger_data->mode) ||
-+			 test_bit(TRIGGER_NETDEV_LINK_50000, &trigger_data->mode) ||
-+			 test_bit(TRIGGER_NETDEV_LINK_100000, &trigger_data->mode) ||
- 			 test_bit(TRIGGER_NETDEV_HALF_DUPLEX, &trigger_data->mode) ||
- 			 test_bit(TRIGGER_NETDEV_FULL_DUPLEX, &trigger_data->mode);
- 		interval = jiffies_to_msecs(
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index b16b803cc1ac..bf31c246d9e2 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -607,6 +607,10 @@ enum led_trigger_netdev_modes {
- 	TRIGGER_NETDEV_LINK_2500,
- 	TRIGGER_NETDEV_LINK_5000,
- 	TRIGGER_NETDEV_LINK_10000,
-+	TRIGGER_NETDEV_LINK_25000,
-+	TRIGGER_NETDEV_LINK_40000,
-+	TRIGGER_NETDEV_LINK_50000,
-+	TRIGGER_NETDEV_LINK_100000,
- 	TRIGGER_NETDEV_HALF_DUPLEX,
- 	TRIGGER_NETDEV_FULL_DUPLEX,
- 	TRIGGER_NETDEV_TX,
+@@ -241,6 +242,8 @@ enum {
+ 	FBNIC_FW_CAP_RESP_STORED_CMRT_COMMIT_STR	= 0x10,
+ 	FBNIC_FW_CAP_RESP_UEFI_VERSION			= 0x11,
+ 	FBNIC_FW_CAP_RESP_UEFI_COMMIT_STR		= 0x12,
++	FBNIC_FW_CAP_RESP_FW_MAX_LINK_SPEED		= 0x13,
++	/* 0x14 reserved */
+ 	FBNIC_FW_CAP_RESP_ANTI_ROLLBACK_VERSION		= 0x15,
+ 	FBNIC_FW_CAP_RESP_MSG_MAX
+ };
 -- 
 2.43.0
 
