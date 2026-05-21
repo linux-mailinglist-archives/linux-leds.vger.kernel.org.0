@@ -1,163 +1,122 @@
-Return-Path: <linux-leds+bounces-8269-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8270-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2PpFMperDmr6AwYAu9opvQ
-	(envelope-from <linux-leds+bounces-8269-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 08:52:07 +0200
+	id QGGhDaK5DmrBBgYAu9opvQ
+	(envelope-from <linux-leds+bounces-8270-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 09:52:02 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id D796E59FB0A
-	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 08:52:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C17A5A0614
+	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 09:52:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 8AC73301AF2A
-	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 06:49:38 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 28334300B8C0
+	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 07:46:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D44273932CD;
-	Thu, 21 May 2026 06:49:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEDCE33BBAF;
+	Thu, 21 May 2026 07:46:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="Rk9e6jYn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mtv1eZbJ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DEA292B4B;
-	Thu, 21 May 2026 06:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF4C23164C5;
+	Thu, 21 May 2026 07:46:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779346158; cv=none; b=E9ycAWgGPqIDIBTLocXOmcaKhrG5SDafdzt2nw4nSws+wImg3vefSUDn7xBnoWoynE2OcMpgJ0OKm9H60E0L7oeJ0jxc/06sxWDrpoM54/8s+edrR8xLjHtB9CaySNi5brsoiBd++6HwI+b3B4ixoEwlg8nQYK2OltOTBV/iato=
+	t=1779349617; cv=none; b=PGvX8bzrDS6zQxAMFd6TA7aP7KnjwGTzY4Lz72TMaAZE63PNye16TaYBMVYprbGYEG9SY9x0+BQ0XG/qveFgsthMrwq35Jwao90TxvCdwp5dGJBbnrTsbnK8WOodrShBVNv8vYiw4pyVip0RaRN0Ct5fzM/jsg8M8Mb0CHdzBMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779346158; c=relaxed/simple;
-	bh=DmSirS6VO/RgKJ87630yqWZwCs/jhbQcnVbeTbuGYPc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iAO3aUQp6bbsnRA6eItjLJ+Yz9SErV7LnDZ78bvBkI75ETm1cw0iQX2sFdSSGPpJgtHk4yIeK8Li/R3s9bplo/1nTLgxWIsDu+GXYGf1W1vTTcyllU44uKNDxmNXe5eI1B7qfI0YzqgFlARC5ax8XIR5Kh/oF0N04qKy7t0gku8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=Rk9e6jYn; arc=none smtp.client-ip=130.133.4.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
-	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=q39DiklZvSpNFdVrcrO1V6lBShlkhniXqdocnefU7Hw=; t=1779346155;
-	x=1779950955; b=Rk9e6jYnKXZk8W6zgFqBjAelbxasC7RO8zrwuOjrqGj1jl02EugN4+jsVfhNA
-	biHC9Q6F3ngnN0KQPOFE3F/iCbDPqb1rwDHAIgsJ7H7ZZfF1OHPbOoqIHthbdFgLGQ6q7w8mENwNE
-	7RnlPptoTl8JoXG3w+qEzO7rHSztIEOVYbVhROlIZqwHKkzpsu7MO6odwPCu4cWKAIMiooIquIIzg
-	4AC+53EwrUU2/a2UAvbTJYsGdfg+8/micFUX1i3N2/M4HcNE1f01vhoo9o85EeVTNLoEDpkB+8oxl
-	m2DKKxfbGvzB714CGAFT5Muv4siMmMzE4W2YQjn3NOOVvISGSw==;
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.99)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1wPxDK-00000002vgw-3F6M; Thu, 21 May 2026 08:49:02 +0200
-Received: from p5b13a134.dip0.t-ipconnect.de ([91.19.161.52] helo=suse-laptop.fritz.box)
-          by inpost2.zedat.fu-berlin.de (Exim 4.99)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1wPxDK-00000000p6R-1lXr; Thu, 21 May 2026 08:49:02 +0200
-Message-ID: <8f918549adce2bbb68fdf3754793b3305f994c23.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH 04/10] [v2] sh: select legacy gpiolib interface
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Arnd Bergmann <arnd@kernel.org>, linux-gpio@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, Christian
- Lamparter <chunkeey@googlemail.com>, Johannes Berg
- <johannes@sipsolutions.net>, Aaro Koskinen	 <aaro.koskinen@iki.fi>, Andreas
- Kemnade <andreas@kemnade.info>, Kevin Hilman	 <khilman@baylibre.com>, Roger
- Quadros <rogerq@kernel.org>, Tony Lindgren	 <tony@atomide.com>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>, Thomas Gleixner
- <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
- <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>, Dmitry Torokhov	
- <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, Pavel Machek	
- <pavel@kernel.org>, Matti Vaittinen <mazziesaccount@gmail.com>, Florian
- Fainelli <florian.fainelli@broadcom.com>, Jonas Gorski
- <jonas.gorski@gmail.com>, Andrew Lunn	 <andrew@lunn.ch>, Vladimir Oltean
- <olteanv@gmail.com>, "David S. Miller"	 <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski	 <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, 	linux-wireless@vger.kernel.org,
- linux-omap@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org,
- linux-mips@vger.kernel.org, 	linux-sh@vger.kernel.org,
- linux-input@vger.kernel.org, 	linux-leds@vger.kernel.org,
- netdev@vger.kernel.org
-Date: Thu, 21 May 2026 08:49:00 +0200
-In-Reply-To: <20260520183815.2510387-5-arnd@kernel.org>
-References: <20260520183815.2510387-1-arnd@kernel.org>
-	 <20260520183815.2510387-5-arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 
+	s=arc-20240116; t=1779349617; c=relaxed/simple;
+	bh=5NcAJUBJXJBP5NdE3DM/Qan396Y9yRH8RJfWZQaAQog=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E/59UPRcx70gtplfj9GDR9UMCHOA3Qy4ZuORu5+wpJpl9R7jltyPBwM7x2v18go9BHolnj+t03kWopmlTruQdj9f/QhUjUEfeov5WReA/+4ovZbNnBbYFhD2vt1jA+Vw7M24aqF+S8MqRNBltWvieV9qcl+chNnnvMYYvKtUc08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mtv1eZbJ; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B98A01F00A3C;
+	Thu, 21 May 2026 07:46:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779349616;
+	bh=e8I4CxLDkCmUbFh/qWstl9SIHgQG5L8IDZVJv+986Q0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mtv1eZbJqfWH8yWHJYbyk9Al9MuEAALfXDgKM/FMlDMnblktLg/th1+TrgolBOJO3
+	 BUKZeFpyeBzk8VaoRTg4Kd77XcAB+hkEPOhB3ZrMmMC6QNAdy1qx086rJdp2SQnWXp
+	 ueVlU54xfg3OSn9JT+Cw+JVfivtqgFjO65AVppzUeKKaHGkQxbWihP5TSDoHyreskO
+	 G5oAAe2lIge3p1LrhPSWfcxReUZcDFvX559y+NwE5wkdn6WMV1PyRdqdREO/VKmr3q
+	 vs1A3cxrlGMbmneMCqEfxfv6qTCh9lpkqkubfIiLeBENiOrusP9Wnuma3ZAgS3dRZF
+	 qbvWXHlYQhe2g==
+Date: Thu, 21 May 2026 09:46:53 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Jun Yan <jerrysteve1101@gmail.com>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-leds@vger.kernel.org, lee@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, luccafachinetti@gmail.com, pzalewski@thegoodpenguin.co.uk, 
+	daniel@zonque.org
+Subject: Re: [PATCH v7 1/6] dt-bindings: leds: issi,is31fl32xx: convert the
+ binding to yaml
+Message-ID: <20260521-warm-magenta-sawfly-ae8bc0@quoll>
+References: <20260520135659.1430008-1-jerrysteve1101@gmail.com>
+ <20260520135659.1430008-2-jerrysteve1101@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-ZEDAT-Hint: PO
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260520135659.1430008-2-jerrysteve1101@gmail.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[fu-berlin.de,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[fu-berlin.de:s=fub01];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,arndb.de,googlemail.com,sipsolutions.net,iki.fi,kemnade.info,baylibre.com,kernel.org,atomide.com,alpha.franken.de,redhat.com,alien8.de,linux.intel.com,zytor.com,gmail.com,broadcom.com,lunn.ch,davemloft.net,google.com,lists.infradead.org];
-	TAGGED_FROM(0.00)[bounces-8269-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[40];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[fu-berlin.de:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[glaubitz@physik.fu-berlin.de,linux-leds@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-8270-lists,linux-leds=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,thegoodpenguin.co.uk,zonque.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-leds];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[fu-berlin.de:email,fu-berlin.de:dkim,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,physik.fu-berlin.de:mid]
-X-Rspamd-Queue-Id: D796E59FB0A
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,thegoodpenguin.co.uk:email]
+X-Rspamd-Queue-Id: 1C17A5A0614
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Arnd,
-
-On Wed, 2026-05-20 at 20:38 +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> Many board files on sh reference the legacy gpiolib interfaces that
-> are becoming optional. To ensure the boards can keep building, select
-> CONFIG_GPIOLIB_LEGACY on each of the boards that have one of the
-> hardcoded calls.
->=20
-> Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On Wed, May 20, 2026 at 09:56:54PM +0800, Jun Yan wrote:
+> Convert leds-is31fl32xx to DT schema format.
+> 
+> Co-developed-by: Lucca Fachinetti <luccafachinetti@gmail.com>
+> Signed-off-by: Lucca Fachinetti <luccafachinetti@gmail.com>
+> Co-developed-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+> Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+> Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
 > ---
-> v2: no changes. Adrian said he'll pick it up for 7.2, but so
->     far the patch is not in linux-next yet, so I'm including it
->     for completeness here.
+>  .../bindings/leds/issi,is31fl32xx.yaml        | 151 ++++++++++++++++++
+>  .../bindings/leds/leds-is31fl32xx.txt         |  53 ------
+>  2 files changed, 151 insertions(+), 53 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/leds/issi,is31fl32xx.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
 
-Sorry, I hadn't gotten around to pick the changes for v7.2 yet. I can
-pick it up this weekend as I was planning to review and merge some
-patches this weekend.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-I have received quite a lot of patches for SH recently, so it will take
-some time to dig myself through the queue.
+Best regards,
+Krzysztof
 
-Adrian
-
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
