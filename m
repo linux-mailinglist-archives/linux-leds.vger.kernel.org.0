@@ -1,142 +1,114 @@
-Return-Path: <linux-leds+bounces-8278-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8279-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aNIdDPERD2qSEgYAu9opvQ
-	(envelope-from <linux-leds+bounces-8278-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 16:08:49 +0200
+	id GLCrHRcfD2pSGAYAu9opvQ
+	(envelope-from <linux-leds+bounces-8279-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 17:04:55 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07045A6DB5
-	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 16:08:48 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D092E5A7E3C
+	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 17:04:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 24E06308F804
-	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 13:33:35 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E792330E0D3A
+	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 13:59:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E84AA21B9F6;
-	Thu, 21 May 2026 13:33:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A3BB37BE6A;
+	Thu, 21 May 2026 13:59:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kHvho5Wr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UPFOcIKp"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70313D45C8;
-	Thu, 21 May 2026 13:33:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7129E2D9484
+	for <linux-leds@vger.kernel.org>; Thu, 21 May 2026 13:59:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779370405; cv=none; b=iZU8cTraVrPuGpfhEnrODkn61RYVPjhJQTQdubOw1CXEiKStSxMiZVnI+hOQwQNyD6UPFAQOPnephhimbGGpEJBbQUaRwtA8Gp2ULsls2wdVz8Uhw6irrQNetWUcJqgn1To5B+2KFOm2AiGu8uTEONYtP5a9fd2lXwfHpsUbkwU=
+	t=1779371966; cv=none; b=dYbiPIJyuy9YdJtdzEA4DUc29VjdbEJxYRsN9k9VrqmI5E2Hc573lr25IRnwZhZNE4sEk4ZEpHgddOSUhvCZSm/+I9qT/3c3dZnfFFjFB3Rl0GSyScipiuBKi66w3kuJ850+1MZASwoUzRm69qcH4tCTvUgeYj/gr/LpFgSab5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779370405; c=relaxed/simple;
-	bh=cqyQq0DP78v9nSQ6cIahflGo8yFIjCIu8QgW/oeEajM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f7/vA3i+QLhLW/olyFD/QcWq/yVlpxmWO7FPagu+KbXNAVokA5lB2q/1vEH28TSK/eTGCRQIZp9KawS8SLdv1dBlvugQ6103RsrfoKzfl8Vjvj1q/vW6m7BUTiq0wKLzMtIk3lAf+5/KLPe3bHe+wuNx8pbBb1PZELa6oimEHXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kHvho5Wr; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D5CD1F000E9;
-	Thu, 21 May 2026 13:33:19 +0000 (UTC)
+	s=arc-20240116; t=1779371966; c=relaxed/simple;
+	bh=Ho2qeqV6am2Dd+BGAsgs9xW9z3zcDQh6NiI9l8DFCs0=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=l9srLDSPzdw87RDItEYVySsOzQwzjrdXmkRS+EGkwLbrs7tgv7YGCE9lYo1I5W3vXxa7860o8gkvR1LjiiB2Eor51Fqp6p5YdWMZDh+W53nBhyxEv/KnxYufCgHpI5n/BV42gRwGyAWnQrV9JMEwojvoJ5D3aITY7bwCFQO998o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UPFOcIKp; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F47A1F00A3C;
+	Thu, 21 May 2026 13:59:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779370404;
-	bh=ODDTtTq5hBX3EAC0aw+uREKbcvSKr5vuv+UgMcftiGo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kHvho5WrsPozCj3VJ7jOSghxS8JEsMnc80Uhy0TwHNmV6ntzZPXLCVQEsnSs6niWl
-	 8VWepVnCaY9DSAmZJ7akXux8Dk/Ud6yy6UiW1yaj39mEdiDpMdW3msxf5+qxkguijA
-	 Aqz/AlG7XEhrLKrcWaRa/Vgc3IJKcZp8vtDG6EZTcPp7LfX/LBKqbs0f8+skIJWrJ9
-	 EiwI1Xa3ObU8gwBoGmyWIvU67ZXTzMGcF0X93ayWVBuxe8pSg5kNruEbYEVEsMRlIM
-	 PD+X9QZjukAf9r4XVKF0Ou4VoxR/iT4cCUhlhukpA/31ekkwntE9lQv0wtfZAyk08H
-	 Xr2ES9Kbf4aEQ==
-Date: Thu, 21 May 2026 14:33:16 +0100
+	s=k20260515; t=1779371965;
+	bh=TA244qGBFjgNo7ZV2xUn3w8W2LA0NEPhYZ9Aj6MoI3Q=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=UPFOcIKpw/LrA0ihP+iUpMcd2bAqA2r7DG9Srs9JtqU3HUkRfOtrrkSSJ+ZpHU1ML
+	 /08M4ux9c7zo8kAP6U0xfHECvr1l+1iVewpoOEhGZnYtw1R7MTofgFNwGmzcaiInm8
+	 bgDEhzry/A8KhPqXCFi13xF+qTbzyvkF4VrgetIokTogt4Z6KEH7Gz/PdjrU2WR6IR
+	 nKkJy2Iwt3gq+TKAxk+Au4O2C2FRaGwJdTenTC21fTqoRpCH2bMhU34RFBDmafXREC
+	 Am1Zy/lyAsWGHuzuZ1n3uen5dGmRxQVFwl0VvRlrhoTJcS1DMJqJQF9v+9Sm2uCOxz
+	 0jeLaZ1dEBudQ==
 From: Lee Jones <lee@kernel.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: mike.marciniszyn@gmail.com, Pavel Machek <pavel@kernel.org>,
-	Alexander Duyck <alexanderduyck@fb.com>,
-	Jakub Kicinski <kuba@kernel.org>, kernel-team@meta.com,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Daniel Golle <daniel@makrotopia.org>, Kees Cook <kees@kernel.org>,
-	Simon Horman <horms@kernel.org>,
-	Dimitri Daskalakis <dimitri.daskalakis1@gmail.com>,
-	Jacob Keller <jacob.e.keller@intel.com>, Lee Trager <lee@trager.us>,
-	Mohsin Bashir <mohsin.bashr@gmail.com>,
-	Alok Tiwari <alok.a.tiwari@oracle.com>,
-	Chengfeng Ye <dg573847474@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH net-next 0/3] dd LED support for fbnic
-Message-ID: <20260521133316.GB3591266@google.com>
-References: <20260520200337.204431-1-mike.marciniszyn@gmail.com>
- <48c64757-dc3c-4d05-a269-fa4f50c299c3@lunn.ch>
- <20260521110324.GB2921053@google.com>
- <d87c9ad1-f180-45c8-a525-40c1b39c4265@lunn.ch>
+To: linux-leds@vger.kernel.org, Craig McQueen <craig@mcqueen.au>
+In-Reply-To: <20260423113638.2079302-1-craig@mcqueen.au>
+References: <20260423113638.2079302-1-craig@mcqueen.au>
+Subject: Re: (subset) [PATCH] leds: core: Fix race condition for software
+ blink
+Message-Id: <177937196425.3625834.18213597142229581396.b4-ty@b4>
+Date: Thu, 21 May 2026 14:59:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d87c9ad1-f180-45c8-a525-40c1b39c4265@lunn.ch>
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.16-dev-ad80c
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8278-lists,linux-leds=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,fb.com,meta.com,lunn.ch,davemloft.net,google.com,redhat.com,armlinux.org.uk,makrotopia.org,intel.com,trager.us,oracle.com,linux.intel.com,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	RCPT_COUNT_TWO(0.00)[2];
+	TAGGED_FROM(0.00)[bounces-8279-lists,linux-leds=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-leds,netdev];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: B07045A6DB5
+	TAGGED_RCPT(0.00)[linux-leds];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: D092E5A7E3C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, 21 May 2026, Andrew Lunn wrote:
-
-> On Thu, May 21, 2026 at 12:03:24PM +0100, Lee Jones wrote:
-> > On Wed, 20 May 2026, Andrew Lunn wrote:
-> > 
-> > > On Wed, May 20, 2026 at 04:03:34PM -0400, mike.marciniszyn@gmail.com wrote:
-> > > > From: "Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>
-> > > 
-> > > The Subject: of this email has an off 'dd' in it.
-> > > 
-> > > > The second patch stors the max speed from the firmware dialog
-> > > 
-> > > stores
-> > 
-> > It's also just a cover-letter.
+On Thu, 23 Apr 2026 21:36:38 +1000, Craig McQueen wrote:
+> led_set_brightness() function: Change handling of software blink to
+> avoid race conditions when stopping blink and setting brightness.
 > 
-> It depends on the Maintainers workflow, but for netdev, a patch series
-> is imported into a branch, and the cover letter is used for the text
-> of the merge commit into net-next.
+> Triggers may call led_set_brightness(LED_OFF),
+> led_set_brightness(LED_FULL) in quick succession to disable blinking and
+> turn the LED on. If the delayed work task has not yet disabled blinking
+> by the time the second call occurs, then the brightness also needs to be
+> changed in the delayed work task.
 > 
-> A well written cover letter contains the big picture, what does this
-> set of patches do, so it has useful information in it, so we want to
-> have it in the git history.
+> [...]
 
-Interesting.  This is new to me.  As you were.
+Applied, thanks!
 
--- 
-Lee Jones
+[1/1] leds: core: Fix race condition for software blink
+      commit: db01b61ed4602a081d35c9458a522b58fca44b7a
+
+--
+Lee Jones [李琼斯]
+
 
