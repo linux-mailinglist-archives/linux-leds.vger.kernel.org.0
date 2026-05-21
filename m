@@ -1,306 +1,195 @@
-Return-Path: <linux-leds+bounces-8267-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8268-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6IeEEP2aDmp9AgYAu9opvQ
-	(envelope-from <linux-leds+bounces-8267-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 07:41:17 +0200
+	id gOl0HGKpDmr6AwYAu9opvQ
+	(envelope-from <linux-leds+bounces-8268-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 08:42:42 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A9459F26D
-	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 07:41:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1ECF59F91D
+	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 08:42:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 122AE3040C7D
-	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 05:41:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A9FD8301A3A4
+	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 06:37:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D918027E045;
-	Thu, 21 May 2026 05:41:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5782437F8A3;
+	Thu, 21 May 2026 06:37:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJEnlk2Y"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GIWxMM5p"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48DF7357D1E
-	for <linux-leds@vger.kernel.org>; Thu, 21 May 2026 05:41:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CBD8367299
+	for <linux-leds@vger.kernel.org>; Thu, 21 May 2026 06:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779342072; cv=none; b=OwiiEy2lvUVnI5s8MQ8mL5IoamVzQMFZ4mXEasX2i9tSxzC8Iqzm/YqyyO3/bhTOCMSRtSMOJhZeDnjJjUB2yM3hTj8Kz04Z3oS/QgmPWnmSNTI16BkSDRY/7mFICnQJdGEiov0VVrEgvEQAIQxTOzR0lBccp2Kw2qjdebmAcLk=
+	t=1779345477; cv=none; b=dirLRWfL3fkW89Xr5BxW8ByO0TlELJzV/xOXBGUT3DB+1DSle3W0f6QAS4FlA0wXXVwunECGC8tuLRAENGcLwQCtJ6FCkUIk8kyMj7X51F3dshPh9jDEDT4Tmgb4Y1LT6WXPHNHVE3hVAR8sW5b12jGYDyRzN0+iKBRkiJ0DZok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779342072; c=relaxed/simple;
-	bh=qe/LeVo4v13NoGh2rSC+LOrzd72vos72Oys4D4TcydQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oRiNieXmj7GHdffRY/i2nK3s+kfOT4Bpyf5s7GeEr4BJrBgP5atAV09KmE42eyNKnhvSYAleKkAw4dR0BgSBB+O0VwjD4XBohU7+VHdvV4FSVO+PdhlYreEboxuOCStbS0oWmUyZHQ7t/9evPqKyFusVcpdewxpztOHKIe1Tm5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UJEnlk2Y; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779342071; x=1810878071;
-  h=date:from:to:cc:subject:message-id;
-  bh=qe/LeVo4v13NoGh2rSC+LOrzd72vos72Oys4D4TcydQ=;
-  b=UJEnlk2Y/0tJwDYkZqFt76SsXBuKPb5fU2ThGwqtFDLwNBGZZpMM9iWa
-   dA8oizNeJxc5V9a5E80QfB3BcBwInQSn9cLpJKWP8XoE6zTsBNMaL1G/e
-   B8E8i8pWyp8/sZXJG9lHfZeLyULZ0vIL1bIqlS6lBrJ9gsM3Qe+EJ5XpA
-   r2J+TlTdvpWwvxYHFVS9KDdF7N70QD7meAFTv2qDfb0KTi0gUNHaH+Ddi
-   JItjTInoG2KIFduJmrCgl+q4MRzfP/sohAsLn3ZNKvxZHM53fDW5wkLQ7
-   pHPNnDS+7p+SdvEc8L3VsxdYw7K3eCfJb8i5BPyD6nV+v49tVzn23K7JL
-   A==;
-X-CSE-ConnectionGUID: FV+MTmX9RvGddyVD+Su2Xg==
-X-CSE-MsgGUID: DyJRn/IaS92R0WW7eB5+bg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="91645829"
-X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="91645829"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 22:41:11 -0700
-X-CSE-ConnectionGUID: TCvtMHDKSAy+YpiX4sE/AA==
-X-CSE-MsgGUID: 4KaXJ1xsTi2t99lBn7XlhA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="234076794"
-Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 20 May 2026 22:41:07 -0700
-Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wPw8r-000000004TP-30Ie;
-	Thu, 21 May 2026 05:40:39 +0000
-Date: Thu, 21 May 2026 13:36:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD SUCCESS WITH UNVERIFIED
- WARNING 25025253476a64c186592d952c27f24bc3490e42
-Message-ID: <202605211328.2uroH03B-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1779345477; c=relaxed/simple;
+	bh=VWLyWjm04DTUYpJ7WWsU16IGC2+D6aXWyvh9X27bStA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VW0jZaCWBUtPFlsBC8UeBpE/YFxZvBNARatnDuHpgCFAcYHgYmjaa3UgYEkN/jeFSAnmZKtrOFAnj/LPDqL7Oww1yjbVGkwsDSsO3NwwTI4tTJQNELOEz3lDOgVHIsq1VHarzk5g1Y6e4K40oru8z93ucdEfUui51/nH4RRevl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GIWxMM5p; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4891c00e7aeso42273645e9.2
+        for <linux-leds@vger.kernel.org>; Wed, 20 May 2026 23:37:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779345473; x=1779950273; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ahhx+Q7bAbhezZQFMJmiRABaqwf0Ndg5KLiWrpMPDr4=;
+        b=GIWxMM5phYRSH0uGzT/8Mj7AGrE1hFRKLqIcAS+0CqtfQZBJiR4cZQ1Noonj4hwCvL
+         vofRKvoCc/7l1TrC9GEYg1GGrr+7TFWTKWuwkbaDpSsvNDJqvfge1uq3VvctkFL011/z
+         1eSfCxB1Uk762b39JD9nu/ZXvh8B/uDHuwVTU57TjUMZvk0GJwlLvg3UHb1JWndsqS3w
+         Ow20i4LUCuIpvEZ6dM7Oz3LkOlXS1nhl1jVqhEeIwYvMKaS52F+kQOjpmtlk8nSyqtIe
+         xdMSN8Ju2Ts+Mkk9HHD2+u79kL29cEaKClIMi5LhnzLfbmat/kWW4vlgcqCWsTdVxg+I
+         Ia1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779345473; x=1779950273;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ahhx+Q7bAbhezZQFMJmiRABaqwf0Ndg5KLiWrpMPDr4=;
+        b=QqnDh+TreLv7r0XSWTt38kCaaJf73zHmgKcgaf//cru0YfPTRN60nm3SXW3IbXQMyd
+         YEnussG3uqEFjYZx7O00RDSfDjbfxXDQFHFCzFTAlZvP+kviwMl2KLGwP3l8pITlpJ99
+         Wfsjab/X89FMcRoJ1RVhwqWHsKoj5jxZjCtevIVbjH7DDO6ET35oKHG9+mzt+j1nRr13
+         jI8cJPwQr+Xs8R7aNp3sCkEkQeEguAZ2wKGlwONkk+wwAWS5IGRMStL267iqmg/sGFFS
+         MP0/XTNcjN+XIWx4jpmFIH4YYLH+juW7xlMr1YKGHrJanLpd3f2EVFHSMinPxBmW2l8U
+         RyFA==
+X-Forwarded-Encrypted: i=1; AFNElJ9rdcswhKQqVGgtIRHLbvv6BFMLkkHV3T6pAHJSOcXJEWwK6IIo2V9quaTwutX8CbNrsnhbgtjtpFdx@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCeNyEHO+h3LLfIMJU9JJUW67VOc3vcZQMAcZdnlXtwhc5/jsW
+	JeCdY8cEKJ1hjHdiwBRhrPjMxtS7xJ8txbhNfm/U87XFEy0aK4LcpCZM69B3lA==
+X-Gm-Gg: Acq92OFKOX4hY0cpJC0GnJsddUvG5kwTysUf2mjtAn3HA88DhKq3Ji8OGyq8XLyv1xs
+	XsWXyZeg59O5NmEXt2+CKoKfcpH3wj1Y2nNlHq0o4eaTNzTz0KNTlVyjEJQLdgORVB9J28AJTS3
+	vIMcOwbF7QGSQf/k+lmOJyV/TV9vzCA0diNJttF9Tbb7K2QcrAHyOqNZfXpP5u5/DgNECAzQ8ri
+	89b6BE3cEh7/uUHqNH5w8hwzLO27/Hn/4tW0j0PdaHpla3OzgUwQQL2PhhJBafjBKPFUSDd0lfs
+	ur+QartBt+tS7rrqWT32D5ClMtEHu3eOsWyy9PeNbCqdF2OD5k+/oc+WKRHsOvgTwEJJHYdP41M
+	rCnt5u/h60PZetzYrImiFvyz5KxuGVMb4OX39OCtUmdgcg+k4s63Vt8V17HfMetIxOJlEzYgOlF
+	hP3xUesn26G0MmiLkegrZADOA=
+X-Received: by 2002:a05:600c:4c27:b0:48e:6f39:f7be with SMTP id 5b1f17b1804b1-4903605f44amr10071075e9.10.1779345473371;
+        Wed, 20 May 2026 23:37:53 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eaa7dd9e6sm299931f8f.16.2026.05.20.23.37.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2026 23:37:52 -0700 (PDT)
+Date: Thu, 21 May 2026 09:37:49 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Steffen Trumtrar <s.trumtrar@pengutronix.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-leds@vger.kernel.org, Lee Jones <lee@kernel.org>
+Subject: [lee-leds:for-leds-next 12/17]
+ drivers/leds/rgb/leds-lp5860-core.c:119 lp5860_iterate_subleds() warn:
+ passing zero to 'dev_err_probe'
+Message-ID: <202605210624.3gcr3prk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8267-lists,linux-leds=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-leds@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-8268-lists,linux-leds=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: B3A9459F26D
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: D1ECF59F91D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: 25025253476a64c186592d952c27f24bc3490e42  leds: Adjust documentation of brightness sysfs node
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+head:   25025253476a64c186592d952c27f24bc3490e42
+commit: 3daf2c4ef82b30d4cb017508f6857438ca44da41 [12/17] leds: Add support for TI LP5860 LED driver chip
+config: x86_64-randconfig-161-20260521 (https://download.01.org/0day-ci/archive/20260521/202605210624.3gcr3prk-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
-Unverified Warning (likely false positive, kindly check if interested):
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202605210624.3gcr3prk-lkp@intel.com/
 
-    https://lore.kernel.org/oe-kbuild/202605210624.3gcr3prk-lkp@intel.com
+smatch warnings:
+drivers/leds/rgb/leds-lp5860-core.c:119 lp5860_iterate_subleds() warn: passing zero to 'dev_err_probe'
 
-    drivers/leds/rgb/leds-lp5860-core.c:119 lp5860_iterate_subleds() warn: passing zero to 'dev_err_probe'
+vim +/dev_err_probe +119 drivers/leds/rgb/leds-lp5860-core.c
 
-Warning ids grouped by kconfigs:
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05   97  static int lp5860_iterate_subleds(struct lp5860_led *led, struct led_init_data *init_data)
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05   98  {
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05   99  	struct fwnode_handle *led_node = NULL;
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  100  	struct fwnode_handle *multi_led = init_data->fwnode;
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  101  	int subled = 0;
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  102  
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  103  	fwnode_for_each_child_node(multi_led, led_node) {
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  104  		u32 channel;
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  105  		u32 color_index;
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  106  		int ret;
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  107  
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  108  		ret = fwnode_property_read_u32(led_node, "color", &color_index);
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  109  		if (ret) {
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  110  			dev_err_probe(led->chip->dev, ret,
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  111  				      "%pfwP: Cannot read 'color' property. Skipping.\n", led_node);
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  112  			fwnode_handle_put(led_node);
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  113  			return ret;
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  114  		}
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  115  
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  116  		ret = fwnode_property_read_u32(led_node, "reg", &channel);
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  117  		if (ret < 0 || channel > LP5860_MAX_LED) {
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  118  			dev_err_probe(led->chip->dev, ret,
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05 @119  				      "%pfwP: 'reg' property is missing. Skipping.\n", led_node);
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  120  			fwnode_handle_put(led_node);
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  121  			return ret;
 
-recent_errors
-`-- x86_64-randconfig-161-20260521
-    `-- drivers-leds-rgb-leds-lp5860-core.c-lp5860_iterate_subleds()-warn:passing-zero-to-dev_err_probe
+Need to set an error code if channel > LP5860_MAX_LED.
 
-elapsed time: 727m
-
-configs tested: 172
-configs skipped: 2
-
-tested configs:
-alpha                             allnoconfig    gcc-15.2.0
-alpha                            allyesconfig    gcc-15.2.0
-alpha                               defconfig    gcc-15.2.0
-arc                              allmodconfig    clang-16
-arc                               allnoconfig    gcc-15.2.0
-arc                              allyesconfig    clang-23
-arc                                 defconfig    gcc-15.2.0
-arc                   randconfig-001-20260521    gcc-8.5.0
-arc                   randconfig-002-20260521    gcc-8.5.0
-arm                               allnoconfig    gcc-15.2.0
-arm                              allyesconfig    clang-16
-arm                                 defconfig    gcc-15.2.0
-arm                   randconfig-001-20260521    gcc-8.5.0
-arm                   randconfig-002-20260521    gcc-8.5.0
-arm                   randconfig-003-20260521    gcc-8.5.0
-arm                   randconfig-004-20260521    gcc-8.5.0
-arm64                            allmodconfig    clang-23
-arm64                             allnoconfig    gcc-15.2.0
-arm64                               defconfig    gcc-15.2.0
-arm64                 randconfig-001-20260521    gcc-8.5.0
-arm64                 randconfig-002-20260521    gcc-8.5.0
-arm64                 randconfig-003-20260521    gcc-8.5.0
-arm64                 randconfig-004-20260521    gcc-8.5.0
-csky                             allmodconfig    gcc-15.2.0
-csky                              allnoconfig    gcc-15.2.0
-csky                                defconfig    gcc-15.2.0
-csky                  randconfig-001-20260521    gcc-8.5.0
-csky                  randconfig-002-20260521    gcc-8.5.0
-hexagon                          allmodconfig    clang-17
-hexagon                          allmodconfig    gcc-15.2.0
-hexagon                           allnoconfig    gcc-15.2.0
-hexagon                             defconfig    gcc-15.2.0
-hexagon               randconfig-001-20260521    gcc-11.5.0
-hexagon               randconfig-002-20260521    gcc-11.5.0
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    gcc-15.2.0
-i386                             allyesconfig    clang-20
-i386        buildonly-randconfig-001-20260521    clang-20
-i386        buildonly-randconfig-002-20260521    clang-20
-i386        buildonly-randconfig-003-20260521    clang-20
-i386        buildonly-randconfig-004-20260521    clang-20
-i386        buildonly-randconfig-005-20260521    clang-20
-i386        buildonly-randconfig-006-20260521    clang-20
-i386                                defconfig    gcc-15.2.0
-i386                  randconfig-001-20260521    clang-20
-i386                  randconfig-002-20260521    clang-20
-i386                  randconfig-003-20260521    clang-20
-i386                  randconfig-004-20260521    clang-20
-i386                  randconfig-005-20260521    clang-20
-i386                  randconfig-006-20260521    clang-20
-i386                  randconfig-007-20260521    clang-20
-i386                  randconfig-011-20260521    gcc-14
-i386                  randconfig-012-20260521    gcc-14
-i386                  randconfig-013-20260521    gcc-14
-i386                  randconfig-014-20260521    gcc-14
-i386                  randconfig-015-20260521    gcc-14
-i386                  randconfig-016-20260521    gcc-14
-i386                  randconfig-017-20260521    gcc-14
-loongarch                        allmodconfig    clang-23
-loongarch                         allnoconfig    gcc-15.2.0
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20260521    gcc-11.5.0
-loongarch             randconfig-002-20260521    gcc-11.5.0
-m68k                             allmodconfig    gcc-15.2.0
-m68k                              allnoconfig    gcc-15.2.0
-m68k                             allyesconfig    clang-16
-m68k                                defconfig    clang-19
-microblaze                        allnoconfig    gcc-15.2.0
-microblaze                       allyesconfig    gcc-15.2.0
-microblaze                          defconfig    clang-19
-mips                             allmodconfig    gcc-15.2.0
-mips                              allnoconfig    gcc-15.2.0
-mips                             allyesconfig    gcc-15.2.0
-mips                  cavium_octeon_defconfig    gcc-15.2.0
-mips                         rt305x_defconfig    clang-23
-nios2                            allmodconfig    clang-23
-nios2                             allnoconfig    clang-23
-nios2                               defconfig    clang-19
-nios2                 randconfig-001-20260521    gcc-11.5.0
-nios2                 randconfig-002-20260521    gcc-11.5.0
-openrisc                         allmodconfig    clang-23
-openrisc                          allnoconfig    clang-23
-openrisc                            defconfig    gcc-15.2.0
-parisc                           allmodconfig    gcc-15.2.0
-parisc                            allnoconfig    clang-23
-parisc                           allyesconfig    clang-19
-parisc                              defconfig    gcc-15.2.0
-parisc                randconfig-001-20260521    gcc-12.5.0
-parisc                randconfig-002-20260521    gcc-12.5.0
-parisc64                            defconfig    clang-19
-powerpc                          allmodconfig    gcc-15.2.0
-powerpc                           allnoconfig    clang-23
-powerpc                      mgcoge_defconfig    clang-23
-powerpc               randconfig-001-20260521    gcc-12.5.0
-powerpc               randconfig-002-20260521    gcc-12.5.0
-powerpc64             randconfig-001-20260521    gcc-12.5.0
-powerpc64             randconfig-002-20260521    gcc-12.5.0
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    clang-23
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    gcc-15.2.0
-riscv                 randconfig-001-20260521    gcc-15.2.0
-riscv                 randconfig-002-20260521    gcc-15.2.0
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-15.2.0
-s390                                defconfig    gcc-15.2.0
-s390                  randconfig-001-20260521    gcc-15.2.0
-s390                  randconfig-002-20260521    gcc-15.2.0
-sh                               allmodconfig    gcc-15.2.0
-sh                                allnoconfig    clang-23
-sh                               allyesconfig    clang-19
-sh                                  defconfig    gcc-14
-sh                    randconfig-001-20260521    gcc-15.2.0
-sh                    randconfig-002-20260521    gcc-15.2.0
-sparc                             allnoconfig    clang-23
-sparc                               defconfig    gcc-15.2.0
-sparc                 randconfig-001-20260521    gcc-8.5.0
-sparc                 randconfig-002-20260521    gcc-8.5.0
-sparc64                          allmodconfig    clang-23
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20260521    gcc-8.5.0
-sparc64               randconfig-002-20260521    gcc-8.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-23
-um                               allyesconfig    gcc-14
-um                               allyesconfig    gcc-15.2.0
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260521    gcc-8.5.0
-um                    randconfig-002-20260521    gcc-8.5.0
-um                           x86_64_defconfig    gcc-14
-x86_64                           allmodconfig    clang-20
-x86_64                            allnoconfig    clang-23
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20260521    clang-20
-x86_64      buildonly-randconfig-002-20260521    clang-20
-x86_64      buildonly-randconfig-003-20260521    clang-20
-x86_64      buildonly-randconfig-004-20260521    clang-20
-x86_64      buildonly-randconfig-005-20260521    clang-20
-x86_64      buildonly-randconfig-006-20260521    clang-20
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20260521    clang-20
-x86_64                randconfig-002-20260521    clang-20
-x86_64                randconfig-003-20260521    clang-20
-x86_64                randconfig-004-20260521    clang-20
-x86_64                randconfig-005-20260521    clang-20
-x86_64                randconfig-006-20260521    clang-20
-x86_64                randconfig-011-20260521    gcc-14
-x86_64                randconfig-012-20260521    gcc-14
-x86_64                randconfig-013-20260521    gcc-14
-x86_64                randconfig-014-20260521    gcc-14
-x86_64                randconfig-015-20260521    gcc-14
-x86_64                randconfig-016-20260521    gcc-14
-x86_64                randconfig-071-20260521    clang-20
-x86_64                randconfig-072-20260521    clang-20
-x86_64                randconfig-073-20260521    clang-20
-x86_64                randconfig-074-20260521    clang-20
-x86_64                randconfig-075-20260521    clang-20
-x86_64                randconfig-076-20260521    clang-20
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    clang-23
-xtensa                           allyesconfig    clang-23
-xtensa                randconfig-001-20260521    gcc-8.5.0
-xtensa                randconfig-002-20260521    gcc-8.5.0
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  122  		}
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  123  
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  124  		led->mc_cdev.subled_info[subled].color_index = color_index;
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  125  		led->mc_cdev.subled_info[subled].channel = channel;
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  126  		ret = lp5860_led_init(led, init_data->fwnode, channel);
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  127  		if (ret) {
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  128  			dev_err_probe(led->chip->dev, ret,
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  129  				      "%pfwP: Failed to init LED\n", led_node);
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  130  			fwnode_handle_put(led_node);
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  131  			return ret;
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  132  		}
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  133  
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  134  		subled++;
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  135  	}
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  136  
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  137  	return 0;
+3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  138  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
 
