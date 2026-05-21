@@ -1,195 +1,163 @@
-Return-Path: <linux-leds+bounces-8268-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8269-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gOl0HGKpDmr6AwYAu9opvQ
-	(envelope-from <linux-leds+bounces-8268-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 08:42:42 +0200
+	id 2PpFMperDmr6AwYAu9opvQ
+	(envelope-from <linux-leds+bounces-8269-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 08:52:07 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1ECF59F91D
-	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 08:42:41 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id D796E59FB0A
+	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 08:52:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A9FD8301A3A4
-	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 06:37:57 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 8AC73301AF2A
+	for <lists+linux-leds@lfdr.de>; Thu, 21 May 2026 06:49:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5782437F8A3;
-	Thu, 21 May 2026 06:37:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D44273932CD;
+	Thu, 21 May 2026 06:49:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GIWxMM5p"
+	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="Rk9e6jYn"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CBD8367299
-	for <linux-leds@vger.kernel.org>; Thu, 21 May 2026 06:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DEA292B4B;
+	Thu, 21 May 2026 06:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779345477; cv=none; b=dirLRWfL3fkW89Xr5BxW8ByO0TlELJzV/xOXBGUT3DB+1DSle3W0f6QAS4FlA0wXXVwunECGC8tuLRAENGcLwQCtJ6FCkUIk8kyMj7X51F3dshPh9jDEDT4Tmgb4Y1LT6WXPHNHVE3hVAR8sW5b12jGYDyRzN0+iKBRkiJ0DZok=
+	t=1779346158; cv=none; b=E9ycAWgGPqIDIBTLocXOmcaKhrG5SDafdzt2nw4nSws+wImg3vefSUDn7xBnoWoynE2OcMpgJ0OKm9H60E0L7oeJ0jxc/06sxWDrpoM54/8s+edrR8xLjHtB9CaySNi5brsoiBd++6HwI+b3B4ixoEwlg8nQYK2OltOTBV/iato=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779345477; c=relaxed/simple;
-	bh=VWLyWjm04DTUYpJ7WWsU16IGC2+D6aXWyvh9X27bStA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VW0jZaCWBUtPFlsBC8UeBpE/YFxZvBNARatnDuHpgCFAcYHgYmjaa3UgYEkN/jeFSAnmZKtrOFAnj/LPDqL7Oww1yjbVGkwsDSsO3NwwTI4tTJQNELOEz3lDOgVHIsq1VHarzk5g1Y6e4K40oru8z93ucdEfUui51/nH4RRevl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GIWxMM5p; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4891c00e7aeso42273645e9.2
-        for <linux-leds@vger.kernel.org>; Wed, 20 May 2026 23:37:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779345473; x=1779950273; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ahhx+Q7bAbhezZQFMJmiRABaqwf0Ndg5KLiWrpMPDr4=;
-        b=GIWxMM5phYRSH0uGzT/8Mj7AGrE1hFRKLqIcAS+0CqtfQZBJiR4cZQ1Noonj4hwCvL
-         vofRKvoCc/7l1TrC9GEYg1GGrr+7TFWTKWuwkbaDpSsvNDJqvfge1uq3VvctkFL011/z
-         1eSfCxB1Uk762b39JD9nu/ZXvh8B/uDHuwVTU57TjUMZvk0GJwlLvg3UHb1JWndsqS3w
-         Ow20i4LUCuIpvEZ6dM7Oz3LkOlXS1nhl1jVqhEeIwYvMKaS52F+kQOjpmtlk8nSyqtIe
-         xdMSN8Ju2Ts+Mkk9HHD2+u79kL29cEaKClIMi5LhnzLfbmat/kWW4vlgcqCWsTdVxg+I
-         Ia1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779345473; x=1779950273;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ahhx+Q7bAbhezZQFMJmiRABaqwf0Ndg5KLiWrpMPDr4=;
-        b=QqnDh+TreLv7r0XSWTt38kCaaJf73zHmgKcgaf//cru0YfPTRN60nm3SXW3IbXQMyd
-         YEnussG3uqEFjYZx7O00RDSfDjbfxXDQFHFCzFTAlZvP+kviwMl2KLGwP3l8pITlpJ99
-         Wfsjab/X89FMcRoJ1RVhwqWHsKoj5jxZjCtevIVbjH7DDO6ET35oKHG9+mzt+j1nRr13
-         jI8cJPwQr+Xs8R7aNp3sCkEkQeEguAZ2wKGlwONkk+wwAWS5IGRMStL267iqmg/sGFFS
-         MP0/XTNcjN+XIWx4jpmFIH4YYLH+juW7xlMr1YKGHrJanLpd3f2EVFHSMinPxBmW2l8U
-         RyFA==
-X-Forwarded-Encrypted: i=1; AFNElJ9rdcswhKQqVGgtIRHLbvv6BFMLkkHV3T6pAHJSOcXJEWwK6IIo2V9quaTwutX8CbNrsnhbgtjtpFdx@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCeNyEHO+h3LLfIMJU9JJUW67VOc3vcZQMAcZdnlXtwhc5/jsW
-	JeCdY8cEKJ1hjHdiwBRhrPjMxtS7xJ8txbhNfm/U87XFEy0aK4LcpCZM69B3lA==
-X-Gm-Gg: Acq92OFKOX4hY0cpJC0GnJsddUvG5kwTysUf2mjtAn3HA88DhKq3Ji8OGyq8XLyv1xs
-	XsWXyZeg59O5NmEXt2+CKoKfcpH3wj1Y2nNlHq0o4eaTNzTz0KNTlVyjEJQLdgORVB9J28AJTS3
-	vIMcOwbF7QGSQf/k+lmOJyV/TV9vzCA0diNJttF9Tbb7K2QcrAHyOqNZfXpP5u5/DgNECAzQ8ri
-	89b6BE3cEh7/uUHqNH5w8hwzLO27/Hn/4tW0j0PdaHpla3OzgUwQQL2PhhJBafjBKPFUSDd0lfs
-	ur+QartBt+tS7rrqWT32D5ClMtEHu3eOsWyy9PeNbCqdF2OD5k+/oc+WKRHsOvgTwEJJHYdP41M
-	rCnt5u/h60PZetzYrImiFvyz5KxuGVMb4OX39OCtUmdgcg+k4s63Vt8V17HfMetIxOJlEzYgOlF
-	hP3xUesn26G0MmiLkegrZADOA=
-X-Received: by 2002:a05:600c:4c27:b0:48e:6f39:f7be with SMTP id 5b1f17b1804b1-4903605f44amr10071075e9.10.1779345473371;
-        Wed, 20 May 2026 23:37:53 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eaa7dd9e6sm299931f8f.16.2026.05.20.23.37.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 23:37:52 -0700 (PDT)
-Date: Thu, 21 May 2026 09:37:49 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-leds@vger.kernel.org, Lee Jones <lee@kernel.org>
-Subject: [lee-leds:for-leds-next 12/17]
- drivers/leds/rgb/leds-lp5860-core.c:119 lp5860_iterate_subleds() warn:
- passing zero to 'dev_err_probe'
-Message-ID: <202605210624.3gcr3prk-lkp@intel.com>
+	s=arc-20240116; t=1779346158; c=relaxed/simple;
+	bh=DmSirS6VO/RgKJ87630yqWZwCs/jhbQcnVbeTbuGYPc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=iAO3aUQp6bbsnRA6eItjLJ+Yz9SErV7LnDZ78bvBkI75ETm1cw0iQX2sFdSSGPpJgtHk4yIeK8Li/R3s9bplo/1nTLgxWIsDu+GXYGf1W1vTTcyllU44uKNDxmNXe5eI1B7qfI0YzqgFlARC5ax8XIR5Kh/oF0N04qKy7t0gku8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=Rk9e6jYn; arc=none smtp.client-ip=130.133.4.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
+	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=q39DiklZvSpNFdVrcrO1V6lBShlkhniXqdocnefU7Hw=; t=1779346155;
+	x=1779950955; b=Rk9e6jYnKXZk8W6zgFqBjAelbxasC7RO8zrwuOjrqGj1jl02EugN4+jsVfhNA
+	biHC9Q6F3ngnN0KQPOFE3F/iCbDPqb1rwDHAIgsJ7H7ZZfF1OHPbOoqIHthbdFgLGQ6q7w8mENwNE
+	7RnlPptoTl8JoXG3w+qEzO7rHSztIEOVYbVhROlIZqwHKkzpsu7MO6odwPCu4cWKAIMiooIquIIzg
+	4AC+53EwrUU2/a2UAvbTJYsGdfg+8/micFUX1i3N2/M4HcNE1f01vhoo9o85EeVTNLoEDpkB+8oxl
+	m2DKKxfbGvzB714CGAFT5Muv4siMmMzE4W2YQjn3NOOVvISGSw==;
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.99)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1wPxDK-00000002vgw-3F6M; Thu, 21 May 2026 08:49:02 +0200
+Received: from p5b13a134.dip0.t-ipconnect.de ([91.19.161.52] helo=suse-laptop.fritz.box)
+          by inpost2.zedat.fu-berlin.de (Exim 4.99)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1wPxDK-00000000p6R-1lXr; Thu, 21 May 2026 08:49:02 +0200
+Message-ID: <8f918549adce2bbb68fdf3754793b3305f994c23.camel@physik.fu-berlin.de>
+Subject: Re: [PATCH 04/10] [v2] sh: select legacy gpiolib interface
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Arnd Bergmann <arnd@kernel.org>, linux-gpio@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, Christian
+ Lamparter <chunkeey@googlemail.com>, Johannes Berg
+ <johannes@sipsolutions.net>, Aaro Koskinen	 <aaro.koskinen@iki.fi>, Andreas
+ Kemnade <andreas@kemnade.info>, Kevin Hilman	 <khilman@baylibre.com>, Roger
+ Quadros <rogerq@kernel.org>, Tony Lindgren	 <tony@atomide.com>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, Thomas Gleixner
+ <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+ <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, Dmitry Torokhov	
+ <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, Pavel Machek	
+ <pavel@kernel.org>, Matti Vaittinen <mazziesaccount@gmail.com>, Florian
+ Fainelli <florian.fainelli@broadcom.com>, Jonas Gorski
+ <jonas.gorski@gmail.com>, Andrew Lunn	 <andrew@lunn.ch>, Vladimir Oltean
+ <olteanv@gmail.com>, "David S. Miller"	 <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski	 <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, 	linux-wireless@vger.kernel.org,
+ linux-omap@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org,
+ linux-mips@vger.kernel.org, 	linux-sh@vger.kernel.org,
+ linux-input@vger.kernel.org, 	linux-leds@vger.kernel.org,
+ netdev@vger.kernel.org
+Date: Thu, 21 May 2026 08:49:00 +0200
+In-Reply-To: <20260520183815.2510387-5-arnd@kernel.org>
+References: <20260520183815.2510387-1-arnd@kernel.org>
+	 <20260520183815.2510387-5-arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-ZEDAT-Hint: PO
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[fu-berlin.de,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[fu-berlin.de:s=fub01];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,arndb.de,googlemail.com,sipsolutions.net,iki.fi,kemnade.info,baylibre.com,kernel.org,atomide.com,alpha.franken.de,redhat.com,alien8.de,linux.intel.com,zytor.com,gmail.com,broadcom.com,lunn.ch,davemloft.net,google.com,lists.infradead.org];
+	TAGGED_FROM(0.00)[bounces-8269-lists,linux-leds=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8268-lists,linux-leds=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[40];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	DKIM_TRACE(0.00)[fu-berlin.de:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-leds@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[glaubitz@physik.fu-berlin.de,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: D1ECF59F91D
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[fu-berlin.de:email,fu-berlin.de:dkim,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,physik.fu-berlin.de:mid]
+X-Rspamd-Queue-Id: D796E59FB0A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-head:   25025253476a64c186592d952c27f24bc3490e42
-commit: 3daf2c4ef82b30d4cb017508f6857438ca44da41 [12/17] leds: Add support for TI LP5860 LED driver chip
-config: x86_64-randconfig-161-20260521 (https://download.01.org/0day-ci/archive/20260521/202605210624.3gcr3prk-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9185-gbcc58b9c
+Hi Arnd,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605210624.3gcr3prk-lkp@intel.com/
+On Wed, 2026-05-20 at 20:38 +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> Many board files on sh reference the legacy gpiolib interfaces that
+> are becoming optional. To ensure the boards can keep building, select
+> CONFIG_GPIOLIB_LEGACY on each of the boards that have one of the
+> hardcoded calls.
+>=20
+> Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> v2: no changes. Adrian said he'll pick it up for 7.2, but so
+>     far the patch is not in linux-next yet, so I'm including it
+>     for completeness here.
 
-smatch warnings:
-drivers/leds/rgb/leds-lp5860-core.c:119 lp5860_iterate_subleds() warn: passing zero to 'dev_err_probe'
+Sorry, I hadn't gotten around to pick the changes for v7.2 yet. I can
+pick it up this weekend as I was planning to review and merge some
+patches this weekend.
 
-vim +/dev_err_probe +119 drivers/leds/rgb/leds-lp5860-core.c
+I have received quite a lot of patches for SH recently, so it will take
+some time to dig myself through the queue.
 
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05   97  static int lp5860_iterate_subleds(struct lp5860_led *led, struct led_init_data *init_data)
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05   98  {
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05   99  	struct fwnode_handle *led_node = NULL;
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  100  	struct fwnode_handle *multi_led = init_data->fwnode;
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  101  	int subled = 0;
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  102  
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  103  	fwnode_for_each_child_node(multi_led, led_node) {
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  104  		u32 channel;
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  105  		u32 color_index;
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  106  		int ret;
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  107  
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  108  		ret = fwnode_property_read_u32(led_node, "color", &color_index);
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  109  		if (ret) {
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  110  			dev_err_probe(led->chip->dev, ret,
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  111  				      "%pfwP: Cannot read 'color' property. Skipping.\n", led_node);
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  112  			fwnode_handle_put(led_node);
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  113  			return ret;
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  114  		}
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  115  
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  116  		ret = fwnode_property_read_u32(led_node, "reg", &channel);
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  117  		if (ret < 0 || channel > LP5860_MAX_LED) {
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  118  			dev_err_probe(led->chip->dev, ret,
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05 @119  				      "%pfwP: 'reg' property is missing. Skipping.\n", led_node);
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  120  			fwnode_handle_put(led_node);
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  121  			return ret;
+Adrian
 
-Need to set an error code if channel > LP5860_MAX_LED.
-
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  122  		}
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  123  
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  124  		led->mc_cdev.subled_info[subled].color_index = color_index;
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  125  		led->mc_cdev.subled_info[subled].channel = channel;
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  126  		ret = lp5860_led_init(led, init_data->fwnode, channel);
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  127  		if (ret) {
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  128  			dev_err_probe(led->chip->dev, ret,
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  129  				      "%pfwP: Failed to init LED\n", led_node);
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  130  			fwnode_handle_put(led_node);
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  131  			return ret;
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  132  		}
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  133  
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  134  		subled++;
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  135  	}
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  136  
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  137  	return 0;
-3daf2c4ef82b30d Steffen Trumtrar 2026-05-05  138  }
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
