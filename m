@@ -1,186 +1,109 @@
-Return-Path: <linux-leds+bounces-8329-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8330-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wCgLEeAMF2oR2gcAu9opvQ
-	(envelope-from <linux-leds+bounces-8329-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 27 May 2026 17:25:20 +0200
+	id +LnvK0MXF2px3wcAu9opvQ
+	(envelope-from <linux-leds+bounces-8330-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 27 May 2026 18:09:39 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55645E6D51
-	for <lists+linux-leds@lfdr.de>; Wed, 27 May 2026 17:25:19 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F615E77CA
+	for <lists+linux-leds@lfdr.de>; Wed, 27 May 2026 18:09:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5C95D3114512
-	for <lists+linux-leds@lfdr.de>; Wed, 27 May 2026 15:19:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 68F6C30191B9
+	for <lists+linux-leds@lfdr.de>; Wed, 27 May 2026 16:01:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81E7C3C4579;
-	Wed, 27 May 2026 15:19:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC0183E8341;
+	Wed, 27 May 2026 16:01:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mk9fyaRP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FfiTrSxP"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E103783B0;
-	Wed, 27 May 2026 15:19:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEEE43DE44D;
+	Wed, 27 May 2026 16:01:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779895175; cv=none; b=rYtuR25YPuTNJdLULE87blte3QXN73GYA3Oy5w6RDnWK2Tv/2nwhD/G7aJUyYUqvGGPMbYenrN5tgpObpVr1obJjplKbPYMeM9BVejqdxuOdA1VFnkzdlJit+WZGf2beB8Zc0PYLSwemUECefNRsVDB/tV6BttNgnp8AcksbSW8=
+	t=1779897701; cv=none; b=b/Z1yp3npsl82mEhsqghpO4eYLFLsNPgBymVbhZBnpY9CU0yLeoN8S4ubdPWJjWXMPJaerKhegVdKMlulAtunWlvWglr7leZKrxTGub5cWKVXbfBJrlh3yj4dGWXNvNpuSxao9JjNg4GRKGwaJrC1Msueu1VgmDd3cFuTEbZM1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779895175; c=relaxed/simple;
-	bh=H0Z12nZagKhkkLz1vGrPL/qTGoHtCMhHyoXtCaStVkw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gSEATTRuTC2+K0UUs9ghZGf+ekBhtvAj3SpblhRjozPnAIYQR4XCsXKS5d43w8ysp9Zqz4KoXCPW3MLZnbmDqzAc9dLyLrhuKdSNhvkgZ1vx//DViGY9QH/VzUeB/1SRAgKI6f1gDxetlL1/d7wcm10cj7CBttnvOoknaXz1K0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mk9fyaRP; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96D011F000E9;
-	Wed, 27 May 2026 15:19:31 +0000 (UTC)
+	s=arc-20240116; t=1779897701; c=relaxed/simple;
+	bh=s0NanPkVpqVf8wNmLBLEzeXH29vAw9y2L3Ua0hVKjWQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=a3N8yH6x6gAk4plWl0OL98ppy00NET/mXon8IizE8tcC0hP9sm1LRnkJFLIoQxA1GdKkNy9IUrNTlwGc0EZIddLTSrkYLy9gyDhcg972FGwsx6SPRGI5iRIme0RT3DEM89DD5prKoRa1ZUVDIEzcrfgUHmsklx7DaxYhVejIDtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FfiTrSxP; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3E311F000E9;
+	Wed, 27 May 2026 16:01:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779895173;
-	bh=S61TVoA9RCpVNWgGfCv8NungB4DHHFRPSuDcKMBqL/Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Mk9fyaRPQUmYBbQEedVrmKNSHF4rVq/0ZwX861fJy03Oevy78CYUSPmD4KPRrQbfk
-	 crOieSwR97rB76cMCMFmvkNv6eMmP3HXnAoeJ6YkCb3tq5XM9O5EZv0fxfMDuqiCDg
-	 adWhwlMYUDSapeFjFVeVwTWyweH1mN8k8ffzJ0lMqA+NtpbD05ts+ED5fRWUZecEsP
-	 FzWVqjpHNkqCUxgVnRiRQaT9aqxhB3UctNCFuaCmq37EQdsLy9u82KzxYAFO2rJo5a
-	 pqD9ULnlZ7EDXG5+HeUgnj+sGRo3NZdGL3tHsCRsdHPkE2xbDeN3+T8tf8dhmWgMDu
-	 n+9L0XFsB8YXg==
-Date: Wed, 27 May 2026 16:19:29 +0100
+	s=k20260515; t=1779897696;
+	bh=ZDQr4OI9gp3C46A8h+Q3BTBQOdfHsbqXOtecpZAGI3k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=FfiTrSxPOYi9QQQ5c3ZaBXU5tch90OkWPdH5haJMMy6uE0LbtZsSYnVp/bFqBZJ3P
+	 pnfA0mNyjzxt6jN/mdaXaaWpslFm/snGa/konoYqsbE4+nG2zryLVnnujcWZJe3M8O
+	 p8+lT88Kk6XaBXaSEpjreQK9muTcZpDzRVyJiBeuLyoHHU7BG22QRmQyauyo7KX33m
+	 ZlXnlKXzO5vThgHc/qhG5wBSyDfOwEh2lIVaV1wO0M3bkiRSwHZq3FNXmT2n44vgvi
+	 E3rm0oDkJ0prbx+bLwPVnyexQKTUOSgqJuEcfRkxbNTQSE58ZyD+rj3DIRAfPregEl
+	 O4W5cBPlMClvA==
 From: Lee Jones <lee@kernel.org>
-To: Jun Yan <jerrysteve1101@gmail.com>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-leds@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, luccafachinetti@gmail.com,
-	pzalewski@thegoodpenguin.co.uk, daniel@zonque.org
-Subject: Re: [PATCH v7 6/6] leds: is31fl32xx: Move pwm frequency setting to
- init_regs()
-Message-ID: <20260527151929.GB712405@google.com>
-References: <20260520135659.1430008-1-jerrysteve1101@gmail.com>
- <20260520135659.1430008-7-jerrysteve1101@gmail.com>
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260521-cros_ec-leds-hw-trigger-brightness-v1-1-6cd9d7c9671e@weissschuh.net>
+References: <20260521-cros_ec-leds-hw-trigger-brightness-v1-1-6cd9d7c9671e@weissschuh.net>
+Subject: Re: (subset) [PATCH RFC] leds: core: Report ENODATA for brightness
+ of hardware controlled LED
+Message-Id: <177989769567.799142.664764680088051149.b4-ty@b4>
+Date: Wed, 27 May 2026 17:01:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260520135659.1430008-7-jerrysteve1101@gmail.com>
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.16-dev-ad80c
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8329-lists,linux-leds=lfdr.de];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,thegoodpenguin.co.uk,zonque.org];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-8330-lists,linux-leds=lfdr.de];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: B55645E6D51
+	TAGGED_RCPT(0.00)[linux-leds];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 34F615E77CA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, 20 May 2026, Jun Yan wrote:
+On Thu, 21 May 2026 18:42:41 +0200, Thomas Weißschuh wrote:
+> While the LED is controlled fully by the hardware, the value cached by
+> the LED driver core is incorrect. Return ENODATA to userspace in this
+> case.
 
-> commit a18983b95a61 ("leds: is31f132xx: Add support for is31fl3293")
-> swapped the order of is31fl32xx_parse_dt() and is31fl32xx_init_regs().
-> 
-> This causes the PWM frequency configuration programmed in
-> is31fl32xx_parse_dt() to be overwritten by the register reset
-> operation performed in is31fl32xx_init_regs().
-> 
-> Move the PWM frequency setting logic from is31fl32xx_parse_dt() to
-> is31fl32xx_init_regs() and separates device tree parsing from hardware
-> initialization.
-> 
-> Fixes: a18983b95a61 ("leds: is31f132xx: Add support for is31fl3293")
-> Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
-> ---
->  drivers/leds/leds-is31fl32xx.c | 22 ++++++++++------------
->  1 file changed, 10 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-> index 2d7ff4c5a08c..c545a3b7a05a 100644
-> --- a/drivers/leds/leds-is31fl32xx.c
-> +++ b/drivers/leds/leds-is31fl32xx.c
-> @@ -63,6 +63,7 @@ struct is31fl32xx_priv {
->  	struct i2c_client *client;
->  	struct gpio_desc *powerdown_gpio;
->  	unsigned int num_leds;
-> +	bool pwm_22khz;
->  	struct is31fl32xx_led_data leds[];
->  };
->  
-> @@ -346,6 +347,14 @@ static int is31fl32xx_init_regs(struct is31fl32xx_priv *priv)
->  	if (ret)
->  		return ret;
->  
-> +	if ((cdef->output_frequency_setting_reg != IS31FL32XX_REG_NONE) &&
-> +		priv->pwm_22khz) {
+Applied, thanks!
 
-Nit: No need to wrap here.  Use up to 100-chars to beautify.
+[1/1] leds: core: Report ENODATA for brightness of hardware controlled LED
+      commit: a654a32798325a8b6fc9697b6029b402e0376e31
 
-> +		ret = is31fl32xx_write(priv, cdef->output_frequency_setting_reg,
-> +							IS31FL32XX_PWM_FREQUENCY_22KHZ);
+--
+Lee Jones [李琼斯]
 
-Nit: Line-up with the '('.
-
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	/*
->  	 * Set enable bit for all channels.
->  	 * We will control state with PWM registers alone.
-> @@ -420,7 +429,6 @@ static struct is31fl32xx_led_data *is31fl32xx_find_led_data(
->  static int is31fl32xx_parse_dt(struct device *dev,
->  			       struct is31fl32xx_priv *priv)
->  {
-> -	const struct is31fl32xx_chipdef *cdef = priv->cdef;
->  	int ret = 0;
->  
->  	/* Driving this GPIO line low takes the chip out of shutdown,
-> @@ -431,17 +439,7 @@ static int is31fl32xx_parse_dt(struct device *dev,
->  		return dev_err_probe(dev, PTR_ERR(priv->powerdown_gpio),
->  				"Failed to get powerdown gpio\n");
->  
-> -	if ((cdef->output_frequency_setting_reg != IS31FL32XX_REG_NONE) &&
-> -	    of_property_read_bool(dev_of_node(dev), "issi,22khz-pwm")) {
-> -
-> -		ret = is31fl32xx_write(priv, cdef->output_frequency_setting_reg,
-> -				       IS31FL32XX_PWM_FREQUENCY_22KHZ);
-> -
-> -		if (ret) {
-> -			dev_err(dev, "Failed to write output PWM frequency register\n");
-> -			return ret;
-> -		}
-> -	}
-> +	priv->pwm_22khz = of_property_read_bool(dev_of_node(dev), "issi,22khz-pwm");
->  
->  	for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
->  		struct led_init_data init_data = {};
-> -- 
-> 2.54.0
-> 
-> 
-
--- 
-Lee Jones
 
