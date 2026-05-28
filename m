@@ -1,410 +1,280 @@
-Return-Path: <linux-leds+bounces-8344-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8345-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KNQ4EdDTF2qOSAgAu9opvQ
-	(envelope-from <linux-leds+bounces-8344-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 28 May 2026 07:34:08 +0200
+	id 0JN8H8ADGGqdZggAu9opvQ
+	(envelope-from <linux-leds+bounces-8345-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 28 May 2026 10:58:40 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C3705ECE0D
-	for <lists+linux-leds@lfdr.de>; Thu, 28 May 2026 07:34:08 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C905EF13E
+	for <lists+linux-leds@lfdr.de>; Thu, 28 May 2026 10:58:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1282C30769D9
-	for <lists+linux-leds@lfdr.de>; Thu, 28 May 2026 05:33:23 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id F3C15302EBB4
+	for <lists+linux-leds@lfdr.de>; Thu, 28 May 2026 08:51:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2881331A78;
-	Thu, 28 May 2026 05:32:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 221AB389DF3;
+	Thu, 28 May 2026 08:51:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QBGNy66L"
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="VlPF1aCB"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED56832F757
-	for <linux-leds@vger.kernel.org>; Thu, 28 May 2026 05:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4F8346A14;
+	Thu, 28 May 2026 08:50:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779946365; cv=none; b=Kbbsiw1IZBqQ4CcZuxHKvnBsZKRnhToVt5l5WVXorI7eNo/iHCPyxlsvN8CfxZbfaGB8SRNb9A+T4J3cgztz3qP1Okzfb+afw+e+swH/t248XUBUpQk/jXE1L12alV77GdB+49i3RkP46YfOO96Hs5CljywzOV+nRhfl93SFNOI=
+	t=1779958261; cv=none; b=ndB9D9mOkTXGc1UngJAH+hQOnxwQYlynnqNBLERSVNlIR6Im6Chzx4Sr6k4+T60eWVhS8gEp5cjybX6Ywh06A3mOCwjAMZX7SB5sRMYZz/11jci2dJN4O00DoM/JALcGWshBXgMXL/dGZiq/DS3UPmaUtRpOoNoS9L9oP/7AMAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779946365; c=relaxed/simple;
-	bh=DmksfHT6MlGqSqjmYOxJfXx9JPeKsGh8gzABDeJ0S3A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AC8gdw7fPVgGc6yPmDFbdGeLate8k39Q+3B/KyX2WY0WS8QSmzV8qcdsacu1uSV7rf0FDQphjzNNcF2N+4ABeRBX+EvvacUWl8RGps7zRTgIYBWHpMFzsR/JDrnDDs7bDiRwzSmLpg6HgicBdM2N84dDN/ZIgXpZk3wc2Pmbpjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QBGNy66L; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-bdb3fd39045so1041545666b.3
-        for <linux-leds@vger.kernel.org>; Wed, 27 May 2026 22:32:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779946361; x=1780551161; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KSastJv1yeLOMBYWqlsnzJjkboYGfgrWByJH8uwQayw=;
-        b=QBGNy66LJOIZQA3PdtUDyDsmsEojlUrTHbZDKqOPpG7AZcEIfAlC0Ae7fJcBgoUpoI
-         1xXYcjcohzkV0yLAQXkf/axIvwqy/YvIfZ4PpOd5kkc4kwTXBEmDpHqijKp3PprVaViu
-         prRKFcO8n8VXUyvouur3OkbnhO8XRMNpBqKHlTbbCWP6BvdkMqQkGBhDLajOYQ+0XXdn
-         OlLLouW+FsYTluhSsnOTv39ZpKSzPAb27HGT/1BBjZiuyf+Jm3zsrl3dCGxGBmHGiLrW
-         wohTrLf1vaKV8cJbKjifbiTTzGDMxvUrlzNkEm7/8k+BQebxPqQRmixked2FnSPbIpi4
-         SVpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779946361; x=1780551161;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KSastJv1yeLOMBYWqlsnzJjkboYGfgrWByJH8uwQayw=;
-        b=mJdnIx1hCEzTqal8YbNGnqWpNkLZG8mswzmQVJw7ZPL0WPX0GPUMI6fB45j6UtkGTY
-         QX8SJ8O0evmRGCZAwFWBSqnFkNRrmCOzHn6yhItjReMPyr9FfBqrTU4aJWUIrfugwt1d
-         Hd9yPt0ApoU8VmX6M2QSkW9zCvcey8zKGFtrRsyu1mszcJJe773zadXpn/1O0osrJkxc
-         LN0a4GrB1WX6v6ctq+WABsRWwcAZ7DMRh7cnfLsl6Rm1KWFEb4JoPEt+fpgYjaaeYoYq
-         g6aSUZeUDaR5Zvwrgb1rBlD985aTrKvvXNaafb846oD1ltEXcLj3tk4/U7myILGiREgr
-         HWbQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9F77Jles3tLMiZYuhI9R2VaLLkZo7dhyIznpOgmjEhn+jZJ9CJaMQdWNSBsQRjfl+AqC3f4nN2K1+M@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIhu7TcE7RalFX5kNqIVI9qKF/zeBJ6gP1+4F4Ale2CU2l3M/+
-	QoBFVUqQPZifIpqqCx1cLY7H2kHCOEHSekbCupg3US71wsQc5FJw6Xgc
-X-Gm-Gg: Acq92OEUjnh3h2NR1KY00X1l67qVrQLnWUXXjfwSfa30FET8PRgRKi0yfrTlwFsWD68
-	j9f9f9nffhA7ABcgzSNvNc04m1xstIMC8dZ8d7AtNfA1tcOk3uKttAP4S+sVugHIzeUq8bN0cSi
-	3xD4gn6kbI9w29Ov8AeBQ0CGMXupiAXy9tS7nJ15Ewtq/m81kuKjpQ+Usd2wRdJ6Kh1i/ZP50Ps
-	85a5Bx4Mi5nDklB43nfdOWRRX/9az6+/QpGNr3qyopyOA4UP44sdIYwQYIl1z79HGHUm8JwkZJq
-	t3pam7s/gc0mcuC38Xt7CI2ubkUkwNoxh+TAq6fOZjHSR6IOUl5UMSRveyf0vkhEVNNOrHRuz/Q
-	+yIEPt+FttlQHFhIAsxateZCeoMuWrQxF6Ad6KP2MUdmkkY2+UrtFq9tSDPJTswtZ06VUomYSp1
-	Q/wl+jZtVWPrdZ2NnOPHgUK2qoqAwcgi2b4A==
-X-Received: by 2002:a17:907:a394:b0:bda:254d:4761 with SMTP id a640c23a62f3a-bdd277c8310mr1684820766b.31.1779946361155;
-        Wed, 27 May 2026 22:32:41 -0700 (PDT)
-Received: from xeon ([188.163.112.61])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bddc5eca616sm693427966b.30.2026.05.27.22.32.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 22:32:39 -0700 (PDT)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Svyatoslav Ryhel <clamor95@gmail.com>,
-	Ion Agorria <ion@agorria.com>,
-	=?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Cc: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: [PATCH v8 7/7] power: supply: Add charger driver for Asus Transformers
-Date: Thu, 28 May 2026 08:32:03 +0300
-Message-ID: <20260528053203.9339-8-clamor95@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260528053203.9339-1-clamor95@gmail.com>
-References: <20260528053203.9339-1-clamor95@gmail.com>
+	s=arc-20240116; t=1779958261; c=relaxed/simple;
+	bh=INLSw80uimzkf/X8WkclJMiZI4XzlRtU7F1l779Tj2k=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=B+7GkoCIl0tuq99ef/hqrSOKPxtha0wkhWtCxssEXudNraBycticHB6eAjGMcjFsOUUWikgFPOFxD5tekZjBJSzqnuFpR0L6YQnEC7t1XkJwxmmEKYP+Aqn/+m6H0+M6kZKcK5T5yneLpyowG5OJs6LhVNgv3qlC2qoDWQW7X40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=VlPF1aCB; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64S8fRgP651298;
+	Thu, 28 May 2026 04:50:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=F0VrqbaFKCJO0Phr8rGim3wlfjx
+	8ECMGLgnLb0OIvO4=; b=VlPF1aCB8Qjym6gex7fsDpNdCSbCyVyuzW0rNaGXcrM
+	5+7ZBgYjLvqxlC5b6JlFPEeEPNYlJk9F2OHRf4Zw9gL7pB4SVQLPqnlfs0Yn9Mar
+	jw8rIOO1s/PQitmx1HXvhNN432MhzuVoZkbIIWKTxWy0PJ3EfKF8Kb2+QlbzT2sm
+	GF8CFEXwYZnAqcEv128fEoRKWSgI4Ub0izrOGYbcMd3qbCcSmdvLUpM2FFOGfCQo
+	c+rtT5xqjgYP/2kFRI1W0T9hTErpQ6WdEnlwPA+9z7SMYZMdueeCbwViUMPIa491
+	/JzG6cJIdy7lf/2fZrNFVfZS0TMPqcd+hDJI66Lzdfw==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4ee7x4241b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 28 May 2026 04:50:56 -0400 (EDT)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 64S8otvI037627
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 28 May 2026 04:50:55 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Thu, 28 May
+ 2026 04:50:54 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Thu, 28 May 2026 04:50:54 -0400
+Received: from HYB-7P5GeKnsiiX.ad.analog.com (HYB-7P5GeKnsiiX.ad.analog.com [10.118.4.71])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 64S8ohpg017193;
+	Thu, 28 May 2026 04:50:45 -0400
+From: Edelweise Escala <edelweise.escala@analog.com>
+Subject: [PATCH v9 0/2] Add Support for LTC3220 18 Channel LED Driver
+Date: Thu, 28 May 2026 16:49:39 +0800
+Message-ID: <20260528-ltc3220-driver-v9-0-69450fc213cb@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.34 / 15.00];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKQBGGoC/33OTU7DMBAF4KtUXmPkGf+z4h6IhWOPW0slqZwqA
+ lW5O043DViwfDP6nt6NzVQLzezlcGOVljKXaWzBPx1YPIXxSLyklhkKNAKE4edrlIiCp1oWqjz
+ 7MJgYfQJSrKFLpVw+74Vv7y2fynyd6te9f4Ht+mfVAlxwK9svmQxG+dcwhvN0fI7TB9u6Ftx5w
+ M5j80koKbTLUaXcebnzzf32svlM2QBSVDmEzqu97/er5qP2GiwKE1F1Xv/vdfOgMUhB3oXBdt4
+ 8vALbebN5B9o6C5RS6rx9eC1c523zIguPQ9Aqo+y823nwnXfNE1gLEayU+ef+dV2/ARqn8eNtA
+ gAA
+X-Change-ID: 20260106-ltc3220-driver-f9ab6cc9d1e4
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>
+CC: <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Edelweise Escala
+	<edelweise.escala@analog.com>,
+        Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779958243; l=5022;
+ i=edelweise.escala@analog.com; s=20260106; h=from:subject:message-id;
+ bh=INLSw80uimzkf/X8WkclJMiZI4XzlRtU7F1l779Tj2k=;
+ b=rG0nrUOAo3spQsNYlcIYz8ZM0ZD7U7tZiCrwPH6hyPn/IejtNhA7f+Kcrj6KoZDCU8PnSEYY+
+ 6CeW1lDabcEDF7TDa00/lQmKNfLkFjv2Q8o5gxZDBHLTxoBG4fHVgpm
+X-Developer-Key: i=edelweise.escala@analog.com; a=ed25519;
+ pk=lf5HLFe8ZeQjXZgkBkFMK+u9qH5/tqZhCIushTKduNQ=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Authority-Analysis: v=2.4 cv=X8pi7mTe c=1 sm=1 tr=0 ts=6a1801f0 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=0sLvza09kfJOxVLZPwjg:22 a=N--XFCr6TIEc_64PeIT2:22 a=VwQbUJbxAAAA:8
+ a=gAnH3GRIAAAA:8 a=XYAwZIGsAAAA:8 a=lDDPbOU8p52JHVfxhooA:9 a=QEXdDO2ut3YA:10
+ a=E8ToXWR_bxluHZ7gmE-Z:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI4MDA4NyBTYWx0ZWRfX6r4l7o6+USQv
+ zggVeCl1G/Edq8rNxMc+jGgS3kXg2qE7Vriwb1z9Ut4Vkuodn1OhG3EB5/Svc4wrjzLZPHz8L4q
+ 8QhNPSrSvdXf+n9tmv505NRZHrwIM8MQ9rIQ8HYN14hCVUCySlcf8ugzgYgKE0wgbdS5JELY5kW
+ UxmtaPLnjxyhh4lkvnWcyji9uxks+6dQ+K5T2hDaOJEhDf6Q6fQB2zr7hu/GQm6Q1SOR1tze6Mz
+ u2HvuYRrEtEISdhc4D1aMjV+Bv0DEg+DC5j1Xm6hKCypMRzNEuaBLlTHbYqd6+PXMgEQzqA0/7u
+ fG68tBJ6uAyqzf0a0TAUWMtZVNUtTNaEV/5OKKMZIh/e4MWVkiMILpKDoCWJUa9CHas1njuKlLB
+ FdsF+4n1CQqciI77IdW26l8vx+ZmIilybZsy9e4LNBFKwMQzsYeL3VO0WVaMCZmX2kf7nAFvZQS
+ w1U0ZA9ewhO0RzH6m3w==
+X-Proofpoint-ORIG-GUID: OiJIwSl6q9S6LkaDXx1XSti-8EUmh8Ee
+X-Proofpoint-GUID: OiJIwSl6q9S6LkaDXx1XSti-8EUmh8Ee
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-05-28_02,2026-05-26_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0 bulkscore=0 malwarescore=0 clxscore=1015
+ priorityscore=1501 suspectscore=0 impostorscore=0 adultscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
+ definitions=main-2605280087
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[analog.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[analog.com:s=DKIM];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8344-lists,linux-leds=lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,agorria.com,rere.qmqm.pl];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[analog.com:+];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-8345-lists,linux-leds=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[analog.com:email,analog.com:mid,analog.com:dkim,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[edelweise.escala@analog.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,collabora.com:email,qmqm.pl:email]
-X-Rspamd-Queue-Id: 2C3705ECE0D
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: 86C905EF13E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+The LTC3220/LTC3220-1 is a multi-display LED driver, which contains a
+high-efficiency, low-noise charge pump to provide power to up to
+18 LED current sources. The LEDs are individually configurable to
+64-step linear brightness control, blinking and gradation control
+via 2-wire I2C interface. The blinking and gradation configuration
+is shared across all LED.
 
-Add support for charger detection capabilities found in the embedded
-controller of ASUS Transformer devices.
+LTC3220 has a quick write function which allows changing the brightness
+on all LEDS simultaneously when the brightness is changed on led 1.
+For this leds are aggregated in the device tree and on probe we check
+if led-sources exist to enable quick write. 
+We would like to know if this approach is alright?
+Another way we might want to know is, is it alright to just make a
+virtual led for the quick write function. Changing brightness on 
+the virtual led will change the brightness for all.
 
-Suggested-by: Maxim Schwalm <maxim.schwalm@gmail.com>
-Suggested-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Signed-off-by: Edelweise Escala <edelweise.escala@analog.com>
 ---
- drivers/power/supply/Kconfig                  |  11 +
- drivers/power/supply/Makefile                 |   1 +
- .../supply/asus-transformer-ec-charger.c      | 208 ++++++++++++++++++
- 3 files changed, 220 insertions(+)
- create mode 100644 drivers/power/supply/asus-transformer-ec-charger.c
+Changes in v9:
+- Add address-cells and size-cells in required
+- Restrict to reg 1 if led-sources is present
+- Make set brightness only change brighntess for nomal mode,
+  blink and gradation is now handled only in its respective triggers.
+- Fix blink to change mode on blink set
+- Make pattern clear only change brightness and not change gradation
+  mode so it won't affect other leds.
+- Add checks if ever there is duplicate reg in the bindings.
+- Add REGMAP_I2C on Kconfig
+- Rebase on Latest next
+- Link to v8: https://lore.kernel.org/r/20260519-ltc3220-driver-v8-0-e1771c1733f7@analog.com
 
-diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
-index 1dc3d0b2e021..ebc6d5c01330 100644
---- a/drivers/power/supply/Kconfig
-+++ b/drivers/power/supply/Kconfig
-@@ -508,6 +508,17 @@ config CHARGER_88PM860X
- 	help
- 	  Say Y here to enable charger for Marvell 88PM860x chip.
- 
-+config CHARGER_ASUS_TRANSFORMER_EC
-+	tristate "Asus Transformer's charger driver"
-+	depends on MFD_ASUS_TRANSFORMER_EC
-+	help
-+	  Say Y here to enable support AC plug detection on Asus Transformer
-+	  Dock.
-+
-+	  This sub-driver supports charger detection mechanism found in Asus
-+	  Transformer tablets and mobile docks and controlled by special
-+	  embedded controller.
-+
- config CHARGER_PF1550
- 	tristate "NXP PF1550 battery charger driver"
- 	depends on MFD_PF1550
-diff --git a/drivers/power/supply/Makefile b/drivers/power/supply/Makefile
-index 1313f367715c..93d17d28081e 100644
---- a/drivers/power/supply/Makefile
-+++ b/drivers/power/supply/Makefile
-@@ -69,6 +69,7 @@ obj-$(CONFIG_CHARGER_RT9471)	+= rt9471.o
- obj-$(CONFIG_CHARGER_RT9756)	+= rt9756.o
- obj-$(CONFIG_BATTERY_TWL4030_MADC)	+= twl4030_madc_battery.o
- obj-$(CONFIG_CHARGER_88PM860X)	+= 88pm860x_charger.o
-+obj-$(CONFIG_CHARGER_ASUS_TRANSFORMER_EC)	+= asus-transformer-ec-charger.o
- obj-$(CONFIG_CHARGER_PF1550)	+= pf1550-charger.o
- obj-$(CONFIG_BATTERY_RX51)	+= rx51_battery.o
- obj-$(CONFIG_AB8500_BM)		+= ab8500_bmdata.o ab8500_charger.o ab8500_fg.o ab8500_btemp.o ab8500_chargalg.o
-diff --git a/drivers/power/supply/asus-transformer-ec-charger.c b/drivers/power/supply/asus-transformer-ec-charger.c
-new file mode 100644
-index 000000000000..c7a6bd2ba533
---- /dev/null
-+++ b/drivers/power/supply/asus-transformer-ec-charger.c
-@@ -0,0 +1,208 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+#include <linux/err.h>
-+#include <linux/mfd/asus-transformer-ec.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/power_supply.h>
-+#include <linux/property.h>
-+
-+struct asus_ec_charger_data {
-+	struct notifier_block nb;
-+	struct asusec_core *ec;
-+	struct power_supply *psy;
-+	struct power_supply_desc psy_desc;
-+};
-+
-+static enum power_supply_property asus_ec_charger_properties[] = {
-+	POWER_SUPPLY_PROP_USB_TYPE,
-+	POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR,
-+	POWER_SUPPLY_PROP_ONLINE,
-+	POWER_SUPPLY_PROP_MODEL_NAME,
-+};
-+
-+static int asus_ec_charger_get_property(struct power_supply *psy,
-+					enum power_supply_property psp,
-+					union power_supply_propval *val)
-+{
-+	struct asus_ec_charger_data *priv = power_supply_get_drvdata(psy);
-+	enum power_supply_usb_type psu;
-+	int ret;
-+	u64 ctl;
-+
-+	/* Check if model name is requested first since it needs no hw access */
-+	if (psp == POWER_SUPPLY_PROP_MODEL_NAME) {
-+		val->strval = priv->ec->model;
-+		return 0;
-+	}
-+
-+	ret = asus_dockram_access_ctl(priv->ec->dockram, &ctl, 0, 0);
-+	if (ret)
-+		return ret;
-+
-+	switch (ctl & (ASUSEC_CTL_FULL_POWER_SOURCE | ASUSEC_CTL_DIRECT_POWER_SOURCE)) {
-+	case ASUSEC_CTL_FULL_POWER_SOURCE:
-+		psu = POWER_SUPPLY_USB_TYPE_CDP;	/* DOCK */
-+		break;
-+	case ASUSEC_CTL_DIRECT_POWER_SOURCE:
-+		psu = POWER_SUPPLY_USB_TYPE_SDP;	/* USB */
-+		break;
-+	case 0:
-+		psu = POWER_SUPPLY_USB_TYPE_UNKNOWN;	/* no power source connected */
-+		break;
-+	default:
-+		psu = POWER_SUPPLY_USB_TYPE_ACA;	/* power adapter */
-+		break;
-+	}
-+
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_ONLINE:
-+		val->intval = psu != POWER_SUPPLY_USB_TYPE_UNKNOWN;
-+		return 0;
-+
-+	case POWER_SUPPLY_PROP_USB_TYPE:
-+		val->intval = psu;
-+		return 0;
-+
-+	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
-+		if (ctl & ASUSEC_CTL_TEST_DISCHARGE)
-+			val->intval = POWER_SUPPLY_CHARGE_BEHAVIOUR_FORCE_DISCHARGE;
-+		else if (ctl & ASUSEC_CTL_USB_CHARGE)
-+			val->intval = POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO;
-+		else
-+			val->intval = POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE;
-+		return 0;
-+
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int asus_ec_charger_set_property(struct power_supply *psy,
-+					enum power_supply_property psp,
-+					const union power_supply_propval *val)
-+{
-+	struct asus_ec_charger_data *priv = power_supply_get_drvdata(psy);
-+
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
-+		switch ((enum power_supply_charge_behaviour)val->intval) {
-+		case POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO:
-+			return asus_dockram_access_ctl(priv->ec->dockram, NULL,
-+				ASUSEC_CTL_TEST_DISCHARGE | ASUSEC_CTL_USB_CHARGE,
-+				ASUSEC_CTL_USB_CHARGE);
-+
-+		case POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE:
-+			return asus_dockram_access_ctl(priv->ec->dockram, NULL,
-+				ASUSEC_CTL_TEST_DISCHARGE | ASUSEC_CTL_USB_CHARGE, 0);
-+
-+		case POWER_SUPPLY_CHARGE_BEHAVIOUR_FORCE_DISCHARGE:
-+			return asus_dockram_access_ctl(priv->ec->dockram, NULL,
-+				ASUSEC_CTL_TEST_DISCHARGE | ASUSEC_CTL_USB_CHARGE,
-+				ASUSEC_CTL_TEST_DISCHARGE);
-+		default:
-+			return -EINVAL;
-+		}
-+
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int asus_ec_charger_property_is_writeable(struct power_supply *psy,
-+						 enum power_supply_property psp)
-+{
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static const struct power_supply_desc asus_ec_charger_desc = {
-+	.name = "asus-ec-charger",
-+	.type = POWER_SUPPLY_TYPE_USB,
-+	.charge_behaviours = BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO) |
-+			     BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE) |
-+			     BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_FORCE_DISCHARGE),
-+	.usb_types = BIT(POWER_SUPPLY_USB_TYPE_UNKNOWN) |
-+		     BIT(POWER_SUPPLY_USB_TYPE_SDP) |
-+		     BIT(POWER_SUPPLY_USB_TYPE_CDP) |
-+		     BIT(POWER_SUPPLY_USB_TYPE_ACA),
-+	.properties = asus_ec_charger_properties,
-+	.num_properties = ARRAY_SIZE(asus_ec_charger_properties),
-+	.get_property = asus_ec_charger_get_property,
-+	.set_property = asus_ec_charger_set_property,
-+	.property_is_writeable = asus_ec_charger_property_is_writeable,
-+	.no_thermal = true,
-+};
-+
-+static int asus_ec_charger_notify(struct notifier_block *nb,
-+				  unsigned long action, void *data)
-+{
-+	struct asus_ec_charger_data *priv =
-+		container_of(nb, struct asus_ec_charger_data, nb);
-+
-+	switch (action) {
-+	case ASUSEC_SMI_ACTION(POWER_NOTIFY):
-+	case ASUSEC_SMI_ACTION(ADAPTER_EVENT):
-+		power_supply_changed(priv->psy);
-+		break;
-+	}
-+
-+	return NOTIFY_DONE;
-+}
-+
-+static int asus_ec_charger_probe(struct platform_device *pdev)
-+{
-+	struct asusec_core *ec = dev_get_drvdata(pdev->dev.parent);
-+	struct asus_ec_charger_data *priv;
-+	struct device *dev = &pdev->dev;
-+	struct power_supply_config cfg = { };
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, priv);
-+	priv->ec = ec;
-+
-+	cfg.fwnode = dev_fwnode(dev->parent);
-+	cfg.drv_data = priv;
-+
-+	memcpy(&priv->psy_desc, &asus_ec_charger_desc, sizeof(priv->psy_desc));
-+	priv->psy_desc.name = devm_kasprintf(dev, GFP_KERNEL, "%s-charger",
-+					     priv->ec->name);
-+	if (!priv->psy_desc.name)
-+		return -ENOMEM;
-+
-+	priv->psy = devm_power_supply_register(dev, &priv->psy_desc, &cfg);
-+	if (IS_ERR(priv->psy))
-+		return dev_err_probe(dev, PTR_ERR(priv->psy),
-+				     "Failed to register power supply\n");
-+
-+	priv->nb.notifier_call = asus_ec_charger_notify;
-+
-+	return blocking_notifier_chain_register(&ec->notify_list, &priv->nb);
-+}
-+
-+static void asus_ec_charger_remove(struct platform_device *pdev)
-+{
-+	struct asus_ec_charger_data *priv = platform_get_drvdata(pdev);
-+	struct asusec_core *ec = priv->ec;
-+
-+	blocking_notifier_chain_unregister(&ec->notify_list, &priv->nb);
-+}
-+
-+static struct platform_driver asus_ec_charger_driver = {
-+	.driver.name = "asus-transformer-ec-charger",
-+	.probe = asus_ec_charger_probe,
-+	.remove = asus_ec_charger_remove,
-+};
-+module_platform_driver(asus_ec_charger_driver);
-+
-+MODULE_ALIAS("platform:asus-transformer-ec-charger");
-+MODULE_AUTHOR("Michał Mirosław <mirq-linux@rere.qmqm.pl>");
-+MODULE_DESCRIPTION("ASUS Transformer Pad battery charger driver");
-+MODULE_LICENSE("GPL");
+Changes in v8:
+- Add '>' on descriptions with multiple paragraph
+- Change led registers to hex
+- Change cache type to REGCACHE_FLAT_S
+- Link to v7: https://lore.kernel.org/r/20260508-ltc3220-driver-v7-0-0f092ba54f23@analog.com
+
+Changes in v7:
+- Add cahcetype on regmap
+- Dropped struct ltc3220_state *ltc3220_state and use container_of()
+- Rename ltc3220_state to ltc3220
+- Dropped functions only used once and used inline instead.
+- Loop variable changes
+- Consistent decalaration for container_of
+- Tabbing fixes
+- Link to v6: https://lore.kernel.org/r/20260417-ltc3220-driver-v6-0-18157871eddd@analog.com
+
+Changes in v6:
+- Fix commit message
+- Add manufacturer on Kconfig and improve description
+- Rearrange register map and bitmask and improve naming
+- Use regmap, also use update bits of regmap to avoid unnecessary
+  structs
+- Alignment and spacing fixes
+- Use Define for magic naumbers
+- Fix blink calculation
+- Add comments on aggregated LED
+- Fix variable name to something more understandable like i to led_index
+- Link to v5: https://lore.kernel.org/r/20260126-ltc3220-driver-v5-0-152a30e98ab7@analog.com
+
+Changes in v5:
+- Missed rename on bindings filename in MAINTAINERS file
+- Link to v4: https://lore.kernel.org/linux-leds/20260126-ltc3220-driver-v4-0-c59517206c24@analog.com
+
+Changes in v4:
+- Rename leds-ltc3220.yaml to adi,ltc3220.yaml
+- Add Reviewed-by: Conor Dooley <conor.dooley@microchip.com> on
+  adi,ltc3220.yaml
+Other V1 comments I think already addressed
+- Subject commit message was already changed to match hardware
+- Fixed wrapping after description
+- Dropped "Bindings for" in descriptions and improved description to match hardware
+- Dropped adi,ltc3220-1
+- Dropped redundant description on reset-gpios
+- Dropped adi,force-cpo-level
+- Dropped adi,quick-write in favor of aggregated LED
+- Used consistent quotes ^led@([1-9]|1[0-8])$
+- Fixed wrapping on error messages
+
+- Link to v3: https://lore.kernel.org/r/20260120-ltc3220-driver-v3-0-fef612ec4faa@analog.com
+
+Changes in v3:
+- Dropped quick-write on bindings and added aggregated led instead.
+- Add aggregated led example.
+- Modify quick write to check if there is aggregated led, if there is
+  aggregated led enable quick write.
+- Use DEFINE_SIMPLE_DEV_PM_OPS instead of SIMPLE_DEV_PM_OPS.
+- Link to v2: https://lore.kernel.org/r/20260112-ltc3220-driver-v2-0-d043058fc4df@analog.com
+
+Changes in v2:
+leds-ltc3220.yaml changes
+- Fix wrapping on description
+- Improve description and commit messge to describe hardware
+- Drop ltc3220-1
+- Drop charge pump
+ltc3220.c changes
+- Fix wrapping
+- Drop ltc3220-1
+- Drop devname_mandatory
+- Link to v1: https://lore.kernel.org/r/20260106-ltc3220-driver-v1-0-73601d6f1649@analog.com
+
+---
+Edelweise Escala (2):
+      dt-bindings: leds: Add LTC3220 18 channel LED Driver
+      leds: ltc3220: Add Support for LTC3220 18 channel LED Driver
+
+ .../devicetree/bindings/leds/adi,ltc3220.yaml      | 131 ++++++
+ MAINTAINERS                                        |   8 +
+ drivers/leds/Kconfig                               |  13 +
+ drivers/leds/Makefile                              |   1 +
+ drivers/leds/leds-ltc3220.c                        | 440 +++++++++++++++++++++
+ 5 files changed, 593 insertions(+)
+---
+base-commit: 25025253476a64c186592d952c27f24bc3490e42
+change-id: 20260106-ltc3220-driver-f9ab6cc9d1e4
+
+Best regards,
 -- 
-2.51.0
+Edelweise Escala <edelweise.escala@analog.com>
 
 
