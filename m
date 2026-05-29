@@ -1,213 +1,205 @@
-Return-Path: <linux-leds+bounces-8380-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8381-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6C39KBzoGWpazwgAu9opvQ
-	(envelope-from <linux-leds+bounces-8380-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 21:25:16 +0200
+	id gLgHM+roGWpazwgAu9opvQ
+	(envelope-from <linux-leds+bounces-8381-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 21:28:42 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D99607D03
-	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 21:25:15 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67FB0607D5E
+	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 21:28:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DDC923040C82
-	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 19:17:14 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CF85F30B4545
+	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 19:23:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B304A383300;
-	Fri, 29 May 2026 19:17:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D591372EF7;
+	Fri, 29 May 2026 19:23:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AceMiFDd"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B0zVxuQV"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CBC3264D8
-	for <linux-leds@vger.kernel.org>; Fri, 29 May 2026 19:17:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F12539B486
+	for <linux-leds@vger.kernel.org>; Fri, 29 May 2026 19:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780082233; cv=none; b=e7jZBoVnjekziqkONvOx+dG6Yp9FpJlkzrOFIay4RAO8VIRMo9KT+qU/spcRFT/OAVYeX8LbZs2k0NX+qeoCNCVdLh6N9wBABb/2u7ne4xsWSaUykVlRcGgFtOEKcPLvBVnchN+Yqgy0RNp1LyO8wcnCnHMi6Cw228zeOIZsjgw=
+	t=1780082594; cv=none; b=NFUiBWUR/ieJzbm+ZT/s3BISV9ROYTnouNLFfvw+MaOde0KhJsrKdwsRtxPefOzH7wIiF0Y2UGsBLB8FGG2phexOC8/dIqj2cORfN1RC8qgB05/PwU//qXRsEs1+J7b0EsmLLcUROHubv1rQbUnmgDEfqhhPwC7F45MOh3r6qwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780082233; c=relaxed/simple;
-	bh=/GWYGsOqRd4VNyMQmBMTGP86z2EMutGKlNutUKk2H3I=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=DRBFfGxKu6Ii7UPmsHn6DVa4Lvc4FOrIn2s4l+rxz49uo2/83KZfYX3MHCPwHeVl/avA8HRBPA2CZGiVL1MdA3Xf6QIWJozZ0+R01nI70y8AndnKUoqipNwlRChrJfAYhizuWIMBIjGiZCTIzfvIgIskZz3T24pwodKWNXyDFrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AceMiFDd; arc=none smtp.client-ip=209.85.221.45
+	s=arc-20240116; t=1780082594; c=relaxed/simple;
+	bh=hyz4a9KfkQdq6GF9UiDXxz4gzafyVLqjGocQwFon4KY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=O5Y4t/tBwASH3s7LhzFdB21JSH44gBVGWNjHulmkhVcSeLq1DFgMG4IbYNmMipkLKAN80eKnk0Ciclu9Lc+XzWx9t1c3tyHI5az1oapa4xGC1NRTJ0TNk9Gli0u0jbQiKtK1DeErKgFRTHmp1KU88bakTwj0yxr91XyjJz1i8HY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B0zVxuQV; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-45eedcdaeaaso1357530f8f.3
-        for <linux-leds@vger.kernel.org>; Fri, 29 May 2026 12:17:12 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4909def6a21so4948425e9.3
+        for <linux-leds@vger.kernel.org>; Fri, 29 May 2026 12:23:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780082231; x=1780687031; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2foRsWJ0lba68yU2GxP5AU7MU0MvJx9Tate1Ll6nIZs=;
-        b=AceMiFDdvjPwskUV8V/wO4Kn2CyH2tPSw+E+hPsoaN09K09aA3xZhFm8lkdleIvlwF
-         ldtegWf+d5jb2t2MtSCmmn3CocJMmNMWH3YQu8GjEL7kKlZeuUJFpUtYXBEuqEse7Nnt
-         WChcaeX1O9k2DEBzm6/qjkgj7zdvltTQ+4Hds/0AfK9bMEsTURL6L0w48JJ4k65v8a47
-         SY1g/bx3rtWk6WzzBsiMDQ9hiLLPxWi4OwTKdmVe5Lq9aV4ePN0qxkFBlTb7ayo0+h1/
-         0THOYmi5Yj3am9/O+zokj9duoEjYCY4JHdNpWWx6Dg4/PrFar/GlXqVT5NR8D1X0tCuP
-         YMxA==
+        d=linaro.org; s=google; t=1780082592; x=1780687392; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ndz1hoCdDpCMZ0CBl4eGMfc4kRE7BfbvXniyLhRZSE4=;
+        b=B0zVxuQVlDJvt7ACcjEg57tiAkrD2iExtrSosNnyIAb4hsQTstKoXD/92xpvsfhqmB
+         LFFUQ/5Q1ZYmVZVvSwxGEQiIAY2JwVKh8eTodKAoE0jilHX8By963GUNRq6bMs5GENxm
+         zdbPG8k3nrlSXqm6ga3VbBw+EHoDUnBGX/6Q4MiETx8aNqLKaOiygFnq3OiuTJFTcF40
+         AjyrXXgAgULnvlNTbeZbl9ZaCQxw/rsWsgM6tGrMbVRrUl/mbfISunZmMJypPI9JhBrb
+         D05jlMYl6DvvJAt3u8QVllVKcS68ImHj18OEoqCuOOeHSFcAs/ooGAn9XuVfKbgCBEAT
+         eV4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780082231; x=1780687031;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2foRsWJ0lba68yU2GxP5AU7MU0MvJx9Tate1Ll6nIZs=;
-        b=nbcVUSstlkyNsIx71ekoYBpl3bG0yMQJzIigQ6TNEHct3jk8zTdpVM80UYq3Y2Cgnv
-         81nO4us8CIoqf4oMGj0SsiPIQZIBAQ7mmDB9nrXlThqTkvHHvTXRWTiGmUq0BOBotKGj
-         02QlmKtl4Qd55Bq4zFg3CmYTX4i+yfa62Prlw/8TzrgygAqT8irkWFMUfs6+ZxcCiFFf
-         jm0MvC/irPz98pBMYbp92u8eTd95Fe2D3xu7/iGL/n5FIaJbezLtyf52eqc6wCIJQM8n
-         XLHkfO+mF5fffdZUp7g0LN91FWwcHJdzVj235mnY/MKBf6ELGrUZuk/BsT+jkgNsS09R
-         ffXg==
-X-Forwarded-Encrypted: i=1; AFNElJ8Pg0Dt4jMl2y0QCzHPX/1rKQOGW2HkVaWTRffvMEx2ZHcBi5OllqIBm2WvT15JEJ4p6OaDuPcY586Y@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywe/i+6WlvwOqOOY1XT0FvenMN2Gkym7J2Ka/H4cYqSTlxEKFDH
-	gmnB6n58T1eu/93v4yF5zoO8E+5hYflYICNZj+ir24+YldqNru1UYgfEWlLQnGXJuLQ=
-X-Gm-Gg: Acq92OHCd8eUPOil+Yx7pOZqNUxIVlcNWBXwxPdzTZIafRBGlZTMtVqbHwmHKRVkZQG
-	uh/xEWIzkSmnougQd3rzeKdTAA1pT9/w11cuUP83HewVRFh1aE06+FwxUXxGk7ZF5n9teFpASkD
-	ueEgAmMYMEf71B/zls3TaJOvGzpvDl0X97SL34EOveKWCqIWLg202SRqFOzDsulP20x7i29t12B
-	pDrv5ve16bpkgD7dC6v9dLUBA2n+5njyQeNbLc7novqmDn6Jj4hTkLTXMLMZ4dUo57mchDp7P3L
-	Pk7126uMuFg4jedZLV+I57FCFo+cYOb+Dr4m85bVEun2wCy4BeUsRZA7f3ET/WjK1ujW0sNEd20
-	Ckr2td01OrEtzJXXjhXzYYFzrUOlqtGUuq1++Q5t01hCAs1LSgh7z1jAujzWp+lKGAs+fElCppv
-	RiBcMAi86nBrsM5D6OrpIRsWTtB25ghBfl00ipDPyOr+rlLfQewWklu3Jkzm6iG+QlY7LYKuDa8
-	i3JHdffnHZ/pNhISG+Wj9TsW7ew
-X-Received: by 2002:adf:fad1:0:b0:45e:f5bf:6c25 with SMTP id ffacd0b85a97d-45ef6b6c555mr1668157f8f.32.1780082230243;
-        Fri, 29 May 2026 12:17:10 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:106d:1080:b6d0:a628:be51:f552? ([2a01:e0a:106d:1080:b6d0:a628:be51:f552])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef354cd87sm5174852f8f.24.2026.05.29.12.17.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 May 2026 12:17:09 -0700 (PDT)
-Message-ID: <ddf8ea10-b0e7-49be-ab9e-bdfad1b34327@linaro.org>
-Date: Fri, 29 May 2026 21:17:08 +0200
+        d=1e100.net; s=20251104; t=1780082592; x=1780687392;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ndz1hoCdDpCMZ0CBl4eGMfc4kRE7BfbvXniyLhRZSE4=;
+        b=ER/ED8JopYhN379LlL+13sHU9GRb4D2teAmL1sSbIdmMMXoC2wx/tMF49FXbUd2moM
+         wrP7wpwak7A9NNKP4fcmAT0hJsR6j5AA1LDTt+kCDBkuNv164TbmNRwyM4oZgrqS/KAT
+         qNRLs/HFjQNFDyWUcEIm3RfTPIHYfVc03Hwei+uyzzM7utgAncCJehUcihNxsUpHu6ar
+         WOTOjUxhUNhu7U8GL3DExddPCdTbzhmSJGmFke7H/cYTntR7EaaYFwyqmydJ9F1BBQJs
+         3iNMs34nRzYcahY10t7HTHyMsiSPiGD/BeflXk+2mmVTu7ElsTpaVwtbLcTgtkJ6yUwR
+         yqFA==
+X-Forwarded-Encrypted: i=1; AFNElJ/K2cLBOpN8S69d3tSDQVKlIFJpWlJDxXsCR/B/ZIjUYfAujbqrkdN5cO6d2BfvnKhsFVo/u4hRO0wE@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgUNyi5fWle8DutSgjIQw62Xs4rvzSjtko5amYGwNNEz3szJ/U
+	SFhvdUXi6UBx2kBdxghGTka54Z6ltBcr2Qdsoe9POwBXJTUoWFh/QYdzV/4f9O7WMZE=
+X-Gm-Gg: Acq92OGGmaONvGKQo7iRyo6OKfZGK/ViicgWoxaarfByYD12t/mTa7X8mcYmSG2A6yb
+	XhbBCoieEB1xKIkfXV7XpEQBU4PvzUDLbXLHNPIUaVgYPolUIQ8n7M1hZgL2rIKlvygJChJY9Fw
+	zL2ejuaQQop8iCPg4ZzSRmWSDNqUeS/u56LCE7O5oeuFInUQa0sRKQOxEDZ7DTDcua7YZwiNpLw
+	gmuyF1tO0KZrdFnTeabccbZs9WoBpFXadc6C33vyJqpr1DjdMP5Uoey/riqo0hoYCbS7Dw2mXcj
+	bfAXHYlHAO0BhY6apKO7T1S1RR6NUD+PlNufpB8T2RUQQWucV6TMOOYcuFd4oQ8Eup0W78yNPsA
+	w8984+bkbxrE+y6XcNSCNUvkQag/sp+mCYUwvu7CkpYc2tWhREAlo55hWkgdqzj5bFlgvCP8ETl
+	tqgqjUbQh9enXZlK2ADgwCH6w2F98FguwAG5zHHi2xMFX25GXOkkLQOyg=
+X-Received: by 2002:a05:600c:8b6c:b0:48f:e249:4094 with SMTP id 5b1f17b1804b1-490a292fba3mr15871725e9.18.1780082592072;
+        Fri, 29 May 2026 12:23:12 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909c152570sm28692545e9.9.2026.05.29.12.23.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2026 12:23:11 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v5 0/2] backlight: Add SY7758 6-channel High Efficiency LED
+ Driver support
+Date: Fri, 29 May 2026 21:23:07 +0200
+Message-Id: <20260529-topic-sm8650-ayaneo-pocket-s2-sy7758-v5-0-03aacd49747c@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: leds: backlight: document the SY7758
- 6-channel High Efficiency LED Driver
-To: Daniel Thompson <daniel@riscstar.com>
-Cc: Daniel Thompson <danielt@kernel.org>, Lee Jones <lee@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, KancyJoe <kancy2333@outlook.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-References: <20260519-topic-sm8650-ayaneo-pocket-s2-sy7758-v3-0-ec8194bbc885@linaro.org>
- <20260519-topic-sm8650-ayaneo-pocket-s2-sy7758-v3-1-ec8194bbc885@linaro.org>
- <ahllT_HVTAJ5MbkS@aspen.lan>
- <e3c99fe3-9279-4dfa-af69-d9366ab06837@linaro.org>
- <ahlr5PnX5O0tEd6G@aspen.lan>
- <4001cf6a-b7de-4933-96bc-c9b4ccb53e4d@linaro.org>
- <ahmfZ0tdxbVfD_y4@aspen.lan> <ahmkirIuOYhd1rkM@aspen.lan>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <ahmkirIuOYhd1rkM@aspen.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJvnGWoC/5XPwU7EIBAG4FfZcHYMDFCoJ9/DeKB0uou6pYHa2
+ Gz67sJ6cM1e6vFP/nz/zIVlSoEyezpcWKIl5BDHEvTDgfmTG48EoS+ZIceGK7Qwxyl4yGfbaA5
+ udSNFmKJ/pxkyQl6N0RYkt4LIDIJQs0JNiYbwdZ15ef3J+bN7Iz9XuzZOIc8xrdc7FlF7/5xcB
+ HDg3rme9NB3Ep8/wuhSfIzpyOrmgjeq5DtVLGr9RvFG8Z7aO1X+qlq0O1VZVPJWtKrrvLX6TlU
+ 3Koqdqiqqkd5IbIQm5f6o27Z9A+OP9kDtAQAA
+X-Change-ID: 20260428-topic-sm8650-ayaneo-pocket-s2-sy7758-3081ee7f1e25
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>
+Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, KancyJoe <kancy2333@outlook.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1975;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=hyz4a9KfkQdq6GF9UiDXxz4gzafyVLqjGocQwFon4KY=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBqGeedDSAmaxEWFCz8CYt6xxzZKkdzED+A2UmDL8D2
+ nVNNL4CJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCahnnnQAKCRB33NvayMhJ0dn9D/
+ sE/AU77M7s/TwXuyqD/Mj1TYB7fXk4pCI+bWHvo+AEKx3QpoHQ6cLP/EZCUtdwYRsuWCFDI8afjfJr
+ 9psSKOo2Fly28TOIETBHkajm6CHMHh+e0Pb2biwVuUl00Rp5+KVHNMvogZg/kfNqh88baJPXGIwQNJ
+ PCXJr7FP/tFpp5hFcZbacugiKvc2nohC61M84GNKpwgmGUzkbDNYgY4MEzgIj9Ww4PMai1Fc5AWxm4
+ HINbalshfz5hR1omdn90hXK9F6+FOGEfKajDmcG5EhNacQlVON/10by2hKHG55MC6C4ofHsl4ApSrj
+ IyG+wbtMoZmwG3tVi+obY4D0GAdQ37+JRqAnTA+9gJGSXJ8nZaYrp1+ID4G1Kd8u4i1nRIUjrjYS0L
+ yCtbu82jAH8qXG8eUBOyRnzWr/Uy7h7oCiuZTzWiI0hpcNx1IOv4rIp4vC1F1IXx8dTU7GVgPCihZT
+ YSQFpSGbU1VISH8Xu+7RuP3xfHdoCH0pEyTn4Oucd5bjEaBHXMAuCdAFWRy638S7Nk3/c5Qa8I4zvJ
+ LkDeVo1whnBmBUd2uqtF7pRLAP5zMJuzHS4SZf+v6wYCZ5N4j91OcxQ45vK2miY3RgxDB2bvX2ACWj
+ XWi0WdtUHPd/1OPlw+z7BRpTJi2O95IlMYgircSQ2I1AB/eP9cr8dWAGU42w==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,gmx.de,lists.freedesktop.org,vger.kernel.org,outlook.com,oss.qualcomm.com];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-8381-lists,linux-leds=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,gmx.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,outlook.com,linaro.org,oss.qualcomm.com];
 	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-8380-lists,linux-leds=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,linaro.org:replyto,linaro.org:mid,linaro.org:dkim];
-	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
-	PRECEDENCE_BULK(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-leds@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	REPLYTO_EQ_FROM(0.00)[]
-X-Rspamd-Queue-Id: 23D99607D03
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,linaro.org:email,linaro.org:mid,linaro.org:dkim,msgid.link:url]
+X-Rspamd-Queue-Id: 67FB0607D5E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/29/26 16:36, Daniel Thompson wrote:
-> On Fri, May 29, 2026 at 03:15:03PM +0100, Daniel Thompson wrote:
->> On Fri, May 29, 2026 at 02:50:43PM +0200, Neil Armstrong wrote:
->>> On 5/29/26 12:35, Daniel Thompson wrote:
->>>> On Fri, May 29, 2026 at 12:16:07PM +0200, Neil Armstrong wrote:
->>> So it's not really 2 regulators, and having regulators means the enable
->>> signal can be shared and would have regulator characteristics which it hasn't.
->>
->> Agreed. If the EN pin is merely use as an enable and voltage reference
->> then it are not two regulators.
->>
->> However, it is also *not* vddio-supply and enable-gpios. We don't need
->> the board design to check this. The pinout diagram in the datasheet
->> should be sufficient!
->>
->> If you have to activate vddio-supply for the backlight to work on the
->> board are you sure you don't just have a misnamed vdd-supply that needs
->> to be taken care of? That would make much more sense given the datasheet.
-> 
-> After posting this I figured there is another possibility.
-> 
-> If the host GPIO pin is not capable of delivering the 1mA requires by
-> the chip then the board designer would have to add a buffer and that
-> buffer would need a power supply... and that power supply could, in
-> pinciple, be switchable.
-> 
-> However if that were the case then I don't think the power supply for
-> the buffer would belong in the bindings for the sy7758 so I'm afraid
-> whichever way I turn it I can't make vddio-supply make sense.
+Implement support for the Silergy SY7758 6-channel High Efficiency LED Driver
+used for backlight brightness control in the Ayaneo Pocket S2 dual-DSI panel.
 
-Yeah seems you're probably right, I'll move it to vdd instead and make it optional.
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v5:
+- Rename vddio to vdd and make it optional in bindings
+- Kept the bindings review since the change is trivial
+- Link to v4: https://patch.msgid.link/20260521-topic-sm8650-ayaneo-pocket-s2-sy7758-v4-0-73c732615e4a@linaro.org
 
-Thanks,
-Neil
+Changes in v4:
+- Fixed Kconfig typo
+- Remove again unused macros
+- Added delay.h include
+- Link to v3: https://patch.msgid.link/20260519-topic-sm8650-ayaneo-pocket-s2-sy7758-v3-0-ec8194bbc885@linaro.org
 
-> 
-> Daniel.
+Changes in v3:
+- Dropped unused macros
+- Added second autho entry to match header and commit message
+- Move my signof at the end
+- Switched to flseep()
+- Link to v2: https://patch.msgid.link/20260430-topic-sm8650-ayaneo-pocket-s2-sy7758-v2-0-308140640de9@linaro.org
+
+Changes in v2:
+- Fixed bindings subject and removed "|"
+- Added review tag
+- Added higher delay before reading ID from HW (100us was too short)
+- Removed probe defer if i2c read fails
+- Link to v1: https://patch.msgid.link/20260428-topic-sm8650-ayaneo-pocket-s2-sy7758-v1-0-0caade5fdb32@linaro.org
+
+---
+KancyJoe (1):
+      backlight: Add SY7758 6-channel High Efficiency LED Driver support
+
+Neil Armstrong (1):
+      dt-bindings: leds: backlight: document the SY7758 6-channel High Efficiency LED Driver
+
+ .../bindings/leds/backlight/silergy,sy7758.yaml    |  52 +++++
+ drivers/video/backlight/Kconfig                    |   8 +
+ drivers/video/backlight/Makefile                   |   1 +
+ drivers/video/backlight/sy7758.c                   | 259 +++++++++++++++++++++
+ 4 files changed, 320 insertions(+)
+---
+base-commit: 39704f00f747aba3144289870b5fd8ac230a9aaf
+change-id: 20260428-topic-sm8650-ayaneo-pocket-s2-sy7758-3081ee7f1e25
+
+Best regards,
+--  
+Neil Armstrong <neil.armstrong@linaro.org>
 
 
