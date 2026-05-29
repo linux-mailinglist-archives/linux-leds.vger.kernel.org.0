@@ -1,187 +1,221 @@
-Return-Path: <linux-leds+bounces-8366-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8367-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CIgyCxZuGWpzwggAu9opvQ
-	(envelope-from <linux-leds+bounces-8366-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 12:44:38 +0200
+	id oBdFF4pvGWqNwggAu9opvQ
+	(envelope-from <linux-leds+bounces-8367-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 12:50:50 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF3460106B
-	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 12:44:37 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B7D6011DF
+	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 12:50:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0CD4732C8CBF
-	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 10:36:30 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A9841308323B
+	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 10:47:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6BB53CC7F8;
-	Fri, 29 May 2026 10:35:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C2C53BED26;
+	Fri, 29 May 2026 10:46:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Em4uxmtz"
+	dkim=pass (2048-bit key) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.b="zwU9yVft"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914151C3F0C;
-	Fri, 29 May 2026 10:35:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E3136E49B
+	for <linux-leds@vger.kernel.org>; Fri, 29 May 2026 10:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780050922; cv=none; b=SL21dcyXJZOyb1mrO1G2+MyjYzOOcZ3i7TbWP12xSNUregYWdIKslSKxW2sWAECHr3N4p3Balezu47iNteApG4RIGShefqa4HCUT1UQ8RMYZVUgpJ8YjKo6ls9/7yBcn8rZXKGUqjF1VgPmBOwZ3qzAqIOoDEwpfPY9BuIEbIAs=
+	t=1780051578; cv=none; b=YAETs3NJBUoJe/z3CGVeRi7+il/MdaIOQCBerS/OE/kWxjLUU/H9yU4vXWHW61RXpJ4iwHyhwvJAh4uphMNgZM2Ta0PnyOhSfsaoEO5PY07Av+BI4uTITIG1rGLW/3dIW8P6e4tvcfWHEBmgCiGXiiWkoj89J2A1WRB3rtgPVQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780050922; c=relaxed/simple;
-	bh=gb0SZWmMeBXhfXRqIou92uTboWGsBGlW5UTsjaq3kZA=;
+	s=arc-20240116; t=1780051578; c=relaxed/simple;
+	bh=PC7iK9ghcLxujaYe1sBYImcNs1M2UD/XwoVRZxYo8jU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=asotzQVlSPgIG/6V/U1NKekAYZtXfklroRml4iGYtfDdHDiWDfAsrlZB/awSttn44EGYgC3Ebg0Lsru4JAU9yD4K4pVkMOWiy75zPeRdhThCxyV7c1r6ZHwuNhyacKEAzvLebW8Al0l6Nl2RaIARGdMo9pVsM+KZqj90WdXnD7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Em4uxmtz; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F6FB1F00898;
-	Fri, 29 May 2026 10:35:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780050921;
-	bh=/81VudvRrm3p1s1RTSNTNyWiS4UEzvG8GS46X/jp2UQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Em4uxmtzY1k6rxjB1apPt95CeGfsxjzf9CJ9egdLVUfW0O0FZUXde/EG9fWv2EwBM
-	 dLruv10Rnc8aagJjVA8UHpsj73p5nkQqkDqLMjyDM3UW6MoZaYKGtGfOvw01IQWGtm
-	 tzW6pvMcH3pf/HnJTLy/ZKo7sOjLV/uNWvN1lBInrtoi07CFK3b0EIyHJSoX3r+UII
-	 an8q+13mv/ifGRUKmN8wZlyn+rjMB9OdX2bU2/UumW/HSH9+tWZYCnsIhG3kjN7K0P
-	 CzA6UqWWMDhuZ1reqe7CGQrvK2elag/gxPsyN0M4bS9CuqzGME+7/3/4qOcSjb1xSR
-	 495O+ckls7drg==
-Date: Fri, 29 May 2026 11:35:16 +0100
-From: Daniel Thompson <danielt@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
-	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=rIEnA9HRbhmiAiF10UPloa6gjeHR//r0xqv1hqbkIKru6GBG6/oyujMfa3tbSTqPkP/DuKlpseJLF5sbqIN4MWe36QaYpoRkhA+2daPFmzZPv7pCFyBNJwAWIr6V07dtn+K2xVXGGOH/LQw2vFIK57n+dDl5GCD/Nxs2zt9o8xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.b=zwU9yVft; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-45ef29c5561so260333f8f.0
+        for <linux-leds@vger.kernel.org>; Fri, 29 May 2026 03:46:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=riscstar-com.20251104.gappssmtp.com; s=20251104; t=1780051575; x=1780656375; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=REK62I331lUwouEMVLLpq3kmjZ7SBSD27YX0AVRlIss=;
+        b=zwU9yVftHiw7UtVLWMcHYevsKEfqZYAWigwYheqPhdYZlvm8e4msra+RbQhd4mI+ol
+         G78DepAsFnn//3X4TY0w6AmZJxVwiGdxDsB+nGPh7iYo08LgaO34zGp/B3hciSq8sfjd
+         GHgT9hxe/ain3P82qfGvV91ElkJ4tShBbGV6fZVIv9SVORF9TPur7HVvLaBKOPTfLtjS
+         VYbeAAN8NZ93SAm1LZbX4yniFkfxBqw19pGpeMcLdVtqCLcbl9RJvbnpfeCjO02kqWz4
+         B9LEk0PlssblBjTypvJ1BCPNHxueCsdR+KpvgjAm9EpTdvWgQNibqiYjVIVZjoJwIh7I
+         YnCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780051575; x=1780656375;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=REK62I331lUwouEMVLLpq3kmjZ7SBSD27YX0AVRlIss=;
+        b=KuvFXkjGF5DJPSlxWZ3TNmEzZA0FJ3/Za0tNYSb2AzG5Ac70Xgs9xBZjuPrZjfo+Bb
+         8HHISA5uHZybMozknja6cYhOMNK7kJGF8ReCrqb0+dOdCOUcjDMYDEeBh9aeEpTiNnH2
+         J0kqPynR+8D7jCzWPjfS1s7ntIupJcQbh0GqwJxvkY+oLBUFP6Qvg5XHS0A60blIHCvN
+         Iwhv0+Q/wxHmE0EZbHi7zPzpcy2PoU5pqVNOHbZryA9b1V+QqtgyHCIJbMp/kc4rZ1SR
+         8YnjcedDBiViEiFl4kdW8u4wQoWyMO7Ji8y7U4nMnw0OMe8W2x75qGxw1xxr2U2sL488
+         n7Pg==
+X-Forwarded-Encrypted: i=1; AFNElJ9q/6MZlLet2zoMqRMb7A68Ro3Y29YZsVPfOQlBtPVKBx/cRpqAugxCapEs56B73/MpcvjWe6vmbAml@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFJUa8eVj5oxgNTWdtZVWx6JtzxOu3ipFbEQ/p4WefQEda4xj4
+	1RnMqcHtYJuiyRiVHbWSwxOD/9lokf1STO+34G3U7Skj7Q0LkzZh6I2dnlJFsoYZpC8=
+X-Gm-Gg: Acq92OEfcEtKmD2Hqkjr2LyeZJZOjcOLCeT1dbYTNThNCqg+6Y2MS877zsSdelEbKUp
+	IzZKHLsdic+AatBWVznjnbj1nOeAcpP+t2yn6t0UDzi415SLFPmirOBTy71W3bhZIy9TmCnLKMF
+	yPigdF0DxRXSiAw3WAjVGaaFSPqkCBgv9raxptbnjft8Kqc9NXSL6V4G5AYyi03bBfXXCHGYgUW
+	Hzs95CckZA0NiFWG3jcidbLDPzC0NacnjD1tsBhtFHM8PxiynYX2UosXmHVXLGwFe2SK/UMa26B
+	S5+wfI4KuVDmyIhiTsJieMTwN/v/L3W7+0qqMX9zpUgEhwGPSb4n9wCEls4hTnjndPZcf0jaemT
+	kPDqBre3nG5OmPSKbCFLxe7wMCfd6j/rdHLeK973CWlIG6cB8q0mac7YJBAceuBkjxWqSfdzx6Z
+	1NxJ9p3uVuR83uedObSv1c295B2iuMB8D3lyw7h1T+xqDGZSPVbGwZpFJ6s4mJ/dlauL3zr8BfZ
+	Pd7IF4GF4a6IGVndsn291Wv+k0qlaL0EY4OZfiDvxpf6rw/7bmWpXuKlxNzYydMcwq4MBXWLdEt
+	R5I7zIJiFU4/niWD4QmaPgFGh5bB+A==
+X-Received: by 2002:a05:600c:574d:b0:490:778:4fe8 with SMTP id 5b1f17b1804b1-4909c0ba8c9mr28839315e9.25.1780051575110;
+        Fri, 29 May 2026 03:46:15 -0700 (PDT)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909d68980csm41024205e9.1.2026.05.29.03.46.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2026 03:46:14 -0700 (PDT)
+Date: Fri, 29 May 2026 11:46:12 +0100
+From: Daniel Thompson <daniel@riscstar.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, KancyJoe <kancy2333@outlook.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: leds: backlight: document the SY7758
- 6-channel High Efficiency LED Driver
-Message-ID: <ahlr5PnX5O0tEd6G@aspen.lan>
-References: <20260519-topic-sm8650-ayaneo-pocket-s2-sy7758-v3-0-ec8194bbc885@linaro.org>
- <20260519-topic-sm8650-ayaneo-pocket-s2-sy7758-v3-1-ec8194bbc885@linaro.org>
- <ahllT_HVTAJ5MbkS@aspen.lan>
- <e3c99fe3-9279-4dfa-af69-d9366ab06837@linaro.org>
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Helge Deller <deller@gmx.de>,
+	Johan Hovold <johan@kernel.org>, dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v2 1/6] dt-bindings: leds: Document TI LM3533 LED
+ controller
+Message-ID: <ahludIZPMUlPDTG_@aspen.lan>
+References: <20260528135123.103745-1-clamor95@gmail.com>
+ <20260528135123.103745-2-clamor95@gmail.com>
+ <ahlhinOh3NxB7FY_@aspen.lan>
+ <CAPVz0n3C8D+amSRkF=Koj6Niu6u8uz4LbMoRYEX32_ECm5-tSQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e3c99fe3-9279-4dfa-af69-d9366ab06837@linaro.org>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPVz0n3C8D+amSRkF=Koj6Niu6u8uz4LbMoRYEX32_ECm5-tSQ@mail.gmail.com>
+X-Spamd-Result: default: False [-0.06 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_DKIM_ALLOW(-0.20)[riscstar-com.20251104.gappssmtp.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[riscstar.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8366-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8367-lists,linux-leds=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,baylibre.com,analog.com,gmx.de,lists.freedesktop.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,gmx.de,lists.freedesktop.org,vger.kernel.org,outlook.com,oss.qualcomm.com];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[riscstar-com.20251104.gappssmtp.com:+];
 	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[daniel@riscstar.com,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[danielt@kernel.org,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 9CF3460106B
+X-Rspamd-Queue-Id: 56B7D6011DF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, May 29, 2026 at 12:16:07PM +0200, Neil Armstrong wrote:
-> On 5/29/26 12:07, Daniel Thompson wrote:
-> > On Tue, May 19, 2026 at 10:43:38AM +0200, Neil Armstrong wrote:
-> > > Document the Silergy SY7758 6-channel High Efficiency LED Driver
-> > > used for backlight brightness control.
+On Fri, May 29, 2026 at 01:07:50PM +0300, Svyatoslav Ryhel wrote:
+> пт, 29 трав. 2026 р. о 12:51 Daniel Thompson <daniel@riscstar.com> пише:
+> >
+> > On Thu, May 28, 2026 at 04:51:18PM +0300, Svyatoslav Ryhel wrote:
+> > > Document the LM3533 - a complete power source for backlight, keypad and
+> > > indicator LEDs in smartphone handsets. The high-voltage inductive boost
+> > > converter provides the power for two series LED strings display backlight
+> > > and keypad functions.
 > > >
-> > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> > > Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > > > ---
-> > >   .../bindings/leds/backlight/silergy,sy7758.yaml    | 53 ++++++++++++++++++++++
-> > >   1 file changed, 53 insertions(+)
+> > >  .../leds/backlight/ti,lm3533-backlight.yaml   |  68 +++++++
+> > >  .../bindings/leds/ti,lm3533-leds.yaml         |  66 +++++++
+> > >  .../devicetree/bindings/leds/ti,lm3533.yaml   | 170 ++++++++++++++++++
+> > >  3 files changed, 304 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/leds/backlight/ti,lm3533-backlight.yaml
+> > >  create mode 100644 Documentation/devicetree/bindings/leds/ti,lm3533-leds.yaml
+> > >  create mode 100644 Documentation/devicetree/bindings/leds/ti,lm3533.yaml
 > > >
-> > > diff --git a/Documentation/devicetree/bindings/leds/backlight/silergy,sy7758.yaml b/Documentation/devicetree/bindings/leds/backlight/silergy,sy7758.yaml
+> > > diff --git a/Documentation/devicetree/bindings/leds/backlight/ti,lm3533-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/ti,lm3533-backlight.yaml
 > > > new file mode 100644
-> > > index 000000000000..80e978d691c2
+> > > index 000000000000..866b0fb8ed04
 > > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/leds/backlight/silergy,sy7758.yaml
-> > > @@ -0,0 +1,53 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > +++ b/Documentation/devicetree/bindings/leds/backlight/ti,lm3533-backlight.yaml
+> > > @@ -0,0 +1,68 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > > > +%YAML 1.2
 > > > +---
-> > > +$id: http://devicetree.org/schemas/leds/backlight/silergy,sy7758.yaml#
+> > > +$id: http://devicetree.org/schemas/leds/backlight/ti,lm3533-backlight.yaml#
 > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > > +
-> > > +title: Silergy SY7758 6-channel High Efficiency LED Driver
-> > > +
-> > > +maintainers:
-> > > +  - Neil Armstrong <neil.armstrong@linaro.org>
+> > > +title: TI LM3533 high voltage series LED strings
 > > > +
 > > > +description:
-> > > +  Silergy SY7758 is a high efficiency 6-channels LED backlight
-> > > +  driver with I2C brightness control.
+> > > +  This is part of the TI LM3533 MFD device. It represents two high voltage series
+> > > +  LED strings for display backlight controlled by the TI LM3533.
+> > > +
+> > > +maintainers:
+> > > +  - Svyatoslav Ryhel <clamor95@gmail.com>
 > > > +
 > > > +allOf:
-> > > +  - $ref: common.yaml#
+> > > +  - $ref: /schemas/leds/backlight/common.yaml#
 > > > +
 > > > +properties:
 > > > +  compatible:
-> > > +    const: silergy,sy7758
+> > > +    const: ti,lm3533-backlight
 > > > +
 > > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  vddio-supply: true
-> > > +
-> > > +  enable-gpios:
-> > > +    maxItems: 1
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - vddio-supply
+> > > +    description: Control bank selection (0 = bank A, 1 = bank B).
+> > > +    maximum: 1
+> > >    <snip>
+> > > +  ti,pwm-config-mask:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description: |
+> > > +      Control Bank PWM Configuration Register mask that allows to configure
+> > > +      PWM input in Zones 0-4
+> > > +      BIT(0) - PWM Input is enabled
+> > > +      BIT(1) - PWM Input is enabled in Zone 0
+> > > +      BIT(2) - PWM Input is enabled in Zone 1
+> > > +      BIT(3) - PWM Input is enabled in Zone 2
+> > > +      BIT(4) - PWM Input is enabled in Zone 3
+> > > +      BIT(5) - PWM Input is enabled in Zone 4
 > >
-> > Sorry for missing this in v2 but is vddio-supply really a required
-> > property?
+> > This is optional and the drive implements a default (zero) that is not
+> > documented here.
 > >
-> > It's unusual for supplies to be mandatory (and the it is not mandatory
-> > in the driver implementation).
+> > Is zero a sane default from a DT binding point of view?
+> >
 >
-> This device is a little bit special, the VDDIO regulator is used to provide
-> power for the I/O via the enable input, so basically the enable gpio power
-> level is provided by VDDIO.
+> Yes, if property is missing then PWM input is disabled which is
+> equivalent to setting all bits to 0.
 
-I don't follow. The EN pin acts as both VDDIO and as an enable but it's
-still effectively a power rail isn't it (albeit one with very low current
-draw).
-
-It looked to me like the correct way to model to two power rails
-going into the chip is vdd-supply (main power supply) and vddio-supply
-(EN/VDDIO) I don't understand why a single pin needs both a regulator
-*and* a GPIO in the DT bindings?
-
-
-> This is the recommended way from the datasheet, and I assume it will be used
-> like that on other platforms (if it exists...)
->
-> This is why it's mandatory and enabled first before setting the enable pin.
-
-It's not mandatory for the C implementation. devm_regulator_get_enable()
-will provide a dummy regulator if the property is omitted.
+So the default should be documented in the bindings?
 
 
 Daniel.
