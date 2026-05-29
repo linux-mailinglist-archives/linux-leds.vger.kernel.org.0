@@ -1,222 +1,431 @@
-Return-Path: <linux-leds+bounces-8367-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8368-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oBdFF4pvGWqNwggAu9opvQ
-	(envelope-from <linux-leds+bounces-8367-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 12:50:50 +0200
+	id qKoMN7tvGWqEwggAu9opvQ
+	(envelope-from <linux-leds+bounces-8368-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 12:51:39 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B7D6011DF
-	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 12:50:48 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E148601229
+	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 12:51:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A9841308323B
-	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 10:47:02 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id F0739300B2B3
+	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2026 10:48:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C2C53BED26;
-	Fri, 29 May 2026 10:46:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 274B53CAE9B;
+	Fri, 29 May 2026 10:48:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.b="zwU9yVft"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RcmXz2eJ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E3136E49B
-	for <linux-leds@vger.kernel.org>; Fri, 29 May 2026 10:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE543C9890;
+	Fri, 29 May 2026 10:48:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780051578; cv=none; b=YAETs3NJBUoJe/z3CGVeRi7+il/MdaIOQCBerS/OE/kWxjLUU/H9yU4vXWHW61RXpJ4iwHyhwvJAh4uphMNgZM2Ta0PnyOhSfsaoEO5PY07Av+BI4uTITIG1rGLW/3dIW8P6e4tvcfWHEBmgCiGXiiWkoj89J2A1WRB3rtgPVQ0=
+	t=1780051724; cv=none; b=S8J9gH2p3bSOn3P/LCjR5ebrZBvuSt1l3VVJqotyJTOVxOvKZ+lZdn35W1/n3cvwUfjdMuN9DkER02QQJxIa1t6JeVS7okBzv8D7t0lVZaLeLF8bdvXbhWh+chVwAtywvKWxXT6BnTg++gQwwakJL7K0YFEfTQV0UhiWOYIrR8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780051578; c=relaxed/simple;
-	bh=PC7iK9ghcLxujaYe1sBYImcNs1M2UD/XwoVRZxYo8jU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rIEnA9HRbhmiAiF10UPloa6gjeHR//r0xqv1hqbkIKru6GBG6/oyujMfa3tbSTqPkP/DuKlpseJLF5sbqIN4MWe36QaYpoRkhA+2daPFmzZPv7pCFyBNJwAWIr6V07dtn+K2xVXGGOH/LQw2vFIK57n+dDl5GCD/Nxs2zt9o8xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.b=zwU9yVft; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-45ef29c5561so260333f8f.0
-        for <linux-leds@vger.kernel.org>; Fri, 29 May 2026 03:46:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=riscstar-com.20251104.gappssmtp.com; s=20251104; t=1780051575; x=1780656375; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=REK62I331lUwouEMVLLpq3kmjZ7SBSD27YX0AVRlIss=;
-        b=zwU9yVftHiw7UtVLWMcHYevsKEfqZYAWigwYheqPhdYZlvm8e4msra+RbQhd4mI+ol
-         G78DepAsFnn//3X4TY0w6AmZJxVwiGdxDsB+nGPh7iYo08LgaO34zGp/B3hciSq8sfjd
-         GHgT9hxe/ain3P82qfGvV91ElkJ4tShBbGV6fZVIv9SVORF9TPur7HVvLaBKOPTfLtjS
-         VYbeAAN8NZ93SAm1LZbX4yniFkfxBqw19pGpeMcLdVtqCLcbl9RJvbnpfeCjO02kqWz4
-         B9LEk0PlssblBjTypvJ1BCPNHxueCsdR+KpvgjAm9EpTdvWgQNibqiYjVIVZjoJwIh7I
-         YnCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780051575; x=1780656375;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=REK62I331lUwouEMVLLpq3kmjZ7SBSD27YX0AVRlIss=;
-        b=KuvFXkjGF5DJPSlxWZ3TNmEzZA0FJ3/Za0tNYSb2AzG5Ac70Xgs9xBZjuPrZjfo+Bb
-         8HHISA5uHZybMozknja6cYhOMNK7kJGF8ReCrqb0+dOdCOUcjDMYDEeBh9aeEpTiNnH2
-         J0kqPynR+8D7jCzWPjfS1s7ntIupJcQbh0GqwJxvkY+oLBUFP6Qvg5XHS0A60blIHCvN
-         Iwhv0+Q/wxHmE0EZbHi7zPzpcy2PoU5pqVNOHbZryA9b1V+QqtgyHCIJbMp/kc4rZ1SR
-         8YnjcedDBiViEiFl4kdW8u4wQoWyMO7Ji8y7U4nMnw0OMe8W2x75qGxw1xxr2U2sL488
-         n7Pg==
-X-Forwarded-Encrypted: i=1; AFNElJ9q/6MZlLet2zoMqRMb7A68Ro3Y29YZsVPfOQlBtPVKBx/cRpqAugxCapEs56B73/MpcvjWe6vmbAml@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFJUa8eVj5oxgNTWdtZVWx6JtzxOu3ipFbEQ/p4WefQEda4xj4
-	1RnMqcHtYJuiyRiVHbWSwxOD/9lokf1STO+34G3U7Skj7Q0LkzZh6I2dnlJFsoYZpC8=
-X-Gm-Gg: Acq92OEfcEtKmD2Hqkjr2LyeZJZOjcOLCeT1dbYTNThNCqg+6Y2MS877zsSdelEbKUp
-	IzZKHLsdic+AatBWVznjnbj1nOeAcpP+t2yn6t0UDzi415SLFPmirOBTy71W3bhZIy9TmCnLKMF
-	yPigdF0DxRXSiAw3WAjVGaaFSPqkCBgv9raxptbnjft8Kqc9NXSL6V4G5AYyi03bBfXXCHGYgUW
-	Hzs95CckZA0NiFWG3jcidbLDPzC0NacnjD1tsBhtFHM8PxiynYX2UosXmHVXLGwFe2SK/UMa26B
-	S5+wfI4KuVDmyIhiTsJieMTwN/v/L3W7+0qqMX9zpUgEhwGPSb4n9wCEls4hTnjndPZcf0jaemT
-	kPDqBre3nG5OmPSKbCFLxe7wMCfd6j/rdHLeK973CWlIG6cB8q0mac7YJBAceuBkjxWqSfdzx6Z
-	1NxJ9p3uVuR83uedObSv1c295B2iuMB8D3lyw7h1T+xqDGZSPVbGwZpFJ6s4mJ/dlauL3zr8BfZ
-	Pd7IF4GF4a6IGVndsn291Wv+k0qlaL0EY4OZfiDvxpf6rw/7bmWpXuKlxNzYydMcwq4MBXWLdEt
-	R5I7zIJiFU4/niWD4QmaPgFGh5bB+A==
-X-Received: by 2002:a05:600c:574d:b0:490:778:4fe8 with SMTP id 5b1f17b1804b1-4909c0ba8c9mr28839315e9.25.1780051575110;
-        Fri, 29 May 2026 03:46:15 -0700 (PDT)
-Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909d68980csm41024205e9.1.2026.05.29.03.46.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 03:46:14 -0700 (PDT)
-Date: Fri, 29 May 2026 11:46:12 +0100
-From: Daniel Thompson <daniel@riscstar.com>
+	s=arc-20240116; t=1780051724; c=relaxed/simple;
+	bh=aSva7vC5/SQLPBBhmDLGEHIpvsZadcEt1WrBD5GW2Jk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=s+z/KTWCwcjZY6n6+3p6pgWSGBqiAYyIGXv1ckz9Plj8ELvnwEotAIAu61sBAybmm+9BjLAtETwoAOtUoUFTcoHXxbDlHFeX2xbzJwUmY1mIs6j32pvcoFsWraHuJylGAouV+AbpsEtzzcoAW24PWSEBkz4NP3rHkCsPjJBp0fA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RcmXz2eJ; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F2F21F00893;
+	Fri, 29 May 2026 10:48:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780051720;
+	bh=IANqlFtCzIw3GljQUv2sPx7JsQM7CwojrRvHLqwmyl0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=RcmXz2eJQZwVulgIIkCTYoQ0c8dgOJL85lQwMJXAL8HuzHlCjYZDjRkkhstqTZtqv
+	 QejNJ85wxWujfuLlzzpF2ub9Ep0D1ZSVmlkwiKyNoFLTVMD6el15W10K0MxMzyJJJJ
+	 rdJlWBIWSfKce5PtrAQ4djc0c8LTYZHF96gSmCvueADoLfNckdN9oAw86nZtzTKtSJ
+	 lB9y/9eo2EBz+7zC84/7M+IAef3KBrC4VCUlz8Zx4u0zaGkG0MFvRIlNbLKsOyZouX
+	 tGbvWPKJL0T59SD8uuKpSrK2nmAUztcU65jtxCnOAIpVEZjH7ZpetapTBxI+EQix96
+	 PY5d+S1uP0Kow==
+Date: Fri, 29 May 2026 11:48:28 +0100
+From: Jonathan Cameron <jic23@kernel.org>
 To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Helge Deller <deller@gmx.de>,
-	Johan Hovold <johan@kernel.org>, dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v2 1/6] dt-bindings: leds: Document TI LM3533 LED
- controller
-Message-ID: <ahludIZPMUlPDTG_@aspen.lan>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, Jingoo
+ Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Helge Deller <deller@gmx.de>, Johan Hovold <johan@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v2 2/6] mfd: lm3533: Convert to use OF bindings
+Message-ID: <20260529114828.5a87c732@jic23-huawei>
+In-Reply-To: <CAPVz0n0VHdUo5oHdALgcerLsykdz-2n7c+jxYHrMOV7Ra5x_qQ@mail.gmail.com>
 References: <20260528135123.103745-1-clamor95@gmail.com>
- <20260528135123.103745-2-clamor95@gmail.com>
- <ahlhinOh3NxB7FY_@aspen.lan>
- <CAPVz0n3C8D+amSRkF=Koj6Niu6u8uz4LbMoRYEX32_ECm5-tSQ@mail.gmail.com>
+	<20260528135123.103745-3-clamor95@gmail.com>
+	<20260528155001.2bcb7003@jic23-huawei>
+	<CAPVz0n0qCekQVGGyAyBuYv+RKC6bpydYBLJNGfPrgTYjtOJOuA@mail.gmail.com>
+	<20260529100819.1823ebb3@jic23-huawei>
+	<CAPVz0n0VHdUo5oHdALgcerLsykdz-2n7c+jxYHrMOV7Ra5x_qQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPVz0n3C8D+amSRkF=Koj6Niu6u8uz4LbMoRYEX32_ECm5-tSQ@mail.gmail.com>
-X-Spamd-Result: default: False [-0.06 / 15.00];
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_ALLOW(-0.20)[riscstar-com.20251104.gappssmtp.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[riscstar.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8367-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8368-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,baylibre.com,analog.com,gmx.de,lists.freedesktop.org,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[riscstar-com.20251104.gappssmtp.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel@riscstar.com,linux-leds@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jic23@kernel.org,linux-leds@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,baylibre.com,analog.com,gmx.de,lists.freedesktop.org,vger.kernel.org];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 56B7D6011DF
+X-Rspamd-Queue-Id: 2E148601229
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, May 29, 2026 at 01:07:50PM +0300, Svyatoslav Ryhel wrote:
-> пт, 29 трав. 2026 р. о 12:51 Daniel Thompson <daniel@riscstar.com> пише:
+On Fri, 29 May 2026 12:39:56 +0300
+Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+
+> =D0=BF=D1=82, 29 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 12=
+:08 Jonathan Cameron <jic23@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
 > >
-> > On Thu, May 28, 2026 at 04:51:18PM +0300, Svyatoslav Ryhel wrote:
-> > > Document the LM3533 - a complete power source for backlight, keypad and
-> > > indicator LEDs in smartphone handsets. The high-voltage inductive boost
-> > > converter provides the power for two series LED strings display backlight
-> > > and keypad functions.
+> > On Thu, 28 May 2026 18:03:31 +0300
+> > Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+> > =20
+> > > =D1=87=D1=82, 28 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=
+=BE 17:50 Jonathan Cameron <jic23@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5: =20
+> > > >
+> > > > On Thu, 28 May 2026 16:51:19 +0300
+> > > > Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+> > > > =20
+> > > > > Since there are no users of this driver via platform data, remove=
+ the
+> > > > > platform data support and switch to using Device Tree bindings.
+> > > > > Additionally, optimize functions used only by platform data. =20
+> > > >
+> > > >
+> > > > At least the IIO ones would have made much the same amount of sense=
+ for
+> > > > dt, just that they weren't having in the first place. I'd prefer th=
+at =20
+> >
+> > Gah. I write gibberish after too much reviewing.  having/helping!
+> > =20
+> > > > as a precursor patch to make the rest much more readable.
+> > > > =20
 > > >
-> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > ---
-> > >  .../leds/backlight/ti,lm3533-backlight.yaml   |  68 +++++++
-> > >  .../bindings/leds/ti,lm3533-leds.yaml         |  66 +++++++
-> > >  .../devicetree/bindings/leds/ti,lm3533.yaml   | 170 ++++++++++++++++++
-> > >  3 files changed, 304 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/leds/backlight/ti,lm3533-backlight.yaml
-> > >  create mode 100644 Documentation/devicetree/bindings/leds/ti,lm3533-leds.yaml
-> > >  create mode 100644 Documentation/devicetree/bindings/leds/ti,lm3533.yaml
+> > > I can add you preferences into this commit, I don't mind.
+> > > =20
+> > > > >
+> > > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com> =20
+> > > >
+> > > > I only looked in detail at the iio bit. A few changes requested.
+> > > > =20
+> > > > > ---
+> > > > >  drivers/iio/light/lm3533-als.c      |  95 ++++------
+> > > > >  drivers/leds/leds-lm3533.c          |  51 ++++--
+> > > > >  drivers/mfd/lm3533-core.c           | 268 ++++++++++------------=
+------
+> > > > >  drivers/video/backlight/lm3533_bl.c |  52 ++++--
+> > > > >  include/linux/mfd/lm3533.h          |  51 +-----
+> > > > >  5 files changed, 212 insertions(+), 305 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/iio/light/lm3533-als.c b/drivers/iio/light/l=
+m3533-als.c
+> > > > > index 99f0b903018c..cbd337b73bd9 100644
+> > > > > --- a/drivers/iio/light/lm3533-als.c
+> > > > > +++ b/drivers/iio/light/lm3533-als.c =20
+> > > > =20
+> > > > > @@ -714,59 +720,33 @@ static const struct attribute_group lm3533_=
+als_attribute_group =3D {
+> > > > >       .attrs =3D lm3533_als_attributes
+> > > > >  };
+> > > > >
+> > > > > -static int lm3533_als_set_input_mode(struct lm3533_als *als, boo=
+l pwm_mode)
+> > > > > +static int lm3533_als_setup(struct lm3533_als *als)
+> > > > >  {
+> > > > > -     u8 mask =3D LM3533_ALS_INPUT_MODE_MASK;
+> > > > > -     u8 val;
+> > > > > +     struct device *dev =3D &als->pdev.dev;
+> > > > >       int ret;
+> > > > >
+> > > > > -     if (pwm_mode)
+> > > > > -             val =3D mask;     /* pwm input */
+> > > > > -     else
+> > > > > -             val =3D 0;        /* analog input */
+> > > > > -
+> > > > > -     ret =3D lm3533_update(als->lm3533, LM3533_REG_ALS_CONF, val=
+, mask);
+> > > > > -     if (ret) {
+> > > > > -             dev_err(&als->pdev->dev, "failed to set input mode =
+%d\n",
+> > > > > -                                                             pwm=
+_mode);
+> > > > > -             return ret;
+> > > > > -     }
+> > > > > -
+> > > > > -     return 0;
+> > > > > -}
+> > > > > -
+> > > > > -static int lm3533_als_set_resistor(struct lm3533_als *als, u8 va=
+l)
+> > > > > -{
+> > > > > -     int ret;
+> > > > > -
+> > > > > -     if (val < LM3533_ALS_RESISTOR_MIN || val > LM3533_ALS_RESIS=
+TOR_MAX) {
+> > > > > -             dev_err(&als->pdev->dev, "invalid resistor value\n"=
+);
+> > > > > -             return -EINVAL;
+> > > > > -     }
+> > > > > -
+> > > > > -     ret =3D lm3533_write(als->lm3533, LM3533_REG_ALS_RESISTOR_S=
+ELECT, val);
+> > > > > -     if (ret) {
+> > > > > -             dev_err(&als->pdev->dev, "failed to set resistor\n"=
+);
+> > > > > -             return ret;
+> > > > > -     }
+> > > > > +     device_property_read_u32(dev, "ti,resistor-value-ohm",
+> > > > > +                              &als->r_select); =20
+> > > > Does this have a default?  If so the pattern we've recently be sett=
+ing on for IIO
+> > > > is
+> > > >         if (device_property_present(dev, "ti,resistor-value-ohm"))
+> > > >                 ret =3D device_property_read_u32();
+> > > >                 if (ret) //corrupt property in some fashion
+> > > >                         return ret;
+> > > >         } else {
+> > > >                 //set default
+> > > >         }
+> > > > If there is no default then check it unconditionally. =20
 > > >
-> > > diff --git a/Documentation/devicetree/bindings/leds/backlight/ti,lm3533-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/ti,lm3533-backlight.yaml
-> > > new file mode 100644
-> > > index 000000000000..866b0fb8ed04
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/leds/backlight/ti,lm3533-backlight.yaml
-> > > @@ -0,0 +1,68 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/leds/backlight/ti,lm3533-backlight.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: TI LM3533 high voltage series LED strings
-> > > +
-> > > +description:
-> > > +  This is part of the TI LM3533 MFD device. It represents two high voltage series
-> > > +  LED strings for display backlight controlled by the TI LM3533.
-> > > +
-> > > +maintainers:
-> > > +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> > > +
-> > > +allOf:
-> > > +  - $ref: /schemas/leds/backlight/common.yaml#
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: ti,lm3533-backlight
-> > > +
-> > > +  reg:
-> > > +    description: Control bank selection (0 = bank A, 1 = bank B).
-> > > +    maximum: 1
-> > >    <snip>
-> > > +  ti,pwm-config-mask:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > +    description: |
-> > > +      Control Bank PWM Configuration Register mask that allows to configure
-> > > +      PWM input in Zones 0-4
-> > > +      BIT(0) - PWM Input is enabled
-> > > +      BIT(1) - PWM Input is enabled in Zone 0
-> > > +      BIT(2) - PWM Input is enabled in Zone 1
-> > > +      BIT(3) - PWM Input is enabled in Zone 2
-> > > +      BIT(4) - PWM Input is enabled in Zone 3
-> > > +      BIT(5) - PWM Input is enabled in Zone 4
+> > > default value is LM3533_ALS_RESISTOR_MIN and if no property is present
+> > > clamp will ensure that als->r_select will be set to
+> > > LM3533_ALS_RESISTOR_MIN =20
 > >
-> > This is optional and the drive implements a default (zero) that is not
-> > documented here.
+> > I don't see that default in the binding doc and relying in the 0 being =
+clamped
+> > isn't particularly readable - I'd set it explicitly.
+> > =20
+>=20
+> Oh, ye, my bad. Schema enforces one of props to be present and if pwn
+> is present then resistor is ignored. What if I move resistor reading,
+> clamping and conversion under !als->pwm_mode check? Then resistor must
+> be present and hence must be checked unconditionally.
+
+Sounds good.
+
+>=20
+> Additionally, I can comment original lm3533_als_setup with #if 0
+> #endif then git formatting will be much cleaner and easier to review,
+> and once we all come to result I will just remove entire commented
+> block and Lee can pick clean commits.
+
+No don't do that.  If you flatten the two helpers as a precursor patch
+then the changes in here will be easier to review anyway.
+
+>=20
+> > =20
+> > > =20
+> > > > =20
+> > > > >
+> > > > > -     return 0;
+> > > > > -}
+> > > > > +     als->r_select =3D clamp(als->r_select, LM3533_ALS_RESISTOR_=
+MIN,
+> > > > > +                           LM3533_ALS_RESISTOR_MAX);
+> > > > > +     als->r_select =3D DIV_ROUND_UP(2 * MICRO, 10 * als->r_selec=
+t);
+> > > > >
+> > > > > -static int lm3533_als_setup(struct lm3533_als *als,
+> > > > > -                         const struct lm3533_als_platform_data *=
+pdata)
+> > > > > -{
+> > > > > -     int ret;
+> > > > > +     als->pwm_mode =3D device_property_read_bool(dev, "ti,pwm-mo=
+de");
+> > > > >
+> > > > > -     ret =3D lm3533_als_set_input_mode(als, pdata->pwm_mode);
+> > > > > +     ret =3D lm3533_update(lm3533, LM3533_REG_ALS_CONF, als->pwm=
+_mode ?
+> > > > > +                         LM3533_ALS_INPUT_MODE_MASK : 0, =20
+> > > >
+> > > > That's ugly.  Better as
+> > > >
+> > > >         ret =3D lm3533_update(lm3533, LM3533_REG_ALS_CONF,
+> > > >                             als->pwm_mode ? LM3533_ALS_INPUT_MODE_M=
+ASK : 0,
+> > > > =20
+> > >
+> > > Yes sure, just followed 80 char limit.
+> > > =20
+> > > > Though if there wasn't a layer hiding the regmap, it could just hav=
+e been
+> > > >
+> > > >         ret =3D regmap_assign_bits(lm3533->regmap, LM3533_REG_ALS_C=
+ONF,
+> > > >                                  LM3533_ALS_INPUT_MODE_MASK, als->p=
+wm_mode);;
+> > > >
+> > > > which would have been nicer.
+> > > >
+> > > > I'm not particularly keen on the swashing of the helpers being in a=
+ patch =20
 > >
-> > Is zero a sane default from a DT binding point of view?
+> > smashing.  (this definitely wasn't my best effort at English!)
+> > =20
+> > > > that is about switching the binding type as feels largely unrelated.
+> > > > Should really have been a precursor, easier to review patch.
+> > > > =20
+> > >
+> > > Removing of lm3533_update layer is not the scope of this patchset. =20
 > >
->
-> Yes, if property is missing then PWM input is disabled which is
-> equivalent to setting all bits to 0.
+> > Understood.  I'm fine with just the refactor you are doing brought out =
+as a precursor
+> > patch.
+> > =20
+>=20
+> I have looked into removing wrappers too. That seems to be less a
+> hassle that I anticipated, so I will include regmap switch in the v2.
 
-So the default should be documented in the bindings?
+Ah ok. Even better.
 
+>=20
+> > > =20
+> > > > =20
+> > > > > +                         LM3533_ALS_INPUT_MODE_MASK);
+> > > > >       if (ret)
+> > > > > -             return ret;
+> > > > > +             return dev_err_probe(dev, ret, "failed to set input=
+ mode %d\n",
+> > > > > +                                  als->pwm_mode);
+> > > > >
+> > > > >       /* ALS input is always high impedance in PWM-mode. */
+> > > > > -     if (!pdata->pwm_mode) {
+> > > > > -             ret =3D lm3533_als_set_resistor(als, pdata->r_selec=
+t);
+> > > > > +     if (!als->pwm_mode) {
+> > > > > +             ret =3D lm3533_write(lm3533, LM3533_REG_ALS_RESISTO=
+R_SELECT,
+> > > > > +                                (u8)als->r_select); =20
+> > > >
+> > > > Same applies here. Mostly an unrelated change as the only thing swi=
+tching that
+> > > > is related to the patch is one parameter.
+> > > > =20
+> > >
+> > > Removing of lm3533_write layer is not the scope of this patchset.
+> > > =20
+> > > > >               if (ret)
+> > > > > -                     return ret;
+> > > > > +                     return dev_err_probe(dev, ret, "failed to s=
+et resistor\n");
+> > > > >       }
+> > > > >
+> > > > >       return 0; =20
+> > > > =20
+> > > > > @@ -852,25 +825,28 @@ static int lm3533_als_probe(struct platform=
+_device *pdev)
+> > > > >       indio_dev->channels =3D lm3533_als_channels;
+> > > > >       indio_dev->num_channels =3D ARRAY_SIZE(lm3533_als_channels);
+> > > > >       indio_dev->name =3D dev_name(&pdev->dev);
+> > > > > -     iio_device_set_parent(indio_dev, pdev->dev.parent); =20
+> > > >
+> > > > I'm not sure why this was there in the first place.  Hence not sure=
+ if it
+> > > > is safe to remove.
+> > > > =20
+> > >
+> > > This is directly related to OF conversion. The iio_device_set_parent
+> > > bound indio_dev to parent, and it causes problems with OF now since
+> > > als output has its own node and binding it to parent if wrong. Same
+> > > story for backlight and leds btw. =20
+> >
+> > Is there any risk anyone was using the canonical path to get to the iio=
+ dev?
+> > /sys/bus/platform/devices/..../iio\:deviceX
+> > This is technically an ABI change be it a subtle one.
+> > =20
+>=20
+> Linux kernel has no users of this driver, and it is in "stale" state
+> for more then 2 years (maybe even longer). I have cc'd Johan Hovold.
+>=20
+> https://lore.kernel.org/lkml/ZmBcvtLCzllQDWVX@hovoldconsulting.com/
+>=20
+> This this 2 y. o. discussion and there were no actions ore movements.
+> I assume this driver in its current form has no more users. This does
+> not mean that it cannot be revived though.
 
-Daniel.
+So, just to check, are you a user of this code or is this more trying to
+help out with old code?
+
+Jonathan
+
+>=20
+> > =20
+> > > =20
+> > > > =20
+> > > > > diff --git a/drivers/leds/leds-lm3533.c b/drivers/leds/leds-lm353=
+3.c
+> > > > > index 45795f2a1042..d707d43d5526 100644
+> > > > > --- a/drivers/leds/leds-lm3533.c
+> > > > > +++ b/drivers/leds/leds-lm3533.c =20
+> > > > =20
+> > > > >
+> > > > >       led->cb.dev =3D led->cdev.dev;
+> > > > >
+> > > > > -     ret =3D lm3533_led_setup(led, pdata);
+> > > > > +     device_property_read_u32(&pdev->dev, "led-max-microamp",
+> > > > > +                              &led->max_current); =20
+> > > >
+> > > > I'd prefer explicit setting of the default to be visible before thi=
+s, or
+> > > > the property_present pattern I mention in the IIO review above.
+> > > > =20
+> > >
+> > > clamp will ensure that led->max_current will be set to
+> > > LM3533_LED_MAX_CURRENT_MIN regardless if it it present =20
+> >
+> > As above, I'd prefer it set explicitly.
+> > =20
+>=20
+> I understand your position and I am not denying it for ALS part, but
+> LEDs don't belong to IIO subsystem and different subsystem maintainers
+> may have drastically different preferences and requirements (ugh, PTSD
+> in its full glory).
+>=20
+> > > =20
+> > > > > +     led->max_current =3D clamp(led->max_current, LM3533_LED_MAX=
+_CURRENT_MIN,
+> > > > > +                              LM3533_LED_MAX_CURRENT_MAX); =20
+> > > >
+> > > > I didn't look any further (busy day!) =20
+> > > =20
+> > =20
+
 
