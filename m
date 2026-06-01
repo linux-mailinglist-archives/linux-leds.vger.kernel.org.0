@@ -1,81 +1,81 @@
-Return-Path: <linux-leds+bounces-8417-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8418-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oD7VMriqHWq+cwkAu9opvQ
-	(envelope-from <linux-leds+bounces-8417-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 01 Jun 2026 17:52:24 +0200
+	id kAkNMT6rHWoLdAkAu9opvQ
+	(envelope-from <linux-leds+bounces-8418-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 01 Jun 2026 17:54:38 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27342622132
-	for <lists+linux-leds@lfdr.de>; Mon, 01 Jun 2026 17:52:24 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5576221C0
+	for <lists+linux-leds@lfdr.de>; Mon, 01 Jun 2026 17:54:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 801AE305D5E9
-	for <lists+linux-leds@lfdr.de>; Mon,  1 Jun 2026 15:45:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9A1963059039
+	for <lists+linux-leds@lfdr.de>; Mon,  1 Jun 2026 15:46:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80EAE3DB63D;
-	Mon,  1 Jun 2026 15:45:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED1103D9048;
+	Mon,  1 Jun 2026 15:46:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RaUJRkQN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k1rc+j1k"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45CBE3D9048
-	for <linux-leds@vger.kernel.org>; Mon,  1 Jun 2026 15:45:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46EB3D9693
+	for <linux-leds@vger.kernel.org>; Mon,  1 Jun 2026 15:46:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780328742; cv=none; b=gsoC4YqFEta3DYF5w8cyl4WXzn395G4GmQhux7qwtKcfMN8obokRVah3PY4ldScHNLYgGBirHeYEX4fPbz05ghbcM35Sw9nQzzSZhtnwTBeLVu+qgP3ksDW4DuGqH/uhPZUQznOvxr6ZTikeqwEhR5nIvGNOgLgR1b7tjEwWhwk=
+	t=1780328766; cv=none; b=OItEEtFHInmqKWZsC1o4aSnrJZLkBZ7jTZhpeOSbJ5c8RrP9Uw9/X5PUjIEd7Zo/xJ50KFUymVfm6aEZ9o52oHH57pXxgUzotem7mqN/BtjdmjUGA5CIyueIHIbI2oxLXkgu1HZWKPwiZ6EZi/n0BC/B2rayqxjB1vakV5EVszA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780328742; c=relaxed/simple;
-	bh=ROYx6QEukf3YLjEl566ZTbj9VuE6iPvNRMj6LD7v8eU=;
+	s=arc-20240116; t=1780328766; c=relaxed/simple;
+	bh=e2pnY2qmmzkm/CpC6ZwLYOJy5t4zUkqjW0tG1nYULv0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cmZcWyCE/xM/5v3T0ybdxTvDPoWxKGIVAo+JB3AgkcZiND/xAslrh2fab8UWYcoheSDaaqili+33aJN759hfUN2IVM3AFXbze2i6oc9lE0dFWcK6PWchOCTak47IC5aPYyMQoXTe8FqoGrxfaLjldZstoXvRnDLmc74JpHNP8hE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RaUJRkQN; arc=none smtp.client-ip=74.125.82.170
+	 MIME-Version; b=qlnIfIJse7Lz04yPsxK2654qn27q4bzlrRN5pWA34PE797QMLXBoASUqr0x7J40LodlBomWHtRwYSv2pPk1nji7pQc0UOFKf+WM8poN6BvyPrOr/5winkAdOaU8RzrGuUPD99tCtBo7FtMiKKIHRyvsxl0nRsuycUv+Q/GWANEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k1rc+j1k; arc=none smtp.client-ip=74.125.82.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-304d7f31215so4134162eec.1
-        for <linux-leds@vger.kernel.org>; Mon, 01 Jun 2026 08:45:41 -0700 (PDT)
+Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-13621cca8f5so7712300c88.0
+        for <linux-leds@vger.kernel.org>; Mon, 01 Jun 2026 08:46:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780328740; x=1780933540; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780328765; x=1780933565; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UaqksUdxiXyCtVFqTvdAaP62ws3AIE3gaygTLx44flo=;
-        b=RaUJRkQNSA2o5iSTJITFFeSw24PkWjZPSyIu+Z1gD/gk2Ulj2QdrefgKXaooOJUNuu
-         ko7Ti/WzAmV2kIcizA4DiMCP+DV5CkDXIrVjE3hl286ggvDDhbczAC5zrXhRxVKas7Fg
-         o/LF45t8MmOqn/lkUuahDfqUfT657ThINrXKQqA7hnkco5ArZzg+KhFWynafvGOfyHal
-         ukuOynMioZNRfWEcgvQ3arj3O9FJ6fN+ezI7Xc1p+OiWFai9sY77RYBhk8FewHrzrsn0
-         lyxQ4aV5F091dZvgb/iFzPAq3eS8SGwNdQzUyFvtdaNinb7WNueqG7fApXC5f25MoAid
-         Kg7Q==
+        bh=3uG4ix1UGsv+5molCxwa32LUYrghrpeXWnN1jOsh2Dw=;
+        b=k1rc+j1knhlPThDKffLia5VIJJ7w800lSugbcBBBPnWEIJhFCvL4pFcNpiSvJXYqgl
+         shjQ1obNdTDq5bWDlD27FBMrge2wT6om1wkf2iGCIthVcInZmj+of2aJV5KFgnYaDXWx
+         ZRHD1q/OASX1LatyfFC07XN794yKaaiqpOKdSsdAJtCdcQa5EwrUlB5P1En+nuDGr8c7
+         KFLtcA098WkH8S1O6S/gvF96oGAqlVKqCCEpqvvcrJCKirXx1Q7JN/1BlQU6WA3t+D6Z
+         TfPMOMH1EOsSZBQSmFMoYzprSlLQuAdHB9ySl3aI2zDgYIknThVNFbQCgD/2LSU7WhBA
+         PCAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780328740; x=1780933540;
+        d=1e100.net; s=20251104; t=1780328765; x=1780933565;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=UaqksUdxiXyCtVFqTvdAaP62ws3AIE3gaygTLx44flo=;
-        b=lzj7rpn0kuldDYAFc7xUzjXp5ztDMTjv5c+xFPBUKjhcl9LlK59LVkbqjOsm/llpUW
-         Go82IkuxoIFuKGXWai+huhuGtUzu9hHn27cm2AlkW1+du7Kt8yfnachMR33aTI5zUY8h
-         /XFQU4m2ticZI6Se4q1iZeGdc1zM4CLnxCSj5EBVLurG9ubaWXde/wn3Kn8/6MCHcQaN
-         wFZLv1VTKzU0OuDrdg+aEJVCRYOLM/+IH9P/ZsYpT3WWQP20lJ9pZoV9iVRJt/1HfaNy
-         /WWvyjgHvyxhcR5ZygzuXrgNGWXM5IzrSxO/I07Kaaw6L/0i7jHYqFixeP2nu7o6N/48
-         6rdA==
-X-Forwarded-Encrypted: i=1; AFNElJ9ZDdZfevnqw0xTLnQy1vQPJUrQKJzKiGay8P1oSUyGFzRdIrNr3Wdl/zb3H1Afadz01LIPY+x3x5Pc@vger.kernel.org
-X-Gm-Message-State: AOJu0YymPy4LS/pQky52SV3QE8p8afzv4JvdcaFrN64iCj1FjzRQCBsG
-	ZSd+P0CkKONP7gFzd/QVMuWBiWPEn3jdJtdnxM1GbLBWsi/akxWcJiaw
-X-Gm-Gg: Acq92OHemj61hYdaNMygsMFAdrzgrTa+7fVxtu/fhxjx86dED4O4DN8J/bGyytyUWiF
-	oAaxRGnaPSoS2j9gg3RPh+QXbGzjAcmsDl9k3F5aO2dDJV7HkdwoTtQl8hEfLXDMe4JJebOZOv0
-	0wtUOceiHwDpAcs1pOL3qTf5DwIGD7xSMh7fUlbQTmABqhTXSKJZEydYoLRCLBgCGns48XBH7ia
-	HKGE0pjuYWPd2gieqWOyc8KhacYL/OVbd3qtjgL4tCYBkOHoXBqMyzpM2W5LTFi1fIPuK/2q10g
-	UBVT2WIib+ChlqRYq6Quw/Q6t3fMp2MvQRa23c621du+y9W6SkEx0rkVgn75ytaSdRGhbBHfn4G
-	V9YRNpt3945dYqhUcFGAOZP2/pE3ezq2YTDbKKu8w0srr1SRy7sq7MqVZfkRdP63HVioDcA+lMk
-	WeYekInLnBZHNYWlh5IWjrHfPyjhT+cOTKC0pmPaYoQAdpKkPwDyifP8qIPe59
-X-Received: by 2002:a05:7300:e12a:b0:2d8:71c2:255d with SMTP id 5a478bee46e88-304fa51a193mr4979946eec.14.1780328740237;
-        Mon, 01 Jun 2026 08:45:40 -0700 (PDT)
+        bh=3uG4ix1UGsv+5molCxwa32LUYrghrpeXWnN1jOsh2Dw=;
+        b=ewkbMH+0M+gjHBIKZouZO4YRsV3XUJqtPJSNO0J0BGM2rFAvFw+iJUbYHCFE98KKRl
+         jVb/TQAS5jS5KEnHVm9hD2PnJz4RQ1JMtZKR/cHoc6VZfM4iJVNYGnp8tTTaRhNCwXnO
+         SpmL8PLL2DNcSxdY3io22BS7MeEgZvIuHKg2WISZ4sV2rI5QJAjX5l0vb5LFR2Tg1XaB
+         t3ZoneFKCkYMB308URyA1/C3Ryjoub7nqPXoQeeN2sPbG/eY7oFjJo9eoZCLP/6s7rFV
+         u56yqI/UgZJQqlmxshO+Do3HPcU47KLSf1+gqIVIf1ZaYLTGiaHICH9k5T4r4i2yT1SR
+         virQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/1G8VPY/qfZkIh3GLcJj1/L+8N1/2Tw51SEylXXuAsdsw87GHCkAU8PSsYPSZx+aNa6MJP6nGbbESW@vger.kernel.org
+X-Gm-Message-State: AOJu0YzeLsBociWngRNsDk8jHe1T5iA6PLTctaquvzkGuc/bE7pXWYF+
+	25Q48Z4n1z9XQRsAUa5kMViUwul/upwrqbBXc1B1aSM2TrwiPGjwo+Jt
+X-Gm-Gg: Acq92OELjZ1kvg6rWQmnCFbvmVpdsiJ8PohTcII04RJjzEv9pVCjpYcN9IwKg7FucqL
+	Kx/zNqWuRzVdf5MTgdJ4On8LgewqwHCMX/IXf1+R3qr79n8QSx3AroinAi6UEoTO8ku0JPZ6F8F
+	0S7u1MmkL8YtWCt3KPqNzK8A4u0NQp9XwM3H1wE0FRQq0gLnGAhkBes8kRC7yLa2BENP3AujdqA
+	Cl9I12d4f4UVGph/8SXS2YT1CmBUJn8UamscwD517ppquBB4XheSGXobymhFcgcBmlZ5R5sCLcx
+	L6AJ3mlMeidYKGSx1KiBHCt/rwfbG7qpPmQe6X8DFym/SPmpXSBbYnRu+b56Uw9klT/vmvcI26E
+	kwwlfQ9UCwq+OJjTAGjBHNG+KYJWQ6jmNaGQdrfPXPg6HquIe2tg2DoeBB1OQYZhayHMU+9LlG2
+	e89dyNbWNKVS0vWwGlpfa/syRElkPffZ1aioQnV1FAjGIlhlNrKA==
+X-Received: by 2002:a05:7022:117:b0:11a:e426:911a with SMTP id a92af1059eb24-137d3f132bbmr6136731c88.15.1780328764643;
+        Mon, 01 Jun 2026 08:46:04 -0700 (PDT)
 Received: from arch.localdomain ([2409:8a28:a54:e741:3a5a:3245:d3dc:4b5d])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-304ed563d09sm8875697eec.15.2026.06.01.08.45.36
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137b36aef95sm6996203c88.4.2026.06.01.08.45.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 08:45:39 -0700 (PDT)
+        Mon, 01 Jun 2026 08:46:04 -0700 (PDT)
 From: Jun Yan <jerrysteve1101@gmail.com>
 To: lee@kernel.org
 Cc: conor+dt@kernel.org,
@@ -88,12 +88,12 @@ Cc: conor+dt@kernel.org,
 	luccafachinetti@gmail.com,
 	pzalewski@thegoodpenguin.co.uk,
 	robh@kernel.org
-Subject: Re: [PATCH v7 4/6] leds: is31fl32xx: Add powerdown pin for hardware shutdown mode
-Date: Mon,  1 Jun 2026 23:45:33 +0800
-Message-ID: <20260601154534.1675736-1-jerrysteve1101@gmail.com>
+Subject: Re: [PATCH v7 6/6] leds: is31fl32xx: Move pwm frequency setting to init_regs()
+Date: Mon,  1 Jun 2026 23:45:57 +0800
+Message-ID: <20260601154557.1675809-1-jerrysteve1101@gmail.com>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260527151743.GA712405@google.com>
-References: <20260527151743.GA712405@google.com>
+In-Reply-To: <20260527151929.GB712405@google.com>
+References: <20260527151929.GB712405@google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -108,11 +108,11 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8417-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8418-lists,linux-leds=lfdr.de];
 	FREEMAIL_CC(0.00)[kernel.org,zonque.org,vger.kernel.org,gmail.com,thegoodpenguin.co.uk];
 	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -129,91 +129,99 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 27342622132
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 2B5576221C0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 > On Wed, 20 May 2026, Jun Yan wrote:
 > 
-> > The IS31FL32XX series features an SDB shutdown pin.
-> > Driving it low (active low) places the chip into hardware shutdown
+> > commit a18983b95a61 ("leds: is31f132xx: Add support for is31fl3293")
+> > swapped the order of is31fl32xx_parse_dt() and is31fl32xx_init_regs().
+> > 
+> > This causes the PWM frequency configuration programmed in
+> > is31fl32xx_parse_dt() to be overwritten by the register reset
+> > operation performed in is31fl32xx_init_regs().
+> > 
+> > Move the PWM frequency setting logic from is31fl32xx_parse_dt() to
+> > is31fl32xx_init_regs() and separates device tree parsing from hardware
+> > initialization.
+> > 
+> > Fixes: a18983b95a61 ("leds: is31f132xx: Add support for is31fl3293")
+> > Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
+> > ---
+> >  drivers/leds/leds-is31fl32xx.c | 22 ++++++++++------------
+> >  1 file changed, 10 insertions(+), 12 deletions(-)
+> > 
+> > diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
+> > index 2d7ff4c5a08c..c545a3b7a05a 100644
+> > --- a/drivers/leds/leds-is31fl32xx.c
+> > +++ b/drivers/leds/leds-is31fl32xx.c
+> > @@ -63,6 +63,7 @@ struct is31fl32xx_priv {
+> >  	struct i2c_client *client;
+> >  	struct gpio_desc *powerdown_gpio;
+> >  	unsigned int num_leds;
+> > +	bool pwm_22khz;
+> >  	struct is31fl32xx_led_data leds[];
+> >  };
+> >  
+> > @@ -346,6 +347,14 @@ static int is31fl32xx_init_regs(struct is31fl32xx_priv *priv)
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > +	if ((cdef->output_frequency_setting_reg != IS31FL32XX_REG_NONE) &&
+> > +		priv->pwm_22khz) {
 > 
-> Nit: No need to wrap for a new sentence.
+> Nit: No need to wrap here.  Use up to 100-chars to beautify.
+
+OK.
+
+> 
+> > +		ret = is31fl32xx_write(priv, cdef->output_frequency_setting_reg,
+> > +							IS31FL32XX_PWM_FREQUENCY_22KHZ);
+> 
+> Nit: Line-up with the '('.
 
 Got it.
 
-> > mode for power saving, while all register contents are preserved
-> > and registers are not reset.
-> > 
-> > Deassert/assert the pin accordingly during probe() and remove()
-> > to manage hardware shutdown mode.
-> > 
-> > Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
-> > ---
-> >  drivers/leds/leds-is31fl32xx.c | 13 +++++++++++++
-> >  1 file changed, 13 insertions(+)
-> > 
-> > diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-> > index fe07acbb103a..5b9ed5a1818f 100644
-> > --- a/drivers/leds/leds-is31fl32xx.c
-> > +++ b/drivers/leds/leds-is31fl32xx.c
-> > @@ -10,6 +10,7 @@
-> >   */
-> >  
-> >  #include <linux/device.h>
-> > +#include <linux/gpio/consumer.h>
-> >  #include <linux/i2c.h>
-> >  #include <linux/kernel.h>
-> >  #include <linux/leds.h>
-> > @@ -60,6 +61,7 @@ struct is31fl32xx_led_data {
-> >  struct is31fl32xx_priv {
-> >  	const struct is31fl32xx_chipdef *cdef;
-> >  	struct i2c_client *client;
-> > +	struct gpio_desc *powerdown_gpio;
-> >  	unsigned int num_leds;
-> >  	struct is31fl32xx_led_data leds[];
-> >  };
-> > @@ -421,6 +423,14 @@ static int is31fl32xx_parse_dt(struct device *dev,
-> >  	const struct is31fl32xx_chipdef *cdef = priv->cdef;
+Thanks for the review, will fix everything in v8.
+
+> 
+> > +		if (ret)
+> > +			return ret;
+> > +	}
+> > +
+> >  	/*
+> >  	 * Set enable bit for all channels.
+> >  	 * We will control state with PWM registers alone.
+> > @@ -420,7 +429,6 @@ static struct is31fl32xx_led_data *is31fl32xx_find_led_data(
+> >  static int is31fl32xx_parse_dt(struct device *dev,
+> >  			       struct is31fl32xx_priv *priv)
+> >  {
+> > -	const struct is31fl32xx_chipdef *cdef = priv->cdef;
 > >  	int ret = 0;
 > >  
-> > +	/* Driving this GPIO line low takes the chip out of shutdown,
-> > +	 * as it is flagged as GPIO_ACTIVE_LOW in provider (such as the device tree).
-> > +	 */
-> 
-> Please use properly formatted multi-line comments.
-
-OK.
-
-> 
-> > +	priv->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown", GPIOD_OUT_LOW);
-> > +	if (IS_ERR(priv->powerdown_gpio))
-> > +		return dev_err_probe(dev, PTR_ERR(priv->powerdown_gpio),
-> > +				"Failed to get powerdown gpio\n");
-> 
-> Nit: GPIO
-
-OK.
-
-Thanks for the review, will fix all of in v8.
-
-> 
-> > +
-> >  	if ((cdef->output_frequency_setting_reg != IS31FL32XX_REG_NONE) &&
-> >  	    of_property_read_bool(dev_of_node(dev), "issi,22khz-pwm")) {
+> >  	/* Driving this GPIO line low takes the chip out of shutdown,
+> > @@ -431,17 +439,7 @@ static int is31fl32xx_parse_dt(struct device *dev,
+> >  		return dev_err_probe(dev, PTR_ERR(priv->powerdown_gpio),
+> >  				"Failed to get powerdown gpio\n");
 > >  
-> > @@ -609,6 +619,9 @@ static void is31fl32xx_remove(struct i2c_client *client)
-> >  	if (ret)
-> >  		dev_err(&client->dev, "Failed to reset registers on removal (%pe)\n",
-> >  			ERR_PTR(ret));
-> > +
-> > +	if (priv->powerdown_gpio)
-> > +		gpiod_set_value(priv->powerdown_gpio, 1);
-> >  }
+> > -	if ((cdef->output_frequency_setting_reg != IS31FL32XX_REG_NONE) &&
+> > -	    of_property_read_bool(dev_of_node(dev), "issi,22khz-pwm")) {
+> > -
+> > -		ret = is31fl32xx_write(priv, cdef->output_frequency_setting_reg,
+> > -				       IS31FL32XX_PWM_FREQUENCY_22KHZ);
+> > -
+> > -		if (ret) {
+> > -			dev_err(dev, "Failed to write output PWM frequency register\n");
+> > -			return ret;
+> > -		}
+> > -	}
+> > +	priv->pwm_22khz = of_property_read_bool(dev_of_node(dev), "issi,22khz-pwm");
 > >  
-> >  /*
+> >  	for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
+> >  		struct led_init_data init_data = {};
 > > -- 
 > > 2.54.0
 > > 
@@ -221,5 +229,5 @@ Thanks for the review, will fix all of in v8.
 > 
 > -- 
 > Lee Jones
-
+> 
 
