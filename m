@@ -1,81 +1,81 @@
-Return-Path: <linux-leds+bounces-8415-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8416-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ABf9LFSnHWpJcwkAu9opvQ
-	(envelope-from <linux-leds+bounces-8415-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 01 Jun 2026 17:37:56 +0200
+	id ADjeEVynHWpbcwkAu9opvQ
+	(envelope-from <linux-leds+bounces-8416-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 01 Jun 2026 17:38:04 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B39621DA9
-	for <lists+linux-leds@lfdr.de>; Mon, 01 Jun 2026 17:37:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E716C621DD1
+	for <lists+linux-leds@lfdr.de>; Mon, 01 Jun 2026 17:38:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 26CD130E769A
-	for <lists+linux-leds@lfdr.de>; Mon,  1 Jun 2026 15:21:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BD97431114B3
+	for <lists+linux-leds@lfdr.de>; Mon,  1 Jun 2026 15:21:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06E903DF019;
-	Mon,  1 Jun 2026 15:19:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02D573DBD7E;
+	Mon,  1 Jun 2026 15:19:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SlWReqmt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h1/4O/gP"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801703DEFFE
-	for <linux-leds@vger.kernel.org>; Mon,  1 Jun 2026 15:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F763E00A4
+	for <linux-leds@vger.kernel.org>; Mon,  1 Jun 2026 15:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780327171; cv=none; b=f9qxIwqUZHp7B/n8nf7YO01hFWPd7QzaudfrLvPLmMxYQJ3ahiPxSXEdBeBF4OeSmLqbEfY1qUWnzoT4E7Bj+jL5GEIq1h3op+afZ/5MBLTy/PrGB8EqIjuE0ZNTv4M5llERtKxQ/EFPsQ2iEVS4wGbmt+MFCsbnI3DNnYpGiu0=
+	t=1780327173; cv=none; b=tA9Q0X0/EwSoZ3rw9uFdljhJ5/tWmSOHLDLhpVDgai6qVIReyJOB8UNEfH3YxmG5ZCqw5SVEUy0BzJep7K0JNxU2Jm/l567k8sTdVKvgpRKvXivIP9zq73moPFS02OQ2R7CRAKYRIIMHX3zyaM6qcU19yx0dSvKDRbLt/HnVrUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780327171; c=relaxed/simple;
-	bh=Gqs7G7t00pywVX3rRhClLifko2DwPlgtzGf6OODWNOY=;
+	s=arc-20240116; t=1780327173; c=relaxed/simple;
+	bh=RZTQ2H/zzNTFrVxP5f5192LTONxSh/ltoz3RRhQzsG0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=APVOT5Ml8r72oFZTEqBsI0alUxCsJcZCa26KEfzrbIeJvL8nqD/oGeos27SnZw5qced6gSFPMGg80INWYNcOGcfVvegOlq9lVRxel1ix6tkIsT9JamAOVQCADsULkUUtF9uuLh2kOzu9bN06ySX9cEwZljt1QqBQLyNx9lrypXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SlWReqmt; arc=none smtp.client-ip=209.85.128.48
+	 MIME-Version; b=bXBRs1B8r7jbXWHxtU3t6bXxo/HjLDyhrG/TTWXKnuSOKVLpEj2gNb7rScSnvBwdOdf0TrzSeEx1j9Ha5Oi1YF9IJJm4mZDbW1Q4F9/5ouhKSyWL0hxnet/+YkjMwi5NpKI4bEht5SBtKWv+cnYYLzwzZ8h8Wz/kKkptlpwWQiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h1/4O/gP; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4908b92904fso50656355e9.0
-        for <linux-leds@vger.kernel.org>; Mon, 01 Jun 2026 08:19:14 -0700 (PDT)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-45ef779c1c2so1806490f8f.1
+        for <linux-leds@vger.kernel.org>; Mon, 01 Jun 2026 08:19:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780327153; x=1780931953; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780327154; x=1780931954; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=33jV+tJR7Nm5ReUL1Jncj608Et9Ag1X54glyJfKp5cY=;
-        b=SlWReqmtNBJgpuPqFBJ12rBdSTE7NTWat1EwcxNlvUeN/Q1Vmuq084pYnUVAPpNXTh
-         K/7XijqDSNVP7JleW6xrVBhilYT/7pjmhsYeZF9ykncXIuFMw/AtI6IpMBZR6qIu4CtJ
-         alpPerpSV5LkvxU/kBG54B0uhhRDRFWkd5FMNNar2kl+3CugOLVhYN6/sc2ugYKu+TAw
-         GEE5AbOxDZlxbR00XBDHRloB4HW4NFOiKkUllyhnpOAiKzdCZtt3ofTzfdmmP4Uul2G0
-         L0AR5zkgyJnyrnDlY7WwxlOVcK0V5rKis71rON1FV69F0QFYRmo/K1JgOYetuUizzmJG
-         jEtA==
+        bh=fl3qFf3690+fE50JY3SQOXjzJEQ1bfcjE1YgTovPA6E=;
+        b=h1/4O/gPfRv/HHJqc/lQyR287miEaJngBhbvey0jCYwGsUUUF05RtFdcwvDFn+z6Zj
+         6FWGRME/fTf4SFB3c3DR7hQBjG3CiAiVbPMDh/SRyM3GykIxJUGB/MbJMTzn5btjcazo
+         e8y+ByQORZZP5U0QfLffflTrIv5drS6KYIWtDZYBOTAwSbgS/jvjsM1G0L8Se3EqCbk7
+         Gbv41GbC1+SFKHFWKK0E5S7yOdCrhGgPP5+6s1nXkjy8yuEvORbscLTFDhd+dVKFCWhw
+         yinQbg/1FXZte3lPlRoKDbBDCJ8BE8tIbe46fofSQ6mbERohk9e/zQqSSZIvUmy+ClK3
+         JPOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780327153; x=1780931953;
+        d=1e100.net; s=20251104; t=1780327154; x=1780931954;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=33jV+tJR7Nm5ReUL1Jncj608Et9Ag1X54glyJfKp5cY=;
-        b=o72lGa9zkDVCfiT4r9i2AGlsnj5qWGAZCBSaErU1Hhbnq6SrokyeNrsFJ0RXBunbkc
-         AbaaNOKZZbJPgsibyDZztFmxe71nZLzwTph+tDVHN39N9Guld0I2MVHMeh0DgnSEz7pz
-         hUGzbupcjuajiebCDEIMVFW1VGjHws5UKxNGtDzbacjPHUxHdIna9R5Ij5HNe3oViMg5
-         A3nvWrnshptlc0sC5lvtAoa26EfqhG7p1nwV6/c9ZJF4IiqHBLVFhhzVGfG51CyX+ciN
-         bCbPrNeXDKPGtaujg+5Ir7MKH7hpu/C6ucpyGGxCZlzQh7bwCUq4wZ7qqWfltDzdOA3l
-         +mKA==
-X-Forwarded-Encrypted: i=1; AFNElJ+q/zNOTt0xvPAo4H/h7LCAhKt0U/U2QEW5JzX/RQhDSuXCEKW96OdcSipfSDKWSZ4yLOuGoE4uOCNA@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzoybk5GzIFHU65lcJRmcEufgBw0qEhc/YMejqxC6V1kDkrzfbT
-	QhnnnaiUF5/W0W6TfbRgqkLUAUVdm+woYJoFZs2z/k3AOLspcu3O+Toa
-X-Gm-Gg: Acq92OGVnufYhFRfY3mtwae+p3aeYW2nUzX8GruENB09NR5wib102AlQAQOWQqqk7Xa
-	Om6dvNzaRmLsEfCRl/6y1hqWOCpMJhCe1WSm+/hapBuaofRc4mWjBChqIOx8tsQEZQo0LTWbSCb
-	VUHFuuMjgmfYQZsHcFQz9CZ9OQ/8xjw0QwpFQEAXMpFiGMXDQICcR1X63Lpx6WpSZQf/BrXxCeS
-	qTglgPIyHom91g1epjK1ytP1BWqlbSuiuSSSIs9BqwXUzSCR1VdbyAH4ZPp6+R+hEJjP/txH93G
-	XpnoqWK6xaU8ZoxD+NZcaIVnBK7ybMi1jNTRMLnoN6aYtDfzCYs+d8VIVEJOxFpoubhQctcZ9Mw
-	To19D12SOJTpXpDOVNJkhhYAsqFNyViVQAQAfaUEqOWYlbwFR/ZWrnqZhTDQ9HGwiaQOffp2Rgz
-	1KBKzseY4749y4bjY1BpULBTHmW1ClNQ+9mg==
-X-Received: by 2002:a05:600c:6385:b0:490:40f1:5314 with SMTP id 5b1f17b1804b1-490a290ec08mr258749965e9.1.1780327152708;
-        Mon, 01 Jun 2026 08:19:12 -0700 (PDT)
+        bh=fl3qFf3690+fE50JY3SQOXjzJEQ1bfcjE1YgTovPA6E=;
+        b=DXvnzQTV6zlHeuaLFwJVwciakn9FO48NuuTmElluwNE3+XqCb6Zl8LImyhWNNs7YQM
+         RkIHD7iu08xYUOM4RAzrzz0eTUCh80LCQR7l0DDlzF+jZ24YlblpoFjFPEI3QWNSFm9Z
+         R2GrEqQoM6YBbX+fo3pGaP0krtMuwurEazqs7P0lefRiJeFXjFCp3sxK+sb/DFx9tX5Q
+         MrBWyEcpoLa3StgsidIGfenDN2CevWQRX0S4XRYg3afpI0zy881bI+DmtmGPn4gMtsEc
+         tt24djnzfbQenMF/dVdLSHFy3UHZuPY/dzURFbQt4Ts9mQr0Dzk2v4xWyX86jNhMG5BQ
+         nHTQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8KQX/4o/q6fOht4rP2jmb6GrBCirjeoRhPA89367o8OGgSybXqngssgkvlA15MQ73PtnODw3gzPZXU@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOy46J+aU98TIYLT4G8HzMOUh/x49+rApHmY9PJttlQ63L5gx4
+	XkzZSEZjIuy7F4+JCtWr84IQzWstFwILnuxvsk5TTGrwYjcpYOoNkizq
+X-Gm-Gg: Acq92OFmrd7BWKgIhzhAcPGKA+07Jy0yZ1jt5LHD6FqtGn0Hirybu279fnEWzoy75UB
+	I+/9c1BNeyMBYMPvnixnR/kuL1Mi8UbYTtklYTaZ0ulvjHnc56JpT5NaM7OBrtlyOeHnAqLMwuf
+	eNLHggiuxLbRH8EEMpw0/BL8bgIV04tphEsiDBcJsktaefKCf+WMaBdTKE7SC1E+zRjIOlAY7VY
+	5Eq3txBqJ67zlsdIniybC+arLw3iqArXOnRHjdgGPf5KDdvjeU8oCvN/H98xmKGfQBzGI5g2WKj
+	uaFUMnT3Da7zswIQmkanL/hq2NCWtCp2rmWXTqfP07ID8LkcoGeWMN+wFCMZ52KEgPvUT6KSLC6
+	h3S7kxJM7gTjO2rmHRy29YbOuivu1bcXQxzi7FHxZOs44tOWTkCXrnrkc155R/AhGhYJLJCFKzr
+	qRVyeWJ4RK6u1835OwCYEyCNA=
+X-Received: by 2002:a05:6000:1376:b0:43d:7868:21f0 with SMTP id ffacd0b85a97d-45ef6afc537mr16294468f8f.9.1780327154150;
+        Mon, 01 Jun 2026 08:19:14 -0700 (PDT)
 Received: from xeon ([188.163.112.61])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef354cd7csm25753103f8f.18.2026.06.01.08.19.11
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef354cd7csm25753103f8f.18.2026.06.01.08.19.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 08:19:12 -0700 (PDT)
+        Mon, 01 Jun 2026 08:19:13 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Lee Jones <lee@kernel.org>,
 	Daniel Thompson <danielt@kernel.org>,
@@ -97,9 +97,9 @@ Cc: Johan Hovold <johan@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-iio@vger.kernel.org,
 	linux-fbdev@vger.kernel.org
-Subject: [PATCH v3 10/11] video: backlight: lm3533_bl: Implement backlight_scale property
-Date: Mon,  1 Jun 2026 18:18:30 +0300
-Message-ID: <20260601151831.76350-11-clamor95@gmail.com>
+Subject: [PATCH v3 11/11] video: leds: backlight: lm3533: Support getting LED sources from DT
+Date: Mon,  1 Jun 2026 18:18:31 +0300
+Message-ID: <20260601151831.76350-12-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260601151831.76350-1-clamor95@gmail.com>
 References: <20260601151831.76350-1-clamor95@gmail.com>
@@ -124,7 +124,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-8415-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8416-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[20];
 	FREEMAIL_TO(0.00)[kernel.org,gmail.com,baylibre.com,analog.com,gmx.de];
@@ -140,49 +140,199 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 62B39621DA9
+X-Rspamd-Queue-Id: E716C621DD1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Since the device supports linear and non-linear modes, implement the
-backlight_scale property to describe this state.
+Add Control Bank to HVLED/LVLED muxing support based on the led-sources
+defined in the device tree.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/video/backlight/lm3533_bl.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/leds/leds-lm3533.c          | 55 ++++++++++++++++++++++++++++-
+ drivers/video/backlight/lm3533_bl.c | 40 ++++++++++++++++++++-
+ 2 files changed, 93 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/leds/leds-lm3533.c b/drivers/leds/leds-lm3533.c
+index f2502daf450d..6db1c1fd2e20 100644
+--- a/drivers/leds/leds-lm3533.c
++++ b/drivers/leds/leds-lm3533.c
+@@ -7,6 +7,7 @@
+  * Author: Johan Hovold <jhovold@gmail.com>
+  */
+ 
++#include <linux/bits.h>
+ #include <linux/module.h>
+ #include <linux/leds.h>
+ #include <linux/mfd/core.h>
+@@ -27,6 +28,12 @@
+ #define LM3533_ALS_CHANNEL_LV_MIN	1
+ #define LM3533_ALS_CHANNEL_LV_MAX	2
+ 
++#define LM3533_REG_OUTPUT_CONF1			0x10
++#define   OUTPUT_CONF1_MASK			GENMASK(7, 2)
++#define   OUTPUT_CONF1_SHIFT			2
++#define LM3533_REG_OUTPUT_CONF2			0x11
++#define   OUTPUT_CONF2_MASK			GENMASK(3, 0)
++#define   OUTPUT_CONF2_SHIFT			6
+ #define LM3533_REG_CTRLBANK_BCONF_BASE		0x1b
+ #define LM3533_REG_PATTERN_ENABLE		0x28
+ #define LM3533_REG_PATTERN_LOW_TIME_BASE	0x71
+@@ -54,6 +61,9 @@ struct lm3533_led {
+ 
+ 	u32 max_current;
+ 	u32 pwm;
++
++	int num_leds;
++	u32 leds[LM3533_LVCTRLBANK_MAX];
+ };
+ 
+ 
+@@ -641,7 +651,33 @@ static const struct attribute_group *lm3533_led_attribute_groups[] = {
+ 
+ static int lm3533_led_setup(struct lm3533_led *led)
+ {
+-	int ret;
++	u32 output_cfg_shift = 0;
++	u32 output_cfg_val = 0;
++	int ret, i;
++
++	if (led->num_leds) {
++		for (i = 0; i < led->num_leds; i++) {
++			if (led->leds[i] >= LM3533_LVCTRLBANK_MAX)
++				continue;
++
++			output_cfg_shift = led->leds[i] * 2;
++			output_cfg_val |= led->id << output_cfg_shift;
++		}
++
++		/* LVLED1, LVLED2 and LVLED3 */
++		ret = regmap_update_bits(led->lm3533->regmap, LM3533_REG_OUTPUT_CONF1,
++					 OUTPUT_CONF1_MASK,
++					 output_cfg_val << OUTPUT_CONF1_SHIFT);
++		if (ret)
++			return ret;
++
++		/* LVLED4 and LVLED5 */
++		ret = regmap_update_bits(led->lm3533->regmap, LM3533_REG_OUTPUT_CONF2,
++					 OUTPUT_CONF2_MASK,
++					 output_cfg_val >> OUTPUT_CONF2_SHIFT);
++		if (ret)
++			return ret;
++	}
+ 
+ 	ret = lm3533_ctrlbank_set_max_current(&led->cb, led->max_current);
+ 	if (ret)
+@@ -716,6 +752,23 @@ static int lm3533_led_probe(struct platform_device *pdev)
+ 	led->pwm = 0;
+ 	device_property_read_u32(&pdev->dev, "ti,pwm-config-mask", &led->pwm);
+ 
++	led->num_leds = device_property_count_u32(&pdev->dev, "led-sources");
++
++	/*
++	 * If led-sources property is not set then either this Control Bank uses
++	 * its default LVLED or is not linked to any LVLED at all.
++	 */
++	if (led->num_leds > 0 && led->num_leds <= LM3533_LVCTRLBANK_MAX) {
++		ret = device_property_read_u32_array(&pdev->dev, "led-sources",
++						     led->leds, led->num_leds);
++		if (ret) {
++			dev_err(&pdev->dev, "failed to get led-sources\n");
++			goto err_deregister;
++		}
++	} else {
++		led->num_leds = 0;
++	}
++
+ 	ret = lm3533_led_setup(led);
+ 	if (ret)
+ 		goto err_deregister;
 diff --git a/drivers/video/backlight/lm3533_bl.c b/drivers/video/backlight/lm3533_bl.c
-index f0d88b7bc229..945625c54fc4 100644
+index 945625c54fc4..2119433bae45 100644
 --- a/drivers/video/backlight/lm3533_bl.c
 +++ b/drivers/video/backlight/lm3533_bl.c
-@@ -161,6 +161,7 @@ static ssize_t store_linear(struct device *dev,
- 					const char *buf, size_t len)
+@@ -7,6 +7,7 @@
+  * Author: Johan Hovold <jhovold@gmail.com>
+  */
+ 
++#include <linux/bits.h>
+ #include <linux/module.h>
+ #include <linux/init.h>
+ #include <linux/mod_devicetable.h>
+@@ -22,6 +23,8 @@
+ #define LM3533_HVCTRLBANK_COUNT		2
+ #define LM3533_BL_MAX_BRIGHTNESS	255
+ 
++#define LM3533_REG_OUTPUT_CONF1		0x10
++#define   OUTPUT_CONF1_MASK		GENMASK(1, 0)
+ #define LM3533_REG_CTRLBANK_AB_BCONF	0x1a
+ #define   CTRLBANK_AB_BCONF_MODE(n)	BIT(2 * (n) + 1)
+ 
+@@ -35,6 +38,9 @@ struct lm3533_bl {
+ 	u32 max_current;
+ 	u32 pwm;
+ 	bool linear;
++
++	int num_leds;
++	u32 led_strings[LM3533_HVCTRLBANK_COUNT];
+ };
+ 
+ 
+@@ -253,7 +259,8 @@ static struct attribute_group lm3533_bl_attribute_group = {
+ static int lm3533_bl_setup(struct lm3533_bl *bl)
  {
- 	struct lm3533_bl *bl = dev_get_drvdata(dev);
-+	struct backlight_device *bd = bl->bd;
  	int id = lm3533_bl_get_ctrlbank_id(bl);
- 	unsigned long linear;
- 	int ret;
-@@ -174,6 +175,9 @@ static ssize_t store_linear(struct device *dev,
+-	int ret;
++	u32 output_cfg_val = 0;
++	int ret, i;
+ 
+ 	ret = regmap_update_bits(bl->lm3533->regmap, LM3533_REG_CTRLBANK_AB_BCONF,
+ 				 CTRLBANK_AB_BCONF_MODE(id),
+@@ -261,6 +268,20 @@ static int lm3533_bl_setup(struct lm3533_bl *bl)
  	if (ret)
  		return ret;
  
-+	bd->props.scale = linear ? BACKLIGHT_SCALE_LINEAR :
-+				   BACKLIGHT_SCALE_NON_LINEAR;
++	if (bl->num_leds) {
++		for (i = 0; i < bl->num_leds; i++) {
++			if (bl->led_strings[i] >= LM3533_HVCTRLBANK_COUNT)
++				continue;
 +
- 	return len;
- }
++			output_cfg_val |= id << bl->led_strings[i];
++		}
++
++		ret = regmap_update_bits(bl->lm3533->regmap, LM3533_REG_OUTPUT_CONF1,
++					 OUTPUT_CONF1_MASK, output_cfg_val);
++		if (ret)
++			return ret;
++	}
++
+ 	ret = lm3533_ctrlbank_set_max_current(&bl->cb, bl->max_current);
+ 	if (ret)
+ 		return ret;
+@@ -336,6 +357,23 @@ static int lm3533_bl_probe(struct platform_device *pdev)
+ 	bl->pwm = 0;
+ 	device_property_read_u32(&pdev->dev, "ti,pwm-config-mask", &bl->pwm);
  
-@@ -309,6 +313,8 @@ static int lm3533_bl_probe(struct platform_device *pdev)
- 
- 	bl->linear = device_property_read_bool(&pdev->dev,
- 					       "ti,linear-mapping-mode");
-+	props.scale = bl->linear ? BACKLIGHT_SCALE_LINEAR :
-+				   BACKLIGHT_SCALE_NON_LINEAR;
- 
- 	bd = devm_backlight_device_register(&pdev->dev, name, &pdev->dev,
- 					    bl, &lm3533_bl_ops, &props);
++	bl->num_leds = device_property_count_u32(&pdev->dev, "led-sources");
++
++	/*
++	 * If led-sources property is not set then either this Control Bank uses
++	 * its default HVLED or is not linked to any HVLED at all.
++	 */
++	if (bl->num_leds > 0 && bl->num_leds <= LM3533_HVCTRLBANK_COUNT) {
++		ret = device_property_read_u32_array(&pdev->dev, "led-sources",
++						     bl->led_strings,
++						     bl->num_leds);
++		if (ret)
++			return dev_err_probe(&pdev->dev, ret,
++					     "failed to get led-sources\n");
++	} else {
++		bl->num_leds = 0;
++	}
++
+ 	ret = lm3533_bl_setup(bl);
+ 	if (ret)
+ 		return ret;
 -- 
 2.51.0
 
