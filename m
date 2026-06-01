@@ -1,209 +1,166 @@
-Return-Path: <linux-leds+bounces-8401-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8402-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iHdyBts6HGq1LgkAu9opvQ
-	(envelope-from <linux-leds+bounces-8401-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sun, 31 May 2026 15:42:51 +0200
+	id 2JZeAL0tHWo4WAkAu9opvQ
+	(envelope-from <linux-leds+bounces-8402-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 01 Jun 2026 08:59:09 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB0D61667E
-	for <lists+linux-leds@lfdr.de>; Sun, 31 May 2026 15:42:50 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1783A61A82B
+	for <lists+linux-leds@lfdr.de>; Mon, 01 Jun 2026 08:59:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4DBFB300EF55
-	for <lists+linux-leds@lfdr.de>; Sun, 31 May 2026 13:41:20 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1AE383006D48
+	for <lists+linux-leds@lfdr.de>; Mon,  1 Jun 2026 06:59:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 740712DC350;
-	Sun, 31 May 2026 13:41:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EC29380FF9;
+	Mon,  1 Jun 2026 06:59:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FtMzZ9HF"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HQBfHFbh"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FD92C031E
-	for <linux-leds@vger.kernel.org>; Sun, 31 May 2026 13:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780234879; cv=pass; b=YooNNQSynY69FTJ6Rk/T46DQ7VX2SREOwddcDgELflXNidvdW91j629NNwL6YRP99Fm0moLgcj7ZbwVGpklk2dWbkhi0fPbRFjwUFSB0+43lf1DBqyI52fVxpO29DDn6MsYoN2w3P5fEp56fiG1NJxWVAt063xAUUh4+2IeNILA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780234879; c=relaxed/simple;
-	bh=sRKrVpOBYWRz1+LYXhppMZyOZPgVxDKjQ5CHY9lps6Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dJi+ov9pLsNnqseeB90IZB3fVg5JAnItJ4sHTXPF9Pk+jQgqSRmyIEwd+YO/LJO96E3Eu8GEqPwOiQDuhxA4xCum7MO+WCN7c5sC1lM2nkhOMEbOMLJCI+z+mBHXF/OkR9yFPJdkF2dXphUhJxNK//RrOFZlLBA4E0vqesB09c8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FtMzZ9HF; arc=pass smtp.client-ip=74.125.224.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-6605d7181c8so1156128d50.0
-        for <linux-leds@vger.kernel.org>; Sun, 31 May 2026 06:41:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780234877; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CGL8xeLy71Desvk0oWCXrUv6BQX35YzdUuBj9sKUZgJJpgmAgqunlsVV2Sx+nuQP0r
-         jleLrWtxi2dQ+5Wpviy1nN1YS3tZpKMbAdvRl462XHdQtiFDFIQxlDn3pEI4MtSCvMwt
-         XLbcPlJG8l8v9kk/pGXj2gl9Yrik/0ejY1SUS3cv47gSQvcIVWPqaAp4rzlGjz+1xNkB
-         ONjOhFQaPWF+J0kccEBuSlwPapNILZs8bQCAkqtel7D5LDFaOjuQ570efo+0XOxXVFnS
-         U8InNBMMN3WZD/WYc9C2J2t3If2hxYDiQBODfWvVFWqQ1DDe2x0ojkVYyb/I0AUty+//
-         aUEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=W8tNhRdMJuaMOTUnOf0m6tloKSSO7YrbXYFMK56eT+o=;
-        fh=b6oZJ8r6uOoSt/oEbAMG7PmBjEgA2ek3wXiHRl+0YSk=;
-        b=Bj0/mF99WGQK0sB9OvnWUJcPgoPg2Y0uP+QJgOgIF7L2uXWl8cX7cNJsyeFsRfDtUT
-         nXFZE79SUA15RXdGHP4MPcaQnM7wrKtpaIYxfSpvaaPKeqQu3S1jUy+mvnCLb87YWc1q
-         eWCKz4hxAVD46EdBfzNbVJUFaP2VbfR4mKDGsONvQXqriKEdpUJlxPli0vVceyAsuHes
-         GAyoc2a42a8jx0El7lUOsfL87mnsaS41MEIekDIB0aGplhxE5BJzer1VNS2ph7H3ufeL
-         e65Aelnh1lBc5noiNZ3GKFR0FEXRrsYvmlP8urv5a31ozU7Wfmk1oXxXG9UXN5LbgRgn
-         IrWA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780234877; x=1780839677; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W8tNhRdMJuaMOTUnOf0m6tloKSSO7YrbXYFMK56eT+o=;
-        b=FtMzZ9HFZDMN2kwFsjP8e0I/CBTYJ3/APA242K+sISQ/fc3isA4IZv+46x+7o++SHM
-         9WCJcm3udwJtAD9DF+emVwCch9DK2ZimfNmcCrCMxq0mjzSgMDBwxbUzuQIDa1f2J1x6
-         7IqB6L/kPzim3vg4CBuOMG1aQ2jwN0XKUCakYElGFC9pSn6TtG67yM9SvEOpJ06r0EBl
-         KJ5LwLAgVMT3VWfDjs2OJCYz1D6FiNYsRcTZ4LMdCeiQAc7cEhJQTygnhJPGJ6D40I0r
-         m4mQUEKKLwUN+/4CynkCwrterLC04XKnbDMqvD9AWSNpiWZFkO1BXMn2mQUYltwiphgN
-         0xiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780234877; x=1780839677;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=W8tNhRdMJuaMOTUnOf0m6tloKSSO7YrbXYFMK56eT+o=;
-        b=aTrH5Hwg+pKiHbn1k4jPvxN4egG30T1Zjvg8d401yGP+zqwp9CNATc6M0bqHvvtTlZ
-         RybNUcDBcZBT92gWLPPmjFPosfoyJGRqZfSSpmi7UbOFiv2kHjc9rKpi4BYUGpo9GlbZ
-         wD/tQXIWaE4lZ5iSmcwCeHwvVBUp2qDss9jw+oSOHces2tQK4DBVNRCph686THiI0etX
-         KFxsEsMDXl8S8UFgW4ILigxvogIqP86Qg4eEm+BCOpgvvafgJa+ISR0WhedHe/hhF+mJ
-         FyVyQBslexc++C6s5ZLTommerLwpd6oR1j1q1k5WMxIpaL9GRXogms40LzNDA82yyiLt
-         WzJA==
-X-Forwarded-Encrypted: i=1; AFNElJ+lXqyrl/J561ODzLeg4hvUiJAAD5JBws7jXjS5N6+zYjRQuvueCZdzB1TE8EINrsWnU1+f0EmxEn94@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+mM+rVsdO4ONnoLau2SM8YL/v0XN6URDySekrq9+Ykh1X2RpW
-	Bm42pZmyj/S0HjDQ4Vu2Dk7gMbGkhB1mQdRd/0vNxBFzfUtfEhixdFSklwLX71u3as+IX7cTcBs
-	3gkY2cOz75msVTTe+eJlfrf4dYSi8aRI=
-X-Gm-Gg: Acq92OGbx5sya9OaYFEcexe+s3aEOY6fN57Uw1Nbvn0D9DgQwdTYw/38xFPXTvUmYNT
-	ylNaR9SczQMKiS+gobS8yQ6o4UVjv/BAKxA96ym0IBfFOnL6By5MAaqkNqM+hdAQDDROyJMhbp2
-	Xp0QgsmH2W7QXPaWsWueXoTuTFuG8R7sCt8I8L2Avvzh+eYDua1HUaZ3gKMh7R0L9pqbvZ0oeGA
-	Qe6YSfvzzGaUxZjcZaISMIXIoDBbhGYaltfwd2vJRjerg9sDEp2jx9JWcYz58/YUdeaYdz4XJbd
-	gb28j0Tp+sDVTPK9mI4af8TX8Yr1vMkHomlkkFVIcMSZaEOPSejKMOZdUCazKDn1sBMvVfRO47t
-	rOQ==
-X-Received: by 2002:a05:690c:c4d1:b0:7bd:5af9:f0a1 with SMTP id
- 00721157ae682-7e05d3f3c57mr59371557b3.25.1780234877079; Sun, 31 May 2026
- 06:41:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4523806C2;
+	Mon,  1 Jun 2026 06:58:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780297140; cv=none; b=QiiO4BA1rsAVqwrmlROSyGcIg0DsHnAj9aXWu8dzebAltwGRr9DOtxFpJKKXbicp3ZDndrwiGWBPKGNyLbs6mrRQ96Nn5s758fSCvopnG3vCZ0KC8/EpefMqdj+uTdHgio9CS+RH1C/d35S6YVCD6UlfGUG1sgpp+an9Xk39jo0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780297140; c=relaxed/simple;
+	bh=WBKKuhdxx/bAE1oVCnOlclgROzjpYuF6S3zJuCPlCuI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=WH9asSGasYeqMLK0vu7EHkFEVe4Ry7KAgfT80GEceQzXZmyliX9gXC7KKnoV2a5gB+EecU7TRmFKRRw1cOHczhXFH1ekNErwtnEIVDzOQHhicVrmtX1DJ2WOOdwGzvgUBXlF3Js0vyoOhmqynozFXsQ7FIThM8zE1t3bHr7mdO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HQBfHFbh; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id B63B41A378F;
+	Mon,  1 Jun 2026 06:58:55 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 7D9CC602AB;
+	Mon,  1 Jun 2026 06:58:55 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 10E1110888CCD;
+	Mon,  1 Jun 2026 08:58:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1780297133; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=mIIouX9atwC8TO7vo2wcLgAJzq/cTaHoTN8DO5/T+0Q=;
+	b=HQBfHFbhqkjsF4pCV3oiBNQaeiPV0l/QdDp1DfBvD4+AlikHlQ0c1ENujAD7kqhbiXt15J
+	KM0NSuc3onfrGwhRq2qpaIY1OCeASQkJMl29QvQ8eJLCab4THNCEzm9I78Hs4LTONYY9Ai
+	440QtMOWoPVqQ7wOxY5TW0MIO+2RJ0NmUXhVKy8JSl17UmJGfWwmWx8VenwiCp5ESB915T
+	6Rysm7UilOxHXF38ffSIzePeikeaqumzH5jT2U2FEwVDiPuy99pq4ACd5uSHFsHDPC1b/7
+	C+jZQgL9Ry69ECOdwhNnAXHZIbJdVe8aeVsQiq6SlMDaNusrvR1gdQtmw7A4mA==
+From: Gregory CLEMENT <gregory.clement@bootlin.com>
+To: Jun Yan <jerrysteve1101@gmail.com>, linusw@kernel.org,
+ dmitry.baryshkov@oss.qualcomm.com, Lee Jones <lee@kernel.org>, Pavel
+ Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn
+ Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth
+ <sebastian.hesselbarth@gmail.com>, Bartosz Golaszewski <brgl@kernel.org>,
+ Vincent Knecht <vincent.knecht@mailoo.org>, Grant Feng <von81@163.com>,
+ Andre Przywara <andre.przywara@arm.com>, Baruch Siach <baruch@tkos.co.il>,
+ Shawn Guo <shawnguo@kernel.org>, Paul Barker <paul.barker@sancloud.com>,
+ Robert Marko <robert.marko@sartura.hr>
+Cc: Jun Yan <jerrysteve1101@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Wei Xu <xuwei5@hisilicon.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Patrice Chotard
+ <patrice.chotard@foss.st.com>, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 6/6] arm64: dts: marvell: armada-7040-mochabin: Fix
+ is31fl3199 shutdown GPIO polarity
+In-Reply-To: <20260525144629.498630-7-jerrysteve1101@gmail.com>
+References: <20260525144629.498630-1-jerrysteve1101@gmail.com>
+ <20260525144629.498630-7-jerrysteve1101@gmail.com>
+Date: Mon, 01 Jun 2026 08:58:43 +0200
+Message-ID: <8733z621cs.fsf@BLaptop.bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260525033258.144291-1-ninadnaik07@gmail.com>
-In-Reply-To: <20260525033258.144291-1-ninadnaik07@gmail.com>
-From: Jonas Gorski <jonas.gorski@gmail.com>
-Date: Sun, 31 May 2026 15:41:05 +0200
-X-Gm-Features: AVHnY4KJfn3MZPFX_KGyjh71dDrddHBfvkTmSAHTLi-XV7OebVew5E4SYYsjU94
-Message-ID: <CAOiHx=kdH5TFUxTZdyphy9Xd+i8Gh7nU1Ab9wxLvK1och=JAhQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: leds: bcm6358: Convert to DT schema
-To: Ninad Naik <ninadnaik07@gmail.com>
-Cc: lee@kernel.org, pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, me@brighamcampbell.com, 
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
-	=?UTF-8?B?w4FsdmFybyBGZXJuw6FuZGV6IFJvamFz?= <noltari@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8401-lists,linux-leds=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-8402-lists,linux-leds=lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com,ucw.cz,kernel.org,hisilicon.com,glider.be,foss.st.com,vger.kernel.org,lists.infradead.org];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,oss.qualcomm.com,lunn.ch,mailoo.org,163.com,arm.com,tkos.co.il,sancloud.com,sartura.hr];
+	RCPT_COUNT_TWELVE(0.00)[32];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jonasgorski@gmail.com,linux-leds@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,brighamcampbell.com,lists.linux.dev,linuxfoundation.org,gmail.com];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[bootlin.com:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,devicetree.org:url]
-X-Rspamd-Queue-Id: 6AB0D61667E
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	DBL_PROHIBIT(0.00)[0.0.0.64:email];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gregory.clement@bootlin.com,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-leds,dt,renesas];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.1:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,bootlin.com:url,bootlin.com:dkim,BLaptop.bootlin.com:mid]
+X-Rspamd-Queue-Id: 1783A61A82B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi,
+Hello,
 
-for some reason my email filter didn't catch this ...
+> The is31fl3199 shutdown pin is active-low [1]. Correct the GPIO flags
+> from GPIO_ACTIVE_HIGH to GPIO_ACTIVE_LOW to match the hardware.
+>
+> [1] https://lumissil.com/assets/pdf/core/IS31FL3199_DS.pdf
+>
+> Fixes: 737929191283 ("arm64: dts: marvell: add Globalscale MOCHAbin")
+> Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
 
-On Mon, May 25, 2026 at 5:33=E2=80=AFAM Ninad Naik <ninadnaik07@gmail.com> =
-wrote:
->
-> Convert the brcm,bcm6358 to DT schema.
->
-> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+What happens if this patch is merged before the driver LED patch? Will
+it break something?
+
+Gregory
+
 > ---
+>  arch/arm64/boot/dts/marvell/armada-7040-mochabin.dts | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Referred to this thread:
-> https://lore.kernel.org/all/20250930-brcm6358-to-dt-v1-1-ba833ceb1575@the=
-goodpenguin.co.uk/
-> and added the fixes suggested.
+> diff --git a/arch/arm64/boot/dts/marvell/armada-7040-mochabin.dts b/arch/=
+arm64/boot/dts/marvell/armada-7040-mochabin.dts
+> index 6bdc4f1e6939..cf690a85cc2a 100644
+> --- a/arch/arm64/boot/dts/marvell/armada-7040-mochabin.dts
+> +++ b/arch/arm64/boot/dts/marvell/armada-7040-mochabin.dts
+> @@ -236,7 +236,7 @@ leds@64 {
+>  		#size-cells =3D <0>;
+>  		pinctrl-names =3D "default";
+>  		pinctrl-0 =3D <&is31_sdb_pins>;
+> -		shutdown-gpios =3D <&cp0_gpio1 30 GPIO_ACTIVE_HIGH>;
+> +		shutdown-gpios =3D <&cp0_gpio1 30 GPIO_ACTIVE_LOW>;
+>  		reg =3D <0x64>;
+>=20=20
+>  		led1_red: led@1 {
+> --=20
+> 2.54.0
 >
->  .../bindings/leds/brcm,bcm6358-leds.yaml      |  98 ++++++++++++
->  .../devicetree/bindings/leds/leds-bcm6358.txt | 143 ------------------
->  2 files changed, 98 insertions(+), 143 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/leds/brcm,bcm6358-l=
-eds.yaml
->  delete mode 100644 Documentation/devicetree/bindings/leds/leds-bcm6358.t=
-xt
->
-> diff --git a/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yam=
-l b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
-> new file mode 100644
-> index 000000000000..a61417e5690b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
-> @@ -0,0 +1,98 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/brcm,bcm6358-leds.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: LEDs connected to Broadcom BCM6358 controller
-> +
-> +description: |
-> +  This controller is present on BCM6358 and BCM6368.
-> +  In these SoCs there are Serial LEDs (LEDs connected to a 74x164 contro=
-ller),
-> +  which can either be controlled by software (exporting the 74x164 as sp=
-i-gpio.
-> +  See Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml), or
-> +  by hardware using this driver.
-> +
-> +maintainers:
-> +  - Jonas Gorski <jonas.gorski@gmail.com>
 
-The driver and .txt schema were originally submitted by =C3=81lvaro (added
-to cc), so I would have expected him to be the (suggested) maintainer.
-
-Best regards,
-Jonas
+--=20
+Gr=C3=A9gory CLEMENT, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
