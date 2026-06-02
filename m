@@ -1,67 +1,65 @@
-Return-Path: <linux-leds+bounces-8420-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8421-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qC75DDmPHmpTlAkAu9opvQ
-	(envelope-from <linux-leds+bounces-8420-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 10:07:21 +0200
+	id mFMCOh2RHmp/lAkAu9opvQ
+	(envelope-from <linux-leds+bounces-8421-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 10:15:25 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF53962A2B2
-	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 10:07:20 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9326A62A558
+	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 10:15:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 364663014AA2
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Jun 2026 08:06:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4069C3002F8F
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Jun 2026 08:07:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCDE63191CE;
-	Tue,  2 Jun 2026 08:05:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88C043BED16;
+	Tue,  2 Jun 2026 08:07:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c+FcyMOj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HgVU5AEo"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A098E3BB68F;
-	Tue,  2 Jun 2026 08:05:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554E93BB68F;
+	Tue,  2 Jun 2026 08:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780387557; cv=none; b=Lx1hKzL66s4SRf+9cd13QIw9UK0r8nGDpiBLJ/svLh30+hkzxKjCg40p709MsQfUOEzTCFFazpk2kOpvUzXN/Dfg5/a7CSIv5rdPe37lxRPqRcUC8INXLRTdcM4hmMeLBb2OJkFwQJaQqtvSyHL40I022NqExlee1X3I1oVnhdg=
+	t=1780387650; cv=none; b=nTnEVBSeX2F4Kk2t0dYd7vkIqzIm+dnRFIuhx+3rjjAkm7wXaMcBynNVwUIjBSvcBBoQrkXaCxuSzMgMWlI+XjuNAyJrD17lfKTDqAxjDlkn/yC9T6661RquTiw9TfwnuZLuv3T2CUPD02kkA8DrjCFFfs2XqVa4FaMWih0gIgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780387557; c=relaxed/simple;
-	bh=2U/w7csjdBCnO9lVG6/gN+OP8Ql7e6u8LR6s0zZmkk4=;
+	s=arc-20240116; t=1780387650; c=relaxed/simple;
+	bh=QeRLT4nVGcn0FGb2agv9AHWg3M49O/B8jVmKTpZqt6Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WiPSY6XMMu14gP1w3M/lFmD85/lVg6iCZk8ncIYEURbYPdWfgUqY8l2stbjnHF1yMyqvKlnDwt2Bl+qzfsRLFxiB7gtGVliRroCxvhTd1j8iTasaDC6YaFaz3S++dxxADsoHTlqpsr76HhR/K4CAmNLGh4Fe+K1iCHb0Iznew/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c+FcyMOj; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=fVhIrafRGHKYwAe37ysy4f6HX+h9NawqZYRgJa3+py3Dlu1kq39DRzs7aKVJYWncuvh1nxgWRWey7T/fz0WVtQMD7bYPtS1DRdvhxWr0FEQMkhRL6PDAnPgeiKyAJhAx8KOl6nRWJTsqz3PMs25T1YCAMoyhQZ0m65LWDrO/yCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HgVU5AEo; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780387554; x=1811923554;
+  t=1780387650; x=1811923650;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2U/w7csjdBCnO9lVG6/gN+OP8Ql7e6u8LR6s0zZmkk4=;
-  b=c+FcyMOjYXw/cNXfdD3OYjDrLdxhPgG7NGVHOJpkl0lcRVYi0emiVT0q
-   pZ8DYAz2+IB/UGK6RfWbDXcj/7jiC8tAMiJazraybu/t12L6ssQP9oAk3
-   4/KwGLv0ZN2HfGN7Z2d6OhZ5OsCSv72b63qrONrp8Bz7UYmqsOpdXtM/D
-   h7H5cpuwJYIiyWTWgQxZmYZMqxq10RnEP9F5cHS79DJGq+2kGLUDZns8C
-   8Di5qVsZnbboox/JBDcX90hiuUvgXurJzwLRuQsuZEs0rcsB3SY1zkOGK
-   RgGrSEcOw2IlpTXwa5CAVw/i6uvxLzwWfPok5NlvGbkLuhuWv7la3q7NF
+  bh=QeRLT4nVGcn0FGb2agv9AHWg3M49O/B8jVmKTpZqt6Q=;
+  b=HgVU5AEokOMB87KJmTo1g8Q4foTFqDkFPeTjR9Ih3Ad1SzOTAc8AhtBr
+   3RSMZuFHwvReT0KIc5dKG+7CezggllmeQ5GfYN9+m73eQA7/9zmwCW6lA
+   G7E4bDSh6LtXKkmggaDHQLVjYp2HlBIUVoeDVXz63cdyyhK8Q+z7ZH3VT
+   XPQb8PKGziRUhPoTeMrpsUIURJobog5aU2aPXqeWLzrj1s9fEsS6+y8O0
+   5iu4efDErc6iZLpKJZk3ezlb1YkJcKglTkp05C4jnuJKyVvmn1YYP3c4J
+   wyvC7EWBTXSPpd3qP/Hq2KP1g3NV76eDh+reHVXpaWW/LVSJJW+BQuRqx
    Q==;
-X-CSE-ConnectionGUID: WhXQ1wG/RwiKs1M8lzyS0w==
-X-CSE-MsgGUID: fw73njyqS0aut2Q0DmybZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="80196790"
+X-CSE-ConnectionGUID: 1+EkimwGSu6djYfABC+MJQ==
+X-CSE-MsgGUID: nLzYoo3XTeWzf/T/WhIFgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81347944"
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="80196790"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:05:51 -0700
-X-CSE-ConnectionGUID: 1WUP5+yARsW2RD6Qx5dHOQ==
-X-CSE-MsgGUID: iNqvUy3ES+SjQm6zrzvafQ==
+   d="scan'208";a="81347944"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:07:29 -0700
+X-CSE-ConnectionGUID: mgksFXFCTzmnmm35dce/mA==
+X-CSE-MsgGUID: zKU2EH9+S5GVvGNF3pQm8A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="281946170"
 Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.229])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:05:45 -0700
-Date: Tue, 2 Jun 2026 11:05:42 +0300
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:07:24 -0700
+Date: Tue, 2 Jun 2026 11:07:22 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
@@ -77,11 +75,11 @@ Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
 	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
 	linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v3 02/11] mfd: lm3533: Remove driver specific regmap
- wrappers
-Message-ID: <ah6O1h8SPwjf3rV1@ashevche-desk.local>
+Subject: Re: [PATCH v3 03/11] iio: light: lm3533-als: Remove redundant pdata
+ helpers
+Message-ID: <ah6POiAiwmc7FVUu@ashevche-desk.local>
 References: <20260601151831.76350-1-clamor95@gmail.com>
- <20260601151831.76350-3-clamor95@gmail.com>
+ <20260601151831.76350-4-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -90,21 +88,21 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260601151831.76350-3-clamor95@gmail.com>
+In-Reply-To: <20260601151831.76350-4-clamor95@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_TWELVE(0.00)[20];
-	TAGGED_FROM(0.00)[bounces-8420-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8421-lists,linux-leds=lfdr.de];
 	HAS_ORG_HEADER(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
@@ -120,136 +118,19 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,intel.com:dkim,ashevche-desk.local:mid]
-X-Rspamd-Queue-Id: CF53962A2B2
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ashevche-desk.local:mid,intel.com:dkim]
+X-Rspamd-Queue-Id: 9326A62A558
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Jun 01, 2026 at 06:18:22PM +0300, Svyatoslav Ryhel wrote:
-> Remove driver-specific regmap wrappers in favor of using regmap helpers
-> directly. The wrappers are mostly equivalent to the standard helpers, with
-> two exceptions: regmap_read requires an unsigned int pointer, and
-> regmap_update_bits has the mask and value arguments swapped. These
-> differences were accounted for and adjusted accordingly.
+On Mon, Jun 01, 2026 at 06:18:23PM +0300, Svyatoslav Ryhel wrote:
+> The lm3533_als_set_input_mode and lm3533_als_set_resistor functions are
+> used only in lm3533_als_setup. Incorporate their code into
+> lm3533_als_setup directly to simplify driver readability.
 
-We refer to functions as func(), exempli gratia, regmap_read().
-
-...
-
-> static int lm3533_als_get_current(struct iio_dev *indio_dev, unsigned channel,
->  								int *val)
->  {
->  	u8 zone;
-> -	u8 target;
-> +	u32 target;
->  	int ret;
-
-While at it, move towards reversed xmas tree order
-
-	u32 target;
-	u8 zone;
-	int ret;
-
-
-...
-
-> -	ret = lm3533_update(als->lm3533, LM3533_REG_ALS_ZONE_INFO, val, mask);
-> +	ret = regmap_update_bits(als->lm3533->regmap, LM3533_REG_ALS_ZONE_INFO,
-> +				 val, mask);
-
-It's better to replace this to use _set_bits()/_clear_bits() or even move from
-the above conditional (not in this context) to _assign_bits().
-
-...
-
->  	else
->  		val = 0;	/* analog input */
->  
-> -	ret = lm3533_update(als->lm3533, LM3533_REG_ALS_CONF, val, mask);
-> +	ret = regmap_update_bits(als->lm3533->regmap, LM3533_REG_ALS_CONF,
-> +				 mask, val);
-
-Ditto.
-
->  	if (ret) {
->  		dev_err(&als->pdev->dev, "failed to set input mode %d\n",
->  								pwm_mode);
-
-...
-
->  	/* Make sure interrupts are disabled. */
-> -	ret = lm3533_update(als->lm3533, LM3533_REG_ALS_ZONE_INFO, 0, mask);
-> +	ret = regmap_update_bits(als->lm3533->regmap, LM3533_REG_ALS_ZONE_INFO,
-> +				 mask, 0);
-
-_clear_bits().
-
->  	if (ret) {
->  		dev_err(&als->pdev->dev, "failed to disable interrupts\n");
->  		return ret;
-
-...
-
->  	u8 mask = LM3533_ALS_ENABLE_MASK;
->  	int ret;
->  
-> -	ret = lm3533_update(als->lm3533, LM3533_REG_ALS_CONF, mask, mask);
-> +	ret = regmap_update_bits(als->lm3533->regmap, LM3533_REG_ALS_CONF,
-> +				 mask, mask);
-
-_set_bits()
-
->  	if (ret)
->  		dev_err(&als->pdev->dev, "failed to enable ALS\n");
->  
-
-...
-
->  	u8 mask = LM3533_ALS_ENABLE_MASK;
->  	int ret;
->  
-> -	ret = lm3533_update(als->lm3533, LM3533_REG_ALS_CONF, 0, mask);
-> +	ret = regmap_update_bits(als->lm3533->regmap, LM3533_REG_ALS_CONF,
-> +				 mask, 0);
-
-_clear_bits()
-
->  	if (ret)
->  		dev_err(&als->pdev->dev, "failed to disable ALS\n");
-
-...
-
->  	else
->  		val = 0;
->  
-> -	ret = lm3533_update(led->lm3533, LM3533_REG_PATTERN_ENABLE, val, mask);
-> +	ret = regmap_update_bits(led->lm3533->regmap,
-> +				 LM3533_REG_PATTERN_ENABLE, mask, val);
-
-_assign_bits() and so on...
-
->  	if (ret) {
->  		dev_err(led->cdev.dev, "failed to enable pattern %d (%d)\n",
->  							pattern, enable);
-
-...
-
->  extern int lm3533_ctrlbank_set_brightness(struct lm3533_ctrlbank *cb, u8 val);
-> -extern int lm3533_ctrlbank_get_brightness(struct lm3533_ctrlbank *cb, u8 *val);
-> +extern int lm3533_ctrlbank_get_brightness(struct lm3533_ctrlbank *cb, u32 *val);
-
-We don't need to keep 'extern' for ages.
-
->  extern int lm3533_ctrlbank_set_max_current(struct lm3533_ctrlbank *cb,
->  								u16 imax);
->  extern int lm3533_ctrlbank_set_pwm(struct lm3533_ctrlbank *cb, u8 val);
-> -extern int lm3533_ctrlbank_get_pwm(struct lm3533_ctrlbank *cb, u8 *val);
-> -
-> -extern int lm3533_read(struct lm3533 *lm3533, u8 reg, u8 *val);
-> -extern int lm3533_write(struct lm3533 *lm3533, u8 reg, u8 val);
-> -extern int lm3533_update(struct lm3533 *lm3533, u8 reg, u8 val, u8 mask);
-> +extern int lm3533_ctrlbank_get_pwm(struct lm3533_ctrlbank *cb, u32 *val);
+Same comments as per previous patch.
+I stop my review here as it seems may be more of this.
 
 -- 
 With Best Regards,
