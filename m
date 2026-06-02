@@ -1,303 +1,233 @@
-Return-Path: <linux-leds+bounces-8426-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8427-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6Pa1JP6xHmr7JAAAu9opvQ
-	(envelope-from <linux-leds+bounces-8426-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 12:35:42 +0200
+	id aAoIHPe3HmrZJgAAu9opvQ
+	(envelope-from <linux-leds+bounces-8427-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 13:01:11 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3663462CB28
-	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 12:35:42 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4FF762D129
+	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 13:01:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C1FB0300463C
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Jun 2026 10:31:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7253030207DC
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Jun 2026 10:58:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBA803D6491;
-	Tue,  2 Jun 2026 10:31:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ADC138944E;
+	Tue,  2 Jun 2026 10:57:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kgdcvLgs"
+	dkim=pass (1024-bit key) header.d=prodrive-technologies.com header.i=@prodrive-technologies.com header.b="JRnWOpD8"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11021079.outbound.protection.outlook.com [52.101.70.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CEDE3D566E
-	for <linux-leds@vger.kernel.org>; Tue,  2 Jun 2026 10:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CCB1303CAB;
+	Tue,  2 Jun 2026 10:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.79
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780396317; cv=pass; b=OXa7Bu8g84Y/z1gYrQGvGaeV44Ay7MXwxscVmfr8AUB2dMhlwgayRh1q03UKJCjEFzbkaxemdbsOvoTpcJJ4zdpPhNxwOS+hx2s3lDMhUtz13QweG9tgvDGY4kARSr79ac0hptIbZA+Gx8TSfhnOagV2d/GauarzxeMezq6KjXQ=
+	t=1780397879; cv=fail; b=AgxA/AaaUIzH9fp9KKs6gu+tc4zQpvy54VBrtd5vwTGqR5vJEW4yIqw+CEHAK04vQ0b4o7R6JbwsyXsCvMFR+Bh+WlSW/dsKCXfkt4d1qcRen9ltJcxeQwDCJi/TnKusikYWjq3e8ZP9MuM3stOKpbqLm99f2UzNfO6Bsb8kiMg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780396317; c=relaxed/simple;
-	bh=FrPJKUKAeNpDp2O8s3b0xd97pGYPIKC59ry1jtVER0Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XTyFvXpxmKYTwwkTxTgi05igA5mvd09iFGIFHoBR+EUwhHQjWKYk/hQaxU2Y1Zsrnu3BNvLyTm0JeQ/BO/7JNC8eWwS1UowD3wwlFXoIg/xhS8UhqQF1RlxCRV9EcVFv8ix8SM9gjkDjqvnGT1R6ugj04dPU6ziRNk9dOHd4b30=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kgdcvLgs; arc=pass smtp.client-ip=74.125.82.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-304cf518c9dso7558662eec.1
-        for <linux-leds@vger.kernel.org>; Tue, 02 Jun 2026 03:31:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780396315; cv=none;
-        d=google.com; s=arc-20240605;
-        b=EZlyqtfh9ZCTxClk5qglRJ2bIYi9L7vTqh+qMEV2PaR4TMj5jS3qYL0+kQ2d9yU7FV
-         GarZSeKDE5cV3d2krs940GuLm5lyCM+uxz2SQapT/BFUax+USR+X5+Rin66g9w4RkrRl
-         DSv566uKsd2OkhGoRja5JEtyb0uSLeRawH6SgSYLtR7XAh08nJcbD7hZjNcAoT2yz7ZO
-         2VKUuvcHfU33mQRjdH+2kg9DAxZy4DHNYMsGLzfS0xkQanl6yBlMTL4sfuAi0FvB7EDJ
-         uRnG7tUM9pHYvEXULTt4GknwaGZCmDsPzMZN3a6LRXOxw9wIVI1uJg+z3rKmYmIqBY91
-         K3EA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=lDdI0YPykfuK0xhOe7sArc4RNqAa0Hyds1kbH01jcws=;
-        fh=S+AD4Ap6U48+IKUmnOeomVjOr7Z0AAdCzUL5ARo3i1w=;
-        b=LRp4e5N/pTbZOFJKuNfkdAK2HHqEJM9OueMPHlPDIlN8BWRbGJ9/3g6GMV1mRKhpl8
-         CIUjwu/0dWHUEQFcUi//WPo42qDL6nq+Q/jfokwFR0IFfh27BzirZLj6kT3wyDMJE9J9
-         WA1kmEMbhOCU2Rl3oVpKig/XVs5rCN4odUxb1ApIpuTIOuwRKCL/918uYhWwnBrsDvgG
-         IKkWveqlEEAbZg0N3VnQOB3hPuu8hKqo1JbU9CVq8rd4WDx3ASSigXMPtMZSZ1ZE8ndL
-         zEKBW39R3VZVOnOuEFn+dzpWbusqWQOtN9ZI1aRvnGgNLm/0l7pd+88S+6rpssU+oD3E
-         kPHA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	s=arc-20240116; t=1780397879; c=relaxed/simple;
+	bh=ZFVitIh4l1uSW7o1HlDY1D5nocD9XS+tJgXynsxISVw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FDv/elJVaPJ51a1db4rh/Hp79+ieZHWd5YChq5uY3FG4xJJG24lvrEXLvxrItKgsztbXVgfpP2R41MOZp6WEPHla/fAWYL6WLqcf4pOYxqjU6GlaCPJ7DemuaY2/qZYpZip/QyTIVR2aOoMumONs+7nIJQiTqNnI6CaRkqy04WU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=prodrive-technologies.com; spf=pass smtp.mailfrom=prodrive-technologies.com; dkim=pass (1024-bit key) header.d=prodrive-technologies.com header.i=@prodrive-technologies.com header.b=JRnWOpD8; arc=fail smtp.client-ip=52.101.70.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=prodrive-technologies.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prodrive-technologies.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FwX2hPGcN3AsbRGsh9RG5LF62va6Y7877Z5qGSQQjTnpCqL4WoSDex/Ip+BNh0c9290QYomFmN7StUEjbYd1qtLxCIusZTJHnwVDOk27p1r29biU0NgXSQsns/EomyyaOvXglnTEljDBP6IEAjteDeen12hiNtsv2WsnZoXWGZ2/TqtDVyDqlnkpljoRpI0MsAgM82caBQf3lVZS8MjP1c9UrzuYOUYySESGPxE6OGhgJbUykzZdo0+x6djkdSxqGslPQouuoNPO5S4Rj4lY1sMlO3p6zFDdBgkAcAmJS3JobzCwviOS9bYbBNQcei+MuhmE3n2FtWyRJyo8F79YAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5zEPkQutJyROkXVpGPm1DqAdB17usAkDLPPUC98bTfw=;
+ b=vgt/RBvg75Fb/wb9X2xDi4QensAA242t8hMutGQppKjNW5qi1hLK7Jc+5t+bmOM6aVc3xou4Ka0gnc0bq2sLAUQMYA82Z7hA4dYefHnuyGFBdz/7CI5O7HlXk2C3KICynt50QF6HNiBe6SaH4znoDTBzEgZC4F/obPV8ry9IA3oDLau032DliyfMBrMAAK4tS7o9GEXIQcghfEaf3Du4HGM1bHjKzNArxM6shyJZ/c3/YVG7qUkFBDPGFWrPXSQMw4tOItixxVU/n+zLTDpAA7LdzHllp2tZN6xnKl8scZeZz2u/LwP5ShT6TvhVrZBh7mEE5ZvgbeGIfO2sYYfoUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 212.61.153.67) smtp.rcpttodomain=traphandler.com
+ smtp.mailfrom=prodrive-technologies.com; dmarc=pass (p=reject sp=reject
+ pct=100) action=none header.from=prodrive-technologies.com; dkim=none
+ (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780396315; x=1781001115; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lDdI0YPykfuK0xhOe7sArc4RNqAa0Hyds1kbH01jcws=;
-        b=kgdcvLgsZ3uILaWfcIBvtHl1005DoEY8tGo67hlFEfjapWwGze3khJCdXZVrRKnA5h
-         37CEtBPX6b8X0AaK1mntR77AtOfQ7CnhjfrTLJkgB7WDAz4Y/g/BYmJIegvqnORr9bq5
-         n4OWtbMTtq/mjZcJIJcbF+jusrW4PmKgWNJhp8HOEGxYqPKN/UJEzHEriS9U5IkVSd/X
-         a+n0v00qp7WOv4PuvEdollon2e7UV0qZEw4J8/TKa/gk16Yk+R6ZtCJeo0qvmGh4xIYN
-         My3s/VQXDMREfLQ0j0hnhT0u5c0lkmltuEnWw+FvVO2NdGut68L28anjbQPSB74A/WSt
-         icGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780396315; x=1781001115;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lDdI0YPykfuK0xhOe7sArc4RNqAa0Hyds1kbH01jcws=;
-        b=Xsqzes1h3BnD+6agc9j5b64O5EY3NfRFyqUSV371Amz889j5RYdPfteH3cMeWevKoI
-         UASDryFb8hy6Klc4NF5aMLl3yfDeQ5DpVoNl9k3wZ9zu8eFkEAZ23LsDhJAWWeMd7eHU
-         0nCWcFjMjX7iDMDhEFAtGFuft4fL/e4ZPzKqkM7dgmn4Oj8rePRQaOqKMElCWXg2q7ql
-         AZdY7joFckglAQ5qk55ReGi+qchAcg1h0+H6V7qYpHyI5e777YptuATdk2X2euBLC/NL
-         6x2Y4wSR5HWJRn2eXMc8RPa+v/IA08WykHZjIlnKTXuWnU+BtQlHthUEUo67hdVKp29B
-         M9ig==
-X-Forwarded-Encrypted: i=1; AFNElJ9b79U4MHziwdk9EC+2yb4I0W2pabKjLJmCupo6A+3mtNlPMC+5z3aJ6dMRkBsaD6qZN6aOt9AuMQ+T@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjDIgAVdqCPfS7m/QcA9hNJRp7ktiF4hRW3cT6IFOJpV5qHmCd
-	aQuvdVED/Dc9/SowsVbEgU6uhxsjmXRgaIY6hisrwYymQj8z3/NIHfeRQ+SJ8IfKUEv5pb8sjL9
-	eFc64MCLgqy1i+IspSoOcCnmYe6HWAfI=
-X-Gm-Gg: Acq92OGyHC81UZIDG/QY/USqcJvuCifqLtO/uUawRhVowbp28J+JzjmlKq0M+LzCnpp
-	04BgyKOcqW0V71UMma7sN7b+zcnWGvwqB438Z46Nu/h3QS6Zod4S1fjO/EO93D+sTgauOzEsGwb
-	GhQax24zDtvTCEFv6ICB4oUBayprNTGQmoYn/tdxScMAgRQecXWtMLkV36tVMrCPmRDV1VRUgQR
-	rpIUGDOgVnxJ3iur0JyI8ErmoK55NUv6CsSmLiw0G9cuzhQeUAgXkbMPtgMwy2wbzbZPPiRuPfn
-	nkaf83/vOluAmX7B0MZuaY3iEwcQlw==
-X-Received: by 2002:a05:693c:2c86:b0:2c1:7793:7bbb with SMTP id
- 5a478bee46e88-304fa64c553mr7093613eec.27.1780396315135; Tue, 02 Jun 2026
- 03:31:55 -0700 (PDT)
+ d=prodrive-technologies.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5zEPkQutJyROkXVpGPm1DqAdB17usAkDLPPUC98bTfw=;
+ b=JRnWOpD8+HJUnUddUR3j+q3tAvxwKGv7M71lfSthYLL0dS20CiStr1uOBkt4rDGnFAbPBmVkxGbrZaqnQFimLD9XWAnx/ojMqW/Q+shHjII6V4uWvj2EA5D8CZzmnMi6wPaji8+6eMHtUFm2mtIQ/Xsuwc4t0vPJewABcBuvmCs=
+Received: from AM8P190CA0016.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::21)
+ by PAXPR02MB7933.eurprd02.prod.outlook.com (2603:10a6:102:280::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Tue, 2 Jun 2026
+ 10:57:51 +0000
+Received: from AM4PEPF00025F97.EURPRD83.prod.outlook.com
+ (2603:10a6:20b:219:cafe::e) by AM8P190CA0016.outlook.office365.com
+ (2603:10a6:20b:219::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.18 via Frontend Transport; Tue, 2
+ Jun 2026 10:57:51 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 212.61.153.67)
+ smtp.mailfrom=prodrive-technologies.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=prodrive-technologies.com;
+Received-SPF: Pass (protection.outlook.com: domain of
+ prodrive-technologies.com designates 212.61.153.67 as permitted sender)
+ receiver=protection.outlook.com; client-ip=212.61.153.67;
+ helo=webmail.prodrive.nl; pr=C
+Received: from webmail.prodrive.nl (212.61.153.67) by
+ AM4PEPF00025F97.mail.protection.outlook.com (10.167.16.6) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.92.0 via Frontend Transport; Tue, 2 Jun 2026 10:57:50 +0000
+Received: from EXCOP01.bk.prodrive.nl (10.1.0.22) by EXCOP01.bk.prodrive.nl
+ (10.1.0.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 2 Jun
+ 2026 12:57:49 +0200
+Received: from lnxdevrm02.prodrive.nl (10.1.1.121) by EXCOP01.bk.prodrive.nl
+ (10.1.0.22) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
+ Transport; Tue, 2 Jun 2026 12:57:49 +0200
+From: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
+To: Jean-Jacques Hiblot <jjhiblot@traphandler.com>, Lee Jones
+	<lee@kernel.org>, Pavel Machek <pavel@kernel.org>
+CC: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>,
+	<linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4] leds: group-multicolor: Add support for initial value.
+Date: Tue, 2 Jun 2026 12:56:07 +0200
+Message-ID: <20260602105608.196291-1-martijn.de.gouw@prodrive-technologies.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260601151831.76350-1-clamor95@gmail.com> <20260601151831.76350-6-clamor95@gmail.com>
- <ah6TGjRNnDpQGO60@ashevche-desk.local>
-In-Reply-To: <ah6TGjRNnDpQGO60@ashevche-desk.local>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Tue, 2 Jun 2026 13:31:44 +0300
-X-Gm-Features: AVHnY4LWQiJbbknL3YlvePeYbIxJnooafI1v7YVQtfA6307ubpWpYRL37q4rijM
-Message-ID: <CAPVz0n21RGAaJc1sda4xyp1h0z+6R6FJ4=XWdOtB1mgtV8=RUA@mail.gmail.com>
-Subject: Re: [PATCH v3 05/11] mfd: lm3533: Convert to use OF bindings
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Helge Deller <deller@gmx.de>, Johan Hovold <johan@kernel.org>, 
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 3663462CB28
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM4PEPF00025F97:EE_|PAXPR02MB7933:EE_
+X-MS-Office365-Filtering-Correlation-Id: c82f55cd-214c-4333-18dc-08dec095ca58
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|376014|82310400026|1800799024|13003099007|56012099006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	p5DkDS4GFIIeK7IXJ2IZvSDPbRJLdVDIZJosjNc1res04L06bMn6eLPJ3yMlOh1lurttrnEX43DaW/nFSECUeqNPV8awqSWgPqbAehpQ9YnkNkFXj6RERtjEGPV0B5wYUe0NmIKfmbRxh8of+zFcnartBNXoUJobl25P/Ir29Zx36hKVkYuZnXIHWnAYQACnr+o9TJ+6LRiiG7c67E8zSWbBQ+yB/+aUnqeuqUVC4/EBJzM5cvMVeBtquHd4K/pyqe2XE0duPSiDE6fsGHTCQpyLNsjyZMgCEccieGWfH3Q0SgZXeXoeRhr55qSAjSwgHrHupPgDBcnI1pguuahKVUvwPuGqz2lG5dvDjtgMjsiE+JQ+TRaBFHpa9x17n3Pc2Jnzvo8E236J255KNpXTUa1km79kfDR4toZx/WBYYVIaXSe7Z9/XuPkGUODYUt2/yJeBCXY2VIPr90cCUFVW8sg1Wv0CzutLsyYBMUlU+Ca6YKUtdyM/Qteu8U0lEbh0f6N59k18fWgoS1JGyp/3sAEHQySEpZFy8kDHoT1lRsrH9FeIbfV0lkVIVjBzrvfJTfsSKnQdb+e4NK70Q4+w75ClzuIP7Amd+7QfUmejFrUQ/FNpP7ubwDt0PE9GJMQmxdLIB0/7i3aLZOeNh9wYY4ztqxQSJXoRECtP2nxWFuwzRPbnklUAZ+BkOfEL/gGc6AVcA6HdFvZG8RqQSO/hRgLAWFez6WXK0RYabU52q0g=
+X-Forefront-Antispam-Report:
+	CIP:212.61.153.67;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:webmail.prodrive.nl;PTR:mail.prodrive-technologies.com;CAT:NONE;SFS:(13230040)(36860700016)(376014)(82310400026)(1800799024)(13003099007)(56012099006)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	cGLJDG7qhWziMyl+iFVAeikyPgjNxtvmSxDuZWei0TP0JoeV+RtLk0eNXpbodo8UKH67pK697msOjkFQLqNoe8ZSSmSG2zaiyU8Xq7dp4VokE4smpb0ipaCzsXd0ZFl5aOvBh32nOOrj7gRzALwIW3Epq3fAplLM5CqKf4WU6KubOgxXy4O1Wtd7TF7kQXcSKXm8Zw1U08j4+5f/9FOZTkX1zNUawCgu+80ZWv6+hg+XznV68HxXaFEUNaH4ltSKCN8GTSDZU4T6GrSzlWWt/+/X4y527+qCeOOGwGcEXwB5wNSKIWlX4sj4Z6j5cYwZ2F5WXWrWg3P7+GDXm5XY2k+xPtg5pEnrx0Vy9iVyzNjKH02W+cKYjDRDkUI7FcgMMB9SE7rmBtrw8prQxLhUvc/8wnL1GQAZcjW1Zt/8WC102P6bE4XccJn31q4QIHbE
+X-OriginatorOrg: prodrive-technologies.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2026 10:57:50.9760
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c82f55cd-214c-4333-18dc-08dec095ca58
+X-MS-Exchange-CrossTenant-Id: 612607c9-5af7-4e7f-8976-faf1ae77be60
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=612607c9-5af7-4e7f-8976-faf1ae77be60;Ip=[212.61.153.67];Helo=[webmail.prodrive.nl]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AM4PEPF00025F97.EURPRD83.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR02MB7933
+X-Rspamd-Queue-Id: C4FF762D129
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[prodrive-technologies.com,reject];
+	R_DKIM_ALLOW(-0.20)[prodrive-technologies.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8426-lists,linux-leds=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,baylibre.com,analog.com,gmx.de,lists.freedesktop.org,vger.kernel.org];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-8427-lists,linux-leds=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,mail.gmail.com:mid,intel.com:email]
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[martijn.de.gouw@prodrive-technologies.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[prodrive-technologies.com:+];
+	PRECEDENCE_BULK(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,prodrive-technologies.com:mid,prodrive-technologies.com:dkim,prodrive-technologies.com:email];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[8]
 X-Rspamd-Action: no action
 
-=D0=B2=D1=82, 2 =D1=87=D0=B5=D1=80=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 11:24=
- Andy Shevchenko <andriy.shevchenko@intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Mon, Jun 01, 2026 at 06:18:25PM +0300, Svyatoslav Ryhel wrote:
-> > Since there are no users of this driver via platform data, remove the
-> > platform data support and switch to using Device Tree bindings.
->
-> ...
->
-> > @@ -57,6 +60,9 @@ struct lm3533_als {
-> >
-> >       atomic_t zone;
-> >       struct mutex thresh_mutex;
-> > +
-> > +     bool pwm_mode;
-> > +     u32 r_select;
-> >  };
->
-> Have you run `pahole`? Does it agree with the layout you made here?
->
+When the driver is loaded, it turned off all LEDs in the group. This
+patch changes the driver to take over existing LED states and set
+the brighness and intensity in the group accordingly.
 
-Noted.
+Signed-off-by: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
+---
+Changes in v4:
+- Use DIV_ROUND_CLOSEST_ULL to avoid potential overflow when calculating
+  the intensity
+- Protect reading of led_cdev->brightness by acquire the lock.
+- Link to v3: https://lore.kernel.org/linux-leds/20260316201321.2789158-1-martijn.de.gouw@prodrive-technologies.com/
 
-> ...
->
-> > -     als->irq =3D lm3533->irq;
-> > +     als->irq =3D platform_get_irq_optional(pdev, 0);
->
-> > +
->
-> Redundant blank line.
->
+Changes in v3:
+- Use is_on boolean instead of storing the max_brightness twice
+- Link to v2: https://lore.kernel.org/linux-leds/20251124210521.2064660-1-martijn.de.gouw@prodrive-technologies.com/
 
-Simplifies code perception, whatever.
+Changes in v2:
+- Fix multiline comments
+- Improve comments
+- Link to v1: https://lore.kernel.org/linux-leds/20251111204556.2803878-1-martijn.de.gouw@prodrive-technologies.com/
+---
+ drivers/leds/rgb/leds-group-multicolor.c | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
-> > +     if (als->irq =3D=3D -EPROBE_DEFER)
-> > +             return -EPROBE_DEFER;
->
-> What about other error codes when IRQ is found by can't be retrieved for =
-some
-> reasons? IIRC we check against ENXIO in similar cases
->
+diff --git a/drivers/leds/rgb/leds-group-multicolor.c b/drivers/leds/rgb/leds-group-multicolor.c
+index 548c7dd63ba1e..7a77ee6776255 100644
+--- a/drivers/leds/rgb/leds-group-multicolor.c
++++ b/drivers/leds/rgb/leds-group-multicolor.c
+@@ -69,6 +69,7 @@ static int leds_gmc_probe(struct platform_device *pdev)
+ 	struct mc_subled *subled;
+ 	struct leds_multicolor *priv;
+ 	unsigned int max_brightness = 0;
++	bool is_on = false;
+ 	int i, ret, count = 0, common_flags = 0;
+ 
+ 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+@@ -96,6 +97,15 @@ static int leds_gmc_probe(struct platform_device *pdev)
+ 
+ 		max_brightness = max(max_brightness, led_cdev->max_brightness);
+ 
++		/*
++		 * If any LED is on, set brightness to the max brightness.
++		 * The actual brightness of the LED is set as intensity value.
++		 */
++		mutex_lock(&led_cdev->led_access);
++		if (led_cdev->brightness)
++			is_on = true;
++		mutex_unlock(&led_cdev->led_access);
++
+ 		count++;
+ 	}
+ 
+@@ -109,14 +119,22 @@ static int leds_gmc_probe(struct platform_device *pdev)
+ 
+ 		subled[i].color_index = led_cdev->color;
+ 
+-		/* Configure the LED intensity to its maximum */
+-		subled[i].intensity = max_brightness;
++		/* Configure the LED intensity to its current brightness */
++		if (led_cdev->max_brightness) {
++			mutex_lock(&led_cdev->led_access);
++			subled[i].intensity = DIV_ROUND_CLOSEST_ULL((u64)led_cdev->brightness *
++								    max_brightness,
++								    led_cdev->max_brightness);
++			mutex_unlock(&led_cdev->led_access);
++		} else
++			subled[i].intensity = 0;
+ 	}
+ 
+ 	/* Initialise the multicolor's LED class device */
+ 	cdev = &priv->mc_cdev.led_cdev;
+ 	cdev->brightness_set_blocking = leds_gmc_set;
+ 	cdev->max_brightness = max_brightness;
++	cdev->brightness = is_on ? max_brightness : 0;
+ 	cdev->color = LED_COLOR_ID_MULTI;
+ 	priv->mc_cdev.num_colors = count;
+ 
+-- 
+2.39.2
 
-Then we treat it as no IRQ. Original implementation cares only if IRQ
-is present or no.
-
->         als->irq =3D platform_get_irq_optional(pdev, 0);
->         if (als->irq =3D=3D -ENXIO)
->                 als->irq =3D 0;
->         if (als->irq < 0)
->                 return als->irq;
->
-> ...
->
-> > +     led->pwm =3D 0;
->
-> Isn't it 0 by zalloc ?
-
-It is, thanks.
-
->
-> > +     device_property_read_u32(&pdev->dev, "ti,pwm-config-mask", &led->=
-pwm);
->
-> ...
->
-> >  #define LM3533_BOOST_FREQ_MASK               0x01
-> >  #define LM3533_BOOST_FREQ_SHIFT              0
-> > +#define LM3533_BOOST_FREQ_MIN                500000
-> > +#define LM3533_BOOST_FREQ_MAX                1000000
->
-> HZ_PER_KHZ  (since you included units.h)?
->
-
-500 * HZ_PER_KHZ
-1000 * HZ_PER_KHZ
-
-You meant this? Sure.
-
-> ...
->
-> > +     nchilds =3D device_get_child_node_count(dev);
-> > +     if (!nchilds || nchilds > LM3533_CELLS_MAX) {
-> > +             dev_err(dev, "num of child nodes is not supported\n");
-> > +             return -ENODEV;
->
-> Why not dev_err_probe() here and elsewhere? It looks inconsistent with th=
-is
-> patch.
->
-
-I must have overlooked it, thanks. WDYM elsewhere, this is the only occuran=
-ce.
-
-> >       }
->
-> ...
->
-> > +     device_for_each_child_node_scoped(lm3533->dev, child) {
->
-> > +             if (!fwnode_device_is_available(child))
-> > +                     continue;
->
-> Do we need this check?
->
-
-This is nice to have if the node is disabled. If we assume that there
-are no disabled nodes, I can remove it.
-
-> ...
->
-> > +                             dev_err(dev, "invalid LED node %s\n",
-> > +                                     fwnode_get_name(child));
->
-> %pfw
->
-
-Noted.
-
-> ...
->
-> > +     ret =3D sysfs_create_group(&dev->kobj, &lm3533_attribute_group);
->
-> No way. You should use .dev_groups.
->
-
-I did not change how driver does this, just swapped lm3533->dev to
-dev. I will set is back as it was.
-
-> > +     if (ret) {
-> > +             dev_err(dev, "failed to create sysfs attributes\n");
-> >               goto err_unregister;
-> >       }
->
-> ...
->
-> Can you think on how to split this change to smaller steps? I believe it'=
-s
-> possible.
->
-
-No, I am done with tinkering with this patchset. It is broken enough
-and it has inflated enough.
-
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
 
