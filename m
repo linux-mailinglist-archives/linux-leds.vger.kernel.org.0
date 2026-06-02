@@ -1,113 +1,112 @@
-Return-Path: <linux-leds+bounces-8425-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8426-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MFHPHUWwHmr7JAAAu9opvQ
-	(envelope-from <linux-leds+bounces-8425-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 12:28:21 +0200
+	id 6Pa1JP6xHmr7JAAAu9opvQ
+	(envelope-from <linux-leds+bounces-8426-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 12:35:42 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CCB762C8B8
-	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 12:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3663462CB28
+	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 12:35:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id F048A305CBF8
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Jun 2026 10:19:57 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C1FB0300463C
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Jun 2026 10:31:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4200D3D669F;
-	Tue,  2 Jun 2026 10:19:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBA803D6491;
+	Tue,  2 Jun 2026 10:31:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AyUwTwsC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kgdcvLgs"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D608F3D6CB8
-	for <linux-leds@vger.kernel.org>; Tue,  2 Jun 2026 10:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CEDE3D566E
+	for <linux-leds@vger.kernel.org>; Tue,  2 Jun 2026 10:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780395554; cv=pass; b=NkGl5IRJHfVY3N2D4wt9W7e2jawQrAGP9LVfU1s/gbL/u4Pu9QzweueCgQVntgOu2dw23VBSj9Rj6yYl0nlCPcYiljO/8uNIe7gYn7CKqMfO4dENpEmKxDyxz4xlmoCA2O7UjwtOqlzeUtU6oJiu+xdUBJSYyHtJtbgbdh22fng=
+	t=1780396317; cv=pass; b=OXa7Bu8g84Y/z1gYrQGvGaeV44Ay7MXwxscVmfr8AUB2dMhlwgayRh1q03UKJCjEFzbkaxemdbsOvoTpcJJ4zdpPhNxwOS+hx2s3lDMhUtz13QweG9tgvDGY4kARSr79ac0hptIbZA+Gx8TSfhnOagV2d/GauarzxeMezq6KjXQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780395554; c=relaxed/simple;
-	bh=3B3t6ptcOYLW8i15s/yZOStzPGXLE8YErZRu0mWiPrk=;
+	s=arc-20240116; t=1780396317; c=relaxed/simple;
+	bh=FrPJKUKAeNpDp2O8s3b0xd97pGYPIKC59ry1jtVER0Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nIY6bPJlITMrxPoHBGStj3k0pInbEopzTF/G61dA0VRIQOcVJG7NG2UB5Hiwe2JOe5OxHCjN9W61t1vPrgrZakQ49C7ZnmSGvBhsn+pcxF6/a3PbUjLTm8qd+vWExRJKi7qr+/oEfPr4sR0sm3yUOtfVD3jQlyPslaseEXMlZ3I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AyUwTwsC; arc=pass smtp.client-ip=74.125.82.44
+	 To:Cc:Content-Type; b=XTyFvXpxmKYTwwkTxTgi05igA5mvd09iFGIFHoBR+EUwhHQjWKYk/hQaxU2Y1Zsrnu3BNvLyTm0JeQ/BO/7JNC8eWwS1UowD3wwlFXoIg/xhS8UhqQF1RlxCRV9EcVFv8ix8SM9gjkDjqvnGT1R6ugj04dPU6ziRNk9dOHd4b30=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kgdcvLgs; arc=pass smtp.client-ip=74.125.82.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-137f27712fdso20023c88.0
-        for <linux-leds@vger.kernel.org>; Tue, 02 Jun 2026 03:19:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780395552; cv=none;
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-304cf518c9dso7558662eec.1
+        for <linux-leds@vger.kernel.org>; Tue, 02 Jun 2026 03:31:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780396315; cv=none;
         d=google.com; s=arc-20240605;
-        b=L9M35mYGp/xt9ijeNDI0wOGjFzRLMGNT0nbgrDB9tcmmsrfp7M6Aqrm43AFjS08aGQ
-         R1bNH3wzLHPJYhgXOa5yacuUHuccv6BU8AAGgNetOm2kgH7cNXJyxsrqXL9hL8P7FJt3
-         7+eOfP3cFvTPTqNpGV0dnEWLkf301hJWhIxunniizh0+tEQE5v9UsMMwwEa4QlOdxaJj
-         gX1aHU6rxmiKFujpE3oGEkTpgE5Ghet47miKBEMcskGe4jcbevi3rlVgT5M7ALXwDK+1
-         UcpPk4exMTRn9gWPXgRV1GYWvRJCUoPZAVekzqZZoh4u9WENizqhCQdv0c8yn1bRgpPS
-         GrZA==
+        b=EZlyqtfh9ZCTxClk5qglRJ2bIYi9L7vTqh+qMEV2PaR4TMj5jS3qYL0+kQ2d9yU7FV
+         GarZSeKDE5cV3d2krs940GuLm5lyCM+uxz2SQapT/BFUax+USR+X5+Rin66g9w4RkrRl
+         DSv566uKsd2OkhGoRja5JEtyb0uSLeRawH6SgSYLtR7XAh08nJcbD7hZjNcAoT2yz7ZO
+         2VKUuvcHfU33mQRjdH+2kg9DAxZy4DHNYMsGLzfS0xkQanl6yBlMTL4sfuAi0FvB7EDJ
+         uRnG7tUM9pHYvEXULTt4GknwaGZCmDsPzMZN3a6LRXOxw9wIVI1uJg+z3rKmYmIqBY91
+         K3EA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=+Rz2DgaRr0tqOwLOIkcbJ3/5tQrroNwxRI/2HG/tAbU=;
-        fh=J9ZRcJm9b9xZRnTsOD6z/1/rG7NKGo6hoBEvDnmcHT0=;
-        b=V9fcwjJNXLuS0MeIluovA0eRh+ddPVKUBGhN0lTgfJ4KpfKnUyLvwxCUuYltuM42Cq
-         cTENMpxtvW+b6v8mK8kOIBZDfV3RIoB0a2y2Y/upoT+/pJIqXHMlWDzvCDOIDo2dOQYg
-         eqWypfl34JbABOHNZQOWuiSZlIXDrj/qDwSGYqfrRAZUyy8CBkmYFMORyoxh9HpC718F
-         v1ccq/a7Csh9x8XsO6/bouq56CPQSjhfVdt95jWzIhgf/wpQP9BpqXxTdbYwEq1oqyuu
-         033++47rB+3CBL5pohf96YA8Jzra/DTVPrKcwgXfFcpKDkr8HeM8IyV9tsA8Dwf6vNlR
-         gt3g==;
+        bh=lDdI0YPykfuK0xhOe7sArc4RNqAa0Hyds1kbH01jcws=;
+        fh=S+AD4Ap6U48+IKUmnOeomVjOr7Z0AAdCzUL5ARo3i1w=;
+        b=LRp4e5N/pTbZOFJKuNfkdAK2HHqEJM9OueMPHlPDIlN8BWRbGJ9/3g6GMV1mRKhpl8
+         CIUjwu/0dWHUEQFcUi//WPo42qDL6nq+Q/jfokwFR0IFfh27BzirZLj6kT3wyDMJE9J9
+         WA1kmEMbhOCU2Rl3oVpKig/XVs5rCN4odUxb1ApIpuTIOuwRKCL/918uYhWwnBrsDvgG
+         IKkWveqlEEAbZg0N3VnQOB3hPuu8hKqo1JbU9CVq8rd4WDx3ASSigXMPtMZSZ1ZE8ndL
+         zEKBW39R3VZVOnOuEFn+dzpWbusqWQOtN9ZI1aRvnGgNLm/0l7pd+88S+6rpssU+oD3E
+         kPHA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780395552; x=1781000352; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780396315; x=1781001115; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+Rz2DgaRr0tqOwLOIkcbJ3/5tQrroNwxRI/2HG/tAbU=;
-        b=AyUwTwsCHthjP6xub1kYtxw/LI3RE35opRdOgCOuDfMit/QnFgIeUTShTZZIpe7lBF
-         qRQWCXiVBDsalYrzAVptKLel2m0TfNtWh7rlB/0YfAa0JxZpFTBMXmCqjgmyp6XYUC2h
-         QjJ6fthhtIhDtpCkrreEsYzND+1a/XPf++2mHd6EuNSDjeEjI7/TXRDIJKyO1emHRWQd
-         zZIsyiRQ76oy+WEZjmkjDAgD1tRWUqjXZbd+Fs1Ujp7llqA6OFqX3OzWrDW1ZFoisIF0
-         yd6l2WV2jaXKT5SEz13bXNf+ZxlWNte7M/NODRmIIqX/pt8TiBLOFbw5Wg3xJht71mBr
-         S/Uw==
+        bh=lDdI0YPykfuK0xhOe7sArc4RNqAa0Hyds1kbH01jcws=;
+        b=kgdcvLgsZ3uILaWfcIBvtHl1005DoEY8tGo67hlFEfjapWwGze3khJCdXZVrRKnA5h
+         37CEtBPX6b8X0AaK1mntR77AtOfQ7CnhjfrTLJkgB7WDAz4Y/g/BYmJIegvqnORr9bq5
+         n4OWtbMTtq/mjZcJIJcbF+jusrW4PmKgWNJhp8HOEGxYqPKN/UJEzHEriS9U5IkVSd/X
+         a+n0v00qp7WOv4PuvEdollon2e7UV0qZEw4J8/TKa/gk16Yk+R6ZtCJeo0qvmGh4xIYN
+         My3s/VQXDMREfLQ0j0hnhT0u5c0lkmltuEnWw+FvVO2NdGut68L28anjbQPSB74A/WSt
+         icGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780395552; x=1781000352;
+        d=1e100.net; s=20251104; t=1780396315; x=1781001115;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=+Rz2DgaRr0tqOwLOIkcbJ3/5tQrroNwxRI/2HG/tAbU=;
-        b=WrtaQuicRLQHJxSSYiDqQMr5ktpnjCBsITyuSK7yEj0FSTaNKrPopXYHkL1OIbV7fa
-         tT1OBcU1yQfB/oonWcywqRrCWOqJVpYL2ypXVowH8MZuUyMXJ1y+e73e2gn8YejNvZY9
-         83br1pogxQFf4Gan5tUi3XQcXEeGcAK/KspnakkNeK3oYC0nvvmkwB4iZg0NbbL1p5rv
-         O67ueC7pzQxprqGkLf+jZfhSxfWfTAg7GWXPA/ICHa6mhkr5Bbm7eUhb1mGu5cJVuY1h
-         d6WbJCl/WSjlVbmU/90oP8VXfQmLnuI9xp0bzOXae2twFnJQk12ze+fKeBhzA+t+QcDM
-         2N6Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/wSd1OoDWp00oZIVdvjy0r3cmHI5GW4IuHFtpFVnHVDwOiIHlqQhcjqddfwGyT+e7k/MRhCyo0F+kH@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBGv/INxIVTFi8JS+7scCKgGPvj54h0zk+DDPvR5pd64rHH1on
-	jJYE/08dUvgcSZVaa3ADEW5WfVTFCnBa7u4hgU9hzsr2Wc/zATyjIMtSvHrKfSm2QQnePQFolwX
-	FtzXj7FlTRHLyxKV+MWdmzSkalQfgTUU=
-X-Gm-Gg: Acq92OE0jWJ9X2rGLo70Cx4AqI7XYCgefFuluacGG8NOIKpu2jHgMKvdQoif0hY1gbI
-	yZb2cCLdvKHgyzwwYexJILjE6ealBs9ih/cZTc7b7565d30yX9qtSJPiVQm0XjEZZ8R8KL+9RlT
-	B/5LTmXIJm0ZdUhEQQ/g0QvnWISZRwNmqPk73STAgO33QfxEp6a6JWV4bmmapLXNLNaKicFG2YA
-	Kx9AaJjkb7K4ntO6ckKdxoStdIIGas7zJE83tz5oDWTUaWi7gQeLUgET3nZnqWq3+soDQWto1UB
-	u5VlPLcPaySeo7fx1hA=
-X-Received: by 2002:a05:7300:6427:b0:2df:919f:ce59 with SMTP id
- 5a478bee46e88-304fa67ee46mr6895369eec.19.1780395552116; Tue, 02 Jun 2026
- 03:19:12 -0700 (PDT)
+        bh=lDdI0YPykfuK0xhOe7sArc4RNqAa0Hyds1kbH01jcws=;
+        b=Xsqzes1h3BnD+6agc9j5b64O5EY3NfRFyqUSV371Amz889j5RYdPfteH3cMeWevKoI
+         UASDryFb8hy6Klc4NF5aMLl3yfDeQ5DpVoNl9k3wZ9zu8eFkEAZ23LsDhJAWWeMd7eHU
+         0nCWcFjMjX7iDMDhEFAtGFuft4fL/e4ZPzKqkM7dgmn4Oj8rePRQaOqKMElCWXg2q7ql
+         AZdY7joFckglAQ5qk55ReGi+qchAcg1h0+H6V7qYpHyI5e777YptuATdk2X2euBLC/NL
+         6x2Y4wSR5HWJRn2eXMc8RPa+v/IA08WykHZjIlnKTXuWnU+BtQlHthUEUo67hdVKp29B
+         M9ig==
+X-Forwarded-Encrypted: i=1; AFNElJ9b79U4MHziwdk9EC+2yb4I0W2pabKjLJmCupo6A+3mtNlPMC+5z3aJ6dMRkBsaD6qZN6aOt9AuMQ+T@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjDIgAVdqCPfS7m/QcA9hNJRp7ktiF4hRW3cT6IFOJpV5qHmCd
+	aQuvdVED/Dc9/SowsVbEgU6uhxsjmXRgaIY6hisrwYymQj8z3/NIHfeRQ+SJ8IfKUEv5pb8sjL9
+	eFc64MCLgqy1i+IspSoOcCnmYe6HWAfI=
+X-Gm-Gg: Acq92OGyHC81UZIDG/QY/USqcJvuCifqLtO/uUawRhVowbp28J+JzjmlKq0M+LzCnpp
+	04BgyKOcqW0V71UMma7sN7b+zcnWGvwqB438Z46Nu/h3QS6Zod4S1fjO/EO93D+sTgauOzEsGwb
+	GhQax24zDtvTCEFv6ICB4oUBayprNTGQmoYn/tdxScMAgRQecXWtMLkV36tVMrCPmRDV1VRUgQR
+	rpIUGDOgVnxJ3iur0JyI8ErmoK55NUv6CsSmLiw0G9cuzhQeUAgXkbMPtgMwy2wbzbZPPiRuPfn
+	nkaf83/vOluAmX7B0MZuaY3iEwcQlw==
+X-Received: by 2002:a05:693c:2c86:b0:2c1:7793:7bbb with SMTP id
+ 5a478bee46e88-304fa64c553mr7093613eec.27.1780396315135; Tue, 02 Jun 2026
+ 03:31:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260601151831.76350-1-clamor95@gmail.com> <20260601151831.76350-9-clamor95@gmail.com>
- <ah6PxFtoJUWkd79P@ashevche-desk.local>
-In-Reply-To: <ah6PxFtoJUWkd79P@ashevche-desk.local>
+References: <20260601151831.76350-1-clamor95@gmail.com> <20260601151831.76350-6-clamor95@gmail.com>
+ <ah6TGjRNnDpQGO60@ashevche-desk.local>
+In-Reply-To: <ah6TGjRNnDpQGO60@ashevche-desk.local>
 From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Tue, 2 Jun 2026 13:19:00 +0300
-X-Gm-Features: AVHnY4KArfWMr0jnHoh9vtR5UqW4K7jQ3330Z8FTAYXvtwkDG99A7ncLjymdKC8
-Message-ID: <CAPVz0n0P7Jk17cM2M1zuHZfySo2=Uibr5izwKU2tqiBpBcg0FQ@mail.gmail.com>
-Subject: Re: [PATCH v3 08/11] video: backlight: lm3533_bl: Improve linear
- sysfs logic
+Date: Tue, 2 Jun 2026 13:31:44 +0300
+X-Gm-Features: AVHnY4LWQiJbbknL3YlvePeYbIxJnooafI1v7YVQtfA6307ubpWpYRL37q4rijM
+Message-ID: <CAPVz0n21RGAaJc1sda4xyp1h0z+6R6FJ4=XWdOtB1mgtV8=RUA@mail.gmail.com>
+Subject: Re: [PATCH v3 05/11] mfd: lm3533: Convert to use OF bindings
 To: Andy Shevchenko <andriy.shevchenko@intel.com>
 Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
 	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -120,7 +119,7 @@ Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
 	linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 1CCB762C8B8
+X-Rspamd-Queue-Id: 3663462CB28
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -131,7 +130,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8425-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8426-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -149,44 +148,153 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,mail.gmail.com:mid,intel.com:email]
 X-Rspamd-Action: no action
 
-=D0=B2=D1=82, 2 =D1=87=D0=B5=D1=80=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 11:09=
+=D0=B2=D1=82, 2 =D1=87=D0=B5=D1=80=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 11:24=
  Andy Shevchenko <andriy.shevchenko@intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
 >
-> On Mon, Jun 01, 2026 at 06:18:28PM +0300, Svyatoslav Ryhel wrote:
-> > Simplify the sysfs logic of the linear property by switching to a macro
-> > and a ternary operator.
+> On Mon, Jun 01, 2026 at 06:18:25PM +0300, Svyatoslav Ryhel wrote:
+> > Since there are no users of this driver via platform data, remove the
+> > platform data support and switch to using Device Tree bindings.
 >
 > ...
 >
-> >       if (kstrtoul(buf, 0, &linear))
-> >               return -EINVAL;
+> > @@ -57,6 +60,9 @@ struct lm3533_als {
+> >
+> >       atomic_t zone;
+> >       struct mutex thresh_mutex;
+> > +
+> > +     bool pwm_mode;
+> > +     u32 r_select;
+> >  };
 >
-> Besides _assign_bits() in the below, side note here to unshadow error cod=
-es:
+> Have you run `pahole`? Does it agree with the layout you made here?
 >
->         ret =3D kstrtoul(buf, 0, &linear);
->         if (ret)
->                 return ret;
->
-> (obviously in a separate change).
 
-Won't happen in this patches.
+Noted.
 
+> ...
+>
+> > -     als->irq =3D lm3533->irq;
+> > +     als->irq =3D platform_get_irq_optional(pdev, 0);
+>
+> > +
+>
+> Redundant blank line.
+>
+
+Simplifies code perception, whatever.
+
+> > +     if (als->irq =3D=3D -EPROBE_DEFER)
+> > +             return -EPROBE_DEFER;
+>
+> What about other error codes when IRQ is found by can't be retrieved for =
+some
+> reasons? IIRC we check against ENXIO in similar cases
+>
+
+Then we treat it as no IRQ. Original implementation cares only if IRQ
+is present or no.
+
+>         als->irq =3D platform_get_irq_optional(pdev, 0);
+>         if (als->irq =3D=3D -ENXIO)
+>                 als->irq =3D 0;
+>         if (als->irq < 0)
+>                 return als->irq;
 >
 > ...
 >
-> >       ret =3D regmap_update_bits(bl->lm3533->regmap, LM3533_REG_CTRLBAN=
-K_AB_BCONF,
-> > -                              mask, val);
-> > +                              CTRLBANK_AB_BCONF_MODE(id),
-> > +                              linear ? CTRLBANK_AB_BCONF_MODE(id) : 0)=
-;
-> >       if (ret)
-> >               return ret;
+> > +     led->pwm =3D 0;
 >
+> Isn't it 0 by zalloc ?
+
+It is, thanks.
+
+>
+> > +     device_property_read_u32(&pdev->dev, "ti,pwm-config-mask", &led->=
+pwm);
+>
+> ...
+>
+> >  #define LM3533_BOOST_FREQ_MASK               0x01
+> >  #define LM3533_BOOST_FREQ_SHIFT              0
+> > +#define LM3533_BOOST_FREQ_MIN                500000
+> > +#define LM3533_BOOST_FREQ_MAX                1000000
+>
+> HZ_PER_KHZ  (since you included units.h)?
+>
+
+500 * HZ_PER_KHZ
+1000 * HZ_PER_KHZ
+
+You meant this? Sure.
+
+> ...
+>
+> > +     nchilds =3D device_get_child_node_count(dev);
+> > +     if (!nchilds || nchilds > LM3533_CELLS_MAX) {
+> > +             dev_err(dev, "num of child nodes is not supported\n");
+> > +             return -ENODEV;
+>
+> Why not dev_err_probe() here and elsewhere? It looks inconsistent with th=
+is
+> patch.
+>
+
+I must have overlooked it, thanks. WDYM elsewhere, this is the only occuran=
+ce.
+
+> >       }
+>
+> ...
+>
+> > +     device_for_each_child_node_scoped(lm3533->dev, child) {
+>
+> > +             if (!fwnode_device_is_available(child))
+> > +                     continue;
+>
+> Do we need this check?
+>
+
+This is nice to have if the node is disabled. If we assume that there
+are no disabled nodes, I can remove it.
+
+> ...
+>
+> > +                             dev_err(dev, "invalid LED node %s\n",
+> > +                                     fwnode_get_name(child));
+>
+> %pfw
+>
+
+Noted.
+
+> ...
+>
+> > +     ret =3D sysfs_create_group(&dev->kobj, &lm3533_attribute_group);
+>
+> No way. You should use .dev_groups.
+>
+
+I did not change how driver does this, just swapped lm3533->dev to
+dev. I will set is back as it was.
+
+> > +     if (ret) {
+> > +             dev_err(dev, "failed to create sysfs attributes\n");
+> >               goto err_unregister;
+> >       }
+>
+> ...
+>
+> Can you think on how to split this change to smaller steps? I believe it'=
+s
+> possible.
+>
+
+No, I am done with tinkering with this patchset. It is broken enough
+and it has inflated enough.
+
 > --
 > With Best Regards,
 > Andy Shevchenko
