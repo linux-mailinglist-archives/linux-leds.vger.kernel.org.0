@@ -1,233 +1,192 @@
-Return-Path: <linux-leds+bounces-8427-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8428-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aAoIHPe3HmrZJgAAu9opvQ
-	(envelope-from <linux-leds+bounces-8427-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 13:01:11 +0200
+	id mKohKJe6HmrZJgAAu9opvQ
+	(envelope-from <linux-leds+bounces-8428-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 13:12:23 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4FF762D129
-	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 13:01:10 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A980E62D2F9
+	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 13:12:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7253030207DC
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Jun 2026 10:58:00 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 72FA830013A7
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Jun 2026 11:05:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ADC138944E;
-	Tue,  2 Jun 2026 10:57:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 606263955FB;
+	Tue,  2 Jun 2026 11:05:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=prodrive-technologies.com header.i=@prodrive-technologies.com header.b="JRnWOpD8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i9wS+XhQ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11021079.outbound.protection.outlook.com [52.101.70.79])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CCB1303CAB;
-	Tue,  2 Jun 2026 10:57:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780397879; cv=fail; b=AgxA/AaaUIzH9fp9KKs6gu+tc4zQpvy54VBrtd5vwTGqR5vJEW4yIqw+CEHAK04vQ0b4o7R6JbwsyXsCvMFR+Bh+WlSW/dsKCXfkt4d1qcRen9ltJcxeQwDCJi/TnKusikYWjq3e8ZP9MuM3stOKpbqLm99f2UzNfO6Bsb8kiMg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780397879; c=relaxed/simple;
-	bh=ZFVitIh4l1uSW7o1HlDY1D5nocD9XS+tJgXynsxISVw=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FDv/elJVaPJ51a1db4rh/Hp79+ieZHWd5YChq5uY3FG4xJJG24lvrEXLvxrItKgsztbXVgfpP2R41MOZp6WEPHla/fAWYL6WLqcf4pOYxqjU6GlaCPJ7DemuaY2/qZYpZip/QyTIVR2aOoMumONs+7nIJQiTqNnI6CaRkqy04WU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=prodrive-technologies.com; spf=pass smtp.mailfrom=prodrive-technologies.com; dkim=pass (1024-bit key) header.d=prodrive-technologies.com header.i=@prodrive-technologies.com header.b=JRnWOpD8; arc=fail smtp.client-ip=52.101.70.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=prodrive-technologies.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prodrive-technologies.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FwX2hPGcN3AsbRGsh9RG5LF62va6Y7877Z5qGSQQjTnpCqL4WoSDex/Ip+BNh0c9290QYomFmN7StUEjbYd1qtLxCIusZTJHnwVDOk27p1r29biU0NgXSQsns/EomyyaOvXglnTEljDBP6IEAjteDeen12hiNtsv2WsnZoXWGZ2/TqtDVyDqlnkpljoRpI0MsAgM82caBQf3lVZS8MjP1c9UrzuYOUYySESGPxE6OGhgJbUykzZdo0+x6djkdSxqGslPQouuoNPO5S4Rj4lY1sMlO3p6zFDdBgkAcAmJS3JobzCwviOS9bYbBNQcei+MuhmE3n2FtWyRJyo8F79YAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5zEPkQutJyROkXVpGPm1DqAdB17usAkDLPPUC98bTfw=;
- b=vgt/RBvg75Fb/wb9X2xDi4QensAA242t8hMutGQppKjNW5qi1hLK7Jc+5t+bmOM6aVc3xou4Ka0gnc0bq2sLAUQMYA82Z7hA4dYefHnuyGFBdz/7CI5O7HlXk2C3KICynt50QF6HNiBe6SaH4znoDTBzEgZC4F/obPV8ry9IA3oDLau032DliyfMBrMAAK4tS7o9GEXIQcghfEaf3Du4HGM1bHjKzNArxM6shyJZ/c3/YVG7qUkFBDPGFWrPXSQMw4tOItixxVU/n+zLTDpAA7LdzHllp2tZN6xnKl8scZeZz2u/LwP5ShT6TvhVrZBh7mEE5ZvgbeGIfO2sYYfoUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 212.61.153.67) smtp.rcpttodomain=traphandler.com
- smtp.mailfrom=prodrive-technologies.com; dmarc=pass (p=reject sp=reject
- pct=100) action=none header.from=prodrive-technologies.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=prodrive-technologies.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5zEPkQutJyROkXVpGPm1DqAdB17usAkDLPPUC98bTfw=;
- b=JRnWOpD8+HJUnUddUR3j+q3tAvxwKGv7M71lfSthYLL0dS20CiStr1uOBkt4rDGnFAbPBmVkxGbrZaqnQFimLD9XWAnx/ojMqW/Q+shHjII6V4uWvj2EA5D8CZzmnMi6wPaji8+6eMHtUFm2mtIQ/Xsuwc4t0vPJewABcBuvmCs=
-Received: from AM8P190CA0016.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::21)
- by PAXPR02MB7933.eurprd02.prod.outlook.com (2603:10a6:102:280::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Tue, 2 Jun 2026
- 10:57:51 +0000
-Received: from AM4PEPF00025F97.EURPRD83.prod.outlook.com
- (2603:10a6:20b:219:cafe::e) by AM8P190CA0016.outlook.office365.com
- (2603:10a6:20b:219::21) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.18 via Frontend Transport; Tue, 2
- Jun 2026 10:57:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 212.61.153.67)
- smtp.mailfrom=prodrive-technologies.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=prodrive-technologies.com;
-Received-SPF: Pass (protection.outlook.com: domain of
- prodrive-technologies.com designates 212.61.153.67 as permitted sender)
- receiver=protection.outlook.com; client-ip=212.61.153.67;
- helo=webmail.prodrive.nl; pr=C
-Received: from webmail.prodrive.nl (212.61.153.67) by
- AM4PEPF00025F97.mail.protection.outlook.com (10.167.16.6) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.92.0 via Frontend Transport; Tue, 2 Jun 2026 10:57:50 +0000
-Received: from EXCOP01.bk.prodrive.nl (10.1.0.22) by EXCOP01.bk.prodrive.nl
- (10.1.0.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 2 Jun
- 2026 12:57:49 +0200
-Received: from lnxdevrm02.prodrive.nl (10.1.1.121) by EXCOP01.bk.prodrive.nl
- (10.1.0.22) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
- Transport; Tue, 2 Jun 2026 12:57:49 +0200
-From: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
-To: Jean-Jacques Hiblot <jjhiblot@traphandler.com>, Lee Jones
-	<lee@kernel.org>, Pavel Machek <pavel@kernel.org>
-CC: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>,
-	<linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4] leds: group-multicolor: Add support for initial value.
-Date: Tue, 2 Jun 2026 12:56:07 +0200
-Message-ID: <20260602105608.196291-1-martijn.de.gouw@prodrive-technologies.com>
-X-Mailer: git-send-email 2.39.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845ED2E36F8;
+	Tue,  2 Jun 2026 11:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780398329; cv=none; b=mnN7HkQytnpShAmXsYP4/BwAI34p8LhixyDKI8eiYxeurtFptnFOkeRRs9kbzI3+fmCrOkKYR74iKFobMUtMcn/br6nPWokaKBQDYPZXz6zDzYf3FVf7gyDgyIi+pRQaUwLuNgKZ/rpopTBN4ILDOB93D03YmED1uw/C4uV4g2k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780398329; c=relaxed/simple;
+	bh=334jL2lAPjuPlqw0djaN2J2L0UdWoI+uZoHt6zyLO1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IlNp2PS91aWNQMgXGX1xdKxjfUZ9V3uoLjB2ZZ7wD2gMKP/+3f8U9ZoJu+1heWhitWCVVJmW5nO28BH/GU0iNFNu+YX/PLrQA6WX4PWm0vnSzon4+bPWwGwYbIl7Et0VoA73aBo5fkO0I0MT3hh2bBAWrPTmfV/0ZRpU3oTZ4p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i9wS+XhQ; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780398327; x=1811934327;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=334jL2lAPjuPlqw0djaN2J2L0UdWoI+uZoHt6zyLO1c=;
+  b=i9wS+XhQxWjMPUM2zuh8A6KQPchyKLj1Hq4UCVSyast7a+3cTl7uiS3d
+   ODtqt5jgCY478osJiJU+jO7nSMu63hGg7gCEZnUVVxyWcskhYIClITAeK
+   eL8QSUAfelyanCwlVnV2kAZ7JtfLsQOy1Wx+Da8IuPGnzkeEvaIPkSiVd
+   kRDOxsSMKUTdmsguMGkzhVz6fMMYbapZIMK1a3mXsXQvkYkxNdsGxASsL
+   FLCvZKfL4vdqx32u/WLTYSW/RiDIM9ofLsCEitIj3eaCJjD5gJmBTpQy2
+   KHUV4+SItX23g1yD6oVkUW7GYiYnDwTynJxtwZsskEBQ/sqEKX1xT35QZ
+   g==;
+X-CSE-ConnectionGUID: 7w4miiwdSuOaJOfV2ohMYg==
+X-CSE-MsgGUID: pau65ajjS8O/lFrW2kzKZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="85035811"
+X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
+   d="scan'208";a="85035811"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 04:05:26 -0700
+X-CSE-ConnectionGUID: 3MDQwoTqTGO+0B9MM5EZIQ==
+X-CSE-MsgGUID: F/HgBAMISWmlXhvc9MCs9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
+   d="scan'208";a="239709107"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.229])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 04:05:22 -0700
+Date: Tue, 2 Jun 2026 14:05:20 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Helge Deller <deller@gmx.de>,
+	Johan Hovold <johan@kernel.org>, dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v3 05/11] mfd: lm3533: Convert to use OF bindings
+Message-ID: <ah648F2plc4UHTM1@ashevche-desk.local>
+References: <20260601151831.76350-1-clamor95@gmail.com>
+ <20260601151831.76350-6-clamor95@gmail.com>
+ <ah6TGjRNnDpQGO60@ashevche-desk.local>
+ <CAPVz0n21RGAaJc1sda4xyp1h0z+6R6FJ4=XWdOtB1mgtV8=RUA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM4PEPF00025F97:EE_|PAXPR02MB7933:EE_
-X-MS-Office365-Filtering-Correlation-Id: c82f55cd-214c-4333-18dc-08dec095ca58
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|82310400026|1800799024|13003099007|56012099006|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	p5DkDS4GFIIeK7IXJ2IZvSDPbRJLdVDIZJosjNc1res04L06bMn6eLPJ3yMlOh1lurttrnEX43DaW/nFSECUeqNPV8awqSWgPqbAehpQ9YnkNkFXj6RERtjEGPV0B5wYUe0NmIKfmbRxh8of+zFcnartBNXoUJobl25P/Ir29Zx36hKVkYuZnXIHWnAYQACnr+o9TJ+6LRiiG7c67E8zSWbBQ+yB/+aUnqeuqUVC4/EBJzM5cvMVeBtquHd4K/pyqe2XE0duPSiDE6fsGHTCQpyLNsjyZMgCEccieGWfH3Q0SgZXeXoeRhr55qSAjSwgHrHupPgDBcnI1pguuahKVUvwPuGqz2lG5dvDjtgMjsiE+JQ+TRaBFHpa9x17n3Pc2Jnzvo8E236J255KNpXTUa1km79kfDR4toZx/WBYYVIaXSe7Z9/XuPkGUODYUt2/yJeBCXY2VIPr90cCUFVW8sg1Wv0CzutLsyYBMUlU+Ca6YKUtdyM/Qteu8U0lEbh0f6N59k18fWgoS1JGyp/3sAEHQySEpZFy8kDHoT1lRsrH9FeIbfV0lkVIVjBzrvfJTfsSKnQdb+e4NK70Q4+w75ClzuIP7Amd+7QfUmejFrUQ/FNpP7ubwDt0PE9GJMQmxdLIB0/7i3aLZOeNh9wYY4ztqxQSJXoRECtP2nxWFuwzRPbnklUAZ+BkOfEL/gGc6AVcA6HdFvZG8RqQSO/hRgLAWFez6WXK0RYabU52q0g=
-X-Forefront-Antispam-Report:
-	CIP:212.61.153.67;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:webmail.prodrive.nl;PTR:mail.prodrive-technologies.com;CAT:NONE;SFS:(13230040)(36860700016)(376014)(82310400026)(1800799024)(13003099007)(56012099006)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	cGLJDG7qhWziMyl+iFVAeikyPgjNxtvmSxDuZWei0TP0JoeV+RtLk0eNXpbodo8UKH67pK697msOjkFQLqNoe8ZSSmSG2zaiyU8Xq7dp4VokE4smpb0ipaCzsXd0ZFl5aOvBh32nOOrj7gRzALwIW3Epq3fAplLM5CqKf4WU6KubOgxXy4O1Wtd7TF7kQXcSKXm8Zw1U08j4+5f/9FOZTkX1zNUawCgu+80ZWv6+hg+XznV68HxXaFEUNaH4ltSKCN8GTSDZU4T6GrSzlWWt/+/X4y527+qCeOOGwGcEXwB5wNSKIWlX4sj4Z6j5cYwZ2F5WXWrWg3P7+GDXm5XY2k+xPtg5pEnrx0Vy9iVyzNjKH02W+cKYjDRDkUI7FcgMMB9SE7rmBtrw8prQxLhUvc/8wnL1GQAZcjW1Zt/8WC102P6bE4XccJn31q4QIHbE
-X-OriginatorOrg: prodrive-technologies.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2026 10:57:50.9760
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c82f55cd-214c-4333-18dc-08dec095ca58
-X-MS-Exchange-CrossTenant-Id: 612607c9-5af7-4e7f-8976-faf1ae77be60
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=612607c9-5af7-4e7f-8976-faf1ae77be60;Ip=[212.61.153.67];Helo=[webmail.prodrive.nl]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM4PEPF00025F97.EURPRD83.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR02MB7933
-X-Rspamd-Queue-Id: C4FF762D129
+In-Reply-To: <CAPVz0n21RGAaJc1sda4xyp1h0z+6R6FJ4=XWdOtB1mgtV8=RUA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-Rspamd-Queue-Id: A980E62D2F9
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[prodrive-technologies.com,reject];
-	R_DKIM_ALLOW(-0.20)[prodrive-technologies.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8427-lists,linux-leds=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	TAGGED_FROM(0.00)[bounces-8428-lists,linux-leds=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,baylibre.com,analog.com,gmx.de,lists.freedesktop.org,vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[martijn.de.gouw@prodrive-technologies.com,linux-leds@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[prodrive-technologies.com:+];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,prodrive-technologies.com:mid,prodrive-technologies.com:dkim,prodrive-technologies.com:email];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[8]
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,ashevche-desk.local:mid,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-When the driver is loaded, it turned off all LEDs in the group. This
-patch changes the driver to take over existing LED states and set
-the brighness and intensity in the group accordingly.
+On Tue, Jun 02, 2026 at 01:31:44PM +0300, Svyatoslav Ryhel wrote:
+> вт, 2 черв. 2026 р. о 11:24 Andy Shevchenko <andriy.shevchenko@intel.com> пише:
+> > On Mon, Jun 01, 2026 at 06:18:25PM +0300, Svyatoslav Ryhel wrote:
 
-Signed-off-by: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
----
-Changes in v4:
-- Use DIV_ROUND_CLOSEST_ULL to avoid potential overflow when calculating
-  the intensity
-- Protect reading of led_cdev->brightness by acquire the lock.
-- Link to v3: https://lore.kernel.org/linux-leds/20260316201321.2789158-1-martijn.de.gouw@prodrive-technologies.com/
 
-Changes in v3:
-- Use is_on boolean instead of storing the max_brightness twice
-- Link to v2: https://lore.kernel.org/linux-leds/20251124210521.2064660-1-martijn.de.gouw@prodrive-technologies.com/
+...
 
-Changes in v2:
-- Fix multiline comments
-- Improve comments
-- Link to v1: https://lore.kernel.org/linux-leds/20251111204556.2803878-1-martijn.de.gouw@prodrive-technologies.com/
----
- drivers/leds/rgb/leds-group-multicolor.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+> > > +     device_for_each_child_node_scoped(lm3533->dev, child) {
+> >
+> > > +             if (!fwnode_device_is_available(child))
+> > > +                     continue;
+> >
+> > Do we need this check?
+> 
+> This is nice to have if the node is disabled. If we assume that there
+> are no disabled nodes, I can remove it.
 
-diff --git a/drivers/leds/rgb/leds-group-multicolor.c b/drivers/leds/rgb/leds-group-multicolor.c
-index 548c7dd63ba1e..7a77ee6776255 100644
---- a/drivers/leds/rgb/leds-group-multicolor.c
-+++ b/drivers/leds/rgb/leds-group-multicolor.c
-@@ -69,6 +69,7 @@ static int leds_gmc_probe(struct platform_device *pdev)
- 	struct mc_subled *subled;
- 	struct leds_multicolor *priv;
- 	unsigned int max_brightness = 0;
-+	bool is_on = false;
- 	int i, ret, count = 0, common_flags = 0;
- 
- 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-@@ -96,6 +97,15 @@ static int leds_gmc_probe(struct platform_device *pdev)
- 
- 		max_brightness = max(max_brightness, led_cdev->max_brightness);
- 
-+		/*
-+		 * If any LED is on, set brightness to the max brightness.
-+		 * The actual brightness of the LED is set as intensity value.
-+		 */
-+		mutex_lock(&led_cdev->led_access);
-+		if (led_cdev->brightness)
-+			is_on = true;
-+		mutex_unlock(&led_cdev->led_access);
-+
- 		count++;
- 	}
- 
-@@ -109,14 +119,22 @@ static int leds_gmc_probe(struct platform_device *pdev)
- 
- 		subled[i].color_index = led_cdev->color;
- 
--		/* Configure the LED intensity to its maximum */
--		subled[i].intensity = max_brightness;
-+		/* Configure the LED intensity to its current brightness */
-+		if (led_cdev->max_brightness) {
-+			mutex_lock(&led_cdev->led_access);
-+			subled[i].intensity = DIV_ROUND_CLOSEST_ULL((u64)led_cdev->brightness *
-+								    max_brightness,
-+								    led_cdev->max_brightness);
-+			mutex_unlock(&led_cdev->led_access);
-+		} else
-+			subled[i].intensity = 0;
- 	}
- 
- 	/* Initialise the multicolor's LED class device */
- 	cdev = &priv->mc_cdev.led_cdev;
- 	cdev->brightness_set_blocking = leds_gmc_set;
- 	cdev->max_brightness = max_brightness;
-+	cdev->brightness = is_on ? max_brightness : 0;
- 	cdev->color = LED_COLOR_ID_MULTI;
- 	priv->mc_cdev.num_colors = count;
- 
+It's already implied. See
+
+static struct fwnode_handle *
+of_fwnode_get_next_child_node(const struct fwnode_handle *fwnode, struct fwnode_handle *child)
+{
+        return of_fwnode_handle(of_get_next_available_child(to_of_node(fwnode), to_of_node(child)));
+}
+
+And I believe it's written somewhere in the documentation (if not, feel free to
+patch that).
+
+...
+
+> > > +     ret = sysfs_create_group(&dev->kobj, &lm3533_attribute_group);
+> >
+> > No way. You should use .dev_groups.
+> 
+> I did not change how driver does this, just swapped lm3533->dev to
+> dev. I will set is back as it was.
+
+This is a serious race condition that needs to be addressed. Since you are
+touching this driver the fixes against known issues probably are the first
+things that have to be done.
+
+> > > +     if (ret) {
+> > > +             dev_err(dev, "failed to create sysfs attributes\n");
+> > >               goto err_unregister;
+> > >       }
+
+...
+
+> > Can you think on how to split this change to smaller steps? I believe it's
+> > possible.
+> 
+> No, I am done with tinkering with this patchset. It is broken enough
+> and it has inflated enough.
+
+Probably you don't want this to be reviewed then? I believe other kernel
+developers and maintainers will ask you the same.
+
 -- 
-2.39.2
+With Best Regards,
+Andy Shevchenko
+
 
 
