@@ -1,65 +1,67 @@
-Return-Path: <linux-leds+bounces-8421-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8422-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mFMCOh2RHmp/lAkAu9opvQ
-	(envelope-from <linux-leds+bounces-8421-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 10:15:25 +0200
+	id wJkfDqSRHmodlAkAu9opvQ
+	(envelope-from <linux-leds+bounces-8422-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 10:17:40 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9326A62A558
-	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 10:15:25 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8D262A5E2
+	for <lists+linux-leds@lfdr.de>; Tue, 02 Jun 2026 10:17:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4069C3002F8F
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Jun 2026 08:07:31 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E14DA30128DF
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Jun 2026 08:09:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88C043BED16;
-	Tue,  2 Jun 2026 08:07:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38AF53BD654;
+	Tue,  2 Jun 2026 08:09:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HgVU5AEo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eueEkc+A"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554E93BB68F;
-	Tue,  2 Jun 2026 08:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC60C37B012;
+	Tue,  2 Jun 2026 08:09:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780387650; cv=none; b=nTnEVBSeX2F4Kk2t0dYd7vkIqzIm+dnRFIuhx+3rjjAkm7wXaMcBynNVwUIjBSvcBBoQrkXaCxuSzMgMWlI+XjuNAyJrD17lfKTDqAxjDlkn/yC9T6661RquTiw9TfwnuZLuv3T2CUPD02kkA8DrjCFFfs2XqVa4FaMWih0gIgI=
+	t=1780387789; cv=none; b=NOAwX9qb76YRtHD+ZIQ7qYE8M9VdSz0+ynx0vWSp69mYVF8KwplNxGfFe/JFK8asKJLhEvVpkYnKBRT/WTalHxGqUpB4hh2D5WfVv6w3CSVP1yh++hF1AQbmC2PwtOOzLvMhGavINPEIBhGaa9k0l4ia/PR9V19wCjbC1vhkotQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780387650; c=relaxed/simple;
-	bh=QeRLT4nVGcn0FGb2agv9AHWg3M49O/B8jVmKTpZqt6Q=;
+	s=arc-20240116; t=1780387789; c=relaxed/simple;
+	bh=gwYJ/kTtL7028h1WAxReM18rkWLzIkyfezPsBxvoirg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fVhIrafRGHKYwAe37ysy4f6HX+h9NawqZYRgJa3+py3Dlu1kq39DRzs7aKVJYWncuvh1nxgWRWey7T/fz0WVtQMD7bYPtS1DRdvhxWr0FEQMkhRL6PDAnPgeiKyAJhAx8KOl6nRWJTsqz3PMs25T1YCAMoyhQZ0m65LWDrO/yCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HgVU5AEo; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=ox9zStqENdl54spZblW4pQLtFYk6bYjQZZ9erNpkKr+bdDg5j3aU5bqxGXUsJyWicqpcyUAut38A/zJvGisBkmLJmOAVP2RMJyv92q1dSNygJVu0vnMT5+pwXzFBzqofE+IgT4yhPq/Uxb6SsNtrwveZc7QbKKWEtixGT1kkZ74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eueEkc+A; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780387650; x=1811923650;
+  t=1780387789; x=1811923789;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QeRLT4nVGcn0FGb2agv9AHWg3M49O/B8jVmKTpZqt6Q=;
-  b=HgVU5AEokOMB87KJmTo1g8Q4foTFqDkFPeTjR9Ih3Ad1SzOTAc8AhtBr
-   3RSMZuFHwvReT0KIc5dKG+7CezggllmeQ5GfYN9+m73eQA7/9zmwCW6lA
-   G7E4bDSh6LtXKkmggaDHQLVjYp2HlBIUVoeDVXz63cdyyhK8Q+z7ZH3VT
-   XPQb8PKGziRUhPoTeMrpsUIURJobog5aU2aPXqeWLzrj1s9fEsS6+y8O0
-   5iu4efDErc6iZLpKJZk3ezlb1YkJcKglTkp05C4jnuJKyVvmn1YYP3c4J
-   wyvC7EWBTXSPpd3qP/Hq2KP1g3NV76eDh+reHVXpaWW/LVSJJW+BQuRqx
-   Q==;
-X-CSE-ConnectionGUID: 1+EkimwGSu6djYfABC+MJQ==
-X-CSE-MsgGUID: nLzYoo3XTeWzf/T/WhIFgw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81347944"
+  bh=gwYJ/kTtL7028h1WAxReM18rkWLzIkyfezPsBxvoirg=;
+  b=eueEkc+ADN576A1kcwyvcKX8Ab7rM7b9dKdYbNXLyNIht7L/BQNClRO9
+   I3V849nTBIjfuT/7r14a6qUkRc3gLoyO589hTFxZaoFUWf2q0tz4+tBlF
+   omguOS6QaqV03rUuptR+x79WBsrbPwvoaA9CX4ZMAXsd4GEbVdyXm+h8p
+   ABrrr4AGgeVczbUh2jdAi3K0KACNkU+jixuKIw0imPfkdK1jO/iFEvyTZ
+   T3FC2rcjguvi8XQWH9EWX9h4cHDNpNei8R2QXEydYRl+MW0e7Y0ZU8A0u
+   zY15886mMIhK/0ZDih006EfRz6ctNHiDvsstEYPpV4NDiENx3QMYox/hK
+   g==;
+X-CSE-ConnectionGUID: iBlI97rCQx+am7f34OkxCA==
+X-CSE-MsgGUID: zx18TN3HQyCmQHATu8rguw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="92652664"
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="81347944"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:07:29 -0700
-X-CSE-ConnectionGUID: mgksFXFCTzmnmm35dce/mA==
-X-CSE-MsgGUID: zKU2EH9+S5GVvGNF3pQm8A==
+   d="scan'208";a="92652664"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:09:48 -0700
+X-CSE-ConnectionGUID: oXQ32FnEQLiEJT/X8SyneQ==
+X-CSE-MsgGUID: 9RXlf7NKQRGUUADC5KWE2w==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
+   d="scan'208";a="248759645"
 Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.229])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:07:24 -0700
-Date: Tue, 2 Jun 2026 11:07:22 +0300
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:09:42 -0700
+Date: Tue, 2 Jun 2026 11:09:40 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
@@ -75,11 +77,11 @@ Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
 	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
 	linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v3 03/11] iio: light: lm3533-als: Remove redundant pdata
- helpers
-Message-ID: <ah6POiAiwmc7FVUu@ashevche-desk.local>
+Subject: Re: [PATCH v3 08/11] video: backlight: lm3533_bl: Improve linear
+ sysfs logic
+Message-ID: <ah6PxFtoJUWkd79P@ashevche-desk.local>
 References: <20260601151831.76350-1-clamor95@gmail.com>
- <20260601151831.76350-4-clamor95@gmail.com>
+ <20260601151831.76350-9-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -88,21 +90,21 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260601151831.76350-4-clamor95@gmail.com>
+In-Reply-To: <20260601151831.76350-9-clamor95@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_TWELVE(0.00)[20];
-	TAGGED_FROM(0.00)[bounces-8421-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8422-lists,linux-leds=lfdr.de];
 	HAS_ORG_HEADER(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
@@ -118,19 +120,37 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ashevche-desk.local:mid,intel.com:dkim]
-X-Rspamd-Queue-Id: 9326A62A558
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,ashevche-desk.local:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 9F8D262A5E2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Jun 01, 2026 at 06:18:23PM +0300, Svyatoslav Ryhel wrote:
-> The lm3533_als_set_input_mode and lm3533_als_set_resistor functions are
-> used only in lm3533_als_setup. Incorporate their code into
-> lm3533_als_setup directly to simplify driver readability.
+On Mon, Jun 01, 2026 at 06:18:28PM +0300, Svyatoslav Ryhel wrote:
+> Simplify the sysfs logic of the linear property by switching to a macro
+> and a ternary operator.
 
-Same comments as per previous patch.
-I stop my review here as it seems may be more of this.
+...
+
+>  	if (kstrtoul(buf, 0, &linear))
+>  		return -EINVAL;
+
+Besides _assign_bits() in the below, side note here to unshadow error codes:
+
+	ret = kstrtoul(buf, 0, &linear);
+	if (ret)
+		return ret;
+
+(obviously in a separate change).
+
+...
+
+>  	ret = regmap_update_bits(bl->lm3533->regmap, LM3533_REG_CTRLBANK_AB_BCONF,
+> -				 mask, val);
+> +				 CTRLBANK_AB_BCONF_MODE(id),
+> +				 linear ? CTRLBANK_AB_BCONF_MODE(id) : 0);
+>  	if (ret)
+>  		return ret;
 
 -- 
 With Best Regards,
