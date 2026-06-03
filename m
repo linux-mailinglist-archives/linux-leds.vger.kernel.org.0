@@ -1,51 +1,51 @@
-Return-Path: <linux-leds+bounces-8454-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8455-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id /FSJAouDH2rQmgAAu9opvQ
-	(envelope-from <linux-leds+bounces-8454-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 03 Jun 2026 03:29:47 +0200
+	id AtLeIvyEH2oQmwAAu9opvQ
+	(envelope-from <linux-leds+bounces-8455-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 03 Jun 2026 03:35:56 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4583A6336F1
-	for <lists+linux-leds@lfdr.de>; Wed, 03 Jun 2026 03:29:46 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D2E63376F
+	for <lists+linux-leds@lfdr.de>; Wed, 03 Jun 2026 03:35:56 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=X0V2OPzk;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8454-lists+linux-leds=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-leds+bounces-8454-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=RoKVJ1Tu;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8455-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8455-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 93DA030265DA
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Jun 2026 01:29:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 554CD310EC5B
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Jun 2026 01:29:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A8EE34F462;
-	Wed,  3 Jun 2026 01:28:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BFB834E771;
+	Wed,  3 Jun 2026 01:29:00 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2326E34E75A;
-	Wed,  3 Jun 2026 01:28:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD972E7377;
+	Wed,  3 Jun 2026 01:28:59 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780450139; cv=none; b=QTANisKoXxqsFmoXUu1lqHbIjdeN0IZO3xY9GpQViJLJp79PDPRuHi6IMwoMmRek94YQGfzZxzGM1HOdFHyxy4NE9HssU2d4lYdNc5nvTeQ5UIS6tom9bbwtpECgbFMwjP+8wiSU6sbo3bU5nzvXLL8V5hZ2cqgNtMdEyr7I4MU=
+	t=1780450140; cv=none; b=u/o6JQHHYU/8AnDhNJzAQFhKqWYOsFEJawkqQvLu7u6xO16pmid2NgyE6RRWZPmrKE9ZEZEX/EhgSZrvelAwKBB/JSIhDqg8n8DdrGB3hpXuaYRjJV8vnkWALEJu0ML9tcnZjPgfUioVtfY/kkNh6oj4rd7RY0FaIZvcDu359R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780450139; c=relaxed/simple;
-	bh=WobPN4Fh9dakInubHkHBBcWRNGUXgwzSaoFi1ZT/nZA=;
+	s=arc-20240116; t=1780450140; c=relaxed/simple;
+	bh=uYYflT8mnN1hoMAyawnvcRfKJoXPBQo0uO5HMaZM2/Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kYzPZFNFaKYnl0dU/ZYl3/AnSI5y3LbRc9J7F/sKS3gEDUTxLrVtPqYhVhSeIXwPt4m+f1hYp/fa5uNCpPfyU+njztuxwob569TXwtZPVf9ALjEaMTuh0JUglGI6mJTmhAPS7NZq0/tJgZKQPexcEirhfNMq54YYzHDmRf+Q8XE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X0V2OPzk; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1751A1F00898;
-	Wed,  3 Jun 2026 01:28:57 +0000 (UTC)
+	 MIME-Version; b=TZJ1qhALUrDQ9G0OsNG1f5qIG6WzPvkTPE+hRUwltcdvqwrLHVfhNcBUlt0Ppl8VE8WcfRcOkqYBsCKGQgP/b0OhVQAmqVRRxAZwVd29daCacSHFHC9p9BXidUobzOWkwPNRjmEgIMVjTDj09qbbsQfrV9tfQwwMERq0FKJsiJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RoKVJ1Tu; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 369171F0089B;
+	Wed,  3 Jun 2026 01:28:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780450138;
-	bh=gjqzsK+rZOS9EFWpGBJWI2Q6g+KJXfazcg5mnpADFAM=;
+	s=k20260515; t=1780450139;
+	bh=EFlH32MOyerweymAlqSL3p78mdmC5oox7RKrhCgBChc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=X0V2OPzkQk+MiV8Zamj0i0YZFPVA5lsC3h7A/p0dyjUg/3p9IutFoqvjsArHi5WXX
-	 tf52BwAryKcGVIcTBbMF54GMaUnJVyJe4lEY4+jtGFZVmKrZcXEX0DU3qbNWy00SZ8
-	 YKOOFhTFe/8bRdj3zSTI0K88Ngbfk3tzK2D+H0/IwR66qBvA/ZmjXouYv86Br5/53O
-	 Vffk/2RGeJEKoasJVINEHQAfIGx+V2IHZRUBeNSs3ILLNuSbsQGRocfvYChUVqw8yc
-	 BkYKNsoUpW5ZZjr/eoBhkkSIGaMDsNhNjZcz5LB6mOJWttHp1NasrMkBaNvFbcNgbb
-	 /DCmoIcdtyvmg==
+	b=RoKVJ1TuFGZgdgVSJCcw8Z13qlYPOlVFfCAy3Q0jHSIeAqxEcGBTeH1cZNUPZwXzG
+	 j8dAacARHIwNKLHO54PsHI6M9jZ9IcKRZjkaOuAUvVpRdrVEwylpOAXwg5QL06rVYI
+	 JcIgsSeTf4xg/7DJIOTISXVQ234mNmXlkTUt74aGMJA1aG4u7slwWO530gOQRpj9S1
+	 nfJNM15lnZTGaU7Al9DRABJdHvk7VIGTxmpmW1bpNjD6NsfyOOoHk8bgtChbatKJx7
+	 ajauYAMLHkzTT5Bf/zsnNhhbMsh+FrbLV63jrGGa5154bumlMd8FAi8EClltnT0p/c
+	 yOIgUVjSQDL5A==
 From: Jakub Kicinski <kuba@kernel.org>
 To: davem@davemloft.net
 Cc: netdev@vger.kernel.org,
@@ -69,9 +69,9 @@ Cc: netdev@vger.kernel.org,
 	jhasan@marvell.com,
 	danieller@nvidia.com,
 	Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net-next v2 08/11] net: sched: don't recurse on the netdev ops lock in qdiscs
-Date: Tue,  2 Jun 2026 18:28:37 -0700
-Message-ID: <20260603012840.2254293-9-kuba@kernel.org>
+Subject: [PATCH net-next v2 09/11] leds: trigger: netdev: don't recurse on the netdev ops lock
+Date: Tue,  2 Jun 2026 18:28:38 -0700
+Message-ID: <20260603012840.2254293-10-kuba@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260603012840.2254293-1-kuba@kernel.org>
 References: <20260603012840.2254293-1-kuba@kernel.org>
@@ -90,13 +90,13 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[22];
-	TAGGED_FROM(0.00)[bounces-8454-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8455-lists,linux-leds=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:davem@davemloft.net,m:netdev@vger.kernel.org,m:edumazet@google.com,m:pabeni@redhat.com,m:andrew+netdev@lunn.ch,m:horms@kernel.org,m:jakub@cloudflare.com,m:maxime.chevallier@bootlin.com,m:nb@tipi-net.de,m:lee@kernel.org,m:linux-leds@vger.kernel.org,m:pavel@kernel.org,m:jv@jvosburgh.net,m:michael.chan@broadcom.com,m:jhs@mojatatu.com,m:vinicius.gomes@intel.com,m:idosch@nvidia.com,m:razor@blackwall.org,m:hare@suse.de,m:jhasan@marvell.com,m:danieller@nvidia.com,m:kuba@kernel.org,m:andrew@lunn.ch,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
@@ -112,56 +112,112 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds,netdev];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4583A6336F1
+X-Rspamd-Queue-Id: 29D2E63376F
 
-cbs_set_port_rate() and taprio_set_picos_per_byte() are reached from
-two paths and both already hold the device's ops lock:
+get_device_state() calls __ethtool_get_link_ksettings() on the trigger's
+netdev, which will soon take the dev's ops lock. Three of its callers
+already hold that lock and one doesn't, so the function would either
+deadlock or run unprotected depending on the path.
 
- *_change(), via tc_modify_qdisc() which calls netdev_lock_ops(dev)
-    before dispatching to the qdisc ops.
+Make get_device_state() expect the dev's ops lock held and switch to
+netif_get_link_ksettings():
 
- *_dev_notifier() on NETDEV_UP / NETDEV_CHANGE, where caller
-    holds the ops lock across the notifier chain.
+  * netdev_trig_notify() NETDEV_UP / NETDEV_CHANGE / NETDEV_CHANGENAME
+    arrive with the dev's ops lock held (per netdevices.rst).
+  * set_device_name() does not hold the lock, take it explicitly.
 
-Switch to netif_get_link_ksettings() to avoid deadlock once
-__ethtool_get_link_ksettings() starts taking the netdev lock.
+Due to lock ordering we need to reshuffle the code in set_device_name()
+a little bit. We need to find the device earlier on, so that we can
+lock it before we take trigger_data->lock.
 
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 ---
- net/sched/sch_cbs.c    | 2 +-
- net/sched/sch_taprio.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/leds/trigger/ledtrig-netdev.c | 37 +++++++++++++++------------
+ 1 file changed, 21 insertions(+), 16 deletions(-)
 
-diff --git a/net/sched/sch_cbs.c b/net/sched/sch_cbs.c
-index b952353ec2a5..85b41ffc63ff 100644
---- a/net/sched/sch_cbs.c
-+++ b/net/sched/sch_cbs.c
-@@ -327,7 +327,7 @@ static void cbs_set_port_rate(struct net_device *dev, struct cbs_sched_data *q)
- 	s64 port_rate;
- 	int err;
+diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+index 12cb3311ea22..64c078e997f2 100644
+--- a/drivers/leds/trigger/ledtrig-netdev.c
++++ b/drivers/leds/trigger/ledtrig-netdev.c
+@@ -26,6 +26,7 @@
+ #include <linux/phy.h>
+ #include <linux/rtnetlink.h>
+ #include <linux/timer.h>
++#include <net/netdev_lock.h>
+ #include "../leds.h"
  
--	err = __ethtool_get_link_ksettings(dev, &ecmd);
-+	err = netif_get_link_ksettings(dev, &ecmd);
- 	if (err < 0)
- 		goto skip;
+ #define NETDEV_LED_DEFAULT_INTERVAL	50
+@@ -228,7 +229,7 @@ static void get_device_state(struct led_netdev_data *trigger_data)
  
-diff --git a/net/sched/sch_taprio.c b/net/sched/sch_taprio.c
-index d6b981e5df11..e83cbce62a54 100644
---- a/net/sched/sch_taprio.c
-+++ b/net/sched/sch_taprio.c
-@@ -1299,7 +1299,7 @@ static void taprio_set_picos_per_byte(struct net_device *dev,
- 	int picos_per_byte;
- 	int err;
+ 	trigger_data->carrier_link_up = netif_carrier_ok(trigger_data->net_dev);
  
--	err = __ethtool_get_link_ksettings(dev, &ecmd);
-+	err = netif_get_link_ksettings(dev, &ecmd);
- 	if (err < 0)
- 		goto skip;
+-	if (__ethtool_get_link_ksettings(trigger_data->net_dev, &cmd))
++	if (netif_get_link_ksettings(trigger_data->net_dev, &cmd))
+ 		return;
  
+ 	if (trigger_data->carrier_link_up) {
+@@ -259,31 +260,33 @@ static ssize_t device_name_show(struct device *dev,
+ static int set_device_name(struct led_netdev_data *trigger_data,
+ 			   const char *name, size_t size)
+ {
++	struct net_device *new_dev = NULL;
++	char device_name[IFNAMSIZ];
++
+ 	if (size >= IFNAMSIZ)
+ 		return -EINVAL;
+ 
+ 	cancel_delayed_work_sync(&trigger_data->work);
+ 
++	memcpy(device_name, name, size);
++	device_name[size] = 0;
++	if (size > 0 && device_name[size - 1] == '\n')
++		device_name[size - 1] = 0;
++
+ 	/*
+-	 * Take RTNL lock before trigger_data lock to prevent potential
+-	 * deadlock with netdev notifier registration.
++	 * Lock order: rtnl_lock -> netdev instance lock -> trigger_data lock.
+ 	 */
+ 	rtnl_lock();
++	if (device_name[0]) {
++		new_dev = dev_get_by_name(&init_net, device_name);
++		if (new_dev)
++			netdev_lock_ops(new_dev);
++	}
+ 	mutex_lock(&trigger_data->lock);
+ 
+-	if (trigger_data->net_dev) {
+-		dev_put(trigger_data->net_dev);
+-		trigger_data->net_dev = NULL;
+-	}
+-
+-	memcpy(trigger_data->device_name, name, size);
+-	trigger_data->device_name[size] = 0;
+-	if (size > 0 && trigger_data->device_name[size - 1] == '\n')
+-		trigger_data->device_name[size - 1] = 0;
+-
+-	if (trigger_data->device_name[0] != 0)
+-		trigger_data->net_dev =
+-		    dev_get_by_name(&init_net, trigger_data->device_name);
++	dev_put(trigger_data->net_dev);
++	trigger_data->net_dev = new_dev;
++	strscpy(trigger_data->device_name, device_name);
+ 
+ 	trigger_data->carrier_link_up = false;
+ 	trigger_data->link_speed = SPEED_UNKNOWN;
+@@ -298,6 +301,8 @@ static int set_device_name(struct led_netdev_data *trigger_data,
+ 		set_baseline_state(trigger_data);
+ 
+ 	mutex_unlock(&trigger_data->lock);
++	if (new_dev)
++		netdev_unlock_ops(new_dev);
+ 	rtnl_unlock();
+ 
+ 	return 0;
 -- 
 2.54.0
 
