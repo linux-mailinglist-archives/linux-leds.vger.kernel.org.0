@@ -1,51 +1,51 @@
-Return-Path: <linux-leds+bounces-8448-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8449-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id nMJEEbWEH2oCmwAAu9opvQ
-	(envelope-from <linux-leds+bounces-8448-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 03 Jun 2026 03:34:45 +0200
+	id 64vTFVyDH2rEmgAAu9opvQ
+	(envelope-from <linux-leds+bounces-8449-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 03 Jun 2026 03:29:00 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2EA633750
-	for <lists+linux-leds@lfdr.de>; Wed, 03 Jun 2026 03:34:44 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BEB6336C8
+	for <lists+linux-leds@lfdr.de>; Wed, 03 Jun 2026 03:28:59 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=T0w52rbg;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8448-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8448-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=EWUdj9fA;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8449-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8449-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DB24330FCE2A
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Jun 2026 01:28:53 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1C85D302B836
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Jun 2026 01:28:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE8BF347BAF;
-	Wed,  3 Jun 2026 01:28:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE04E34AB01;
+	Wed,  3 Jun 2026 01:28:53 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DCD346FAA;
-	Wed,  3 Jun 2026 01:28:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D177534887E;
+	Wed,  3 Jun 2026 01:28:52 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780450132; cv=none; b=mugWepn1+hth2sCFzXh+VM1RPuaFic91AI6J/Z1A88Fx6bkN/VbTELju9OP8m1UHzOFHyEVTTu3snO1Bt20GYdTYJa10X8Rh+gXCZhcfBI2QqEkfdCvt4YyYZQ50+rnaSJJQRhQl9NJpX05Rl887r4ljfX5Be9+6l+h0UtW6g00=
+	t=1780450133; cv=none; b=ZCappEyXciLxv1ft8hco/Nblehm2vVL2T9bAP7gxOZ1bfCG8+BjEbaNY50QG9BGRy7yCVGEOJrpd1OQfl3+pQUb53aqYSxTBadOaPTZJ7xQseHNoBulsx6tzzckeAjYQfsYxePJroYvFHwK7cbX0jK+8mwIWHKFmR5zDNj9yVnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780450132; c=relaxed/simple;
-	bh=XRTS00RW0LVqBuhLS2kxRPH9LaN0CrXBNdAh+iUm4s0=;
+	s=arc-20240116; t=1780450133; c=relaxed/simple;
+	bh=KCmx0oUzqFC2V3/udz4NXx4Bu7QND/lzq/VeBMiErZo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uHLaf2Ry3VDqx1hvRVkJF8YdDWdjSaIoK3oQNQFcLQYCFMhNiUzASYv5IUht1Nkc5+t97KEElDEFT2zCCK64o42DgLTkk+C6O1eEhCZJPt1VhUoY7gLfpfzuaRsZNcxivE+1+31KGcHffH7cB+RPs1iUlQIZEASVpkxl0jV9K9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T0w52rbg; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D4EF1F00898;
-	Wed,  3 Jun 2026 01:28:50 +0000 (UTC)
+	 MIME-Version; b=AEvSMUmjRMkMX8QUQMdsJYpuueOLJqCq2xh9jetP2v1+ctHjSpi0WQCU2dWrFCvWDHdkzfxrD4E4qe8hr9RLleB3o63h39z13zfRGh/2AQas4wnaG+/x/rDD+SuxkXubqxvkTmySgYYK9I1RhVGQn94Q/9EwFhv1d0sur5pgoFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EWUdj9fA; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A226D1F00899;
+	Wed,  3 Jun 2026 01:28:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780450131;
-	bh=Wwz4ClbvomvXztDKWh5cElXY0yQyk4rOeuO+VXeZL7g=;
+	s=k20260515; t=1780450132;
+	bh=KxYQiLEBkIHFcHWPhz0mEP8z51C/NkK9n4TA94/zYYU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=T0w52rbgHxY0jpSUa+J0JMFklfZxQ49o2vAbb0Z1d8/+V498So6bXi7fY+2Zah2AI
-	 poY6Wwthm+8HEtt+Yqe3tqCgNHGWIu/R4dH7qIWEAuniVxIVV9gPRjZkTTbqycn/AB
-	 YU7F9nhNhcHg+rUhHZ8ZSsIuSijd2jGL1wyz4PbiuctSOyrO+xpn8yD0yWctITAPJ+
-	 IjPpAHBI/KdLx2gC8ed5an5CpKuPISszPtdRN2bGQKFKTXIys3DqXs0dCl5Es4QiDU
-	 O3Rdn7OYbpDe+9cVH+MCxDrsDYC+atQ8tRv6kwJpg2DM2zhkgvfGdnoxlxhZyK7uYZ
-	 GoJnHZBxWY1fw==
+	b=EWUdj9fASuJXfHMWyVczd87JhHSNqV5riWL+BqMz5oBiQNEHhV5XHM54movAN75EO
+	 UbQXK5BjfAQy4IealhO59QffGSVn3cHYgvxiOlSM778wqOgIpxwV7bBAsKMVD2qB4h
+	 bea9e+uCdpLVyUPzGdmGqUO0Pkv+GtmRvmxozwi8U/12II+SHTdbTktxbzCKjufhb4
+	 BOyOQqssY6D9fy9nXXqF2rUfRzBh6LPm/DVGHs6PNW1OhO/y9VqALr8uxN/E5G6/oO
+	 8mKLqHuqR6bqnrNPMGWIeVUUVMqvKTvfYI3fKPQvLWzt5QqpLU7zAQqJWyfQl76PSl
+	 Zqowobcx/6OmA==
 From: Jakub Kicinski <kuba@kernel.org>
 To: davem@davemloft.net
 Cc: netdev@vger.kernel.org,
@@ -69,9 +69,9 @@ Cc: netdev@vger.kernel.org,
 	jhasan@marvell.com,
 	danieller@nvidia.com,
 	Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net-next v2 02/11] net: ethtool: cmis_cdb: hold instance lock for ops locked devices
-Date: Tue,  2 Jun 2026 18:28:31 -0700
-Message-ID: <20260603012840.2254293-3-kuba@kernel.org>
+Subject: [PATCH net-next v2 03/11] net: document NETDEV_CHANGENAME as ops locked
+Date: Tue,  2 Jun 2026 18:28:32 -0700
+Message-ID: <20260603012840.2254293-4-kuba@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260603012840.2254293-1-kuba@kernel.org>
 References: <20260603012840.2254293-1-kuba@kernel.org>
@@ -90,13 +90,13 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[22];
-	TAGGED_FROM(0.00)[bounces-8448-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8449-lists,linux-leds=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:davem@davemloft.net,m:netdev@vger.kernel.org,m:edumazet@google.com,m:pabeni@redhat.com,m:andrew+netdev@lunn.ch,m:horms@kernel.org,m:jakub@cloudflare.com,m:maxime.chevallier@bootlin.com,m:nb@tipi-net.de,m:lee@kernel.org,m:linux-leds@vger.kernel.org,m:pavel@kernel.org,m:jv@jvosburgh.net,m:michael.chan@broadcom.com,m:jhs@mojatatu.com,m:vinicius.gomes@intel.com,m:idosch@nvidia.com,m:razor@blackwall.org,m:hare@suse.de,m:jhasan@marvell.com,m:danieller@nvidia.com,m:kuba@kernel.org,m:andrew@lunn.ch,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
@@ -112,107 +112,50 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds,netdev];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DA2EA633750
+X-Rspamd-Queue-Id: B3BEB6336C8
 
-FW module flashing was written so that the flashing happens
-without holding rtnl_lock. This allows flashing multiple modules
-at once. Current drivers can handle that well, but we should
-let drivers depend on the netdev instance lock. Instance lock
-is per netdev, and so is the module so we won't break parallel
-updates.
+NETDEV_CHANGENAME is only emitted from netif_change_name().
+netif_change_name() has two callers both of which hold netdev_lock_ops()
+around the call site:
+ - dev_change_name()
+ - do_setlink()
 
-Reviewed-by: Jakub Sitnicki <jakub@cloudflare.com>
+Document NETDEV_CHANGENAME as always ops locked.
+
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 ---
- include/net/netdev_lock.h    | 6 ++++++
- net/ethtool/cmis_cdb.c       | 3 +++
- net/ethtool/cmis_fw_update.c | 8 ++------
- net/ethtool/module.c         | 2 ++
- 4 files changed, 13 insertions(+), 6 deletions(-)
+ Documentation/networking/netdevices.rst | 1 +
+ net/core/lock_debug.c                   | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/include/net/netdev_lock.h b/include/net/netdev_lock.h
-index 8e84d29b0bfb..d3daec4e93f3 100644
---- a/include/net/netdev_lock.h
-+++ b/include/net/netdev_lock.h
-@@ -80,6 +80,12 @@ netdev_assert_locked_ops_compat_or_invisible(const struct net_device *dev)
- 		netdev_assert_locked_ops_compat(dev);
- }
+diff --git a/Documentation/networking/netdevices.rst b/Documentation/networking/netdevices.rst
+index 60492d4df2ee..8fc96975b3bd 100644
+--- a/Documentation/networking/netdevices.rst
++++ b/Documentation/networking/netdevices.rst
+@@ -415,6 +415,7 @@ instance lock.
+ For devices with locked ops, currently only the following notifiers are
+ running under the lock:
+ * ``NETDEV_CHANGE``
++* ``NETDEV_CHANGENAME``
+ * ``NETDEV_REGISTER``
+ * ``NETDEV_UP``
  
-+static inline void netdev_assert_locked_ops(const struct net_device *dev)
-+{
-+	if (netdev_need_ops_lock(dev))
-+		netdev_assert_locked(dev);
-+}
-+
- static inline void netdev_lock_ops_compat(struct net_device *dev)
- {
- 	if (netdev_need_ops_lock(dev))
-diff --git a/net/ethtool/cmis_cdb.c b/net/ethtool/cmis_cdb.c
-index f3a53a984460..a4e8f4b3fb75 100644
---- a/net/ethtool/cmis_cdb.c
-+++ b/net/ethtool/cmis_cdb.c
-@@ -2,6 +2,7 @@
+diff --git a/net/core/lock_debug.c b/net/core/lock_debug.c
+index 14fd8fcdcd56..8a81c5430705 100644
+--- a/net/core/lock_debug.c
++++ b/net/core/lock_debug.c
+@@ -65,6 +65,7 @@ int netdev_debug_event(struct notifier_block *nb, unsigned long event,
+ 		break;
  
- #include <linux/ethtool.h>
- #include <linux/jiffies.h>
-+#include <net/netdev_lock.h>
- 
- #include "common.h"
- #include "module_fw.h"
-@@ -179,6 +180,7 @@ cmis_cdb_validate_password(struct ethtool_cmis_cdb *cdb,
- 
- 	pe_pl = *((struct cmis_password_entry_pl *)page_data.data);
- 	pe_pl.password = params->password;
-+	netdev_assert_locked_ops(dev);
- 	err = ops->set_module_eeprom_by_page(dev, &page_data, &extack);
- 	if (err < 0) {
- 		if (extack._msg)
-@@ -546,6 +548,7 @@ __ethtool_cmis_cdb_execute_cmd(struct net_device *dev,
- 	if (!page_data->data)
- 		return -ENOMEM;
- 
-+	netdev_assert_locked_ops(dev);
- 	err = ops->set_module_eeprom_by_page(dev, page_data, &extack);
- 	if (err < 0) {
- 		if (extack._msg)
-diff --git a/net/ethtool/cmis_fw_update.c b/net/ethtool/cmis_fw_update.c
-index 291d04d2776a..dff83807e975 100644
---- a/net/ethtool/cmis_fw_update.c
-+++ b/net/ethtool/cmis_fw_update.c
-@@ -435,13 +435,9 @@ cmis_fw_update_commit_image(struct ethtool_cmis_cdb *cdb,
- static int cmis_fw_update_reset(struct net_device *dev)
- {
- 	__u32 reset_data = ETH_RESET_PHY;
--	int ret;
- 
--	netdev_lock_ops(dev);
--	ret = dev->ethtool_ops->reset(dev, &reset_data);
--	netdev_unlock_ops(dev);
--
--	return ret;
-+	netdev_assert_locked_ops(dev);
-+	return dev->ethtool_ops->reset(dev, &reset_data);
- }
- 
- void
-diff --git a/net/ethtool/module.c b/net/ethtool/module.c
-index ea4fb2a76650..c3388e6d7ec8 100644
---- a/net/ethtool/module.c
-+++ b/net/ethtool/module.c
-@@ -226,7 +226,9 @@ static void module_flash_fw_work(struct work_struct *work)
- 	module_fw = container_of(work, struct ethtool_module_fw_flash, work);
- 	dev = module_fw->fw_update.dev;
- 
-+	netdev_lock_ops(dev);
- 	ethtool_cmis_fw_update(&module_fw->fw_update);
-+	netdev_unlock_ops(dev);
- 
- 	module_flash_fw_work_list_del(&module_fw->list);
- 
+ 	case NETDEV_CHANGENAME:
++		netdev_assert_locked_ops(dev);
+ 		ASSERT_RTNL_NET(net);
+ 		break;
+ 	}
 -- 
 2.54.0
 
