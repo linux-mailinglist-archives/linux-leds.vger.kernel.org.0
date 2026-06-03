@@ -1,190 +1,361 @@
-Return-Path: <linux-leds+bounces-8466-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8467-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id o/QRJZ8vIGpJyQAAu9opvQ
-	(envelope-from <linux-leds+bounces-8466-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 03 Jun 2026 15:43:59 +0200
+	id EmR2B/RYIGra1gAAu9opvQ
+	(envelope-from <linux-leds+bounces-8467-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 03 Jun 2026 18:40:20 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2ED2638302
-	for <lists+linux-leds@lfdr.de>; Wed, 03 Jun 2026 15:43:58 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99161639D99
+	for <lists+linux-leds@lfdr.de>; Wed, 03 Jun 2026 18:40:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=Nvidia.com header.s=selector2 header.b="WS/XfeJo";
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8466-lists+linux-leds=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-leds+bounces-8466-lists+linux-leds=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=nvidia.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=posteo.de header.s=2017 header.b=VZWKwrEj;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8467-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8467-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=posteo.de;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id DB0A231287C2
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Jun 2026 13:29:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 89455312BD66
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Jun 2026 15:56:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74DB42F7AD2;
-	Wed,  3 Jun 2026 13:28:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21E593D75A5;
+	Wed,  3 Jun 2026 15:56:08 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012032.outbound.protection.outlook.com [40.107.209.32])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243C13148B4;
-	Wed,  3 Jun 2026 13:28:17 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780493299; cv=fail; b=bvLvahdMpZuC/hjuND3g0WolBAjAQ9Sg2kQPfVm6RdDatSFgqo37OQ70eW/FeoyhM6k6uyXGTfgsZKNtip1Jtk8YoK+Oh6vxhSM5bffzNToAw18Gatj8P+YHX2TXp0N5IqxW6D+Y5eGTXkTtimyVhB2lMyGC65GptGeAini2+n8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780493299; c=relaxed/simple;
-	bh=YlQK3umC2q09zMsxiMDqMQNYfpkauk3q7fhsm246CMg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=UOZssAvHmcjr7aFhGDkXN5VJ/VIzspxyDhmKTPj8DdC5OLBHJhMHNanWwKwFRPUEFeTgCupaAJs/uM1CnHqa86fg6sY6y1bcN2YAwiarPlZBPZBUqgX+xK8Vz4bEe7xmhQFR70kcw8Ms/TBe3tnq/+klBGzt5Uaad6wmhAKWeNg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WS/XfeJo; arc=fail smtp.client-ip=40.107.209.32
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lt3zpvE1xBgqI+W5iszMooafE+EWAe9ouxKjGD8ho2n4BXCdQ5EhdA2AJA7GykOyEX2guQBYy09XlsNBCOEDjSPt2xiBBK+KUkica5Hra/FjLzinytnHwPGtDKmGvw2AgMRilTyWtOmkhTGDZeS26go8BhrEqpchAsmkjc2Qz5/fooDzH5d7DzbsRS5va9Kx7Ao8oXFQAGatInuW3JC5QAXkYoeGfWI21vmvfSSXwKVx0Cb/tiVchiLJQ0S16gg2qZkC2/CbP4rHCDCGAEn+xck9cXF29hLOrfiJKH0U5eU7XVfhaOzupYXpCEp0DtrTmvwzeV6mChPpb2SoTSwl0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PJ7LfxDQ0WGkiIJSHkcU4OzzmPAfohqYai7PRg94Srg=;
- b=TMGLxe0F6LP+9y0m1XQ8Mje6cTPPggV0c3V4lFOV6ZT8WRt2sRw5F73sm5vRNXJOSZ0A6U2hCMHL0S5mziLvUBwyBMKL7n1huvhPC2XYySOXeY9+LanA2dfnE8aeKQRBzGGP4HeHsXtBEPhxs1ggYNdVEF9OpelJvEjaiJYJ8zboXxW5rZ0FXKdKgc9u9arSLIXX7kNjXGhriuSm5RI2SnB+AKOw1nbxRpp2hSQkUkaZsqqoOe00Khh0ely3idJ9GkWtQWbEVwy9HnA9IobjnR6CBERw+BIrgmoQqdtbASW3d+I8Yf0BVFks7enZjV/xeYKzEZsmA5eHp/IZx09mUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PJ7LfxDQ0WGkiIJSHkcU4OzzmPAfohqYai7PRg94Srg=;
- b=WS/XfeJolSj5k34NJXcDWiv4e6EenlzQiF+YWiwljSjZ18VogCoTzmM2bciJzHV6zVWeyYZv72SfiJ/gm2/51q5dXGgWUB6lZSM746HMPyEzqb0ttF/8L7c11PYp/wRT9njPrh0zyVildsQcn6GZfaaX1x1YpWXrA0Gw55KuoC/sAUPprq3o6MUM0IZ7jRfHLx9kETlMqDuK6uPmiDGoCdxtyQPbGOr4tpyPtne6M8UyePXy5xzZTl1uAW3t9/j/ZLWPuV5pqW8xYZ5ofkT3BNgJDkeqgEK8kAHj0umCBMCKjn2F40+os2QYXM/AUp+9WPfqP1fD59a7S1jur8gFgg==
-Received: from SA3PR12MB7901.namprd12.prod.outlook.com (2603:10b6:806:306::12)
- by BL3PR12MB6425.namprd12.prod.outlook.com (2603:10b6:208:3b4::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
- 13:28:13 +0000
-Received: from SA3PR12MB7901.namprd12.prod.outlook.com
- ([fe80::6f7f:5844:f0f7:acc2]) by SA3PR12MB7901.namprd12.prod.outlook.com
- ([fe80::6f7f:5844:f0f7:acc2%6]) with mapi id 15.21.0092.006; Wed, 3 Jun 2026
- 13:28:13 +0000
-Date: Wed, 3 Jun 2026 16:28:03 +0300
-From: Ido Schimmel <idosch@nvidia.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-	pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org,
-	jakub@cloudflare.com, maxime.chevallier@bootlin.com, nb@tipi-net.de,
-	lee@kernel.org, linux-leds@vger.kernel.org, pavel@kernel.org,
-	jv@jvosburgh.net, michael.chan@broadcom.com, jhs@mojatatu.com,
-	vinicius.gomes@intel.com, razor@blackwall.org, hare@suse.de,
-	jhasan@marvell.com, danieller@nvidia.com
-Subject: Re: [PATCH net-next v2 07/11] net: bridge: don't recurse on the
- port's netdev ops lock
-Message-ID: <20260603132803.GA645269@shredder>
-References: <20260603012840.2254293-1-kuba@kernel.org>
- <20260603012840.2254293-8-kuba@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260603012840.2254293-8-kuba@kernel.org>
-X-ClientProxiedBy: FR2P281CA0031.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::18) To SA3PR12MB7901.namprd12.prod.outlook.com
- (2603:10b6:806:306::12)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69263D6CB1
+	for <linux-leds@vger.kernel.org>; Wed,  3 Jun 2026 15:56:05 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780502168; cv=none; b=qvrgqzkjj7/wmP30qLEiUEJEDOizFdqz7kimIb0tY18Op3zu9J96An7guYxeXfInNNlxK7n99H5E64kA8n1ln5jNqxW74Jo0qI3R362iDX8BjItrOSkVrdUf/JJKsWXzm/ogc4TeORccfqhhQuc/eWj103Gmagbfch8QOKoeRhA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780502168; c=relaxed/simple;
+	bh=wyEuXHXVO7k5NWhoWK5n0CUwIJ0gQVKLj9pZoWhDVBE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BEFH9CTUtV/+D1Jogjp68UtArjKwGAAX/lXHVhZ5bTb9XCvhBOxJBEdX3MmCyKFRCQ/Nog0XKis+xeAOTKUSmjS3Fa+dk/WCogNYHQF0GfjV9R4vw0o5T+MfqBiYG3UN2kHCgrpIjOcnXdQ8MR2+dSa1BnXV+iW8kQMLA3h3xaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=VZWKwrEj; arc=none smtp.client-ip=185.67.36.65
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 50E8224002A
+	for <linux-leds@vger.kernel.org>; Wed,  3 Jun 2026 17:55:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
+	t=1780502158; bh=lLuYQL3kTkjfxf7uUmh26OIqMcQ5nNDLTP6It9pNWRA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:To:Cc:Autocrypt:OpenPGP:From;
+	b=VZWKwrEj1zO7R6V+v5wAYTqwYF6mnNnll6CfnJc5KHpUnLCyu+ZI4Z6i1I67ySHyl
+	 VTz4cgq4b/T9S/ET6ESxdwN3LjGGtzq/wXy7Jf/D5JoL+IKcIaZyo5x8kSCJmH8a9n
+	 /J68ig8Ljm3l+1S7R0ROYyTuuIhEpho0nnT/UUu9dt3Fic4pq5vsWuSlPsEsUAw88N
+	 hZqTielKL00aZWtTLj2TIk5vpeloVoO1zByHmIOndZOhGoSXOfe7e6i6qxzbCvkIoX
+	 oqRXofVlszDxzBBpj1g9GQkGOySnxNjJ73g+i/hNUiU1xneE70u3NbXBnfxkER+Zbd
+	 nUHtbbU9pjCtQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4gVsk25HGsz9rxK;
+	Wed,  3 Jun 2026 17:55:54 +0200 (CEST)
+From: Markus Probst <markus.probst@posteo.de>
+Subject: [PATCH v19 0/3] rust: leds: add led classdev abstractions
+Date: Wed, 03 Jun 2026 15:55:57 +0000
+Message-Id: <20260603-rust_leds-v19-0-2a71085deae3@posteo.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA3PR12MB7901:EE_|BL3PR12MB6425:EE_
-X-MS-Office365-Filtering-Correlation-Id: a5db6abc-8ed1-4962-bd07-08dec173f62c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|7416014|18002099003|22082099003|56012099006|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	I1Sz3otxclV8JQDIil5+sJEkbZGoeW2lLt+pYGc6kEPVOVITGiRENmdiC87msNGs2iyNk/N/CbCv6p2keuq6kELbsTNag9M2ulN4VD/xoorgHEo8fKawuwHRVuR7XAqLIZcT99vzDSZinYSg4wkkI6QJI5ILSDbHXJYUzYM33jPZADhjEwSE53AGeiFO1RVk+5XuJpE4aaHZogH9V32lQV4JCIrapaZhQKt/U+fKie5E97wVqC76r7Xx963q2L69ekVsWqM3XQQFY/tnfxiTalvuemBr6QgoSOLpXm6unnmMwMGq+pipezVUasY7IeFLmnsj/UPBIv4VNHlYBa6LV3IoO1HLN71b0UKAd1hJDz/suFX4hxXbN8pxinDBI59I0EsvO9Od1Zh3SKw9uWdXVI7XuFTNFAEM2rYmvvviw1SAenVWcnuwLdNuE9AvDqL5lZi4SHe4aKXiJqmGAP/CDIc9+Bnu/sBgA0Vb+bsf1yVIiMHDa191he55uV771BUOquEb71QiaJWJ7cdDc3FpQuy4k0XrQhw26yhnh8wrV1DmoIFBH9Dca/CWCiR2CSLYzAmrCHia1STdeWpDZbmsXMu66QzN95GmVS1y3WQRT+nHWArujdkxFRAKJh7NZ/9YBYGwA8Ezyb8+MEyB04e5zQ5LJiHOtVdPQDWI1blyUDY6TqRfIA7PzgJGSZ6OxuTU
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR12MB7901.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014)(18002099003)(22082099003)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?vSVnSMWy5C7zoOSk8A6QnWyPJ03ubpUs9o2G+H8Dgwt9xWXeLshOwzIThnuH?=
- =?us-ascii?Q?eDXtn8hs5FeSo+j3kcOWZ+y2x8wxM9mQEQ9NZoVFslbMtiaTs2icSygzyVE2?=
- =?us-ascii?Q?cPnwDnseVA3W0/3bKW4Hav4oNoV9ckcs6oJWLD4C2CMNIjkqXgqruAZqR1Eo?=
- =?us-ascii?Q?qTxI8Hr22AxSNr/PBlmpDOfTDdOl5pF5PFQ4oNaZZwOPMOKGkSKs+zoFwx05?=
- =?us-ascii?Q?SxH25CaZcX4XiYFQRvRj0tvV+lQzaE3TV3Cw3NUZ2m4ub/7gw/RNnWXoDUig?=
- =?us-ascii?Q?GwuLLa+P73a2+9EP7vuPnjzeUoZVzNrTGXOJPJDwqG1oYm3pBf1bal8JQxQF?=
- =?us-ascii?Q?xiHkFCvdtAtHsmDhavPZe75vYKRm7Zc0ZJSgo8brFtPZ9gbtiAowPw1gy8Br?=
- =?us-ascii?Q?X+O//RdzXA9go2Jf4nyn68vcKTNz/9MqRiPR4ww8SedQI2m+7qfldfjR2QNW?=
- =?us-ascii?Q?MoOqjLNlVhFB0WMUVpD8WncZYqRz3kN64hHUvQ55J+bXlhhIAeTSbb/OnCqg?=
- =?us-ascii?Q?yvQrjwSMDLsSCH34tMseEgf8kBgdAj9XftgpOiHiYhwFtWYX2ZeOkOy6P1p4?=
- =?us-ascii?Q?fY+mv0yyhtFvXB5Qu6Eaq09RpVtKrrPJ/exAfgCTCTO+MzrqFWH5+/PiqMYk?=
- =?us-ascii?Q?KbNb+YZTUb9fSk4qsylHuirZV6SWKPgl5fVFhqUCyCu8yxN2rKf0YSOXEGcM?=
- =?us-ascii?Q?5eHYz3Vg4NBCPeKcrJ/ocFhZMb4mq07Fqlw7O0fWgtQKqFiBZFcyiH2zqH/l?=
- =?us-ascii?Q?AagSlN7cOwQ1v6h49ptlUSml7winEkmP/XcFDk8ZgAH7taYpF8qzvjXUORwg?=
- =?us-ascii?Q?rihZtkuOmkbIdh4UKxyPfhl/27NOlQKdUDKncusN+nF+tFp8d7GgrIAGFb7n?=
- =?us-ascii?Q?G0dJQKXYUwrVpUG5MbmXMkCgO/9W5qNUKjq7AQKzEMI4CpAsliI/dMWJQHhg?=
- =?us-ascii?Q?qBaqxoT2EOnx7zzzQBWBQSny2Zrxcufv6WodAt1xNctUrm7lFyFvWfvUNAbu?=
- =?us-ascii?Q?ScaYdqXD/vfXrkkmqgwH9u7Q7RtgStP8YEP0ufQvxjj8dFgVd0E6C8ovpJms?=
- =?us-ascii?Q?2MIj8TJMIqjkNmJfcXBeZIZJzAt6RDjbMyAbsO9Jgv7zVWDUXXkXbAcvUASw?=
- =?us-ascii?Q?dMk09/HWXD9RNQRu6O7e3QUPsM/N4yS+4N6rqzIvipgJaG+KuTZ1JbpQt+cn?=
- =?us-ascii?Q?OQ1pmPsQ3yg1QKDocvFJ5OwKw1iW6xcXAA3YEUeRTxr4jSGhusDHuDpmTZiT?=
- =?us-ascii?Q?B9O1YifgKEvZQsVMNdD0Tl5KtQKrlS2n+J87wKEy0/W3aQR1cDbKw7MLSWaZ?=
- =?us-ascii?Q?Q95bRyDfHumTQsddp9bdo+bQSU32Ji52+78hxajhE3GAa2DSelCVjFYM+5SC?=
- =?us-ascii?Q?Iy+fV4CtbImVICx+jXfDbO1VFhCbyg5wBheSp+pIRNMuCNRvPLgeJPmv98TA?=
- =?us-ascii?Q?SE+cpPkZ4LQz1Wt2uCqCcV2wV5W90CSvPeWy2pIxXeIgPB7EN/BAJYPtoR5C?=
- =?us-ascii?Q?j/Cm7vBXNIcSZ4WbGpukBMpQ4TZQA00G86sChdr4wDgAX/6Sh8E3ujVVoFo6?=
- =?us-ascii?Q?OuJdGzCbo55y0oApKGn3pwj+l+NavPu/p9StkiNLyCq90ELZQX0qZFInCJhK?=
- =?us-ascii?Q?4F+Jxwn+bqL6lPCT13hoM5Gkt94j9G+PoMXDyalQZgPSYlFUhB4u1tNNChag?=
- =?us-ascii?Q?3SLgb1nVm7LM38aBO1iRXQizoD56kSEu8aopKqUWr+DWjwvA?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5db6abc-8ed1-4962-bd07-08dec173f62c
-X-MS-Exchange-CrossTenant-AuthSource: SA3PR12MB7901.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 13:28:13.3070
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: O3MkmD2YFSw25pVCrkozZHCGqCrrlcZ35bBSo3GdL6v3OLj6kfdUlOGPveotU4z6f9heO94mXxKZGOVZvZmGLQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6425
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAH1OIGoC/23S207cMBAG4FdZ5bqJPLbHh73iPaoK+TCGCHYDc
+ YioEO/e2aVok7o3iWzlm0P0f3SV5pFqdzx8dDOtYx2nMx/A/zh06TGcH6gfM190UkgEAN3Pb3W
+ 5f6Zc++DRF5tkscV3/P3LTGV8vxb7+YvPj2Ndpvn3tfbqLrffVXBTZXW96LMPGopCROXuXqa60
+ DRk6i5VVr+Vfis9S2cSYA7ghVH/ShDf1AgQZktBsCURAI12ThffWLhZfuwssEWHGZKLJEVqrNx
+ au7OSbckRwWmw0WJj1c0quVsXFFsJAb1PGGWGxuqb1XLfV7PVRUewhBnBNBa3dt8X2XpL3kZpK
+ cZ2ZnOzKGBnzcUW3qRkyim3/9lurBI7a9kmYbxLWhlHsrFua/d9r6kSFoSMAcGKrf38CutMr28
+ c+OUrsd2Jag3XvB8Pf1dBQKmFGJTngzc99Dk8zXdPNJ/peZjmh0vsWyeR317CAFLz9P9nMVTq0
+ 3Q6jcvxsNqBx0+GZ/v8A9OsSNuUAwAA
+X-Change-ID: 20251114-rust_leds-a959f7c2f7f9
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+ Leon Romanovsky <leon@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>, Boqun Feng <boqun@kernel.org>
+Cc: rust-for-linux@vger.kernel.org, linux-leds@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
+ Markus Probst <markus.probst@posteo.de>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7037;
+ i=markus.probst@posteo.de; h=from:subject:message-id;
+ bh=wyEuXHXVO7k5NWhoWK5n0CUwIJ0gQVKLj9pZoWhDVBE=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBqIE6JE2/eua8sdMmeFBeg+x7As0Wb5I0uLJ1UD
+ Qe1fCIhmiCJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaiBOiRsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9JNaRAAuWel91rJsJZ92TRLB9t+/wwoFxhCCSR
+ FK9pCptt4uaHZlxzB+oRzdg4TSv2PrbbbPqdGhytCdxlBU5cRCLcpLkCDhehru7AYPL1A+NwM5X
+ lk7ZoGag4DFkPlUrkii47y92SpL8xiGkJvOH+8NMzrA8fehRb7oqef5P3k6qRX0e86KWfdGLbhH
+ TgReWnsHX+4D/nDy+EBFxowambBQyf60P61qGmHjKj2+5cDHzw7Oh7cFBB2dBxeZm3CsKagTgLS
+ WpRlxdfXQvqdV7C9Y87oK5muDjR7mzFDkEEY+VEBeDNV4dUHeLf2AUItl9m1ntmIvSxc5IanaCG
+ sdtqmnIWoCwa4myEn8kHmPdNgM89dvV+O+Ae1wGwfGT6/uPWCK+YJzp7jVN6JIuTIFapc75yxiw
+ enWh0uhfC6bHOJ3+xZW1S4tGhZJxmLdM6DvQXaflvR+OJUqJIuL3GObjfLmUb6PD5wyfZJNQUJ5
+ HORbfeaiksscF+sr1NEysHc8qEXX0u/QsfiSfodZJSsapN3HSOJYM2WcfvB+uf+MTwmFGxh3Jt9
+ 7oZigiDGdkOneHUnlDE1xwHK56jbu8fh8ofoe8UUPJgkVO4OmE3dRkLGtde4aQQeJjMv+76+Sih
+ +TIr4cK+2sAdKmTra2l7epMh8yAz/apmk42W68NB30i76waRbIQ4=
+X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
+ fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+  keydata=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
+  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[posteo.de,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[posteo.de:s=2017];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8466-lists,linux-leds=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	TAGGED_FROM(0.00)[bounces-8467-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[idosch@nvidia.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,linuxfoundation.org,intel.com,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu];
+	FORGED_SENDER(0.00)[markus.probst@posteo.de,linux-leds@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:gregkh@linuxfoundation.org,m:david.m.ertman@intel.com,m:ira.weiny@intel.com,m:leon@kernel.org,m:ojeda@kernel.org,m:alex.gaynor@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:rafael@kernel.org,m:bhelgaas@google.com,m:kwilczynski@kernel.org,m:boqun@kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-leds@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-pci@vger.kernel.org,m:markus.probst@posteo.de,m:alexgaynor@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:kuba@kernel.org,m:davem@davemloft.net,m:netdev@vger.kernel.org,m:edumazet@google.com,m:pabeni@redhat.com,m:andrew+netdev@lunn.ch,m:horms@kernel.org,m:jakub@cloudflare.com,m:maxime.chevallier@bootlin.com,m:nb@tipi-net.de,m:lee@kernel.org,m:linux-leds@vger.kernel.org,m:pavel@kernel.org,m:jv@jvosburgh.net,m:michael.chan@broadcom.com,m:jhs@mojatatu.com,m:vinicius.gomes@intel.com,m:razor@blackwall.org,m:hare@suse.de,m:jhasan@marvell.com,m:danieller@nvidia.com,m:andrew@lunn.ch,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[posteo.de:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[idosch@nvidia.com,linux-leds@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[markus.probst@posteo.de,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,netdev];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,Nvidia.com:dkim,vger.kernel.org:from_smtp,nvidia.com:from_mime,nvidia.com:email]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,posteo.de:mid,posteo.de:dkim,posteo.de:from_mime,posteo.de:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D2ED2638302
+X-Rspamd-Queue-Id: 99161639D99
 
-On Tue, Jun 02, 2026 at 06:28:36PM -0700, Jakub Kicinski wrote:
-> port_cost() calls __ethtool_get_link_ksettings() on the port device,
-> which will soon take the port's ops lock. br_port_carrier_check()
-> is reached via the NETDEV_CHANGE notifier from linkwatch, which
-> already holds the port's ops lock, so the call would deadlock.
-> 
-> Make port_cost() expect the port's ops lock held and switch to
-> netif_get_link_ksettings(). The only other caller is new_nbp(),
-> make sure it takes the lock explicitly.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+This patch series has previously been contained in
+https://lore.kernel.org/rust-for-linux/20251008181027.662616-1-markus.probst@posteo.de/T/#t
+which added a rust written led driver for a microcontroller via i2c.
 
-Reviewed-by: Ido Schimmel <idosch@nvidia.com>
+As the reading and writing to the i2c client via the register!
+macro has not been implemented yet [1], the patch series will only
+contain the additional abstractions required.
+
+This series depends on [2].
+
+[1] https://lore.kernel.org/rust-for-linux/DDDS2V0V2NVJ.16ZKXCKUA1HUV@kernel.org/
+[2] https://lore.kernel.org/rust-for-linux/20260525202921.124698-1-dakr@kernel.org/
+
+The following changes were made:
+* add basic led classdev abstractions to register and unregister leds
+
+* add basic led classdev abstractions to register and unregister
+  multicolor leds
+
+Changes since v18:
+* add inlines
+* fix invalid documentation
+* improve led color duplicate checking
+
+Changes since v17:
+* use lifetimes instead of Devres
+
+Changes since v16:
+* use for loops for duplicate checking
+
+Changes since v15:
+* fix issues reported by Sashiko bot:
+  * fix returning error not possible on `brightness_get` callback
+
+Changes since v14:
+* fix issues reported by Sashiko bot:
+  * add missing inlines
+  * add missing Sync trait bound
+  * fix vertical import layout for public export of private types
+  * fix potential memory leak, if a multicolor led device with over
+    `u32::MAX` subleds is registered
+* remove default_trigger option
+* fix missing CAST doc
+
+Changes since v13:
+* rebased onto v7.1-rc1
+
+Changes since v12:
+* add `led::DeviceBuilder::name()` and `DeviceBuilderState'
+* add `led::Color::as_c_str`
+
+Changes since v11:
+* use `led::DeviceBuilder` instead of `led::InitData`
+* use static_assert instead of const { assert!(...) }
+* restructured patches to avoid moving `led::Device` from
+  rust/kernel/led.rs to rust/kernel/led/normal.rs in the 2. patch
+
+Changes since v10:
+* allow in-place initialization of `LedOps`
+* run rustfmt for code inside `try_pin_init!`
+
+Changes since v9:
+* add missing periods in documentation
+* duplicate `led::Device` and `led::Adapter` instead of using a complex
+  trait
+* fix imports not using prelude
+* adapt to CStr change
+* documented `led::Color::Multi` and `led::Color::Rgb`
+
+Changes since v8:
+* accept `Option<ARef<Fwnode>>` in `led::InitData::fwnode()`
+* make functions in `MultiColorSubLed` const
+* drop the "rust: Add trait to convert a device reference to a bus
+  device reference" patch, as it has been picked into driver-core
+
+Changes since v7:
+* adjusted import style
+* added classdev parameter to callback functions in `LedOps`
+* implement `led::Color`
+* extend `led::InitData` with
+  - initial_brightness
+  - default_trigger
+  - default_color
+* split generic and normal led classdev abstractions up (see patch 3/4)
+* add multicolor led class device abstractions (see patch 4/4)
+* added MAINTAINERS entry
+
+Changes since v6:
+* fixed typos
+* improved documentation
+
+Changes since v5:
+* rename `IntoBusDevice` trait into `AsBusDevice`
+* fix documentation about `LedOps::BLOCKING`
+* removed dependency on i2c bindings
+* added `AsBusDevice` implementation for `platform::Device`
+* removed `device::Device` fallback implementation
+* document that `AsBusDevice` must not be used by drivers and is
+  intended for bus and class device abstractions only.
+
+Changes since v4:
+* add abstraction to convert a device reference to a bus device
+  reference
+* require the bus device as parent device and provide it in class device
+  callbacks
+* remove Pin<Vec<_>> abstraction (as not relevant for the led
+  abstractions)
+* fixed formatting in `led::Device::new`
+* fixed `LedOps::BLOCKING` did the inverse effect
+
+Changes since v3:
+* fixed kunit tests failing because of example in documentation
+
+Changes since v2:
+* return `Devres` on `led::Device` creation
+* replace KBox<T> with T in struct definition
+* increment and decrement reference-count of fwnode
+* make a device parent mandatory for led classdev creation
+* rename `led::Handler` to `led::LedOps`
+* add optional `brightness_get` function to `led::LedOps`
+* use `#[vtable]` instead of `const BLINK: bool`
+* use `Opaque::cast_from` instead of casting a pointer
+* improve documentation
+* improve support for older rust versions
+* use `&Device<Bound>` for parent
+
+Changes since v1:
+* fixed typos noticed by Onur Özkan
+
+Signed-off-by: Markus Probst <markus.probst@posteo.de>
+---
+Markus Probst (3):
+      rust: leds: add basic led classdev abstractions
+      rust: leds: add Mode trait
+      rust: leds: add multicolor classdev abstractions
+
+ MAINTAINERS                     |   8 +
+ rust/bindings/bindings_helper.h |   1 +
+ rust/kernel/led.rs              | 339 +++++++++++++++++++++++++++++++++
+ rust/kernel/led/multicolor.rs   | 405 ++++++++++++++++++++++++++++++++++++++++
+ rust/kernel/led/normal.rs       | 238 +++++++++++++++++++++++
+ rust/kernel/lib.rs              |   1 +
+ 6 files changed, 992 insertions(+)
+---
+base-commit: 3bc831df9ee16fceee851872315161377ca1417d
+change-id: 20251114-rust_leds-a959f7c2f7f9
+prerequisite-message-id: 20260505152400.3905096-1-dakr@kernel.org
+prerequisite-patch-id: d2aebf69b153c039bbed1d0ed26906708fd22534
+prerequisite-patch-id: 84b28da2f5de20fc1785095c647b2ffc35d969a5
+prerequisite-patch-id: 67318671a5eed5fb4ad23a450f1cf0e442bf8ca2
+prerequisite-message-id: 20260525202921.124698-1-dakr@kernel.org
+prerequisite-patch-id: b84db329d4372a175cb8d49e4e88c3eecf7eb228
+prerequisite-patch-id: 2c30303f409cc8288cc87e241920219f5ddd8390
+prerequisite-patch-id: 4e4f0ad370d763ad00b0f75b91fa216f2cc95953
+prerequisite-patch-id: 5bcd6b37f3498feebda275dfef78136eba34004e
+prerequisite-patch-id: 872b0982f3e5e7d1698d9df3b325e4cd27b27789
+prerequisite-patch-id: 3a3c7749e017d9335f58497404d1350e96caf471
+prerequisite-patch-id: 3526c9154f581497a11465b936d83ef61a875454
+prerequisite-patch-id: 65d8c757b52475c2acc7d22ddc92cd3f0152b55d
+prerequisite-patch-id: 4bd31f1414d5248dc080884caadf5f21684a8427
+prerequisite-patch-id: 7beadbb0da3e589ed86d12f512d1c83427dd82b4
+prerequisite-patch-id: 12cd0f67ffd27347f90c065db491945908206b7f
+prerequisite-patch-id: 4642e31f66331f6c3b579377111ea733dbb3a11c
+prerequisite-patch-id: 52d67b40b4396c741e2222d6a5bc7927abcb77aa
+prerequisite-patch-id: 74ca82ff26cf9c7a993757c87db8be62006e820f
+prerequisite-patch-id: 466fb9fa7febbffd8ef51b311c7d9893c11fc0f0
+prerequisite-patch-id: e515cd98b06e26721cbbe6a4fbacd251d0073b63
+prerequisite-patch-id: 8dc8e75d9f6499a554ef7e474bbacdbf3660a9f2
+prerequisite-patch-id: 5fdb9f71dca2f44dd293760a60db125b770f1f55
+prerequisite-patch-id: c766a24c2d5064f5ec09daada0b8e8fba862d3aa
+prerequisite-patch-id: b768f6456d35fa7a80c015e34bbdba6082dbd593
+prerequisite-patch-id: 6a8b17234f12f7084e6e2ce843a7031b0a891ce4
+prerequisite-patch-id: 98b2deb9e60c1f28f90c5ee34fd608aaa9fd9420
+prerequisite-patch-id: 774b29be66e641ee50cedb4704cf49d8b9fabf50
+prerequisite-patch-id: cf95dc936cfc4b3a7a363435a51a48d9009645b3
+
 
