@@ -1,60 +1,67 @@
-Return-Path: <linux-leds+bounces-8483-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8484-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id LdFtFGGfIWqcKAEAu9opvQ
-	(envelope-from <linux-leds+bounces-8483-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 04 Jun 2026 17:53:05 +0200
+	id Dw+NJoWkIWoKKgEAu9opvQ
+	(envelope-from <linux-leds+bounces-8484-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 04 Jun 2026 18:15:01 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4CB0641996
-	for <lists+linux-leds@lfdr.de>; Thu, 04 Jun 2026 17:53:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26648641BEF
+	for <lists+linux-leds@lfdr.de>; Thu, 04 Jun 2026 18:15:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=NRsAoY7j;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8483-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8483-lists+linux-leds=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=none;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8484-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8484-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed), No valid DKIM" header.from=collabora.com (policy=none);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5CAA1301455A
-	for <lists+linux-leds@lfdr.de>; Thu,  4 Jun 2026 15:39:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C543830293E4
+	for <lists+linux-leds@lfdr.de>; Thu,  4 Jun 2026 16:06:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A3DD34CFA1;
-	Thu,  4 Jun 2026 15:39:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F295436C9F4;
+	Thu,  4 Jun 2026 16:05:57 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1566633D6DD;
-	Thu,  4 Jun 2026 15:39:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0843B19D8;
+	Thu,  4 Jun 2026 16:05:56 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780587560; cv=none; b=kMVdR+ivXwLY2tyGEpOdMsT9dWpc9vDtWQKhz+NRQfbsfpWsdfrF4ATRKig7hghZ6TOzbQeakNgZgRQ/SQFTUuNatEynu5+InlZ20KGNzGraIRICzvn1eUsHoc7YB8spzAPVNCOgLDGBI+7slpjG4dg6UhIFsYxNDgoELZE8ec8=
+	t=1780589157; cv=none; b=B5P05Ib5UOdBuuzFE5NyfujvigS2bMqYhrTURqmNuFTV2e/MYcq7uaGeRmo37R+bdB0xUcqL2KP/h0LIEP6jnQTQU63ohSUkOnnz2hdcEJweQqvRe+oom/mX9f/4CGbEeCKSEDFzyGGwrOclgyUeSCQBkv0l/a3wcRKbmRghPqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780587560; c=relaxed/simple;
-	bh=FwXfzorioxEmBEwxUR7juggtZ3fXff97YXjCVNMfvt4=;
+	s=arc-20240116; t=1780589157; c=relaxed/simple;
+	bh=A/bbqU+Rgpn5w7+MQPXcdG8OICWauN+wti+dE+F1DIA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uH+Q3ZOyYfYbeeQJ9m5w19NmdJ0kUcIp/dOwFsl5Du1SbS7bBHiLZqNbOlGFNfuiJJd5YX6EH+vU1uz5EkYGqWw1RyQEL6PrHdS00c+GmHyzQGzFFu7BHhOKXjXuuGpxNfspaB/Hs+APJjntVj7+Jg+EErTGDxA4VKty8QegTsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NRsAoY7j; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91DFD1F00893;
-	Thu,  4 Jun 2026 15:39:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780587559;
-	bh=WIjgeloGGVlHcSVb4WWYfAPYHDejWwOw4WcMpkn2jUQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=NRsAoY7jriDkTQykWKgbIs75zndpAPjvQizqwq+x/TK2b72/UY6ikrX1gh57dN30L
-	 y7W8plQldWmCNl2VxRRAPEPYEJvIRSiU4i+NS9dT/oAI03OxqfWCuBuOysPLninnml
-	 qEh8Eo5DvHvho84V3jYCausqaqW0b6ATzx50lkGwRUksPmfIVih8BBzwzQHZtZbEHG
-	 S4Cf4LVaJ1LYXqLElxokIqacWK5WLNR1SCQWPgCiyD9kF96kMkupRCbW4ez7H9TuGx
-	 W4EtOliIqmKy5HxJZXGa6iDMKN42hjsG0grU90J9GJifhWaGxTmYl0G7aTrfoVOLmE
-	 FZd+wVr1KoyNg==
-From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org, pavel@kernel.org, Armin Wolf <W_Armin@gmx.de>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
-In-Reply-To: <20260524235553.189134-1-W_Armin@gmx.de>
-References: <20260524235553.189134-1-W_Armin@gmx.de>
-Subject: Re: (subset) [PATCH] leds: uleds: Fix potential buffer overread
-Message-Id: <178058755832.68831.13304002591164882113.b4-ty@b4>
-Date: Thu, 04 Jun 2026 16:39:18 +0100
+	 MIME-Version:Content-Type; b=LWTrnFwaAa27DHLTCjx74h/L5OBapeOOu+tdOZgRrujU2zEeN8jGevb9jh7lhHzx5KRUwsrhvDmdfAXciUkxiyQC4+AwTE//yxKp6fcxvo8h7WS8GecMFJOFBp+QrvJG37cRsx14LZzOHbaE693IirKG5YHtOl7D2GGUouHpsYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CA861F00893;
+	Thu,  4 Jun 2026 16:05:56 +0000 (UTC)
+Received: by venus (Postfix, from userid 1000)
+	id 3C2E5181D83; Thu, 04 Jun 2026 18:05:54 +0200 (CEST)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Nam Tran <trannamatk@gmail.com>, 
+ =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>, 
+ Yassine Oudjana <y.oudjana@protonmail.com>, 
+ Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260516-s2mu005-pmic-v7-0-73f9702fb461@disroot.org>
+References: <20260516-s2mu005-pmic-v7-0-73f9702fb461@disroot.org>
+Subject: Re: (subset) [PATCH v7 00/10] Support for Samsung S2MU005 PMIC and
+ its sub-devices
+Message-Id: <178058915422.2707129.13570246016246731476.b4-ty@collabora.com>
+Date: Thu, 04 Jun 2026 18:05:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -62,61 +69,69 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.16-dev-ad80c
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [0.14 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[collabora.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:W_Armin@gmx.de,m:linux-leds@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,gmx.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8484-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-8483-lists,linux-leds=lfdr.de];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,samsung.com,linaro.org,bootlin.com,lwn.net,linuxfoundation.org,gmail.com,lvkasz.us,protonmail.com,disroot.org];
+	FORGED_SENDER(0.00)[sebastian.reichel@collabora.com,linux-leds@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:myungjoo.ham@samsung.com,m:cw00.choi@samsung.com,m:sre@kernel.org,m:krzk@kernel.org,m:andre.draszik@linaro.org,m:alexandre.belloni@bootlin.com,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:trannamatk@gmail.com,m:kernel@lvkasz.us,m:y.oudjana@protonmail.com,m:kauschluss@disroot.org,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-pm@vger.kernel.org,m:linux-samsung-soc@vger.kernel.org,m:linux-rtc@vger.kernel.org,m:linux-doc@vger.kernel.org,m:conor.dooley@microchip.com,m:krzysztof.kozlowski@oss.qualcomm.com,m:conor@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sebastian.reichel@collabora.com,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,collabora.com:mid,collabora.com:from_mime,collabora.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B4CB0641996
+X-Rspamd-Queue-Id: 26648641BEF
 
-On Mon, 25 May 2026 01:55:53 +0200, Armin Wolf wrote:
-> The name string supplied by userspace is not guaranteed to be
-> null-terminated, so using strchr() on it might result in a buffer
-> overread. The same thing will happen when said string is used by
-> the LED class device.
+
+On Sat, 16 May 2026 03:08:32 +0530, Kaustabh Chakraborty wrote:
+> S2MU005 is an MFD chip manufactured by Samsung Electronics. This is
+> found in various devices manufactured by Samsung and others, including
+> all Exynos 7870 devices. It is known to have the following features:
 > 
-> Fix this by using strnchr() instead and explicitly check that
-> the name string is properly null-terminated.
+> 1. Two LED channels with adjustable brightness for use as a torch, or a
+>    flash strobe.
+> 2. An RGB LED with 8-bit channels. Usually programmed as a notification
+>    indicator.
+> 3. An MUIC, which works with USB micro-B (and USB-C?). For the micro-B
+>    variant though, it measures the ID-GND resistance using an internal
+>    ADC.
+> 4. A charger device, which reports if charger is online, voltage,
+>    resistance, etc.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] leds: uleds: Fix potential buffer overread
-      commit: 22b69b2c0a5573e58ad66693196fc86369980568
+[10/10] power: supply: add support for Samsung S2M series PMIC charger device
+        commit: 7e541f6dbd05921d0bbb99646028cb9982535707
 
---
-Lee Jones [李琼斯]
+Best regards,
+-- 
+Sebastian Reichel <sebastian.reichel@collabora.com>
 
 
