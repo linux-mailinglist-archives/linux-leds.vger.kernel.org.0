@@ -1,148 +1,144 @@
-Return-Path: <linux-leds+bounces-8475-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8476-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 1lx4I/hfIGpa2AAAu9opvQ
-	(envelope-from <linux-leds+bounces-8475-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 03 Jun 2026 19:10:16 +0200
+	id RNJzNeheIWrpFAEAu9opvQ
+	(envelope-from <linux-leds+bounces-8476-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 04 Jun 2026 13:18:00 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE49263A0F2
-	for <lists+linux-leds@lfdr.de>; Wed, 03 Jun 2026 19:10:15 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD71E63F5A6
+	for <lists+linux-leds@lfdr.de>; Thu, 04 Jun 2026 13:17:59 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=V3msmcDA;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8475-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8475-lists+linux-leds=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=none;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8476-lists+linux-leds=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-leds+bounces-8476-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CADED3038105
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Jun 2026 17:07:30 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B7B5B305A3B0
+	for <lists+linux-leds@lfdr.de>; Thu,  4 Jun 2026 11:07:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCCC744DB73;
-	Wed,  3 Jun 2026 17:07:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C233A409137;
+	Thu,  4 Jun 2026 11:07:30 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4DE44DB7F
-	for <linux-leds@vger.kernel.org>; Wed,  3 Jun 2026 17:07:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F3040961A
+	for <linux-leds@vger.kernel.org>; Thu,  4 Jun 2026 11:07:27 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780506444; cv=none; b=TAp2kJS2FWkN5OAQ6ehEtIAntT4iC2GdffGB1mcSELUuoeeAziiLiWzB/+1KU5k9R70zPOeOwFB8krnCa8mcA3trBW+HBLTlfnzafF6ytcPr7n95cs2piIh1UyjkYIO7GT1h1RBTIJe144wzO6zlR+DXqTkx5Xk2Y14VE+bFRTI=
+	t=1780571250; cv=none; b=n8ENsgECsd6lpoLvrr/Un0Cb56CjivYQnH1Kdxk+M1ZW3+wA8WJKM8Z46jrVknBvLMSEnZWv2x55RjNJxKTZs6NaYG8l8rDSZis0szzD7HOfUZUu78XarzTSmyhJeSjYrNs8ySjNLl/N6vPh9X/2DKYQfa+unswTQI3et+z1Sjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780506444; c=relaxed/simple;
-	bh=LMWL5z0PUBz/1/4zVtrAB3Slt0tJCvRIQSlyKhfG1Q4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vx4BYF9OPn2vYacm5QUjT/j5+DdA2SEyI3o9la6iChDfxkSXJPEtTestnS1qh9YTD9fybHSI5xqw0sbqvCHzWs+U+4pi9JRen0xJTG6dU7y6gxs+ZvI8H35Vzo/8ZGEcV6aWKVr8EuVR++uy4vixYzy4yJ/417hcvrnT4lwv9RI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V3msmcDA; arc=none smtp.client-ip=209.85.210.196
-Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-842307473b5so3103276b3a.2
-        for <linux-leds@vger.kernel.org>; Wed, 03 Jun 2026 10:07:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780506443; x=1781111243; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qnoNQ6TPVeQqZZfaJltcjq9kwZ8+POJQlduiwlUGeUU=;
-        b=V3msmcDAXuY0jk2quY7iEEo4lnBO5cReHTbG6ZvjHEU96mRCZKSWBtTUircFZb3Wsd
-         Di/UCpeHUcIUrAgH299i0KGUS38x4xCdGSW8wMYVe8zl5DYN50WaPnQbbAbAHieTIpI3
-         v3PSBvGYm3ltm9d/8/EAsrIPr8rr3Rkq8m5Spm0c6Ut4MnwVAXyUawolvpDBwTXarU4W
-         jiN02eAUFvFF54jUbUk619C5+GCGpbrQemhvCbHmSqEMLkjyObP6dbwtSn0QjS13QGJN
-         P1TQRYWyVTWdGIJFL7OUJrYCpnvjDzF178uJsA5U8S+kbOgN/LcvMO9qq63urXtPUX7J
-         F+0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780506443; x=1781111243;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qnoNQ6TPVeQqZZfaJltcjq9kwZ8+POJQlduiwlUGeUU=;
-        b=rJ8mZHeesAOgvI8WKDEjcNfjZ9bUPQAj9qy5Y2gKZBJ6xHhvEeBp2Uqr6T50uJG+ot
-         N6qdRhv1+l+xDx1b0yt0OOrhOz0Wk0qT3wvHEs4pihzOaFlaIvuM5LXVq1khTyvq2lI4
-         2qV9g8Fdu7e/Yg6PWT3WGS2/Nff42Fem0d7VYPAeRA3DDrtl0dRpXySWZTKlN9LaAKL4
-         ++9zwcxdmLaHJfl1gJpMbpO0TbjnlQbx0OJP5yJWcHpmySeMmBgRxbuQgw0R4OJon+NV
-         j/tdU36fOnvEmStmW0FnOBUhhf0gePqqcW65AymzSsH+IkInz7Sm9AfaezRQQm8ehFJt
-         63GQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8zezlFL8guOtOaAG9h/rwknA+B/wD7frC30eHDJSFtBkfWbuu9WkiOjthICuo3NTPCk8eJkeeNUuQu@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1L2WL9S6tnywqQAJLvY979rrz+ifU6Q6kS76dzY8xoGmg2yke
-	Vj5pU6Ce7agY0Ts3iNZiHCJjMKlpWSZWhgzoi1wzxSuTPWoXo4XAH952
-X-Gm-Gg: Acq92OE8FeD0ltcMdiGXO/wMYDhp+gXpmKPQBiwpnKWKqyOUYmbb21iKirV8eQXDd93
-	bO8p2XrXjbcGyGlHz73oThcMsHFN029e8jBQvfDWunjAaRdUJeStO0mtBiAsGDIPJF0b8MNkdqd
-	S+jonxI36YRZTaZe+ZnX+ANb2rZUpeXObMCLKoytgpFmOjVlmxQBlqgrDHhYn9VEXgBZN+uVJ9j
-	NXDFkED5WKV/X8UHIyvFY7UA4JJ5HJheEnxnaOh0i64X772JWW6sJznOAjSojlK59wGsr+qWIKN
-	+4UULfJP8wyD+GUhcAX442ZhiaEbqRHsma7LJ+DCm+QE6qlPAgSEM3QIOCouSEW0Gxhy4GQRx6o
-	r/SZuIVGDSf6tsY4T7A6mP7TfdwvgQD7vfABfdxglwp18atHQkHlxCJKaEGVjM0chWUfw4uOI77
-	exiirSGsc6EdaGq2GnM5WlnfkE0uDzfSycMuLB
-X-Received: by 2002:a05:6a00:3317:b0:842:5564:2e2a with SMTP id d2e1a72fcca58-84284d5a532mr4552805b3a.6.1780506443037;
-        Wed, 03 Jun 2026 10:07:23 -0700 (PDT)
-Received: from localhost ([2a03:2880:2ff:5::])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84282378986sm3777135b3a.22.2026.06.03.10.07.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 10:07:22 -0700 (PDT)
-Date: Wed, 3 Jun 2026 10:06:54 -0700
-From: Stanislav Fomichev <sdf.kernel@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com, 
-	pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, jakub@cloudflare.com, 
-	maxime.chevallier@bootlin.com, nb@tipi-net.de, lee@kernel.org, linux-leds@vger.kernel.org, 
-	pavel@kernel.org, jv@jvosburgh.net, michael.chan@broadcom.com, jhs@mojatatu.com, 
-	vinicius.gomes@intel.com, idosch@nvidia.com, razor@blackwall.org, hare@suse.de, 
-	jhasan@marvell.com, danieller@nvidia.com
-Subject: Re: [PATCH net-next v2 11/11] net: ethtool: make sure
- __ethtool_get_link_ksettings() is ops-locked
-Message-ID: <aiBfJ8rbhl_VPiGt@devvm7509.cco0.facebook.com>
-References: <20260603012840.2254293-1-kuba@kernel.org>
- <20260603012840.2254293-12-kuba@kernel.org>
+	s=arc-20240116; t=1780571250; c=relaxed/simple;
+	bh=r61IsFZ3swYwz17mLPEb7M6IRDu0lmNu/FPvdX3aGJ4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fcUfYeqWcchCNhWopPHet+KyS08aTmCYeTWcp9nG/rA2YQGTF7kVaQvwrvP/gKs32JTHvciMjtq9lbZDU5K96hBEyTAlqXSsNvDhB7Lzp0g8UhAuO6wFuiXN3Kru2k51JJaM4Rxf6U3PZQ43HTUqQJKnL0m9VtX2xoLJy4Qy9r4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <jre@pengutronix.de>)
+	id 1wV5v0-0000OO-HM; Thu, 04 Jun 2026 13:07:22 +0200
+From: Jonas Rebmann <jre@pengutronix.de>
+Subject: [PATCH 0/2] leds: pwm-multicolor: Fix default-trigger by allowing
+ default-intensity
+Date: Thu, 04 Jun 2026 13:06:56 +0200
+Message-Id: <20260604-multicolor-default-v1-0-b07bff431537@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260603012840.2254293-12-kuba@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFFcIWoC/yXMQQ6DIBRF0a2QP5YE0DroVowDhKf9jYoBbZoY9
+ y7q8Azu3SkhMhK9xU4RP04c5gxdCHIfOw+Q7LPJKFOrWlVy2saVXRhDlB69zZJao+zgPNTLUg6
+ XiJ7/97RpH6et+8Kt14mO4wSqqXbHdgAAAA==
+X-Change-ID: 20260604-multicolor-default-11e3becde05a
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>, 
+ Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel@pengutronix.de, Jonas Rebmann <jre@pengutronix.de>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1181; i=jre@pengutronix.de;
+ h=from:subject:message-id; bh=r61IsFZ3swYwz17mLPEb7M6IRDu0lmNu/FPvdX3aGJ4=;
+ b=owGbwMvMwCV2ZcYT3onnbjcwnlZLYshSjMnIKFnkvsaU1+r6hbWG0a4nf68X3S6dKH9i9zR2f
+ tHgr/ZLOkpZGMS4GGTFFFli1eQUhIz9r5tV2sXCzGFlAhnCwMUpABMp3M7I8N2Gp3uyO99C4TqV
+ HwlLolbcuPtjwZTsR9f2tpixaX+1OMjwP+NQ+97pkU8VOPh+KFQv+6GawX1N+bd3TJyYqJBg3/1
+ lXAA=
+X-Developer-Key: i=jre@pengutronix.de; a=openpgp;
+ fpr=0B7B750D5D3CD21B3B130DE8B61515E135CD49B5
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::ac
+X-SA-Exim-Mail-From: jre@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8475-lists,linux-leds=lfdr.de];
-	FORGED_SENDER(0.00)[sdfkernel@gmail.com,linux-leds@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:kuba@kernel.org,m:davem@davemloft.net,m:netdev@vger.kernel.org,m:edumazet@google.com,m:pabeni@redhat.com,m:andrew+netdev@lunn.ch,m:horms@kernel.org,m:jakub@cloudflare.com,m:maxime.chevallier@bootlin.com,m:nb@tipi-net.de,m:lee@kernel.org,m:linux-leds@vger.kernel.org,m:pavel@kernel.org,m:jv@jvosburgh.net,m:michael.chan@broadcom.com,m:jhs@mojatatu.com,m:vinicius.gomes@intel.com,m:idosch@nvidia.com,m:razor@blackwall.org,m:hare@suse.de,m:jhasan@marvell.com,m:danieller@nvidia.com,m:andrew@lunn.ch,s:lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FORWARDED(0.00)[lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DMARC_NA(0.00)[pengutronix.de];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jacek.anaszewski@gmail.com,m:sven.schwermer@disruptive-technologies.com,m:pavel@ucw.cz,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:kernel@pengutronix.de,m:jre@pengutronix.de,m:krzk@kernel.org,m:conor@kernel.org,m:jacekanaszewski@gmail.com,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,disruptive-technologies.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_SENDER(0.00)[jre@pengutronix.de,linux-leds@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8476-lists,linux-leds=lfdr.de];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sdfkernel@gmail.com,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[jre@pengutronix.de,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,netdev];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,fomichev.me:email,devvm7509.cco0.facebook.com:mid]
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp,pengutronix.de:mid,pengutronix.de:from_mime,pengutronix.de:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: EE49263A0F2
+X-Rspamd-Queue-Id: CD71E63F5A6
 
-On 06/02, Jakub Kicinski wrote:
-> All drivers which may call *_get_link_ksettings() on ops-locked
-> devices from paths already holding the ops lock are ready now.
-> Make __ethtool_get_link_ksettings() take the ops lock, and assert
-> that it's held in netif_get_link_ksettings().
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+Typically using linux,default-trigger allows turning LEDs on on initialization
+or triggering on e.g. a kernel panic regardless of how early.
 
-Acked-by: Stanislav Fomichev <sdf@fomichev.me>
+While supported in pwm-multicolor, this was not usable because the
+individual color components multiplication factor (intensity), defaulted
+all to 0 (black) and the LED remains off regardless of its overall
+"brightness" value.
+
+Allow setting defaults for each component's intensity to make the other
+"default-" properties actually usable here.
+
+Update binding documentation accordingly.
+
+Signed-off-by: Jonas Rebmann <jre@pengutronix.de>
+---
+Jonas Rebmann (2):
+      dt-bindings: leds: Add default-intensity property
+      leds: pwm-multicolor: Introduce default-intensity property
+
+ Documentation/devicetree/bindings/leds/common.yaml             | 10 ++++++++++
+ .../devicetree/bindings/leds/leds-pwm-multicolor.yaml          |  4 ++++
+ drivers/leds/rgb/leds-pwm-multicolor.c                         |  2 ++
+ 3 files changed, 16 insertions(+)
+---
+base-commit: ba3e43a9e601636f5edb54e259a74f96ca3b8fd8
+change-id: 20260604-multicolor-default-11e3becde05a
+
+Best regards,
+--  
+Jonas Rebmann <jre@pengutronix.de>
+
 
