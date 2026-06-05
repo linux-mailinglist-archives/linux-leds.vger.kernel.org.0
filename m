@@ -1,79 +1,82 @@
-Return-Path: <linux-leds+bounces-8496-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8497-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id udUpAlDYImpieQEAu9opvQ
-	(envelope-from <linux-leds+bounces-8496-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 05 Jun 2026 16:08:16 +0200
+	id NuzLBTHZImqNeQEAu9opvQ
+	(envelope-from <linux-leds+bounces-8497-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 05 Jun 2026 16:12:01 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505A7648B9B
-	for <lists+linux-leds@lfdr.de>; Fri, 05 Jun 2026 16:08:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 746F8648BF3
+	for <lists+linux-leds@lfdr.de>; Fri, 05 Jun 2026 16:12:00 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=outlook.com header.s=selector1 header.b=Wimb+zkX;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8496-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8496-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=outlook.com header.s=selector1 header.b=T84w4HK+;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8497-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8497-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=outlook.com;
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 70DDA30534E0
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Jun 2026 14:00:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 49BEE3003EAC
+	for <lists+linux-leds@lfdr.de>; Fri,  5 Jun 2026 14:03:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED8A226F2B9;
-	Fri,  5 Jun 2026 14:00:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 956CF30D41E;
+	Fri,  5 Jun 2026 14:03:38 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazolkn19013076.outbound.protection.outlook.com [52.103.35.76])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazolkn19013087.outbound.protection.outlook.com [52.103.51.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26DED19D071;
-	Fri,  5 Jun 2026 13:59:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4A217C211;
+	Fri,  5 Jun 2026 14:03:36 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780668000; cv=fail; b=c9PnQRN7wEvHyac6XvohUzH3hX/h2jMz1/isb0VycSF8SK4ylrZ6VHY7jozoEiaYX/Bh3M4Z4iwz6apyAZf9bBAy8WScA0xxrLij3hzAnyZwF2GXnXgoRkWslvuf1Tz5dnZImz5HX+KRxYuMS/jmPFw5K3IahjPPvwUDJsDsK/o=
+	t=1780668218; cv=fail; b=dBRLfP5oqTIsM8kKgFrEN6FMV3skUE58LNYFufjndNQPw0fpZDCtU1K0tFes/FqgBG4gFbe8u0nww3wMmiol3BgywEmDVwLy52XkELmYQMq5Qxh1yHfS/U32QxSexexSwNvPJJ1Gx262ZvpfVrzJ5yXfL1AfDO/qkOUQFnJtkCY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780668000; c=relaxed/simple;
-	bh=Nme8VLwqjS8k15r0SdW/jVSbiI4j+lZ+7cG15H4r0vc=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=BIdVMgwBHSBIUaMSkWaPAcg4FOm6NmHnffVW3sJ413ldpn9XjaMWjjl+eQ6SB9NLSYCuxNsYU2zRw7s2Y1mr4aIdLNWYw1gu4QiO8Pe+mhpBOYLa8ehxP6P88zTjc20tXIdhJo992vM8u7HTatkR44d7+VGtr4IvG4fOtiUFxj0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=Wimb+zkX; arc=fail smtp.client-ip=52.103.35.76
+	s=arc-20240116; t=1780668218; c=relaxed/simple;
+	bh=jkn8GXE5PLoLZ+WqjKVfE1sf5jRh0K1N0VTcoWDWZ0s=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jXgXknR8Q+1JHshl9L4QGUd4j0uZTC22lopuwR3XLECdwtGp+C3tf0ql+2RsAa/1fM9R3b6qXIgMjuSX05mdONKBl+B5B8UOfrlVkwvFeBYE67wD2f6StYa+eXM8raSlaGOvfBARhbW4GGKrzcwq3GfWHVpLXYXK60KxaoisYxw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=T84w4HK+; arc=fail smtp.client-ip=52.103.51.87
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K7PLROZ8aWfjhsmkdRYZ3QE72BQ/xtspKs0F4p7Q5t2PIP4/8duaVBxoT+euwZeLsJYJ5Or93NzNM+ih5doLFklx3KPUda27dhLLUHt4gEHDtJwpidvWUrd8CDOXJf9gcjbg3GKjUtp1o3b0spsh9Ce+eKWaOl/Rn4dAoQmPKL1htvAeNOnst7xr7a1N20iNPohfYg+pqHiJ/giR52i9HG9gcu5vVt4xNnzIkXq33NJbB/RBzWjbKiIoe2Ze0sNOC2r0hqxps8ZiJij7ZPcqzPlvM09rzt9M5iwJVNFTn7GxkpFTAvrkykKRaAQK/768FJmV6WNhTH68+vixUmHdrg==
+ b=umxJJUScGHUr/rda+nBFXFATrltoASG5tjRZAThTI+hEVRwqYukY8zs3bFjroWKfXkCDPXMLuEyzKDlJpgOUFUYCDZ7dtHAoNIPcfhObMrZCIyVg3deVjLQ6bcTRJVJONB+3P9AM/8ZG8awP0hXGii/90UafWyDmZmMur4HIBOc/YNttyl0vTfoOtyukPefNWYFriGTaS+6hCX/d7WkjKRamiXdDZZTkjVYdeG/r0iLIKk/j7909hXKqVY6As1UsIbSnK+eqEAP9OIGXww2wDy5AzKR2fgZKdC7wLDXjVrWvvGiPEiIz/vz2CVHkadtlc0sA/2aQOSsf3GWvfzAFsw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VVUbkIH6kylzufPT3f4W0NDLoKsOYloejMBDlECnBxg=;
- b=AKitL8FiN8r1HuS3XtqBb8GySEYlA2Qr2UNe8H6HdzZdwSn8kvZhYTBw7Jzxu5kajGb5dTvZW32MTNM2H+X3zmwe21EnOz9vvRB4vQJdlrwPQI+GKmWL+Sp0P+sXN1JxGNmwTYV4lUJyeYd+TBTS/kEdvw6lZaNbAXBs4djDf8hyc0nYDrs1tA6264mo6cD6goViRHNnECjMB5aI+NP2C6VaNMG96yihex917DQT9VwehY3cObviU/2xIMG9eGuHMv/w4bWvObnpbX+VNuqN5lPtLRWPrslmUOaf9Ugts0r2i6pnYRRffRZOlqwhcbKtc2NL2F7VpUwyjAUkGHH+Xw==
+ bh=SIiipihmmgSJTCzdJx+mLzByzv1iR+4oE32XBRfDSjU=;
+ b=a4nkN1Z1yKsQTUyWTaum9UtfDNVr34mFAlM++nnKF6+nljO+W1cBqjczANuEdAQSFUmnP4LGTq9IL8FQE6w0hrSiia0VZn6HqExDof52ZOPnLZ53WFKtneDN/3seqfUEDpEOstHGdxhrgETFtpsFXjZH9QVX2QkMJNqaZtrZXPOSqzf9pZThhpjxex3/P8EOvc0yFoS9ATApDzOBmWqC9KyUVFR1flHt5HV4rVvB9AUD/5fBIJsU5+YWMis66NH7KPEwG9D7W0tJ1laDagQ8VJDizilgc1AZHD6VI6PGb/7gEomjjAEgSDRItKokmghU/7Y9IjxuxdL6Wyyoqd+PhA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VVUbkIH6kylzufPT3f4W0NDLoKsOYloejMBDlECnBxg=;
- b=Wimb+zkXZbW0SrkAaZ0gcP/hqHaYPsqMcloHYF5KxGpasHjsy9SeBwjKsVZojZYeK3wHxexhMoiJRAjElrn7DkNkgDynMo9E5+cT5jJRVOq/6GbjV1Ecpbi5ETqK2DlW830zIFmmZtD4p5A9hcw5MDZ2lGCyAvG7h0Erio39qsJReBv//Z2X/RDVfiiY7mzx6iY7/S6zugthOgzk61MR2AFpAlb700iriXK/JhRfgoZbGlD42TcOWgTHBL0+XKurrpMqtch+mP9TeQGNo5xRTssA6QHjgWgwTPPjekZ+9jHvmyAST1qaQ6PyL8GhPImnL+7YgplwM1CI1VaRi7G7Bg==
+ bh=SIiipihmmgSJTCzdJx+mLzByzv1iR+4oE32XBRfDSjU=;
+ b=T84w4HK+ypa7wOyXncwdWq1A40YPOVD4vwtFyo8rv4oyCMuqhNr9K837nBHCEtQQ9FSckjoE2xqXZ9r3/RpZXRiXm4guaYokM6UH1++05hJHQ1d1lgFZiOOCC10Dkj/brLsj7pRtKc9dk3knG37cjbI4bILoAE/u2E5kCeUn4WsNYC8dSlzPcNP4UKX7JnpQTOecBczDoObL4QdKW6sMQA9O3gmeAjNjS9AhrAM2d7TYcvfDW21Zxi6FUHozYoj7IkYw4numsuCKxaWrJOIYIh6JcUrvCd9+Iin1PvPQysrtd+7CQteF3ZLPi7le6l+pg7khYnEp19qb22WNliFSng==
 Received: from GV1PR08MB8497.eurprd08.prod.outlook.com (2603:10a6:150:81::22)
- by DU0PR08MB8116.eurprd08.prod.outlook.com (2603:10a6:10:3ec::16) with
+ by DU4PR08MB11573.eurprd08.prod.outlook.com (2603:10a6:10:626::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.8; Fri, 5 Jun 2026
- 13:59:55 +0000
+ 14:03:34 +0000
 Received: from GV1PR08MB8497.eurprd08.prod.outlook.com
  ([fe80::705b:d4a3:1c1f:b9a2]) by GV1PR08MB8497.eurprd08.prod.outlook.com
  ([fe80::705b:d4a3:1c1f:b9a2%5]) with mapi id 15.21.0092.007; Fri, 5 Jun 2026
- 13:59:55 +0000
+ 14:03:33 +0000
 From: Manuel Fombuena <fombuena@outlook.com>
 To: lee@kernel.org,
 	pavel@kernel.org,
 	vicentiu.galanopulo@remote-tech.co.uk,
 	linux-leds@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/9] leds: st1202: fix multiple bugs in pattern engine and brightness handling
-Date: Fri,  5 Jun 2026 14:59:41 +0100
+Subject: [PATCH v3 1/9] leds: st1202: stop pattern sequence before reprogramming
+Date: Fri,  5 Jun 2026 15:03:20 +0100
 Message-ID:
- <GV1PR08MB849762937DA5B82DC89F1CC4C5112@GV1PR08MB8497.eurprd08.prod.outlook.com>
+ <GV1PR08MB84976729EED25ECB484835A4C5112@GV1PR08MB8497.eurprd08.prod.outlook.com>
 X-Mailer: git-send-email 2.54.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <GV1PR08MB849762937DA5B82DC89F1CC4C5112@GV1PR08MB8497.eurprd08.prod.outlook.com>
+References: <GV1PR08MB849762937DA5B82DC89F1CC4C5112@GV1PR08MB8497.eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO6P123CA0005.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:338::10) To GV1PR08MB8497.eurprd08.prod.outlook.com
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0179.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18a::22) To GV1PR08MB8497.eurprd08.prod.outlook.com
  (2603:10a6:150:81::22)
 X-Microsoft-Original-Message-ID:
- <20260605135941.1409580-1-fombuena@outlook.com>
+ <20260605140320.1431585-1-fombuena@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -82,258 +85,161 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1PR08MB8497:EE_|DU0PR08MB8116:EE_
-X-MS-Office365-Filtering-Correlation-Id: bbd6acdc-0c87-4c54-9b8d-08dec30ab86e
+X-MS-TrafficTypeDiagnostic: GV1PR08MB8497:EE_|DU4PR08MB11573:EE_
+X-MS-Office365-Filtering-Correlation-Id: 80654674-d798-46b4-715d-08dec30b3ab9
 X-MS-Exchange-SLBlob-MailProps:
-	laRBL560oLSPhlJ95/U7v6W/AahuugGaTts6+v7V8nnKJLM050Hqud89x6CT3UqLaCLGkM2wraSI7XkymuhWqQ+CRpFkmoEs5DeXaJtkJUqvHuss0S/3M9VWhRmM4de9BVeJQGjMkJO98iZdTVsOdmCVUwRr7qlpc8TgogzI6+kO9UENPIBZ2HnqnqdGqXJAiG0qRRINikP4BHp0RiQwuWxC5fgy4Xws8SUxbYnA5duu04k3TjBhK/8J/ARN4YtSNL2gl+8xOGpBuaRc9BdY8qLWeOzXTDOcoamRd2cOcqSeYGHbKT1NOYZstmmYKUkE2rPVPGj0ruhZJZGddoACORK9QKI7AT3gA2gnQNm1JmKgVNYCEfPDFu+ggKAAk0vVoE9sYQ3hHdrPF9GNQ9bThmVsBCCHvwlbcP9YLIGgmK0uDDFcdhehXsxcuQz8ankMNb5HAKMY7kzoIr5KE8INezAX8N2emvHmoj0x7PHRxPazGhaeQdeuW1y4adTN4LPsdMrY2ybeyxTZAMKDWp8vsqFsubfmduyR56fJplwPncFsHu+AIGlACJJ+Eg+hhJcI/YQcTQqjZak4cgQ0a01YClrq63hrG/4P0demXuUkTxcmQbqpzdd08+bIrSj2Lzi4vVWOEcwofSI0ry6kXxQenJL93A85FdAY1OdmUraWckwltZPjyTDlTlR5p5GlGn7UKIaVAVWwSQIEay1UafOa84VqRJGiDchf0sHzEdiHI1jmt8x9CChh7cPdXAH3cxopBrX7BV0x3S/73QxCksfwD3DHvZxBzyIQ
+	ScCmN3RHayHq8QFbWW6Ra03gxaeZK6u4IAaVwzmNYz3j1POCPJxJrOEA+wlz5dg6sXvr+3zOYdw/w+tcyhisgnyh3xn/3JwAIHq8/5ZwBLCPvCAwuDXj96ZzwlFcaRrexzgR1U34ZU6Mw3CN6Q0JYoKggHT3ZI6bhMqcfqB7vzib8lpGo9jW6+dCsqFGgZF87D9lO4W4+OXGJFhzRgmdafiSVNvEuPI9/DNJ+lm28IPrDH0jizGSilQg8hIsgCYObvf/zCN5bRQcLuG4AFVlJwTHslWmNdwliuDr5aHl2BlMCPNBmuQVaBXvERtAvZrx4Fb3h3U2D4svtbrUNtfaQYcwjYB7emusOeemEuYjSQHtP3f4Koqm80aKygl6kv9wRkOL1UsSM/dDK+5NsM8m8cvnbE4IrvlFzDv0u/Dl2pJ13TbL47xLd+lSb1gItFr9GXkSH8rKutB+nGHEzXsMXAq0HTU26w/BEBEgSc+sUTAKlW0KTw23roUcIsSq+KJNgGYUKxfcS3aoJ1TXxU5UBIlAul4vU7joZzbFEBbBrXj8Y/zyJLXWqGIV7b/OmzuXUS2vN7JKQBVYFndDYo1ahyiWVbobZThAKiG7Z/0Ozpc/80nLpFvyMhvV36majFQ+cC+KXNVJgdG2AdaGjqtsykWrafTfecD1g0kXApefgVekrTBODLA6b1pXkLvwppn3Q1a06QukWNsZmAD7T7Qhgimk9zLhMOMEa37JWqKM4Oc=
 X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|24021099003|6090799003|5062599005|37011999003|5072599009|51005399006|55001999006|15080799012|19110799012|8060799015|23021999003|1602099012|40105399003|4302099013|440099028|3412199025|10035399007;
+	BCL:0;ARA:14566002|24021099003|23021999003|37011999003|8060799015|55001999006|19110799012|41001999006|51005399006|15080799012|5072599009|40105399003|440099028|3412199025;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZkxBbTBXa3BWMDRxM2ZSZWY1RFU1UXM2VHQ3R2lLSGhsTjJhR3RVV0xsd1BQ?=
- =?utf-8?B?cnpYM2trUFlsdEU1R1NBMklXSXdxK0Zoc09DM2g3Wmx4K2tjNk5IN1ZSSkZD?=
- =?utf-8?B?ZFptRGxTcWJRTjFZaFpBVDlaejJaNVJmVDRxblBJUWlwYXMxR0VEZU5Id0Y1?=
- =?utf-8?B?MXNwYzU3N292bU5VTnFsbmliOWt6bXN1SHpEZkVTWlRYYlpsaFZvZnlBa2lN?=
- =?utf-8?B?RnRpMDlBLys5am00WlIyd1B1SnVidlF4Z29RdVFSb2U2N0FEMGs0bkVRcUhI?=
- =?utf-8?B?NDNDQlQ5MlhyVzFlTmxSMWx0aVhVcVVlYUk2WnhUOTI0SjhCbDNMZlBmbVhG?=
- =?utf-8?B?NHlrL0g0VDVRUG01MUp6Tll4Q1c0cnMwWnd2ekFGWXlVQWJZMXJ1YTJPck5H?=
- =?utf-8?B?ZGJoYnNObCtxRmZsS2RybnFJNUY4Q1lGRGhja2JJNVBhaDRMWGlMbnRBdmZC?=
- =?utf-8?B?VGF2R0pGZUpGbEhxOHhhcWVNclZkNVI0NE96SGhuYWpVS3pGa2Z5RjBBdWU3?=
- =?utf-8?B?eWlrbWJDdmlvMWpzK3Y3VEJtYjZxdDZMQm9hV3dsLzF1QzB5VFA0UnlwbGdT?=
- =?utf-8?B?eXNYNi8zdUFHcXMwVHVNOURvbmc3VThuWC9idTJiTkdiWWxkSDVUUzBSRk95?=
- =?utf-8?B?NnV6SVBLc1dSU2luRzlDSGp0Ny8vdnVJaEVDVVZaVEJuSVhPRXpjSUpsT1N5?=
- =?utf-8?B?ZFA4YmN2dWg5VjVhTHhwdjZNYVlVNmIwM1ZuaFNoT1FNNmV1Y1ltQVlYdkI3?=
- =?utf-8?B?cmtGUUZqQmVDSDd4cEFHQXRVeWIvaFdpWDJMSU5IaTFGUkVBSUF1dlVzQmF3?=
- =?utf-8?B?RlIwNnhLRzZobW5yVU4rRkYzNnhNQjloTlhXckxUSUhmNkt0clRSaEIyQ3FH?=
- =?utf-8?B?NFZ2cWFVZ0R6SFBtMVJUcEE3MTFhS01YWERpY2JlRzJHZXRJL3Rxd0plb1Ji?=
- =?utf-8?B?aVFQMTRQMmdQWjVIOVpkU1B3U3V4K1JIbHFsdVMyN1B0Ti8xelVFZCtERk8z?=
- =?utf-8?B?S1BNaTVyaEE1WldhNkJScldiS0VZT2JWcnBqd1E0N0czN3lNcERZdHdjVk9n?=
- =?utf-8?B?VnBROEUrTXVoM2JVMEpKT0o3bkx1U0ZHdk9mYTZqWG1CVXV3QWx4ZTduQ3BW?=
- =?utf-8?B?UnhKWER0T1JYZ0Y4RmVlQ0tUc2dVOFQ3LzJHNFg5djU3b1VhRXlMVnBZMHND?=
- =?utf-8?B?dks3eDR3bHpHQ3pwT0k0enZtNFo1Z1htSklTWVk1bC8rRUJQMVdMejF3OHo1?=
- =?utf-8?B?OHdWSmZmUyt4Vzd2R1RpY1B1OW1IRmNrRjFRa0M0UU9UVmFjSmNaTCt1WUdv?=
- =?utf-8?B?SUpINStLVnlUN3ZwYWw2c2RYUXlxMUh2eGFTd0JpcGhRYWNNRkdhWlE2ak5K?=
- =?utf-8?B?ZHR4ZThVRDN6QzFrc3RRcmtkNlB4UmJ2c2ZJVSszSFcrVFRLM0wzZDBQT1NH?=
- =?utf-8?B?djYxTzZRKzVlQ2xEMTdxS2xFL0U4clZpaUNBM3VGOXhTMWVkTyt6UDI3Z0JN?=
- =?utf-8?Q?PGGIf4=3D?=
+	=?us-ascii?Q?9sTIt4jmJQoBNb39aKDI3KpOaFYOgp2gdH/J4n1D0ZJcI7sZwrdFvg3PDl3X?=
+ =?us-ascii?Q?WZkjFNVGJpLI6mQS8AXWk23QEZrgdK2znGOAvYh5+zJvfdenlIxeSP1Hwjui?=
+ =?us-ascii?Q?Sb5yzTlF99qc7AP48EZk2dkDU10Cd1Jfor3nDsSXBQytdaKUxnJtjw/tC5Td?=
+ =?us-ascii?Q?/D5kQiLYY9qMTN2GsoBV2/SEc+WSZyJfAXXcqXhT99MIaL1AVoFnFH03+Jas?=
+ =?us-ascii?Q?wrFV0UjiGk4I8899eiGQbg5SoV1TJzeLi8O3xYMu2wUg+Gi3SznRbpTDaGfz?=
+ =?us-ascii?Q?Zv3YrXhn5J//ybCMkQpG8UCmiSiOYwesmAfqFK8xmbhZMW2Akgar5t0N449R?=
+ =?us-ascii?Q?alPMA3qTpSFh4UM5vUbP96KeTp0wjLyGyWVisrcMEkKhcmN1H0PhZtbMiMGC?=
+ =?us-ascii?Q?oOt1NzFz6dGjC+2F09EHRwaLnY3TU4byzx6c93dY9owYLxvI7+EglojYnNl0?=
+ =?us-ascii?Q?baBiYXAb9+5io9s4/Dgz4DKS7tHx5MrHOJbB9J9k5jHZIpdtSfBBocdJvhki?=
+ =?us-ascii?Q?BDbXeUNtDFAAQRpbnruLNfcUpfKUzYa8YbDr/o89bmdwjgDL0AErO5ijqPFM?=
+ =?us-ascii?Q?3YQcXBKYL9mBO8jQ9m+umcTylqBT1vE0/lwQIhCJ2xiPTDg8IiSwH71X444s?=
+ =?us-ascii?Q?WA77FP9IY2dIvJga+x37GElLvwzw6mqg7u4Kbr5NGPYBkcTE4uY7LwbVyTSp?=
+ =?us-ascii?Q?Ecb0C9RqBqT82k1nn+OoHrtZE4dzrAZ2E0wjQ2p7MdUhGZVHoaru9dif6pBv?=
+ =?us-ascii?Q?6EkvB8usjQmTEr4dwFlh+VLhPKxS/zkwz+6SZND1POX2s+anYOnEmoI4Idwo?=
+ =?us-ascii?Q?/6BHsmZJxXGbKI+S4Y74+Xinu4x9KylYo2RB7tGCbkxIu1SjvUYdCnCaIGcw?=
+ =?us-ascii?Q?NQJ7PpNXsmlIUdlG+1UjqP3LVvmx6oVZ/XZ0HPivfx44Z/jlpXJRGtJ9HsLs?=
+ =?us-ascii?Q?zRpASwRtnQZCa+rzMPA3bOaDDSyF3Jsq8joWnZKF5vVD2S1N+vaCwQ6baBvO?=
+ =?us-ascii?Q?J1L1sQwA7Mj5FpV6tFHSX8coi2XUHToekltm4+Niez2sM5M=3D?=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OUUxVGdoTmIzM0NrcHUwcVgyd0laRmtzQ1dVSWcwL2tTQm5peko0aTVodjVy?=
- =?utf-8?B?emNhRVBTR3VQYzM1aHN0Qm9TT1U1Vnc3Q1JzMTdHTXZCTk9UbWxLT2RVamVJ?=
- =?utf-8?B?RXVhWE9Xa1FiZjJ3Q0ZPcXhyZGRBVTlvQUJEbnFERU1nT0psNWVTL1N2Tzc1?=
- =?utf-8?B?WkJadUV6TzNXQXY2dGI5UHVpYUcvK084MzRSdmpWajhFUVBIdUxPQXJ0MTBm?=
- =?utf-8?B?VDZ4L3JRWHc4VndvYWhVUjVzbW1BajFpRTBSOHlqS2Z0aWUxS0pEVFQ0V3lK?=
- =?utf-8?B?Snl6OHBXbll2YldjRmt1TzVrWVMyLzFpTHdQTVhFV1RNT01JRVpCT1JGb29N?=
- =?utf-8?B?WWxHazc0d1BrcmRQN3dFQnVwWHVyUThPYXZPbHg4M29BYlJDNW9KSWZkSzU5?=
- =?utf-8?B?d2E4cXBFR3pQZ2JKaktOVEt4dnlMTlRnVkVtQ1l1YTg5elUvQkZwM2J3RHJh?=
- =?utf-8?B?bkV0MFpNME5maHdxblNSU1VxOEJiUEdERlJmSnVrbGVRdktHeXZJTkdzN1BJ?=
- =?utf-8?B?Rm5qNTIzL0ZLOWs2YjVZRmRwYkZkSi8wSUV3RHdwL2V5S29kdGh0NlpBVklW?=
- =?utf-8?B?UWpPRk1qM3RTNmM1L29CVnZ0YzZyT3kraXZteUhiUmdmUnphcmNXZy9IOHhT?=
- =?utf-8?B?R3pGbkZHTkhsUjR4bXV4WndlNE14LzFCam9zVitpK0ROWjhES0xNU0JjUy96?=
- =?utf-8?B?MVZpR0dNdTZpckZTenVnTmJsa1RpN1ZzejcycStXYkQzZTYrdisyL3NoY3pN?=
- =?utf-8?B?R1NGQWZoTU5COXpMdUZ2VDNRMHdZTHFCQURpRkU4Y3QxTWxWd0swalRrdUNa?=
- =?utf-8?B?RWRKZGNQK200clVPbk13Y29PUEt5QmV5RGlZK1IvbTIxTEdXakdOdDRGRDQ2?=
- =?utf-8?B?ai9JL2szSjBmQkxjZHk5cjBBdk1iOVMrS1o2M0ZTaTNRV1pZM2xyZWdBMmty?=
- =?utf-8?B?dlZSN1NoazN1Um9hcWtLZXpTVWR4K210YWttNHFvNnp6ZlR5YzNNMWk2dUh5?=
- =?utf-8?B?ZHpBMWtCOEx1QXJYNU9HVkg4OEZUM01JMEE4OGFkbnZGbVlnVjlaZG5OQTk3?=
- =?utf-8?B?MWNTbENIaFh3QUM1Q3VTR01GN3o2K1dYbEdlTktrR29kNUN0SHdSR3M2T2ZS?=
- =?utf-8?B?T1g4RVRjWlp1WU9QdkJTbmt1cy9ER2xGVWpBSHYvZ2JUcktlSXVLSnFaUGxh?=
- =?utf-8?B?SHBSL2VtN2RoV0l2enRvUzZ0d0hXTURRUldTVWhrOHhPVUhEV09hUVIvMzl4?=
- =?utf-8?B?a0tyVE4vVkh6N3ZGUHhPYW9OT3YyL1NrT0xCRmlmKzlKUkRYdlZBSzZ3aUY2?=
- =?utf-8?B?R3FkYVY0d01DbDhjRmkzOXdmZlk0N1JBM2Y1Uk1hUS9nZGg4dUVUMkdpK2RM?=
- =?utf-8?B?L2g0VTNMc0lYb1hObkJsVTBZZFJaMHpGN1VtTEQrN1FrcWRDT0NyOVlvRVpD?=
- =?utf-8?B?STVkejZUSEFIelNENnVzVVdIN2g0QlRGVlhpUE5IUTFlZzBhMjhRRWZWdlFN?=
- =?utf-8?B?QlBrV1NERU1yZEl4SkpCZENuckxaazRRQ1llN2pGZU9BcXNicDhrSUw1Mnc0?=
- =?utf-8?B?TTRTWGFiL0VZK3paR1YyUUlTWHY3UWlOekJkMkJ2djZnU3owVkczVEdVb3Jk?=
- =?utf-8?B?RUozVFVmZU9RVkYva1JnenU4dTNha3ZPeS9LQUtkZzRjdGhHRm02YTZpQXZB?=
- =?utf-8?B?b2xHQkFHQ3J1WTlpZUp0SGRtd2lUWXM4MFNlMW42dG5pa0RlNXdKblhpTm9T?=
- =?utf-8?B?blNlUDVuWitXTmxaRDRaSVh6YU93Uy90ajVCZEQzM0RVQ2xLd2JKNEE0NUtP?=
- =?utf-8?B?VnY1R1FwaXZJQ3o3bWw0SjNpLzkwTi9wSWdnU1Y4bUw5by9KTm5YaHRqNlY1?=
- =?utf-8?B?V3ZCZDBpeVRncUwwTzJGYUFsTVVLaTZub3dFQ3lVRWtpQ3cySEFvdU95OXlt?=
- =?utf-8?Q?ud+dM8RRRn4IuRbon1WHagtdg4ZweWlk?=
+	=?us-ascii?Q?6RIYj2xUCOQyP33VuJmx1sr001NqWfvI4ZTjx83U6Q6TuZnRqVp4I3lgqlMw?=
+ =?us-ascii?Q?rkJNMuPErwq4cjj+9Lq5mweAC58xBcisddcRTshf+cBUSu66WLFY8LbQO9Xm?=
+ =?us-ascii?Q?WymMg4ppHOkApRJyZ76VntbpmtJ1124DI0Kt8jG6D7F8AAyhDrV0Vl1TjPI0?=
+ =?us-ascii?Q?KOA382AXCXycgSW5jpm0Ps+bo1Kxwwqz+iJ+6jLwa65+O7KA56Mc/Co/gzFn?=
+ =?us-ascii?Q?biQstfujGYDfeni/CMbW1s84a9vSdrOb+SXoDJ3XHupS29JnoSHo6j/nHGF7?=
+ =?us-ascii?Q?OSC/9R0QrjI5tTBOz6ozlDHt/+MuvugpV22/QaBKLOAbb19V5bJoQzf3l57Z?=
+ =?us-ascii?Q?kVHSRxEphWQKew19p5b7RQPXLaTvSUC9ZKyjOa2G+9rSJ8qM8D7jWtDMI/eC?=
+ =?us-ascii?Q?GKBWAC90COhxFsL/QAZuWY+b3qwDq+1v3cMcHSe+Rv6CToJMIWh2NUKXVI1r?=
+ =?us-ascii?Q?P7rM/MKCufXNW673dbusCb1ooMskG8pdLxYNncsC7c1jtQXIHpFQuT/hdknu?=
+ =?us-ascii?Q?dK0V5dQI74IHgGNvSCHnClsRG5YEUMPvFuG7hFIjYCsIo6/VNdHINX0BtKMi?=
+ =?us-ascii?Q?ts0SWX6axDBSa4Mg4Lh1Xkmf0yj1tvEopAmzI9Yk/HxcVf6nDiro+RzEq7n6?=
+ =?us-ascii?Q?oboDFqY3bMpMxUrB1oMQMLlPbEsC/Mudm6IjQ7KXWfzSHxS/luhSgml7ZdmD?=
+ =?us-ascii?Q?4ExtLBpwZGJl8dE10jtGL3URq7B5GRPpFSilLinVFaArVOiiTgq80kL52jg0?=
+ =?us-ascii?Q?XbEyIckHX7oP3f5UX0I/bWQAKUSkSzkOWcNsfpBxgxmH44LMaFI4zdowQa37?=
+ =?us-ascii?Q?zQk3k/6uWpP6MkHP7uU0Vq51rTLe8tuHWq6yeuuTcKAvuZzmpRSUrA+kX0rO?=
+ =?us-ascii?Q?aHQfCcqYBR/HHpvycUHZmupKgKqbmLi+0EdsHKTby+kl0Ac7safAKC5Abq2b?=
+ =?us-ascii?Q?2itGpU/unh3nGVoOK+cEJuN9VaCThBbjb5fDusDCjnmw3tUvhREdO8sEi7gt?=
+ =?us-ascii?Q?Bpv881SG6HqMho4u+zhN5EB1jER+04W2tDcPVAjaRfdCgJBItTkTWH6iOvZl?=
+ =?us-ascii?Q?FrXd3wYaPc1dvjGlooKPq1QjYtwk4NbwCqhmOHhYUu9J0gTEaGG0ebeHVgVg?=
+ =?us-ascii?Q?0SWhkW46p0N1CuZrvWqkCVdcrwca/Z9FMo8FTFps3nRJknFxMmHwSg/84LJV?=
+ =?us-ascii?Q?t5diug4Vf44+5SmEWXuJpFh2TqCN5SewFyUy6ognN5bLYxYSnw5oAnc3rKJk?=
+ =?us-ascii?Q?K2vgwROQy6Fa61B0fE3E7sDofqQf3qa5mdShACl6yzjwaEp0EG5MJy9rTmS4?=
+ =?us-ascii?Q?uFjM3WB/mkkv1/Fm0uverEWrwwY0zYA0lkoq1xRd6cBEmtylZSJT5wodcrMZ?=
+ =?us-ascii?Q?Yrks48KqLOTlj/tDyGCERVvzzQNvFoZ2eN2Iy3OqJdCJ8X0ZCYJ25yjVswyn?=
+ =?us-ascii?Q?xkz8/zoVuCLfuOe/lf709qadt0MGzwcL?=
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bbd6acdc-0c87-4c54-9b8d-08dec30ab86e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80654674-d798-46b4-715d-08dec30b3ab9
 X-MS-Exchange-CrossTenant-AuthSource: GV1PR08MB8497.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 13:59:54.8863
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 14:03:33.4134
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
 	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB8116
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR08MB11573
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	ARC_REJECT(1.00)[cv is fail on i=2];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[outlook.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[outlook.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8496-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:vicentiu.galanopulo@remote-tech.co.uk,m:linux-leds@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[outlook.com];
-	FORGED_SENDER(0.00)[fombuena@outlook.com,linux-leds@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-8497-lists,linux-leds=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_FROM(0.00)[outlook.com];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:vicentiu.galanopulo@remote-tech.co.uk,m:linux-leds@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[fombuena@outlook.com,linux-leds@vger.kernel.org];
 	DKIM_TRACE(0.00)[outlook.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[fombuena@outlook.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	ALIAS_RESOLVED(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,outlook.com:from_mime,outlook.com:dkim,vger.kernel.org:from_smtp,GV1PR08MB8497.eurprd08.prod.outlook.com:mid]
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,outlook.com:dkim,outlook.com:from_mime,outlook.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,GV1PR08MB8497.eurprd08.prod.outlook.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 505A7648B9B
+X-Rspamd-Queue-Id: 746F8648BF3
 
-This series fixes several bugs in the LED1202 driver related to hardware
-pattern programming and brightness control. The issues were found during
-testing on a Linksys MX4200v2 router running OpenWrt.
+The LED1202 datasheet (section 4.8) states that modifications to the
+Pattern Sequence Repetition register (PAT_REP) and pattern duration
+registers are only applied after the sequence has completed or been
+stopped. When the device is running in infinite loop mode (PAT_REP =
+0xFF) the sequence never completes on its own, so these writes are
+silently ignored by the hardware.
 
---- Pattern sequence not stopped before reprogramming ---
+Neither pattern_clear() nor pattern_set() stop the running sequence
+before modifying pattern registers, causing any subsequent pattern
+reprogramming to have no effect when the previous pattern was set to
+infinite repeat.
 
-The LED1202 datasheet (section 4.8) states that writes to PAT_REP and
-pattern duration registers are only applied after the sequence completes
-or is stopped. When running in infinite loop mode the sequence never
-completes on its own, so these writes are silently ignored by the
-hardware.
+Fix this by clearing PATS in the Configuration register before touching
+any pattern registers in both functions, ensuring the hardware accepts
+the new values immediately.
 
-  Patch 1: Stop the running sequence by clearing PATS in the
-  configuration register at the start of both pattern_clear() and
-  pattern_set(), ensuring the hardware accepts new values immediately.
+Note that the LED1202 has a single global pattern sequencer shared by
+all channels: PATS, PATSR, the duration registers, and PAT_REP are
+chip-wide. Stopping the sequencer in pattern_clear() therefore halts
+any pattern running on other channels. This is an inherent hardware
+constraint; pattern_set() restarts the sequencer when a new pattern is
+programmed.
 
-  Patch 2: Validate pattern input before stopping the sequence. An
-  out-of-range duration value should be rejected without disrupting a
-  running pattern, so input validation is moved ahead of the sequence
-  stop.
+Fixes: 259230378c65 ("leds: Add LED1202 I2C driver")
+Signed-off-by: Manuel Fombuena <fombuena@outlook.com>
+Assisted-by: Claude:claude-sonnet-4-6
+---
+ drivers/leds/leds-st1202.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
---- pattern_clear() leaving hardware in inconsistent state ---
-
-Several independent bugs in pattern_clear() left the hardware in a state
-that affected subsequent pattern or brightness operations.
-
-  Patch 3: Fix the duration prescaler formula and the skip marker written
-  by pattern_clear(). The original formula (value / ST1202_MILLIS_PATTERN_DUR_MIN
-  - 1) was off by one, producing durations ~22ms too short. Additionally,
-  pattern_clear() relied on the broken formula to produce register value 0
-  (the pattern skip marker) by passing the minimum duration. With the formula
-  corrected, pattern_clear() now writes 0 directly to unused duration
-  registers instead of going through the conversion function.
-
-  Patch 4: Restore Pattern0 PWM to full brightness (0x0FFF) after clearing.
-  pattern_clear() zeroes all PWM slots as part of the clear, but leaves
-  Pattern0 at zero, so a subsequent direct brightness write has no visible
-  effect until Pattern0 PWM is restored.
-
---- Spurious pattern sequence start during setup ---
-
-  Patch 5: Remove the write of PATS|PATSR to the configuration register
-  in st1202_setup(). This accidentally started a pattern sequence before
-  any pattern data was programmed, producing undefined output on startup.
-
---- Brightness control broken while pattern mode is active ---
-
-  Patch 6: Exit pattern mode in brightness_set() before writing the ILED
-  register. With PATS set, the LED output is determined by the pattern
-  engine regardless of the ILED value, making direct brightness writes
-  have no visible effect while a pattern is active.
-
-  Patch 7: Disable the hardware channel in brightness_set() when value
-  is zero. Previously only the ILED DAC was zeroed while the channel
-  remained enabled, causing residual current through the enabled channel
-  and a visible dim glow on the LED.
-
---- Input validation ---
-
-  Patch 8: Validate the reg property read from the device tree before
-  using it as an array index into chip->leds[]. A value >= ST1202_MAX_LEDS
-  would cause an out-of-bounds write during probe.
-
---- Documentation ---
-
-  Patch 9: Correct and extend the hw_pattern documentation. The maximum
-  pattern duration was stated as 5660ms but the correct value derived
-  from the prescaler formula is 5610ms. The repeat field documentation
-  is also corrected and the brightness range is made explicit.
-
---- Testing ---
-
-Tested on LED1202 hardware via I2C. Register state verified with i2cget
-at each step. Correct LED behaviour confirmed across pattern cycling,
-infinite repeat, pattern_clear, and direct brightness control with
-trigger=none.
-
---- Changes in v3 ---
-
-  In response to automated review feedback (Sashiko):
-
-  Patch 1: Extend commit message to clarify that the LED1202 has a single
-  global pattern sequencer shared across all channels, and that stopping
-  it in pattern_clear() is therefore an inherent hardware constraint rather
-  than a deliberate design choice.
-
-  Patches 3+4: Squashed into a single patch. The prescaler fix and the
-  skip marker fix are tightly coupled — the skip marker bug was a direct
-  consequence of the broken formula — and are clearer as one change.
-
-  Patch 5 (v2): Dropped. Resetting PAT_REP in pattern_clear() is
-  unnecessary because pattern_set() always stops the sequencer and writes
-  its own PAT_REP value before restarting. The reset introduced a spurious
-  failure point without fixing a real bug.
-
-  Patch 4 (was 6): Start the clearing loop at Pattern1 to avoid writing
-  Pattern0 twice (the loop previously zeroed it before the explicit full
-  restore).
-
-  Patch 5 (was 7): Simplify commit message — remove inaccurate claim that
-  the SHFT bit is never re-enabled after probe; pattern_clear() restores
-  it during probe.
-
-  New patch 8: Validate the reg device tree property against ST1202_MAX_LEDS
-  before using it as an array index.
-
-  Other pre-existing issues identified by the automated review (global
-  sequencer coordination, brightness_set sleeping in atomic context,
-  brightness_set_blocking ignoring the brightness value) are outside the
-  scope of this fix series and will be addressed in a follow-up submission.
-
---- Changes in v2 ---
-
-  Patch 3: Fix commit message wording — programmed durations were ~22ms
-  too short, not too long.
-  Patch 7: Fix Signed-off-by typo.
-  Patch 10: Add missing quotes around commit subject in Fixes: tag.
-
-v1: https://lore.kernel.org/all/WA0P291MB03850F4E9B4EC7389FE89779C5052@WA0P291MB0385.POLP291.PROD.OUTLOOK.COM/
-v2: https://lore.kernel.org/all/WA0P291MB03855101311F0506B6448A8EC50D2@WA0P291MB0385.POLP291.PROD.OUTLOOK.COM/
-
-Manuel Fombuena (9):
-  leds: st1202: stop pattern sequence before reprogramming
-  leds: st1202: validate pattern input before stopping the sequence
-  leds: st1202: fix pattern duration prescaler and pattern_clear skip
-    marker
-  leds: st1202: restore Pattern0 PWM to full on after clearing pattern
-  leds: st1202: fix spurious pattern sequence start in setup
-  leds: st1202: fix brightness having no effect while pattern mode is
-    active
-  leds: st1202: disable channel when brightness is set to zero
-  leds: st1202: validate LED reg property against channel count
-  leds: st1202: correct and extend hw_pattern documentation
-
- Documentation/leds/leds-st1202.rst |   9 ++-
- drivers/leds/leds-st1202.c         | 102 ++++++++++++++++++-----------
- 2 files changed, 68 insertions(+), 43 deletions(-)
-
+diff --git a/drivers/leds/leds-st1202.c b/drivers/leds/leds-st1202.c
+index 7f68d956f694..316ed8eb054f 100644
+--- a/drivers/leds/leds-st1202.c
++++ b/drivers/leds/leds-st1202.c
+@@ -200,6 +200,10 @@ static int st1202_led_pattern_clear(struct led_classdev *ldev)
+ 
+ 	guard(mutex)(&chip->lock);
+ 
++	ret = st1202_write_reg(chip, ST1202_CONFIG_REG, ST1202_CONFIG_REG_SHFT);
++	if (ret != 0)
++		return ret;
++
+ 	for (int patt = 0; patt < ST1202_MAX_PATTERNS; patt++) {
+ 		ret = st1202_pwm_pattern_write(chip, led->led_num, patt, LED_OFF);
+ 		if (ret != 0)
+@@ -226,6 +230,10 @@ static int st1202_led_pattern_set(struct led_classdev *ldev,
+ 
+ 	guard(mutex)(&chip->lock);
+ 
++	ret = st1202_write_reg(chip, ST1202_CONFIG_REG, ST1202_CONFIG_REG_SHFT);
++	if (ret != 0)
++		return ret;
++
+ 	for (int patt = 0; patt < len; patt++) {
+ 		if (pattern[patt].delta_t < ST1202_MILLIS_PATTERN_DUR_MIN ||
+ 				pattern[patt].delta_t > ST1202_MILLIS_PATTERN_DUR_MAX)
 -- 
 2.54.0
 
