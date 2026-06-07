@@ -1,81 +1,81 @@
-Return-Path: <linux-leds+bounces-8533-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8534-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 8lHTHk+NJWqeJAIAu9opvQ
-	(envelope-from <linux-leds+bounces-8533-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sun, 07 Jun 2026 17:25:03 +0200
+	id sVH4FJiNJWqmJAIAu9opvQ
+	(envelope-from <linux-leds+bounces-8534-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sun, 07 Jun 2026 17:26:16 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C719F650DD4
-	for <lists+linux-leds@lfdr.de>; Sun, 07 Jun 2026 17:25:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6049650DED
+	for <lists+linux-leds@lfdr.de>; Sun, 07 Jun 2026 17:26:15 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=Q7ymmgk8;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8533-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8533-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=q1TqVbGv;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8534-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8534-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F10CC3055D7F
-	for <lists+linux-leds@lfdr.de>; Sun,  7 Jun 2026 15:20:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CEF003038AE3
+	for <lists+linux-leds@lfdr.de>; Sun,  7 Jun 2026 15:20:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE44F2D29C7;
-	Sun,  7 Jun 2026 15:20:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E28C30D405;
+	Sun,  7 Jun 2026 15:20:45 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709332D5C7A
-	for <linux-leds@vger.kernel.org>; Sun,  7 Jun 2026 15:20:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9AA31E850
+	for <linux-leds@vger.kernel.org>; Sun,  7 Jun 2026 15:20:42 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780845639; cv=none; b=Hnx2BKzUbz8nucWsNULyo4CBmyiuRz4OvWRwbemQYYoG6Ik242vsx4rzDUPVyw3qlh2VDxWxzkis4rjkrh8k/KTgm66JjENVO4u0pqLXsvs5tS5zTNtrnUqX4uZaRTFE/auu2njf8fp10PwAyhZXtQ003zrSlEJvCTSTywhRq90=
+	t=1780845645; cv=none; b=JCRmokKQ60hHtsxrDpztkQKfQcYClbmJ7gNCJopNTMFkQnRdQS6YdrH3bivmYXfmlKBv6doRh4DyyPzUTz24WiuHaRjNX1nKpxeIfeKMChSQCnZQDlmaSZktwRAQQe7fh5bC4EgF9L2bczML8R2GXIlIjsVXmCumk8ZQba41/GQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780845639; c=relaxed/simple;
-	bh=RUWoSSPMfAP/6bpsEyV8VEbxxYz0gmjyqX0rZdPDXnA=;
+	s=arc-20240116; t=1780845645; c=relaxed/simple;
+	bh=wBP0OSpgAxo0/pYTGNfYoRXG4ifPdWHIBzYCnZGGwag=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=umbBEwRNgI5oGzlqX1Ky0eGH4Gs3T7YJ8K51aLZmFTvGZZM5c0qeC01EACMnCcefnyuBkZlPy2QlqiqHxpaGbXSvGo9pQggHpBPGObkbP6zwF2hfxSQUzKatxN+HwoisqDSZkOQSnakQraj0IXffarpgjnYe/y0sso9UTHmr2Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q7ymmgk8; arc=none smtp.client-ip=209.85.216.47
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-36bb3551f6eso3005696a91.1
-        for <linux-leds@vger.kernel.org>; Sun, 07 Jun 2026 08:20:38 -0700 (PDT)
+	 MIME-Version; b=j9MDaGunDvq0cC0PDeTN5MICajfNWuOorv/JXUyFpGMZCHzVteBgs6fBF2Dk/dWgmhTW8jiYkCrRg3dk+ywa/mSwWCb/UZF0jfnuaaplJuwpjjY+HvamA1uhsG+le85cgi9VLOCHRB6e7jz7fjNWGF2DFJLbLUai89uH01vh1Sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q1TqVbGv; arc=none smtp.client-ip=209.85.216.54
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-36b9b15af73so3070903a91.0
+        for <linux-leds@vger.kernel.org>; Sun, 07 Jun 2026 08:20:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780845638; x=1781450438; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780845641; x=1781450441; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BmdAeJeF0AXVd87AP/9ds+dEzvwxxHLJKYbOYujemTQ=;
-        b=Q7ymmgk8kcHzjX3b+X2dQAgikTh3tkbCNKXsLmaXqYlK7hZ5hpyBXnV0jPD6AkAbpr
-         qpZon2bi8EIrk4bUANI4E19KXn41Ds0Ksw4ump+Pea1XV46EYd2PvkOUFd6vEfAV6Ivt
-         mOX7Mw5bg5vJ4RKT6VBPcr0JqkiDlvmdIaVCGhcozjybJclT/MUdeW8wr84/O9vY2uq6
-         PH3JgoOa9tpew1cRUqS8vukiJaHiH9aij3PSry7LU594dQEkMTWW1CI+67+EDBm8mTbm
-         EnIeOaZDxfBa33sihrGX/5Ik4HwV471L9vI2RF/lEJpmQpWXEh+x3wF8f0isVALsdTYI
-         xSVA==
+        bh=A1hc64Z/QAbKYaSOyZFcrmLRROVis1Ar462ZBj6enJU=;
+        b=q1TqVbGv1ZMpvrXCjv866IQBMlZOruCRMm80J4ehBJd7WxWJpWx6jpEJDq2a5Omut7
+         hnqwznZQOOYRn/xy8OucunEsqAgRYi3x4MwL/3ATSx7hp/qg6dsJwYYnXEWDx9QHp9Hj
+         JGa/l/OBsTxHSRoW1NQpyktI2yF8QIrYruRZEIXlAdMlF8EoIvFvKlALy8LJb3i+/sLC
+         YwJQPotAwEhZmu+BdT6wTwJlv+Usl7RD7Z12wTgJIofnYHL2t1JHy9nxhGQFTRNMtrHl
+         cqL+p3ISJidtR4kPG6NP8wp0V/QLO7eQa9jLZAKddwvgnE6dJwQ4SD88hVW+clZyuV7U
+         v2UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780845638; x=1781450438;
+        d=1e100.net; s=20251104; t=1780845641; x=1781450441;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=BmdAeJeF0AXVd87AP/9ds+dEzvwxxHLJKYbOYujemTQ=;
-        b=eiwhQwNKTeH4Sqw4eSW2NOaDnYgBC2Clwz0P7xOjwNXjGTNs3d24QfHvjoXRDbXWPO
-         7vXbYKtGiG86QRibg6xfryAOXdyz80cQP9SqJyDV5OWmeF8ClX4i9R09eUvtVWSslft1
-         GXFcA7h0G8/iw1r9GkzEAuIIWf1sa97a/1sl2X+FH2ktjWp7QZmpIiEaW1Q8UL/l9blp
-         XQL1TgZ+N3mDkckyaQUxlWGkOVxtwEc6cVw0GrJr9EFxDFkNDnox3HfCUjJ9a5P4c8p6
-         4JRwXx+NIbfxrHeqXokzwKR5esrG5y81ByI0yTFSPC26D1+YyBkLAbs7GMqtmhORykFz
-         jWQA==
-X-Forwarded-Encrypted: i=1; AFNElJ9hpfqQBuPEdLMbOkEcq3hQgoAMx+J5fjZ5ltroIiHPH6+PrzpsjPI0/+3+ySGNNeQuCFM7kTN2zx+R@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzw3oBBc0rmuOg7AeXjYdfFKDe85Yd2Iao3DwWjti5pOX6/cQx8
-	1bX6gNYnfGEjb1DnQY0fbuZlgqvQ7UpwCcz7s1zbZrNV6V0i5l10jID9
-X-Gm-Gg: Acq92OGd5mNEn0bFfJYVgWQDfm/SFdy8iDn1HMuMuANncQVCB+6ZYZ4AC114ZxYn7Im
-	r9+Ek3NimR6k+2gYEkO3vt/Xi45mbtWqIwTDYR0dSS31NuYVFxRXa3MZu7qNcJkBYM8XNxi1N67
-	J5pggAAsPFSLcs/rRlVhbiy5jP+7t6hB+VFCVD+cKwFISXxPabq45klsg2Z8hrB2qHw60l/D76r
-	8OPkFu8TFVncjB4qLjXdRAUVgoFKWqwyO7qAMD8uIPBLVmwBBpC1y6x0uTK3LvaDoszGWsC80lG
-	uC46DSmFaPT4Sg0g8AtprGnJwQzCfQdQGKxlr2yQc9Gi+Ph+lVKueZItfF6ngQr5sWNz0nfQTh1
-	dnIYaW5PrUUtJTlfyyaKFM/PCUXab9VZPvUeG7YdLCOBK9reA5MpJ1jV0J3ylocdJf1gGW1UHSA
-	RpxCZEAu4AO4qUkOZmT5Gs4q8hCHV9hnI8wfivNNkdOuR7hC0FXg==
-X-Received: by 2002:a17:90b:1ccc:b0:369:932a:2b6d with SMTP id 98e67ed59e1d1-370ee344ce4mr13126921a91.6.1780845637686;
-        Sun, 07 Jun 2026 08:20:37 -0700 (PDT)
+        bh=A1hc64Z/QAbKYaSOyZFcrmLRROVis1Ar462ZBj6enJU=;
+        b=H8vfN8mVuwwOFGrmuwa1oAFd/K8qNpROnWk9i0CUsBFljRCeBzpPJfBm/b2xTBAO74
+         C6CG5pfVbzkUGnPvqIp+8cfCDKsedsOCVywvB9NzEBWzpll8221AIcOvfBt4ga3pbKPU
+         x21RTVNJHZxlI/unkNX1YItSF+a8o8v/pul1MbaWRfHOw22nemsltMCKPkwjm/TJaZZZ
+         UssTQbz+v3N0ceMv+yO/VuHoA5InfHacg1AutcbBYkVBku7fiFWZX8ic2+9SAfdF6dw3
+         qL2jO5SIJvTiK8Kbf0lnssOwz5IHmsJ+DembD2+lJbeZtjs0s+vlCuRlAl2F7jxCymPJ
+         zdmA==
+X-Forwarded-Encrypted: i=1; AFNElJ+nw0W3cozHQsZzVQuB5WkhSbdlPoCkfxaiECEbgE5VM2s1PryQkfpfbUOaYoGAoOmL0mMk8Nn41KkT@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDei7SgOxofz/2UCzUfubZ0DFjs97wgDHWyU3DvFizc8F5HuTz
+	Adxd5t8WTwQRzbYXnj7TwslduWCIFaoWMDiKpSpnj6hlGVZa0xe1F+st
+X-Gm-Gg: Acq92OHjFGwSSAbawP3tnFwzYD49W1DzPygt9+Allww/JszmXsXMCXWQKB5PdugMJBF
+	OrPiFXTNGrV/loTY/fwDjZssf7AB3vXVJT3gjIcgLdhUhA+apK9PCjv6zx9Bc8iIdfiiGruMU7x
+	2Xd0zqt7hpy6+rCd0OCOrNthFcDiBMtZPOXUDmXzafL/rBkO/LDyKmnrWFgYOKaz8BdxlhIJjiX
+	QmcFgp44c+Fb5kkiKxis5lAyFSIB3Q7p1OYaG4fHhsjdk0gEOEMlxWgAqbD3lEHiVhd5CHjuPqx
+	19IPs0ZcX04tUrJp4dvR0CLaI2lWOafDgwJ73W0IVHmHQAFUCUcQGF66j+Y/4GTSlS+wgqFXrQn
+	6l7zEzu71AmmwBgHhY4Hr7Xhkw5iokXvoUH1eZPLZoV7j6cy51v1EDkidjp70Cy7ieqtEM6SRXY
+	ukqsEuQ1ETu4nkSF3cFkVdw1o+rhlcfbmJFgR6FiRaSM6UCIIjTQ==
+X-Received: by 2002:a17:90b:5109:b0:372:94b9:76d8 with SMTP id 98e67ed59e1d1-37294b97715mr5957208a91.6.1780845641361;
+        Sun, 07 Jun 2026 08:20:41 -0700 (PDT)
 Received: from arch.localdomain ([2409:8a28:a54:e741:3a5a:3245:d3dc:4b5d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37135861581sm4130659a91.2.2026.06.07.08.20.34
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37135861581sm4130659a91.2.2026.06.07.08.20.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2026 08:20:37 -0700 (PDT)
+        Sun, 07 Jun 2026 08:20:40 -0700 (PDT)
 From: Jun Yan <jerrysteve1101@gmail.com>
 To: linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -88,9 +88,9 @@ Cc: lee@kernel.org,
 	pzalewski@thegoodpenguin.co.uk,
 	daniel@zonque.org,
 	Jun Yan <jerrysteve1101@gmail.com>
-Subject: [PATCH v8 5/6] leds: is31fl32xx: Fix missing brightness_steps for is31fl3236
-Date: Sun,  7 Jun 2026 23:20:01 +0800
-Message-ID: <20260607152002.446617-6-jerrysteve1101@gmail.com>
+Subject: [PATCH v8 6/6] leds: is31fl32xx: Move pwm frequency setting to init_regs()
+Date: Sun,  7 Jun 2026 23:20:02 +0800
+Message-ID: <20260607152002.446617-7-jerrysteve1101@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260607152002.446617-1-jerrysteve1101@gmail.com>
 References: <20260607152002.446617-1-jerrysteve1101@gmail.com>
@@ -118,7 +118,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FREEMAIL_CC(0.00)[kernel.org,gmail.com,thegoodpenguin.co.uk,zonque.org];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8533-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8534-lists,linux-leds=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-leds@vger.kernel.org,m:lee@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:luccafachinetti@gmail.com,m:pzalewski@thegoodpenguin.co.uk,m:daniel@zonque.org,m:jerrysteve1101@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER(0.00)[jerrysteve1101@gmail.com,linux-leds@vger.kernel.org];
@@ -138,28 +138,78 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C719F650DD4
+X-Rspamd-Queue-Id: A6049650DED
 
-Add missing brightness_steps for is31fl3236 to fix brightness control.
+commit a18983b95a61 ("leds: is31f132xx: Add support for is31fl3293")
+swapped the order of is31fl32xx_parse_dt() and is31fl32xx_init_regs().
+
+This causes the PWM frequency configuration programmed in
+is31fl32xx_parse_dt() to be overwritten by the register reset
+operation performed in is31fl32xx_init_regs().
+
+Move the PWM frequency setting logic from is31fl32xx_parse_dt() to
+is31fl32xx_init_regs() and separates device tree parsing from hardware
+initialization.
 
 Fixes: a18983b95a61 ("leds: is31f132xx: Add support for is31fl3293")
 Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
 ---
- drivers/leds/leds-is31fl32xx.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/leds/leds-is31fl32xx.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-index b34fcef2c173..cbda7edbfb48 100644
+index cbda7edbfb48..b43879bffb06 100644
 --- a/drivers/leds/leds-is31fl32xx.c
 +++ b/drivers/leds/leds-is31fl32xx.c
-@@ -492,6 +492,7 @@ static const struct is31fl32xx_chipdef is31fl3236_cdef = {
- 	.pwm_register_base			= 0x01,
- 	.led_control_register_base		= 0x26,
- 	.enable_bits_per_led_control_register	= 1,
-+	.brightness_steps			= 256,
+@@ -63,6 +63,7 @@ struct is31fl32xx_priv {
+ 	struct i2c_client *client;
+ 	struct gpio_desc *powerdown_gpio;
+ 	unsigned int num_leds;
++	bool pwm_22khz;
+ 	struct is31fl32xx_led_data leds[];
  };
  
- static const struct is31fl32xx_chipdef is31fl3236a_cdef = {
+@@ -346,6 +347,13 @@ static int is31fl32xx_init_regs(struct is31fl32xx_priv *priv)
+ 	if (ret)
+ 		return ret;
+ 
++	if ((cdef->output_frequency_setting_reg != IS31FL32XX_REG_NONE) && priv->pwm_22khz) {
++		ret = is31fl32xx_write(priv, cdef->output_frequency_setting_reg,
++				       IS31FL32XX_PWM_FREQUENCY_22KHZ);
++		if (ret)
++			return ret;
++	}
++
+ 	/*
+ 	 * Set enable bit for all channels.
+ 	 * We will control state with PWM registers alone.
+@@ -420,7 +428,6 @@ static struct is31fl32xx_led_data *is31fl32xx_find_led_data(
+ static int is31fl32xx_parse_dt(struct device *dev,
+ 			       struct is31fl32xx_priv *priv)
+ {
+-	const struct is31fl32xx_chipdef *cdef = priv->cdef;
+ 	int ret = 0;
+ 
+ 	/*
+@@ -432,17 +439,7 @@ static int is31fl32xx_parse_dt(struct device *dev,
+ 		return dev_err_probe(dev, PTR_ERR(priv->powerdown_gpio),
+ 				"Failed to get 'powerdown' GPIO\n");
+ 
+-	if ((cdef->output_frequency_setting_reg != IS31FL32XX_REG_NONE) &&
+-	    of_property_read_bool(dev_of_node(dev), "issi,22khz-pwm")) {
+-
+-		ret = is31fl32xx_write(priv, cdef->output_frequency_setting_reg,
+-				       IS31FL32XX_PWM_FREQUENCY_22KHZ);
+-
+-		if (ret) {
+-			dev_err(dev, "Failed to write output PWM frequency register\n");
+-			return ret;
+-		}
+-	}
++	priv->pwm_22khz = of_property_read_bool(dev_of_node(dev), "issi,22khz-pwm");
+ 
+ 	for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
+ 		struct led_init_data init_data = {};
 -- 
 2.54.0
 
