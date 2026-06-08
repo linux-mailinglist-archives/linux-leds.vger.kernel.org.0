@@ -1,184 +1,157 @@
-Return-Path: <linux-leds+bounces-8536-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8537-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id pi4JD+LsJWokNwIAu9opvQ
-	(envelope-from <linux-leds+bounces-8536-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 08 Jun 2026 00:12:50 +0200
+	id MVr4D0I9J2p0twIAu9opvQ
+	(envelope-from <linux-leds+bounces-8537-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 09 Jun 2026 00:08:02 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25C3651CA1
-	for <lists+linux-leds@lfdr.de>; Mon, 08 Jun 2026 00:12:49 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A5D65AE24
+	for <lists+linux-leds@lfdr.de>; Tue, 09 Jun 2026 00:08:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=c1D+7C9S;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8536-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-leds+bounces-8536-lists+linux-leds=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=CA15y1NJ;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8537-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8537-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 39AD530010D2
-	for <lists+linux-leds@lfdr.de>; Sun,  7 Jun 2026 22:12:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CE4A33028ECE
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Jun 2026 22:03:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4520D3385B9;
-	Sun,  7 Jun 2026 22:12:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CD253B14CC;
+	Mon,  8 Jun 2026 22:03:57 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3D46FC5
-	for <linux-leds@vger.kernel.org>; Sun,  7 Jun 2026 22:12:46 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780870368; cv=pass; b=XTBEZx0PceMsLSNI4+Nix00/gw7VwOqlxfCpctQIF79laPq8KYyqE/gqAz/WxZEZ9Q2QW6xihH+ytGgooOU6kjbdfS9NcMwa2s8moku1TsQOqltfXoX28bElFvWCBLYTGvxF1jmhhqQMHjpCee5RMtO/jqvZbLXCWms/QPmrcVY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780870368; c=relaxed/simple;
-	bh=FLx17+5yV9ZaZdKvN7jW6CFKkO72yHItwIMTRjYfvYo=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=DFMTVXtTMg65pQLaTA95e7s7oJ/nw3GhsbB0aDUZ+tMBsQ779swN1ifZEUnByXqwGNpc5L2QCQ9gPjIOivupi2jirXZbFcFl3QJWmNhhJR1vQFRbpYFPQE1X5/YywSS4qTL83XpC3Avzl1Y3lOt/NvSHN2pHPeGcqHseG4Z8jdw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c1D+7C9S; arc=pass smtp.client-ip=209.85.160.177
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-516e1525aa3so46058971cf.3
-        for <linux-leds@vger.kernel.org>; Sun, 07 Jun 2026 15:12:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780870366; cv=none;
-        d=google.com; s=arc-20240605;
-        b=OoH+yE+Kd73t0z5VJZ+VxCYYnIOxkg0NwMAJ4ezQzPalW1q8Ju6bWNDqoR98Ewseco
-         l+B6uGOpSwBtMfcEBYa0XHkWLIji05svn4LjQRY9gOFXld6FqubXYXxcKuAZ0A9DDdLZ
-         jfit2QRYFW6cnSkBKc1TXoslCei+hmOna0VOU8tyHPpUB2rIUeIEZV774fKsIsslokSI
-         AQBC7hmb82GZ80KlGESzh/YZv2gOHoFea055+8wxLcIyX+ZaLpWhwYFPJj7L5368AHC9
-         NDeHKdJo8zRd0Ii2OYJMwqLR9GeqRdX+9Zlpoio6E4IWSmQTlHUfaro2R8t8uDdhOsQF
-         Vhlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=FLx17+5yV9ZaZdKvN7jW6CFKkO72yHItwIMTRjYfvYo=;
-        fh=tdkwhW99jnOcyLUhvpXs9R5+bBdPNbyOdrB7VujRgfo=;
-        b=DvoQnHy7Ket4qA2NZh003PN4dTqi8pGI+hk940EovD/oTHq9dC9CDF6zib8prQsw+5
-         6DHe9jQ7vhtQr/Gs1BQBcDNTr9i0MEHaiO3M4xU20IzQKOyd0MnROlRzuAYcgfsSb3Pw
-         OEK7st2mDKixVv4vaZcEwWM3tGax83uwHw9LvALETCJBgF5ETOF7PONmez7wsz77jW3F
-         mT9zd52Nd+tQqZnEQhmDpVnKW0MiLW8vjRZpGyEUYFxSXm2Ay4Ty96iIB1rwE6jihtGS
-         wvJZiRAkmp6QuZS140KKNJEn9xUHYVfDILX7DUJ4CB2heVKrOvvpns4AuPhSs/MvT2o8
-         u+sw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780870366; x=1781475166; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=FLx17+5yV9ZaZdKvN7jW6CFKkO72yHItwIMTRjYfvYo=;
-        b=c1D+7C9S7r4oTLYeNzCuxo3/SiytqKqRX9DE05d3h6epe1xBUfKzKOWLitvBXIN9Pq
-         57bjGwnfY5cSj1JmnW+ErjutZCJnxa6chdhd3NcSFFJefKdUcWVekj3qWC7MMShq1Xh/
-         stIjJ4NLmijsSY2cm0qlgtYLMqqRASZO7CY+Cy0YhhXvIWG728khlAKr2686VXiK2lRe
-         D0MY9WlrOLqVZfH93bHvwazO/wetPpY4lOp8q/udTG+uJAr6yO0JZcOzSejy7uMTiB+w
-         ybGDzlyPIws/SzLCb/3Apl87PVJtitoXR50rsN20td/ATHjlUt3z1ec313CurpuXT7ho
-         6fiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780870366; x=1781475166;
-        h=to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FLx17+5yV9ZaZdKvN7jW6CFKkO72yHItwIMTRjYfvYo=;
-        b=bJ8j4re2caWy9sbc1QEY7nivI90O2QtMt//lLR5hUINIcLxBzhDWOl4XUmG20ZqA5p
-         BiK4j2kJchP/SiOg7bo39Basbp54AlrivaAsCA+xLEFM14dzlyr1FHUWBeCoU8bqDtc2
-         SSOi9pFmP4yjQGfv5jltFB+/tBiiOUQtp/j4ZtrsRMDM5X2cwQxz+52IVBgrbdbh+bGb
-         vEjCCm4RXZlwnu23BskJt6io5HtGHRfxaX6cd8o8sokJdq0ybb5oFDEHeDPHuNQrhXel
-         dgbLjq1pRjKqifZ7r9XudWVsM94Yz8bJOg9sQD7EMzYdG6XPw1FbRKAzBWVWKhn0rS8y
-         0yXA==
-X-Gm-Message-State: AOJu0Yxz5WbrVhNU4fGaLjMvg13ya8X+bug46VvaYF1mxnxYi+N3ctTc
-	b2FK8O+KQItQECD+u9EKtQ6/as6WeT6h3e6WXt9XIRsxa++16/rO397ImUAK2Aeuqm2BWys52pN
-	svwIgV/II/YqBoj80irsH9LGiV2ZaehJStj+1gX8=
-X-Gm-Gg: Acq92OEgGStUWvq2z69p3NKuHnAex4gqkZL1qU2uSchSbxmmBkHjIu3wtIjcapdfzHN
-	lpINXs09ChU+toNgYbvT/vSykAmhV65lyGpg34pN4QqNVAjTrgLxkYhVJFlacVafoRh4eNylaTo
-	oPMXNskLxt92AVhlSkfRNLbH6l/iFmr7RYpd9qE20lSKmBgNSrbDySf2gPUhLF3JIvuT1ad4ki7
-	6jUBjIyvmKUsO0PaRDUL6d56+CjP2hiRHNFSbvOQEUKbXeZHYwMJeOgteyYl7sJNdi5p0Sbd+kb
-	aDJ/oiiB8+7SdBTphwwLxQEr9BM8QBdX1MIFFqi3Q1X6GOUzGg==
-X-Received: by 2002:ac8:5d0c:0:b0:516:dcfc:ebc3 with SMTP id
- d75a77b69052e-51795c52ac0mr194397281cf.30.1780870365823; Sun, 07 Jun 2026
- 15:12:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2BE3B14A2
+	for <linux-leds@vger.kernel.org>; Mon,  8 Jun 2026 22:03:56 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780956237; cv=none; b=AnkKxk1tiTevOsOEfENCSmFBxJrzBfIXWqr3OIdIsV+XO2e4Nxgft3ICvHDMzUfMZlnVHQ3FuLx4srAncv4AGbkU/Z/33gLyIKIOkvLl1TXhBS6sRcs9hpd6Zto9hZr4oDHu9AjmzDYe5e3ms/aRdsu0M5PGwX9NJcVy8Bwg4Vk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780956237; c=relaxed/simple;
+	bh=cEEsVG560z/n8AQ7XRIDrWf46jHSXN7lQT2SF1BMXG0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JZJCIULd/Af/HJvahYtllR93f9if53yLg4LhZ2NIa5rI6t74FcanHtshQtaGKE+aB+IFY/I7mw85axPSgEh6SDAv0OMiibwXeTZbwX+M7kQyY3uHtOZ3CcYfAUQYyRKK/LzepVOKROsmpYEVXk0mFfs4aGsbuYCck3q0BfuCw8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CA15y1NJ; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 140F71F0089E
+	for <linux-leds@vger.kernel.org>; Mon,  8 Jun 2026 22:03:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780956236;
+	bh=Aij36kGKLQgOKTKFOm0ZH4SZ9YXAanS6oRbQ1zStX6Q=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=CA15y1NJElmg80HYv5sLM/kfa2jCdjk+qTyxpdOme8OofQZk+zipxPEdBIIInb/ke
+	 DVur/hT3xjxpA9aK2+/jI2emXiTgUU0esjLW0xkEhufnGnLEhkgDD5MmVDa2tYACuD
+	 lPfjr796FmKbOgwArLNtt/L/o3fhBWHA7A/teDhKLQ4n0RlPbbm/aySxJuA6cLmBsO
+	 rQlM9HqoSQ3R+6ZlRZVXXL4Cq8w+a1TflL09poUsMsi8/xecxlvq1t1jA8hOsaG5QA
+	 4KT4WynYGyBn4o+8rPXJ4NFJFjZdA5K6REgY0ahGLL9vbCFu39Pbd0XGTDK0xyYVfh
+	 Wcag2S1XXVYxg==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aa7a7ad4d3so3915841e87.1
+        for <linux-leds@vger.kernel.org>; Mon, 08 Jun 2026 15:03:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+X0kc/w8DCBrs4n6N/fGtFwOXIFoHTf9/Qu9ayvkmyF3V01+5WZ6EdE+C2sDtSDse881XZGpHyLca3@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsGgqpnkukFK1cAIv01SprrGe+/wTZt8RZqydykSmQ6sNq10Nz
+	nXVf7fZE3RriKFPfY9RqCq0EJ1phD2J4RSu87S1I+7dACbl2uWfCp1WDvZyJ8F5MgxrIw05tF7j
+	Pyus+7HMoN90ZgvJLwD5aFiAtpKnyLx0=
+X-Received: by 2002:a05:6512:1153:b0:5aa:61ef:2bd8 with SMTP id
+ 2adb3069b0e04-5aa87b406e4mr6283189e87.4.1780956234723; Mon, 08 Jun 2026
+ 15:03:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Lorenzo Egidio <lorenzoegidioms@gmail.com>
-Date: Sun, 7 Jun 2026 19:15:50 -0300
-X-Gm-Features: AVVi8CdW_8mtNHUvl90y9Vz-bxN9FpD_WSDoFK3RONQipt9rx4r8wBxhZRwasJg
-Message-ID: <CAFxreVHrZ_yxKGeP9YZkth7V+5n7ZuUA=7HMrumuyqCqFTazYQ@mail.gmail.com>
-Subject: Possible problem with led_test_class_register() KUnit test
-To: linux-leds@vger.kernel.org
+References: <20260525144629.498630-1-jerrysteve1101@gmail.com> <20260525144629.498630-3-jerrysteve1101@gmail.com>
+In-Reply-To: <20260525144629.498630-3-jerrysteve1101@gmail.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Tue, 9 Jun 2026 00:03:42 +0200
+X-Gmail-Original-Message-ID: <CAD++jLkyvwnrmBQ+YFo+UDvuMpMM+Z4fXyVOFXUvSNrnrCEsQw@mail.gmail.com>
+X-Gm-Features: AVVi8CfrtViog8K60lVsdBejVduUSaoCk-bta_dOARz0lgQKhvxczOmqxd4dt3E
+Message-ID: <CAD++jLkyvwnrmBQ+YFo+UDvuMpMM+Z4fXyVOFXUvSNrnrCEsQw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] leds: is31fl319x: Fix shutdown GPIO initial state
+ and remove redundant startup pulse
+To: Jun Yan <jerrysteve1101@gmail.com>
+Cc: dmitry.baryshkov@oss.qualcomm.com, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Vincent Knecht <vincent.knecht@mailoo.org>, Grant Feng <von81@163.com>, 
+	Andre Przywara <andre.przywara@arm.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Florian Fainelli <f.fainelli@gmail.com>, 
+	Robert Marko <robert.marko@sartura.hr>, Pavel Machek <pavel@ucw.cz>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Michal Simek <michal.simek@amd.com>, Heiko Stuebner <heiko@sntech.de>, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-gpio@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-8537-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8536-lists,linux-leds=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[lorenzoegidioms@gmail.com,linux-leds@vger.kernel.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:linux-leds@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:jerrysteve1101@gmail.com,m:dmitry.baryshkov@oss.qualcomm.com,m:lee@kernel.org,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:andrew@lunn.ch,m:gregory.clement@bootlin.com,m:sebastian.hesselbarth@gmail.com,m:brgl@kernel.org,m:vincent.knecht@mailoo.org,m:von81@163.com,m:andre.przywara@arm.com,m:geert+renesas@glider.be,m:viresh.kumar@linaro.org,m:f.fainelli@gmail.com,m:robert.marko@sartura.hr,m:pavel@ucw.cz,m:krzk@kernel.org,m:shawnguo@kernel.org,m:michal.simek@amd.com,m:heiko@sntech.de,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-gpio@vger.kernel.org,m:conor@kernel.org,m:sebastianhesselbarth@gmail.com,m:geert@glider.be,m:ffainelli@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[linusw@kernel.org,linux-leds@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,lunn.ch,bootlin.com,gmail.com,mailoo.org,163.com,arm.com,glider.be,linaro.org,sartura.hr,ucw.cz,amd.com,sntech.de,vger.kernel.org,lists.infradead.org];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_ONE(0.00)[1];
-	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	TO_DN_NONE(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lorenzoegidioms@gmail.com,linux-leds@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt,renesas];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,mail.gmail.com:mid]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C25C3651CA1
+X-Rspamd-Queue-Id: A1A5D65AE24
 
-Hello
+Hi Jun,
 
-File Location: drivers/leds/led-test.c
+thanks for your patch!
 
-During my review of the KUnit LED framework tests I found a possible
-bug in the led_test_class_register() function.
+On Mon, May 25, 2026 at 4:47=E2=80=AFPM Jun Yan <jerrysteve1101@gmail.com> =
+wrote:
 
-The test does successfully register cdev_clash:
+> -       is31->shutdown_gpio =3D devm_gpiod_get_optional(dev, "shutdown", =
+GPIOD_OUT_HIGH);
+> +       /* Driving this GPIO line low (in fact high) takes the chip out o=
+f shutdown,
+> +        * as it is flagged as GPIO_ACTIVE_LOW in provider (such as the d=
+evice tree).
+> +        */
+> +       is31->shutdown_gpio =3D devm_gpiod_get_optional(dev, "shutdown", =
+GPIOD_OUT_LOW);
 
-ret = devm_led_classdev_register(dev, cdev_clash);
-KUNIT_ASSERT_EQ(test, ret, 0);
+This is fine but only if you also add a quirk to
+drivers/gpio/gpiolib-of.c in of_gpio_try_fixup_polarity()
+that will enforce the GPIOD_OUT_LOW property on the line.
+Follow the examples.
 
-and then tries to register the same struct led_classdev pointer again:
+This solves the API breakage.
 
-cdev_clash->flags |= LED_REJECT_NAME_CONFLICT; ret =
-devm_led_classdev_register(dev, cdev_clash); KUNIT_EXPECT_EQ(test,
-ret, -EEXIST);
+It should probably be part of the same patch for bisectability.
 
-It looks like this is meant to be testing the rejection due to a name
-conflict but the object being registered is already registered at that
-moment.
-
-Therefore, the failure observed (if any) would be dictated by the
-implementation of devm_led_classdev_register() when it comes to
-re-registering an already registered led_classdev and not solely by
-the test for name-conflict handling.
-
-Why not just create another separate struct led_classdev instance for
-the conflict test, something like:
-
-cdev_conflict = devm_kmemdup(dev, cdev, sizeof(*cdev), GFP_KERNEL);
-cdev_conflict->flags |= LED_REJECT_NAME_CONFLICT;
-
-ret = devm_led_classdev_register(dev, cdev_conflict);
-
-That way the name-conflict path is not mixed with any behavior related
-re-registering an already registered LED class device.
-
-Also, in led_test_class_add_lookup_and_get(), the struct
-led_lookup_data lookup is not zero-initialized. It would be good
-practice to initialize it with {} to avoid problems if the structure
-is changed in the future.
-
-Regards.
+Yours,
+Linus Walleij
 
