@@ -1,779 +1,856 @@
-Return-Path: <linux-leds+bounces-8569-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8570-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id gCRWDWagKmqstwMAu9opvQ
-	(envelope-from <linux-leds+bounces-8569-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Jun 2026 13:47:50 +0200
+	id x19cLz6nKmrJuQMAu9opvQ
+	(envelope-from <linux-leds+bounces-8570-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Jun 2026 14:17:02 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E6E67183C
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Jun 2026 13:47:49 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1209D671BEB
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Jun 2026 14:17:02 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="D3e/Apj0";
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8569-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8569-lists+linux-leds=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b="nl3uG/3B";
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8570-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8570-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3897F300AC93
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Jun 2026 11:47:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2E6873020A84
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Jun 2026 12:16:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24D7939A071;
-	Thu, 11 Jun 2026 11:47:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8D523B27DF;
+	Thu, 11 Jun 2026 12:16:38 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496FE374A1B;
-	Thu, 11 Jun 2026 11:47:46 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781178468; cv=none; b=epSsz9YNYprj7j22Ql/O6MjPGKnylf3y3Sy/TVvx0t/SFfTHDeWfJSyySJT0s/kQgnU0EDhtn3QFg19j+tDX8f1xiWKSp4z4pZle+twUaXHrAO06AOukH0SDWsFpCK6XZF99LaTWzylkvLlmrb3SSznAYPG4t+qQN797SAd/2WM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781178468; c=relaxed/simple;
-	bh=0yWqyCFPgN97ONbtxt1PXh8r0OBSUYs9NYoX4H5faxY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RIj1bIqUQxKJ4PC5CJq3WpVfB310XblHFcl96b7J/08XTEhHfcR4fKGKV60/uYeqMzAIKiEbK7e0MTiEmMz/WRxZWMHypH1xCIZT452STIWYg+zopvuIjO6hW4AqL4G0jR0KyRWEq8RBOKZDK8JFQ8SRdTmHFCedtzTEqV+aTqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D3e/Apj0; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 575B01F00893;
-	Thu, 11 Jun 2026 11:47:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781178466;
-	bh=szS3MnTmJXEXcPbcdS7SWjI1apQnGHmUrVIMk/R50tM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=D3e/Apj0RUCtTvJliciIWqf1aRTO8ri9fRf+VURXykUJOgsfgsQ8x0HG1C2rFoP9z
-	 skY1z3In1Hgb3Q4hEJ0EtL3Cf5GGnSX59Ekytosu4SQQOlXEOiN/xS8eYTSxYyh7rX
-	 ovUOps0R3iveElQ9+eYyenbaKCREfjLaV0q4aSvP8fZ74Gj158RaPncwqx+EXGc57m
-	 icWu/lsvFR9CtEt5yz3cJ6ne/sJshmnf+f5yuzHa09hOYmLlpuy5SNl4sZ655Pxowq
-	 uGpTdoUFIqBJ36NTxUTTJUswRi5un5gKFauL8QLmvrCCdkN8jZcJmGEiM7ekXVTe7o
-	 frMm51soC15Zw==
-Date: Thu, 11 Jun 2026 12:47:41 +0100
-From: Lee Jones <lee@kernel.org>
-To: Edelweise Escala <edelweise.escala@analog.com>
-Cc: Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v9 2/2] leds: ltc3220: Add Support for LTC3220 18 channel
- LED Driver
-Message-ID: <20260611114741.GP4151951@google.com>
-References: <20260528-ltc3220-driver-v9-0-69450fc213cb@analog.com>
- <20260528-ltc3220-driver-v9-2-69450fc213cb@analog.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A248E1DEFE8
+	for <linux-leds@vger.kernel.org>; Thu, 11 Jun 2026 12:16:36 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781180198; cv=pass; b=OR/v4Kanq2Sp1Kb0JmALXgLkz8nEkM8xAq5wgdzbaLrPHRGnUEJN765cFe+bLu7d6AUy1JrIxzLKk0AMrxaDwbo7HXrMAFSeT0KhQEDXS8RsRxn4fFtPRo6GP+KaeHehdxUbnarRu0em6bjiYC/PwwCB1PBM8GEg1VF3kyRpaPw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781180198; c=relaxed/simple;
+	bh=m0ILiGQjjW37FZWVT+lHXwgZAIZlQlt6GwpdAP8++QY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HnXoeag3kAZOxmm8LZ/WDb8w6dhc49/sgY7gAShAPtjf0cfYFIM55f//Mw/BlIhMZ4IXczVmndmXpivhHP+37m+J5bsOr+uWxTjWQ799iPMddvaYe0/uk/PK2HOxp8mBbKEvTuk83+jesWGtIX+MZ9vjM1nVCkh/S0s3C++xbvw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nl3uG/3B; arc=pass smtp.client-ip=74.125.82.175
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-304ec41197bso8101661eec.1
+        for <linux-leds@vger.kernel.org>; Thu, 11 Jun 2026 05:16:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781180196; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dLNODZK3elutg40DZK0VEFK+J9TdGI3iZpYwkmTOC2By5QQghICE+oOieqMjD+xesa
+         0XQyzQrdwePKEyixqWXUhvddIWcUYiFMEJUITlYpec7wBskekmdG7MFCGaULEBLngRw7
+         WOroIaJ1M5wkom2v01DhQ3DauZ+U19jJo4vW47xW4JkWF9yWla7tMC3r1jvlT2yuLLT1
+         wRlJSX0h9Fpw+Sv2a4E2q0QkWHExPi2QmuBQfVo4O3zOUXGmtHeVuH+awBaTiU360xH+
+         vSntxBn3WzaQ5iotCNVb1l5EGfCb9dGAPi/AfcIVBnVaE+jvR3RLWyV1E8Z1NZGsZED9
+         Wklg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=H+TegY9LxT3bCxYZ8LvM5tPIY+YnM7zuh5hgoesekgc=;
+        fh=P23JyHNePqBmAHhhS+i0THvbNEjkDmave5D9eqP8GFU=;
+        b=OhtEPysa5PDLE+6mGI09wIV2g2MJvtl7zlokN3f7rLTN8oTiQCAeLJczoxPQhJn8yo
+         ZAyAbKLa9xr+cCkxUpMcGJrd34de+F9DJRgcDIhyI2MIEtqK+0UVd9rMq/vhg1KTDT/L
+         Rpw36Kut2QPRJ+/ZHiOYEMbuxwwUIl2ASdzmyX+Ell8llMqT6szY/4yxg1GPJoTmnUU3
+         4+kM00G5BbZqn5VwMZNdchsP0IdUC/UBIj8lcD7HSKLbYcDUAnCxtdeXO8wbnatEV6ZR
+         Nv3ZMgwc37nkCWWG1OXCzFJ4W8zJ7ea6CMZPj/5AcxPL0DnU9g9705286GBDKvSw8Ktu
+         tLtg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781180196; x=1781784996; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H+TegY9LxT3bCxYZ8LvM5tPIY+YnM7zuh5hgoesekgc=;
+        b=nl3uG/3BTU9PPdKwrAfWuSqxLGJTdEYt+igegxQdUDDFvkPESSHK1FRT7wUynCq9wE
+         +Ny2yJI6XuATNpZR1hw1tifOSOPoUkQrQ8GylPr+/w/N4UomwOeSyoN5mMQJ/f+jnTnq
+         G8ZNzLu8/uXoZg2B+G01rOzkSAs0YDwlXz4pGU1ubEgE+BMq1Y9vbdF9pqkthMyvG65g
+         opcOTcVZCBTQPZZFioGg8MCTf+scciEhHQz38tgZjF9XHz4stVipmdIfzsylCdUPvYaR
+         vTsf4ZvPuWS3unuIm3MLSq02ocuqoL1iijApf4IWYtmpgp8HwWG3bKEcbHQTWFu/zMGj
+         4iqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781180196; x=1781784996;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=H+TegY9LxT3bCxYZ8LvM5tPIY+YnM7zuh5hgoesekgc=;
+        b=Dqug/xI9ctoPVHkez3HN6trA4oxBVH7QPAvcoVsKcQhw11X6FBWhbPSQtESIdzgj1M
+         p2oQ4CqubGBHayCGlEAr0wgDQ4h8VBeOPfB7dRcxo9Msv/ERic7cGTJBcUKtYJIzPto2
+         YIDqHK1/l62zUgY44au7y+6jb1us/1ZGf2LfR8YoSE58zzc5qBbPBQ45paFqR7f3tWR7
+         POqRkQzPnIKj6QBdDSUBsZgphyj/3QBHY9TEPsEqJ692Z9/CYLmkxT+OlRiceU6V+2qM
+         OE7YNrWt3MGe484zKVTeqFx0+c94AiavLmZiKIyuUV9BORyWIKjp+J9unye794tDXOjJ
+         w0FQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/67HR7J+WUr36WhQ/SHOwrIN80v8fl4tN9sriOJkEDuAHgT1oEg/eyxWHr9UyBcoMsInzMjIw5YDvM@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnjqpqgqIrlN78236qG34drVuUG8J3mmzrVEDMn5MR3XiWnZrc
+	xY2daGTYqsa42uCdXRhznOMWtmiepIQSXczH8lb/YqPWQo1uucC3wPjF0323GT+ILEEO9XjEa3E
+	WhxQiBHOzmcisJ6iaSXzAiHDxfuLJJk4=
+X-Gm-Gg: Acq92OG6zmDRWcLivnGQIdTZynusbH9PlkINoRWkvqzt0IpsUBSsfn4GQM3HvXfXg92
+	o1mdM/wJAAJFQJkU7GX3UXZV+GjEd2Vg+hK8vFUSjCiuixo1n76qiw281WhzwRx+7pq/Le4xUSS
+	5KHLcPNaPEFeWy2jtZFzcIzYiJ496VY4L7XLB9KrvY9XqIOQwA861ciQjjUItsUcvuUjeckw9j1
+	9zjczpxZCHMvJ9oL/ilmThmDHSKD0yoUPTR1Y4sE0WvDbU5QTWUKBX0HtTKgha69P/FLauSCWlq
+	gTQoNDzosBNayekX44hUBScsKLyffA==
+X-Received: by 2002:a05:7300:6d20:b0:304:de94:1c2c with SMTP id
+ 5a478bee46e88-30804cbf74bmr1952028eec.34.1781180195562; Thu, 11 Jun 2026
+ 05:16:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260528-ltc3220-driver-v9-2-69450fc213cb@analog.com>
+References: <20260528053203.9339-1-clamor95@gmail.com> <20260528053203.9339-3-clamor95@gmail.com>
+ <20260611111732.GN4151951@google.com>
+In-Reply-To: <20260611111732.GN4151951@google.com>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Thu, 11 Jun 2026 15:16:23 +0300
+X-Gm-Features: AVVi8Ce8ZrG9KhRHab2qXH0lL2_niB-_klT-O9ok2BFu5UDw3zgfPGeAc1cDiF4
+Message-ID: <CAPVz0n0caBBt6A+AFeUpGdxvb3Qhoui7khLCt3747bPUKmMXhQ@mail.gmail.com>
+Subject: Re: [PATCH v8 2/7] mfd: Add driver for ASUS Transformer embedded controller
+To: Lee Jones <lee@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Pavel Machek <pavel@kernel.org>, Sebastian Reichel <sre@kernel.org>, Ion Agorria <ion@agorria.com>, 
+	=?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8569-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8570-lists,linux-leds=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:dmitry.torokhov@gmail.com,m:pavel@kernel.org,m:sre@kernel.org,m:ion@agorria.com,m:mirq-linux@rere.qmqm.pl,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-leds@vger.kernel.org,m:linux-pm@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:dmitrytorokhov@gmail.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:edelweise.escala@analog.com,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_SENDER(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,agorria.com,rere.qmqm.pl,vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C1E6E67183C
-
-/* Sashiko Automation: Issues Found (10 Findings) */
-
-Would you mind taking care of these before I conduct my next review please?
-
-On Thu, 28 May 2026, Edelweise Escala wrote:
-
-> Add driver for the LTC3220 18-channel LED driver
-> with I2C interface, individual brightness control, and hardware-assisted
-> blink/gradation features.
-> 
-> Signed-off-by: Edelweise Escala <edelweise.escala@analog.com>
-> ---
->  MAINTAINERS                 |   1 +
->  drivers/leds/Kconfig        |  13 ++
->  drivers/leds/Makefile       |   1 +
->  drivers/leds/leds-ltc3220.c | 440 ++++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 455 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c8a242577d2f..0f553ada61d9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15229,6 +15229,7 @@ L:	linux-leds@vger.kernel.org
->  S:	Maintained
->  W:	https://ez.analog.com/linux-software-drivers
->  F:	Documentation/devicetree/bindings/leds/adi,ltc3220.yaml
-> +F:	drivers/leds/leds-ltc3220.c
->  
->  LTC4282 HARDWARE MONITOR DRIVER
->  M:	Nuno Sa <nuno.sa@analog.com>
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index f4a0a3c8c870..31b1e3ff094c 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -1000,6 +1000,19 @@ config LEDS_ST1202
->  	  Say Y to enable support for LEDs connected to LED1202
->  	  LED driver chips accessed via the I2C bus.
->  
-> +config LEDS_LTC3220
-> +	tristate "LED Driver for Analog Devices Inc. LTC3220"
-> +	depends on I2C && LEDS_CLASS
-> +	select REGMAP_I2C
-> +	help
-> +	  Say Y to enable support for the Analog Devices LTC3220
-> +	  18-channel LED controller with I2C interface.
-> +	  The driver supports individual LED brightness control (64 steps),
-> +	  hardware-assisted blinking and gradation effects.
-> +
-> +	  To compile this driver as a module, choose M here: the module will
-> +	  be called leds-ltc3220.
-> +
->  config LEDS_TPS6105X
->  	tristate "LED support for TI TPS6105X"
->  	depends on LEDS_CLASS
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index 7db3768912ca..a68244bd50fb 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -61,6 +61,7 @@ obj-$(CONFIG_LEDS_LP8788)		+= leds-lp8788.o
->  obj-$(CONFIG_LEDS_LP8860)		+= leds-lp8860.o
->  obj-$(CONFIG_LEDS_LP8864)		+= leds-lp8864.o
->  obj-$(CONFIG_LEDS_LT3593)		+= leds-lt3593.o
-> +obj-$(CONFIG_LEDS_LTC3220)		+= leds-ltc3220.o
->  obj-$(CONFIG_LEDS_MAX5970)		+= leds-max5970.o
->  obj-$(CONFIG_LEDS_MAX77650)		+= leds-max77650.o
->  obj-$(CONFIG_LEDS_MAX77705)		+= leds-max77705.o
-> diff --git a/drivers/leds/leds-ltc3220.c b/drivers/leds/leds-ltc3220.c
-> new file mode 100644
-> index 000000000000..a633ac5ca6ae
-> --- /dev/null
-> +++ b/drivers/leds/leds-ltc3220.c
-> @@ -0,0 +1,440 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * LTC3220 18-Channel LED Driver
-> + *
-> + * Copyright 2026 Analog Devices Inc.
-> + *
-> + * Author: Edelweise Escala <edelweise.escala@analog.com>
-> + */
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/delay.h>
-
-[Severity: Low]
-Is this include needed?
-
-It doesn't appear that any delay functions like msleep() or usleep_range()
-are used in the driver implementation.
-
-
-> +#include <linux/device.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/i2c.h>
-> +#include <linux/leds.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
-> +#include <linux/types.h>
-
-[Severity: Low]
-Should this file include <linux/property.h>?
-
-The driver uses fwnode property APIs such as device_for_each_child_node_scoped(),
-fwnode_property_read_u32(), and fwnode_property_present(), which are defined
-in <linux/property.h>.
-
-
-> +
-> +/* LTC3220 Registers */
-> +#define LTC3220_COMMAND_REG				0x00
-> +#define   LTC3220_QUICK_WRITE_MASK			BIT(0)
-> +#define   LTC3220_SHUTDOWN_MASK				BIT(3)
-> +
-> +#define LTC3220_ULED_REG(x)				(0x01 + (x))
-> +#define   LTC3220_LED_CURRENT_MASK			GENMASK(5, 0)
-> +#define   LTC3220_LED_MODE_MASK				GENMASK(7, 6)
-> +
-> +#define LTC3220_GRAD_BLINK_REG				0x13
-> +#define   LTC3220_GRADATION_MASK			GENMASK(2, 0)
-> +#define   LTC3220_GRADATION_DIRECTION_MASK		BIT(0)
-> +#define   LTC3220_GRADATION_PERIOD_MASK			GENMASK(2, 1)
-> +#define   LTC3220_BLINK_MASK				GENMASK(4, 3)
-> +
-> +#define LTC3220_NUM_LEDS				18
-> +
-> +#define LTC3220_GRADATION_START_VALUE			128
-
-[Severity: Low]
-Is this macro used anywhere in the driver?
-
-It appears to be dead code as it is never referenced.
-
-
-> +#define LTC3220_GRADATION_RAMP_TIME_240MS		240
-> +#define LTC3220_GRADATION_RAMP_TIME_480MS		480
-> +
-> +#define LTC3220_BLINK_ON_156MS				156
-> +#define LTC3220_BLINK_ON_625MS				625
-> +#define LTC3220_BLINK_PERIOD_1250MS			1250
-> +#define LTC3220_BLINK_PERIOD_2500MS			2500
-> +
-> +#define LTC3220_BLINK_SHORT_ON_TIME			BIT(0)
-> +#define LTC3220_BLINK_LONG_PERIOD			BIT(1)
-> +
-> +enum ltc3220_led_mode {
-> +	LTC3220_NORMAL_MODE,
-> +	LTC3220_BLINK_MODE,
-> +	LTC3220_GRADATION_MODE,
-> +};
-> +
-> +enum ltc3220_blink_mode {
-> +	LTC3220_BLINK_MODE_625MS_1250MS,
-> +	LTC3220_BLINK_MODE_156MS_1250MS,
-> +	LTC3220_BLINK_MODE_625MS_2500MS,
-> +	LTC3220_BLINK_MODE_156MS_2500MS
-> +};
-> +
-> +enum ltc3220_gradation_mode {
-> +	LTC3220_GRADATION_MODE_DISABLED,
-> +	LTC3220_GRADATION_MODE_240MS_RAMP_TIME,
-> +	LTC3220_GRADATION_MODE_480MS_RAMP_TIME,
-> +	LTC3220_GRADATION_MODE_960MS_RAMP_TIME
-> +};
-> +
-> +static bool ltc3220_volatile_reg(struct device *dev, unsigned int reg)
-> +{
-> +	return reg == LTC3220_GRAD_BLINK_REG;
-> +}
-
-[Severity: High]
-Does this register need to be marked volatile?
-
-Marking a register as volatile tells regmap to bypass the cache and read from
-the physical hardware. If the LTC3220 is a write-only I2C device, the physical
-read will fail, causing regmap_update_bits() to fail entirely in
-ltc3220_pattern_set() and ltc3220_blink_set().
-
-Even if the device supports reads, this register is exclusively controlled by
-software and does not change autonomously, so could it be cached normally to
-avoid unnecessary I2C reads?
-
-
-> +
-> +static const struct regmap_config ltc3220_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.max_register = LTC3220_GRAD_BLINK_REG,
-> +	.cache_type = REGCACHE_FLAT_S,
-> +	.volatile_reg = ltc3220_volatile_reg,
-> +};
-> +
-> +struct ltc3220_uled_cfg {
-> +	struct led_classdev led_cdev;
-> +	u8 reg_value;
-> +	u8 led_index;
-> +};
-> +
-> +struct ltc3220 {
-> +	struct ltc3220_uled_cfg uled_cfg[LTC3220_NUM_LEDS];
-> +	struct regmap *regmap;
-> +	bool is_aggregated;
-> +};
-> +
-> +/*
-> + * Set LED brightness. Hardware supports 0-63 brightness levels.
-> + * Mode switching (blink/gradation) is handled through dedicated callbacks.
-> + */
-> +static int ltc3220_set_led_data(struct led_classdev *led_cdev,
-> +				enum led_brightness brightness)
-> +{
-> +	struct ltc3220_uled_cfg *uled_cfg = container_of(led_cdev, struct ltc3220_uled_cfg,
-> +							 led_cdev);
-> +	struct ltc3220 *ltc3220 = container_of(uled_cfg, struct ltc3220,
-> +					       uled_cfg[uled_cfg->led_index]);
-
-[Severity: Low]
-Will this dynamic variable index inside container_of() cause a build failure?
-
-The driver attempts to retrieve the parent structure using
-uled_cfg[uled_cfg->led_index]. The container_of macro relies on offsetof(),
-which strictly requires the member argument to be a constant expression.
-
-Since uled_cfg->led_index is a runtime variable, this violates the C standard
-and can abort compilation on compilers like Clang with an error about a
-non-constant integer expression.
-
-
-> +	int ret;
-> +
-> +	ret = regmap_write(ltc3220->regmap, LTC3220_ULED_REG(uled_cfg->led_index),
-> +			   brightness);
-> +	if (ret)
-> +		return ret;
-> +
-> +	uled_cfg->reg_value = brightness;
-> +
-> +	/*
-> +	 * When aggregated LED mode is enabled, writing to LED 1 updates all
-> +	 * LEDs simultaneously via quick-write mode. Update cached values for
-> +	 * all LEDs to reflect the synchronized state.
-> +	 * See Documentation/devicetree/bindings/leds/adi,ltc3220.yaml for how
-> +	 * to configure aggregated LED mode.
-> +	 */
-> +	if (ltc3220->is_aggregated && uled_cfg->led_index == 0) {
-> +		for (int i = 0; i < LTC3220_NUM_LEDS; i++)
-> +			ltc3220->uled_cfg[i].reg_value = brightness;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static enum led_brightness ltc3220_get_led_data(struct led_classdev *led_cdev)
-> +{
-> +	struct ltc3220_uled_cfg *uled_cfg = container_of(led_cdev, struct ltc3220_uled_cfg,
-> +							 led_cdev);
-> +
-> +	return uled_cfg->reg_value;
-> +}
-> +
-> +/*
-> + * LTC3220 pattern support for hardware-assisted breathing/gradation.
-> + * The hardware supports 3 gradation ramp time 240ms, 480ms, 960ms)
-> + * and can ramp up or down.
-> + *
-> + * Pattern array interpretation:
-> + *   pattern[0].brightness = start brightness (0-63)
-> + *   pattern[0].delta_t = ramp time in milliseconds
-> + *   pattern[1].brightness = end brightness (0-63)
-> + *   pattern[1].delta_t = (optional, can be 0 or same as pattern[0].delta_t)
-> + */
-> +static int ltc3220_pattern_set(struct led_classdev *led_cdev,
-> +			       struct led_pattern *pattern,
-> +			       u32 len, int repeat)
-> +{
-> +	struct ltc3220_uled_cfg *uled_cfg = container_of(led_cdev, struct ltc3220_uled_cfg,
-> +							 led_cdev);
-> +	struct ltc3220 *ltc3220 = container_of(uled_cfg, struct ltc3220,
-> +					       uled_cfg[uled_cfg->led_index]);
-
-[Severity: Low]
-Will this dynamic variable index inside container_of() cause a build failure?
-
-The driver attempts to retrieve the parent structure using
-uled_cfg[uled_cfg->led_index]. The container_of macro relies on offsetof(),
-which strictly requires the member argument to be a constant expression.
-
-Since uled_cfg->led_index is a runtime variable, this violates the C standard
-and can abort compilation on compilers like Clang with an error about a
-non-constant integer expression.
-
-
-> +	u8 gradation_period;
-> +	u8 start_brightness;
-> +	u8 end_brightness;
-> +	u8 gradation_val;
-> +	bool is_increasing;
-> +	int ret;
-> +
-> +	if (len != 2)
-> +		return -EINVAL;
-> +
-> +	start_brightness = pattern[0].brightness & LTC3220_LED_CURRENT_MASK;
-> +	end_brightness = pattern[1].brightness & LTC3220_LED_CURRENT_MASK;
-> +
-> +	is_increasing = end_brightness > start_brightness;
-> +
-> +	if (pattern[0].delta_t == 0)
-> +		gradation_period = LTC3220_GRADATION_MODE_DISABLED;
-> +	else if (pattern[0].delta_t <= LTC3220_GRADATION_RAMP_TIME_240MS)
-> +		gradation_period = LTC3220_GRADATION_MODE_240MS_RAMP_TIME;
-> +	else if (pattern[0].delta_t <= LTC3220_GRADATION_RAMP_TIME_480MS)
-> +		gradation_period = LTC3220_GRADATION_MODE_480MS_RAMP_TIME;
-> +	else
-> +		gradation_period = LTC3220_GRADATION_MODE_960MS_RAMP_TIME;
-> +
-> +	gradation_val = FIELD_PREP(LTC3220_GRADATION_PERIOD_MASK, gradation_period);
-> +	gradation_val |= FIELD_PREP(LTC3220_GRADATION_DIRECTION_MASK, is_increasing);
-> +
-> +	ret = regmap_update_bits(ltc3220->regmap, LTC3220_GRAD_BLINK_REG,
-> +				 LTC3220_GRADATION_MASK, gradation_val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ltc3220_set_led_data(led_cdev, start_brightness);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_write(ltc3220->regmap, LTC3220_ULED_REG(uled_cfg->led_index),
-> +			   FIELD_PREP(LTC3220_LED_MODE_MASK, LTC3220_GRADATION_MODE) |
-> +			   end_brightness);
-> +	if (ret)
-> +		return ret;
-> +
-> +	uled_cfg->reg_value = end_brightness;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ltc3220_pattern_clear(struct led_classdev *led_cdev)
-> +{
-> +	struct ltc3220_uled_cfg *uled_cfg = container_of(led_cdev, struct ltc3220_uled_cfg,
-> +							 led_cdev);
-> +	struct ltc3220 *ltc3220 = container_of(uled_cfg, struct ltc3220,
-> +					       uled_cfg[uled_cfg->led_index]);
-
-[Severity: Low]
-Will this dynamic variable index inside container_of() cause a build failure?
-
-The driver attempts to retrieve the parent structure using
-uled_cfg[uled_cfg->led_index]. The container_of macro relies on offsetof(),
-which strictly requires the member argument to be a constant expression.
-
-Since uled_cfg->led_index is a runtime variable, this violates the C standard
-and can abort compilation on compilers like Clang with an error about a
-non-constant integer expression.
-
-
-> +	int ret;
-> +
-> +	ret = regmap_update_bits(ltc3220->regmap, LTC3220_ULED_REG(uled_cfg->led_index),
-> +				 LTC3220_LED_MODE_MASK, LTC3220_NORMAL_MODE);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return ltc3220_set_led_data(led_cdev, LED_OFF);
-> +}
-> +
-> +/*
-> + * LTC3220 has a global blink configuration that affects all LEDs.
-> + * This implementation allows per-LED blink requests, but the blink timing
-> + * will be shared across all LEDs. The delay values are mapped to the
-> + * hardware's discrete blink rates.
-> + */
-> +static int ltc3220_blink_set(struct led_classdev *led_cdev,
-> +			     unsigned long *delay_on,
-> +			     unsigned long *delay_off)
-> +{
-> +	struct ltc3220_uled_cfg *uled_cfg = container_of(led_cdev, struct ltc3220_uled_cfg,
-> +							 led_cdev);
-> +	struct ltc3220 *ltc3220 = container_of(uled_cfg, struct ltc3220,
-> +					       uled_cfg[uled_cfg->led_index]);
-
-[Severity: Low]
-Will this dynamic variable index inside container_of() cause a build failure?
-
-The driver attempts to retrieve the parent structure using
-uled_cfg[uled_cfg->led_index]. The container_of macro relies on offsetof(),
-which strictly requires the member argument to be a constant expression.
-
-Since uled_cfg->led_index is a runtime variable, this violates the C standard
-and can abort compilation on compilers like Clang with an error about a
-non-constant integer expression.
-
-
-> +	u8 blink_mode = 0;
-> +	int ret;
-> +
-> +	if (*delay_on <= LTC3220_BLINK_ON_156MS)
-> +		blink_mode = LTC3220_BLINK_SHORT_ON_TIME;
-> +
-> +	if (*delay_on + *delay_off > LTC3220_BLINK_PERIOD_1250MS)
-> +		blink_mode |= LTC3220_BLINK_LONG_PERIOD;
-> +
-> +	switch (blink_mode) {
-> +	case LTC3220_BLINK_MODE_625MS_1250MS:
-> +		*delay_on = LTC3220_BLINK_ON_625MS;
-> +		*delay_off = LTC3220_BLINK_PERIOD_1250MS - LTC3220_BLINK_ON_625MS;
-> +		break;
-> +	case LTC3220_BLINK_MODE_156MS_1250MS:
-> +		*delay_on = LTC3220_BLINK_ON_156MS;
-> +		*delay_off = LTC3220_BLINK_PERIOD_1250MS - LTC3220_BLINK_ON_156MS;
-> +		break;
-> +	case LTC3220_BLINK_MODE_625MS_2500MS:
-> +		*delay_on = LTC3220_BLINK_ON_625MS;
-> +		*delay_off = LTC3220_BLINK_PERIOD_2500MS - LTC3220_BLINK_ON_625MS;
-> +		break;
-> +	case LTC3220_BLINK_MODE_156MS_2500MS:
-> +		*delay_on = LTC3220_BLINK_ON_156MS;
-> +		*delay_off = LTC3220_BLINK_PERIOD_2500MS - LTC3220_BLINK_ON_156MS;
-> +		break;
-> +	}
-> +
-> +	ret = regmap_update_bits(ltc3220->regmap, LTC3220_GRAD_BLINK_REG,
-> +				 LTC3220_BLINK_MASK, FIELD_PREP(LTC3220_BLINK_MASK, blink_mode));
-> +	if (ret)
-> +		return ret;
-> +
-> +	return regmap_update_bits(ltc3220->regmap, LTC3220_ULED_REG(uled_cfg->led_index),
-> +				  LTC3220_LED_MODE_MASK,
-> +				  FIELD_PREP(LTC3220_LED_MODE_MASK, LTC3220_BLINK_MODE));
-> +}
-
-[Severity: Medium]
-Will the hardware blink activate at 0 brightness if the LED was previously off?
-
-When the LED is off, its current bits in LTC3220_ULED_REG are 0. The driver
-updates the mode bits to LTC3220_BLINK_MODE using regmap_update_bits() but
-does not update the brightness bits.
-
-Because the core expects the driver to handle brightness configuration for
-hardware blinking, could this hardware blink execute at 0 brightness, leaving
-the LED unlit?
-
-
-> +
-> +static void ltc3220_reset_gpio_action(void *data)
-> +{
-> +	struct gpio_desc *reset_gpio = data;
-> +
-> +	gpiod_set_value_cansleep(reset_gpio, 1);
-> +}
-> +
-> +static int ltc3220_reset(struct ltc3220 *ltc3220, struct i2c_client *client)
-> +{
-> +	struct gpio_desc *reset_gpio;
-> +	int ret;
-> +
-> +	reset_gpio = devm_gpiod_get_optional(&client->dev, "reset", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(reset_gpio))
-> +		return dev_err_probe(&client->dev, PTR_ERR(reset_gpio), "Failed on reset GPIO\n");
-> +
-> +	if (reset_gpio) {
-> +		gpiod_set_value_cansleep(reset_gpio, 0);
-
-[Severity: High]
-Does this sequence lack the necessary delays to ensure a successful reset?
-
-The driver asserts the reset GPIO by requesting it with GPIOD_OUT_HIGH and
-immediately de-asserts it with gpiod_set_value_cansleep(reset_gpio, 0). There
-is no delay between these calls, creating a near-zero width pulse that may fail
-to meet the IC's minimum reset pulse width requirement.
-
-It also lacks a wakeup delay before subsequent I2C commands might be sent.
-
-
-> +
-> +		return devm_add_action_or_reset(&client->dev, ltc3220_reset_gpio_action,
-> +						reset_gpio);
-
-[Severity: High]
-Does returning early here skip software initialization and regmap cache setup?
-
-If the reset_gpio is successfully acquired, this function immediately returns
-0, entirely skipping the subsequent regmap_write() calls intended to initialize
-the hardware registers.
-
-Because the driver does not define a .reg_defaults table, skipping these writes
-leaves the regmap cache uninitialized, which can break subsequent
-read-modify-write logic via regmap_update_bits().
-
-
-> +	}
-> +
-> +	ret = regmap_write(ltc3220->regmap, LTC3220_COMMAND_REG, 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (int i = 0; i < LTC3220_NUM_LEDS; i++) {
-> +		ret = regmap_write(ltc3220->regmap, LTC3220_ULED_REG(i), 0);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return regmap_write(ltc3220->regmap, LTC3220_GRAD_BLINK_REG, 0);
-> +}
-> +
-> +static int ltc3220_suspend(struct device *dev)
-> +{
-> +	struct ltc3220 *ltc3220 = i2c_get_clientdata(to_i2c_client(dev));
-> +
-> +	return regmap_update_bits(ltc3220->regmap, LTC3220_COMMAND_REG,
-> +				  LTC3220_SHUTDOWN_MASK, LTC3220_SHUTDOWN_MASK);
-> +}
-> +
-> +static int ltc3220_resume(struct device *dev)
-> +{
-> +	struct ltc3220 *ltc3220 = i2c_get_clientdata(to_i2c_client(dev));
-> +
-> +	return regmap_update_bits(ltc3220->regmap, LTC3220_COMMAND_REG,
-> +				  LTC3220_SHUTDOWN_MASK, 0);
-> +}
-
-[Severity: High]
-Are the hardware registers left permanently off after resume?
-
-In ltc3220_suspend(), the driver sets the LTC3220_SHUTDOWN_MASK bit. On many
-such chips, asserting the shutdown bit resets internal registers. Additionally,
-power to the IC may be lost during system suspend.
-
-In ltc3220_resume(), the driver clears the shutdown bit but does not call
-regcache_mark_dirty() and regcache_sync(). Could this leave the physical LED
-outputs permanently off, while the kernel's regmap cache and LED classdev state
-incorrectly reflect that the LEDs are still configured and illuminated?
-
-
-> +
-> +static DEFINE_SIMPLE_DEV_PM_OPS(ltc3220_pm_ops, ltc3220_suspend, ltc3220_resume);
-> +
-> +static int ltc3220_probe(struct i2c_client *client)
-> +{
-> +	struct ltc3220 *ltc3220;
-> +	bool aggregated_led_found = false;
-> +	int num_leds = 0;
-> +	u8 led_index = 0;
-> +	int ret;
-> +
-> +	ltc3220 = devm_kzalloc(&client->dev, sizeof(*ltc3220), GFP_KERNEL);
-> +	if (!ltc3220)
-> +		return -ENOMEM;
-> +
-> +	ltc3220->regmap = devm_regmap_init_i2c(client, &ltc3220_regmap_config);
-> +	if (IS_ERR(ltc3220->regmap))
-> +		return dev_err_probe(&client->dev, PTR_ERR(ltc3220->regmap),
-> +				     "Failed to initialize regmap\n");
-> +
-> +	i2c_set_clientdata(client, ltc3220);
-> +
-> +	ret = ltc3220_reset(ltc3220, client);
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret, "Failed to reset device\n");
-> +
-> +	device_for_each_child_node_scoped(&client->dev, child) {
-> +		struct led_init_data init_data = {};
-> +		struct ltc3220_uled_cfg *led;
-> +		u32 source;
-> +
-> +		ret = fwnode_property_read_u32(child, "reg", &source);
-> +		if (ret)
-> +			return dev_err_probe(&client->dev, ret, "Couldn't read LED address\n");
-> +
-> +		if (!source || source > LTC3220_NUM_LEDS)
-> +			return dev_err_probe(&client->dev, -EINVAL, "LED address out of range\n");
-> +
-> +		init_data.fwnode = child;
-> +		init_data.devicename = "ltc3220";
-> +
-> +		if (fwnode_property_present(child, "led-sources")) {
-> +			if (source != 1)
-> +				return dev_err_probe(&client->dev, -EINVAL,
-> +						     "Aggregated LED out of range\n");
-> +
-> +			if (aggregated_led_found)
-> +				return dev_err_probe(&client->dev, -EINVAL,
-> +						     "One Aggregated LED only\n");
-> +
-> +			aggregated_led_found = true;
-> +			ltc3220->is_aggregated = true;
-> +
-> +			ret = regmap_update_bits(ltc3220->regmap,
-> +						 LTC3220_COMMAND_REG,
-> +						 LTC3220_QUICK_WRITE_MASK,
-> +						 LTC3220_QUICK_WRITE_MASK);
-> +			if (ret)
-> +				return dev_err_probe(&client->dev, ret,
-> +						     "Failed to set quick write mode\n");
-> +		}
-> +
-> +		num_leds++;
-> +
-> +		/* LED node reg/index/address goes from 1 to 18 */
-> +		led_index = source - 1;
-> +		led = &ltc3220->uled_cfg[led_index];
-> +
-> +		if (led->led_cdev.dev)
-> +			return dev_err_probe(&client->dev, -EINVAL,
-> +					     "Duplicate LED reg %u found", source);
-> +
-> +		led->led_index = led_index;
-> +		led->reg_value = 0;
-> +		led->led_cdev.brightness_set_blocking = ltc3220_set_led_data;
-> +		led->led_cdev.brightness_get = ltc3220_get_led_data;
-> +		led->led_cdev.max_brightness = 63;
-> +		led->led_cdev.blink_set = ltc3220_blink_set;
-> +		led->led_cdev.pattern_set = ltc3220_pattern_set;
-> +		led->led_cdev.pattern_clear = ltc3220_pattern_clear;
-> +
-> +		ret = devm_led_classdev_register_ext(&client->dev, &led->led_cdev, &init_data);
-> +		if (ret)
-> +			return dev_err_probe(&client->dev, ret, "Failed to register LED class\n");
-> +	}
-> +
-> +	/*
-> +	 * Aggregated LED mode uses hardware quick-write to control all 18 LEDs
-> +	 * simultaneously. This is mutually exclusive with individual LED control.
-> +	 * See Documentation/devicetree/bindings/leds/adi,ltc3220.yaml for details
-> +	 * on how to configure aggregated LED mode.
-> +	 */
-> +	if (aggregated_led_found && num_leds > 1)
-> +		return dev_err_probe(&client->dev, -EINVAL,
-> +				     "Aggregated LED must be the only LED node\n");
-
-[Severity: Medium]
-Are the LED sysfs interfaces exposed to userspace before the driver probe is
-fully validated?
-
-Inside the loop above, devm_led_classdev_register_ext() is called, which
-immediately exposes sysfs interfaces. If the validation check here fails and
-returns an error, userspace could have already discovered and interacted with
-the LED devices before they are unexpectedly torn down by devres.
-
-Could these validation checks be completed before registering the interfaces?
-
-
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id ltc3220_of_match[] = {
-> +	{ .compatible = "adi,ltc3220" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, ltc3220_of_match);
-> +
-> +static struct i2c_driver ltc3220_led_driver = {
-> +	.driver = {
-> +		.name = "ltc3220",
-> +		.of_match_table = ltc3220_of_match,
-> +		.pm = pm_sleep_ptr(&ltc3220_pm_ops),
-> +	},
-> +	.probe = ltc3220_probe,
-> +};
-> +module_i2c_driver(ltc3220_led_driver);
-> +
-> +MODULE_AUTHOR("Edelweise Escala <edelweise.escala@analog.com>");
-> +MODULE_DESCRIPTION("LED driver for LTC3220 controllers");
-> +MODULE_LICENSE("GPL");
-> 
-> -- 
-> 2.43.0
-> 
-
--- 
-Lee Jones
+X-Rspamd-Queue-Id: 1209D671BEB
+
+=D1=87=D1=82, 11 =D1=87=D0=B5=D1=80=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 14:1=
+7 Lee Jones <lee@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Thu, 28 May 2026, Svyatoslav Ryhel wrote:
+> > From: Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.pl>
+> >
+> > Support Nuvoton NPCE795-based ECs as used in Asus Transformer TF201,
+> > TF300T, TF300TG, TF300TL and TF700T pad and dock, as well as TF101 dock
+> > and TF600T, P1801-T and TF701T pad. This is a glue driver handling
+> > detection and common operations for EC's functions.
+> >
+> > Co-developed-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > Signed-off-by: Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.pl>
+> > ---
+> >  drivers/mfd/Kconfig                     |  16 +
+> >  drivers/mfd/Makefile                    |   1 +
+> >  drivers/mfd/asus-transformer-ec.c       | 542 ++++++++++++++++++++++++
+> >  include/linux/mfd/asus-transformer-ec.h |  92 ++++
+> >  4 files changed, 651 insertions(+)
+> >  create mode 100644 drivers/mfd/asus-transformer-ec.c
+> >  create mode 100644 include/linux/mfd/asus-transformer-ec.h
+> >
+...
+> > +
+> > +     memset(buf, 0, ASUSEC_ENTRY_BUFSIZE);
+> > +     ret =3D i2c_smbus_read_i2c_block_data(client, ASUSEC_DOCKRAM_CONT=
+ROL,
+> > +                                         ASUSEC_ENTRY_SIZE, buf);
+> > +     if (ret < ASUSEC_ENTRY_SIZE) {
+> > +             dev_err(&client->dev, "failed to access control buffer: %=
+d\n",
+> > +                     ret);
+> > +             return ret;
+>
+> Should we return a negative error code here if the read is shorter than
+> expected, rather than propagating the positive byte count?
+>
+
+Yes, I have adjusted it already locally for the next iteration. It
+will return ret if negative and -EIO if ret is pos but less then
+ASUSEC_ENTRY_SIZE (return ret < 0 ? ret : -EIO)
+
+> > +     }
+> > +
+> > +     if (buf[0] !=3D ASUSEC_CTL_SIZE) {
+> > +             dev_err(&client->dev, "buffer size exceeds %d: %d\n",
+> > +                     ASUSEC_CTL_SIZE, buf[0]);
+> > +             return -EPROTO;
+> > +     }
+> > +
+> > +     val =3D get_unaligned_le64(buf + 1);
+> > +
+> > +     if (out)
+> > +             *out =3D val;
+> > +
+> > +     if (mask || xor) {
+> > +             put_unaligned_le64((val & ~mask) ^ xor, buf + 1);
+> > +             ret =3D i2c_smbus_write_i2c_block_data(client,
+> > +                                                  ASUSEC_DOCKRAM_CONTR=
+OL,
+> > +                                                  ASUSEC_ENTRY_SIZE, b=
+uf);
+> > +             if (ret)
+> > +                     return ret;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(asus_dockram_access_ctl);
+> > +
+> > +static int asus_ec_signal_request(struct asus_ec_data *ddata)
+> > +{
+> > +     guard(mutex)(&ddata->ecreq_lock);
+> > +
+> > +     gpiod_set_value_cansleep(ddata->ecreq_gpio, 1);
+> > +     msleep(50);
+> > +
+> > +     gpiod_set_value_cansleep(ddata->ecreq_gpio, 0);
+> > +     msleep(200);
+>
+> Do these numbers come from the datasheet or were they arbitrarily chosen?
+>
+
+There is no datasheet. These delays come from downstream driver and
+with lower values or removed delays request fails.
+
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void asus_ec_clear_buffer(struct asus_ec_data *ddata)
+> > +{
+> > +     int ret, retry =3D ASUSEC_RSP_BUFFER_SIZE;
+> > +
+> > +     /*
+> > +      * Read the buffer till we get valid data by checking ASUSEC_OBF_=
+MASK
+> > +      * of the status byte or till we reach end of the 256 byte buffer=
+.
+> > +      */
+> > +     while (retry--) {
+> > +             ret =3D i2c_smbus_read_i2c_block_data(ddata->client, ASUS=
+EC_READ_BUF,
+> > +                                                 ASUSEC_ENTRY_SIZE,
+> > +                                                 ddata->ec_buf);
+> > +             if (ret < ASUSEC_ENTRY_SIZE)
+> > +                     continue;
+> > +
+> > +             if (ddata->ec_buf[ASUSEC_IRQ_STATUS] & ASUSEC_OBF_MASK)
+> > +                     continue;
+> > +
+> > +             break;
+> > +     }
+> > +}
+> > +
+> > +static int asus_ec_log_info(struct asus_ec_data *ddata, unsigned int r=
+eg,
+> > +                         const char *name, const char **out)
+> > +{
+> > +     struct device *dev =3D &ddata->client->dev;
+> > +     u8 buf[ASUSEC_ENTRY_BUFSIZE];
+> > +     int ret;
+> > +
+> > +     memset(buf, 0, ASUSEC_ENTRY_BUFSIZE);
+> > +     ret =3D i2c_smbus_read_i2c_block_data(ddata->ec.dockram, reg,
+> > +                                         ASUSEC_ENTRY_SIZE, buf);
+> > +     if (ret < ASUSEC_ENTRY_SIZE)
+> > +             return ret;
+>
+> Same here.  These should be negative.
+>
+
+return ret < 0 ? ret : -EIO same as above
+
+> > +
+> > +     if (buf[0] > ASUSEC_ENTRY_SIZE) {
+> > +             dev_err(dev, "bad data len; buffer: %*ph; ret: %d\n",
+> > +                     ASUSEC_ENTRY_BUFSIZE, buf, ret);
+> > +             return -EPROTO;
+> > +     }
+> > +
+> > +     if (!ddata->logging_disabled) {
+> > +             dev_info(dev, "%-14s: %.*s\n", name, buf[0], buf + 1);
+> > +
+> > +             if (out) {
+> > +                     *out =3D devm_kasprintf(dev, GFP_KERNEL, "%.*s",
+> > +                                           buf[0], buf + 1);
+> > +                     if (!*out)
+> > +                             return -ENOMEM;
+> > +             }
+> > +     }
+>
+> FWIW, I hate this!  What does it give you now that development is done?
+>
+
+We have already discussed this, and you agreed that EC and firmware
+prints may stay! This prints EC model and firmware info as well as EC
+firmware behavior. It allows identify possible new revisions of EC -
+Firmware combo and address possible regressions (check if it is chip
+malfunction or firmware needs a new programming model) without
+rebuilding kernel and digging downstream kernel for needed bits of
+code.
+
+> > +     return 0;
+> > +}
+> > +
+> > +static int asus_ec_reset(struct asus_ec_data *ddata)
+> > +{
+> > +     int retry, ret;
+> > +
+> > +     guard(mutex)(&ddata->ecreq_lock);
+> > +
+> > +     for (retry =3D 0; retry < ASUSEC_RETRY_MAX; retry++) {
+>
+> for (int return =3D ... is generally preferred for throwaway variables.
+>
+
+Not that I care too much, but I am defining ret anyway, why not add
+retry too there?
+
+>
+> > +             ret =3D i2c_smbus_write_word_data(ddata->client, ASUSEC_W=
+RITE_BUF,
+> > +                                             ASUSEC_RESET);
+> > +             if (!ret)
+> > +                     return 0;
+> > +
+> > +             msleep(ASUSEC_ACCESS_TIMEOUT);
+>
+> I like that this is defined, can we do that with the others please?
+>
+
+I don't see any benefits of defining delays, they are all arbitrary
+and derive from downstream kernel, removing or altering them caused
+malfunction.
+
+> > +     }
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int asus_ec_susb_on_status(struct asus_ec_data *ddata)
+> > +{
+> > +     u64 flag;
+> > +     int ret;
+> > +
+> > +     ret =3D asus_dockram_access_ctl(ddata->ec.dockram, &flag, 0, 0);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     flag &=3D ASUSEC_CTL_SUSB_MODE;
+> > +     dev_info(&ddata->client->dev, "EC FW behaviour: %s\n",
+> > +              flag ? "susb on when receive ec_req" :
+> > +              "susb on when system wakeup");
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int asus_ec_set_factory_mode(struct asus_ec_data *ddata,
+> > +                                 enum asusec_mode fmode)
+> > +{
+> > +     dev_info(&ddata->client->dev, "Entering %s mode.\n",
+> > +              fmode =3D=3D ASUSEC_MODE_FACTORY ? "factory" : "normal")=
+;
+> > +
+> > +     return asus_dockram_access_ctl(ddata->ec.dockram, NULL,
+> > +                                    ASUSEC_CTL_FACTORY_MODE,
+> > +                                    fmode =3D=3D ASUSEC_MODE_FACTORY ?
+> > +                                    ASUSEC_CTL_FACTORY_MODE : 0);
+>
+> Why not create make:
+>
+> ASUSEC_MODE_FACTORY =3D=3D ASUSEC_CTL_FACTORY_MODE
+>
+> What happens to NORMAL?
+>
+
+ASUSEC_CTL_FACTORY_MODE is a bit in the ctl register. For NORMAL mode
+bit is cleared,
+for FACTORY bit it set, for NONE bit is ignored.
+
+> > +}
+> > +
+> > +static int asus_ec_detect(struct asus_ec_data *ddata)
+> > +{
+> > +     int ret;
+> > +
+> > +     ret =3D asus_ec_reset(ddata);
+> > +     if (ret)
+> > +             goto err_exit;
+> > +
+> > +     asus_ec_clear_buffer(ddata);
+> > +
+> > +     ret =3D asus_ec_log_info(ddata, ASUSEC_DOCKRAM_INFO_MODEL, "Model=
+",
+> > +                            &ddata->ec.model);
+>
+> You can use 100-chars and make the code look beautiful! :)
+>
+
+Not every subsystem permits 100 chars, some stick to 80 as a strict
+rule, so it is better be safe.
+
+> > +     if (ret)
+> > +             goto err_exit;
+> > +
+> > +     ret =3D asus_ec_log_info(ddata, ASUSEC_DOCKRAM_INFO_FW, "FW versi=
+on",
+> > +                            NULL);
+> > +     if (ret)
+> > +             goto err_exit;
+> > +
+> > +     ret =3D asus_ec_log_info(ddata, ASUSEC_DOCKRAM_INFO_CFGFMT, "Conf=
+ig format",
+> > +                            NULL);
+> > +     if (ret)
+> > +             goto err_exit;
+> > +
+> > +     ret =3D asus_ec_log_info(ddata, ASUSEC_DOCKRAM_INFO_HW, "HW versi=
+on",
+> > +                            NULL);
+> > +     if (ret)
+> > +             goto err_exit;
+> > +
+> > +     /* Disable logging on next EC request */
+>
+> Why, but why?
+>
+
+Cause EC requests are frequent (handshake/reset) and constant logging
+same data is not acceptable.
+
+> > +     ddata->logging_disabled =3D true;
+> > +
+> > +     /* Check and inform about EC firmware behavior */
+> > +     ret =3D asus_ec_susb_on_status(ddata);
+> > +     if (ret)
+> > +             goto err_exit;
+> > +
+> > +     ddata->ec.name =3D ddata->info->name;
+> > +
+> > +     /* Some EC require factory mode to be set normal on each request =
+*/
+> > +     if (ddata->info->fmode)
+> > +             ret =3D asus_ec_set_factory_mode(ddata, ddata->info->fmod=
+e);
+> > +
+> > +err_exit:
+> > +     if (ret)
+> > +             dev_err(&ddata->client->dev, "failed to access EC: %d\n",=
+ ret);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static void asus_ec_handle_smi(struct asus_ec_data *ddata, unsigned in=
+t code)
+> > +{
+> > +     switch (code) {
+> > +     case ASUSEC_SMI_HANDSHAKE:
+> > +     case ASUSEC_SMI_RESET:
+> > +             asus_ec_detect(ddata);
+> > +             break;
+> > +     }
+> > +}
+> > +
+> > +static irqreturn_t asus_ec_interrupt(int irq, void *dev_id)
+> > +{
+> > +     struct asus_ec_data *ddata =3D dev_id;
+> > +     unsigned long notify_action;
+> > +     int ret;
+> > +
+> > +     ret =3D i2c_smbus_read_i2c_block_data(ddata->client, ASUSEC_READ_=
+BUF,
+> > +                                         ASUSEC_ENTRY_SIZE, ddata->ec_=
+buf);
+> > +     if (ret < ASUSEC_ENTRY_SIZE ||
+> > +         !(ddata->ec_buf[ASUSEC_IRQ_STATUS] & ASUSEC_OBF_MASK))
+>
+> Unwrap for readability.
+>
+> Also, I think a comment would be helpful.
+>
+
+if (ret < ASUSEC_ENTRY_SIZE)
+    return IRQ_NONE;
+
+ret =3D ddata->ec_buf[ASUSEC_IRQ_STATUS] & ASUSEC_OBF_MASK;
+if (!ret)
+    return IRQ_NONE;
+
+This would be acceptable? (I will add comments later on)
+
+> > +             return IRQ_NONE;
+> > +
+> > +     notify_action =3D ddata->ec_buf[ASUSEC_IRQ_STATUS];
+> > +     if (notify_action & ASUSEC_SMI_MASK) {
+> > +             unsigned int code =3D ddata->ec_buf[ASUSEC_SMI_CODE];
+> > +
+> > +             asus_ec_handle_smi(ddata, code);
+> > +
+> > +             notify_action |=3D code << 8;
+> > +     }
+> > +
+> > +     blocking_notifier_call_chain(&ddata->ec.notify_list,
+> > +                                  notify_action, ddata->ec_buf);
+> > +
+> > +     return IRQ_HANDLED;
+> > +}
+> > +
+> > +static void asus_ec_release_dockram_dev(void *client)
+> > +{
+> > +     i2c_unregister_device(client);
+> > +}
+> > +
+> > +static struct i2c_client *devm_asus_dockram_get(struct device *dev)
+> > +{
+> > +     struct i2c_client *parent =3D to_i2c_client(dev);
+> > +     struct i2c_client *dockram;
+> > +     struct dockram_ec_data *ddata;
+> > +     int ret;
+> > +
+> > +     dockram =3D i2c_new_ancillary_device(parent, "dockram",
+> > +                                        parent->addr + 2);
+>
+> Could we define a macro for the address offset '2' here to avoid using a =
+magic
+> number?
+>
+
+It seems that you are excessively concerned with "magic numbers".
+
+> > +     if (IS_ERR(dockram))
+> > +             return dockram;
+> > +
+> > +     ret =3D devm_add_action_or_reset(dev, asus_ec_release_dockram_dev=
+,
+> > +                                    dockram);
+> > +     if (ret)
+> > +             return ERR_PTR(ret);
+> > +
+> > +     ddata =3D devm_kzalloc(&dockram->dev, sizeof(*ddata), GFP_KERNEL)=
+;
+> > +     if (!ddata)
+> > +             return ERR_PTR(-ENOMEM);
+> > +
+> > +     i2c_set_clientdata(dockram, ddata);
+> > +     mutex_init(&ddata->ctl_lock);
+> > +
+> > +     return dockram;
+> > +}
+> > +
+> > +static const struct mfd_cell asus_ec_sl101_dock_mfd_devices[] =3D {
+> > +     MFD_CELL_NAME("asus-transformer-ec-kbc"),
+> > +};
+> > +
+> > +static const struct mfd_cell asus_ec_tf101_dock_mfd_devices[] =3D {
+> > +     MFD_CELL_BASIC("asus-transformer-ec-battery", NULL, NULL, 0, 1),
+> > +     MFD_CELL_BASIC("asus-transformer-ec-charger", NULL, NULL, 0, 1),
+> > +     MFD_CELL_BASIC("asus-transformer-ec-led", NULL, NULL, 0, 1),
+> > +     MFD_CELL_NAME("asus-transformer-ec-keys"),
+> > +     MFD_CELL_NAME("asus-transformer-ec-kbc"),
+> > +};
+> > +
+> > +static const struct mfd_cell asus_ec_tf201_pad_mfd_devices[] =3D {
+> > +     MFD_CELL_NAME("asus-transformer-ec-battery"),
+> > +     MFD_CELL_NAME("asus-transformer-ec-led"),
+> > +};
+> > +
+> > +static const struct mfd_cell asus_ec_tf600t_pad_mfd_devices[] =3D {
+> > +     MFD_CELL_NAME("asus-transformer-ec-battery"),
+> > +     MFD_CELL_NAME("asus-transformer-ec-charger"),
+> > +     MFD_CELL_NAME("asus-transformer-ec-led"),
+> > +};
+> > +
+> > +static int asus_ec_probe(struct i2c_client *client)
+> > +{
+> > +     struct device *dev =3D &client->dev;
+> > +     struct asus_ec_data *ddata;
+> > +     const struct mfd_cell *cells;
+> > +     unsigned int num_cells;
+> > +     unsigned long irqflags;
+> > +     int ret;
+> > +
+> > +     if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_I2C_=
+BLOCK))
+> > +             return dev_err_probe(dev, -ENXIO,
+> > +                     "I2C bus is missing required SMBus block mode sup=
+port\n");
+> > +
+> > +     ddata =3D devm_kzalloc(dev, sizeof(*ddata), GFP_KERNEL);
+> > +     if (!ddata)
+> > +             return -ENOMEM;
+> > +
+> > +     ddata->info =3D device_get_match_data(dev);
+> > +     if (!ddata->info)
+> > +             return -ENODEV;
+> > +
+> > +     switch (ddata->info->variant) {
+> > +     case ASUSEC_SL101_DOCK:
+> > +             cells =3D asus_ec_sl101_dock_mfd_devices;
+> > +             num_cells =3D ARRAY_SIZE(asus_ec_sl101_dock_mfd_devices);
+> > +             break;
+> > +     case ASUSEC_TF101_DOCK:
+> > +             cells =3D asus_ec_tf101_dock_mfd_devices;
+> > +             num_cells =3D ARRAY_SIZE(asus_ec_tf101_dock_mfd_devices);
+> > +             break;
+> > +     case ASUSEC_TF201_PAD:
+> > +             cells =3D asus_ec_tf201_pad_mfd_devices;
+> > +             num_cells =3D ARRAY_SIZE(asus_ec_tf201_pad_mfd_devices);
+> > +             break;
+> > +     case ASUSEC_TF600T_PAD:
+> > +             cells =3D asus_ec_tf600t_pad_mfd_devices;
+> > +             num_cells =3D ARRAY_SIZE(asus_ec_tf600t_pad_mfd_devices);
+> > +             break;
+> > +     default:
+> > +             return dev_err_probe(dev, -EINVAL,
+> > +                                  "unknown device variant %d\n",
+> > +                                  ddata->info->variant);
+> > +     }
+> > +
+> > +     i2c_set_clientdata(client, ddata);
+> > +     ddata->client =3D client;
+> > +
+> > +     ddata->ec.dockram =3D devm_asus_dockram_get(dev);
+> > +     if (IS_ERR(ddata->ec.dockram))
+> > +             return dev_err_probe(dev, PTR_ERR(ddata->ec.dockram),
+> > +                                  "failed to get dockram\n");
+> > +
+> > +     ddata->ecreq_gpio =3D devm_gpiod_get(dev, "request", GPIOD_OUT_LO=
+W);
+> > +     if (IS_ERR(ddata->ecreq_gpio))
+> > +             return dev_err_probe(dev, PTR_ERR(ddata->ecreq_gpio),
+> > +                                  "failed to get EC request GPIO\n");
+> > +
+> > +     BLOCKING_INIT_NOTIFIER_HEAD(&ddata->ec.notify_list);
+> > +     mutex_init(&ddata->ecreq_lock);
+> > +
+> > +     asus_ec_signal_request(ddata);
+> > +
+> > +     ret =3D asus_ec_detect(ddata);
+> > +     if (ret)
+> > +             return dev_err_probe(dev, ret, "failed to detect EC versi=
+on\n");
+> > +
+> > +     /*
+> > +      * Systems using device tree should set up interrupt via DTS,
+> > +      * the rest will use the default low interrupt.
+> > +      */
+> > +     irqflags =3D dev->of_node ? 0 : IRQF_TRIGGER_LOW;
+> > +
+> > +     ret =3D devm_request_threaded_irq(dev, client->irq, NULL,
+> > +                                     &asus_ec_interrupt,
+> > +                                     IRQF_ONESHOT | irqflags,
+> > +                                     client->name, ddata);
+> > +     if (ret)
+> > +             return dev_err_probe(dev, ret, "failed to register IRQ\n"=
+);
+> > +
+> > +     /* Parent I2C controller uses DMA, ASUS EC and child devices do n=
+ot */
+> > +     client->dev.coherent_dma_mask =3D 0;
+> > +     client->dev.dma_mask =3D &client->dev.coherent_dma_mask;
+> > +
+> > +     return devm_mfd_add_devices(dev, 0, cells, num_cells, NULL, 0, NU=
+LL);
+> > +}
+> > +
+> > +static const struct asus_ec_chip_info asus_ec_sl101_dock_data =3D {
+> > +     .name =3D "dock",
+> > +     .variant =3D ASUSEC_SL101_DOCK,
+> > +     .fmode =3D ASUSEC_MODE_NONE,
+> > +};
+> > +
+> > +static const struct asus_ec_chip_info asus_ec_tf101_dock_data =3D {
+> > +     .name =3D "dock",
+> > +     .variant =3D ASUSEC_TF101_DOCK,
+> > +     .fmode =3D ASUSEC_MODE_NONE,
+> > +};
+> > +
+> > +static const struct asus_ec_chip_info asus_ec_tf201_pad_data =3D {
+> > +     .name =3D "pad",
+> > +     .variant =3D ASUSEC_TF201_PAD,
+> > +     .fmode =3D ASUSEC_MODE_NORMAL,
+> > +};
+> > +
+> > +static const struct asus_ec_chip_info asus_ec_tf600t_pad_data =3D {
+> > +     .name =3D "pad",
+> > +     .variant =3D ASUSEC_TF600T_PAD,
+> > +     .fmode =3D ASUSEC_MODE_NORMAL,
+> > +};
+>
+> Any reason not to just pass the identifier (variant) and add the name
+> and fmode attribues to the switch() above?
+
+Why not set it here, I am not passing any mfd or any other API via of data.
+
+> > +
+> > +static const struct of_device_id asus_ec_match[] =3D {
+> > +     {
+> > +             .compatible =3D "asus,sl101-ec-dock",
+> > +             .data =3D &asus_ec_sl101_dock_data
+> > +     }, {
+> > +             .compatible =3D "asus,tf101-ec-dock",
+> > +             .data =3D &asus_ec_tf101_dock_data
+> > +     }, {
+> > +             .compatible =3D "asus,tf201-ec-pad",
+> > +             .data =3D &asus_ec_tf201_pad_data
+> > +     }, {
+> > +             .compatible =3D "asus,tf600t-ec-pad",
+> > +             .data =3D &asus_ec_tf600t_pad_data
+> > +     },
+> > +     { /* sentinel */ }
+> > +};
+> > +MODULE_DEVICE_TABLE(of, asus_ec_match);
+> > +
+> > +static struct i2c_driver asus_ec_driver =3D {
+> > +     .driver =3D {
+> > +             .name =3D "asus-transformer-ec",
+> > +             .of_match_table =3D asus_ec_match,
+> > +     },
+> > +     .probe =3D asus_ec_probe,
+> > +};
+> > +module_i2c_driver(asus_ec_driver);
+> > +
+> > +MODULE_AUTHOR("Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.pl>");
+> > +MODULE_AUTHOR("Svyatoslav Ryhel <clamor95@gmail.com>");
+> > +MODULE_DESCRIPTION("ASUS Transformer's EC driver");
+> > +MODULE_LICENSE("GPL");
+> > diff --git a/include/linux/mfd/asus-transformer-ec.h b/include/linux/mf=
+d/asus-transformer-ec.h
+> > new file mode 100644
+> > index 000000000000..f085eea2193e
+> > --- /dev/null
+> > +++ b/include/linux/mfd/asus-transformer-ec.h
+> > @@ -0,0 +1,92 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > +#ifndef __MFD_ASUS_TRANSFORMER_EC_H
+> > +#define __MFD_ASUS_TRANSFORMER_EC_H
+> > +
+> > +#include <linux/notifier.h>
+> > +#include <linux/platform_device.h>
+> > +
+> > +struct i2c_client;
+> > +
+> > +/**
+> > + * struct asusec_core - public part shared with all cells
+> > + *
+> > + * @model: firmware version running on the EC
+> > + * @name: prefix associated with the EC
+> > + * @dockram: pointer to Dockram's i2c_client
+> > + * @notify_list: notify list used by cells
+> > + */
+> > +struct asusec_core {
+> > +     const char *model;
+> > +     const char *name;
+> > +     struct i2c_client *dockram;
+> > +     struct blocking_notifier_head notify_list;
+> > +};
+> > +
+> > +#define ASUSEC_ENTRIES                       0x100
+> > +#define ASUSEC_ENTRY_SIZE            32
+> > +#define ASUSEC_ENTRY_BUFSIZE         (ASUSEC_ENTRY_SIZE + 1)
+> > +
+> > +/* interrupt sources */
+> > +#define ASUSEC_IRQ_STATUS            1
+> > +#define ASUSEC_OBF_MASK                      BIT(0)
+> > +#define ASUSEC_KEY_MASK                      BIT(2)
+> > +#define ASUSEC_KBC_MASK                      BIT(3)
+> > +#define ASUSEC_AUX_MASK                      BIT(5)
+> > +#define ASUSEC_SCI_MASK                      BIT(6)
+> > +#define ASUSEC_SMI_MASK                      BIT(7)
+> > +
+> > +/* SMI notification codes */
+> > +#define ASUSEC_SMI_CODE                      2
+> > +#define ASUSEC_SMI_POWER_NOTIFY              0x31    /* USB cable plug=
+ event */
+> > +#define ASUSEC_SMI_HANDSHAKE         0x50    /* response to ec_req edg=
+e */
+> > +#define ASUSEC_SMI_WAKE                      0x53
+> > +#define ASUSEC_SMI_RESET             0x5f
+> > +#define ASUSEC_SMI_ADAPTER_EVENT     0x60    /* charger to dock plug e=
+vent */
+> > +#define ASUSEC_SMI_BACKLIGHT_ON              0x63
+> > +#define ASUSEC_SMI_AUDIO_DOCK_IN     0x70
+> > +
+> > +#define ASUSEC_SMI_ACTION(code)              (ASUSEC_SMI_MASK | ASUSEC=
+_OBF_MASK | \
+> > +                                     (ASUSEC_SMI_##code << 8))
+> > +
+> > +/* control register [0x0a] layout */
+> > +#define ASUSEC_CTL_SIZE                      8
+> > +
+> > +/*
+> > + * EC reports power from 40-pin connector in the LSB of the control
+> > + * register.  The following values have been observed (xor 0x02):
+> > + *
+> > + * PAD-ec no-plug  0x40 / PAD-ec DOCK     0x20 / DOCK-ec no-plug 0x40
+> > + * PAD-ec AC       0x25 / PAD-ec DOCK+AC  0x24 / DOCK-ec AC      0x25
+> > + * PAD-ec USB      0x45 / PAD-ec DOCK+USB 0x24 / DOCK-ec USB     0x41
+> > + */
+> > +
+> > +#define ASUSEC_CTL_DIRECT_POWER_SOURCE       BIT_ULL(0)
+> > +#define ASUSEC_STAT_CHARGING         BIT_ULL(2)
+> > +#define ASUSEC_CTL_FULL_POWER_SOURCE BIT_ULL(5)
+> > +#define ASUSEC_CTL_SUSB_MODE         BIT_ULL(9)
+> > +#define ASUSEC_CMD_SUSPEND_S3                BIT_ULL(33)
+> > +#define ASUSEC_CTL_TEST_DISCHARGE    BIT_ULL(35)
+> > +#define ASUSEC_CMD_SUSPEND_INHIBIT   BIT_ULL(37)
+> > +#define ASUSEC_CTL_FACTORY_MODE              BIT_ULL(38)
+> > +#define ASUSEC_CTL_KEEP_AWAKE                BIT_ULL(39)
+> > +#define ASUSEC_CTL_USB_CHARGE                BIT_ULL(40)
+> > +#define ASUSEC_CTL_LED_BLINK         BIT_ULL(40)
+> > +#define ASUSEC_CTL_LED_AMBER         BIT_ULL(41)
+> > +#define ASUSEC_CTL_LED_GREEN         BIT_ULL(42)
+> > +#define ASUSEC_CMD_SWITCH_HDMI               BIT_ULL(56)
+> > +#define ASUSEC_CMD_WIN_SHUTDOWN              BIT_ULL(62)
+> > +
+> > +#define ASUSEC_DOCKRAM_INFO_MODEL    0x01
+> > +#define ASUSEC_DOCKRAM_INFO_FW               0x02
+> > +#define ASUSEC_DOCKRAM_INFO_CFGFMT   0x03
+> > +#define ASUSEC_DOCKRAM_INFO_HW               0x04
+> > +#define ASUSEC_DOCKRAM_CONTROL               0x0a
+> > +#define ASUSEC_DOCKRAM_BATT_CTL              0x14
+> > +
+> > +#define ASUSEC_WRITE_BUF             0x64
+> > +#define ASUSEC_READ_BUF                      0x6a
+> > +
+> > +int asus_dockram_access_ctl(struct i2c_client *client,
+> > +                         u64 *out, u64 mask, u64 xor);
+> > +
+> > +#endif /* __MFD_ASUS_TRANSFORMER_EC_H */
+> > --
+> > 2.51.0
+> >
+>
+> --
+> Lee Jones
 
