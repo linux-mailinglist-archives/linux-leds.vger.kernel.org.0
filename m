@@ -1,125 +1,121 @@
-Return-Path: <linux-leds+bounces-8592-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8593-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id MiBDElGbL2qSDAUAu9opvQ
-	(envelope-from <linux-leds+bounces-8592-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Jun 2026 08:27:29 +0200
+	id L2+KEqabL2qlDAUAu9opvQ
+	(envelope-from <linux-leds+bounces-8593-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Jun 2026 08:28:54 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94FA7683C8A
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Jun 2026 08:27:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1F42683CAF
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Jun 2026 08:28:53 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="l6/470yY";
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8592-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8592-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=cTMHsIa5;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8593-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8593-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 057FA30078DF
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Jun 2026 06:23:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3CF1B3026F0C
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Jun 2026 06:25:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A099C2BE02C;
-	Mon, 15 Jun 2026 06:23:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AD1B3B0AFC;
+	Mon, 15 Jun 2026 06:25:39 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AA22F83A2
-	for <linux-leds@vger.kernel.org>; Mon, 15 Jun 2026 06:23:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B933A0E80
+	for <linux-leds@vger.kernel.org>; Mon, 15 Jun 2026 06:25:37 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781504609; cv=pass; b=Q35YukwY4aQLfe2Q8abLGcYEz0VQkiW0d7VMQFGMiXhpqW7RUah06RI3mxu66fOwyr0IBdsDZN748SpvYfG7YRWgRODf6RFxzyZJnWAxulfCehR+zLPpUyYXeEtTPYUkoMh79JrCgR6k+7/gQjiViVbgAtazFhrI0GrJIhf49q0=
+	t=1781504739; cv=pass; b=uPfYB2z/vNnU8qYKd/J9+F7DQDboSPeimC7Ad61UOIw37Ad53GrAMHVVCaqxQdPYLB33lig1TEgdhYOiUI8vk431ab9dnQTkP4z9gIWIjvhWIcV6/eI0+VzHgwNSupow9PLkBNR1r4spqGV+ruaG8Hd5FJE792IkpeXcLWHDK1g=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781504609; c=relaxed/simple;
-	bh=6RrxEbtdY1URcRhqUHuv6rRPkusZoYqTLT3CjAAQOGM=;
+	s=arc-20240116; t=1781504739; c=relaxed/simple;
+	bh=cTBQJdmyijZHrpb9w8OjvsAHRwSnSuXQJu22SvXmwsU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bS37sgcFHZBlIbMI4g73t4pPQfjSId9zAkFlVXgEwcA0Dhv/fYhGAV39iGUuOtgYuza1yY4F2YB08qAqaYRyyIkQ5Ud4CdQ+qGp9tvwRiwFtjfWdzhGkMFYqcJaBLERDhgMoSVfrwJPQxltj1CiYQgwvio2FdaOhXmTueGczA8w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l6/470yY; arc=pass smtp.client-ip=74.125.82.171
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-30749947917so453400eec.1
-        for <linux-leds@vger.kernel.org>; Sun, 14 Jun 2026 23:23:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781504608; cv=none;
+	 To:Cc:Content-Type; b=dVVazHO8dbQ8920yXGs50LO1LukhZ2yBi9hFHIIbqPYeXPzbr4rTnrEypE5w4pCiGPj3Klx1OMvw7poynNA0VUhzBR20YvCxcv4JMGwsZ92fHdvfa5mSXiTNmx1Tu7D55EJv+rMl9IGdm2GKP+lqErqS0QgeeMRJWZj6Y7l3iio=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cTMHsIa5; arc=pass smtp.client-ip=74.125.82.181
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-30b932e4bf1so334566eec.0
+        for <linux-leds@vger.kernel.org>; Sun, 14 Jun 2026 23:25:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781504737; cv=none;
         d=google.com; s=arc-20240605;
-        b=JQ9xmLdLpw3OxuVbP5Wi/tJLmfnqEnrRqMkjbEWGDBM6LYTgrhfM0krGLQTe3yR00/
-         a/7KAZqj0BvARNPnKmqJstFPHMV7N71lhf/nA/wtYGvbu4jB8xvIQMXhE3hwdw0wNAf/
-         pa9luM87HWqE6hBrJU3c6rATo9LzA0Vi6KJtswcBciGRY2eXZLsz5YksPTnjlvdEjhEp
-         KNDdLgPkOC/D5ALSetxZFZfbsPBFYujyLxaomjBTM0Mb1qf4r65tQ/ggKa5gcrFmv6BY
-         JdsE7D5RO5nTdhnsTqbCMTYRvQzCWO5osUO9hpicNhNlCrCsDoKCOvoQME14CgTbueQK
-         ThFA==
+        b=FJgmIb3lna0bYLkvO1u7Z9btM8UsgSN53clatv3rNhTNGrlyuT2KWHMmLHAVSKvb4a
+         /nRnJVVPeJ05ZSNNZvf03klMWrzcCK54B64U6w9KwyooWMOf4D9XmqBAsZQMukZ3YgBc
+         YhNuB2/y9hi7iaqVNBF8UEFzMQRX4p9iY7zGbD/4FCS7CF2YtHGQgbBsd2fQU8/UFbu7
+         HPXEsyPWV5v8aG26ywOiZTqat85E/jrTk55wmxmC8VEfrm14GpjRFbMNLJZ5e8KdiZc5
+         JKfkjtrrm8ipPI72Agcxyfw8YduknLn7fRDUXI+JtUt4JkgmORvkzGH6q6YjjgkrZC42
+         XESg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=76EcjshEI0S52XWKwaYtOS0vh7v35QH2XSqyWXuOjik=;
-        fh=Q5tpXm80qYh5L9WZLZrIqZ9R7bhl5OpCkZw1ge50x2w=;
-        b=THIYf8Ms/PIIa8ixoOgosO15jh5rF8DlLNyClcK4pHdJN7hk2rjK2F88DSEJ9lSAY1
-         4C0glFcfK0BDsqMnl5RicVQ0Kk/nuiAbhG9oZH1Zh3QKUplnUQlxbNbmVguNcykbEiFB
-         fF6+P7r5NS5fA/TSB8qexr/NX04oSlDwW5N1I0qN7I0VABLrSFbPsJgrI9Xvk3EH6EfB
-         DqGQHo3cqBCHw60ym/s7IPtBytXAE59lQlgSC3psXfazm2JI6yneSNo+sY85SH1fGdc7
-         CaBH1owCG7hCrHoVGNVHNXqyuFVIaW+6149O68BVPplzMfu8bKhhWPb9hlefatpfa6Gl
-         bpNA==;
+        bh=cTBQJdmyijZHrpb9w8OjvsAHRwSnSuXQJu22SvXmwsU=;
+        fh=A6c6lG2tRMpVo4ymfdFLMXZEwoICTLlPGBWnwV4pbhw=;
+        b=j4DWBlU8SJ8tqMnW6jW5Be+PqLYXYQOzij81g/LXR1AaR5bwCGdUYxYrfoahtu+hn4
+         WSebCgxX9oYQdN9QH5sFds85dLBstjscYhiV93jEFfHnOLPkng/kTELIB8hacqE7TON0
+         17x7Bsl7xUmG+N1lC0RyRhuz7nh+3qMuM/RDF1fk4YRlo/yufn8Benb2HCUxHnxkvZcn
+         yO6t80CF+80NOo/FS+d01YsKvef3OsM8W/11y9rTZNVFQjwC0i9eQDuoFmazxLxSSpsD
+         DnrTG7xKuc2oJfaA7VQsvunMeEy1rVKPZvmOYH8Dtx8gqJ2ag/PziNR1McXFq2JzIJvR
+         +rjQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781504608; x=1782109408; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781504737; x=1782109537; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=76EcjshEI0S52XWKwaYtOS0vh7v35QH2XSqyWXuOjik=;
-        b=l6/470yYabGu6XgvM5OFyCNHNsAhvW6UJ4Siw90FNHfR3fvG+Wlux3PZPKM/ki02sS
-         WZ+rhn4nFhT9cxcq8Ymo2usB1z/IJxQGtqsxPVDNAfCnhN2NqPoyAOkxywhZRYTc2Yl6
-         aGhHgsUblQwTZzBuykJBzxWok4HF3USQ4LSvHr1cwLnrdYsp9gm1SZqV9JuLA9OhJAFS
-         THwcGloLyjqtvfUmiF5A1qqRfV2r3oPfvk2VIGyUeNUKJj38+KQK1/aiHMu1J0ekpwrs
-         7JguB3zU53LVT83ZAfLghEE8TTaB6QChcwY9tDxiqKOPG/JEeIBWRm0c/DkobKb/7Uh3
-         t85A==
+        bh=cTBQJdmyijZHrpb9w8OjvsAHRwSnSuXQJu22SvXmwsU=;
+        b=cTMHsIa5P/7U2nvFp1XtT4YU52P9TZl+jkyLhai9jXpPqmHGWWivrdB4lNMpD/aIDw
+         oMTv+HKPnnWV11vmD2KxwZ13u6Cd4ZLlVWCK5CqDz5po2hb95mjRYg+FohYJCQoktGRF
+         0SzTvDsbhwIPLb9Upp9AKKAOlE2aHewDTeFX7rVP+mMwMzEdTTsXs4PB9pCu9V+8g+0j
+         1VKTho5e/u7Yb50GJy3djZoDVgWFQehJhGJpedTZ9BqMA8/aBbGQ8dfVByHyUOSNLM0m
+         5jA560dDpYP+g8y0BE99TvMmltMRBljwT0b/hg4I/za0XBU85tqtyaUFrNyKiumeyegJ
+         QZMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781504608; x=1782109408;
+        d=1e100.net; s=20251104; t=1781504737; x=1782109537;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=76EcjshEI0S52XWKwaYtOS0vh7v35QH2XSqyWXuOjik=;
-        b=HywrM957d9DsKVOzIpKZSvB1LgnEEt+rt/7afl9BrpvBG5fLG/HAxDfJTtsAbfCBr4
-         nHxAJVkLy4y0IipaDivIq1kwkZ/Rqbt0+ssy0ZmopUGTi5P0JGniYh9BW5hV9jWPvJzC
-         9CJcrsJXPDndQBCTOmu1SCCEXtahkW3ui13U/5rVt3JswIhzj5UfAcjF4gVDYinLs1vI
-         MC3uG41zRzdz8PQq51v/CBXaFRAUJeJUH7HTjhEt8auV26t7q84ge50gIo4TGzHj054+
-         aTuNuBYxl1SuD2rNeE+s0jDZSncAEgLWeEQ0Hx6C4GmkQB2OcnPRyfe5pFd1QonSeJgy
-         T29A==
-X-Forwarded-Encrypted: i=1; AFNElJ91ibuFZQ0TDfhhb0Iy/xqobty6uYa0F3X/IhyC9bsuVT5M2I+OrkU1mlfIgChI8/8g6OSsR5aesC2q@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDcv7bVEht63cz0pgEUFkLghTJgXiZ6ES6MtRXtazApvaTkWxL
-	vWnGngJAK464DD+KC7rtwlYCUlf+pbt4GkPGKHkZKy4FDyhq0FJ2oNxNiGLlHKYZf5hfq5KLGbu
-	qxR29qdU/64cqJ2hQmXmoFptgn1QRgxbBcKdtf/Q=
-X-Gm-Gg: Acq92OHrZimJ6axmt+DJ0u5G90Ir6H/O+QrEaBB4jacNkur0d21M93S2k6paCN0EG83
-	jCXoM8RUD/epo13vZRinq+2DxJ91BdGf95bov1YUr1RtO32QlK4GCT2fDfXamROMRnW8qcLey9x
-	BGWshp94XGUt5A8s19zaQc5ZtnyiyR/OcqXd7A0llzzzxRjsWgzWXz1lHE8tfTTwOewBrTnBqdd
-	c6SWLJEORMC8sXSZkq1IOyQLEzSvFlfdc0ykhHX+HnAmQKNRamhufRvGThP9ck5JWvX/liR8cWC
-	vZKrE2Nu
-X-Received: by 2002:a05:7300:3723:b0:2ed:e15:c922 with SMTP id
- 5a478bee46e88-3094197a175mr4911122eec.30.1781504607592; Sun, 14 Jun 2026
- 23:23:27 -0700 (PDT)
+        bh=cTBQJdmyijZHrpb9w8OjvsAHRwSnSuXQJu22SvXmwsU=;
+        b=R3RKuHyP0x/Gr6Hk+4qjzjyZkd77b/PlB6do7uDle4gcVHrdtev7dzIosbtyhXeBR/
+         NiUUsZxK0JfxUcOZlbRV89NcZl1kXSOHYrZis+c1mRyesHjktXLgjEr6hIBTA6Nsh9y9
+         CX0UZw8TCIoFT4Avz9k60ZbGYEyNdih2Xgqkbw2TQjPnH/7CWo4tALalt/+WoqMlkqIb
+         /dhAfieTEriG5U4CaJjY7GpVfbw6ms3N3udwXcx5lL27vZ3a9d8qz64CcVdZo33Q/CP5
+         A3In+0L+IF+WMaYXBe5QE0HVn2F7eXNW8X0g0fjU2TNXFl2nFJuuLJj7DFkw1XN1X0Av
+         NHmQ==
+X-Forwarded-Encrypted: i=1; AFNElJ92osVyU8StypI/htlMzlMytJM+iPzfOhOuWKPXccZvwKuJPZ+eNmfxR7XkOwjZ7rdtlVAJCI44MFV9@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLRsddPsIrDZm9D34U0IUDTU5vFgp7wLbofeQvOa53NuXzgXC5
+	+wpeOf1XX9ugsts12F7UAlL94tyr/Ohr6We/EJZiQWMJh9Xyfi8uu4G3bGOgPT1VWjrJUnIXfJt
+	de5rK1mddDIwsxzdh5U+C/69YGfzl9bw=
+X-Gm-Gg: Acq92OFagLv3UgPvA/5d6O7uxvviEELU6iRCFL6KlIErIn8pByqgmzQFgmM+wgDr1Lc
+	zE+sBoezIFlp90ccEjUQfUTFQ2BrkstY7sW+NX80z29eY3V1IrmglfUBwBTDlh0J+iZjmeTZV+i
+	+lVzi1HMoIJRv8NWdD85PMS1O4Meh8KSOyQO9APEkXcAyarkdoeoyWCGwljvEVGrhG0sLzXztLd
+	syZScvdQPX4Hxt8Tes9iczxbXT9n1m667henjufgcIdH4ZTgjoBuCwwvq4kBHqGq5EOPJFbbHdf
+	iaNHj0le
+X-Received: by 2002:a05:7300:2d09:b0:304:3c33:7ad4 with SMTP id
+ 5a478bee46e88-3093a514e9cmr4694274eec.13.1781504737180; Sun, 14 Jun 2026
+ 23:25:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260528053203.9339-1-clamor95@gmail.com> <20260528053203.9339-5-clamor95@gmail.com>
-In-Reply-To: <20260528053203.9339-5-clamor95@gmail.com>
+References: <20260520182124.117863-1-clamor95@gmail.com> <20260527151432.GE671544@google.com>
+In-Reply-To: <20260527151432.GE671544@google.com>
 From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Mon, 15 Jun 2026 09:23:16 +0300
-X-Gm-Features: AVVi8CfYtPBR17uEYmSCkdqsGtwveF8FuLfNiOAFFFOH2flEclU8yKRNkxPiLtw
-Message-ID: <CAPVz0n0cgb=ht+uW9+g8q9524BBQdPLNczK_9nSdrk=8kZSV7Q@mail.gmail.com>
-Subject: Re: [PATCH v8 4/7] input: keyboard: Add driver for ASUS Transformer
- dock multimedia keys
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	=?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, 
-	Ion Agorria <ion@agorria.com>, Svyatoslav Ryhel <clamor95@gmail.com>, Sebastian Reichel <sre@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Lee Jones <lee@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-pm@vger.kernel.org
+Date: Mon, 15 Jun 2026 09:25:26 +0300
+X-Gm-Features: AVVi8Cfj4CFtRay_yHgb9x-k9rdyWbOqU0lnoe6TjkW8GjWPr84WyPCoGmkU928
+Message-ID: <CAPVz0n33PRWgLHqaD_wVr+Dji+22Bm2gCdA1cSMLuKHYJ4T5iw@mail.gmail.com>
+Subject: Re: [PATCH v6 0/6] mfd: cpcap: convert documentation to schema and
+ add Mot board support
+To: Lee Jones <lee@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
@@ -127,59 +123,57 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.torokhov@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:mirq-linux@rere.qmqm.pl,m:ion@agorria.com,m:clamor95@gmail.com,m:sre@kernel.org,m:pavel@kernel.org,m:lee@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-leds@vger.kernel.org,m:linux-pm@vger.kernel.org,m:dmitrytorokhov@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-8592-lists,linux-leds=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:dmitry.torokhov@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:pavel@kernel.org,m:linux-input@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-leds@vger.kernel.org,m:dmitrytorokhov@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	TAGGED_FROM(0.00)[bounces-8593-lists,linux-leds=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,rere.qmqm.pl,agorria.com,gmail.com,vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 94FA7683C8A
+X-Rspamd-Queue-Id: E1F42683CAF
 
-=D1=87=D1=82, 28 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 08:3=
-2 Svyatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
+=D1=81=D1=80, 27 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 18:1=
+4 Lee Jones <lee@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
 >
-> From: Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.pl>
+> On Wed, 20 May 2026, Svyatoslav Ryhel wrote:
 >
-> Add support for multimedia top button row of ASUS Transformer's Mobile
-> Dock keyboard. Driver is made that function keys (F1-F12) are used by
-> default which suits average Linux use better and with pressing
-> ScreenLock + AltGr function keys layout is switched to multimedia keys.
-> Since this only modifies codes sent by asus-ec-keys it doesn't affect
-> normal keyboards at all.
+> > The initial goal was only to add support for the CPCAP used in the Mot
+> > Tegra20 board; however, since the documentation was already partially
+> > converted, I decided to complete the conversion to schema too.
+> >
+> > The CPCAP regulator, leds, rtc, pwrbutton and core files were converted
+> > from TXT to YAML while preserving the original structure. Mot board
+> > compatibility was added to the regulator and core schema. Since these
+> > were one-line patches, they were not separated into dedicated commits;
+> > however, the commit message notes this for both cases.
+> >
+> > Finally, the CPCAP MFD was slightly refactored to improve support for
+> > multiple subcell compositions.
 >
-> Co-developed-by: Ion Agorria <ion@agorria.com>
-> Signed-off-by: Ion Agorria <ion@agorria.com>
-> Signed-off-by: Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.pl>
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  drivers/input/keyboard/Kconfig                |  10 +
->  drivers/input/keyboard/Makefile               |   1 +
->  .../input/keyboard/asus-transformer-ec-keys.c | 286 ++++++++++++++++++
->  3 files changed, 297 insertions(+)
->  create mode 100644 drivers/input/keyboard/asus-transformer-ec-keys.c
->
+> Once you've fixed the DT issues that Rob pointed out, I'll merge the set.
 
-Hello Dmitry! May you please take a look and Ack it if you are fine
-this this driver or tell what I should adjust? That would be very
-helpful. Thank you.
+Hello Lee! This patchset already contains fixes Rob pointed to. May
+you please merge it?
+
+> --
+> Lee Jones
 
