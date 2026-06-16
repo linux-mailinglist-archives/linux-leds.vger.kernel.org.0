@@ -1,53 +1,53 @@
-Return-Path: <linux-leds+bounces-8611-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8612-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id X034AKvNMGoBXgUAu9opvQ
-	(envelope-from <linux-leds+bounces-8611-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Jun 2026 06:14:35 +0200
+	id JVpXKAnOMGoPXgUAu9opvQ
+	(envelope-from <linux-leds+bounces-8612-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jun 2026 06:16:09 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599D168BCEA
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Jun 2026 06:14:34 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F281D68BD12
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jun 2026 06:16:08 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="D+7fRE/2";
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8611-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-leds+bounces-8611-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=YyLE65j0;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8612-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8612-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5A831301946D
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Jun 2026 04:14:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C1817305ECCB
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jun 2026 04:16:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC6133C5838;
-	Tue, 16 Jun 2026 04:14:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 569393C3C16;
+	Tue, 16 Jun 2026 04:16:07 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5110A35F5E6;
-	Tue, 16 Jun 2026 04:14:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7E612E1DC;
+	Tue, 16 Jun 2026 04:16:06 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781583272; cv=none; b=dP3c6yO3bx/m3J/ssfV95mzjk7sGA/NZSKoET3LjySMJXNK9TvRpzP1A5ainMp149vBCajkh+nVxhAM3peb4yjww6uudmGxS36eDkN2gfI2aUgSMmuW1wJkRXRE12yGdT2CpC/+XUCNYZKSpiUVUHh8eeuMyb60OUXmm4P8QGgc=
+	t=1781583367; cv=none; b=Gvb5ZVlkwizZ7u/8vz0LquOLG1rVZkWB6Mslm2EYrHOx7vOEANX+r3pBa1mzRpDChI1NKY7c1VEUh/xwBf1FUgMil1s/LGgEXNHzcEd1QlwldV4bTn7SJO8GrV6zBuaLe/vqOMRdq7TjZRchtymncRxjvlVlPO4aDhXJ4ebAHVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781583272; c=relaxed/simple;
-	bh=xxdUORxWbvErtRd31xWtGb9ULllIwe+InORzOULRTYE=;
+	s=arc-20240116; t=1781583367; c=relaxed/simple;
+	bh=Choh5NumvJUZegOWPYGc5yRa3ZnazPise1Y/urR+VjI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L3TUyvGsO+TajgG31T4OV07e3QyTuxM230qDzMEHiM0bkAg/M6KQFKrxJNZ4DxZWStlqVgBYC1iNtl/OYxQLwbPWfHaVx77ixUn4ZrQNuUQzIqeALxVyXwE3Q1JEmT/DsXhphXjYlMZRc78PirLotnZ5MV95RA6MAk7637vB25Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D+7fRE/2; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B44521F000E9;
-	Tue, 16 Jun 2026 04:14:26 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=XYGjGcTu36LPGcm05R7FDgxkeW23qHvnnFcXwOyohOHGwpb5PBhfK845SA5hg5l2xAIy0uEAKGl7i3FU6WfM4PZMjSesboc8+b8UhRSPvXeWfLJKuxYQUSk3wndgOk9gMfVbaywZEai3TrL4HUB0ScKRfhCR141jLLwz0gIsHUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YyLE65j0; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDFF11F000E9;
+	Tue, 16 Jun 2026 04:16:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781583270;
-	bh=yF6T44Uu+Hks9wc+cjl/ajpTObo8218Q80E0x7BrTXE=;
+	s=k20260515; t=1781583365;
+	bh=XDn8oxMM1VRPTqpYZNf6XqVzqADEC8YdwMaTnJOJoC4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=D+7fRE/2RMD/gGabASwdhNLsuiOIaumvr7s7InRsZCW8TuoqHmlgIphRV5QiPByex
-	 Kuphajh+PyfU+clB52m3Olrl+tYKjejM18ongtls+kWrmRJx+Vf3BwtkWwzxM8wa3P
-	 BAjH2JLEc3b1etlSNzTLqlgC95MAaVW9k9ww7khiffqq0GQNnu+5WH6lSYbnxq2Xap
-	 4vl6qD1PPALRuZs35b45C8VLfTbLQ408M2kfyDXjkBkFuGECSI9dX7qEBtUIEOK4dm
-	 X9RaCXu2Mcfvmfg95OLC8AsET2BcNjU5cK5cZTgP1GDxOXn5Ouuat0QRfWuZA+swzz
-	 B+nUI8/ro+BkQ==
-Message-ID: <7dd8dcf3-5aec-442a-941e-7564936befa9@kernel.org>
-Date: Tue, 16 Jun 2026 06:14:24 +0200
+	b=YyLE65j0EE5/qG5lSypqS1ijivRutmTw9xnb2hZFu+oPGi0CoYTyGTPAXSmuDqEc3
+	 i9B4zc2erEYutm0PJpxrZ+wzigGPoxDOcw/FI3LT/I0V9O+13p0sanbo7PWAZrMHGR
+	 P4JXVhTsPp76yaTee+5N6LNl9CDkHxHjyvqQQ1koyD9klwOLp+pP4Sq7TTbKiApZt6
+	 /NgALGCcEbmjbqJaBM5Vq+W7KUbsnwzcLpKg1YmfdDdWC87U37QsbHLiWic+f5/TqU
+	 QEEDRuHLMtkmz4Z8MDuHjV9mZwWs3IXZGaXkT/Bes59FCoCdzQpQzobetl4Ki8jauz
+	 sAOb0p1NnPrXA==
+Message-ID: <802fd953-e4ba-4cf5-8751-a4cb3faecdd7@kernel.org>
+Date: Tue, 16 Jun 2026 06:15:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -55,8 +55,8 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: mfd: s2mu005-pmic: reorder reg and
- interrupts properties
+Subject: Re: [PATCH 2/3] dt-bindings: mfd: s2mu005-pmic: drop compatible
+ property for multi-led node
 To: Kaustabh Chakraborty <kauschluss@disroot.org>,
  =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
  Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -65,7 +65,7 @@ To: Kaustabh Chakraborty <kauschluss@disroot.org>,
 Cc: linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
  devicetree@vger.kernel.org, linux-leds@vger.kernel.org
 References: <20260616-s2mu005-pmic-supplement-v1-0-41e84518b711@disroot.org>
- <20260616-s2mu005-pmic-supplement-v1-1-41e84518b711@disroot.org>
+ <20260616-s2mu005-pmic-supplement-v1-2-41e84518b711@disroot.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -111,7 +111,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260616-s2mu005-pmic-supplement-v1-1-41e84518b711@disroot.org>
+In-Reply-To: <20260616-s2mu005-pmic-supplement-v1-2-41e84518b711@disroot.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
@@ -121,11 +121,11 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8611-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8612-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -144,29 +144,44 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 599D168BCEA
+X-Rspamd-Queue-Id: F281D68BD12
 
 On 15/06/2026 22:26, Kaustabh Chakraborty wrote:
-> As per convention, and as also reiterated by maintainers [1], the
-> properties in schema is to be ordered similar to how its done in
-> devicetree sources; starting from compatible and reg. Re-order the
-> properties in this schema accordingly.
+> The multi-led node is very trivial in description and also has no
+> sub-nodes. A compatible string property for such nodes is not preferred
+> by upstream. Remove said node from the schema. While at it, also add a
+> description following its other sibling nodes.
 > 
-> Link: https://lore.kernel.org/all/0240eb13-6c56-4879-8db7-b990a220a78f@kernel.org [1]
+> Link: https://lore.kernel.org/all/d2f4cb7d-5c3e-4b9a-86ca-04262cbb9775@kernel.org
 > Suggested-by: Krzysztof Kozlowski <krzk@kernel.org>
 > Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+> ---
+>  .../devicetree/bindings/mfd/samsung,s2mu005-pmic.yaml       | 13 +++----------
+>  1 file changed, 3 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.yaml b/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.yaml
+> index 8354422e39b1e..f62fe7a05147e 100644
+> --- a/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.yaml
+> @@ -38,17 +38,10 @@ properties:
+>        Child node describing MUIC device.
+>  
+>    multi-led:
+> -    type: object
+> +    $ref: /schemas/leds/leds-class-multicolor.yaml#
+>  
+> -    allOf:
+> -      - $ref: /schemas/leds/leds-class-multicolor.yaml#
+> -
+> -    properties:
+> -      compatible:
+> -        const: samsung,s2mu005-rgb
 
-Honestly, nah... I commented on v6 so you change the patch. But you were
-posting this huge patchset faster than we can review (v6 and v7 posted
-on the same day!), so v7 got applied where you did not implement the
-comments. One small posting per 24h. One big posting per 2-3 days, not
-more often.
-
-There is little benefit in fixing this single file.
+It's already accepted and used in two drivers, leave it.
 
 Best regards,
 Krzysztof
