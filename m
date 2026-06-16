@@ -1,190 +1,192 @@
-Return-Path: <linux-leds+bounces-8617-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8618-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id +bJiEPYDMWqzaQUAu9opvQ
-	(envelope-from <linux-leds+bounces-8617-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Jun 2026 10:06:14 +0200
+	id ss+KC9m+MWrUpgUAu9opvQ
+	(envelope-from <linux-leds+bounces-8618-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jun 2026 23:23:37 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C82E68D07B
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Jun 2026 10:06:08 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A74686956AF
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jun 2026 23:23:36 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Dkel8dnT;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8617-lists+linux-leds=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-leds+bounces-8617-lists+linux-leds=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=b19JHsqJ;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8618-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8618-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 6752730069AD
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Jun 2026 08:05:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7143E31853C1
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jun 2026 21:23:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B2A53AE1B4;
-	Tue, 16 Jun 2026 08:05:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 289F739B96A;
+	Tue, 16 Jun 2026 21:23:34 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7AE830FC23;
-	Tue, 16 Jun 2026 08:05:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76D2394E80
+	for <linux-leds@vger.kernel.org>; Tue, 16 Jun 2026 21:23:32 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781597152; cv=none; b=hOTpP6JfTkZrsEIBWnZ7TPvpSWqS0S15O7mNcQojE1EsmpqfZhItqlpw3dWHbYq2ta4Q8K5KoAzOUMdbyD59iMmjlxW2wRVFrRrfVqo3sLat55UNqBgz7mF5F03tkJ2Kud75iyMtx57h5bwybBKa6Fxrbgdd0TLeFAlFOuwo2fg=
+	t=1781645014; cv=none; b=jO6L4e0FWh3xko6ohF83xDuNJNvXottmuvhx/QF23Lt1lD+ni/jU/jy9c+C/7afb4qdetK8x0dPHi0H5BcdttC7uxNeYaH+rnOB5slkKAaDBpXswQPAUP0bwsfD3ykH5ArxrLR4Kxyv10SooL1Qmt1KNTFhG/zZB+Ux23sIFSmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781597152; c=relaxed/simple;
-	bh=OWnfHZ9uCqT3W1rWv+BSW5bdc64TFnh6U2o0E2yve7M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FrBOZSYYt0rhlDs+/nH0mCr8GSvgJRENW/2TlZ+XGRhA0N6da6a5DgwDMLlHBHzEt9S5xff9Ouf+F22DGrIJHL0PhEqdWAyXfoy0953VRWdQWlul9PZlodv6HV8DTc/GrLdgIymTF+lysw9lPTmtKSynQ2LZi5OBxy+nB433vR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dkel8dnT; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1D8B1F00A3D;
-	Tue, 16 Jun 2026 08:05:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781597150;
-	bh=cNE/K4rZg9p3MJXXQgsd723Fg9kfYPxODqy7V63Jjw4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Dkel8dnTvVvTyUH04au/v3AsPxdokuN+fVHq4HvWUeaLdFh/E+Q68i8cW3Xmy/Opv
-	 5DElrCLMnHOaT8HYVws9uLxquRz9Gzvxy1XGR4PPmIJOLFM91Jxv5z70CVdUfDAubs
-	 ulafviN8lLJuVP8I94Cx2uTTlvjFW34pe3rEkt3573leNrfpeKFQiUQ7FcywH5lxmD
-	 seuYuR2AsJ/HZzv/WTr2/x997T+m2WAm4sXPfpsyLmSlMAhVh+QpdMVKKy8tohyyaD
-	 Ln7XmitqUu8gQTYpj5yNkuxnLbjnzYmXtBLFVGLJZpZydvGQ54+hk95IaMttfTUC64
-	 EVgP6zT2cXeMw==
-Message-ID: <68ead37a-44d1-457b-ba8a-b2a895ec68c3@kernel.org>
-Date: Tue, 16 Jun 2026 10:05:44 +0200
+	s=arc-20240116; t=1781645014; c=relaxed/simple;
+	bh=tOJ0BjM0ldVhSsSRHlSMBhHPNTPDe2oSS1RBcYunUGY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BHsOk/pKJLpqY+kRGw5iIyS6lq4t3x+5q1bPm9Bwon1v1mdBF4tLNpBn5GDRek10IKYIugGcUFoC81MhNYacbbVhSLWX8XZGDsIeBgsimVONq7OmJdaO8lWb/QBUARAH9I2FAmbZJtqjJXOORtESxnMvpuKQ3IQpcsxwq81H9D0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b19JHsqJ; arc=none smtp.client-ip=74.125.82.180
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-30bc806fcf8so514778eec.1
+        for <linux-leds@vger.kernel.org>; Tue, 16 Jun 2026 14:23:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781645012; x=1782249812; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=kVGHWnnJ0bnpjfbLQ9kiQcWUR79CsLTM1nJ13tFxcHw=;
+        b=b19JHsqJ5m57yk8F1Ppz9Zz8y5Vvmz7mf6EkhSHLdJr0HbRrL5ZLsstiM9H/54Am4w
+         Iwat9IWtbxJpgbsREgmnTza00VP9dVTBfIt1Y/QeyA5yV+im30tVKzekbRH34ghNxk6d
+         AmyxXW1NQXNCu+IqPdtV3aTKtM1anr/yJAr7ZYmyh5MO8ReVE3MEPTLYfGIvPthn0X0Q
+         Ur7FLNAACsrCKrUdzE/kDpmisHP/l5sgjWjHZQV444AUMXnE2ZYxJWYngNjXWs3HBANP
+         lpMViTDfIK81/XszIWqAyOvPrq+gnj0CGM5WGwAA8hbVUFSM6H4tcafNnm25myTJcMVo
+         d9wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781645012; x=1782249812;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kVGHWnnJ0bnpjfbLQ9kiQcWUR79CsLTM1nJ13tFxcHw=;
+        b=PDcFnQjAFPEXZ2JP8vP1buoJ1HACoebXolrfeDO+TGrfjX6iEckUT0352MkVRhs1HQ
+         nAEgKKa3QRHyTXsta04SoB7Bf9zF2MBJsw1J6WTJnZk26yBMCTtBNm7yKu7MJxdsssnR
+         ShFsiq/btxnlLmBokRNxJtIQV33q58TtqxAlN/WQvMvGM2BdEoqaZbkyGG7PpgscZdw8
+         RR12NJUle/pFFIv5YGKlTPcUlvvnG0MTKG+rEzhwWquM6M+K8Pz6BwytnVhvBhTKB74q
+         kzStMbntVTs3eyBk0HtASQS9QbMK4IU1Nx2rBw+ianEGMLYLdwTuNt8YBVf131SSL6ls
+         yh9w==
+X-Forwarded-Encrypted: i=1; AFNElJ+Bb6JDHUCdAe1xThoiNtbmPZs3acp0GPmUVXpzoPQP0QvfNNpqXTUIwEdvv5Gjh7sjIMDVYwG2M6WN@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlykgBmkG7eRn3LIYW0alO+s1e+43nbV9jF7KwbCpH1TEL6f/N
+	SXjNH85+MnIv/YmHN1usU5CaUTzbRBrmKOP+u51vxbU7kmXo9I7h/tfE
+X-Gm-Gg: Acq92OGawjZGqO9eFqFtRX/tWwxH51dAygemw4aWJefVSjI1oL5ZEUNNEjl+Z8HZp+v
+	keSPc35s7+Vi9OqIwD7yPmMkwwB4+s67e0TZD+84n2uyKAQMNWd0o+IZIsZEzdGNwz1ENccgtlS
+	OtZ74g28XKm5w+oQBr4I8LbYAlydUS9udPx30cH/jZZyI6bmRn1FcUPYHKnI+87hxgpq/+/kf7i
+	NemjfySmLTOgJdI24e+fOwxRbz4fyeheo56wRgM9GcfIKNKO9Voo3+NoW5n5IOqIXkEy8q2kT2L
+	9AqeJUtYXsS48NynA8D1+D31mI32/02FP+Zru89S7/C7fnN07gxFoTOxNokijBEbdWPZJlM27NZ
+	BElKak0bsOcIMJsqFh2qauyMqOaEVOonR4cGa5vhYqx8GwUTeB8uaTEe6ObQ0nPKSXyeyLj+IcF
+	Mzqko7wgGgr54Q45AxZXYYD9UiRHkX8O4s0g8qnloREY3Xl7pbGTCdeIuY7T+1eFQ=
+X-Received: by 2002:a05:7300:8c85:b0:2f0:5605:466e with SMTP id 5a478bee46e88-30bca92de91mr522312eec.9.1781645012000;
+        Tue, 16 Jun 2026 14:23:32 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:cbae:d24:189c:2cb9])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30bd0deead6sm109387eec.26.2026.06.16.14.23.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2026 14:23:30 -0700 (PDT)
+Date: Tue, 16 Jun 2026 14:23:27 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+	Ion Agorria <ion@agorria.com>, =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-leds@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v8 4/7] input: keyboard: Add driver for ASUS Transformer
+ dock multimedia keys
+Message-ID: <ajGyejCSRMhY4G2R@google.com>
+References: <20260528053203.9339-1-clamor95@gmail.com>
+ <20260528053203.9339-5-clamor95@gmail.com>
+ <ajDPtOyr8GJYaVYQ@google.com>
+ <CAPVz0n2fnM6zYtP9bCtsY9mcLdce_R+1UPmMo0o4JRgjnhuhKA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: mfd: s2mu005-pmic: reorder reg and
- interrupts properties
-To: Kaustabh Chakraborty <kauschluss@disroot.org>,
- =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
- Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Pavel Machek <pavel@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-leds@vger.kernel.org
-References: <20260616-s2mu005-pmic-supplement-v1-0-41e84518b711@disroot.org>
- <20260616-s2mu005-pmic-supplement-v1-1-41e84518b711@disroot.org>
- <7dd8dcf3-5aec-442a-941e-7564936befa9@kernel.org>
- <DJA938R30SZG.7WGSHHZHP07X@disroot.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <DJA938R30SZG.7WGSHHZHP07X@disroot.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPVz0n2fnM6zYtP9bCtsY9mcLdce_R+1UPmMo0o4JRgjnhuhKA@mail.gmail.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8617-lists,linux-leds=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:clamor95@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:lee@kernel.org,m:pavel@kernel.org,m:sre@kernel.org,m:ion@agorria.com,m:mirq-linux@rere.qmqm.pl,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-leds@vger.kernel.org,m:linux-pm@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	SEM_URIBL_UNKNOWN_FAIL(0.00)[disroot.org:query timed out,vger.kernel.org:query timed out];
-	FORGED_RECIPIENTS(0.00)[m:kauschluss@disroot.org,m:andre.draszik@linaro.org,m:lee@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:pavel@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-samsung-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-leds@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[krzk@kernel.org,linux-leds@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-8618-lists,linux-leds=lfdr.de];
+	FORGED_SENDER(0.00)[dmitrytorokhov@gmail.com,linux-leds@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	SEM_URIBL_FRESH15_UNKNOWN_FAIL(0.00)[disroot.org:query timed out,vger.kernel.org:query timed out];
-	PRECEDENCE_BULK(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitrytorokhov@gmail.com,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	RBL_SEM_FAIL(0.00)[104.64.211.4:query timed out]
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qmqm.pl:email,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7C82E68D07B
+X-Rspamd-Queue-Id: A74686956AF
 
-On 16/06/2026 08:13, Kaustabh Chakraborty wrote:
-> On 2026-06-16 06:14 +02:00, Krzysztof Kozlowski wrote:
->> On 15/06/2026 22:26, Kaustabh Chakraborty wrote:
->>> As per convention, and as also reiterated by maintainers [1], the
->>> properties in schema is to be ordered similar to how its done in
->>> devicetree sources; starting from compatible and reg. Re-order the
->>> properties in this schema accordingly.
->>>
->>> Link: https://lore.kernel.org/all/0240eb13-6c56-4879-8db7-b990a220a78f@kernel.org [1]
->>> Suggested-by: Krzysztof Kozlowski <krzk@kernel.org>
->>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->>
->> Honestly, nah... I commented on v6 so you change the patch. But you were
->> posting this huge patchset faster than we can review (v6 and v7 posted
->> on the same day!), so v7 got applied where you did not implement the
->> comments. One small posting per 24h. One big posting per 2-3 days, not
->> more often.
+On Tue, Jun 16, 2026 at 09:25:25AM +0300, Svyatoslav Ryhel wrote:
+> вт, 16 черв. 2026 р. о 07:26 Dmitry Torokhov <dmitry.torokhov@gmail.com> пише:
+> >
+> > Hi Svyatoslav,
+> >
+> > On Thu, May 28, 2026 at 08:32:00AM +0300, Svyatoslav Ryhel wrote:
+> > > From: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+> > >
+> > > Add support for multimedia top button row of ASUS Transformer's Mobile
+> > > Dock keyboard. Driver is made that function keys (F1-F12) are used by
+> > > default which suits average Linux use better and with pressing
+> > > ScreenLock + AltGr function keys layout is switched to multimedia keys.
+> > > Since this only modifies codes sent by asus-ec-keys it doesn't affect
+> > > normal keyboards at all.
+> >
+> > I think using input handler to intercept ScreenLock + AltGr is quite
+> > awkward. I think this also passes the original key events (unless you
+> > make it a filter not a regular handler).
+> >
+> > I do not see benefit for reacting to AltGr+ScreenLock on other keyboards
+> > to activate the special mode on this one. So given the fact that you
+> > already mange the data stream when you split it into "serio" ports,
+> > maybe just intercept this key combo right there and create the input
+> > device and signal input events right there?
+> >
 > 
-> Fair, there were a lot of sashiko reviews, so I quickly addressed most
-> of them and send a v7. It is indeed a failure on my part. :(
-> 
->> There is little benefit in fixing this single file.
-> 
-> Fine, I drop the series. I'd assumed it'd be at least fine to have it
-> before a stable release.
+> Though it seems awkward at a first glance, media keys are integrated
+> with a standard keyboard in a detachable dock. It is highly unlikely
+> that media keys will be used with a different keyboard then the one
+> that is integrated with dock. Additionally, the ScreenLock key has a
+> code specific to this driver and is not in general use, so even if any
+> standard keyboard has AltGr but none has ScreenLock specific to this
+> driver except the dock itself. Handler is also set as observer so it
+> should not interfere with work of other input devices.
 
-I would ack such patch if you do it rather for multiple files in MFD
-bindings, e.g. all Samsung PMICs or even all files. Otherwise it feels a
-bit too much of a churn doing this file by file.
+I am not concerned about it interfering with other drivers, I am
+concerned about it unnecessarily connecting to unrelated devices
+(anything that declares EV_KEY).
 
-Best regards,
-Krzysztof
+Again, I think having input handler is not appropriate here. I would
+fold this patch into the patch that introduces the 2 serio ports,
+enhanced the data stream analysis to detect your key combo, and then
+report through this new input device. You do not need to have the round
+trip through atkbd and the new input handler for this.
+
+Thanks.
+
+-- 
+Dmitry
 
