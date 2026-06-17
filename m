@@ -1,349 +1,351 @@
-Return-Path: <linux-leds+bounces-8634-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8635-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id c1GNE5NVMmobywUAu9opvQ
-	(envelope-from <linux-leds+bounces-8634-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 10:06:43 +0200
+	id Gi2DKLFgMmrozAUAu9opvQ
+	(envelope-from <linux-leds+bounces-8635-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 10:54:09 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B988C6976D7
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 10:06:42 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F68D697AEE
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 10:54:09 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=MIhj4OO9;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8634-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8634-lists+linux-leds=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=CpgBMEeA;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8635-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8635-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7E0DB306EB16
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 08:04:00 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 286A630A27B0
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 08:50:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BCCC3D9052;
-	Wed, 17 Jun 2026 08:01:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFFD03CEB84;
+	Wed, 17 Jun 2026 08:48:35 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8241A3D7D6C
-	for <linux-leds@vger.kernel.org>; Wed, 17 Jun 2026 08:01:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843E53E1227
+	for <linux-leds@vger.kernel.org>; Wed, 17 Jun 2026 08:48:25 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781683279; cv=none; b=X/1jJ+QLkvY8GCbHu1U5o9KSg3v0+RVjNUYYvtBrziLC29mTn//qO+MzjdVSPOUkAwkBdeHIVpydNMLw7fktQuXyDMg5zKSj9KgIv3LcaTDdCBPmZSHxfmOct7gMON2Hh11pqGwhrLIpi5n0g6eqN30ThUU0LSeisXPEDD/lcb4=
+	t=1781686115; cv=none; b=FYB9/XX/kiMqZd9F2ro+GHs8FG1S0NqhTgyjvmxx6nUxb9w6crJRy3ksxUlm5mbbyxNH4/vIY92RtndRK1Ao5YYtihkC2Wjdqp5/pPt77EG8eT+ORksBp6uuO7rvG2fLTSOufryXNFQ3aIMZY/2ZzUpL+gnK6et08szVkEmlxY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781683279; c=relaxed/simple;
-	bh=/uzMDa/Qq+h3z+mWxCj74u9KaQuuNkmAuhmbHq8QMFQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e1bI8NQARm6lNgKSzy/GpS39lEpMfq9GkPh3C3zhD+5ni51ulRxCpKBsSAyoBv+3GfsFqSqLmkN38PKuBHzuPYRVnx5RWq6ZU+pBeUx+LnSvl7IxzYVslIahmxkXROnbWCc9SvWZ0wvTY6v4hPC3NE6XbRz7KGMP0P5gNqoj31s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MIhj4OO9; arc=none smtp.client-ip=209.85.218.43
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-beeba001887so706195666b.3
-        for <linux-leds@vger.kernel.org>; Wed, 17 Jun 2026 01:01:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781683264; x=1782288064; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SSD+o5Il4q3N15GHNpu+Bn3w6lF4AaqNR4K4QWPriYo=;
-        b=MIhj4OO9jXtutz0acSiwlbCRMKJXNqVi6GY9VagYQBArS2qx6eRRcBdhf9Y1ZpOUBr
-         AzJYakjD6QnJmr4xBoXAKQGUbwcsNrYM4TTyvC5fxf3jMNbOobKv3Zsbr10iUYxf5zP+
-         TDtw6EW6ARF2sISKC5ksSPqakWRB8DH94Qc9Y8xjSZigmr1ewcoagdkxjrFSn8D9t3e1
-         qvKfCRGKo803MImW9Pom9hgrsvr+5wHuXtC8K1GlRuOD3CStmjmD8xd1EzOxR3j4bM0V
-         jXNXlVg7xl/wqQEpV9Lj4yEgJKwpQOI4JryuEBsrv9YmjQw5QZZ+uEvaqyEFNBnVzRxD
-         /vFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781683264; x=1782288064;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SSD+o5Il4q3N15GHNpu+Bn3w6lF4AaqNR4K4QWPriYo=;
-        b=Pux9Kb1Bjk0QKfteXLc2gIt8gjhAcYKdYP1qgRl6h2ak2YhY/9QbUYK04onPMl+5CW
-         zm399J8Jbnxi1E5JzXn6wpzUBvNzMSZ8zVaAYxsU/0UpV6LNcaYlfjKUkeU1BT8d0Y9N
-         PeuXdaglncfz7l+c/BVedg0jQK1EqxEyQIBZx91Mk2+nhBh1rxlPBupEbfVz1+FndyQQ
-         LhJUUhCwvZ9vw+gWSDISDicfvfvj0jOHJbd5Dz0C8PH48KauIuDTHa6iEp4iS/uva+kF
-         27+04rugh2kgJUXOKz80SEXn0jNxB+9xzF0DfxF6VUQJfVLoWM9dpHN3Y8T9awXTE0o9
-         fiIA==
-X-Forwarded-Encrypted: i=1; AFNElJ9ZcTxymXb2Lgj9KKVLE2X54vvZwIn31lXD0WdmXaXyu0ZTjPg4OycIZRWUehk/s3RUum9X9MC1RvXD@vger.kernel.org
-X-Gm-Message-State: AOJu0YzC+r6fKVAI9kKr7Y9K9xg1ypwRATE9rO8SvFJnvWmwwtW8S6if
-	zIg+vx9E9S+gZ9aA5wiYEtsziA42DSmKHh3vwmGf1NjIfTOdVB8X3GwM
-X-Gm-Gg: AfdE7cmUHIc373cGCkkUos08lPVDQOIF6iAMT1OJYHsnCuNLAe51IzfHqOKssP+3DYq
-	EB8/XaAqqUbm598NR7iwZK5I2qmSgM1xNx0r4x0eA8DMhtCLWT4ron9pkRRwFUxKlhs2/cyYqc/
-	q+DVO0cLE0yRRkU+UWDKOv1VnTii/tn9qQ7jGq5Q4nLu6v0qAzVzNazYyIAEdgZpKHcxs9A5qLd
-	mbtVyz7doy+J8s3INnF4UqxeljriaStpJyi2iWO4y6a3x6AUPQghLhjgRfKLSscrZWH+xGNtpCB
-	ulMzvW4uzUF4DAT4pfVHyEZWX9WM+jU3JxiEkUDkwCv4q/hmuT2Q3ZdRqXAG2pu74Cg92mH0pfJ
-	43zXq2buHbmYR82c4Cm8qpd91SiJpJ/we2CAn4L/OS2LeNfDnVBtuRPk8jPnLRt1b5AMwx5Xco3
-	V/Nw==
-X-Received: by 2002:a17:907:9452:b0:bee:bcf6:6a22 with SMTP id a640c23a62f3a-c05a511eb50mr157102166b.44.1781683262372;
-        Wed, 17 Jun 2026 01:01:02 -0700 (PDT)
-Received: from xeon ([188.163.112.61])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bfdb058fa59sm755339766b.0.2026.06.17.01.01.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 01:01:01 -0700 (PDT)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Lee Jones <lee@kernel.org>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Helge Deller <deller@gmx.de>,
-	Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Johan Hovold <johan@kernel.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-fbdev@vger.kernel.org
-Subject: [PATCH v5 14/14] video: leds: backlight: lm3533: Support getting LED sources from DT
-Date: Wed, 17 Jun 2026 11:00:31 +0300
-Message-ID: <20260617080031.99156-15-clamor95@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260617080031.99156-1-clamor95@gmail.com>
-References: <20260617080031.99156-1-clamor95@gmail.com>
+	s=arc-20240116; t=1781686115; c=relaxed/simple;
+	bh=1QaWi0842cfBosestcQX3hIf9s6Gj+jhmJawSOLpAsQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RCHvwEvUBFVsDF3X/LQWcMydYvBXD4LWfqic4t3VEQe0Lqu42eneqsrn5HirVf73VmKpjI+dRoaxrB4Db+bKYZFjSAj15ek8JbZ/iGyTXEIPbWhp4iyC56FKahBMojGXwO5csTrb43tX/7viLR/DAkiw10b0LYKg3pDuTEQTV/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CpgBMEeA; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79F931F01568;
+	Wed, 17 Jun 2026 08:48:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781686105;
+	bh=hHtR+1ZP4rkBM7stCMtS5oFJ4nuYFrbiHuhCYzKCH8Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=CpgBMEeA7rrvztGYJKEsxFhvpe/cS38pXZ2QbkWbfMQl0esv19SEdA80KCgIs3C/h
+	 HTZ5ThjLftp45KuUiqBfnI0FTLhwSifiocmLkwlJqh1eH/4FwtrN4xI/o9MYNAz8FA
+	 xRLDA4SCdc5PQXoQL1G2gXOfJ4TW0zsgzqkn1EFNx3EhMyNWu5irtOeOIkBUg5+cXo
+	 Ps9xK2NRdOqMAgviCsOrpP3XQM+4Pz0XF9uvHZuwjhJvIgVM5RP02HFrLtPi4W5owJ
+	 syjtklkctGFy1Iz7hIGi3VjRph+qXJlf53sAAn3xi9GxNlXg+b1iyE5weo1/ppTzcC
+	 t3TymDLY0KBQA==
+Date: Wed, 17 Jun 2026 09:48:21 +0100
+From: Lee Jones <lee@kernel.org>
+To: Lorenzo Egidio <lorenzoegidioms@gmail.com>
+Cc: pavel@ucw.cz, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2] leds: tests: use a fresh instance for name conflict
+ rejection
+Message-ID: <20260617084821.GD10056@google.com>
+References: <20260612230606.1438-1-lorenzoegidioms@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260612230606.1438-1-lorenzoegidioms@gmail.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:lorenzoegidioms@gmail.com,m:pavel@ucw.cz,m:linux-leds@vger.kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8635-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8634-lists,linux-leds=lfdr.de];
-	FORGED_SENDER(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:danielt@kernel.org,m:jingoohan1@gmail.com,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jic23@kernel.org,m:dlechner@baylibre.com,m:nuno.sa@analog.com,m:andy@kernel.org,m:deller@gmx.de,m:clamor95@gmail.com,m:johan@kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-iio@vger.kernel.org,m:linux-fbdev@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,baylibre.com,analog.com,gmx.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-leds];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B988C6976D7
+X-Rspamd-Queue-Id: 3F68D697AEE
 
-Add Control Bank to HVLED/LVLED muxing support based on the led-sources
-defined in the device tree.
+On Fri, 12 Jun 2026, Lorenzo Egidio wrote:
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- drivers/leds/leds-lm3533.c          | 60 +++++++++++++++++++++++++++++
- drivers/video/backlight/lm3533_bl.c | 45 ++++++++++++++++++++++
- 2 files changed, 105 insertions(+)
+> The LED_REJECT_NAME_CONFLICT test currently re-registers an
+> already registered led_classdev instance.
+> 
+> Use a fresh copy instead so the test exercises the
+> name-conflict rejection path directly.
+> 
+> Signed-off-by: Lorenzo Egidio <lorenzoegidioms@gmail.com>
 
-diff --git a/drivers/leds/leds-lm3533.c b/drivers/leds/leds-lm3533.c
-index ed810c23f30f..9e07953814fd 100644
---- a/drivers/leds/leds-lm3533.c
-+++ b/drivers/leds/leds-lm3533.c
-@@ -27,6 +27,11 @@
- #define LM3533_ALS_CHANNEL_LV_MIN	1
- #define LM3533_ALS_CHANNEL_LV_MAX	2
- 
-+#define LM3533_REG_OUTPUT_CONF1			0x10
-+#define   OUTPUT_CONF1_SHIFT			2
-+#define   OUTPUT_LVLED_MASK			0x3
-+#define LM3533_REG_OUTPUT_CONF2			0x11
-+#define   OUTPUT_CONF2_SHIFT			6
- #define LM3533_REG_CTRLBANK_BCONF_BASE		0x1b
- #define LM3533_REG_PATTERN_ENABLE		0x28
- #define LM3533_REG_PATTERN_LOW_TIME_BASE	0x71
-@@ -55,6 +60,9 @@ struct lm3533_led {
- 	u32 max_current;
- 	u32 pwm;
- 
-+	int num_leds;
-+	u32 leds[LM3533_LVCTRLBANK_MAX];
-+
- 	bool have_als;
- };
- 
-@@ -623,8 +631,36 @@ static const struct attribute_group *lm3533_led_attribute_groups[] = {
- 
- static int lm3533_led_setup(struct lm3533_led *led)
- {
-+	u32 output_cfg_shift = 0;
-+	u32 output_cfg_val = 0;
-+	u32 output_cfg_mask = 0;
- 	int ret;
- 
-+	if (led->num_leds) {
-+		for (int i = 0; i < led->num_leds; i++) {
-+			if (led->leds[i] >= LM3533_LVCTRLBANK_MAX)
-+				continue;
-+
-+			output_cfg_shift = led->leds[i] * 2;
-+			output_cfg_val |= led->id << output_cfg_shift;
-+			output_cfg_mask |= OUTPUT_LVLED_MASK << output_cfg_shift;
-+		}
-+
-+		/* LVLED1, LVLED2 and LVLED3 */
-+		ret = regmap_update_bits(led->regmap, LM3533_REG_OUTPUT_CONF1,
-+					 output_cfg_mask << OUTPUT_CONF1_SHIFT,
-+					 output_cfg_val << OUTPUT_CONF1_SHIFT);
-+		if (ret)
-+			return ret;
-+
-+		/* LVLED4 and LVLED5 */
-+		ret = regmap_update_bits(led->regmap, LM3533_REG_OUTPUT_CONF2,
-+					 output_cfg_mask >> OUTPUT_CONF2_SHIFT,
-+					 output_cfg_val >> OUTPUT_CONF2_SHIFT);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	ret = lm3533_ctrlbank_set_max_current(&led->cb, led->max_current);
- 	if (ret)
- 		return ret;
-@@ -699,6 +735,30 @@ static int lm3533_led_probe(struct platform_device *pdev)
- 
- 	device_property_read_u32(&pdev->dev, "ti,pwm-config-mask", &led->pwm);
- 
-+	/*
-+	 * If led-sources property is not set then either this Control Bank uses
-+	 * its default LVLED or is not linked to any LVLED at all.
-+	 */
-+	led->num_leds = device_property_count_u32(&pdev->dev, "led-sources");
-+	if (led->num_leds > LM3533_LVCTRLBANK_MAX) {
-+		dev_err(&pdev->dev, "num of LED sources exceeds max %d: %d\n",
-+			LM3533_LVCTRLBANK_MAX, led->num_leds);
-+		ret = -EINVAL;
-+		goto err_deregister;
-+	}
-+
-+	if (led->num_leds < 0)
-+		led->num_leds = 0;
-+
-+	if (led->num_leds > 0) {
-+		ret = device_property_read_u32_array(&pdev->dev, "led-sources",
-+						     led->leds, led->num_leds);
-+		if (ret) {
-+			dev_err(&pdev->dev, "failed to get led-sources\n");
-+			goto err_deregister;
-+		}
-+	}
-+
- 	ret = lm3533_led_setup(led);
- 	if (ret)
- 		goto err_deregister;
-diff --git a/drivers/video/backlight/lm3533_bl.c b/drivers/video/backlight/lm3533_bl.c
-index c99fc68cb669..b3e5b3042d34 100644
---- a/drivers/video/backlight/lm3533_bl.c
-+++ b/drivers/video/backlight/lm3533_bl.c
-@@ -7,6 +7,7 @@
-  * Author: Johan Hovold <jhovold@gmail.com>
-  */
- 
-+#include <linux/bits.h>
- #include <linux/module.h>
- #include <linux/init.h>
- #include <linux/mod_devicetable.h>
-@@ -22,6 +23,7 @@
- #define LM3533_HVCTRLBANK_COUNT		2
- #define LM3533_BL_MAX_BRIGHTNESS	255
- 
-+#define LM3533_REG_OUTPUT_CONF1		0x10
- #define LM3533_REG_CTRLBANK_AB_BCONF	0x1a
- #define   CTRLBANK_AB_BCONF_ALS(n)	BIT(2 * (n))
- #define   CTRLBANK_AB_BCONF_MODE(n)	BIT(2 * (n) + 1)
-@@ -36,6 +38,9 @@ struct lm3533_bl {
- 	u32 max_current;
- 	u32 pwm;
- 
-+	int num_leds;
-+	u32 led_strings[LM3533_HVCTRLBANK_COUNT];
-+
- 	bool have_als;
- 	bool linear;
- };
-@@ -237,6 +242,8 @@ static const struct attribute_group *lm3533_bl_attribute_groups[] = {
- static int lm3533_bl_setup(struct lm3533_bl *bl)
- {
- 	int ctrlbank = lm3533_bl_get_ctrlbank_id(bl);
-+	u32 output_cfg_val = 0;
-+	u32 output_cfg_mask = 0;
- 	int ret;
- 
- 	ret = regmap_assign_bits(bl->regmap, LM3533_REG_CTRLBANK_AB_BCONF,
-@@ -244,6 +251,21 @@ static int lm3533_bl_setup(struct lm3533_bl *bl)
- 	if (ret)
- 		return ret;
- 
-+	if (bl->num_leds) {
-+		for (int i = 0; i < bl->num_leds; i++) {
-+			if (bl->led_strings[i] >= LM3533_HVCTRLBANK_COUNT)
-+				continue;
-+
-+			output_cfg_val |= ctrlbank << bl->led_strings[i];
-+			output_cfg_mask |= BIT(bl->led_strings[i]);
-+		}
-+
-+		ret = regmap_update_bits(bl->regmap, LM3533_REG_OUTPUT_CONF1,
-+					 output_cfg_mask, output_cfg_val);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	ret = lm3533_ctrlbank_set_max_current(&bl->cb, bl->max_current);
- 	if (ret)
- 		return ret;
-@@ -321,6 +343,29 @@ static int lm3533_bl_probe(struct platform_device *pdev)
- 
- 	device_property_read_u32(&pdev->dev, "ti,pwm-config-mask", &bl->pwm);
- 
-+	/*
-+	 * If led-sources property is not set then either this Control Bank uses
-+	 * its default HVLED or is not linked to any HVLED at all.
-+	 */
-+	bl->num_leds = device_property_count_u32(&pdev->dev, "led-sources");
-+	if (bl->num_leds > LM3533_HVCTRLBANK_COUNT) {
-+		dev_err(&pdev->dev, "num of LED sources %d exceeds max %d\n",
-+			bl->num_leds, LM3533_HVCTRLBANK_COUNT);
-+		return -EINVAL;
-+	}
-+
-+	if (bl->num_leds < 0)
-+		bl->num_leds = 0;
-+
-+	if (bl->num_leds > 0) {
-+		ret = device_property_read_u32_array(&pdev->dev, "led-sources",
-+						     bl->led_strings,
-+						     bl->num_leds);
-+		if (ret)
-+			return dev_err_probe(&pdev->dev, ret,
-+					     "failed to get led-sources\n");
-+	}
-+
- 	ret = lm3533_bl_setup(bl);
- 	if (ret)
- 		return ret;
+How did you author this patch?  Honestly.
+
+> ---
+>  drivers/leds/led-test.c | 102 ++++++++++++++++++++++++++--------------
+>  1 file changed, 66 insertions(+), 36 deletions(-)
+> 
+> diff --git a/drivers/leds/led-test.c b/drivers/leds/led-test.c
+> index ddf9aa967..36aef3e13 100644
+> --- a/drivers/leds/led-test.c
+> +++ b/drivers/leds/led-test.c
+> @@ -1,4 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+> +// leds: tests: clarify name conflict test
+
+Why did you add this?
+
+>  /*
+>   * Copyright (C) 2025 Google LLC
+>   *
+> @@ -10,77 +11,106 @@
+>  #include <linux/device.h>
+>  #include <linux/leds.h>
+>  
+> -#define LED_TEST_POST_REG_BRIGHTNESS 10
+> +enum {
+> +	LED_TEST_POST_REG_BRIGHTNESS = 10,
+> +};
+
+Why?
+
+> -struct led_test_ddata {
+> +struct led_test_data {
+
+Why rename?
+
+>  	struct led_classdev cdev;
+>  	struct device *dev;
+>  };
+>  
+> -static enum led_brightness led_test_brightness_get(struct led_classdev *cdev)
+> +static enum led_brightness
+> +led_test_brightness_get(struct led_classdev *cdev)
+
+Why?
+
+>  {
+>  	return LED_TEST_POST_REG_BRIGHTNESS;
+>  }
+>  
+> -static void led_test_class_register(struct kunit *test)
+> +static void led_test_init_cdev(struct led_classdev *cdev)
+>  {
+> -	struct led_test_ddata *ddata = test->priv;
+> -	struct led_classdev *cdev_clash, *cdev = &ddata->cdev;
+> -	struct device *dev = ddata->dev;
+> -	int ret;
+> +	memset(cdev, 0, sizeof(*cdev));
+
+Why?
+
+>  
+> -	/* Register a LED class device */
+>  	cdev->name = "led-test";
+> -	cdev->brightness_get = led_test_brightness_get;
+>  	cdev->brightness = 0;
+> +	cdev->brightness_get = led_test_brightness_get;
+> +}
+> +
+> +static void led_test_class_register(struct kunit *test)
+> +{
+> +	struct led_test_data *data = test->priv;
+> +	struct led_classdev *cdev = &data->cdev;
+> +	struct led_classdev *cdev_clash;
+> +	struct led_classdev *cdev_reject;
+> +	struct device *dev = data->dev;
+> +	int ret;
+> +
+> +	led_test_init_cdev(cdev);
+>  
+>  	ret = devm_led_classdev_register(dev, cdev);
+>  	KUNIT_ASSERT_EQ(test, ret, 0);
+>  
+> +	KUNIT_EXPECT_NOT_NULL(test, cdev->dev);
+
+How could this happen?
+
+>  	KUNIT_EXPECT_EQ(test, cdev->max_brightness, LED_FULL);
+> -	KUNIT_EXPECT_EQ(test, cdev->brightness, LED_TEST_POST_REG_BRIGHTNESS);
+> +	KUNIT_EXPECT_EQ(test, cdev->brightness,
+> +			LED_TEST_POST_REG_BRIGHTNESS);
+
+Why?
+
+>  	KUNIT_EXPECT_STREQ(test, cdev->dev->kobj.name, "led-test");
+>  
+> -	/* Register again with the same name - expect it to pass with the LED renamed */
+> +	/*
+> +	 * Name collision should be resolved automatically by
+> +	 * renaming the device instance while preserving the
+> +	 * logical LED name.
+> +	 */
+>  	cdev_clash = devm_kmemdup(dev, cdev, sizeof(*cdev), GFP_KERNEL);
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, cdev_clash);
+>  
+>  	ret = devm_led_classdev_register(dev, cdev_clash);
+>  	KUNIT_ASSERT_EQ(test, ret, 0);
+>  
+> -	KUNIT_EXPECT_STREQ(test, cdev_clash->dev->kobj.name, "led-test_1");
+> -	KUNIT_EXPECT_STREQ(test, cdev_clash->name, "led-test");
+> +	KUNIT_EXPECT_STREQ(test,
+> +			   cdev_clash->dev->kobj.name,
+> +			   "led-test_1");
+> +	KUNIT_EXPECT_STREQ(test,
+> +			   cdev_clash->name,
+> +			   "led-test");
+
+Why?
+
+>  
+> -	/* Enable name conflict rejection and register with the same name again - expect failure */
+> -	cdev_clash->flags |= LED_REJECT_NAME_CONFLICT;
+> -	ret = devm_led_classdev_register(dev, cdev_clash);
+> +	/*
+> +	 * Verify that explicit conflict rejection fails.
+> +	 */
+
+Why did you write a single line comment like this?
+
+> +	cdev_reject = devm_kmemdup(dev, cdev, sizeof(*cdev), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, cdev_reject);
+> +
+> +	cdev_reject->flags |= LED_REJECT_NAME_CONFLICT;
+> +
+> +	ret = devm_led_classdev_register(dev, cdev_reject);
+>  	KUNIT_EXPECT_EQ(test, ret, -EEXIST);
+>  }
+>  
+>  static void led_test_class_add_lookup_and_get(struct kunit *test)
+>  {
+> -	struct led_test_ddata *ddata = test->priv;
+> -	struct led_classdev *cdev = &ddata->cdev, *cdev_get;
+> -	struct device *dev = ddata->dev;
+> -	struct led_lookup_data lookup;
+> +	struct led_test_data *data = test->priv;
+> +	struct led_classdev *cdev = &data->cdev;
+> +	struct led_classdev *cdev_get;
+> +	struct device *dev = data->dev;
+> +	struct led_lookup_data lookup = { };
+>  	int ret;
+>  
+> -	/* First, register a LED class device */
+> -	cdev->name = "led-test";
+> +	led_test_init_cdev(cdev);
+> +
+>  	ret = devm_led_classdev_register(dev, cdev);
+>  	KUNIT_ASSERT_EQ(test, ret, 0);
+>  
+> -	/* Then make the LED available for lookup */
+>  	lookup.provider = cdev->name;
+>  	lookup.dev_id = dev_name(dev);
+>  	lookup.con_id = "led-test-1";
+> +
+>  	led_add_lookup(&lookup);
+>  
+> -	/* Finally, attempt to look it up via the API - imagine this was an orthogonal driver */
+
+You have removed all commentary - why?
+
+>  	cdev_get = devm_led_get(dev, "led-test-1");
+> -	KUNIT_ASSERT_FALSE(test, IS_ERR(cdev_get));
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, cdev_get);
+>  
+> -	KUNIT_EXPECT_STREQ(test, cdev_get->name, cdev->name);
+> +	KUNIT_EXPECT_STREQ(test,
+> +			   cdev_get->name,
+> +			   cdev->name);
+
+Why?
+
+>  
+>  	led_remove_lookup(&lookup);
+>  }
+> @@ -93,30 +123,29 @@ static struct kunit_case led_test_cases[] = {
+>  
+>  static int led_test_init(struct kunit *test)
+>  {
+> -	struct led_test_ddata *ddata;
+> +	struct led_test_data *data;
+>  	struct device *dev;
+>  
+> -	ddata = kunit_kzalloc(test, sizeof(*ddata), GFP_KERNEL);
+> -	if (!ddata)
+> +	data = kunit_kzalloc(test, sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+>  		return -ENOMEM;
+>  
+> -	test->priv = ddata;
+> -
+>  	dev = kunit_device_register(test, "led_test");
+>  	if (IS_ERR(dev))
+>  		return PTR_ERR(dev);
+>  
+> -	ddata->dev = get_device(dev);
+> +	data->dev = get_device(dev);
+> +	test->priv = data;
+>  
+>  	return 0;
+>  }
+>  
+>  static void led_test_exit(struct kunit *test)
+>  {
+> -	struct led_test_ddata *ddata = test->priv;
+> +	struct led_test_data *data = test->priv;
+>  
+> -	if (ddata && ddata->dev)
+> -		put_device(ddata->dev);
+> +	if (data && data->dev)
+> +		put_device(data->dev);
+>  }
+>  
+>  static struct kunit_suite led_test_suite = {
+> @@ -125,6 +154,7 @@ static struct kunit_suite led_test_suite = {
+>  	.exit = led_test_exit,
+>  	.test_cases = led_test_cases,
+>  };
+> +
+
+Why?
+
+>  kunit_test_suite(led_test_suite);
+>  
+>  MODULE_AUTHOR("Lee Jones <lee@kernel.org>");
+> -- 
+> 2.51.0
+> 
+
 -- 
-2.53.0
-
+Lee Jones
 
