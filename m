@@ -1,60 +1,67 @@
-Return-Path: <linux-leds+bounces-8637-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8638-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id vnEQEqGzMmoe3wUAu9opvQ
-	(envelope-from <linux-leds+bounces-8637-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 16:48:01 +0200
+	id IWLjKKqzMmok3wUAu9opvQ
+	(envelope-from <linux-leds+bounces-8638-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 16:48:10 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF89F69AA65
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 16:48:00 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10CF669AA68
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 16:48:10 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=WD97aG1H;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8637-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8637-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="VeUXPv/c";
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8638-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-leds+bounces-8638-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4DC9D301FF0D
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 14:48:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 57D3730F4D54
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 14:48:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEC102BE7AB;
-	Wed, 17 Jun 2026 14:47:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E00893F5BC3;
+	Wed, 17 Jun 2026 14:48:01 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610512E06EF
-	for <linux-leds@vger.kernel.org>; Wed, 17 Jun 2026 14:47:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31463E5570;
+	Wed, 17 Jun 2026 14:47:59 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781707678; cv=none; b=ZpX91TDa4cKnuBhEl4T4olcl1/Xg6QlGgsUojnxc3cbR+T/n7RbC14/PFn1rXO2zhxrCk1JdVJGGTKWbiSXhudCCN4UWmQfLaJd9jnekJxF7muex3MjwtY2ZfB79gp/4IDLM5qA/yFMu5QHrhmIoY3I74Q8PQdpX4NZ08mXDFs4=
+	t=1781707681; cv=none; b=AiAcLAvV0Qgx4a1Vj1cD1NgFJfBYdi3yKOB5O2mtzTCVZepDUPLAuMtuV8oA/7NE0YMLfY27y9HXa8oAgU/Mhap0g2LWMYLOP4861mD6zwahsqFNvbe0hjuM/OOQlVOjhdJ3+pf+ZkU8rCCCQQ9+SuLvBVzVHJqQD3+YU5zcze8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781707678; c=relaxed/simple;
-	bh=bbO7Y5mkeQBIg0tybl9fvxjl2WCeMjy+pR/ZHeWPeOU=;
+	s=arc-20240116; t=1781707681; c=relaxed/simple;
+	bh=gbcwfIqQk/SiNy9mAf17Fap730sdHglnahEjyBgjgbc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=eRR2FSsgzRAPugtxiYkQfDc0kZ2q6eTZkiygAhsajdjYFDfZ3SNNjvcrZZWbcnMdZAX6e8LUBeBGT351wcZ9W1pcU+wzVSlgzWKFh2A1XYTJ9qJZu1Z76Rep/NnUjAuCUYg1V6yLGG06XzIL4DTPZIiMqXHtNa4Vv2enbpyw2O4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WD97aG1H; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDF7D1F000E9;
-	Wed, 17 Jun 2026 14:47:54 +0000 (UTC)
+	 MIME-Version:Content-Type; b=isnx3MdLnBHJfGkzfD3rAvIQ+N3IZU+ZBUEkOMfRqrgGqJ0sikuWBiwHyi4BmbZmbygaV/F4oVPUin6/NQJaNom8kMxKY8GXOIVurcwBPywu6E7nLtv5DSKYPxY1xUJnamORw9hB/lM06xI+kXcm1drE41YlxlqkZL5vonNAwKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VeUXPv/c; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77BE51F00A3A;
+	Wed, 17 Jun 2026 14:47:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781707675;
-	bh=k3J1Y4oafT0H9z1fk1KMA31K416N4UNTVaA78yiboMg=;
+	s=k20260515; t=1781707679;
+	bh=eZGB9EDPJPmx499AeGY1lMTU/ir06dPRWzp+DbysV3o=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=WD97aG1Heu7f9/a+IAZUHtU75Cf3IVCGwYBXjFamma3avHDsewJZwx4aYnUT9pm9g
-	 ECFiM9fSexLGWXyuK9NtNmJSkSsCRSgBPDw/7acPn1H7cnZREUX1BRr7BdBolnsdyW
-	 BCGlEE9qCrdY9K+4sRZapn6qCZ/CL5ptBunXYJOTMeIWuqW194ypVYRbYJYvbamsyA
-	 NAufCy/ryC7XwXpaIcbf9+O4dz3+dIH24FjICrIr4JE8oU4eFqKr2S+K3HptrSFs1R
-	 3SuHYJGzNjdUmxzI2CENM+aHk+tzKHmoHurtI/p2ie9Vjy3/y/jCRUlrQRpZGCcDx4
-	 IlNGbM1W0pf/A==
+	b=VeUXPv/cbM99dmwl/oLl4HegllRbhasfo/lUJmLiczml+sWJtHKneBqlnkytBZNJ7
+	 7OX3Vgni+JwHpcpkwrkkZi9EZErk9uYYIKRF1YMZzvJRg7jd+TJ7f1M2yGS9ZyLK3g
+	 uCAkFfIerlNIGC7D+FQdt0LVO3ndrTzrkEQ75b2d+oEgJu7+Sd07SFdX+vC187ivwM
+	 JwRGy4Oi6HNRzn9GQ+F09ZCF9Na55/XZ7kcXS0KwWHh0KGXpgH+LICAs2X1LQuHU8O
+	 FoaudrESv9qL/oivV1eWbm899j8WD+Sh4aCBLcwqSZNx3KflPhQwmXdklNvredoKEh
+	 BqFP6Vdndyung==
 From: Lee Jones <lee@kernel.org>
 To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Linus Walleij <linusw@kernel.org>
-Cc: linux-leds@vger.kernel.org
-In-Reply-To: <20260427-leds-st1202-v2-1-119e4cfa6365@kernel.org>
-References: <20260427-leds-st1202-v2-1-119e4cfa6365@kernel.org>
-Subject: Re: (subset) [PATCH v2] leds: st1202: Drop unused include
-Message-Id: <178170767458.1623415.6661985550461880978.b4-ty@b4>
-Date: Wed, 17 Jun 2026 15:47:54 +0100
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>, 
+ Sven Schwermer <sven.schwermer@disruptive-technologies.com>, 
+ Jonas Rebmann <jre@pengutronix.de>
+Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel@pengutronix.de
+In-Reply-To: <20260605-multicolor-default-v2-2-ed07271df6b0@pengutronix.de>
+References: <20260605-multicolor-default-v2-2-ed07271df6b0@pengutronix.de>
+Subject: Re: (subset) [PATCH v2 2/2] leds: pwm-multicolor: Introduce
+ default-intensity property
+Message-Id: <178170767624.1623415.15294454040580448912.b4-ty@b4>
+Date: Wed, 17 Jun 2026 15:47:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -65,49 +72,57 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.16-dev-ad80c
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.66 / 15.00];
+X-Spamd-Result: default: False [-3.16 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:linusw@kernel.org,m:linux-leds@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jacek.anaszewski@gmail.com,m:sven.schwermer@disruptive-technologies.com,m:jre@pengutronix.de,m:pavel@ucw.cz,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:kernel@pengutronix.de,m:krzk@kernel.org,m:conor@kernel.org,m:jacekanaszewski@gmail.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,disruptive-technologies.com,pengutronix.de];
 	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8637-lists,linux-leds=lfdr.de];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_SENDER(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-leds@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-8638-lists,linux-leds=lfdr.de];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	RCPT_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CF89F69AA65
+X-Rspamd-Queue-Id: 10CF669AA68
 
-On Mon, 27 Apr 2026 10:48:57 +0200, Linus Walleij wrote:
-> The driver includes the legacy GPIO header <linux/gpio.h> but does
-> not use any symbols from it so drop the include.
+On Fri, 05 Jun 2026 09:27:48 +0200, Jonas Rebmann wrote:
+> Like all LED drivers, pwm-multicolor supports turning on an LED on boot
+> by setting linux,default-trigger, e.g. to "default-on". pwm-multicolor
+> however scales the brightness of the color-component sub-LEDs with their
+> individual intensity value. Since these intensities are
+> zero-initialized, on boot a trigger is invisible until colors are set
+> from userspace.
+> 
+> [...]
 
 Applied, thanks!
 
-[1/1] leds: st1202: Drop unused include
-      commit: 5ed87cc71c1bc1c3a3449ebd2de83e2b9c32670b
+[2/2] leds: pwm-multicolor: Introduce default-intensity property
+      commit: 69dd3b9d8681085eceeb35459a12d67b848372d4
 
 --
 Lee Jones [李琼斯]
