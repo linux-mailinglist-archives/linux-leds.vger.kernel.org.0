@@ -1,66 +1,66 @@
-Return-Path: <linux-leds+bounces-8650-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8651-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id FlbWBjXSMmp85wUAu9opvQ
-	(envelope-from <linux-leds+bounces-8650-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 18:58:29 +0200
+	id Q3s8KabSMmqY5wUAu9opvQ
+	(envelope-from <linux-leds+bounces-8651-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 19:00:22 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B6C69B881
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 18:58:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 470E269B8B2
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 19:00:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=rong.moe header.s=zmail2048 header.b=cB5C88mI;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8650-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8650-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=rong.moe header.s=zmail2048 header.b=mW9xcRgE;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8651-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8651-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=rong.moe;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0886731BC06D
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 16:51:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D67E231EF248
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 16:52:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF6624C8FE5;
-	Wed, 17 Jun 2026 16:50:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60FC04C9018;
+	Wed, 17 Jun 2026 16:50:19 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3704C041B;
-	Wed, 17 Jun 2026 16:50:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE204C9009;
+	Wed, 17 Jun 2026 16:50:15 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781715007; cv=pass; b=ZLhqnFvpAJFK5n1pJApSn/zXsg56ZiTjk4C4GmEsVelgMi8XwRUzAjkLLWRge1bo4xky01DxJhBgC6KPzY779NayEWz6dYkq8z/pJsnXRYIB0Kk1pCR1hoBbkynf44b5uI6sE/mlGzAImzas4WcGw+ohd0TD2HmRG2GLQ9LruSc=
+	t=1781715019; cv=pass; b=swqQtRsfkuSkHi4Jh9mCqGstwMfeCFc+4+n5whDFeZTw9vz9nUsrZl7YyDVq1NeEdnyNNxR82dd8KbP1629sRO0tGeUpacQe+unKM9oafalYyRZTBrMKEKsaFFbxE/uRT2kmY6xAOu721PifhiT7JZbWFdFCLBzMboo8VCLX9+k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781715007; c=relaxed/simple;
-	bh=qcV+ghn9bXTx0q01Ru55nJGFnkb5b4Ve4WfMLVwbrNI=;
+	s=arc-20240116; t=1781715019; c=relaxed/simple;
+	bh=MTJ4kxF9NbMdUJw1gBwgd8RMq6kZD/vQoFSH3E9E/qs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KmItrBzYX2TTkfPfXX+Z8U9sYRBqI7nj5VdBd0JR388t+VEqWbjsKObuTEn5b/NUF+ukLa9X8UXr5qUkttCIj2wm/z2b2M4VzsZFK14aYwy3r1FJvL+jBAK2ko2V11W69GTLbIEZpS3ge31tXsJu8qPzr7T0fkXwxOJt7ZU3U/0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=cB5C88mI; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal: i=1; a=rsa-sha256; t=1781714981; cv=none; 
+	 In-Reply-To:To:Cc; b=NmZCjgoREKOY27ScNO0yTskqk2ZT/FPw92/eCdfHMSeth8mZK217vr8KERAZ/p2TtOGcO7Ly/BATEFV6sNPsX8R3TBWbHvhfv0koIAEM2hBIYEKoBi4ASN6A4+y3tx65E24sX5MaHQCSSb7P0h3XAv1Pb1uS6QyO+874PKMvkzg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=mW9xcRgE; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal: i=1; a=rsa-sha256; t=1781714991; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=dSFQ+PZecON+WEOiTSP9cmMcEr9KCEDU0wqlNQRws5cq7SlMSRI0SSsUPUBa3zjrk6GaKHgzpdOrUZWiINOoZDb+kqV71xC/jrsDoih6q+WWBpQ4dgYihQYKMmEF+fIzhXaLr+AGlXyshAGRt5ucqgWfSOzLZ77GLExEh5DzONo=
+	b=TrkkIwVI8mZrkQXwGnPfrZviBAZDTmv1DsT340JJQnC3coTyttGXPpFBw1P9QWyyzgkDsdXnpxy8hSuKKWtb6IxW1kaKqIAwhHBaOMmPKL7PlGnDmY0MWG9ZLuK0LJUVzYvRwytW9d1pcA0ThWFBuK4tM/2E543vb4KQmFgLkW4=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1781714981; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=lZ4EusPRR2hYiSCuHaS3ddpu16Mp1+fECmtSsXal90Q=; 
-	b=X/UkL6Xap//6frPtB4yHIBdpKSvIzn3fPnq4m1oHFpjLKFikPJE7bx5tkbCY37niFW9D77B2ugf0g7J16ujjmWAWn+9s7CidyvoJ1+7dfQePDaA2dP7TF8Y6EnaLACNBKv2L0oQY9wLEWbEB9F0qqQ5hK7n+PFZrnXta3o3IELA=
+	t=1781714991; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=mW++TMywuejOJ6+lHjNgcZ6lhJeANPzXkcvE9h8pTu4=; 
+	b=aFUW5z8BK8i754SKiaMaBYn9sH5hrMwF/QlOSQSsEH/zpk3LleSvua3nJi3PuHrM+U4WbYB23eJQ0ryrwj6gV4tbZ6tOSW7t5Z84e3ixAzyS8ciDVpO79R/5FFqrgQI2Qjt0rqipw8b148DNe55swstrTXhURNo6qOy1T38P6Fw=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=rong.moe;
 	spf=pass  smtp.mailfrom=i@rong.moe;
 	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781714981;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781714991;
 	s=zmail2048; d=rong.moe; i=i@rong.moe;
 	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=lZ4EusPRR2hYiSCuHaS3ddpu16Mp1+fECmtSsXal90Q=;
-	b=cB5C88mIXb+MzNa3G/edEqHcjkO3rZpe01U305wAl4gF6b+P3Ae2iGR3V6SY8aSc
-	NpiGKFtOl8JaZfqDbN4K7CHYi3XusJp6YNfpia/AJ3AoBD6Z7robdA8jH2dJ74lLBpB
-	LlfpbErhNkKKrh7tHy53awj7+WSj9p/fHxcf7HcFd3itUCFhPtEVWrXC2TFa+62XPpf
-	CznN1CC1W+vSSJ9Rcy36DrfcepCqpgxng8IKc3xXSrhCIkJCcJGi9Na/QxNxBLLGmh+
-	DrGvbgGpWfMN6N0gYVRudpictuc4+qPqMRFZyViOMaCo07Edjasx2lXb7CSCQmHU/K1
-	HCbnjRqMDA==
-Received: by mx.zohomail.com with SMTPS id 1781714980482428.43349823305573;
-	Wed, 17 Jun 2026 09:49:40 -0700 (PDT)
+	bh=mW++TMywuejOJ6+lHjNgcZ6lhJeANPzXkcvE9h8pTu4=;
+	b=mW9xcRgE13jdHho/wedMrQ5R/sr/hcwZ+wF1QCrAGdYJb1QyHJTgmTE/NWOy847S
+	WBfID60kG9Ywa/mDq7EpSN6zI1/os4AQf4ThmhBF47NcjjpgdpIsYVWhOHy17fO9ueW
+	VCyWgQOG7UlpFerQYtBrTwHThnU12l68vrd/9xCbeCk9qq7EeSQE403eSIOlJ20qQRp
+	gnoGVetl0PsGG1zULAiiMNsqniNUTqUtCqefVuD3y1qeeuPy6ipYFvYMIQlQYlbtOTD
+	XX2R2kC0RKDJ7BwvkzfdACF5j3IKkOoNCsBKYazGVowbRBI7keLvzxnAOca5V8Sg+CW
+	rh4aaj7S4g==
+Received: by mx.zohomail.com with SMTPS id 1781714989936315.34851963631866;
+	Wed, 17 Jun 2026 09:49:49 -0700 (PDT)
 From: Rong Zhang <i@rong.moe>
-Date: Thu, 18 Jun 2026 00:48:00 +0800
-Subject: [PATCH RFC v2 6/9] leds: trigger: Add
- led_trigger_notify_hw_control_changed() interface
+Date: Thu, 18 Jun 2026 00:48:01 +0800
+Subject: [PATCH RFC v2 7/9] platform/x86: ideapad-laptop: Decouple hardware
+ & classdev brightness for keyboard backlight
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260618-leds-trigger-hw-changed-v2-6-c28c44053cf3@rong.moe>
+Message-Id: <20260618-leds-trigger-hw-changed-v2-7-c28c44053cf3@rong.moe>
 References: <20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3@rong.moe>
 In-Reply-To: <20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3@rong.moe>
 To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
@@ -106,7 +106,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FREEMAIL_TO(0.00)[kernel.org,lwn.net,linuxfoundation.org,weissschuh.net,chromium.org,squebb.ca,gmail.com,linux.intel.com];
 	FORGED_SENDER(0.00)[i@rong.moe,linux-leds@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[24];
-	TAGGED_FROM(0.00)[bounces-8650-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8651-lists,linux-leds=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -123,295 +123,307 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[rong.moe:dkim,rong.moe:email,rong.moe:mid,rong.moe:from_mime,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,openedhand.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[rong.moe:dkim,rong.moe:email,rong.moe:mid,rong.moe:from_mime,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 88B6C69B881
+X-Rspamd-Queue-Id: 470E269B8B2
 
-Some hardware can autonomously activate/deactivate hardware control.
-After that, the LED hardware notifies the LED driver. Currently, there
-is no mechanism for LED drivers to notify the LED core about such events
-and initiate a trigger transition to reflect the hardware state.
+Some recent models come with an ambient light sensor (ALS). On these
+models, their EC will automatically set the keyboard backlight to an
+appropriate brightness when the effective "hardware brightness" is 3.
+"Hardware brightness" can't be perfectly mapped to an LED classdev
+brightness, but the EC does use this predefined brightness value to
+represent auto mode.
 
-Add a new interface called led_trigger_notify_hw_control_changed(), so
-that LED drivers can call it to notify the LED core about the
-transition.
+Currently, the code processing keyboard backlight is coupled with LED
+classdev, making it hard to expose the auto brightness (ALS) mode to the
+userspace.
 
-The interface only allows two transitions:
+As the first step toward the goal, decouple hardware brightness from LED
+classdev brightness, and update comments about corresponding backlight
+modes.
 
-1. "none" => private trigger
-2. private trigger => "none"
+Since upcoming changes will heavily rely on kbd_bl.last_hw_brightness,
+also convert it into an atomic_t to prevent potential race conditions.
 
-If the current trigger is neither the private trigger nor "none", no
-transition will be made. This protects the currently selected software
-trigger.
-
-Note that LED_OFF won't be emitted during the #2 transition, as some
-hardware may have selected a new brightness level during its hardware
-state transition (e.g., laptop keyboards with a shortcut cycling through
-different backlight brightnesses and auto mode).
-
-The interface is designed as a void function as any failure should be
-non-fatal and the result of transition should not have any impact on the
-LED drivers' event handling procedures.
-
-To use the interface, LEDS_TRIGGERS_HW_CHANGED must be enabled in
-Kconfig, and the LED driver must set the LED_TRIG_HW_CHANGED flag for
-the classdev.
+To minimalize the diff set in upcoming changes, a trivial refactor
+also converts the initialization path into another equivalent form.
 
 Signed-off-by: Rong Zhang <i@rong.moe>
 ---
- Documentation/leds/leds-class.rst | 61 +++++++++++++++++++++++++++
- drivers/leds/led-triggers.c       | 86 +++++++++++++++++++++++++++++++++++++--
- drivers/leds/trigger/Kconfig      |  9 ++++
- include/linux/leds.h              |  8 ++++
- 4 files changed, 161 insertions(+), 3 deletions(-)
+ drivers/platform/x86/lenovo/Kconfig          |   1 +
+ drivers/platform/x86/lenovo/ideapad-laptop.c | 148 ++++++++++++++++++---------
+ 2 files changed, 103 insertions(+), 46 deletions(-)
 
-diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
-index 41342ecb5f6b..f250dc938e1f 100644
---- a/Documentation/leds/leds-class.rst
-+++ b/Documentation/leds/leds-class.rst
-@@ -261,9 +261,70 @@ the end use hw_control_set to activate hw control.
- A trigger can use hw_control_get to check if a LED is already in hw control
- and init their flags.
- 
-+Alternatively, a private trigger can be implemented along with the LED driver if
-+the LED's hw control doesn't fit any generic trigger. To associate the private
-+trigger with the LED classdev, their `trigger_type` must be the same. The name
-+of the private trigger must be the same as `hw_control_trigger`. Since both the
-+LED classdev and the private trigger are in the same LED driver, it's not
-+necessary for them to coordinate via `hw_control_*` callbacks.
-+
- When the LED is in hw control, no software blink is possible and doing so
- will effectively disable hw control.
- 
-+Hardware-initiated trigger transition
-+=====================================
-+
-+Some hardware can autonomously activate/deactivate hardware control. After that,
-+the LED hardware notifies the LED driver.
-+
-+If the driver can detect such transitions and thus wants to notify the LED core
-+to update the current trigger then the `LED_TRIG_HW_CHANGED` flag must be set in
-+flags before registering. To update the current trigger accordingly, call
-+`led_trigger_notify_hw_control_changed` on the LED classdev. Calling the method
-+on a classdev not registered with the `LED_TRIG_HW_CHANGED` flag or an
-+appropriate `hw_control_trigger` string is a bug and will trigger a WARN_ON.
-+
-+This capability is restricted to the LED device's private trigger. The private
-+trigger must have been properly registered (see above) and named after
-+`hw_control_trigger`, or else a dev_err() will be triggered.
-+
-+Only two transitions are defined:
-+
-+- "none" => private trigger:
-+        This happens when the hardware autonomously activates hardware control
-+        and when "none" (i.e., no trigger) is currently active. If the private
-+        trigger is already active when the method is called, this is essentially
-+        a no-op.
-+
-+        The activation sequence for the private trigger will be executed as
-+        normal.
-+
-+        The LED driver and its private trigger must be able to handle the
-+        activation sequence even if the hardware is currently in hardware
-+        control.
-+
-+        If error occurs in the activation sequence, the LED Trigger core reverts
-+        the effective trigger to "none".
-+
-+- private trigger => "none"
-+        This happens when the hardware autonomously deactivates hardware control
-+        and when the private trigger is currently active. If "none" (i.e., no
-+        trigger) is active when the method is called, this is essentially a
-+        no-op.
-+
-+        The deactivation sequence for the private trigger will be executed as
-+        normal, except that the current LED brightness is retained. The reason
-+        for keeping the brightness unchanged is that some hardware may choose a
-+        specific brightness instead of simply turning off the LED after
-+        autonomously deactivating hardware control.
-+
-+        The LED driver and its private trigger must be able to handle the
-+        deactivation sequence even if the hardware is not currently in hardware
-+        control.
-+
-+If the current trigger is neither the private trigger nor "none", no transition
-+will be made.
-+
- Known Issues
- ============
- 
-diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-index c43229d9c4c1..73e9ce376d02 100644
---- a/drivers/leds/led-triggers.c
-+++ b/drivers/leds/led-triggers.c
-@@ -7,6 +7,7 @@
-  * Author: Richard Purdie <rpurdie@openedhand.com>
-  */
- 
-+#include <linux/bug.h>
- #include <linux/export.h>
- #include <linux/kernel.h>
- #include <linux/list.h>
-@@ -162,8 +163,8 @@ ssize_t led_trigger_read(struct file *filp, struct kobject *kobj,
- }
- EXPORT_SYMBOL_GPL(led_trigger_read);
- 
--/* Caller must ensure led_cdev->trigger_lock held */
--int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
-+static int __led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig,
-+			     bool hw_triggered)
- {
- 	char *event = NULL;
- 	char *envp[2];
-@@ -194,7 +195,21 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
- 		led_cdev->trigger_data = NULL;
- 		led_cdev->activated = false;
- 		led_cdev->flags &= ~LED_INIT_DEFAULT_TRIGGER;
--		led_set_brightness(led_cdev, LED_OFF);
-+
-+		/*
-+		 * Hardware may have selected a new brightness level during its
-+		 * hardware control transition, so only reset brightness if we
-+		 * are switching to another trigger or if the switching is not
-+		 * hardware triggered.
-+		 *
-+		 * Note that this does not apply to the error path, as running
-+		 * into the error path implies a none => private trigger
-+		 * transition. This hints that the LED driver and its private
-+		 * trigger must have some fundamental bugs, so don't bother
-+		 * leaving the LED in an undefined state.
-+		 */
-+		if (trig || !hw_triggered)
-+			led_set_brightness(led_cdev, LED_OFF);
- 	}
- 	if (trig) {
- 		spin_lock(&trig->leddev_list_lock);
-@@ -258,6 +273,12 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
- 
- 	return ret;
- }
-+
-+/* Caller must ensure led_cdev->trigger_lock held */
-+int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
-+{
-+	return __led_trigger_set(led_cdev, trig, false);
-+}
- EXPORT_SYMBOL_GPL(led_trigger_set);
- 
- void led_trigger_remove(struct led_classdev *led_cdev)
-@@ -448,6 +469,65 @@ int devm_led_trigger_register(struct device *dev,
- }
- EXPORT_SYMBOL_GPL(devm_led_trigger_register);
- 
-+#ifdef CONFIG_LEDS_TRIGGERS_HW_CHANGED
-+static void led_trigger_do_hw_control_transition(struct led_classdev *led_cdev, bool activate,
-+						 struct led_trigger *hc_trig)
-+{
-+	int err = 0;
-+
-+	if (!led_cdev->trigger) {
-+		/* "none" => private trigger. */
-+		if (activate)
-+			err = __led_trigger_set(led_cdev, hc_trig, true);
-+	} else if (led_cdev->trigger == hc_trig) {
-+		/* private trigger => "none". */
-+		if (!activate)
-+			err = __led_trigger_set(led_cdev, NULL, true);
-+	} else {
-+		/* Other trigger is active. */
-+		dev_dbg(led_cdev->dev,
-+			"Ignoring hw control transition (%s %s) while %s is active",
-+			activate ? "activate" : "deactivate", hc_trig->name,
-+			led_cdev->trigger->name);
-+
-+		return;
-+	}
-+
-+	if (err)
-+		dev_warn(led_cdev->dev, "Failed to %s %s in hw control transition: %d",
-+			 activate ? "activate" : "deactivate", hc_trig->name, err);
-+}
-+
-+void led_trigger_notify_hw_control_changed(struct led_classdev *led_cdev, bool activate)
-+{
-+	struct led_trigger *trig;
-+
-+	/* Restricted to private triggers. */
-+	if (WARN_ON(!(led_cdev->flags & LED_TRIG_HW_CHANGED) ||
-+		    !led_cdev->hw_control_trigger || !led_cdev->trigger_type))
-+		return;
-+
-+	down_read(&triggers_list_lock);
-+	list_for_each_entry(trig, &trigger_list, next_trig) {
-+		if (trig->trigger_type == led_cdev->trigger_type &&
-+		    !strcmp(trig->name, led_cdev->hw_control_trigger)) {
-+			down_write(&led_cdev->trigger_lock);
-+			led_trigger_do_hw_control_transition(led_cdev, activate, trig);
-+			up_write(&led_cdev->trigger_lock);
-+
-+			up_read(&triggers_list_lock);
-+			return;
-+		}
-+	}
-+	up_read(&triggers_list_lock);
-+
-+	dev_err(led_cdev->dev,
-+		"%s() is called, but the private trigger (%s) is never registered\n",
-+		__func__, led_cdev->hw_control_trigger);
-+}
-+EXPORT_SYMBOL_GPL(led_trigger_notify_hw_control_changed);
-+#endif /* CONFIG_LEDS_TRIGGERS_HW_CHANGED */
-+
- /* Simple LED Trigger Interface */
- 
- void led_trigger_event(struct led_trigger *trig,
-diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
-index c11282a74b5a..798122154049 100644
---- a/drivers/leds/trigger/Kconfig
-+++ b/drivers/leds/trigger/Kconfig
-@@ -9,6 +9,15 @@ menuconfig LEDS_TRIGGERS
- 
- if LEDS_TRIGGERS
- 
-+config LEDS_TRIGGERS_HW_CHANGED
-+	bool "LED hardware-initiated trigger transition support"
-+	help
-+	  This option enables support for hardware initiated hardware control
-+	  transitions, where the LED hardware autonomously switches between
-+	  "none" (i.e., no trigger) and its private trigger.
-+
-+	  See Documentation/leds/leds-class.rst for details.
-+
- config LEDS_TRIGGER_TIMER
- 	tristate "LED Timer Trigger"
+diff --git a/drivers/platform/x86/lenovo/Kconfig b/drivers/platform/x86/lenovo/Kconfig
+index 09b1b055d2e0..76ed1593e2aa 100644
+--- a/drivers/platform/x86/lenovo/Kconfig
++++ b/drivers/platform/x86/lenovo/Kconfig
+@@ -16,6 +16,7 @@ config IDEAPAD_LAPTOP
+ 	select INPUT_SPARSEKMAP
+ 	select NEW_LEDS
+ 	select LEDS_CLASS
++	select LEDS_TRIGGERS
  	help
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index 7332034a43c8..479391ddf5e5 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -109,6 +109,7 @@ struct led_classdev {
- #define LED_INIT_DEFAULT_TRIGGER BIT(23)
- #define LED_REJECT_NAME_CONFLICT BIT(24)
- #define LED_MULTI_COLOR		BIT(25)
-+#define LED_TRIG_HW_CHANGED	BIT(26)
+ 	  This is a driver for Lenovo IdeaPad netbooks contains drivers for
+ 	  rfkill switch, hotkey, fan control and backlight control.
+diff --git a/drivers/platform/x86/lenovo/ideapad-laptop.c b/drivers/platform/x86/lenovo/ideapad-laptop.c
+index 4fbc904f1fc3..40153dc9a5f2 100644
+--- a/drivers/platform/x86/lenovo/ideapad-laptop.c
++++ b/drivers/platform/x86/lenovo/ideapad-laptop.c
+@@ -9,6 +9,7 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
  
- 	/* set_brightness_work / blink_timer flags, atomic, private. */
- 	unsigned long		work_flags;
-@@ -599,6 +600,13 @@ led_trigger_get_brightness(const struct led_trigger *trigger)
+ #include <linux/acpi.h>
++#include <linux/atomic.h>
+ #include <linux/backlight.h>
+ #include <linux/bitfield.h>
+ #include <linux/bitops.h>
+@@ -134,10 +135,31 @@ enum {
+ };
  
- #endif /* CONFIG_LEDS_TRIGGERS */
+ /*
+- * These correspond to the number of supported states - 1
+- * Future keyboard types may need a new system, if there's a collision
+- * KBD_BL_TRISTATE_AUTO has no way to report or set the auto state
+- * so it effectively has 3 states, but needs to handle 4
++ * The enumeration has two purposes:
++ *   - as an internal identifier for all known types of keyboard backlight
++ *   - as a mandatory parameter of the KBLC command
++ *
++ * For each type, the hardware brightness values are defined as follows:
++ * +--------------------------+----------+-----+------+------+
++ * |      Hardware brightness |        0 |   1 |    2 |    3 |
++ * | Type                     |          |     |      |      |
++ * +--------------------------+----------+-----+------+------+
++ * | KBD_BL_STANDARD          |      off |  on |  N/A |  N/A |
++ * +--------------------------+----------+-----+------+------+
++ * | KBD_BL_TRISTATE          |      off | low | high |  N/A |
++ * +--------------------------+----------+-----+------+------+
++ * | KBD_BL_TRISTATE_AUTO     |      off | low | high | auto |
++ * +--------------------------+----------+-----+------+------+
++ *
++ * We map LED classdev brightness for KBD_BL_TRISTATE_AUTO as follows:
++ * +--------------------------+----------+-----+------+
++ * |  LED classdev brightness |        0 |   1 |    2 |
++ * | Operation                |          |     |      |
++ * +--------------------------+----------+-----+------+
++ * | Read                     | off/auto | low | high |
++ * +--------------------------+----------+-----+------+
++ * | Write                    |      off | low | high |
++ * +--------------------------+----------+-----+------+
+  */
+ enum {
+ 	KBD_BL_STANDARD      = 1,
+@@ -145,6 +167,8 @@ enum {
+ 	KBD_BL_TRISTATE_AUTO = 3,
+ };
  
-+#ifdef CONFIG_LEDS_TRIGGERS_HW_CHANGED
-+void led_trigger_notify_hw_control_changed(struct led_classdev *led_cdev, bool activate);
-+#else
-+static inline void led_trigger_notify_hw_control_changed(struct led_classdev *led_cdev,
-+							 bool activate) {}
-+#endif
++#define KBD_BL_AUTO_MODE_HW_BRIGHTNESS	3
 +
- /* Trigger specific enum */
- enum led_trigger_netdev_modes {
- 	TRIGGER_NETDEV_LINK = 0,
+ #define KBD_BL_QUERY_TYPE		0x1
+ #define KBD_BL_TRISTATE_TYPE		0x5
+ #define KBD_BL_TRISTATE_AUTO_TYPE	0x7
+@@ -203,7 +227,7 @@ struct ideapad_private {
+ 		bool initialized;
+ 		int type;
+ 		struct led_classdev led;
+-		unsigned int last_brightness;
++		atomic_t last_hw_brightness;
+ 	} kbd_bl;
+ 	struct {
+ 		bool initialized;
+@@ -1592,7 +1616,24 @@ static int ideapad_kbd_bl_check_tristate(int type)
+ 	return (type == KBD_BL_TRISTATE) || (type == KBD_BL_TRISTATE_AUTO);
+ }
+ 
+-static int ideapad_kbd_bl_brightness_get(struct ideapad_private *priv)
++static int ideapad_kbd_bl_brightness_parse(struct ideapad_private *priv, int hw_brightness)
++{
++	/* Off, low or high */
++	if (hw_brightness <= priv->kbd_bl.led.max_brightness)
++		return hw_brightness;
++
++	/* Auto (controlled by EC according to ALS), report as off */
++	if (priv->kbd_bl.type == KBD_BL_TRISTATE_AUTO &&
++	    hw_brightness == KBD_BL_AUTO_MODE_HW_BRIGHTNESS)
++		return 0;
++
++	/* Unknown value */
++	dev_warn(&priv->platform_device->dev,
++		 "Unknown keyboard backlight value: %u", hw_brightness);
++	return -EINVAL;
++}
++
++static int ideapad_kbd_bl_hw_brightness_get(struct ideapad_private *priv)
+ {
+ 	unsigned long value;
+ 	int err;
+@@ -1606,21 +1647,7 @@ static int ideapad_kbd_bl_brightness_get(struct ideapad_private *priv)
+ 		if (err)
+ 			return err;
+ 
+-		/* Convert returned value to brightness level */
+-		value = FIELD_GET(KBD_BL_GET_BRIGHTNESS, value);
+-
+-		/* Off, low or high */
+-		if (value <= priv->kbd_bl.led.max_brightness)
+-			return value;
+-
+-		/* Auto, report as off */
+-		if (value == priv->kbd_bl.led.max_brightness + 1)
+-			return 0;
+-
+-		/* Unknown value */
+-		dev_warn(&priv->platform_device->dev,
+-			 "Unknown keyboard backlight value: %lu", value);
+-		return -EINVAL;
++		return FIELD_GET(KBD_BL_GET_BRIGHTNESS, value);
+ 	}
+ 
+ 	err = eval_hals(priv->adev->handle, &value);
+@@ -1630,6 +1657,16 @@ static int ideapad_kbd_bl_brightness_get(struct ideapad_private *priv)
+ 	return !!test_bit(HALS_KBD_BL_STATE_BIT, &value);
+ }
+ 
++static int ideapad_kbd_bl_brightness_get(struct ideapad_private *priv)
++{
++	int hw_brightness = ideapad_kbd_bl_hw_brightness_get(priv);
++
++	if (hw_brightness < 0)
++		return hw_brightness;
++
++	return ideapad_kbd_bl_brightness_parse(priv, hw_brightness);
++}
++
+ static enum led_brightness ideapad_kbd_bl_led_cdev_brightness_get(struct led_classdev *led_cdev)
+ {
+ 	struct ideapad_private *priv = container_of(led_cdev, struct ideapad_private, kbd_bl.led);
+@@ -1637,32 +1674,37 @@ static enum led_brightness ideapad_kbd_bl_led_cdev_brightness_get(struct led_cla
+ 	return ideapad_kbd_bl_brightness_get(priv);
+ }
+ 
+-static int ideapad_kbd_bl_brightness_set(struct ideapad_private *priv, unsigned int brightness)
++static int ideapad_kbd_bl_hw_brightness_set(struct ideapad_private *priv, int hw_brightness)
+ {
+-	int err;
+ 	unsigned long value;
+ 	int type = priv->kbd_bl.type;
++	int err;
+ 
+ 	if (ideapad_kbd_bl_check_tristate(type)) {
+-		if (brightness > priv->kbd_bl.led.max_brightness)
+-			return -EINVAL;
+-
+-		value = FIELD_PREP(KBD_BL_SET_BRIGHTNESS, brightness) |
++		value = FIELD_PREP(KBD_BL_SET_BRIGHTNESS, hw_brightness) |
+ 			FIELD_PREP(KBD_BL_COMMAND_TYPE, type) |
+ 			KBD_BL_COMMAND_SET;
+ 		err = exec_kblc(priv->adev->handle, value);
+ 	} else {
+-		err = exec_sals(priv->adev->handle, brightness ? SALS_KBD_BL_ON : SALS_KBD_BL_OFF);
++		value = hw_brightness ? SALS_KBD_BL_ON : SALS_KBD_BL_OFF;
++		err = exec_sals(priv->adev->handle, value);
+ 	}
+-
+ 	if (err)
+ 		return err;
+ 
+-	priv->kbd_bl.last_brightness = brightness;
++	atomic_set(&priv->kbd_bl.last_hw_brightness, hw_brightness);
+ 
+ 	return 0;
+ }
+ 
++static int ideapad_kbd_bl_brightness_set(struct ideapad_private *priv, int brightness)
++{
++	if (brightness > priv->kbd_bl.led.max_brightness)
++		return -EINVAL;
++
++	return ideapad_kbd_bl_hw_brightness_set(priv, brightness);
++}
++
+ static int ideapad_kbd_bl_led_cdev_brightness_set(struct led_classdev *led_cdev,
+ 						  enum led_brightness brightness)
+ {
+@@ -1673,26 +1715,31 @@ static int ideapad_kbd_bl_led_cdev_brightness_set(struct led_classdev *led_cdev,
+ 
+ static void ideapad_kbd_bl_notify(struct ideapad_private *priv)
+ {
+-	int brightness;
++	int hw_brightness, brightness, last_brightness, last_hw_brightness;
+ 
+ 	if (!priv->kbd_bl.initialized)
+ 		return;
+ 
+-	brightness = ideapad_kbd_bl_brightness_get(priv);
+-	if (brightness < 0)
++	hw_brightness = ideapad_kbd_bl_hw_brightness_get(priv);
++	if (hw_brightness < 0)
+ 		return;
+ 
+-	if (brightness == priv->kbd_bl.last_brightness)
+-		return;
++	brightness = ideapad_kbd_bl_brightness_parse(priv, hw_brightness);
++	if (brightness < 0)
++		return; /* Reject insane values early. */
+ 
+-	priv->kbd_bl.last_brightness = brightness;
++	last_hw_brightness = atomic_xchg(&priv->kbd_bl.last_hw_brightness, hw_brightness);
++	if (hw_brightness == last_hw_brightness)
++		return;
+ 
+-	led_classdev_notify_brightness_hw_changed(&priv->kbd_bl.led, brightness);
++	last_brightness = ideapad_kbd_bl_brightness_parse(priv, last_hw_brightness);
++	if (last_brightness < 0 || brightness != last_brightness)
++		led_classdev_notify_brightness_hw_changed(&priv->kbd_bl.led, brightness);
+ }
+ 
+ static int ideapad_kbd_bl_init(struct ideapad_private *priv)
+ {
+-	int brightness, err;
++	int hw_brightness, err;
+ 
+ 	if (!priv->features.kbd_bl)
+ 		return -ENODEV;
+@@ -1700,21 +1747,30 @@ static int ideapad_kbd_bl_init(struct ideapad_private *priv)
+ 	if (WARN_ON(priv->kbd_bl.initialized))
+ 		return -EEXIST;
+ 
+-	if (ideapad_kbd_bl_check_tristate(priv->kbd_bl.type))
+-		priv->kbd_bl.led.max_brightness = 2;
+-	else
+-		priv->kbd_bl.led.max_brightness = 1;
++	hw_brightness = ideapad_kbd_bl_hw_brightness_get(priv);
++	if (hw_brightness < 0)
++		return hw_brightness;
+ 
+-	brightness = ideapad_kbd_bl_brightness_get(priv);
+-	if (brightness < 0)
+-		return brightness;
++	atomic_set(&priv->kbd_bl.last_hw_brightness, hw_brightness);
+ 
+-	priv->kbd_bl.last_brightness = brightness;
+ 	priv->kbd_bl.led.name                    = "platform::" LED_FUNCTION_KBD_BACKLIGHT;
+ 	priv->kbd_bl.led.brightness_get          = ideapad_kbd_bl_led_cdev_brightness_get;
+ 	priv->kbd_bl.led.brightness_set_blocking = ideapad_kbd_bl_led_cdev_brightness_set;
+ 	priv->kbd_bl.led.flags                   = LED_BRIGHT_HW_CHANGED | LED_RETAIN_AT_SHUTDOWN;
+ 
++	switch (priv->kbd_bl.type) {
++	case KBD_BL_TRISTATE_AUTO:
++	case KBD_BL_TRISTATE:
++		priv->kbd_bl.led.max_brightness = 2;
++		break;
++	case KBD_BL_STANDARD:
++		priv->kbd_bl.led.max_brightness = 1;
++		break;
++	default:
++		/* This has already been validated by ideapad_check_features(). */
++		unreachable();
++	}
++
+ 	err = led_classdev_register(&priv->platform_device->dev, &priv->kbd_bl.led);
+ 	if (err)
+ 		return err;
 
 -- 
 2.53.0
