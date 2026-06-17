@@ -1,81 +1,81 @@
-Return-Path: <linux-leds+bounces-8629-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8628-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id kXSbGvlUMmr5ygUAu9opvQ
-	(envelope-from <linux-leds+bounces-8629-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 10:04:09 +0200
+	id h6UqBfhUMmr4ygUAu9opvQ
+	(envelope-from <linux-leds+bounces-8628-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 10:04:08 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF6C4697668
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 10:04:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C08FB697663
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 10:04:07 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=HVF+bSHq;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8629-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-leds+bounces-8629-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=kIQvHTqP;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8628-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-leds+bounces-8628-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 25AA03094787
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 08:02:34 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D7CCF3045A85
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Jun 2026 08:02:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22FE33DA5DB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EF533DA5D1;
 	Wed, 17 Jun 2026 08:01:09 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1334C3C7E1B
-	for <linux-leds@vger.kernel.org>; Wed, 17 Jun 2026 08:00:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5213CF1E3
+	for <linux-leds@vger.kernel.org>; Wed, 17 Jun 2026 08:00:58 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781683268; cv=none; b=ACeMfYrrNYlaGIyOB52htWimz0SdnfD0p7frNSCz/kr2dpk4F5zksdOqcKCSgQPHh8JJROBTI/n42wbZjaAVyXStI11YTgVvk9m/x0pV2GHbNm5blC9cO9liuBDdt4fuu0rLMsUI03CRFP3yCCMo7Sjr70AovqzbKOD/d/xO+4g=
+	t=1781683268; cv=none; b=b43W8f14N4iAuoLV9HzN7Hj5vk2RXV45ws5q+doAchIyFZacpmiDBH7L6YjqCyfRdcUtGwKWoV/c900EkxlfN4GSAHg9LS1FFVx+pl7XI6dQwBcyT7wgFmHcmLnQhjkDFHpLwh50+mSPYahC7Vew76WvyCyqEi4bjhvLmymI+C4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781683268; c=relaxed/simple;
-	bh=4WjmiWfFTCp+1bBNDrcHv5gGqTRg8YPvmqnJ/PwH9+s=;
+	bh=Gwi2SEZRxxZPvrxGh5xpiGuXapIPqlS3eMFp/EcaCRQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SZCKlZo/QQPf5wqrZ6UaOFSfpFhkCAJbivjNcD14u5cLqEEKZCPkqeNoaRCaXpIp9f1UIiME6j7TmEpZvesw5Iaba4ZD/UoTCwDQf2p1D0hpVKh39gLq2JLTcuuRQnURiC1+C9xSsG9j2/NvLy7Su90jp0g3uvA6u1/66yOClBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HVF+bSHq; arc=none smtp.client-ip=209.85.218.47
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-beb7f26ed62so648210866b.0
-        for <linux-leds@vger.kernel.org>; Wed, 17 Jun 2026 01:00:57 -0700 (PDT)
+	 MIME-Version; b=sO0PbN/6ZMXQmb+FNdBWX6BOdUrgFGdWNQ7ybluK8lNgZ7+vUfz0bcRjnZJotXk0h5l/KVdTJjuYIYcf2EYDprz1UxhnvKzOu3JcZVOAFA5uK9pU2Gsg0x1qVrhgnJd+Dh+QlasNhyeqUImXCunkeJy07azooD3+je6rXfuuL4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kIQvHTqP; arc=none smtp.client-ip=209.85.218.51
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-beeba001887so706181866b.3
+        for <linux-leds@vger.kernel.org>; Wed, 17 Jun 2026 01:00:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781683256; x=1782288056; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781683257; x=1782288057; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bDbkv4yENGcso8lbBuowMRR6EhhW3sM2nEWvZfEX0tI=;
-        b=HVF+bSHqNdQvwqLcn9tqAERPwc90kPjvY1ZlbO9x4CEynUEdYqSkotKSHBTysqh1xa
-         f0Nz9C1tt9TuXyQ0YZ13rtHlKkt2q23ZE22a0rO1zvJTB0ecXWc6xyp5tIu6Ju9YRBW3
-         4U+gjnfRkDhoYlipuhzNKy6NfC+UXWTaWKzhknJeV4Atb5dU8wHDWScavvsAzrZ05stY
-         F/SwjhQ+AX4yLCqOeHfW+ml3x+Lq8gz5WrV1eHpVV7iWuK2yn+nSwW2HrRGoj3XNT4pF
-         K0/ltZ+jBPHoG8OIpo3bYyIMmjVqezRifhdb5Q6pLRk74EOfwjw1NS4lmoogwi6+jkWS
-         88Zg==
+        bh=BStSfLs2cVd2uwZhDXiQO2uYMri4qNRZ0wt5dxl+TLw=;
+        b=kIQvHTqPC5VkRUDrpLCtRDZpUvjzaV9nTZdILVN2cxG1d6Oyz9pmvLEnPozk2o1wZo
+         h474uWl/pxK41XGij4r2JYew0UA6KoyoxQyE/39flbfeBxwMwXhYAEAHsyC3c9bNRhP1
+         hRr3qJGbvH9zCnmKdb3R9hNRrpLxPW/VacDkgecOxXmZSBQ8kPoudHAR/EX9uG1CyiS6
+         NJk6FGJaTTV2K/HnXKVsolYx0wJUUfT8zwDCCs+ywLPBRJoikv2gWxnYjkov7uKaoG1/
+         hM5lhI8hzdqZfKo+c6549baqe6L7LV1jel4GgJ+pMV1Q2AF3z9JapDJG+5i7dDswNJkF
+         cUyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781683256; x=1782288056;
+        d=1e100.net; s=20251104; t=1781683257; x=1782288057;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=bDbkv4yENGcso8lbBuowMRR6EhhW3sM2nEWvZfEX0tI=;
-        b=I8c6qjqa5N+p9aesSLPmoEPlcbHmK3cOb6JITyi3uSgEdWU/Yh+pKtU9cHyx7xds1X
-         eYE4V4h55pRrOHx0F6nrR+FCUSsZtHD8c5CUEyXAZEofnW+CqiXVVaXZuDAaFyoPSTpr
-         L7XQSzEzgsFjGuWLAehd4DXiLgsOuZcuxfpTR/7Ca6jb3RNZqFPcvn1Ht8Umbmu6Uavx
-         kyJZ1ua92wEEEwiRyNjBdanZ/fAs8bE8bLF9e5F2Pe1faZe1XLDjzCRk4es9VFzx8Dz7
-         3dKNCxoPPfHGXH54m6fuPHJzVTFQ8yPX+P9anjOQlwF3YCX1ktIVUO5qRzSCUcxVlZ+r
-         JGVw==
-X-Forwarded-Encrypted: i=1; AFNElJ/UgINVHd12ixemt4iZ0H2s/jnbtDeq+94J0yYgP5Zf74yM9qApGKRI2ECGeY0xm3ugwf9z8gxJ3OZt@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOOXfWfZuiF+YS5JG98EwWz2HTqugwEpp0qClH7+XS9ZIG12NH
-	tyl/Iloi16CyAmGzIXy+mEUpYFYn3nloCJcGzSfXiBhBBbBy2T4oSN0q
-X-Gm-Gg: Acq92OHxwqihOgJIAmRGHt05o2diAn/rjLuVYw5hgSkHuAO8/24Ssf03OtsYl02u4Id
-	+cI/s5bkh4YSaRKlZON+7zQcwG2VJWoPQwK1+JA6xeLQNU6W2O96OS9xHUSmY/lz1JPUdXqxK8I
-	PiuzkCwNlGTUI09TqZHYVY/ppfvpzQ6QHuL5O3xyYx3vTXgDVQ0s3bMVKafsrbyywtIlDaKwVxj
-	nd9azZcN8Yb/LvvRSaBDik4MIL5ZenLgCpK0LqGbs3v0VEalen/iuHdpDJKHefLlT56ZCCzQEYe
-	vV7DSH1gtyVEBzvuT6rLyG2q8j2kloMd0QTXCTKWahp9EVQB5sJmI6eeG7MmxN0waZv2+v55xuR
-	qbr3tZA0WUcAzpSkBIorGYRK5Ffj+9jWSZKTrb2nx5PeafPS2jPD7yKyTdXej7pqjORrYBxZVL0
-	fzSnUoLakHWODB
-X-Received: by 2002:a17:907:94d6:b0:bec:b4e3:e930 with SMTP id a640c23a62f3a-c05a511f1ccmr158862466b.12.1781683255042;
-        Wed, 17 Jun 2026 01:00:55 -0700 (PDT)
+        bh=BStSfLs2cVd2uwZhDXiQO2uYMri4qNRZ0wt5dxl+TLw=;
+        b=ijJ8iOLxwNsFd2MVmSxx+qDZGLgBrqAJ/rs/gBYrLjh0w/5gWaQFCM79gjUUoZKyRL
+         vy3p4YKYrZqMdFfHwFu3b6BzX5fgtBIQt88iuTc8A+LbTS95EurHT5a0U8ySLKMHpfyU
+         sFp6g5SMn2d/br2f9i2Su+PdR2Anm3/4xPIMZhvRyFxC3gRGhrzmJFVVqajBUi4lrVSn
+         B1Vk77DzDTZzREXCelrx8PlUz4MRmgKTZLbUwnOrgHwV2IBIQEk3Gv+83D98dtkY6af9
+         GaC+Iya8W53d9Mo78huvBYV7RD+iuOHk4CXSD1ijLQRsP5Y7Y0CGgQnYb5dAaQcvmW9r
+         +mcA==
+X-Forwarded-Encrypted: i=1; AFNElJ8PRMXeXnG87fUzOubxFtmPBFxyiaZrtDphtPNaABxHrgS3dFyH/uMeFb2tL1rVjn9CfvyzJtp8/7bz@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgEixJ2rB7bJSkYqE3tjPNgH/lSo6YsCH2xhsleUH4ORq+NtPw
+	DfyZUgQ8fJuZv0EUmVVDIOKSwxs2waLsKt0A9yqfONOOmVq+AnaUL4zK
+X-Gm-Gg: AfdE7cmR+/QiDXbGqkJCgZbm96A5uNUhm/rjeCpaILjx9E33u0QRBBA4Hj+EeyRD6bG
+	evx2nM87gPboyCAoOhGaJtigH6z1aJFimYoYaWLs25jDw8lFYeZQvaxkTH0G5VBvlSbWDwi+XoQ
+	fJCgnVRUmkpRxSm+K3BDeiZpnQ7tBch6rRSeQsXZxRrtfyohp/3YmBbxjqB48V9FVYNMh9ScUna
+	BXP/X9CABS5mHMHtk1oWKD92ejSh7/rF4LYsKf4V6Up1RQoC+oabSq1YHHBzhhCITLXmeTY28MI
+	m972NItxZquZIRFSxKIBUEWvZ9+PcKIEKKRg5GfgTsQU4uLd7jy8h2QVGymi+XfAx9p7gzHvDkm
+	W3IcanbVzNK2krlRav1pbocdCM1HUR/dL7sitMmI7LKUy0A4+iaKCmRKa6aredMpIFfQnexqPst
+	MPvw==
+X-Received: by 2002:a17:907:928d:b0:bd5:405c:7964 with SMTP id a640c23a62f3a-c05a5219b56mr201079366b.48.1781683256443;
+        Wed, 17 Jun 2026 01:00:56 -0700 (PDT)
 Received: from xeon ([188.163.112.61])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bfdb058fa59sm755339766b.0.2026.06.17.01.00.53
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bfdb058fa59sm755339766b.0.2026.06.17.01.00.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 01:00:54 -0700 (PDT)
+        Wed, 17 Jun 2026 01:00:56 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Lee Jones <lee@kernel.org>,
 	Daniel Thompson <danielt@kernel.org>,
@@ -97,9 +97,9 @@ Cc: Johan Hovold <johan@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-iio@vger.kernel.org,
 	linux-fbdev@vger.kernel.org
-Subject: [PATCH v5 09/14] mfd: lm3533: Add support for VIN power supply
-Date: Wed, 17 Jun 2026 11:00:26 +0300
-Message-ID: <20260617080031.99156-10-clamor95@gmail.com>
+Subject: [PATCH v5 10/14] mfd: lm3533: Set DMA mask
+Date: Wed, 17 Jun 2026 11:00:27 +0300
+Message-ID: <20260617080031.99156-11-clamor95@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260617080031.99156-1-clamor95@gmail.com>
 References: <20260617080031.99156-1-clamor95@gmail.com>
@@ -125,7 +125,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[20];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8629-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8628-lists,linux-leds=lfdr.de];
 	FORGED_SENDER(0.00)[clamor95@gmail.com,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:danielt@kernel.org,m:jingoohan1@gmail.com,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jic23@kernel.org,m:dlechner@baylibre.com,m:nuno.sa@analog.com,m:andy@kernel.org,m:deller@gmx.de,m:clamor95@gmail.com,m:johan@kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-iio@vger.kernel.org,m:linux-fbdev@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -147,98 +147,37 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DF6C4697668
+X-Rspamd-Queue-Id: C08FB697663
 
-Add support for 2.7V-5.5V VIN power supply.
+Missing coherent_dma_mask assigning triggers the following warning in
+dmesg:
+
+[    3.287872] platform lm3533-backlight.0: DMA mask not set
+
+Since this warning might be elevated to an error in the future, set
+coherent_dma_mask to zero because both the core and cells do not utilize
+DMA.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/mfd/lm3533-core.c  | 23 +++++++++++++++++++++--
- include/linux/mfd/lm3533.h |  2 ++
- 2 files changed, 23 insertions(+), 2 deletions(-)
+ drivers/mfd/lm3533-core.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/mfd/lm3533-core.c b/drivers/mfd/lm3533-core.c
-index a5aa7da9668b..4b5d94e9ed27 100644
+index 4b5d94e9ed27..db8581d1b073 100644
 --- a/drivers/mfd/lm3533-core.c
 +++ b/drivers/mfd/lm3533-core.c
-@@ -17,6 +17,7 @@
- #include <linux/mod_devicetable.h>
- #include <linux/property.h>
- #include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
- #include <linux/seq_file.h>
- #include <linux/slab.h>
- #include <linux/uaccess.h>
-@@ -113,14 +114,25 @@ static int lm3533_set_lvled_config(struct lm3533 *lm3533, u8 lvled, u8 led)
- 	return ret;
+@@ -480,6 +480,10 @@ static int lm3533_i2c_probe(struct i2c_client *i2c)
+ 				   LM3533_BOOST_FREQ_MAX);
+ 	lm3533->boost_freq = lm3533->boost_freq / (500 * KILO) - 1;
+ 
++	/* LM3533 and child devices do not use DMA */
++	i2c->dev.coherent_dma_mask = 0;
++	i2c->dev.dma_mask = &i2c->dev.coherent_dma_mask;
++
+ 	return lm3533_device_init(lm3533);
  }
  
--static void lm3533_enable(struct lm3533 *lm3533)
-+static int lm3533_enable(struct lm3533 *lm3533)
- {
-+	int ret;
-+
-+	ret = regulator_enable(lm3533->vin_supply);
-+	if (ret) {
-+		dev_err(lm3533->dev, "failed to enable vin power supply\n");
-+		return ret;
-+	}
-+
- 	gpiod_set_value(lm3533->hwen, 1);
-+
-+	return 0;
- }
- 
- static void lm3533_disable(struct lm3533 *lm3533)
- {
- 	gpiod_set_value(lm3533->hwen, 0);
-+	regulator_disable(lm3533->vin_supply);
- }
- 
- enum lm3533_attribute_type {
-@@ -333,7 +345,9 @@ static int lm3533_device_init(struct lm3533 *lm3533)
- 		}
- 	}
- 
--	lm3533_enable(lm3533);
-+	ret = lm3533_enable(lm3533);
-+	if (ret)
-+		return ret;
- 
- 	ret = regmap_update_bits(lm3533->regmap, LM3533_REG_BOOST_PWM,
- 				 LM3533_BOOST_FREQ_MASK,
-@@ -447,6 +461,11 @@ static int lm3533_i2c_probe(struct i2c_client *i2c)
- 		return dev_err_probe(lm3533->dev, PTR_ERR(lm3533->hwen),
- 				     "failed to get HWEN GPIO\n");
- 
-+	lm3533->vin_supply = devm_regulator_get(lm3533->dev, "vin");
-+	if (IS_ERR(lm3533->vin_supply))
-+		return dev_err_probe(lm3533->dev, PTR_ERR(lm3533->vin_supply),
-+				     "failed to get vin-supply\n");
-+
- 	device_property_read_u32(lm3533->dev, "ti,boost-ovp-microvolt",
- 				 &lm3533->boost_ovp);
- 
-diff --git a/include/linux/mfd/lm3533.h b/include/linux/mfd/lm3533.h
-index 5710e88da45d..8f72dd41e8f0 100644
---- a/include/linux/mfd/lm3533.h
-+++ b/include/linux/mfd/lm3533.h
-@@ -22,6 +22,7 @@
- struct device;
- struct gpio_desc;
- struct regmap;
-+struct regulator;
- 
- struct lm3533 {
- 	struct device *dev;
-@@ -29,6 +30,7 @@ struct lm3533 {
- 	struct regmap *regmap;
- 
- 	struct gpio_desc *hwen;
-+	struct regulator *vin_supply;
- 
- 	u32 boost_ovp;
- 	u32 boost_freq;
 -- 
 2.53.0
 
