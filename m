@@ -1,166 +1,216 @@
-Return-Path: <linux-leds+bounces-8698-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8703-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id yHZYBL4wOWrUoAcAu9opvQ
-	(envelope-from <linux-leds+bounces-8698-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Jun 2026 14:55:26 +0200
+	id 61B8DuP5OWqKzgcAu9opvQ
+	(envelope-from <linux-leds+bounces-8703-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Jun 2026 05:13:39 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5972C6AF981
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Jun 2026 14:55:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DEE6B3C32
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Jun 2026 05:13:38 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=xn--rombobjrn-67a.se header.s=a header.b=kjL6eW66;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8698-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-leds+bounces-8698-lists+linux-leds=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=samsung.com header.s=mail20170921 header.b=HSBXm6Wr;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8703-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-leds+bounces-8703-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=samsung.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4ED51301E9AB
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Jun 2026 12:55:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 84DB1304CFD9
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Jun 2026 03:13:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17AB13ADB89;
-	Mon, 22 Jun 2026 12:55:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 244D438D6AD;
+	Tue, 23 Jun 2026 03:13:16 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.xn--rombobjrn-67a.se (nestor.xn--rombobjrn-67a.se [188.126.83.49])
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3444399D08;
-	Mon, 22 Jun 2026 12:55:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0CD8374E7F;
+	Tue, 23 Jun 2026 03:13:11 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782132921; cv=none; b=OyjLULm0XQ+15YUndWzv3MioNp0QcU5+U8GnPojfsNcgPMo/1mnFyL1hIgXN3LFlcWS7rtzrPhInZOjqscPTKpOteaWdrvw1VpvWBflVIbAPxX/ziLFhbRnemO1pjc2N1EZ15txMjr/sAG6/72Ko61WiR+SHdZsUc6fn0OLdAdA=
+	t=1782184395; cv=none; b=T8kEJjHokpkJWzWEHi97jb8gkFByAS0Omf7/AkJfh05zrZvS2UUVSUR1b4nceStW1sNW0AknleE/G0K/idHK61bY6R6wwe5Ic2p86/L+fiJF3Nu3mX8NSZZIDkUshRf/nl7sQPjphOwYRgwl5IEftpzMkwE4UXi5TIR+zphVh3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782132921; c=relaxed/simple;
-	bh=sOYVThblm3r8If7SaQV5HS7IxRPlp/h8bhOODGRdbRU=;
-	h=From:To:Cc:Date:Subject:MIME-Version:Content-Type:Message-Id; b=V5T3n4Z+Qj/CUpNMoGYWf0Bo3cLHzNvZ8WgE3UxuHE1vLBQDktyDLuRnwaq2WiSzRqy0j1DVV3jK2LU7bPdiAbo580qkOrlWZHdFsG50tsC7KTLfVHpD4cHXZkQsQ1FSdtcXPbMkFuqK/Und2TKW0FLWTm5VEW2p6MAWvFjKiCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xn--rombobjrn-67a.se; spf=pass smtp.mailfrom=xn--rombobjrn-67a.se; dkim=pass (2048-bit key) header.d=xn--rombobjrn-67a.se header.i=@xn--rombobjrn-67a.se header.b=kjL6eW66; arc=none smtp.client-ip=188.126.83.49
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xn--rombobjrn-67a.se;
-	s=a; t=1782132916; bh=sOYVThblm3r8If7SaQV5HS7IxRPlp/h8bhOODGRdbRU=;
-	h=From:To:Cc:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:From:Sender:Reply-To:
-	 Original-From:Organization:To:CC:Subject:Original-Subject:Date:
-	 Message-ID:In-Reply-To:References:Original-Message-ID:
-	 Disposition-Notification-To:Disposition-Notification-Options:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type:
-	 Content-Features:Content-Alternative:Content-Location:
-	 TLS-Report-Domain:TLS-Report-Submitter:MT-Priority;
-	b=kjL6eW66KU1PrDm5Y6a1E5CmIxFx/s49pPjP3vaYtiTyUlSi8KeuQYxTq1N64SN3w
-	 ZIuupx4fbTyK3vDPkrXlWAR28oNAIMdH86cC543jeIuAjO3pTDAh/4LgkJAjZSTFLS
-	 bIJ6S1Rl6rZ5BR04v3ImPUZ+q6xDzRJRhXuvyyn2wv15H+I7SqmaYoFlWpBtmFArwZ
-	 jxulTJqSAag40Wikra4HhPyx8BzQxOhxjguY6aPO1gpSOZ2E+laGkGMsExqxK4gmrf
-	 XANeuTP2CLvHqKnvQHD+LYgJpD98aE5HkXA8DbbnPG5FfkuCF/l64SJ1G1/o5ML7go
-	 50nx4gZPC3MHQ==
-Received: from tag.xn--rombobjrn-67a.se (tag.xn--rombobjrn-67a.se [192.168.72.9])
-	by smtp.xn--rombobjrn-67a.se (Postfix) with ESMTPS id 40E69407E8F5;
-	Mon, 22 Jun 2026 14:55:16 +0200 (CEST)
-Received: by tag.xn--rombobjrn-67a.se (Postfix, from userid 1000)
-	id 25EC8F47BE9; Mon, 22 Jun 2026 14:55:16 +0200 (CEST)
-From: =?UTF-8?q?Bj=C3=B6rn=20Persson?= <Bjorn@xn--rombobjrn-67a.se>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-leds@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 22 Jun 2026 13:18:07 +0200
-Subject: [PATCH v2] docs: leds: uleds: Make the documentation match the code.
+	s=arc-20240116; t=1782184395; c=relaxed/simple;
+	bh=SwNva69jy2afJIyfC0fIqgAntqNuL+DM/a3cYXevjM4=;
+	h=From:To:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=Oox69dgE3K0Kqu+3LKt+gxQmKhT57FU0fP9mHyTb51RT/JGqq/LH5wSIXtJA6L5ah/DU9G/Tyud4wBnDMPBiSMcIgG+GFPJbp1ltmBjxpk1cYxzAFhyUaA0vcoTNT1jZECjimfJDJzVLtbtDPzwiF3dh1nLT4eGog/pLmct6Z9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=HSBXm6Wr; arc=none smtp.client-ip=203.254.224.25
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260623031303epoutp02488f852023875c7b097a7427dfb11950~7l0ExemEP0684306843epoutp02R;
+	Tue, 23 Jun 2026 03:13:03 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260623031303epoutp02488f852023875c7b097a7427dfb11950~7l0ExemEP0684306843epoutp02R
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1782184383;
+	bh=xYWvnYzx61MOHShrICO4N9ZwFKzGqTfE6OdZqCfXxL4=;
+	h=From:To:In-Reply-To:Subject:Date:References:From;
+	b=HSBXm6WralSrItnUo41WTp4Q9bHEdBGeR/ktDAbhDUX4jHkktSgXl1qVmshH/Zbfz
+	 HyFkrFLLFUikPIvVZvLN8hutNjgoW819TbAeR9N1Fg49C1AhVAoaidIA6WQL6TnjHz
+	 ZebhsaMkFvMv6aZD8a/rzkNbslvDGFU7faVRYhzM=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
+	20260623031303epcas5p1fd11dbfc745aa99f18d960e686705fcd~7l0Ec3mqg0166901669epcas5p1o;
+	Tue, 23 Jun 2026 03:13:03 +0000 (GMT)
+Received: from epcpadp2new (unknown [182.195.40.142]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4gkqrb2vfDz6B9m9; Tue, 23 Jun
+	2026 03:13:03 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20260622114230epcas5p3e590b84087d9879e30d604f89ce938a8~7ZHlpxa2p3249132491epcas5p3i;
+	Mon, 22 Jun 2026 11:42:30 +0000 (GMT)
+Received: from INBRO002756 (unknown [107.122.3.168]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20260622114216epsmtip1ccbcb97431d34878191527dbce3b94b6~7ZHYxKdLA2526625266epsmtip1D;
+	Mon, 22 Jun 2026 11:42:16 +0000 (GMT)
+From: "Alim Akhtar" <alim.akhtar@samsung.com>
+To: "'Krzysztof Kozlowski'" <krzysztof.kozlowski@oss.qualcomm.com>, "'Bjorn
+ Andersson'" <andersson@kernel.org>, "'Konrad Dybcio'"
+	<konradybcio@kernel.org>, "'Rob Herring'" <robh@kernel.org>, "'Krzysztof
+ Kozlowski'" <krzk+dt@kernel.org>, "'Conor Dooley'" <conor+dt@kernel.org>,
+	"'Peter Griffin'" <peter.griffin@linaro.org>, "'Michael	Turquette'"
+	<mturquette@baylibre.com>, "'Stephen Boyd'" <sboyd@kernel.org>, "'Brian
+ Masney'" <bmasney@redhat.com>, "'Sylwester Nawrocki'"
+	<s.nawrocki@samsung.com>, "'Chanwoo Choi'" <cw00.choi@samsung.com>, "'Sam
+ Protsenko'" <semen.protsenko@linaro.org>, "'Rob Clark'"
+	<robin.clark@oss.qualcomm.com>, "'Dmitry Baryshkov'" <lumag@kernel.org>,
+	"'Abhinav Kumar'" <abhinav.kumar@linux.dev>, "'Jessica Zhang'"
+	<jesszhan0024@gmail.com>, "'Sean Paul'" <sean@poorly.run>, "'Marijn
+	Suijten'" <marijn.suijten@somainline.org>, "'David	Airlie'"
+ <airlied@gmail.com>, "'Simona Vetter'" <simona@ffwll.ch>, "'Maarten
+	Lankhorst'" <maarten.lankhorst@linux.intel.com>, "'Maxime Ripard'"
+ <mripard@kernel.org>, "'Thomas Zimmermann'" <tzimmermann@suse.de>, "'Inki
+	Dae'" <inki.dae@samsung.com>, "'Seung-Woo Kim'" <sw0312.kim@samsung.com>,
+	"'Kyungmin	Park'" <kyungmin.park@samsung.com>, "'Andi Shyti'"
+	<andi.shyti@kernel.org>, "'Georgi	Djakov'" <djakov@kernel.org>, "'Lee
+	Jones'" <lee@kernel.org>, "'Pavel Machek'" <pavel@kernel.org>, "'Hans
+	Verkuil'" <hverkuil@kernel.org>, "'Mauro Carvalho	Chehab'"
+ <mchehab@kernel.org>, "'Ulf Hansson'" <ulfh@kernel.org>, "'Peter Rosin'"
+ <peda@lysator.liu.se>, "'Vinod Koul'" <vkoul@kernel.org>, "'Neil Armstrong'"
+ <neil.armstrong@linaro.org>, "'Linus Walleij'" <linusw@kernel.org>, "'Geert
+	Uytterhoeven'" <geert+renesas@glider.be>, "'Magnus Damm'"
+ <magnus.damm@gmail.com>, "'Sebastian Reichel'" <sre@kernel.org>, "'Javier
+	Martinez Canillas'" <javier@dowhile0.org>, "'Liam Girdwood'"
+ <lgirdwood@gmail.com>, "'Mark Brown'" <broonie@kernel.org>, "'Greg
+	Kroah-Hartman'" <gregkh@linuxfoundation.org>, "'Jiri	Slaby'"
+ <jirislaby@kernel.org>, "'Srinivas Kandagatla'" <srini@kernel.org>,
+	"'Bartlomiej Zolnierkiewicz'" <bzolnier@gmail.com>, "'Rafael J. Wysocki'"
+	<rafael@kernel.org>, "'Daniel Lezcano'" <daniel.lezcano@kernel.org>, "'Zhang
+ Rui'" <rui.zhang@intel.com>, "'Lukasz Luba'" <lukasz.luba@arm.com>,
+	"'Jonathan Marek'" <jonathan@marek.ca>, "'Taniya Das'"
+	<quic_tdas@quicinc.com>, "'Robert Marko'" <robimarko@gmail.com>, "'Christian
+ Marangi'" <ansuelsmth@gmail.com>, "'Stephan	Gerhold'" <stephan@gerhold.net>,
+	"'Adam Skladowski'" <a_skl39@protonmail.com>, "'Sireesh Kodali'"
+	<sireeshkodali@protonmail.com>, "'Barnabas Czeman'"
+	<barnabas.czeman@mainlining.org>, "'Imran Shaik'"
+	<quic_imrashai@quicinc.com>, "'Sricharan Ramabadhran'"
+	<quic_srichara@quicinc.com>, "'Anusha Rao'" <quic_anusha@quicinc.com>, "'Luo
+ Jie'" <quic_luoj@quicinc.com>, "'Tomasz Figa'" <tomasz.figa@gmail.com>,
+	"'Chanho Park'" <chanho61.park@samsung.com>, "'Sunyeal	Hong'"
+	<sunyeal.hong@samsung.com>, "'Shin Son'" <shin.son@samsung.com>, "'Krishna
+ Manikandan'" <quic_mkrishn@quicinc.com>, "'Jacek Anaszewski'"
+	<jacek.anaszewski@gmail.com>, "'Jaehoon Chung'" <jh80.chung@samsung.com>,
+	"'Marek	Szyprowski'" <m.szyprowski@samsung.com>, "'Alina Yu'"
+	<alina_yu@richtek.com>, "'Andy	Gross'" <agross@kernel.org>,
+	=?UTF-8?Q?'Niklas_S=C3=B6derlund'?= <niklas.soderlund@ragnatech.se>,
+	"'Wesley Cheng'" <quic_wcheng@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
+	<linux-clk@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+	<freedreno@lists.freedesktop.org>, <linux-i2c@vger.kernel.org>,
+	<linux-pm@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
+	<linux-phy@lists.infradead.org>, <linux-gpio@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-serial@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+	<cpgs@samsung.com>
+In-Reply-To: <20260622101606.485961-3-krzysztof.kozlowski@oss.qualcomm.com>
+Subject: RE: [PATCH 1/2] dt-bindings: clock: Drop incorrect usage of double
+ '::'
+Date: Mon, 22 Jun 2026 17:12:14 +0530
+Message-ID: <1050065615.01782184383398.JavaMail.epsvc@epcpadp2new>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260622125516.25EC8F47BE9@tag.xn--rombobjrn-67a.se>
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQIwXoGyyqYeRyJ4JjkgDeaw0zOZjgI6ZcaYtZHncYA=
+Content-Language: en-us
+X-CMS-MailID: 20260622114230epcas5p3e590b84087d9879e30d604f89ce938a8
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+X-CPGSPASS: Y
+X-Hop-Count: 3
+X-CMS-RootMailID: 20260622101627epcas5p2aeb4aad096395936c04cb563eb226b83
+References: <CGME20260622101627epcas5p2aeb4aad096395936c04cb563eb226b83@epcas5p2.samsung.com>
+	<20260622101606.485961-3-krzysztof.kozlowski@oss.qualcomm.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-3.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[samsung.com:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[xn--rombobjrn-67a.se:s=a];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8698-lists,linux-leds=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:linux-leds@vger.kernel.org,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[xn--rombobjrn-67a.se];
+	TAGGED_FROM(0.00)[bounces-8703-lists,linux-leds=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[xn--rombobjrn-67a.se:+];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linaro.org,baylibre.com,redhat.com,samsung.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linux.intel.com,suse.de,lysator.liu.se,glider.be,dowhile0.org,linuxfoundation.org,intel.com,arm.com,marek.ca,quicinc.com,gerhold.net,protonmail.com,mainlining.org,richtek.com,ragnatech.se,vger.kernel.org,lists.infradead.org,lists.freedesktop.org];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[Bjorn@xn--rombobjrn-67a.se,linux-leds@vger.kernel.org];
+	FORGED_SENDER(0.00)[alim.akhtar@samsung.com,linux-leds@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:krzysztof.kozlowski@oss.qualcomm.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:peter.griffin@linaro.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:s.nawrocki@samsung.com,m:cw00.choi@samsung.com,m:semen.protsenko@linaro.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:inki.dae@samsung.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,m:andi.shyti@kernel.org,m:djakov@kernel.org,m:lee@kernel.org,m:pavel@kernel.org,m:hverkuil@kernel.org,m:mchehab@kernel.org,m:ulfh@kernel.org,m:peda@lysator.liu.se,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:linusw@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:sre@kernel.org,m:javier@dowh
+ ile0.org,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:srini@kernel.org,m:bzolnier@gmail.com,m:rafael@kernel.org,m:daniel.lezcano@kernel.org,m:rui.zhang@intel.com,m:lukasz.luba@arm.com,m:jonathan@marek.ca,m:quic_tdas@quicinc.com,m:robimarko@gmail.com,m:ansuelsmth@gmail.com,m:stephan@gerhold.net,m:a_skl39@protonmail.com,m:sireeshkodali@protonmail.com,m:barnabas.czeman@mainlining.org,m:quic_imrashai@quicinc.com,m:quic_srichara@quicinc.com,m:quic_anusha@quicinc.com,m:quic_luoj@quicinc.com,m:tomasz.figa@gmail.com,m:chanho61.park@samsung.com,m:sunyeal.hong@samsung.com,m:shin.son@samsung.com,m:quic_mkrishn@quicinc.com,m:jacek.anaszewski@gmail.com,m:jh80.chung@samsung.com,m:m.szyprowski@samsung.com,m:alina_yu@richtek.com,m:agross@kernel.org,m:niklas.soderlund@ragnatech.se,m:quic_wcheng@quicinc.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-samsu
+ ng-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:freedreno@lists.freedesktop.org,m:linux-i2c@vger.kernel.org,m:linux-pm@vger.kernel.org,m:linux-leds@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-mmc@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-gpio@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-serial@vger.kernel.org,m:linux-sound@vger.kernel.org,m:linux-usb@vger.kernel.org,m:cpgs@samsung.com,s:lists@lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,qualcomm.com:email,vger.kernel.org:from_smtp,samsung.com:dkim,samsung.com:email,samsung.com:from_mime,epcpadp2new:mid,baylibre.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Bjorn@xn--rombobjrn-67a.se,linux-leds@vger.kernel.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,tag.xn--rombobjrn-67a.se:mid]
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alim.akhtar@samsung.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[samsung.com:+];
+	RCPT_COUNT_GT_50(0.00)[96];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ALIAS_RESOLVED(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt,renesas];
+	RCVD_COUNT_SEVEN(0.00)[8]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5972C6AF981
+X-Rspamd-Queue-Id: C6DEE6B3C32
 
-From: Björn Persson <Bjorn@Rombobjörn.se>
 
-The description in uleds.rst omits the field max_brightness and claims
-falsely that the maximum brightness is always 255. Leaving max_brightness
-uninitialized or omitting it when writing to /dev/uleds won't work. It
-must be given a value, and that value becomes the maximum brightness.
 
-The document is also wrong about the type of brightness values. It says
-that a single byte shall be read at a time. That's actually not allowed.
-Then the word "unsigned" gives the impression that the type is unsigned.
-In fact a signed type is used even though the values are never negative.
+> -----Original Message-----
+> From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Sent: Monday, June 22, 2026 3:46 PM
+> To: Bjorn Andersson <andersson@kernel.org>; Konrad Dybcio
+> <konradybcio@kernel.org>; Rob Herring <robh@kernel.org>; Krzysztof
+> Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>;
+> Peter Griffin <peter.griffin@linaro.org>; Alim Akhtar
+> <alim.akhtar@samsung.com>; Michael Turquette
+> <mturquette@baylibre.com>; Stephen Boyd <sboyd@kernel.org>; Brian
+> Masney <bmasney@redhat.com>; Sylwester Nawrocki
+[Snip]
+>  Documentation/devicetree/bindings/clock/qcom,videocc.yaml   | 2 +-
+>  .../devicetree/bindings/clock/samsung,exynos5260-clock.yaml | 6 +++---
+>   .../devicetree/bindings/clock/samsung,exynos5410-clock.yaml | 2 +-
+>   .../devicetree/bindings/clock/samsung,exynos5433-clock.yaml | 2 +-
+>  .../devicetree/bindings/clock/samsung,exynos7-clock.yaml    | 2 +-
+>  .../devicetree/bindings/clock/samsung,exynos850-clock.yaml  | 2 +-
+>  .../bindings/clock/samsung,exynosautov9-clock.yaml          | 2 +-
+>  .../bindings/clock/samsung,exynosautov920-clock.yaml        | 2 +-
+>  .../devicetree/bindings/clock/samsung,s5pv210-clock.yaml    | 2 +-
 
-Change the document to describe the true API.
+Reviewed-by: Alim Akhtar <alim.akhtar@samsung.com>
 
-Signed-off-by: Björn Persson <Bjorn@Rombobjörn.se>
----
-Changes in v2:
-Replaced "given" with "specified" to prevent misinterpretation of "given name", avoided mentioning a type name outside of C code fragments, and rewrote the commit message to read more like speech, as requested.
 
- Documentation/leds/uleds.rst | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/leds/uleds.rst b/Documentation/leds/uleds.rst
-index 83221098009c..f985048c641f 100644
---- a/Documentation/leds/uleds.rst
-+++ b/Documentation/leds/uleds.rst
-@@ -17,16 +17,23 @@ structure to it (found in kernel public header file linux/uleds.h)::
- 
-     struct uleds_user_dev {
- 	char name[LED_MAX_NAME_SIZE];
-+	int max_brightness;
-     };
- 
--A new LED class device will be created with the name given. The name can be
--any valid sysfs device node name, but consider using the LED class naming
--convention of "devicename:color:function".
-+A new LED class device will be created with the specified name and maximum
-+brightness. The name can be any valid sysfs device node name, but consider
-+using the LED class naming convention of "devicename:color:function".
- 
--The current brightness is found by reading a single byte from the character
--device. Values are unsigned: 0 to 255. Reading will block until the brightness
--changes. The device node can also be polled to notify when the brightness value
--changes.
-+Although max_brightness is signed, only positive values are valid: 1 to INT_MAX.
-+
-+The current brightness shall be read from the character device like so::
-+
-+    int brightness;
-+    result = read(file, &brightness, sizeof(brightness));
-+
-+The possible values are 0 to max_brightness. Reading will block until the
-+brightness changes. The device node can also be polled to notify when the
-+brightness value changes.
- 
- The LED class device will be removed when the open file handle to /dev/uleds
- is closed.
--- 
-2.54.0
 
 
