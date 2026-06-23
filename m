@@ -1,208 +1,315 @@
-Return-Path: <linux-leds+bounces-8709-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8710-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id MNBWGAxxOmpv9AcAu9opvQ
-	(envelope-from <linux-leds+bounces-8709-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 23 Jun 2026 13:42:04 +0200
+	id H2hyNIVyOmrt9AcAu9opvQ
+	(envelope-from <linux-leds+bounces-8710-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Jun 2026 13:48:21 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFAB16B6CEB
-	for <lists+linux-leds@lfdr.de>; Tue, 23 Jun 2026 13:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 637566B6DC1
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Jun 2026 13:48:21 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=riscstar-com.20251104.gappssmtp.com header.s=20251104 header.b=APUK+8ci;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8709-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8709-lists+linux-leds=lfdr.de@vger.kernel.org";
-	dmarc=fail reason="SPF not aligned (relaxed), DKIM not aligned (relaxed)" header.from=riscstar.com (policy=none);
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=exUMlBsl;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=BvcnztHI;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8710-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8710-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 14FAB30841E5
-	for <lists+linux-leds@lfdr.de>; Tue, 23 Jun 2026 11:41:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 161C730B8CA2
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Jun 2026 11:46:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC4163D3008;
-	Tue, 23 Jun 2026 11:41:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64BCB3D47D4;
+	Tue, 23 Jun 2026 11:46:08 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC8E3D3CFF
-	for <linux-leds@vger.kernel.org>; Tue, 23 Jun 2026 11:41:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9430D3D47BD
+	for <linux-leds@vger.kernel.org>; Tue, 23 Jun 2026 11:46:05 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782214881; cv=none; b=lTbTsQ9rpnzhR7ezvX8mfPlzKWDkryophQItGBITTwagNVdnBWZCBw0Q0+ZjACQeVEyhkySU/t3sqfHqSm9uwlJlP8ez7UYJFUmKqcPHTftK3ZzruJ6zRlOa9Tb7+Rdn0Sk76ztuSMZR90WRXtNv2MVSumlYOO/ZVxqWgUx5sW4=
+	t=1782215168; cv=none; b=XpEs8qlbVWTXs8iA0ItL8ys8Yaf3z7eDqN58Gjc9MyiUlrC89rmFTZGA2HIlfC15+gaCmA88qBaXS4/GK6xhgSc/RKvOoYfQzmxPwjqcnY74uB0PmskjRra4IBIfMAXYEtZrhHbkJdLH3qjxv9BPJVaRpsG9V+psFWc+cxaOufg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782214881; c=relaxed/simple;
-	bh=tVCetBsdG4d8Os3a0w62LGVEUED/BfzGfIpqXKQhEPA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=svYlYcU5zxYjiXx1eLiEK1uaFGPel3lZE9lvOwLWG5nXZXUHTdmgkFI3jEgteORuNUi0PiJmtZ/YivpYcZQ8MW1cAaD8miNOA6g5KYQRMV7lENr+/bb3aETIwTW/1S1abr0NefelqBD2gFx/jdDgHbk/hc+xTeAyfwO0bgPhhSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.b=APUK+8ci; arc=none smtp.client-ip=209.85.221.43
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4629051c946so656369f8f.1
-        for <linux-leds@vger.kernel.org>; Tue, 23 Jun 2026 04:41:20 -0700 (PDT)
+	s=arc-20240116; t=1782215168; c=relaxed/simple;
+	bh=Hso0a6UrliQE5puSOMxPFIsfnb5JdMwIZP9scKQqL2c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=gPAw4z3DfF9m9zQg+xFBe4RRyypDWwEWafW+S6ST2FUpeRkWlJ7535MdvRpAOFgsI/jDhpH1jZf3oAGFDG5+vhPLzAyvfpPOljnUcxSlAQeZ41sXZprod5U8MR4RSqAiAjxesGU/+kG37U4M348lzCHcfHNqQ5/f75POSKaeR44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=exUMlBsl; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BvcnztHI; arc=none smtp.client-ip=205.220.168.131
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65NBXado3752857
+	for <linux-leds@vger.kernel.org>; Tue, 23 Jun 2026 11:46:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	m5U5jjEW9F6IsBKiOyKcfNkewQXQpsrvSh1PrEY+JBU=; b=exUMlBslb0malfKz
+	wCVTsgbL6sHO2bs58FC2dSO2vcOdObXhisMaudGZqA+tvxqLVcxYMqo53yM5ZR3k
+	XgaFyf1xh5KgV/PPy3y70NVXa1uNxhmxw94+fRE5kzc861jjNTEkp8qJDvUWoR6K
+	rDO5jMbVYXVvf1I3jovyjDvZPXW+MH4biNZK3cbEceK9vZN4EZC304yp8g+n68sx
+	TbW5Sgatnbk8GjPZq4FkVYvsrOiIeJJyG9AyJpWJkmjeU+4evg7ol9N4Qb8sRU6Y
+	oR5lhUn7boKNCCKY7S/c+dL5/L+QKMpvL32nAU1kri1Ox2Sulta97j8lScjbM9h8
+	9+z2Gg==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eyp29gy9t-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-leds@vger.kernel.org>; Tue, 23 Jun 2026 11:46:05 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-915c364ae3bso1105831185a.0
+        for <linux-leds@vger.kernel.org>; Tue, 23 Jun 2026 04:46:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=riscstar-com.20251104.gappssmtp.com; s=20251104; t=1782214879; x=1782819679; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lOYI9zsM4oIZ1rh6HmaZ/ht7QHKafqKi5GGpopSOq5s=;
-        b=APUK+8cisIGYaVecqfYbVrl+12sNPrUaP7BFuE1DZp1PlPtTytQ8yV9qlYDD9kcQ6B
-         iCNaaLJMYUUICa3/xV4euCMB5ESgBogTQAP9l1Z6dpXryea8acq9XWQKazPwu5TuClM3
-         H2QWDZhywIvtS3THfH+dTGHaNB2SOv7/nRmBrE0HIAqAU2mmo5GHqMbwDgtbgAY16mqw
-         4zUZno4jyYapCnfrPfsStZh8WrARGxiHBG0k5tXLSaBQDd5RFZL0I93jAHTNjUtMY3nB
-         bZFjv7EWKk+HM/rqmSpmXyo1djYjbP11x+OvARyhwDh9hw/zWthXAGc5C0QK+E8xMl3B
-         HkBA==
+        d=oss.qualcomm.com; s=google; t=1782215164; x=1782819964; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=m5U5jjEW9F6IsBKiOyKcfNkewQXQpsrvSh1PrEY+JBU=;
+        b=BvcnztHIDBzosmQ82QmQ2MMbQuqs6E3OokPRoy5EOrmxzSa87gk6eE4UTvN4yFO+3n
+         WEStobcZSvMpZLHUzGu7V5CUuRzkqLXyFWP4NBa3+eR0vY+OnXxzZXOzHLZqERqB8tex
+         H19TVV+Moc/Kb30M44bJz9D/sLWaRL2lTX+benm6riMk/8nfe/dSCv1qcFy5OwNyaIGm
+         SIjKQyVbdNyvNgorDMWffcZd68ipVw8DQ4GDm8XAzVxQu1sAI94/Iv7VVrK9fxlqqW9h
+         Uwwp8oN2PjKjsaLp271UfkYJbLJiHCci+1IXVkiRRJSqqchatwBJXtoIzSnkbaoDlX7O
+         +qwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782214879; x=1782819679;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lOYI9zsM4oIZ1rh6HmaZ/ht7QHKafqKi5GGpopSOq5s=;
-        b=i3pKfh+5wL6c7c333HKHqpk5/dV2LxvmwTaTkBgn9F1FCcjM7b/rFBFh3m9aELBc3B
-         cilcWxHn+UrYLc+8HiIYY5jc9D/v6qw3yYBacV4hntV4MPGOTq1NewS3Yq5oqTfuZoRX
-         wUeGtzj5efPcvYYI08qyrhijgE6twQxB5TS20aH97TZUTADRPYPEZqkjjjyyPVf+4c5L
-         wzY3qrzBpELEXUwcvuH/7xQm0CxmgnE3GTBWPk4rXxgsoy1v+7q6pCZrbRCihKdLwjC+
-         2qq2bD9c+f4j2Vwltgv4fNnr09xchzymm9RwC9FaA9CzlKqvTy8onmiYpWUbH10aRguD
-         DLeQ==
-X-Gm-Message-State: AOJu0YyPCWkLmaF1BEj+uMFWl5jjm7wR6QjIUisPDjxHXpdDrlT65VOP
-	bu1uzBPuezJT/tFQDQ+RpfnzHQxZCPjRjG5e4Mzaud7zaeHuG1V397xfVERRW8nB7Os=
-X-Gm-Gg: AfdE7ckNSO5V90CFJt2uoDpC4JVqZfFIOsikwdMu4NP8l0D3/qfUgPC1BXSQOoWgEto
-	+XZcZiYNxD02ybknOw/DRAXaLY/kKz8MmQk/X0zjNsDRl/2pl3txQrwwn29WAaTICB3pp9K0j7n
-	TuHw+iEdWhr4WueigPUcF8OiASFfuKkMmsPbwJcNhHntEefl4mxUwT5XLzhE6c6bDC2kpl1OOPd
-	Wwhobf0eb8Yna/zThrhu5VEfYBTsL8SSzU9A6j1kJyZrqEDnMgT7toVsrcyATvUWiEV3VHAgH3L
-	41XOupA/A9yEW2iuBjsF+lYmk8aStc+t7YcDU8+SW66SruaMvQkdOu/Mqz8Z8Lf+ZoUauzDHgRQ
-	uLBj/0lEzWi9f7pnc5eNdwf0TIA51Ee203eg9rTEaGE8r7CavYgkdOzd2go5ZEeZXAtqt/4PsMl
-	I1KCpyO33Tl92Vg68Qjfeum9E+O9uF0RZRGqUKEu364uPH6t+KKJrNIN5NBfoJMmht7MfyXSRon
-	7AfPyW0beXeJCzTLiUWAjDBhM52N1sQBYVx4wKJXLwisQH4Vj/ZMFxPbcj6q3FV9bPCldaegg==
-X-Received: by 2002:a05:6000:38c:b0:45d:4c30:81a6 with SMTP id ffacd0b85a97d-46a7f0ac242mr5028245f8f.5.1782214874182;
-        Tue, 23 Jun 2026 04:41:14 -0700 (PDT)
-Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4666678828dsm34329541f8f.19.2026.06.23.04.41.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 04:41:13 -0700 (PDT)
-Date: Tue, 23 Jun 2026 12:41:11 +0100
-From: Daniel Thompson <daniel@riscstar.com>
-To: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
-Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	"afd@ti.com" <afd@ti.com>,
-	"jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-	"linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
-	"pavel@kernel.org" <pavel@kernel.org>,
-	"lee@kernel.org" <lee@kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"robh@kernel.org" <robh@kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	"danielt@kernel.org" <danielt@kernel.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"deller@gmx.de" <deller@gmx.de>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH 3/3] backlight: lp8864: Convert from LED to backlight
- class driver
-Message-ID: <ajpw1w150SXm8Gbi@aspen.lan>
-References: <20260615120353.3409035-1-alexander.sverdlin@siemens.com>
- <20260615120353.3409035-4-alexander.sverdlin@siemens.com>
- <0b39450b-559b-43d4-a1e9-bb6684691cb5@ti.com>
- <acb13aca040ab72b9e53abee3a5c8733ebc5b8dd.camel@siemens.com>
+        d=1e100.net; s=20251104; t=1782215164; x=1782819964;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m5U5jjEW9F6IsBKiOyKcfNkewQXQpsrvSh1PrEY+JBU=;
+        b=MEr5poURpCI062MOE7lKOGeD5E/+qAANVaGTPf51y9ulPlQ5hJJ2C9HqVRn8Cni6wD
+         zUWgHh3JhPK4uzyuLC9w/fjeEZXEssT4J1NfhMK5vRFMkM5yp/M/lLm5Sz0UZWQasoae
+         e2LFzl1f1LPiku0GLN2QAqlv7TfPGevhpbB30YUmJJQllmr0qV2SrjszfhhFJLI0tmlz
+         XrXAqIriLZ7QcyI1akYeh60ArYGoKrWeOVlIu5xinhMyn2haDDpQzmm6C1gyeYk775b1
+         4QknkoS24GIwk8eSXh1danRUxrlmHlrE4Xsmr+M8+6mAJQeVgx3Z5as0JDEuFN223eC0
+         pS9A==
+X-Forwarded-Encrypted: i=1; AFNElJ8iDyMoifZiB8ER3BcPY4DLTPfO2Et4gW0UDYr87uWje7mvqBqFR2ZNQe/5Wd9OOaHMT2a88LdvEIp3@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZqNv15ZH8B/o+63+rHfM/ArGejcI3tyNrplEF49mu64aJ6vvr
+	iUeQXUJop67EeMReIDFzjkz27+ghMYN6tzJdPpE5GVk8yOrv68m7YocmPVdNPEhAV3NPs8qg93c
+	PAGl/5MupNXBOuPA//+IO/leKMfXZsSCuGpag3Jx16gIGMVPBfij1smYW1aXmdssv
+X-Gm-Gg: AfdE7ckIkNjUD1HQ9l9RaM1roTLlPA/axdNOjW0Oj4rtZ+dzSOeUOKz+Zb+lCALCFif
+	6Eeo2sAbP5qDnbIM61mTKI5FiJ9VkluXDvBS07fJ8uDGI4iSD5GX/FIPsIAZU1g7cmCeO19VLsq
+	rRNdIz35ToedC7/xD+rBpFmA3SWur/xV7Xi/Z0x3hLpo8TGAlLEl39kE2OoJNH9LuORNsogu9fc
+	nLpdFGtedyeRooATX4mXYFXRo2NT6Ew0Zo0P2/TeJwLFEjsamYyULKnbtP1GDpPGMh8IPBl4hav
+	fXl+nFxq9Mm4x2N0wrhiLcOCMsOGm/vUy/e8fOL7mYyPdQxqw8dD7jOCu4kyemcntSZjHDONHdc
+	+UAZcDiiZIfUQyE/fBLABlSz09ZQnCOL6lKiebKAJ5FBp2g3KLG9U3YPVLNL7LIMVMpOjnjH4lA
+	==
+X-Received: by 2002:a05:620a:4625:b0:915:d322:c47b with SMTP id af79cd13be357-92645aa5b4dmr405202685a.13.1782215163832;
+        Tue, 23 Jun 2026 04:46:03 -0700 (PDT)
+X-Received: by 2002:a05:620a:4625:b0:915:d322:c47b with SMTP id af79cd13be357-92645aa5b4dmr405194985a.13.1782215163149;
+        Tue, 23 Jun 2026 04:46:03 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:21db:9254:19d9:645e? ([2a05:6e02:1041:c10:21db:9254:19d9:645e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fe7ba08sm370702135e9.11.2026.06.23.04.46.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Jun 2026 04:46:02 -0700 (PDT)
+Message-ID: <b35abbd7-f06e-4794-91a1-bdaccd63af50@oss.qualcomm.com>
+Date: Tue, 23 Jun 2026 13:45:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acb13aca040ab72b9e53abee3a5c8733ebc5b8dd.camel@siemens.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] dt-bindings: Drop incorrect usage of double '::'
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Peter Griffin <peter.griffin@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd
+ <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Rob Clark <robin.clark@oss.qualcomm.com>,
+        Dmitry Baryshkov
+ <lumag@kernel.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Inki Dae <inki.dae@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Andi Shyti
+ <andi.shyti@kernel.org>, Georgi Djakov <djakov@kernel.org>,
+        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ulf Hansson <ulfh@kernel.org>, Peter Rosin <peda@lysator.liu.se>,
+        Vinod Koul <vkoul@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Linus Walleij
+ <linusw@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Javier Martinez Canillas <javier@dowhile0.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+        Jonathan Marek <jonathan@marek.ca>, Taniya Das <quic_tdas@quicinc.com>,
+        Robert Marko <robimarko@gmail.com>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Adam Skladowski <a_skl39@protonmail.com>,
+        Sireesh Kodali <sireeshkodali@protonmail.com>,
+        Barnabas Czeman <barnabas.czeman@mainlining.org>,
+        Imran Shaik <quic_imrashai@quicinc.com>,
+        Sricharan Ramabadhran <quic_srichara@quicinc.com>,
+        Anusha Rao <quic_anusha@quicinc.com>, Luo Jie <quic_luoj@quicinc.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Chanho Park
+ <chanho61.park@samsung.com>,
+        Sunyeal Hong <sunyeal.hong@samsung.com>,
+        Shin Son <shin.son@samsung.com>,
+        Krishna Manikandan <quic_mkrishn@quicinc.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Jaehoon Chung <jh80.chung@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Alina Yu
+ <alina_yu@richtek.com>, Andy Gross <agross@kernel.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Wesley Cheng <quic_wcheng@quicinc.com>, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        linux-i2c@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-sound@vger.kernel.org,
+        linux-usb@vger.kernel.org
+References: <20260622101606.485961-3-krzysztof.kozlowski@oss.qualcomm.com>
+ <20260622101606.485961-4-krzysztof.kozlowski@oss.qualcomm.com>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+In-Reply-To: <20260622101606.485961-4-krzysztof.kozlowski@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=LdAMLDfi c=1 sm=1 tr=0 ts=6a3a71fd cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=fqWYVyBuAAAA:8
+ a=EUspDBNiAAAA:8 a=p1VIHm5NO6eVjb5xVX8A:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=3EkFFxAVN7Xjp7FSp-fE:22
+X-Proofpoint-GUID: jV9vxenyLeKR9kJ45rDDVtIoC2qYMruR
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDA5NiBTYWx0ZWRfX0sFeEDtQCTLD
+ yKqUMkzYT8HSvkfSt5WIy8ENZlwu9X0wfC7LsqFlDJ6r9P5IuSQrSi9DJtD7Dzv8vAe/bEYHSYw
+ 0XhqL+lA5SZSxgWTTQ1hZRzaT8XCsPo=
+X-Proofpoint-ORIG-GUID: jV9vxenyLeKR9kJ45rDDVtIoC2qYMruR
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDA5NiBTYWx0ZWRfX0UM9SZqXdT7T
+ 7z1Vac4JEicHzWuzopkHptQfeqWiO/pBLGGRMFm5L6nL268DpkyJfcI6eLS5bu9ObIZEPE+luJ7
+ os/8DUyNUhKACrYDd5R5FIvaLgLY4rqG7Yu2/AYMrfQkGZ3ouY1qSQkXs7uou+uh30heqZcxkAZ
+ iGTcBcG413qYRGvw7Axt+joUdsiVpUrefKv/Kxo+FGdHyBEABuL8hsaVB5sCNrPBlCnogw/P7t8
+ xzmN0Ff8V5jndvgcY+YVz99EKRIOwy4YM8g+BY6C+PskwB6g/hmP7/amfnmkWbUZj5C0zHqnHL+
+ C3SFpY8NCm2BLuBuhIWE7dpI7SSrssX63t/EzhRrlwV1pYwRdJkksO2lZOQmFPWS6B2+iEzwWWx
+ hSy5XkN+pdVSscURnWrVtnAfRNC9oCxPfQapxw2cWrppqG4N324Hu7/B20T74fSt6MswOqOmSVw
+ BZ46fk9lNWUiDyCJz0g==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-23_03,2026-06-23_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
+ suspectscore=0 malwarescore=0 clxscore=1011 spamscore=0 phishscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2606230096
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.06 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_ALLOW(-0.20)[riscstar-com.20251104.gappssmtp.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[riscstar.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8709-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:alexander.sverdlin@siemens.com,m:linux-leds@vger.kernel.org,m:afd@ti.com,m:jingoohan1@gmail.com,m:linux-fbdev@vger.kernel.org,m:pavel@kernel.org,m:lee@kernel.org,m:dri-devel@lists.freedesktop.org,m:robh@kernel.org,m:linux-kernel@vger.kernel.org,m:krzk+dt@kernel.org,m:danielt@kernel.org,m:conor+dt@kernel.org,m:deller@gmx.de,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_CC(0.00)[vger.kernel.org,ti.com,gmail.com,kernel.org,lists.freedesktop.org,gmx.de];
+	TAGGED_FROM(0.00)[bounces-8710-lists,linux-leds=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:krzysztof.kozlowski@oss.qualcomm.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:peter.griffin@linaro.org,m:alim.akhtar@samsung.com,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:s.nawrocki@samsung.com,m:cw00.choi@samsung.com,m:semen.protsenko@linaro.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:inki.dae@samsung.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,m:andi.shyti@kernel.org,m:djakov@kernel.org,m:lee@kernel.org,m:pavel@kernel.org,m:hverkuil@kernel.org,m:mchehab@kernel.org,m:ulfh@kernel.org,m:peda@lysator.liu.se,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:linusw@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:sr
+ e@kernel.org,m:javier@dowhile0.org,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:srini@kernel.org,m:bzolnier@gmail.com,m:rafael@kernel.org,m:daniel.lezcano@kernel.org,m:rui.zhang@intel.com,m:lukasz.luba@arm.com,m:jonathan@marek.ca,m:quic_tdas@quicinc.com,m:robimarko@gmail.com,m:ansuelsmth@gmail.com,m:stephan@gerhold.net,m:a_skl39@protonmail.com,m:sireeshkodali@protonmail.com,m:barnabas.czeman@mainlining.org,m:quic_imrashai@quicinc.com,m:quic_srichara@quicinc.com,m:quic_anusha@quicinc.com,m:quic_luoj@quicinc.com,m:tomasz.figa@gmail.com,m:chanho61.park@samsung.com,m:sunyeal.hong@samsung.com,m:shin.son@samsung.com,m:quic_mkrishn@quicinc.com,m:jacek.anaszewski@gmail.com,m:jh80.chung@samsung.com,m:m.szyprowski@samsung.com,m:alina_yu@richtek.com,m:agross@kernel.org,m:niklas.soderlund@ragnatech.se,m:quic_wcheng@quicinc.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.i
+ nfradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:freedreno@lists.freedesktop.org,m:linux-i2c@vger.kernel.org,m:linux-pm@vger.kernel.org,m:linux-leds@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-mmc@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-gpio@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-serial@vger.kernel.org,m:linux-sound@vger.kernel.org,m:linux-usb@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linaro.org,samsung.com,baylibre.com,redhat.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linux.intel.com,suse.de,lysator.liu.se,glider.be,dowhile0.org,linuxfoundation.org,intel.com,arm.com,marek.ca,quicinc.com,gerhold.net,protonmail.com,mainlining.org,richtek.com,ragnatech.se,vger.kernel.org,lists.infradead.org,lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[daniel@riscstar.com,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[riscstar-com.20251104.gappssmtp.com:+];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER(0.00)[daniel.lezcano@oss.qualcomm.com,linux-leds@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:from_mime,yaml.org:url,vger.kernel.org:from_smtp,qualcomm.com:dkim,qualcomm.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel@riscstar.com,linux-leds@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[daniel.lezcano@oss.qualcomm.com,linux-leds@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	ALIAS_RESOLVED(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[96];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,riscstar.com:from_mime,aspen.lan:mid]
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt,renesas];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: AFAB16B6CEB
+X-Rspamd-Queue-Id: 637566B6DC1
 
-On Tue, Jun 16, 2026 at 07:17:23AM +0000, Sverdlin, Alexander wrote:
-> Hi Andrew!
+On 6/22/26 12:16, Krzysztof Kozlowski wrote:
+> There is no use of double colon '::' in YAML. OTOH, the literal style
+> block, e.g. using '|' treats all characters as content [1] therefore
+> single use of ':' in descriptions is perfectly fine, whenever '|' is
+> used.
 > 
-> On Mon, 2026-06-15 at 14:51 -0500, Andrew Davis wrote:
-> > > Move the TI LP8864/LP8866 driver from drivers/leds/ to
-> > > drivers/video/backlight/
-> > 
-> > Why move it? You can register a backlight device from any directory.
+> Cleanup existing code, so the confusing style won't be re-used in new
+> contributions.
 > 
-> I'm personally fine with the driver residing in drivers/leds, it's
-> just that currently there are no combined drivers there, the combined
-> drivers providing both interfaces only live in video/backlight.
+> Link: https://yaml.org/spec/1.2.2/#literal-style [1]
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 > 
-> But if it's OK from the maintainers' perspective, it will be even
-> more consistent regarding Kconfig symbol.
+> ---
 > 
-> > > and convert it to register a backlight class
-> > > device as its primary interface.
-> > > 
-> > 
-> > What do you mean by "primary"? You should be able to register with
-> > both frameworks and have the driver interop between as needed.
-> 
-> Well, I only meant the user's (or my own) perspective, sorry for confusion.
-> 
-> > > The motivation is a use case on a hot-pluggable segment of an I2C bus.
-> > > The generic led-backlight driver (drivers/video/backlight/led_bl.c) is a
-> > > platform driver and as such inherently non-hotpluggable.
-> > 
-> > That isn't strictly true, there is platform_device_{del,unregister}(), so
-> > whatever your mechanism for removing the I2C device would be, the same
-> > could be done to the led_bl device before then removing the I2C device.
-> 
-> led_bl is not really designed to act on dynamically instantiated devices,
-> it's very much device-tree affine (of_count_phandle_with_args(), etc...)
-> 
-> > We don't want to have to move every LED driver that could possibly
-> > be used as a backlight to the backlight framework, the led_bl.c
-> > handles adapting LED->backlight as needed. So what you really need
-> > here is to de-couple led_bl.c from DT so it can better handle dynamic
-> > add/remove. Then this LED driver simply could register a "led-backlight"
-> > platform driver to handle the backlight interface, and remove the
-> > backlight device when it itself (the LED device) is removed.
-> 
-> The mechanism we have regarding hot plugging currently is just I2C bridge,
-> which de-registers and registers the bridged bus. So no additional drivers
-> are required, as long as I2C devices are self-contained and not glued with
-> platform devices.
-> 
-> So bottom line is, I'd prefer to just add the backlight interface to the
-> existing driver, no matter where it would live in the future.
+> Intention for this patch is to go via Rob's tree.
+> ---
+>   .../devicetree/bindings/arm/qcom-soc.yaml     |  4 ++--
+>   .../devicetree/bindings/arm/qcom.yaml         |  4 ++--
+>   .../bindings/arm/samsung/samsung-soc.yaml     |  4 ++--
+>   .../display/msm/dsi-controller-main.yaml      | 20 +++++++++----------
+>   .../display/samsung/samsung,fimd.yaml         |  4 ++--
+>   .../bindings/i2c/samsung,s3c2410-i2c.yaml     |  2 +-
+>   .../interconnect/qcom,msm8998-bwmon.yaml      |  2 +-
+>   .../interconnect/samsung,exynos-bus.yaml      | 14 ++++++-------
+>   .../bindings/leds/qcom,pm8058-led.yaml        |  4 ++--
+>   .../bindings/leds/skyworks,aat1290.yaml       |  6 +++---
+>   .../bindings/media/cec/cec-gpio.yaml          |  2 +-
+>   .../bindings/mmc/samsung,exynos-dw-mshc.yaml  |  2 +-
+>   .../devicetree/bindings/mux/mux-consumer.yaml |  4 ++--
+>   .../bindings/phy/samsung,mipi-video-phy.yaml  |  4 ++--
+>   .../bindings/phy/samsung,usb2-phy.yaml        |  2 +-
+>   .../bindings/phy/samsung,usb3-drd-phy.yaml    |  2 +-
+>   .../bindings/pinctrl/samsung,pinctrl.yaml     |  2 +-
+>   .../bindings/power/renesas,rcar-sysc.yaml     |  2 +-
+>   .../bindings/power/reset/restart-handler.yaml |  8 ++++----
+>   .../bindings/regulator/maxim,max77802.yaml    |  4 ++--
+>   .../bindings/regulator/richtek,rtq2208.yaml   |  2 +-
+>   .../bindings/serial/qcom,msm-uartdm.yaml      |  2 +-
+>   .../devicetree/bindings/slimbus/slimbus.yaml  |  4 ++--
+>   .../bindings/soc/qcom/qcom,apr-services.yaml  |  2 +-
+>   .../bindings/soc/qcom/qcom,rpmh-rsc.yaml      |  8 ++++----
+>   .../bindings/soc/qcom/qcom,wcnss.yaml         |  2 +-
+>   .../bindings/soc/renesas/renesas-soc.yaml     |  4 ++--
+>   .../bindings/sound/qcom,q6asm-dais.yaml       |  2 +-
+>   .../thermal/samsung,exynos-thermal.yaml       |  4 ++--
 
-Is there any reasion that LP8864/LP8866 is unique in appearing on a 
-hotplugged I2C bus? In other words if support for dynamism is added
-specifically to leds-lp8864.c rather than in led_bl.c then what will stop
-the same dynamic tricks from being adde to other LED drivers?
+Acked-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com> # thermal
 
-
-Daniel.
 
