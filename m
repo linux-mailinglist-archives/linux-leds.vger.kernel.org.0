@@ -1,72 +1,78 @@
-Return-Path: <linux-leds+bounces-8706-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8707-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id uc/sG6wpOmpr3AcAu9opvQ
-	(envelope-from <linux-leds+bounces-8706-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 23 Jun 2026 08:37:32 +0200
+	id L8PbGb8oOmoq3AcAu9opvQ
+	(envelope-from <linux-leds+bounces-8707-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Jun 2026 08:33:35 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 679086B4955
-	for <lists+linux-leds@lfdr.de>; Tue, 23 Jun 2026 08:37:31 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D46C76B48E6
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Jun 2026 08:33:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=analog.com header.s=DKIM header.b=mrLpyu1s;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8706-lists+linux-leds=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-leds+bounces-8706-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=analog.com header.s=DKIM header.b=VHEbPfKO;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8707-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8707-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=analog.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 2EBFD300690D
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2018130413B2
 	for <lists+linux-leds@lfdr.de>; Tue, 23 Jun 2026 06:33:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12CD03B27F8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBE2D3C3434;
 	Tue, 23 Jun 2026 06:33:21 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9609B340286;
-	Tue, 23 Jun 2026 06:33:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CAD3397352;
+	Tue, 23 Jun 2026 06:33:20 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782196400; cv=none; b=AoBGpUrHbuSY+eBrKAYWL4fpvWrnjSVnTUvQMpK+bo6jewaWjYXaPLbr4R10xnWqU+m0T2VJC/THB9uBgRjeB7Qkm+yRbpoSfjRjFruyD56QjhaZDZkfPTJCFroTRf1MhB4vpGxt8w0T0PpliBWT2LtGIk7sAJxB2Cg3ch31by8=
+	t=1782196401; cv=none; b=fVerAu9zvQDoY/gopzQRHEhlyLZXQMJxUQzAILwxaaqdJii2rAD7fxXLOtEmAU+rfWHFX5L5PquqVHSPw/C1p61Q90OTTnkbvfByhI8dO7HPe/IRP7PogvJtnjySdvXuLhryL8CZ2C17XyRRigBsb7aRhfQu6wzSo5yGw/5U/5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782196400; c=relaxed/simple;
-	bh=SSIK/QSN70pASprkaQr4jQcJ+Bv0/9w1QjB1iMjXw2c=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=tZ0LRvzaOKVA9ShpF8TI0VUzr8SrZq7FMB1ECXDfLB8GBTlUVuDZssdanmWZuCU/BV/C56Ce7m14bNxspldxbVcVMgggaBmlzHQMzPAViXj/9eDUoSFLTQv/dkGKlGEh4UY2IxxP4hntJoyVuLuuRosBWr4Gpomn2aexPfam3eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=mrLpyu1s; arc=none smtp.client-ip=148.163.135.77
-Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65N2pGCT990383;
-	Tue, 23 Jun 2026 02:33:03 -0400
+	s=arc-20240116; t=1782196401; c=relaxed/simple;
+	bh=1oBz68DUvRsjYs3daNl/Jes+K25MOfBC7R612e9EOVE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=R9urknbANRd1c8FVEN25xCAW1Q+LDprMvFN2mWK8pnlBfGt8Tq/eI3DDundUqwjcNETiVMn5HvzdQMs41/jGgQZIha+lU+aamk6z2e9aP1zVJqc85b3r8pXnQzepgdZQt2MqnR3go+Jps7wGNQzj+BJ6/Dc+HhAbZlFOwOjdMuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=VHEbPfKO; arc=none smtp.client-ip=148.163.135.77
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65N2tncN1741763;
+	Tue, 23 Jun 2026 02:33:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=DKIM; bh=LLbfAV4Pin7Dn/7Lr1IuHPCgb8j
-	MJe2JB6QBYtz6ct4=; b=mrLpyu1sN4I6JZ+MlDHPfjjyjt9/HAB0g7wvcoB2Va8
-	dclNY216wpqOYwnHE9p61TtYUsRynUJNmLCpZOmP7Q8+6yHdfd+Yxr6TgijtwB8E
-	8K6yFa94hTU19PWOSOzFwqF+mJII/9xxVXgMwM+CEVwJrwLTraHat9UHjr/MTKwt
-	Ctxaiyud7ZB/LK1ygMe7f4ibd9YfsA8tavTUHAq4oV0YzhrRTfDoEQdYz1mbWHRA
-	XX2EhQX6lczFnPZqx+2nhiyVLqVLXMOGzZJkaZ21kNooUsxxxSxVvpWT/da//Ymt
-	WHIPzJ+Ttpwl5Utmh2+1ANOO1z9+BTJuf+cHH3NP92A==
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=EiY6h
+	naAjmKpzOom7yK3Aa8JU5WmFEaaptweI1RuRi0=; b=VHEbPfKO3cFhpc05uOHZB
+	MrdEcIHg1M/bGdfttCCll25gwJLDMO10yHy/K5f6J7Q3QkSK7FqGCAvrEYntjjKH
+	OqE5URnZ2DGfGRVvH+LhmqY46exG+PmihHQUHtQS3RYee5PRck37+OwZPmI6Cetj
+	eFb3lYnKWzC2oCXT/HGDtrOITVQZ40cauz4k/6JwkL2woRsLSMALPBWstHW3X+Ub
+	n2NaDXNmSMv0TUMx35VAzGYov0pUBymmxmuyJTjoCYrp8CSxnz+d6p4ULXwMsXz/
+	a0ZAiOKKjg3SSjvxurwY3R9JJpi4nPm17MLACqG0nsOGpRKcWDIt8utD2n6jDt6U
+	w==
 Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4eyhqr0y9k-1
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4eyhsu8wjw-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Jun 2026 02:33:02 -0400 (EDT)
+	Tue, 23 Jun 2026 02:33:04 -0400 (EDT)
 Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 65N6X18q003598
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 65N6X2Tp003612
 	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 23 Jun 2026 02:33:01 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Tue, 23 Jun
- 2026 02:33:01 -0400
+	Tue, 23 Jun 2026 02:33:03 -0400
+Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
+ ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Tue, 23 Jun 2026 02:33:02 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Tue, 23 Jun 2026 02:33:02 -0400
 Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
  (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Tue, 23 Jun 2026 02:33:01 -0400
+ Transport; Tue, 23 Jun 2026 02:33:02 -0400
 Received: from HYB-VFz9h4bIQxi.ad.analog.com (HYB-VFz9h4bIQxi.ad.analog.com [10.118.4.27])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 65N6WlDJ023894;
-	Tue, 23 Jun 2026 02:32:49 -0400
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 65N6WlDK023894;
+	Tue, 23 Jun 2026 02:32:57 -0400
 From: Jan Carlo Roleda <jancarlo.roleda@analog.com>
-Subject: [PATCH v6 0/2] Add support for LTC3208 multi-display driver
-Date: Tue, 23 Jun 2026 14:32:28 +0800
-Message-ID: <20260623-upstream-ltc3208-v6-0-fc6bd9749166@analog.com>
+Date: Tue, 23 Jun 2026 14:32:29 +0800
+Subject: [PATCH v6 1/2] dt-bindings: leds: Document LTC3208 Multidisplay
+ LED Driver
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -75,12 +81,9 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAHwoOmoC/33QS27DIBAG4KtErEs1AxhDV71H1QWGIUFK7Ahcq
- 1XkuxeySSpbFasfab553FihnKiwt8ONZVpSSdNYg345MH9y45F4CjUzAUKDRMO/rmXO5C78PHs
- pwPDee2O1GaK2xGrZNVNM33fy47PmUyrzlH/uHRZsv/9gC3LggF3EiGRBd+9udOfp+OqnC2vaI
- p4EoXcEUQUZBm+tGDRYsxHkQ1CwJ8gq9BEGDAKIercR1JOAe4JqMxijKEhSNm636B6CRrsjdO0
- OfRfQgG7vj7Cu6y/c9h3suQEAAA==
-X-Change-ID: 20260318-upstream-ltc3208-7cc8968bf69e
+Message-ID: <20260623-upstream-ltc3208-v6-1-fc6bd9749166@analog.com>
+References: <20260623-upstream-ltc3208-v6-0-fc6bd9749166@analog.com>
+In-Reply-To: <20260623-upstream-ltc3208-v6-0-fc6bd9749166@analog.com>
 To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
         Rob Herring
 	<robh@kernel.org>,
@@ -96,38 +99,39 @@ CC: <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
         Krzysztof Kozlowski
 	<krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782196367; l=3616;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782196367; l=6393;
  i=jancarlo.roleda@analog.com; s=20260317; h=from:subject:message-id;
- bh=SSIK/QSN70pASprkaQr4jQcJ+Bv0/9w1QjB1iMjXw2c=;
- b=NqOUHbUK3HcPEOEKPXpiyM18L6HOu+N3MU25kWtDzPocig2d+AL0pltFJ22BlJ9qVJD8BlQ2j
- 2g59JIzX3JeCl6te5IQ2ikLH8Tp5zkFJWT2hoDHSa1qsMPt8gXRVAvD
+ bh=1oBz68DUvRsjYs3daNl/Jes+K25MOfBC7R612e9EOVE=;
+ b=2EdRNiBwLDsKvaZBAPYU5Z5PaW5CbzPMpuISEMSSvyr4wFpcv9K+YfWveYqr6g4llbZqFHblv
+ lYbw9RF4E3fCstmhowsFyjgLCMUkxM1Sxz7I2Yh31Y8x6d0tyrj3yQE
 X-Developer-Key: i=jancarlo.roleda@analog.com; a=ed25519;
  pk=zPMh+eO6/Mj6tqaie75BLiTLQvE3f9pck0UejKLmLMc=
 X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDA1MCBTYWx0ZWRfX1e/KctIusV7y
- ybZrCqP3b9qGZGTxs7sx5kH8MrzUCQB69KuIHPlla/hQ99owzcqC4gg7yZNAwdbI3EO8J6CZgDp
- 0SwS4TQfbxTPgBfleXVMIBLtVRhrjCNTh2dZYkNZ3MI28U9kMnWkteiZENqvUh/0Ceidj6WrX5V
- xrYRPH8dTykE5ZS0QCiWnTn9g+tisKFC2kOK4wGiK2rgh82Efc+A6yaAvggRBtobEehgiZt3jgd
- ERL3y+OvykMeij8yQXMaxoguYs8XMZlU6ln4bZnV5Muc0XhWZtFvbx+BkHMErevFBlLAdnB1A9Y
- dWFlL+EVM0Jyc1XZOiB05WczC1gRPYkt/l+dgOOON1HowYE1ZDSAUj/a6QXq/DbD85494ldbxwt
- NuG5y2n2mVAS7g0oqi574EMKGKvRmLvYBlViXnyN/2oL4x22U0PS3b8l/k7EYHMPivNRFm7TDGT
- G3y5tt4g9HbjeMl7WLQ==
-X-Proofpoint-ORIG-GUID: QjB3e5t0iBKpcKag0OzSoNgA-kl8iYrD
-X-Proofpoint-GUID: QjB3e5t0iBKpcKag0OzSoNgA-kl8iYrD
-X-Authority-Analysis: v=2.4 cv=J5yaKgnS c=1 sm=1 tr=0 ts=6a3a289e cx=c_pps
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDA1MCBTYWx0ZWRfX+GbICAIJwj3/
+ 516kO+P8ufd/z/7t7+z6WKW2qA4qY7qeCLr4LeSFnhayYTAtNnY4Od1wFqeN5xoDBo3zI7KSxTM
+ hO0glGcRt9iqYoEMYwOrZEjiTbEvCR7mM/7P2xoy5acl0Vm6LGt0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDA1MCBTYWx0ZWRfX+xGeGuxKzWYx
+ rD6f5kuIuy1MSCQTmPeaEHPaN3qpZDK2LRV7pZGI1hymzRCztCVPUYhEwAJFEhcYvIwTCFPpanV
+ v1id4AcZcK+iMMd8OLwT3D2gHswQcHQzT5MOfqLoW0yOD3XDt/ZY2ns98ukfRVx1aft4H9Z0m9+
+ DoTG1e38sUtQH3UJjxW1W6sRyS5CJa285DkBwvaWHfDHjs9iM84nvgUfUsJyiFNxWEIA1LNQOdp
+ wXHuHzp+3EghSQzztJXxf8Lbhb5Wn41b8t3UUjqVgvkRy0tHw4D1EpF93iufy2AnkaXn6kyz2sz
+ QUswtOR2J4BNfqUdVsimVMn9i52b38GUxu8v+rAkcfEMFKu3yn7sPG7N5AYAwi63/kEioXyx1pL
+ V+5wGPnt14N5h0x6G8ruYA9vVGrL6dzcQbDTNVULNIYq9xSnGA+2cny6vZPgPzizM4hg0X+coNj
+ mXBdk+axH6maAwZfhDQ==
+X-Proofpoint-ORIG-GUID: VW6hUr8qRQD2uMfx_enwQFUta-RdK4-0
+X-Authority-Analysis: v=2.4 cv=JPgLdcKb c=1 sm=1 tr=0 ts=6a3a28a0 cx=c_pps
  a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
  a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=0sLvza09kfJOxVLZPwjg:22 a=N--XFCr6TIEc_64PeIT2:22 a=VwQbUJbxAAAA:8
- a=gAnH3GRIAAAA:8 a=itDfUeudex1bMM3OCFYA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDA1MCBTYWx0ZWRfX7nipKul3WXnt
- SdhgK4jkISb+jd14bKKFYv9wcH+vomxZuDT25C9vaRsZ5X37jhULT7ZEcpo5XJK3KnvmxjWyXBq
- noty9zoTjya2OgkAHn1pTM3ty/JZfPbU1x65WTbUfAORhGYhHeuK
+ a=0sLvza09kfJOxVLZPwjg:22 a=Z0pTeXoby7EwIRygza74:22 a=gEfo2CItAAAA:8
+ a=gAnH3GRIAAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=v2smZY1xhbZLdnYpqY8A:9
+ a=QEXdDO2ut3YA:10 a=sptkURWiP4Gy88Gu7hUp:22
+X-Proofpoint-GUID: VW6hUr8qRQD2uMfx_enwQFUta-RdK4-0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-23_01,2026-06-22_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0
- impostorscore=0 adultscore=0 malwarescore=0 spamscore=0 priorityscore=1501
+ phishscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 adultscore=0
+ clxscore=1015 spamscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606230050
 X-Rspamd-Action: no action
@@ -135,21 +139,21 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[analog.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[analog.com:s=DKIM];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8706-lists,linux-leds=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[analog.com:dkim,analog.com:email,analog.com:mid,analog.com:from_mime,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo];
+	TAGGED_FROM(0.00)[bounces-8707-lists,linux-leds=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,analog.com:url,analog.com:from_mime,analog.com:dkim,analog.com:email,analog.com:mid,vger.kernel.org:from_smtp,qualcomm.com:email,devicetree.org:url];
 	FORGED_SENDER(0.00)[jancarlo.roleda@analog.com,linux-leds@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:u.kleine-koenig@baylibre.com,m:jancarlo.roleda@analog.com,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[analog.com:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -161,91 +165,226 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	RCVD_COUNT_SEVEN(0.00)[9]
+	RCVD_COUNT_SEVEN(0.00)[10]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 679086B4955
+X-Rspamd-Queue-Id: D46C76B48E6
 
-The LTC3208 is a multi-display LED driver, using a high-efficiency, low
-noise charge pump to provide power to 5 channels (MAIN, SUB, RGB, CAM,
-AUX). Current for each LED is controlled by the I2C serial interface.
-Four AUX current sources can be independently assigned via the I2C port
-to the CAM, SUB, MAIN, or AUX DAC controlled displays
+Add Devicetree Documentation for LTC3208 Multidisplay LED Driver.
 
 Signed-off-by: Jan Carlo Roleda <jancarlo.roleda@analog.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
-Changes in v6:
-- Fixed code conventions (spaces in brackets, awkward line breaks)
-- Removed unused `i2c_set_clientdata` from probe function
-- Added guard for potential errors in AUX channel configurations
-- Added guards to prevent duplicate LED registrations to the same ID
-- Corrected `dev_err_probe` return values
-- Link to v5: https://lore.kernel.org/r/20260619-upstream-ltc3208-v5-0-075d18060606@analog.com
+ .../devicetree/bindings/leds/adi,ltc3208.yaml      | 181 +++++++++++++++++++++
+ MAINTAINERS                                        |   7 +
+ 2 files changed, 188 insertions(+)
 
-Changes in v5:
-- Fixed MAINTAINERS commit ordering
-- removed i2c_client from ltc3208_dev
-- renamed ltc3208_dev struct to ltc3208
-- refactored brightness_set function to use regmap_field
-- updated leds attribute to use constant size array
-- updated regmap_config to use REGCACHE_FLAT_S cache type
-- added max_register to regmap_config
-- renamed variables in probe function
-- renamed map to regmap for regmap instances
-- moved AUX channel configuration inline to probe
-- Link to v4: https://lore.kernel.org/r/20260416-upstream-ltc3208-v4-0-3884ed3e49f5@analog.com
+diff --git a/Documentation/devicetree/bindings/leds/adi,ltc3208.yaml b/Documentation/devicetree/bindings/leds/adi,ltc3208.yaml
+new file mode 100644
+index 000000000000..0a01e07e0ab7
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/adi,ltc3208.yaml
+@@ -0,0 +1,181 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (c) 2026 Analog Devices, Inc.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/adi,ltc3208.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: LTC3208 Multidisplay LED Controller from Linear Technologies (Now Analog Devices)
++
++maintainers:
++  - Jan Carlo Roleda <jancarlo.roleda@analog.com>
++
++description:
++  The LTC3208 is a multidisplay LED controller that can support up to 1A to all
++  connected LEDs.
++
++  The datasheet for this device can be found in
++  https://www.analog.com/en/products/ltc3208.html
++
++properties:
++  compatible:
++    const: adi,ltc3208
++
++  reg:
++    maxItems: 1
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++  adi,disable-camhl-pin:
++    type: boolean
++    description:
++      Configures whether the external CAMHL pin is disabled.
++      If disabled then the output pins associated with CAM will always select
++      the CAM register's high half-byte brightness.
++
++  adi,cfg-enrgbs-pin:
++    type: boolean
++    description:
++      Configures which channel the ENRGBS pin toggles when it receives a signal.
++      ENRGBS pin controls the SUB channel's output pins if this is set,
++      or RGB channel's output pins if this is unset.
++
++  adi,disable-rgb-aux4-dropout:
++    type: boolean
++    description:
++      Configures the RGB and AUX4 dropout signals to be disabled.
++
++  adi,aux1-channel:
++    $ref: /schemas/types.yaml#/definitions/string
++    description:
++      LED Channel that the AUX1 output pin mirrors its brightness level from.
++    enum: [aux, main, sub, cam]
++    default: aux
++
++  adi,aux2-channel:
++    $ref: /schemas/types.yaml#/definitions/string
++    description:
++      LED Channel that the AUX2 output pin mirrors its brightness level from.
++    enum: [aux, main, sub, cam]
++    default: aux
++
++  adi,aux3-channel:
++    $ref: /schemas/types.yaml#/definitions/string
++    description:
++      LED Channel that the AUX3 output pin mirrors its brightness level from.
++    enum: [aux, main, sub, cam]
++    default: aux
++
++  adi,aux4-channel:
++    $ref: /schemas/types.yaml#/definitions/string
++    description:
++      LED Channel that the AUX4 output pin mirrors its brightness level from.
++    enum: [aux, main, sub, cam]
++    default: aux
++
++patternProperties:
++  "^led@[0-7]$":
++    type: object
++    $ref: /schemas/leds/common.yaml#
++    unevaluatedProperties: false
++    properties:
++      reg:
++        description:
++          LED Channel Number. each channel maps to a specific channel group used
++          to configure the brightness level of the output pins corresponding to
++          the channel.
++        enum:
++          - 0 # Main Channel (8-bit brightness)
++          - 1 # Sub Channel (8-bit brightness)
++          - 2 # AUX Channel (4-bit brightness)
++          - 3 # Camera Channel, Low-side byte (4-bit brightness)
++          - 4 # Camera Channel, High-side byte (4-bit brightness)
++          - 5 # Red Channel (4-bit brightness)
++          - 6 # Blue Channel (4-bit brightness)
++          - 7 # Green Channel (4-bit brightness)
++    required:
++      - reg
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/leds/common.h>
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      led-controller@1b {
++        compatible = "adi,ltc3208";
++        reg = <0x1b>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++        adi,disable-camhl-pin;
++        adi,cfg-enrgbs-pin;
++        adi,disable-rgb-aux4-dropout;
++
++        /* MAIN */
++        led@0 {
++          reg = <0>;
++          function = LED_FUNCTION_ACTIVITY;
++          color = <LED_COLOR_ID_WHITE>;
++        };
++
++        /* SUB */
++        led@1 {
++          reg = <1>;
++          function = LED_FUNCTION_ACTIVITY;
++          color = <LED_COLOR_ID_WHITE>;
++        };
++
++        /* AUX */
++        led@2 {
++          reg = <2>;
++          function = LED_FUNCTION_ACTIVITY;
++          color = <LED_COLOR_ID_WHITE>;
++        };
++
++        /* CAMLO */
++        led@3 {
++          reg = <3>;
++          function = LED_FUNCTION_FLASH;
++          color = <LED_COLOR_ID_WHITE>;
++        };
++
++        /* CAMHI */
++        led@4 {
++          reg = <4>;
++          function = LED_FUNCTION_FLASH;
++          color = <LED_COLOR_ID_WHITE>;
++        };
++
++        /* RED */
++        led@5 {
++          reg = <5>;
++          function = LED_FUNCTION_INDICATOR;
++          color = <LED_COLOR_ID_RED>;
++        };
++
++        /* BLUE */
++        led@6 {
++          reg = <6>;
++          function = LED_FUNCTION_INDICATOR;
++          color = <LED_COLOR_ID_BLUE>;
++        };
++
++        /* GREEN */
++        led@7 {
++          reg = <7>;
++          function = LED_FUNCTION_INDICATOR;
++          color = <LED_COLOR_ID_GREEN>;
++        };
++      };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2fb1c75afd16..2fd6ffdaaf04 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -15223,6 +15223,13 @@ W:	https://ez.analog.com/linux-software-drivers
+ F:	Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml
+ F:	drivers/iio/temperature/ltc2983.c
+ 
++LTC3208 LED DRIVER
++M:	Jan Carlo Roleda <jancarlo.roleda@analog.com>
++L:	linux-leds@vger.kernel.org
++S:	Maintained
++W:	https://ez.analog.com/linux-software-drivers
++F:	Documentation/devicetree/bindings/leds/adi,ltc3208.yaml
++
+ LTC4282 HARDWARE MONITOR DRIVER
+ M:	Nuno Sa <nuno.sa@analog.com>
+ L:	linux-hwmon@vger.kernel.org
 
-Changes in v4:
-- Reordered commit order to match dependency order
-- Updated Kconfig to be more descriptive of device
-- Added led@0-7 with more complete example properties (function and
-  color)
-- Driver changes:
--- Removed unnecessary include headers
--- Formatted macros
--- Created helper `write_current_level` functions for LED current
-  configuration, using `regmap_update_bits()`
--- Adjusted awkward tabbing issues
--- Updated variable names in probe to be more descriptive
--- Updated inline comment capitalization
--- Initialized `i` within the for loop in AUX configuration in probe
--- Refactored `update_aux_dac` function to use array pointer
--- Fixed error messages in probe 
-- Link to v3: https://lore.kernel.org/r/20260406-upstream-ltc3208-v3-0-7f0b1d20ee7a@analog.com
-
-Changes in v3:
-- Edited device bindings descriptions
--- removed full stop in title
--- replaced quotes with double quotes for consistency
--- removed <dt-bindings/gpio/gpio.h> from example
--- removed led1-7 in example for brevity
-- squashed maintainers commit to driver commit
-- Link to v2: https://lore.kernel.org/r/20260326-upstream-ltc3208-v2-0-3dbc992b6098@analog.com
-
-Changes in v2:
-- Addressed DTSchema bot warnings and errors
--- removed extra blank lines
--- fixed $id to match current naming
-- Addressed Kernel test warnings
--- fixed bounds for aux channel configurations
-- Link to v0: https://lore.kernel.org/r/20260318-upstream-ltc3208-v1-0-015f1f1e9065@analog.com
-
----
-Jan Carlo Roleda (2):
-      dt-bindings: leds: Document LTC3208 Multidisplay LED Driver
-      leds: ltc3208: Add driver for LTC3208 Multidisplay LED Driver
-
- .../devicetree/bindings/leds/adi,ltc3208.yaml      | 181 +++++++++++++++
- MAINTAINERS                                        |   8 +
- drivers/leds/Kconfig                               |  12 +
- drivers/leds/Makefile                              |   1 +
- drivers/leds/leds-ltc3208.c                        | 244 +++++++++++++++++++++
- 5 files changed, 446 insertions(+)
----
-base-commit: d43f1d792902ba0a53fd311bff2cf96095c7606d
-change-id: 20260318-upstream-ltc3208-7cc8968bf69e
-
-Best regards,
 -- 
-Jan Carlo Roleda <jancarlo.roleda@analog.com>
+2.43.0
 
 
