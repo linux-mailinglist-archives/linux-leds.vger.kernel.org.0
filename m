@@ -1,63 +1,64 @@
-Return-Path: <linux-leds+bounces-8738-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8739-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 8XbBMBvmPGpKuAgAu9opvQ
-	(envelope-from <linux-leds+bounces-8738-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Jun 2026 10:26:03 +0200
+	id Nq3fD13mPGpVuAgAu9opvQ
+	(envelope-from <linux-leds+bounces-8739-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Jun 2026 10:27:09 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DF556C3C4C
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Jun 2026 10:26:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FDF66C3C6E
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Jun 2026 10:27:08 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=KA8Bbgzp;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8738-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8738-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=BQjtLbho;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8739-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8739-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3778F30453B4
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Jun 2026 08:22:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E3B4C3089D4D
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Jun 2026 08:23:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 393B037D11C;
-	Thu, 25 Jun 2026 08:22:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF23E3806DD;
+	Thu, 25 Jun 2026 08:23:31 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229EB2253EB;
-	Thu, 25 Jun 2026 08:22:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33A62ECE93;
+	Thu, 25 Jun 2026 08:23:30 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782375755; cv=none; b=GTeFqXa7Snx0i31B3W3ERKTqg0OyZJMhu4WnkGJqZJ/wP71HfWULcMCJFT8VhrfFfN9nfNxAH68m2U9Y8r49HokWbXydUTsiX+I1HnTyubr594tngYownJe/IyYqSnDt0/RCmjMk4/OzWPygjJJQEnRa6qVHpaUxr0vDpijiLlU=
+	t=1782375811; cv=none; b=mc88+E3gWBMg73gBX+6B+UhGg417FfLROp1fUkgOnw90ANEFFJ3H0rPJ8d6f3MJ1CKoQmtIAaA6cJgueBfy+3Mlb+dh4LoIxVKBuHR+ronZKq4aPcH8zzXheFqMwQLBzKSzTM4DVBVyM/H80+RMhAbvm7XVsCH36aOA9pzTuKXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782375755; c=relaxed/simple;
-	bh=EWYYWzY5LGNLs9iTL2sOMPGHuaVNyHjvMgXoaG7+ipM=;
+	s=arc-20240116; t=1782375811; c=relaxed/simple;
+	bh=Za0MpbPDeLiXLY+RmvqoHynOx+OcOscyTWSLCe8fMSA=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=glc5iotsXwmgCTJMRInvTgAdLh8KfQ7g0gyjUrK6kg7tyfsqR5Z4/clC1bFsCmBCWKcYhTODkz98m7zBpWElJrryXOUKM6MNO7XCaw8yLHtO8bEJA8jCB8JzB3ImsK1ldwrtH3t0qMry9r4Ylw2oqV72DG+DoGXu2fLvVOSGEFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KA8Bbgzp; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BD0E1F000E9;
-	Thu, 25 Jun 2026 08:22:33 +0000 (UTC)
+	 Message-Id; b=pRHKzQgvNaq2bKKp9Hdm8OXMypPXRxhl1calDIfixw1hzQzy11x0HH0n4LA1k0ZICkzGp0Cr+slpVsc2WLkqZ59cpATa6sJdYDGtSi3esFxkVHfsxbp3862IwbtX+7I69rYvo3VtUYq0yPuAsdlwvSWd3u1en8Imu+7F0ckIOAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BQjtLbho; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3BFB1F000E9;
+	Thu, 25 Jun 2026 08:23:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782375753;
-	bh=EWYYWzY5LGNLs9iTL2sOMPGHuaVNyHjvMgXoaG7+ipM=;
+	s=k20260515; t=1782375810;
+	bh=Za0MpbPDeLiXLY+RmvqoHynOx+OcOscyTWSLCe8fMSA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=KA8Bbgzpn+WLeecrEA/sZJzPfMIJdsxJAilb7lfX32UTI4hHNPnnP1Mp33OLkRYhg
-	 K1LRtjO0S2+TI2QWI14V1lZSZt87itlVrmUg+trWqOJRxBWFiju3EC97p97d8+HsSc
-	 CljiLJncq5EQpEYU2hguuiW3Svmx6OjOoP67o+r0jyZm076h0+sS8JvfQJT1jCbwBA
-	 Wi9JsriK8EfkB06N9Pah33JqN1m0rt0YLQhyUhn4UVjoEupuUh2QDlQopUY2H0tS9e
-	 7eEkV+ig6NqBmI3rXI3U14Iho1PI7XtP65zh9eIR+4MOvCsM8prddOlB6hqTmJCso8
-	 evU/tGrtBx9LA==
+	b=BQjtLbhod5das5RyL0cOIj6PTKtPli4xcV3xfzZhnfmfwF43p7sqzM/Qw9jvuoPhK
+	 7SZufE6HsKcCFLB8+9NYdywszj+FbuJ/F754xg1R5VHeYw1Y18icpNZLs5AEAeJVzm
+	 QTNCy9zji3xwbg9/oumQxsQ97cVTwCNwt42AHeXb5x2ezt4lQBlUel0Kron3mXLZ+1
+	 71tx7MEFBsT0URCgZsddsT03L0Gn7pZcWXUk1tfEGlazaaQxGhRdU0So3QsTGQVRJg
+	 SAhYps62o5chW/qKyGdv7IRRa+LodTn3TGCSdjPregaj97LZdjKFWmkIp/U6KdDcgq
+	 PJMXxdMvhNtqw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v9 5/7] leds: Add driver for ASUS Transformer LEDs
+Subject: Re: [PATCH v9 7/7] power: supply: Add charger driver for Asus
+ Transformers
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Svyatoslav Ryhel" <clamor95@gmail.com>
-Cc: conor+dt@kernel.org, linux-input@vger.kernel.org, dmitry.torokhov@gmail.com, robh@kernel.org, devicetree@vger.kernel.org, linux-leds@vger.kernel.org, lee@kernel.org
-In-Reply-To: <20260625081529.22447-6-clamor95@gmail.com>
+Cc: linux-input@vger.kernel.org, dmitry.torokhov@gmail.com, robh@kernel.org, lee@kernel.org, linux-leds@vger.kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20260625081529.22447-8-clamor95@gmail.com>
 References: <20260625081529.22447-1-clamor95@gmail.com>
- <20260625081529.22447-6-clamor95@gmail.com>
+ <20260625081529.22447-8-clamor95@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 25 Jun 2026 08:22:32 +0000
-Message-Id: <20260625082233.4BD0E1F000E9@smtp.kernel.org>
+Date: Thu, 25 Jun 2026 08:23:29 +0000
+Message-Id: <20260625082329.B3BFB1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -75,8 +76,8 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-8738-lists,linux-leds=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:clamor95@gmail.com,m:conor+dt@kernel.org,m:linux-input@vger.kernel.org,m:dmitry.torokhov@gmail.com,m:robh@kernel.org,m:devicetree@vger.kernel.org,m:linux-leds@vger.kernel.org,m:lee@kernel.org,m:conor@kernel.org,m:dmitrytorokhov@gmail.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8739-lists,linux-leds=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:clamor95@gmail.com,m:linux-input@vger.kernel.org,m:dmitry.torokhov@gmail.com,m:robh@kernel.org,m:lee@kernel.org,m:linux-leds@vger.kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:dmitrytorokhov@gmail.com,m:conor@kernel.org,s:lists@lfdr.de];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-leds@vger.kernel.org];
@@ -86,7 +87,7 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[8];
@@ -103,24 +104,24 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qmqm.pl:email,vger.kernel.org:from_smtp,sashiko.dev:url,lists.linux.dev:replyto,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,smtp.kernel.org:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.linux.dev:replyto,vger.kernel.org:from_smtp,qmqm.pl:email,sashiko.dev:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,smtp.kernel.org:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1DF556C3C4C
+X-Rspamd-Queue-Id: 1FDF66C3C6E
 
 > From: Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.pl>
 >=20
-> ASUS Transformer tablets have a green and an amber LED on both the Pad
-> and the Dock. If both LEDs are enabled simultaneously, the emitted light
-> will be yellow.
+> Add support for charger detection capabilities found in the embedded
+> controller of ASUS Transformer devices.
 >=20
-> Co-developed-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> Suggested-by: Maxim Schwalm <maxim.schwalm@gmail.com>
+> Suggested-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > Signed-off-by: Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.pl>
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 
 Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260625081529.2244=
-7-1-clamor95@gmail.com?part=3D5
+7-1-clamor95@gmail.com?part=3D7
 
 
