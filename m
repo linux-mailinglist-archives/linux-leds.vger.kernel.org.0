@@ -1,155 +1,181 @@
-Return-Path: <linux-leds+bounces-8778-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8779-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 6QEWMXJ3QmqV7wkAu9opvQ
-	(envelope-from <linux-leds+bounces-8778-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Jun 2026 15:47:30 +0200
+	id WmbwJu98Qmqh8QkAu9opvQ
+	(envelope-from <linux-leds+bounces-8779-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Jun 2026 16:10:55 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6085B6DB7B8
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Jun 2026 15:47:30 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F195B6DBCD4
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Jun 2026 16:10:54 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=oqDQdMo7;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8778-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8778-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=m5QfJu8I;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8779-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8779-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 82CDD301FF8A
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Jun 2026 13:40:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 07F2B304D5EA
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Jun 2026 13:46:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE72F21CC51;
-	Mon, 29 Jun 2026 13:40:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7C72282F13;
+	Mon, 29 Jun 2026 13:46:15 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97C1218821
-	for <linux-leds@vger.kernel.org>; Mon, 29 Jun 2026 13:40:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0AB21F2380;
+	Mon, 29 Jun 2026 13:46:14 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782740427; cv=none; b=O9R7RHIfyboVTnU8BpR+PR5RSnsPZEpgDHr6FARb4y9NEWITzR77x2buuEs3/UsGszvjzYwtBQTEYmfQ5SsqGDhPU81rE/BduaoqQSWz9mPHYYB89MlMwfh4sAqpz5Lbu/l3CjxmfRC2/xsDbSP6MYV1lWuNMCM2nzECIBjMn+E=
+	t=1782740775; cv=none; b=N4bYFMaEVmhjATtJjWc0RVEkX0nWbCNW2WKyev6lyFlg4H9hp/T0a8cSBPGUNQsVGGmnHv+wyBqDF82D9dBnhFEjbAzFBf0+ewTRYDdqbJ/Rfr1s6NK/3FuoWJorB+hjP9bfBjwaCVzgu0DXwxRcqAkBrkAsFAUtiFK5morx+8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782740427; c=relaxed/simple;
-	bh=jQhPNikCLFX4aqzB4C1+S0WA2gryD4jcToyA0jONtOk=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=uiE4JfMzqXcX7jBEuXV9XS/twme/DM2GS6oj3rWKO8MFc/cJvdvOyWQmWJefSCse8gnyBrsZg6Du7XsU4OYOPJIUJTFFhK6+6zCbBCUuwNENlkyhUFKVm0CmBs78POpWnYajj6U/KI9RWyxKDgEZGe/3QcREYw+1kksRWkOa6kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oqDQdMo7; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B3AE1F00A3D
-	for <linux-leds@vger.kernel.org>; Mon, 29 Jun 2026 13:40:26 +0000 (UTC)
+	s=arc-20240116; t=1782740775; c=relaxed/simple;
+	bh=ycMCDqX2RofTZZbrE3vCaIyK13N1cECiyG9cwPgnbSM=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=XJBs2O8jwu3MYu5OCk56a+y0NChqNrfML9PMZQemWFxS3V2xEXTPKw08z14g6UeP0GQDppSLCtx+qMNx7i110YCPfPOlDXkz5M3BT9s1k2g3iYDJByyMbCHM3CLBKs8ldNaFmB0hv75Ig3XWXofK5yhku9WsCFP1O+5amUFlVWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m5QfJu8I; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F154B1F000E9;
+	Mon, 29 Jun 2026 13:46:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782740426;
-	bh=dWdlr26Kfs/ahO6K+kk8aoFsE4SSI5ytweuNJUqCaA4=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=oqDQdMo790z06ApeDSsvY3m+Y8IZ4VZoMJkJhGr7E/IjZKx64O22KSnF3+xUuRO3f
-	 yvH5ym4dczIjGKrdczIpYfPoLBBOcsxNrSj6h91hZ+c5LvwtiryvUwTame1uNn9Rrr
-	 WyUON5JVM6X2M7HXjlu9dCFHaih+ML2mRji8q5NmqYxEhmCp7jscP8v8CkZYNWd2dr
-	 xhd1FM87CLb5bUe65OvOAO6e+bbCfwR/aLNQ4BOFjJCR1+oo0E91peSLwfYNysxn6M
-	 wnQNp12CKUcvYWs6JX5HamOMDo/C2BRDOWvmsuEXyiewWafhXqE043sHdG1WMky78y
-	 KaEDaoyncHfiw==
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfauth.phl.internal (Postfix) with ESMTP id D29C2F40082;
-	Mon, 29 Jun 2026 09:40:25 -0400 (EDT)
-Received: from phl-imap-05 ([10.202.2.95])
-  by phl-compute-04.internal (MEProxy); Mon, 29 Jun 2026 09:40:25 -0400
-X-ME-Sender: <xms:yXVCaqTbmNV0Ocsbi3MiYcHRKYhpvFInovQSIcVzW4aSqrKvIqBTqA>
-    <xme:yXVCaqmwKdZ8oNS0C-fH7M42ECYZKV4alZpGL3GmVldj8p_putY0zAe8RCjmNl0qy
-    7MdjF2NtLcrJX9Zty2ZEv2GkE8fV_dQwsNFYkJrS5eVcwufs8JmlN8>
-X-ME-Proxy-Cause: dmFkZTEwyiikSuk+z/VB2qVPcN1EQyPqA6WOQ+eFtbmbh6SYaSdz7rkBD37IEwyRDxtGET
-    RORijbLfntwSPyFj2YhZEbxd60mXyZA33VmqxImL2DoUQeJH8Eez29TcwFZHYq7GR2yV8n
-    jbsxVBlwdvYKEdKvg4ZKi13qW9ThkVZs47boS3WbARwM/E1OWlqRoBErtwtlNJ0R5Uqnf5
-    Ixe+uJJEcddGGI76MWMTE7QWmZJQ2j5h0IUaySJvyy84KFVeoRG+xobECdL/BEBMIBJvIT
-    vvY6jpAUWxFgibIpez0dkLzhr8JwreXhzf6N1if0Mv2I7aoOfRViYHOgo9xDeKDSfmqrc0
-    iSlhQqoz6k6wqeTYy8PI8zx9YYZoGli25qI5RoAZ9tzJMdOUnNzoyCkLokZBZfjKqlbNqR
-    8j3uP77Efk1N4TXDZEWVo7BItO+J552OgM7xc6prSeMBikR6t2ddmjg+T6biUzS1XWSu4S
-    4PcVHPkg8tRLcS/eCNibn88VZvhoDLTuaWX7QXF0biINHZ+F3b9TfBXbIb4aPtOyxSdotP
-    qbNmWSaBBWDJPeIdSBTMRv6j/08rtOZp8IH64RAJQZ+gZewcT/PCfpZ/bHKYrB18Hn+hCr
-    Iv4R6tKJCY5qX7ooutrYvIU/31SA7G6i2L1cdcDk33vL2efgRtjoMq97UFkw
-X-ME-Proxy: <xmx:yXVCaqGLZ7a_ubFF8qrTqVbrGwPFfuMVpLR-5CfGuI5xSeza9pfh8g>
-    <xmx:yXVCavBaZv_7HKQWWQc2DasrcPJ_MpRaBpq30e-wks5YaCGT2jgoBg>
-    <xmx:yXVCat-yS_JmvaCQWG43ZK77Ibz1kVbVOPYfziquS-IFE29vFzG8gA>
-    <xmx:yXVCarDycFjyNgzu1oaDZy2xwjgo5EqF_218TDHGfdUA1t7zXHr0rQ>
-    <xmx:yXVCaiRE1-L6e8AeNrtefGl_UH4vIxTubMIBuY-EMoTtnpnVfXwTKTmZ>
-Feedback-ID: i36794607:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B0AEA1820082; Mon, 29 Jun 2026 09:40:25 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20260515; t=1782740774;
+	bh=RK0XsgXnFviwdtIwWGULJYGL8GaNcz34XQuV4ICnbXc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=m5QfJu8Iesfh7z8yBY26vpDQOS74+RnQEwaMXIW9Rrw+M6glF7H+VmgIDGXiXrV4f
+	 6KGBKeiFJY9fXdA4Bbvys9OG7do4Nnd3+CunO+9yCf6acpGyL6MH7zaRcpCfBIrfw3
+	 ySBkO/Hl8N6b9pvg3f5kmtgzKO8yfr6ZIJhMDCSQXFrklfCwWF84/Va+2GavIH6c2B
+	 nWERl0rjSM4wzbNYVdEvTzKbqAxfvvpc5vL2Om978hgnYmvemmIUDIMu/731OSrLfp
+	 4toUPEgT3w6TxOq3TLshpi17aJJZ5GRUzhPUN8VYJyFPsBh84+lvJe8HqoChzEDoFe
+	 ZnLGmc6BAkFMg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 6/6] [v5] gpiolib: turn off legacy interface by default
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Arnd Bergmann" <arnd@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-leds@vger.kernel.org, dmitry.torokhov@gmail.com, lee@kernel.org
+In-Reply-To: <20260629130329.1291953-7-arnd@kernel.org>
+References: <20260629130329.1291953-1-arnd@kernel.org>
+ <20260629130329.1291953-7-arnd@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 29 Jun 2026 13:46:12 +0000
+Message-Id: <20260629134613.F154B1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-ThreadId: AwEGTrxsrqWN
-Date: Mon, 29 Jun 2026 15:40:04 +0200
-From: "Arnd Bergmann" <arnd@kernel.org>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-input@vger.kernel.org, "Lee Jones" <lee@kernel.org>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, linux-leds@vger.kernel.org
-Message-Id: <8dc0efb2-4e16-4fc8-943e-8043713ce2fa@app.fastmail.com>
-In-Reply-To: <20260629132505.A53EB1F000E9@smtp.kernel.org>
-References: <20260629130329.1291953-1-arnd@kernel.org>
- <20260629130329.1291953-3-arnd@kernel.org>
- <20260629132505.A53EB1F000E9@smtp.kernel.org>
-Subject: Re: [PATCH 2/6] [v5] x86/olpc: select GPIOLIB_LEGACY
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.65 / 15.00];
+X-Spamd-Result: default: False [-3.16 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+	MISSING_MIME_VERSION(2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
+	REPLYTO_DN_EQ_FROM_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-8779-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8778-lists,linux-leds=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arndb.de:email,lists.linux.dev:replyto,smtp.kernel.org:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,sashiko.dev:url,vger.kernel.org:from_smtp];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:sashiko-reviews@lists.linux.dev,m:linux-input@vger.kernel.org,m:lee@kernel.org,m:dmitry.torokhov@gmail.com,m:linux-leds@vger.kernel.org,m:dmitrytorokhov@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[arnd@kernel.org,linux-leds@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:arnd@kernel.org,m:linux-input@vger.kernel.org,m:linux-leds@vger.kernel.org,m:dmitry.torokhov@gmail.com,m:lee@kernel.org,m:dmitrytorokhov@gmail.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-leds@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arnd@kernel.org,linux-leds@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-leds@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-leds];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[5];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	MISSING_XM_UA(0.00)[];
+	FROM_NO_DN(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6085B6DB7B8
+X-Rspamd-Queue-Id: F195B6DBCD4
 
-On Mon, Jun 29, 2026, at 15:25, sashiko-bot@kernel.org wrote:
->> diff --git a/arch/x86/platform/olpc/olpc-xo1-sci.c b/arch/x86/platform/olpc/olpc-xo1-sci.c
->> index 30751b42d54ef..a5b47960ba32e 100644
->> --- a/arch/x86/platform/olpc/olpc-xo1-sci.c
->> +++ b/arch/x86/platform/olpc/olpc-xo1-sci.c
->> @@ -9,7 +9,7 @@
->>  
->>  #include <linux/cs5535.h>
->>  #include <linux/device.h>
->> -#include <linux/gpio.h>
->> +#include <linux/gpio/legacy.h>
->
-> [Severity: Low]
-> Does this cause a build failure when setup_ec_sci() and other functions in
-> this file are compiled? It appears include/linux/gpio/legacy.h does not exist
-> in the tree, and the legacy GPIO APIs might still be declared directly in
-> include/linux/gpio.h.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] Drivers depending on `GPIOLIB_LEGACY` rather than selecting it are=
+ rendered unselectable and silently disabled on normal builds.
+- [Low] Disabling CONFIG_GPIOLIB_LEGACY by default causes widespread build =
+failures for platforms and drivers still relying on legacy GPIO functions.
+--
 
-The header was added in 7.2-rc1.
+commit bad1a2df68babe59200c7570528e8b8606464b68
+Author: Arnd Bergmann <arnd@arndb.de>
 
-     Arnd
+gpiolib: turn off legacy interface by default
+
+This commit changes the GPIOLIB_LEGACY configuration to default to 'n' inst=
+ead
+of 'y'. It restricts manual selection to builds where COMPILE_TEST is enabl=
+ed,
+intending to only build the legacy interface on platforms that require it.
+
+> All users of the legacy interface now select CONFIG_GPIOLIB_LEGACY,
+> so it can be turned off by default and only get built on platforms
+> that still have one unconverted driver.
+
+[Severity: High]
+Is this description entirely accurate?
+
+There appear to be drivers that use 'depends on GPIOLIB_LEGACY' rather than
+selecting it, such as MFD_AAT2870_CORE, MFD_SI476X_CORE, and
+SND_SOC_TLV320DAC33.
+
+If GPIOLIB_LEGACY defaults to 'n' without COMPILE_TEST enabled, will these
+drivers be rendered unselectable and silently disabled on normal builds?
+
+> diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+> index 020e51e30317a..543de15a12f63 100644
+> --- a/drivers/gpio/Kconfig
+> +++ b/drivers/gpio/Kconfig
+> @@ -4,7 +4,14 @@
+>  #
+> =20
+>  config GPIOLIB_LEGACY
+> -	def_bool y
+> +	bool "Legacy GPIO interfaces" if COMPILE_TEST
+
+[Severity: Low]
+Could disabling this by default cause build failures on legacy platforms th=
+at
+still call GPIO functions but do not explicitly select GPIOLIB_LEGACY?
+
+For instance, arch/arm/mach-pxa/am200epd.c still uses gpio_request():
+
+arch/arm/mach-pxa/am200epd.c:am200_init_gpio_regs() {
+        ...
+        err =3D gpio_request(gpios[i], gpio_names[i]);
+        ...
+}
+
+Because include/linux/gpio.h excludes the legacy prototypes when
+CONFIG_GPIOLIB_LEGACY is disabled, will this cause implicit declaration
+compiler errors during standard builds for architectures like PXA?
+
+> +	help
+> +	  There are a few legacy platforms that use the traditional GPIO
+> +	  number based interfaces instead of GPIO descriptors.
+> +	  Say Y here to enable build testing drivers that are specific
+> +	  to those platforms.
+> +
+> +	  If unsure, say N.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260629130329.1291=
+953-1-arnd@kernel.org?part=3D6
 
