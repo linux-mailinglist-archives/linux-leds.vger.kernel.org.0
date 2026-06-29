@@ -1,198 +1,227 @@
-Return-Path: <linux-leds+bounces-8795-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8796-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id sKvpGiqpQmpO/QkAu9opvQ
-	(envelope-from <linux-leds+bounces-8795-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Jun 2026 19:19:38 +0200
+	id 2suoEfPMQmqtCgoAu9opvQ
+	(envelope-from <linux-leds+bounces-8796-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Jun 2026 21:52:19 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E856DDA34
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Jun 2026 19:19:37 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB566DE806
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Jun 2026 21:52:18 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=LySIAnm7;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8795-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8795-lists+linux-leds=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=oxS6m1ud;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=DdolsNgE;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8796-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8796-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 47C5E3004432
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Jun 2026 17:19:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0E70930142AD
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Jun 2026 19:52:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1662037BE75;
-	Mon, 29 Jun 2026 17:19:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F3EF31E82A;
+	Mon, 29 Jun 2026 19:52:14 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0D12F8EAE;
-	Mon, 29 Jun 2026 17:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B457124BBF4
+	for <linux-leds@vger.kernel.org>; Mon, 29 Jun 2026 19:52:12 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782753573; cv=none; b=pLh2WeIXIPvmmefG83kEJL/wMtuz7Md+n6nmQt27SxbI1F+e7Uo98XJgsm+Jgc9fur5mJMc5tEZY32UraDhuPka8YZJ9H/YlrGsGLQvXNRMGUMfcs0/EwljW8KPfxxrZ4ZTDRQMJUlK5o+9ZNWIFFCPRn7KBNYuktU7geqaI2r8=
+	t=1782762734; cv=none; b=YeLWFdB58mqo8lgsZox7+95INX28lXsUpYozXRZ0LiXo0XPaWLr51N6Y94ZQ69IYJ/snfjvZ4UgIAE0dQ6uyU0uePXHajfXWfjDCf1HU85YYlERThZTelGSvFmUTmbD+UYH32S8cG5er12gxNSsdc76L9YT9bl/7EGfXAZoj1SA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782753573; c=relaxed/simple;
-	bh=P1EWMB3LQRPM23CKgEw5c+2921EAwMu9drsHjbmttqE=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=RcpWj/byvbkmRZCD5pQye8OLe/yjaj2kwVPUhJMY7e2W1s85juFUDnWt9iGPZGY2BfCwa0qg8lDgiq3jbI4IDkqcCjMIhz1kaBJq+hh92jftjFvk3piI6kZcLzfRpBvoGkPPbQWe27GXgJHUoqKIwUY00uwkMBfJlqnuF3D0LkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LySIAnm7; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ED581F000E9;
-	Mon, 29 Jun 2026 17:19:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782753571;
-	bh=k14WBG5BYyRU40eMDKhd+3ayEC6wejzsH2WxO4tzxtk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=LySIAnm7Q91OOrVSIgeo4t/99w/r7I0SmPPIJkiOvbwHrtO7z9guUbVYbSgrqRC6o
-	 Vf1lpeFak8L+lNlkuhucmbUgCy7i1S4ME6T1u+/Bx/O2FJr22nbus63o2CyJTqW2pe
-	 ec8n20rJau60w/a9KeQAXY1I1Px9uEn84rTv8uJU+NN1YulWwq7I+exXUAR3C8iODN
-	 loLI3+OLOYpjB3YUl5DXvbB7NIB2/DooZjpQXg/XKI78fAKCNTI5nfniv3zbP3m0Z0
-	 BbnQSATARDr5Zr+IH2wayxaO8YLW+rTKXbkw1FJs/DInEN3O5EnEyynQg19w48/5A2
-	 amGhYscGFOYqg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v16 2/2] platform: Add initial synology microp driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Markus Probst" <markus.probst@posteo.de>
-Cc: conor+dt@kernel.org, lee@kernel.org, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, ojeda@kernel.org, robh@kernel.org
-In-Reply-To: <20260629-synology_microp_initial-v16-2-601e91c49e0d@posteo.de>
-References: <20260629-synology_microp_initial-v16-0-601e91c49e0d@posteo.de>
- <20260629-synology_microp_initial-v16-2-601e91c49e0d@posteo.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 29 Jun 2026 17:19:29 +0000
-Message-Id: <20260629171930.4ED581F000E9@smtp.kernel.org>
+	s=arc-20240116; t=1782762734; c=relaxed/simple;
+	bh=jwWGuiw3QNOOc8+7UuS4DFRow4gvfUEqaIQPPEv+/JI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mbhKYcCskA71D/dGk0TsSLvTSdwI5cF+iWSxVbXoDWC6UwRiiQO1vgHMFzqu3K4af/fZ82SVgnCBX/dewcz1tA1GsAFeVRGTYrjgBm8LzGkeHeel+IuqZsaeZRhxw2Sq35rSExwlxm6t0oH0J7IBacn2sKmOLm7p7jtQgQB4MDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=oxS6m1ud; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=DdolsNgE; arc=none smtp.client-ip=205.220.180.131
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65TGK2Id3388266
+	for <linux-leds@vger.kernel.org>; Mon, 29 Jun 2026 19:52:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=jzAMeYuDqDsgLfXppsKUFN
+	aGZ7zLI+C/WLqo7NaMSSo=; b=oxS6m1udt4eS5V+p09Gnzbo4O7JjTsXZfjNwgt
+	IORRq29xPew9dzi7Xhc+INuYX2nk5Y7V0S/E+4YJu7Gz7KOTcecIJftFJlBqNbN8
+	lZVW1DG2t+TkKxk+b4VkUCDJZN8xeJ1faI+ErMVSnKW0GFBuwtjeya3tFDO1d0vo
+	xJmOJHh+VFpBeEPQkLqQLI74bVHUEMdTp/NF+1jQM93LInaZrlOJfKZIujlSJdwS
+	LtdbUVK/4O63hbzhB9VUEj0ETthrEQEbMK4sZA0YcRvJt17kL0Y+SUXggcXBUsuZ
+	T9RpVHKLWzJFTy7nzcWCg6gLDHK0Z+r8/xOLixci43GJd5Cg==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f3k7vkm9w-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-leds@vger.kernel.org>; Mon, 29 Jun 2026 19:52:11 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-92e4f946461so313818185a.2
+        for <linux-leds@vger.kernel.org>; Mon, 29 Jun 2026 12:52:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1782762731; x=1783367531; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jzAMeYuDqDsgLfXppsKUFNaGZ7zLI+C/WLqo7NaMSSo=;
+        b=DdolsNgE5aXMJ+F9Gn21XlEcoHsLIzNDbFkjXIlHDY9e9r4EPno100nT+CDsAVVgNY
+         LKLlPee5XACfnA9BKcbv7vYSDX0WFDlx8QnMORDu9GmZdS2GRAzzVJoI+0BP1QEFwRd/
+         xMmMPZTV0dTwPkxLzgzBgeoSorEFxlpl+LXlrst4ceqHgRj3NYyRLc448ldoCynG2tGN
+         qdmT9skyg2etYTlV4g1jwWi9iwRlTqGpkArio7eI33X79BTONG/n156u+TvPPGnaCqN/
+         XYiF+CCjRUsqpZAPVaxOUdmRTyZ6oaAQ/rPtBKtYzoZKnFhPP8i/Lc9eyrjrf292up0T
+         +Feg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782762731; x=1783367531;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jzAMeYuDqDsgLfXppsKUFNaGZ7zLI+C/WLqo7NaMSSo=;
+        b=AvyL7wBReMc2Zqd7tEOYa+0Zji+3bFi+7WFG/jK+jXB4+hHvbA8psEnMpq/QcVwba2
+         nlg/hZdeaMTyLfnNuztLIU2diOWsFF+LLzpxy+A4Ffz6Gfu7rl+pjTByGZzbnLz9SU84
+         J76YqF9k0bBgmrajN+AvP6c89jP0iFQ2l0oyOYw5fT450wvD0y14Ef6krWXe4DECq4yV
+         DbENE5h/b2Jk2pMO9af0QNnG9HTb1BkveqO4//VMEWewpWTFHYp/RfKRgInKAHLjc3IK
+         fvZ6XIysLVTd6PeksuZ4ZVtc9huEL/tfS2LozJEJ1mfLYKC1XJ4xNkyboq31X660wxJl
+         ZpQw==
+X-Gm-Message-State: AOJu0YyouJy1KLt/RFoGkRpfokYC4bjOd3NOUMKNf/YugXYBMD4K14f4
+	wa19c15Cz7Gez+qP00JGlvjpwAHAfZj0xxPaCCS0Mw4CziZusLum2dYckWr3ekcSVd92FQj7ENh
+	m3/mltiGe5QBN0gyfd8itl6HfpqC2ADzAunV2PZSCr5VdEcXZQH9QtWHRIOa+ABaC
+X-Gm-Gg: AfdE7clLtlg4vKlwGJ437+4dTL74+E/XMztqaWi5lvDuURusMfdqZRi1C1+S9ZyWvdI
+	NmecUiG2uiYmpuG3PiN13EFiEzmyzPB0QTsvXS9vw9BpOW1MbkYrzPAsWP4Rf6p5eQfKn/EjshM
+	xAlxSKdA52n4Bsnx3AkOfCg4DUIXzqPAB+rmuEYyo/T9prmdKevFIF5vc3oenBvYSs9VPopGiSb
+	D+AVpKogHUByjiPvaDkn0SApz4BQRsm4VyYuMTKxaQKVDhd8p//mI3khruZyYfaIz7oj6OVq8uf
+	Qswd0pn3rgBWQHVh5IDGvpvBcZyzCj2An+JwrRF5/RdK73AZ0n4wjUKgmG3GBVrSMqpaFw1Ccz/
+	46tMMbnd7NgIKpqY1M68xW/nmhnV6hEpnS9L0sBQZJZCm7IcZyTQnObGFQi0Qk9LJfuNOgrKm/Q
+	eCqtjCzLwb/Zokyrf8hoRFZgTTvXsm6hoQU9F+2xp6cROTDmUj0prQvHPK9nUSOP2Ju90c51wsF
+	80V0lK1vw/9F3PC6etS
+X-Received: by 2002:a05:620a:1a09:b0:92e:5856:bdcd with SMTP id af79cd13be357-92e6287e359mr155313885a.53.1782762730598;
+        Mon, 29 Jun 2026 12:52:10 -0700 (PDT)
+X-Received: by 2002:a05:620a:1a09:b0:92e:5856:bdcd with SMTP id af79cd13be357-92e6287e359mr155307785a.53.1782762729850;
+        Mon, 29 Jun 2026 12:52:09 -0700 (PDT)
+Received: from QCOM-eG0v1AUPpu.na.qualcomm.com (82-64-236-198.subs.proxad.net. [82.64.236.198])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493b8d99565sm6360005e9.0.2026.06.29.12.52.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 12:52:09 -0700 (PDT)
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Subject: [PATCH 0/3] leds: pca963x: Add multicolor support and enable Monza
+ RGB LEDs
+Date: Mon, 29 Jun 2026 21:52:06 +0200
+Message-Id: <20260629-monza-leds-v1-0-0cf7c0a7dc14@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAObMQmoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDMyNL3dz8vKpE3ZzUlGLdZCNLo1Qzi2TLRBNLJaCGgqLUtMwKsGHRsbW
+ 1AFdMQEdcAAAA
+X-Change-ID: 20260629-monza-leds-c292e68c9a49
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Proofpoint-GUID: S1UDNF4NgZKqEx4ZQE2ZDwbzPlb9qqoo
+X-Authority-Analysis: v=2.4 cv=CqCPtH4D c=1 sm=1 tr=0 ts=6a42cceb cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=MDeckJw97qnk8wCBExTehA==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=EUspDBNiAAAA:8 a=_-IZY4xtMCx_iijEg8sA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI5MDE2NiBTYWx0ZWRfX6Csk1/z0vyD/
+ JjW7Q89YYkribLzUielXsr1KNbLWweH6w9MUo1WQThUOEtKrlLwjMBQLKbWenWd0cOsBlDWUcY4
+ 5h0oOm2fhU4Qv8Bbnaio+JtH9Ys2m6I=
+X-Proofpoint-ORIG-GUID: S1UDNF4NgZKqEx4ZQE2ZDwbzPlb9qqoo
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI5MDE2NiBTYWx0ZWRfX4RCepiHDrw60
+ 0MLsxzwbKUN3S4UzV7JbAz8JUlrX1w0UAux5taPYjbjohA1736hJUGfccROlUg0nC5JlCrDKPgE
+ 4CHYBIVroTXUbdFZb5qBdrO3u4+8ZJmlbUaI+4vnEHW69yft3wms+8QXire8T6mRMtZOlLIHx/R
+ 5Drjm6B8HqDGRV8quwQXIwEP3C2yfs2T2AJIlMluro8qBixn2QnZ5yzdJgIEW1kQPWtHqD1ZE4t
+ 9XjfJMm5YttddiwkU4ebuEASCPK+XeTREFSwNuF5IvSH+UBQwvIzB4G3jC1FwiSWofcNzBW1yN0
+ xd7u5j9K5XAcamuxhVa78jlxEtNRUG0vZ4I45oqDdn1rV00hw8dEo4KhqYX5JUNazPsm+5bAmw8
+ Uee0KaykDxtbx9b08Un6jjeOAiV9bFOwW4ew4UzbHzuz4yaUn1NNmaGwtKmHizeQCqeuOcWbp7Z
+ +9GTWngCA/AUjgmkVNw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-29_04,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0 clxscore=1011 impostorscore=0 malwarescore=0
+ priorityscore=1501 spamscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606290166
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	MISSING_MIME_VERSION(2.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-8795-lists,linux-leds=lfdr.de];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-8796-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-leds@vger.kernel.org];
-	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-leds@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:markus.probst@posteo.de,m:conor+dt@kernel.org,m:lee@kernel.org,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:ojeda@kernel.org,m:robh@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp];
+	FORGED_SENDER(0.00)[loic.poulain@oss.qualcomm.com,linux-leds@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:laurent.pinchart@ideasonboard.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:loic.poulain@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_NO_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[loic.poulain@oss.qualcomm.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,smtp.kernel.org:mid,posteo.de:email,sashiko.dev:url,lists.linux.dev:replyto,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 62E856DDA34
+X-Rspamd-Queue-Id: 8BB566DE806
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Medium] StatusLedHandler::brightness_set fails to turn off the LED when =
-brightness is set to 0.
-- [Low] The driver depends on a non-existent Kconfig symbol RUST_SERIAL_DEV=
-_BUS_ABSTRACTIONS.
---
+Some devices use PCA963x controllers to drive RGB LEDs, where
+multiple PWM channels correspond to a single logical LED. Add
+support for grouping such channels into a multicolor LED device,
+using the LED multicolor class framework.
 
-commit b10df269f564d88c0451b8cff4f399129c6cc317
-Author: Markus Probst <markus.probst@posteo.de>
+The DT bindings are extended to describe these groupings via a
+multi-led@N node with sub-nodes representing individual color
+channels. This follows conventions used by other multicolor LED
+drivers, while maintaining full backward compatibility with
+existing single-color LED definitions.
 
-platform: Add initial synology microp driver
+The PCA963x driver is updated accordingly to detect these grouped
+definitions and register multicolor LEDs.
 
-This commit adds an initial Synology Microp driver in Rust. It targets the
-microcontroller found in Synology NAS devices to control various LEDs.
+Finally, the Monaco Arduino Monza device tree is updated to expose
+the onboard MCU-controlled LEDs (compatible with PCA9635). The MCU
+manages four RGB LEDs mapped to channels 0–11, which are described
+using the new multicolor bindings.
 
-> diff --git a/drivers/platform/synology_microp/Kconfig b/drivers/platform/=
-synology_microp/Kconfig
-> new file mode 100644
-> index 0000000000000..8878cfb7bcddb
-> --- /dev/null
-> +++ b/drivers/platform/synology_microp/Kconfig
-> @@ -0,0 +1,13 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +config SYNOLOGY_MICROP
-> +	tristate "Synology Microp driver"
-> +	depends on LEDS_CLASS && LEDS_CLASS_MULTICOLOR
-> +	depends on RUST_SERIAL_DEV_BUS_ABSTRACTIONS
+Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+---
+Loic Poulain (3):
+      dt-bindings: leds: nxp,pca963x: add multicolor LED support
+      leds: pca963x: add multicolor LED class support
+      arm64: dts: monaco-arduino-monza: microcontroller LEDs
 
-[Severity: Low]
-Is RUST_SERIAL_DEV_BUS_ABSTRACTIONS defined anywhere in the kernel tree?
+ .../devicetree/bindings/leds/nxp,pca963x.yaml      |  83 +++++++++++++-
+ arch/arm64/boot/dts/qcom/monaco-arduino-monza.dts  | 110 ++++++++++++++++++
+ drivers/leds/Kconfig                               |   1 +
+ drivers/leds/leds-pca963x.c                        | 126 ++++++++++++++++++---
+ 4 files changed, 301 insertions(+), 19 deletions(-)
+---
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+change-id: 20260629-monza-leds-c292e68c9a49
 
-Referencing a non-existent config symbol in "depends on" makes it impossible
-to satisfy the dependency, leaving the driver completely unselectable during
-configuration.
+Best regards,
+-- 
+Loic Poulain <loic.poulain@oss.qualcomm.com>
 
-[ ... ]
-> diff --git a/drivers/platform/synology_microp/led.rs b/drivers/platform/s=
-ynology_microp/led.rs
-> new file mode 100644
-> index 0000000000000..ce57adfd307f2
-> --- /dev/null
-> +++ b/drivers/platform/synology_microp/led.rs
-[ ... ]
-> +    fn brightness_set<'bound>(
-> +        &self,
-> +        dev: &'bound Self::Bus,
-> +        classdev: &led::MultiColorDevice<'bound, Self>,
-> +        brightness: u32,
-> +    ) -> Result<()> {
-> +        let mut blink =3D self.blink.lock();
-> +        if brightness =3D=3D 0 {
-> +            *blink =3D false;
-> +        }
-> +
-> +        let amber_brightness =3D classdev.subleds()[1].brightness();
-> +
-> +        let (color, subled_brightness) =3D if amber_brightness =3D=3D 0 {
-> +            (StatusLedColor::Green, classdev.subleds()[0].brightness())
-> +        } else {
-> +            (StatusLedColor::Amber, amber_brightness)
-> +        };
-> +
-> +        Command::StatusLed(
-> +            color,
-> +            if subled_brightness =3D=3D 0 {
-
-[Severity: Medium]
-When brightness is 0, will subled_brightness actually be 0 here?
-
-The LED subsystem does not automatically recalculate the subled brightness
-before invoking this callback. If the subled retains its previous non-zero
-value, will subled_brightness =3D=3D 0 evaluate to false, causing the drive=
-r to
-incorrectly send State::On to the hardware instead of State::Off?
-
-> +                State::Off
-> +            } else if *blink {
-> +                State::Blink
-> +            } else {
-> +                State::On
-> +            },
-> +        )
-> +        .write(dev)
-> +    }
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260629-synology_m=
-icrop_initial-v16-0-601e91c49e0d@posteo.de?part=3D2
 
