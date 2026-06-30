@@ -1,238 +1,244 @@
-Return-Path: <linux-leds+bounces-8806-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8807-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id BH9gDWuJQ2p1agoAu9opvQ
-	(envelope-from <linux-leds+bounces-8806-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 11:16:27 +0200
+	id dbRAOB7BQ2q1ggoAu9opvQ
+	(envelope-from <linux-leds+bounces-8807-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 15:14:06 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE476E2021
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 11:16:26 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA8C6E4AE9
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 15:14:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=cGDZAUsT;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=FvepGzCI;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8806-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8806-lists+linux-leds=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=D+NR4PWB;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8807-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8807-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A96A130317E2
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 09:11:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0B8C4302DA21
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 13:14:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA0F63E8C56;
-	Tue, 30 Jun 2026 09:10:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8217B416D17;
+	Tue, 30 Jun 2026 13:14:04 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD01A3E8C5B
-	for <linux-leds@vger.kernel.org>; Tue, 30 Jun 2026 09:10:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4818C413D66;
+	Tue, 30 Jun 2026 13:14:03 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782810602; cv=none; b=Ja0Cn+NPQgII+8aPKsq9xE7DV5FshniUNYJiWruDE5yPZ4KgmUjtaiVIfeDWYBv6w+u4zIGhX8XQyuRHpxJKhzP1eLs4lhW5d4d3oayO2yoll3PczjnRDcU14CejdJn6FYUR0kDtEjbUmK8FX4bwDFgLmbPTWlCMjgW1OcnwFhQ=
+	t=1782825244; cv=none; b=O6qqJfTeeibpjmLzlFE1EHNiePkKIjU+o9SJsKFOICPSRNo/dfqwz3Al/PdblP9FHJrErcJPvx72B53pMzEI2HRsCAs1YMhu+KB1jyMx3rQGmdRrnFs8XbDnRjwKvtaoTTq+Q/gBo7OA1fWBbot3e14MKDNGFexRxLlmDkRi7qU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782810602; c=relaxed/simple;
-	bh=ptOVKjkZwQrCkAzXCeGoGqQIndI7yCJPdxRUgantAbw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ajdw6vi4SUA8Nq378DVLcecUI/oNhrbY8BKrTx6J+00d314BshtD+0sFTFBMiQvKDCB07d+2MLN5EW2FDDw3yopu11Xbhuet9u1sFL10o5HDhSxCdqKAEE4kI6lDPd4G8ti0PLqdHz9NR5xLW9BCavxjiq/mrbbWXj5PTklt4kY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cGDZAUsT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FvepGzCI; arc=none smtp.client-ip=205.220.168.131
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65U6CHYU1030630
-	for <linux-leds@vger.kernel.org>; Tue, 30 Jun 2026 09:10:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	KkFq0X6wqxVvjJjzcRaiua/SKPg3yw+BNzWanfKbdtY=; b=cGDZAUsT3321ar0Q
-	uIQFG4OLlUrBeZEamVCCDLodlgM15gM6zvaxGyFFi/3AsaNK4jlmGayPocuhyX3X
-	MEkBKu0NbZqY1RnLAKPRPc0DNSrphwYe8n4NYzUUtRRflsW6/2XN5zEgEECAjO3l
-	9klmoiitBGvgqPY+lSlecpwztSiCYz/RAxlSzKlfgARJLOqdWtVEC9+sBoWXiN9D
-	rVt725k0BNLLTQ8dA7B6tjgetPrsD6C/Uw64+78PaWnlCeKOOtH/SiYTZBeVuI0j
-	XhV3XK1ZbPoYb/1EuZniWCb/JNu5YXWBpEXJTbwcjQHip4vEENAhqUo7eHv3iJm6
-	fuEz0A==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f44wp1hsb-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-leds@vger.kernel.org>; Tue, 30 Jun 2026 09:10:00 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-92e6cb57d25so1070585a.3
-        for <linux-leds@vger.kernel.org>; Tue, 30 Jun 2026 02:09:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782810599; x=1783415399; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KkFq0X6wqxVvjJjzcRaiua/SKPg3yw+BNzWanfKbdtY=;
-        b=FvepGzCIjL+5t7EA4AfGfToMjR/RI4dYDsqj8co/eY4cL0QOm5RgrB3QbyU+ejHRZf
-         HViD9ECWHdkgO+4GgIQXaQV68jX+m+a/a+77DMIAUo9JvP7FNsenFx030u324zpwwvVh
-         7W2ivhFPBDzwXjd07KGaGi6jb3GmcTNgptgW6vJ7ER5531q9TuEr9BMncIoVp9qNKUS+
-         MQTs67d0fURr+aWo486fC74ZweX6KdnkCckQ7giVj2UqrX3qljbdnH4QRsbaGVU9vNTl
-         KnQrscYJh+IzAJsruxxge7okPY2F7PLBe2tpwzRSrZX4DTWG7nwyj1C2G3cFEMET8ZGm
-         t73w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782810599; x=1783415399;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=KkFq0X6wqxVvjJjzcRaiua/SKPg3yw+BNzWanfKbdtY=;
-        b=oWgk8bhzvEnYd3b4OQlqjUYXchkY/I573PQjjJS+GXfDL15XZq6XznkYNxdynVn5xg
-         R+gvyxkVGxJTk1UNv3cuYMMde6dCUkWRqPOfYwFSzARyrJhJg9iTR2b68RnCCyHzV0Te
-         JhMul/cF+c5ASIAXOPGwKrLtej1ep1FLB99b7Jh3wxWKZD+8G+55FZmsN2nbHJjlqcyj
-         0fH6pH37Gi+nRcDIcKkXL+2DfO5s33nBJthNaqu7EOCzRN7mQM+TgkIwaqHBfNGLFdwf
-         cmYTH2Uog1ogqeZvBeeBQmZgtTUA9iY++7ClErX3+8dj62YQH3/g1HNDM6JdVxACJLtf
-         5vcQ==
-X-Gm-Message-State: AOJu0YxwhjBzx7A0KU/iHTpAiYY9MgOYOn03cdK7HPeirCdvepyFjDJb
-	elWFOws01fxlhhbcX493uEiWusgzseBGSIiv3xUqvzgT8v9cfCZ12amkuv8Z8O7ZiWJL9oiqB+l
-	8p+S/qyJHa/V1HOpJvhSxVlRk8qVm14uHmQVVoxZGQcieutZBPjoiKGj25WB+ldL5
-X-Gm-Gg: AfdE7cls1oH4c+rAq8OItoxPeQNAwTtS7tmHY4TpUd2ZXE38ES35JL3YHqBBFZVs+Xt
-	GP/299RJtU52NN73vstpbLuPMPNZwgQRQeqQcMjFy93QZmd81ndGIIl5Khlo23BkU8sB8KbD5Zd
-	xKiTsNCO7ImDbOU1Od2M5VC/JQxqFCJM3i7RNJTo0CXrg1u7BW3QlPHGMpIZ0tTkpP3oAjHO002
-	mQGF1PpJRfuKJQ1YMEz/9fG0K4zY7O1luwEB8hcIgJvs928/h/ywRu+g2acxpETrJihLL+wgdoQ
-	/8s2K1jEnwt7vhhXJbibblTUaDOdX2ODqOesAfkY/wflx/Ufw0VcqaS2uFPELNVJND4/nztG5fx
-	oLmXaY+Yf5LdwIqcwu1BkI0nBIlPFydB0ehc=
-X-Received: by 2002:ac8:7e8e:0:b0:51c:d8f:d77a with SMTP id d75a77b69052e-51c1070ea79mr24049591cf.1.1782810599007;
-        Tue, 30 Jun 2026 02:09:59 -0700 (PDT)
-X-Received: by 2002:ac8:7e8e:0:b0:51c:d8f:d77a with SMTP id d75a77b69052e-51c1070ea79mr24049421cf.1.1782810598476;
-        Tue, 30 Jun 2026 02:09:58 -0700 (PDT)
-Received: from [192.168.120.170] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1288d6b059sm89407566b.21.2026.06.30.02.09.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2026 02:09:57 -0700 (PDT)
-Message-ID: <7c29b53d-54e0-4667-b775-02e3c01ead3a@oss.qualcomm.com>
-Date: Tue, 30 Jun 2026 11:09:54 +0200
+	s=arc-20240116; t=1782825244; c=relaxed/simple;
+	bh=xFwetoL8Vuck3E69GGR5DG/ScQBvfKjkLbbRxYolLus=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MSxeWf3zVq8I+kl5ASFY4VKvuXj1IVcgzw6aUWbjbFeki06zUJGzu5+UQUTZNRa9tFmYjyqeetdzQEjFIhz1zEvL1uQd1Ake+Eyv7fvuDP1DoGr5NSpGwfjRJISlxtd4ppkb7Cthy92YJTfskiiaZXyF3Xt0qit5uxRrkhKJwQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D+NR4PWB; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A928F1F000E9;
+	Tue, 30 Jun 2026 13:14:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782825242;
+	bh=3VuQxWyNENL8ziwIh4+vVmGpesCoHqcx8KGFgDaDinE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=D+NR4PWBy6W6iM/Ff9MJncwYZfKq30z/VF5MnSG8JFLGmwT0FzFrXQ6aqWQn6tpWz
+	 chHpLPggi5lTbCoTpu69t94kXbZr+54B8Qro/1rU8YF3QIJBK4COjPZil73sSsG/rd
+	 CiVe+KSnk9WsTojsa9gNlK1n26D3/mnvCqbZMD5cX6k9unq4jh7CGsXJojiyasmvDq
+	 7w0D/ZsVBTMrSr6IcdOr8M0V26GjKqIDvDX2FrobXBhsyL6Jjt3N6f1qpqH6gdqybZ
+	 eLCJc7XBSLae7AfshSoISbnWfGD+cmyyDGkCoKB0jaQPJzFZxNYKlq0Y2hgnslfXEp
+	 2ae+MO2588wVg==
+Date: Tue, 30 Jun 2026 08:14:02 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Lee Jones <lee@kernel.org>, Sean Paul <sean@poorly.run>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Lukasz Luba <lukasz.luba@arm.com>, Vinod Koul <vkoul@kernel.org>,
+	Adam Skladowski <a_skl39@protonmail.com>,
+	Chanho Park <chanho61.park@samsung.com>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>, linux-gpio@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	Anusha Rao <quic_anusha@quicinc.com>, linux-mmc@vger.kernel.org,
+	Jonathan Marek <jonathan@marek.ca>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Javier Martinez Canillas <javier@dowhile0.org>,
+	Taniya Das <quic_tdas@quicinc.com>, linux-clk@vger.kernel.org,
+	Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org,
+	Zhang Rui <rui.zhang@intel.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Barnabas Czeman <barnabas.czeman@mainlining.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Sunyeal Hong <sunyeal.hong@samsung.com>,
+	freedreno@lists.freedesktop.org,
+	Stephan Gerhold <stephan@gerhold.net>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Simona Vetter <simona@ffwll.ch>, Andi Shyti <andi.shyti@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	linux-i2c@vger.kernel.org, Brian Masney <bmasney@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Robert Marko <robimarko@gmail.com>, linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org, Pavel Machek <pavel@kernel.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	linux-arm-msm@vger.kernel.org,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Imran Shaik <quic_imrashai@quicinc.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	dri-devel@lists.freedesktop.org, Jiri Slaby <jirislaby@kernel.org>,
+	linux-phy@lists.infradead.org, Shin Son <shin.son@samsung.com>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Sam Protsenko <semen.protsenko@linaro.org>,
+	Tomasz Figa <tomasz.figa@gmail.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Sricharan Ramabadhran <quic_srichara@quicinc.com>,
+	Georgi Djakov <djakov@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	devicetree@vger.kernel.org, Luo Jie <quic_luoj@quicinc.com>,
+	linux-serial@vger.kernel.org,
+	Jaehoon Chung <jh80.chung@samsung.com>,
+	Andy Gross <agross@kernel.org>,
+	Krishna Manikandan <quic_mkrishn@quicinc.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>, linux-leds@vger.kernel.org,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	linux-media@vger.kernel.org,
+	Michael Turquette <mturquette@baylibre.com>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Inki Dae <inki.dae@samsung.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Sireesh Kodali <sireeshkodali@protonmail.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	linux-pm@vger.kernel.org, Alina Yu <alina_yu@richtek.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: clock: Drop incorrect usage of
+ double '::'
+Message-ID: <178282524123.2726988.10975134253725315687.robh@kernel.org>
+References: <20260623054842.21831-3-krzysztof.kozlowski@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] arm64: dts: monaco-arduino-monza: microcontroller
- LEDs
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>, Lee Jones <lee@kernel.org>,
-        Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20260629-monza-leds-v1-0-0cf7c0a7dc14@oss.qualcomm.com>
- <20260629-monza-leds-v1-3-0cf7c0a7dc14@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260629-monza-leds-v1-3-0cf7c0a7dc14@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: eZI_StdahITGUvvJalj6OVm15fXRMXbx
-X-Authority-Analysis: v=2.4 cv=AtDeGu9P c=1 sm=1 tr=0 ts=6a4387e8 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=EUspDBNiAAAA:8 a=mmkDOsKAXys1VAjLnNcA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: eZI_StdahITGUvvJalj6OVm15fXRMXbx
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjMwMDA4MCBTYWx0ZWRfX1yrcS3Zw9QYP
- tJX8AdeN2pe4M0Bw1gnzo6YBfa62aH51nA7bQWwXjp/XiugR5zetFu6lWdCtMSYKIxP+8sEH27M
- yfdTauVgkDzHgWkyAszSNwEg5dEsJSQIbffHNldV2jc1dtD0yrDF7A7xzvOECUyhCIlhTdhwA92
- DWH8PZz5+HDKrd7Eu3o8/tSUUSD4HHyfIdrg8EHvmQfp8J9l8xHGueiJ1UROJ58Ku36p1ZRWLIl
- vonII0CEv8kr8HT2jnvjkr0+j4xXYfFQBvgUyct/B/mn/3ZPTEq94Vt+6xiZPkpHoAsnQL2A72h
- 0rXecwp2FvedAqbcSoxgMav8rB+qin2xTzfZ72Mwb5E8rFxSrkHSfZYovhJLN1kJAYKBVF+PqkP
- ygQ+akuoKvGoRvBw2IK6DSb7KUVGXTsdW55rXc5YNN2eP0hWv+KafFEyc9VexChZQryR61+VwYm
- TIh/wkJYIIo6BSfAOTA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjMwMDA4MCBTYWx0ZWRfX3F7JOXHOsJ3o
- d/+b47S74wMRqnX0kD8b4ENpyZUtqQjn/HBqxU+h7TGReg643aLokMCh6mEKD70k1G1nCuWJv7w
- igsxwC2OqmI4SgZno6jGNnOej2Y3IKc=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-30_02,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
- impostorscore=0 suspectscore=0 priorityscore=1501 adultscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606300080
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260623054842.21831-3-krzysztof.kozlowski@oss.qualcomm.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8806-lists,linux-leds=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,poorly.run,gmail.com,samsung.com,arm.com,protonmail.com,quicinc.com,linux.dev,vger.kernel.org,marek.ca,linuxfoundation.org,dowhile0.org,intel.com,mainlining.org,lists.freedesktop.org,gerhold.net,oss.qualcomm.com,ffwll.ch,ragnatech.se,redhat.com,linux.intel.com,linaro.org,somainline.org,lists.infradead.org,glider.be,suse.de,microchip.com,baylibre.com,richtek.com];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:from_mime,qualcomm.com:dkim,qualcomm.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp];
-	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,linux-leds@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_RECIPIENTS(0.00)[m:loic.poulain@oss.qualcomm.com,m:lee@kernel.org,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:laurent.pinchart@ideasonboard.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8807-lists,linux-leds=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:krzysztof.kozlowski@oss.qualcomm.com,m:lee@kernel.org,m:sean@poorly.run,m:krzk+dt@kernel.org,m:airlied@gmail.com,m:kyungmin.park@samsung.com,m:lukasz.luba@arm.com,m:vkoul@kernel.org,m:a_skl39@protonmail.com,m:chanho61.park@samsung.com,m:quic_wcheng@quicinc.com,m:broonie@kernel.org,m:linusw@kernel.org,m:alim.akhtar@samsung.com,m:abhinav.kumar@linux.dev,m:linux-gpio@vger.kernel.org,m:linux-samsung-soc@vger.kernel.org,m:quic_anusha@quicinc.com,m:linux-mmc@vger.kernel.org,m:jonathan@marek.ca,m:gregkh@linuxfoundation.org,m:javier@dowhile0.org,m:quic_tdas@quicinc.com,m:linux-clk@vger.kernel.org,m:sboyd@kernel.org,m:linux-kernel@vger.kernel.org,m:rui.zhang@intel.com,m:srini@kernel.org,m:barnabas.czeman@mainlining.org,m:andersson@kernel.org,m:sunyeal.hong@samsung.com,m:freedreno@lists.freedesktop.org,m:stephan@gerhold.net,m:robin.clark@oss.qualcomm.com,m:simona@ffwll.ch,m:andi.shyti@kernel.org,m:niklas.soderlund@ragnatech.se,m:linux-i2c@vger.kernel.org,m:bmasney@re
+ dhat.com,m:mchehab@kernel.org,m:maarten.lankhorst@linux.intel.com,m:konradybcio@kernel.org,m:mripard@kernel.org,m:daniel.lezcano@kernel.org,m:rafael@kernel.org,m:hverkuil@kernel.org,m:lumag@kernel.org,m:sre@kernel.org,m:cw00.choi@samsung.com,m:robimarko@gmail.com,m:linux-sound@vger.kernel.org,m:linux-usb@vger.kernel.org,m:pavel@kernel.org,m:peter.griffin@linaro.org,m:linux-arm-msm@vger.kernel.org,m:marijn.suijten@somainline.org,m:ansuelsmth@gmail.com,m:quic_imrashai@quicinc.com,m:neil.armstrong@linaro.org,m:dri-devel@lists.freedesktop.org,m:jirislaby@kernel.org,m:linux-phy@lists.infradead.org,m:shin.son@samsung.com,m:jesszhan0024@gmail.com,m:lgirdwood@gmail.com,m:semen.protsenko@linaro.org,m:tomasz.figa@gmail.com,m:magnus.damm@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:jacek.anaszewski@gmail.com,m:quic_srichara@quicinc.com,m:djakov@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:devicetree@vger.kernel.org,m:quic_luoj@quicinc.com,m:linux-serial@vger.kernel.org,m:jh8
+ 0.chung@samsung.com,m:agross@kernel.org,m:quic_mkrishn@quicinc.com,m:tzimmermann@suse.de,m:linux-leds@vger.kernel.org,m:m.szyprowski@samsung.com,m:conor.dooley@microchip.com,m:linux-media@vger.kernel.org,m:mturquette@baylibre.com,m:ulfh@kernel.org,m:bzolnier@gmail.com,m:sw0312.kim@samsung.com,m:inki.dae@samsung.com,m:linux-arm-kernel@lists.infradead.org,m:sireeshkodali@protonmail.com,m:s.nawrocki@samsung.com,m:linux-pm@vger.kernel.org,m:alina_yu@richtek.com,m:krzk@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[robh@kernel.org,linux-leds@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-leds@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[95];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt,renesas];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,microchip.com:email,yaml.org:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2DE476E2021
+X-Rspamd-Queue-Id: 3AA8C6E4AE9
 
-On 6/29/26 9:52 PM, Loic Poulain wrote:
-> Onboard MCU/STM32 implements a led controller compatible with PCA9635.
-> There are four RGB LEDs controlled via channels 0-2, 3-5, 6-8 and 9-11.
-> ---
->  arch/arm64/boot/dts/qcom/monaco-arduino-monza.dts | 110 ++++++++++++++++++++++
->  1 file changed, 110 insertions(+)
+
+On Tue, 23 Jun 2026 07:48:43 +0200, Krzysztof Kozlowski wrote:
+> There is no use of double colon '::' in YAML. OTOH, the literal style
+> block, e.g. using '|' treats all characters as content [1] therefore
+> single use of ':' in descriptions is perfectly fine, whenever '|' is
+> used.
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/monaco-arduino-monza.dts b/arch/arm64/boot/dts/qcom/monaco-arduino-monza.dts
-> index 379b796f261f4c8f6b7712c5d340b20be1b9217c..71685e54a3781c9b03fc41cacecfea77650a7182 100644
-> --- a/arch/arm64/boot/dts/qcom/monaco-arduino-monza.dts
-> +++ b/arch/arm64/boot/dts/qcom/monaco-arduino-monza.dts
-> @@ -7,6 +7,7 @@
->  
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/input/input.h>
-> +#include <dt-bindings/leds/common.h>
->  #include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
->  
->  #include "monaco.dtsi"
-> @@ -156,6 +157,115 @@ vreg_nvme: regulator-3p3-m2 {
->  	};
->  };
->  
-> +&cci1 {
-> +	status = "okay";
-> +};
-> +
-> +&cci1_i2c1 {
-> +	leds_controller: leds-controller@22 {
+> Cleanup existing code, so the confusing style won't be re-used in new
+> contributions.
+> 
+> Link: https://yaml.org/spec/1.2.2/#literal-style [1]
+> Acked-by: Alim Akhtar <alim.akhtar@samsung.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> ---
+> I split the patches to avoid bounces from mailing list due to email size.
+> 
+> This can go via clock tree (no dependencies)... or both could go via
+> Rob's tree.
+> 
+> Changes in v2:
+> 1. Add tags (partial Reviews as Acks, as that's the meaning of Ack)
+> ---
+>  .../devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml       | 2 +-
+>  .../devicetree/bindings/clock/qcom,gcc-apq8064.yaml         | 2 +-
+>  .../devicetree/bindings/clock/qcom,gcc-apq8084.yaml         | 2 +-
+>  .../devicetree/bindings/clock/qcom,gcc-ipq6018.yaml         | 2 +-
+>  .../devicetree/bindings/clock/qcom,gcc-ipq8064.yaml         | 2 +-
+>  .../devicetree/bindings/clock/qcom,gcc-mdm9607.yaml         | 2 +-
+>  .../devicetree/bindings/clock/qcom,gcc-mdm9615.yaml         | 2 +-
+>  .../devicetree/bindings/clock/qcom,gcc-msm8660.yaml         | 2 +-
+>  .../devicetree/bindings/clock/qcom,gcc-msm8909.yaml         | 2 +-
+>  .../devicetree/bindings/clock/qcom,gcc-msm8916.yaml         | 2 +-
+>  .../devicetree/bindings/clock/qcom,gcc-msm8953.yaml         | 2 +-
+>  .../devicetree/bindings/clock/qcom,gcc-msm8974.yaml         | 2 +-
+>  .../devicetree/bindings/clock/qcom,gcc-sdm660.yaml          | 2 +-
+>  Documentation/devicetree/bindings/clock/qcom,gpucc.yaml     | 2 +-
+>  .../devicetree/bindings/clock/qcom,ipq5018-gcc.yaml         | 2 +-
+>  .../devicetree/bindings/clock/qcom,ipq9574-gcc.yaml         | 2 +-
+>  .../devicetree/bindings/clock/qcom,qca8k-nsscc.yaml         | 2 +-
+>  .../devicetree/bindings/clock/qcom,qcm2290-gpucc.yaml       | 2 +-
+>  Documentation/devicetree/bindings/clock/qcom,rpmcc.yaml     | 2 +-
+>  .../devicetree/bindings/clock/qcom,sc7280-lpasscorecc.yaml  | 2 +-
+>  .../devicetree/bindings/clock/qcom,sc8280xp-lpasscc.yaml    | 2 +-
+>  .../devicetree/bindings/clock/qcom,sm6115-lpasscc.yaml      | 2 +-
+>  .../devicetree/bindings/clock/qcom,sm8350-videocc.yaml      | 2 +-
+>  Documentation/devicetree/bindings/clock/qcom,videocc.yaml   | 2 +-
+>  .../devicetree/bindings/clock/samsung,exynos5260-clock.yaml | 6 +++---
+>  .../devicetree/bindings/clock/samsung,exynos5410-clock.yaml | 2 +-
+>  .../devicetree/bindings/clock/samsung,exynos5433-clock.yaml | 2 +-
+>  .../devicetree/bindings/clock/samsung,exynos7-clock.yaml    | 2 +-
+>  .../devicetree/bindings/clock/samsung,exynos850-clock.yaml  | 2 +-
+>  .../bindings/clock/samsung,exynosautov9-clock.yaml          | 2 +-
+>  .../bindings/clock/samsung,exynosautov920-clock.yaml        | 2 +-
+>  .../devicetree/bindings/clock/samsung,s5pv210-clock.yaml    | 2 +-
+>  32 files changed, 34 insertions(+), 34 deletions(-)
+> 
 
-unused label, let's drop it
-
-led-controller@ (there is no other 'leds'-controller)
-
-> +		compatible = "nxp,pca9635";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <0x22>;
-
-reg right after compatible, please
-
-with that
-
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-
-Konrad
+Applied, thanks!
 
 
