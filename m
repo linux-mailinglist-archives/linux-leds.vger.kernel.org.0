@@ -1,246 +1,196 @@
-Return-Path: <linux-leds+bounces-8808-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8809-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id gr0+KWTBQ2rnggoAu9opvQ
-	(envelope-from <linux-leds+bounces-8808-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 15:15:16 +0200
+	id l2duGJ/JQ2rDhwoAu9opvQ
+	(envelope-from <linux-leds+bounces-8809-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 15:50:23 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1EE86E4B3F
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 15:15:15 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F31D16E50BD
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 15:50:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=NCBNwFz6;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8808-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8808-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=nhYqmEaN;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8809-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8809-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BF9AA30570F1
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 13:14:19 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6A08C302EEA1
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 13:50:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C04044192F8;
-	Tue, 30 Jun 2026 13:14:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0FFF366066;
+	Tue, 30 Jun 2026 13:50:21 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B975411687;
-	Tue, 30 Jun 2026 13:14:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A38B23D7DF;
+	Tue, 30 Jun 2026 13:50:18 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782825258; cv=none; b=dsL3ngaMDrwp6+D/bpHNRdFFtFoGw57oy02kQVGDt8v9Kbb8kc9BISAWjaDiAnmPhOXCpAhbRS2asUfuAOjfWIKoK1tINu32SBjH6VglyAYhW9n6ZfK1ZPfD41+IZ2P/qOZhmxkLbj2lqlJQiPXKRGJqUhpbqs8bmEKcqDyTSGs=
+	t=1782827421; cv=none; b=gOrMKHn4lZVi+Sl2jDQmrW6mFAEJwt1iTMkgRgUCun3FWq0QVOgh07m81gi03MrgNrCFqdGuaxyXX4s2SArQpJgBZKwKsz5LC806Q8FXXofOgJRqCk2Tl55WOt8OpGFNE7mwAYLT8yGeGxHakWmTRgMVmlBS9Zl0PRwWkeHN8Lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782825258; c=relaxed/simple;
-	bh=8Me9j4Yvrzs+qI7l3WnoIUpPeb6lett/KoGVKKDdR/A=;
+	s=arc-20240116; t=1782827421; c=relaxed/simple;
+	bh=wKKfI6rfHepZWj931Iie8JnqM3m9gU1e0VmuJG7Mgmk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZiTwSUE0n4gvUSAgqCCgspmirvkOxhMCcvAAE8DWQWovY1Z3wcsTUwZGFzlhJ6lnTWjDf3LxhCCoxYPKNow7timJnRkkqQ+Dns+DM7jLqsbW4vfHIlsZsRicaLwekI7XdCm8Ju/l8BiznE40dcbIdA3FiCmgFdt8BHN4EvhuGgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NCBNwFz6; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C833C1F00A3D;
-	Tue, 30 Jun 2026 13:14:16 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=RnYi3m50xoHDCHHd73LUZxQv7ADp25AbrRvX3Pnd49eSkKC7lGBbK+aApHyiKXesn1Lni4ahZhkMrhQ5ac4pSub9IRbe6/eNQHBwjmMdbUD42fSWb5qCITck1Ehuu5lLQvCFdYtXXeGDkr89rX987R9u3r3/7YtYJrVm1v6c8K8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nhYqmEaN; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19CFF1F000E9;
+	Tue, 30 Jun 2026 13:50:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782825257;
-	bh=EpQlFhGR0CXES6vDl7EpLBL9hnoH9HcaRhfoMbB9B10=;
+	s=k20260515; t=1782827418;
+	bh=r5/XEfDRgRNyeD3IF0mg0cZuaZMASN03u9kVorM3GNI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NCBNwFz6c2fKdVb19gwyDiO9PnlyXriYS81lNIf/qzXncSC47QfhPwHZOFO8CLSJY
-	 pR+5wIDr90lzxdE8glY97eAUFPM+0txQC5S3r4SSz1Gfz8MG9zJMDBh131aUMh/uAg
-	 SMmLQvKLH4T+FL5HJyt+/yv7n4sp+6zL8jfhRP8J6IP+1H2Gh7bjV/lg+zW/AEHkal
-	 ocCX2GPXkjOZFqcVQZdjb/dnZFXvwNKt/CW1SeQEYizmUZzjgW1/TlZ87anAQ71iZt
-	 sidRDyuNNArshmfU1BX5VtNY36BLF6+Brm3ifl4o7/Du2ep5qRsN4Wzqm4ZNXWtNNB
-	 iZbewdUkrcr0g==
-Date: Tue, 30 Jun 2026 08:14:16 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Sireesh Kodali <sireeshkodali@protonmail.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Seung-Woo Kim <sw0312.kim@samsung.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	freedreno@lists.freedesktop.org, Linus Walleij <linusw@kernel.org>,
-	Sam Protsenko <semen.protsenko@linaro.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>, linux-gpio@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, Taniya Das <quic_tdas@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Imran Shaik <quic_imrashai@quicinc.com>,
-	linux-phy@lists.infradead.org,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Luo Jie <quic_luoj@quicinc.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	dri-devel@lists.freedesktop.org,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Brian Masney <bmasney@redhat.com>, linux-serial@vger.kernel.org,
-	linux-mmc@vger.kernel.org, Sean Paul <sean@poorly.run>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Krishna Manikandan <quic_mkrishn@quicinc.com>,
-	linux-i2c@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
+	b=nhYqmEaN4wmBNsZUU8bKra5Imi5s/cf3NZTFsYJHnC9ANATTSlzBlyiq15+sOcFBf
+	 hH3EEr9IiReV4GshzevMtkVog9DbbxPJbfkLn6q/mhhwLi8qffyASXUGZ9V3Q0YiKG
+	 jGmGKjX9qFvlLR3zH6VX8aumoTt9j+QBqVERLcpG5XXaDGjegKba4+2jSCoRLvHuAD
+	 9UPmRGRC3lrVz/FJBPfWWCnzj7EsL3OyzN0p3APlsVDRHRt8Rd8QY8izt/AxXOasor
+	 I0/PobwDtqMJEsUy3y8Ls9v9o+AYIxZOOdmTOe5/c3mK2FIy+0fe6eyYy40tP2pp3/
+	 oE1970hKzUkzA==
+Date: Tue, 30 Jun 2026 08:50:17 -0500
+From: Rob Herring <robh@kernel.org>
+To: "A. Sverdlin" <alexander.sverdlin@siemens.com>
+Cc: linux-leds@vger.kernel.org, Lee Jones <lee@kernel.org>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Sricharan Ramabadhran <quic_srichara@quicinc.com>,
-	Andy Gross <agross@kernel.org>, Simona Vetter <simona@ffwll.ch>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Tomasz Figa <tomasz.figa@gmail.com>,
-	Shin Son <shin.son@samsung.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robert Marko <robimarko@gmail.com>, linux-leds@vger.kernel.org,
-	Lee Jones <lee@kernel.org>, Lukasz Luba <lukasz.luba@arm.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Georgi Djakov <djakov@kernel.org>,
-	Barnabas Czeman <barnabas.czeman@mainlining.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Anusha Rao <quic_anusha@quicinc.com>, linux-sound@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	linux-pm@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Stephan Gerhold <stephan@gerhold.net>, linux-clk@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, David Airlie <airlied@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Sunyeal Hong <sunyeal.hong@samsung.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Dmitry Baryshkov <lumag@kernel.org>, linux-usb@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Alina Yu <alina_yu@richtek.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Adam Skladowski <a_skl39@protonmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Javier Martinez Canillas <javier@dowhile0.org>,
-	Jonathan Marek <jonathan@marek.ca>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, Inki Dae <inki.dae@samsung.com>,
-	linux-media@vger.kernel.org, Ulf Hansson <ulfh@kernel.org>,
-	Chanho Park <chanho61.park@samsung.com>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] dt-bindings: Drop incorrect usage of double '::'
-Message-ID: <178282525553.2727643.3907229896177636220.robh@kernel.org>
-References: <20260623054842.21831-3-krzysztof.kozlowski@oss.qualcomm.com>
- <20260623054842.21831-4-krzysztof.kozlowski@oss.qualcomm.com>
+	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+	Andrew Davis <afd@ti.com>, dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: backlight: ti,lp8864: Add backlight
+ class properties
+Message-ID: <20260630135017.GA2948054-robh@kernel.org>
+References: <20260615120353.3409035-1-alexander.sverdlin@siemens.com>
+ <20260615120353.3409035-2-alexander.sverdlin@siemens.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260623054842.21831-4-krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260615120353.3409035-2-alexander.sverdlin@siemens.com>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.66 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[protonmail.com,kernel.org,oss.qualcomm.com,quicinc.com,samsung.com,baylibre.com,lists.freedesktop.org,linaro.org,vger.kernel.org,gmail.com,lists.infradead.org,collabora.com,ragnatech.se,redhat.com,poorly.run,ffwll.ch,intel.com,linux.intel.com,arm.com,mainlining.org,linuxfoundation.org,somainline.org,gerhold.net,glider.be,suse.de,richtek.com,linux.dev,microchip.com,dowhile0.org,marek.ca];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8808-lists,linux-leds=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:krzysztof.kozlowski@oss.qualcomm.com,m:sireeshkodali@protonmail.com,m:sboyd@kernel.org,m:robin.clark@oss.qualcomm.com,m:quic_wcheng@quicinc.com,m:vkoul@kernel.org,m:sw0312.kim@samsung.com,m:mturquette@baylibre.com,m:freedreno@lists.freedesktop.org,m:linusw@kernel.org,m:semen.protsenko@linaro.org,m:rafael@kernel.org,m:alim.akhtar@samsung.com,m:linux-gpio@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:quic_tdas@quicinc.com,m:lgirdwood@gmail.com,m:quic_imrashai@quicinc.com,m:linux-phy@lists.infradead.org,m:ansuelsmth@gmail.com,m:sebastian.reichel@collabora.com,m:quic_luoj@quicinc.com,m:niklas.soderlund@ragnatech.se,m:andersson@kernel.org,m:niklas.soderlund+renesas@ragnatech.se,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:dri-devel@lists.freedesktop.org,m:magnus.damm@gmail.com,m:conor+dt@kernel.org,m:bmasney@redhat.com,m:linux-serial@vger.kernel.org,m:linux-mmc@vger.kernel.org,m:sean@poorly.run,m:kyungmin.park@samsung.com,m:quic_mk
- rishn@quicinc.com,m:linux-i2c@vger.kernel.org,m:konradybcio@kernel.org,m:s.nawrocki@samsung.com,m:bzolnier@gmail.com,m:hverkuil@kernel.org,m:krzk+dt@kernel.org,m:cw00.choi@samsung.com,m:quic_srichara@quicinc.com,m:agross@kernel.org,m:simona@ffwll.ch,m:jh80.chung@samsung.com,m:mchehab@kernel.org,m:rui.zhang@intel.com,m:maarten.lankhorst@linux.intel.com,m:jesszhan0024@gmail.com,m:tomasz.figa@gmail.com,m:shin.son@samsung.com,m:m.szyprowski@samsung.com,m:robimarko@gmail.com,m:linux-leds@vger.kernel.org,m:lee@kernel.org,m:lukasz.luba@arm.com,m:srini@kernel.org,m:djakov@kernel.org,m:barnabas.czeman@mainlining.org,m:gregkh@linuxfoundation.org,m:quic_anusha@quicinc.com,m:linux-sound@vger.kernel.org,m:neil.armstrong@linaro.org,m:linux-pm@vger.kernel.org,m:jirislaby@kernel.org,m:marijn.suijten@somainline.org,m:stephan@gerhold.net,m:linux-clk@vger.kernel.org,m:broonie@kernel.org,m:mripard@kernel.org,m:pavel@kernel.org,m:airlied@gmail.com,m:geert+renesas@glider.be,m:sunyeal.hong@samsung.com,m:p
- eter.griffin@linaro.org,m:sre@kernel.org,m:andi.shyti@kernel.org,m:lumag@kernel.org,m:linux-usb@vger.kernel.org,m:tzimmermann@suse.de,m:jacek.anaszewski@gmail.com,m:daniel.lezcano@kernel.org,m:alina_yu@richtek.com,m:abhinav.kumar@linux.dev,m:a_skl39@protonmail.com,m:conor.dooley@microchip.com,m:javier@dowhile0.org,m:jonathan@marek.ca,m:linux-renesas-soc@vger.kernel.org,m:linux-samsung-soc@vger.kernel.org,m:inki.dae@samsung.com,m:linux-media@vger.kernel.org,m:ulfh@kernel.org,m:chanho61.park@samsung.com,m:devicetree@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[robh@kernel.org,linux-leds@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-8809-lists,linux-leds=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:alexander.sverdlin@siemens.com,m:linux-leds@vger.kernel.org,m:lee@kernel.org,m:danielt@kernel.org,m:jingoohan1@gmail.com,m:pavel@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:deller@gmx.de,m:afd@ti.com,m:dri-devel@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fbdev@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[robh@kernel.org,linux-leds@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[97];
+	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,renesas,dt];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,gmx.de,ti.com,lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[yaml.org:url,glider.be:email,collabora.com:email,qualcomm.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,samsung.com:email,microchip.com:email]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:url,ti.com:email,vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,devicetree.org:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F1EE86E4B3F
+X-Rspamd-Queue-Id: F31D16E50BD
 
+On Mon, Jun 15, 2026 at 02:03:47PM +0200, A. Sverdlin wrote:
+> From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> 
+> Extend the TI LP8864/LP8866 device-tree binding to support backlight
+> class properties alongside the existing LED class child node.
+> 
+> This is a preparatory change for converting the LP8864 driver from a
+> pure LED class driver to additionally register a backlight class device,
 
-On Tue, 23 Jun 2026 07:48:44 +0200, Krzysztof Kozlowski wrote:
-> There is no use of double colon '::' in YAML. OTOH, the literal style
-> block, e.g. using '|' treats all characters as content [1] therefore
-> single use of ':' in descriptions is perfectly fine, whenever '|' is
-> used.
+That's fine, but should have little to do with the binding. The h/w is 
+not changing.
+
+> motivated by a use case on a hot-pluggable segment of an I2C bus. The
+> generic led-backlight driver (led_bl.c) is a platform driver and thus
+> inherently non-hotpluggable, which makes it unsuitable for hardware
+> topologies where the backlight controller resides on a hot-pluggable I2C
+> bus segment. By making the LP8864 driver itself register a backlight
+> class device, it becomes a native I2C driver that properly supports
+> hot-plug/unplug events.
 > 
-> Cleanup existing code, so the confusing style won't be re-used in new
-> contributions.
+> The binding is updated to:
+> - Reference backlight common.yaml at the top level, making
+>   default-brightness and max-brightness valid optional properties
+> - Make the "led" child node optional rather than required, since the
+>   backlight class device is now the primary interface
+> - Use unevaluatedProperties instead of additionalProperties to properly
+>   allow properties inherited from the referenced common schema
 > 
-> Link: https://yaml.org/spec/1.2.2/#literal-style [1]
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Acked-by: Alim Akhtar <alim.akhtar@samsung.com>
-> Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> Acked-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Acked-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> The LED child node is preserved for backward compatibility with existing
+> device-trees. No in-tree device-trees reference this binding, so this
+> change has no impact on existing mainline users.
 > 
+> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
 > ---
+>  .../bindings/leds/backlight/ti,lp8864.yaml       | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
 > 
-> Intention for this patch is to go via Rob's tree.
-> 
-> Changes in v2:
-> 1. Add tags (partial Reviews as Acks, as that's the meaning of Ack)
-> 2. Do not replace ::= in mux.
-> ---
->  .../devicetree/bindings/arm/qcom-soc.yaml     |  4 ++--
->  .../devicetree/bindings/arm/qcom.yaml         |  4 ++--
->  .../bindings/arm/samsung/samsung-soc.yaml     |  4 ++--
->  .../display/msm/dsi-controller-main.yaml      | 20 +++++++++----------
->  .../display/samsung/samsung,fimd.yaml         |  4 ++--
->  .../bindings/i2c/samsung,s3c2410-i2c.yaml     |  2 +-
->  .../interconnect/qcom,msm8998-bwmon.yaml      |  2 +-
->  .../interconnect/samsung,exynos-bus.yaml      | 14 ++++++-------
->  .../bindings/leds/qcom,pm8058-led.yaml        |  4 ++--
->  .../bindings/leds/skyworks,aat1290.yaml       |  6 +++---
->  .../bindings/media/cec/cec-gpio.yaml          |  2 +-
->  .../bindings/mmc/samsung,exynos-dw-mshc.yaml  |  2 +-
->  .../bindings/phy/samsung,mipi-video-phy.yaml  |  4 ++--
->  .../bindings/phy/samsung,usb2-phy.yaml        |  2 +-
->  .../bindings/phy/samsung,usb3-drd-phy.yaml    |  2 +-
->  .../bindings/pinctrl/samsung,pinctrl.yaml     |  2 +-
->  .../bindings/power/renesas,rcar-sysc.yaml     |  2 +-
->  .../bindings/power/reset/restart-handler.yaml |  8 ++++----
->  .../bindings/regulator/maxim,max77802.yaml    |  4 ++--
->  .../bindings/regulator/richtek,rtq2208.yaml   |  2 +-
->  .../bindings/serial/qcom,msm-uartdm.yaml      |  2 +-
->  .../devicetree/bindings/slimbus/slimbus.yaml  |  4 ++--
->  .../bindings/soc/qcom/qcom,apr-services.yaml  |  2 +-
->  .../bindings/soc/qcom/qcom,rpmh-rsc.yaml      |  8 ++++----
->  .../bindings/soc/qcom/qcom,wcnss.yaml         |  2 +-
->  .../bindings/soc/renesas/renesas-soc.yaml     |  4 ++--
->  .../bindings/sound/qcom,q6asm-dais.yaml       |  2 +-
->  .../thermal/samsung,exynos-thermal.yaml       |  4 ++--
->  .../devicetree/bindings/usb/qcom,dwc3.yaml    | 12 +++++------
->  .../bindings/usb/qcom,snps-dwc3.yaml          | 12 +++++------
->  30 files changed, 73 insertions(+), 73 deletions(-)
-> 
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml b/Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+> index d44232d462bde..11d7e3840c6fb 100644
+> --- a/Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+> +++ b/Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/leds/backlight/ti,lp8864.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: Texas Instruments - LP8864/LP8866 4/6-Channel LED Driver family
+> +title: Texas Instruments - LP8864/LP8866 4/6-Channel LED Backlight Driver family
+>  
+>  maintainers:
+>    - Andrew Davis <afd@ti.com>
+> @@ -21,6 +21,9 @@ description: |
+>      https://www.ti.com/product/LP8866-Q1
+>      https://www.ti.com/product/LP8866S-Q1
+>  
+> +allOf:
+> +  - $ref: common.yaml#
+> +
+>  properties:
+>    compatible:
+>      const: ti,lp8864
+> @@ -36,9 +39,15 @@ properties:
+>    vled-supply:
+>      description: LED supply
+>  
+> +  default-brightness:
+> +    maximum: 65535
+> +
+> +  max-brightness:
+> +    maximum: 65535
+> +
+>    led:
+>      type: object
+> -    $ref: common.yaml#
+> +    $ref: /schemas/leds/common.yaml#
 
-Applied, thanks!
+This was already supporting backlight properties. Changing it to leds is 
+an ABI break.
 
+The binding was designed to have a child node. Make that work for 
+whatever you want to do with the driver. I see no reason to support with 
+*and* without a child node.
+
+Rob
 
