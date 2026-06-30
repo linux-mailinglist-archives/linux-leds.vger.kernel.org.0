@@ -1,196 +1,159 @@
-Return-Path: <linux-leds+bounces-8809-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8810-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id l2duGJ/JQ2rDhwoAu9opvQ
-	(envelope-from <linux-leds+bounces-8809-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 15:50:23 +0200
+	id SPvuKpTQQ2qVjAoAu9opvQ
+	(envelope-from <linux-leds+bounces-8810-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 16:20:04 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31D16E50BD
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 15:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44B456E5577
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 16:20:04 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=nhYqmEaN;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8809-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8809-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="P637Hau/";
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8810-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8810-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6A08C302EEA1
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 13:50:22 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 0C932306414D
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Jun 2026 14:17:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0FFF366066;
-	Tue, 30 Jun 2026 13:50:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8FA5425CDE;
+	Tue, 30 Jun 2026 14:17:39 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A38B23D7DF;
-	Tue, 30 Jun 2026 13:50:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E0F421F12
+	for <linux-leds@vger.kernel.org>; Tue, 30 Jun 2026 14:17:38 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782827421; cv=none; b=gOrMKHn4lZVi+Sl2jDQmrW6mFAEJwt1iTMkgRgUCun3FWq0QVOgh07m81gi03MrgNrCFqdGuaxyXX4s2SArQpJgBZKwKsz5LC806Q8FXXofOgJRqCk2Tl55WOt8OpGFNE7mwAYLT8yGeGxHakWmTRgMVmlBS9Zl0PRwWkeHN8Lk=
+	t=1782829059; cv=none; b=SBgFbhcuya3XZTJ6iNeAUFoL2zXq2qg44crFgO/CditrV6vF/zZRTdSmZBBfcmgo1x9MOTZsJJj4o41NYNiL4K0dV8skecLbqcrc/Y5I2/ew1QumzizW0FjWXT4ZlrsUoqhWsiCtJ/GF/cBaDfvyAPs6Jhqe2rAef11aF9RO2HQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782827421; c=relaxed/simple;
-	bh=wKKfI6rfHepZWj931Iie8JnqM3m9gU1e0VmuJG7Mgmk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RnYi3m50xoHDCHHd73LUZxQv7ADp25AbrRvX3Pnd49eSkKC7lGBbK+aApHyiKXesn1Lni4ahZhkMrhQ5ac4pSub9IRbe6/eNQHBwjmMdbUD42fSWb5qCITck1Ehuu5lLQvCFdYtXXeGDkr89rX987R9u3r3/7YtYJrVm1v6c8K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nhYqmEaN; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19CFF1F000E9;
-	Tue, 30 Jun 2026 13:50:18 +0000 (UTC)
+	s=arc-20240116; t=1782829059; c=relaxed/simple;
+	bh=kzGbN6aMPEi6epmc0Dym/QucqWf60zZaYskH3TdzwNw=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nbd3vtB9j79Ndu5pqzmYaooLPRo95k0ikoV3evkjPqLg8pGIGtHk+v7D3zSjgpqDrHwa/rz0RmurWbWm4CI9kJ3Aiem/+CzNII3pP9mf3aBtP8kgSZXzTjSgmBvKI0dLbNSk+yHKkDYTRxbN7WJVt0ixQ8b6HIOpaWbIJp/RuIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P637Hau/; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A60D1F0155A
+	for <linux-leds@vger.kernel.org>; Tue, 30 Jun 2026 14:17:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782827418;
-	bh=r5/XEfDRgRNyeD3IF0mg0cZuaZMASN03u9kVorM3GNI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nhYqmEaN4wmBNsZUU8bKra5Imi5s/cf3NZTFsYJHnC9ANATTSlzBlyiq15+sOcFBf
-	 hH3EEr9IiReV4GshzevMtkVog9DbbxPJbfkLn6q/mhhwLi8qffyASXUGZ9V3Q0YiKG
-	 jGmGKjX9qFvlLR3zH6VX8aumoTt9j+QBqVERLcpG5XXaDGjegKba4+2jSCoRLvHuAD
-	 9UPmRGRC3lrVz/FJBPfWWCnzj7EsL3OyzN0p3APlsVDRHRt8Rd8QY8izt/AxXOasor
-	 I0/PobwDtqMJEsUy3y8Ls9v9o+AYIxZOOdmTOe5/c3mK2FIy+0fe6eyYy40tP2pp3/
-	 oE1970hKzUkzA==
-Date: Tue, 30 Jun 2026 08:50:17 -0500
-From: Rob Herring <robh@kernel.org>
-To: "A. Sverdlin" <alexander.sverdlin@siemens.com>
-Cc: linux-leds@vger.kernel.org, Lee Jones <lee@kernel.org>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
-	Andrew Davis <afd@ti.com>, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: backlight: ti,lp8864: Add backlight
- class properties
-Message-ID: <20260630135017.GA2948054-robh@kernel.org>
-References: <20260615120353.3409035-1-alexander.sverdlin@siemens.com>
- <20260615120353.3409035-2-alexander.sverdlin@siemens.com>
+	s=k20260515; t=1782829058;
+	bh=3RVh7ELT7+ihJdj5fgzKjSJM96uGbDJC2dUuDhp5cEw=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=P637Hau/niy511z7KS9YXNOCl/Dbi3sP9CPxfVkhCzCIaT2kVOmowDD1rqQ+tiGon
+	 NvzB7ud8I+Mbxp47bo/GtEfWLx3S1T4dKLecht1Fjh9ueOnr9b8zmO9oHSe8giKfD9
+	 yEZEY+GB96wOQjB9xmx4lotOZV1RxnU3Lk+aJYSAE3SULx+QPTwyFzxY9q4K07Bvbl
+	 Qtc/1Ssh5y5w0RbT74x4pvCuIhyqqUjp4Jjbo1tGezZ36eKXCzpTsiusEA0U4wPuko
+	 xkMbrqaubNskzx+ic8J1sIu9R/nCZp6PyznqBCaZInuJP8xdeTLVs5xbu/APu71HVy
+	 ZvM+mjFeTc9Yg==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-39669bcaadfso49970991fa.0
+        for <linux-leds@vger.kernel.org>; Tue, 30 Jun 2026 07:17:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RpKjzoPyiP8tmGVBZqMz1LcOYuOCYjme46yFiJDSr6RuglRpTokUPsv6sdVxIaLT6+DKQv1HR3p47Ns@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1dmRhDmz36Y0Ug/XyzZVJ3aYU7oBtAFeS9kqX+Cvpdf2imBaX
+	zvbUuu4nSwghEyDFCWvq9R2ChLixjp0FlA5Rtg1duDaOH7ETTpFnOf11PBAKgIdJzgMJOclXmC2
+	6NSS77AvrwK60pttvbFugzgvhpq5WrQDPN6h0tDSh/A==
+X-Received: by 2002:a05:6512:ba6:b0:5ae:b900:15b7 with SMTP id
+ 2adb3069b0e04-5aebdbd3532mr1090636e87.55.1782829055964; Tue, 30 Jun 2026
+ 07:17:35 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 30 Jun 2026 07:17:33 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 30 Jun 2026 07:17:33 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260629130329.1291953-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260615120353.3409035-2-alexander.sverdlin@siemens.com>
+References: <20260629130329.1291953-1-arnd@kernel.org>
+Date: Tue, 30 Jun 2026 07:17:33 -0700
+X-Gmail-Original-Message-ID: <CAMRc=Mfh_2CDcq19XLozgZbyq=u4o+KjnBNi1HAOec0gW3CGDg@mail.gmail.com>
+X-Gm-Features: AVVi8CfXTc1e_mSHjfkWFS-QUSVUX85SudluvtZvZQ5siNjxDoww7y3bpjgfSpk
+Message-ID: <CAMRc=Mfh_2CDcq19XLozgZbyq=u4o+KjnBNi1HAOec0gW3CGDg@mail.gmail.com>
+Subject: Re: [PATCH v5 0/6] gpiolib: fence off legacy interfaces
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.66 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8809-lists,linux-leds=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:alexander.sverdlin@siemens.com,m:linux-leds@vger.kernel.org,m:lee@kernel.org,m:danielt@kernel.org,m:jingoohan1@gmail.com,m:pavel@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:deller@gmx.de,m:afd@ti.com,m:dri-devel@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fbdev@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-8810-lists,linux-leds=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[robh@kernel.org,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:arnd@kernel.org,m:arnd@arndb.de,m:glaubitz@physik.fu-berlin.de,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:x86@kernel.org,m:hpa@zytor.com,m:linusw@kernel.org,m:brgl@kernel.org,m:dmitry.torokhov@gmail.com,m:lee@kernel.org,m:pavel@kernel.org,m:linux-sh@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-leds@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:dmitrytorokhov@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[brgl@kernel.org,linux-leds@vger.kernel.org];
+	FREEMAIL_CC(0.00)[arndb.de,physik.fu-berlin.de,kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,gmail.com,vger.kernel.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,vger.kernel.org:from_smtp,mail.gmail.com:mid,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,arndb.de:email];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,linux-leds@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-leds@vger.kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,gmx.de,ti.com,lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
+	TAGGED_RCPT(0.00)[linux-leds];
 	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:url,ti.com:email,vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,devicetree.org:url]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F31D16E50BD
+X-Rspamd-Queue-Id: 44B456E5577
 
-On Mon, Jun 15, 2026 at 02:03:47PM +0200, A. Sverdlin wrote:
-> From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
-> 
-> Extend the TI LP8864/LP8866 device-tree binding to support backlight
-> class properties alongside the existing LED class child node.
-> 
-> This is a preparatory change for converting the LP8864 driver from a
-> pure LED class driver to additionally register a backlight class device,
+On Mon, 29 Jun 2026 15:03:23 +0200, Arnd Bergmann <arnd@kernel.org> said:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> This is the remainder of the series previously posted as v2
+> in [1]. I've changed the version to v5 for all patches to
+> not confuse b4 too much, but the patches are mostly unchanged.
+>
+> The patch "Input: soc_button_array - select CONFIG_GPIOLIB_LEGACY"
+> was not part of the series last time, but the build bots reported
+> this as a regression since I had dropped that since v1.
+>
+> I hope that all that remains now can just get merged through the
+> gpio tree. The gpio-keys patch needs a bit coordination with
+> another patch addressing the same issue that is already in
+> flight, so I expect that I'll rebase my series once more when
+> that is in a stable branch, but the state I have here should
+> just work as-is on top of v7.2-rc1.
+>
+>      Arnd
+>
+> [1] https://lore.kernel.org/all/20260520183815.2510387-1-arnd@kernel.org/
+>
+> Arnd Bergmann (6):
+>   [v5] sh: select legacy gpiolib interface
+>   [v5] x86/olpc: select GPIOLIB_LEGACY
+>   [v5] Input: soc_button_array - select CONFIG_GPIOLIB_LEGACY
+>   [v5] Input: gpio-keys: make legacy gpiolib optional
+>   [v5] leds: gpio: make legacy gpiolib interface optional
+>   [v5] gpiolib: turn off legacy interface by default
 
-That's fine, but should have little to do with the binding. The h/w is 
-not changing.
+Why this weird formatting?
 
-> motivated by a use case on a hot-pluggable segment of an I2C bus. The
-> generic led-backlight driver (led_bl.c) is a platform driver and thus
-> inherently non-hotpluggable, which makes it unsuitable for hardware
-> topologies where the backlight controller resides on a hot-pluggable I2C
-> bus segment. By making the LP8864 driver itself register a backlight
-> class device, it becomes a native I2C driver that properly supports
-> hot-plug/unplug events.
-> 
-> The binding is updated to:
-> - Reference backlight common.yaml at the top level, making
->   default-brightness and max-brightness valid optional properties
-> - Make the "led" child node optional rather than required, since the
->   backlight class device is now the primary interface
-> - Use unevaluatedProperties instead of additionalProperties to properly
->   allow properties inherited from the referenced common schema
-> 
-> The LED child node is preserved for backward compatibility with existing
-> device-trees. No in-tree device-trees reference this binding, so this
-> change has no impact on existing mainline users.
-> 
-> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
-> ---
->  .../bindings/leds/backlight/ti,lp8864.yaml       | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml b/Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
-> index d44232d462bde..11d7e3840c6fb 100644
-> --- a/Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
-> +++ b/Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
-> @@ -4,7 +4,7 @@
->  $id: http://devicetree.org/schemas/leds/backlight/ti,lp8864.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: Texas Instruments - LP8864/LP8866 4/6-Channel LED Driver family
-> +title: Texas Instruments - LP8864/LP8866 4/6-Channel LED Backlight Driver family
->  
->  maintainers:
->    - Andrew Davis <afd@ti.com>
-> @@ -21,6 +21,9 @@ description: |
->      https://www.ti.com/product/LP8866-Q1
->      https://www.ti.com/product/LP8866S-Q1
->  
-> +allOf:
-> +  - $ref: common.yaml#
-> +
->  properties:
->    compatible:
->      const: ti,lp8864
-> @@ -36,9 +39,15 @@ properties:
->    vled-supply:
->      description: LED supply
->  
-> +  default-brightness:
-> +    maximum: 65535
-> +
-> +  max-brightness:
-> +    maximum: 65535
-> +
->    led:
->      type: object
-> -    $ref: common.yaml#
-> +    $ref: /schemas/leds/common.yaml#
+Anyway, for the series:
 
-This was already supporting backlight properties. Changing it to leds is 
-an ABI break.
-
-The binding was designed to have a child node. Make that work for 
-whatever you want to do with the driver. I see no reason to support with 
-*and* without a child node.
-
-Rob
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
