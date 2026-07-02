@@ -1,64 +1,64 @@
-Return-Path: <linux-leds+bounces-8894-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8895-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ZUqsKW3rRmoOfgsAu9opvQ
-	(envelope-from <linux-leds+bounces-8894-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 03 Jul 2026 00:51:25 +0200
+	id 7HeDJ1LrRmoJfgsAu9opvQ
+	(envelope-from <linux-leds+bounces-8895-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 03 Jul 2026 00:50:58 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F272D6FD4F2
-	for <lists+linux-leds@lfdr.de>; Fri, 03 Jul 2026 00:51:24 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B566FD4E9
+	for <lists+linux-leds@lfdr.de>; Fri, 03 Jul 2026 00:50:58 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Qy3kRaYz;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8894-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8894-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=m1L65Uv+;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8895-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8895-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9046C301E6FB
-	for <lists+linux-leds@lfdr.de>; Thu,  2 Jul 2026 22:50:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0CE11302A735
+	for <lists+linux-leds@lfdr.de>; Thu,  2 Jul 2026 22:50:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E95D346E60;
-	Thu,  2 Jul 2026 22:50:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 247A73D1AA2;
+	Thu,  2 Jul 2026 22:50:53 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A0F3C73EC
-	for <linux-leds@vger.kernel.org>; Thu,  2 Jul 2026 22:50:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD7A3D5674
+	for <linux-leds@vger.kernel.org>; Thu,  2 Jul 2026 22:50:50 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783032608; cv=none; b=aJGl6OxKMmg82RJtcLshWBdNSjP++fTfaZ9LwMR36M7p/QoWkTWqDJ1H2spVUy3jXLQqhCpBHBYJEL6DN2pyTGd/5BzuvWp9XCRtfYl0USq3zmb5YcobjYiU4MloBuA4GGGTgDBx0n/FYa6qfWUsscvlIFU5mXaUc6d1qdgMArA=
+	t=1783032652; cv=none; b=sCsTb7p+zOEPqByFktXOX0wNCXBKsyQ5b1wmD+rgsihKn0HBvvX4MzsSwnNCFSzAUofFTOZtvi6R19m69dsJY9RSvfrsJTqLfqor7T3qTeKcw6U6n53fMg6gSo2kk6m+NoZFelLmy0D+DhfMBiLrUSe7vj6xGyvqcoqOlRb0lS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783032608; c=relaxed/simple;
-	bh=DBMXdQRpZqJDjrwDQy3R3Luit4cKqPoCa9oW2ACZIXU=;
+	s=arc-20240116; t=1783032652; c=relaxed/simple;
+	bh=BXBI9d0RZLbUiQvGwzzodAtt+UiCQ9WKeDlglaKhm5E=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=QqfBhPb4ALHa8mlbvL/HhOzSfPxbsQFEAJzNxYl9wSvQWv8mIuOq0RtS6nxI5Til5oSycmDpy0otNRK3wAqL79NgCN190Nc+WfWges7pO0ArIliKKJYU08lXKJ9/db3yERWSevdWaQWt/HIh4cQQkqQjKD1Pr6TK1uF05xEnZEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qy3kRaYz; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E20411F000E9;
-	Thu,  2 Jul 2026 22:50:06 +0000 (UTC)
+	 Message-Id; b=Gvyli7s/QiDUxOMPdo/yLWkd9wK5XAjcAA/85gUXgDMJy1CVL9fd1RjRneaSCtgKZreGpGeX6M6P9OF/gmsFQCxdAAmXe26oxjOc5rERYtDPFYNsF02CSCUkyZOtGdrG3W5VrhMs9gKstS/RCNCyvWdt62L88kAoy6w9cTlgdxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m1L65Uv+; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66C8F1F000E9;
+	Thu,  2 Jul 2026 22:50:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783032607;
-	bh=R/SNBarhgEsrVG0ibRYX8zxrgI3IhJMP+4aOio3y2u8=;
+	s=k20260515; t=1783032649;
+	bh=UiE6KFtbduB6K3v4dDCgnP0jvev2gj6TzU2ES0cU1y8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Qy3kRaYzL2LrKLATSJUfn55RPImrlqZ5q7voePBFLLuQXuKr5pFEvIRjocKHtW0s2
-	 O7/zIXb0twn2AIUy3ZpR9+XMCWlv1fDzd9Khb8KQUoe5c3pCKlRu5DZwgHbGQfuXLw
-	 WW+zENhAzjsaFYOIU/Tp6qbbpcIgkdzxyrgXCabWzXuRcsYZdmsT926rUZq7DbExRs
-	 Rh5rHkcf4hrYHPH2HxdYpeKIdU5btGGfINF5xu1xs44MoVVoLFCcNI/1EstS3yHj3i
-	 O8z4ks2+PyIUyYs2Xx0z5TPidRFpSvRx3cJPhWzmYpkZrvEpvoLmpDHC8dIrQ2XwGw
-	 56vc/oRTW6hSA==
+	b=m1L65Uv+M9WxhIVnL1ixYRLwKzU75BTego1BVrtsWxhp3jK6ImXHls+G6/LuU4mZ2
+	 cXpUZKxwekenzjDAjuhflt2nSk8VT2uj7SiuWALWDWrO3tdpcFKwnB7+YDkLN3woDk
+	 cZfAcUrpyPhc3jNdq+Il+aoUscjmzkejKsXpEH8Gg4l+Ux95ZcM2ZFbtc406ENyImh
+	 UezlddEm6f/g1/OTsSqBLkBCDlsWQvNRwoRC2YVEALOE4iY3KyzJI3hqQZDldyXHZ7
+	 YzERpHATCGc3y2h94+Z7doGaGsgWVHxxLyXhRWaLxWNuwtH7al4AbTV/h+LlP4Jt3Q
+	 /2raEgdMAUExg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 2/9] leds: st1202: validate pattern input before
- stopping the sequence
+Subject: Re: [PATCH v7 3/9] leds: st1202: fix pattern duration prescaler and
+ pattern_clear skip marker
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Manuel Fombuena" <fombuena@outlook.com>
 Cc: lee@kernel.org, linux-leds@vger.kernel.org
-In-Reply-To: <GV1PR08MB84975929B6ED7CDFBCEB7D76C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
+In-Reply-To: <GV1PR08MB84971D3AF982F4F707A378F0C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
 References: <GV1PR08MB8497C0B898789BB73ACE6EE3C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
- <GV1PR08MB84975929B6ED7CDFBCEB7D76C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
+ <GV1PR08MB84971D3AF982F4F707A378F0C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 02 Jul 2026 22:50:06 +0000
-Message-Id: <20260702225006.E20411F000E9@smtp.kernel.org>
+Date: Thu, 02 Jul 2026 22:50:47 +0000
+Message-Id: <20260702225048.66C8F1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -71,7 +71,7 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -79,7 +79,7 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	FORWARDED(0.00)[lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8894-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8895-lists,linux-leds=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FREEMAIL_TO(0.00)[outlook.com];
 	MIME_TRACE(0.00)[0:+];
@@ -99,105 +99,87 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_NO_DN(0.00)[];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCPT_COUNT_THREE(0.00)[3];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,lists.linux.dev:replyto,outlook.com:email,smtp.kernel.org:mid,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,lists.linux.dev:replyto,outlook.com:email,smtp.kernel.org:mid,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F272D6FD4F2
+X-Rspamd-Queue-Id: 35B566FD4E9
 
 Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
 
 Pre-existing issues:
-- [High] st1202_led_pattern_set() fails to clear or mark the remaining patt=
-ern slots as skipped when len < ST1202_MAX_PATTERNS.
-- [High] st1202_led_pattern_clear() unconditionally zeroes the shared globa=
-l duration registers, destroying the timing of active sequences on all othe=
-r LEDs.
+- [High] The driver improperly maps the single global ST1202 hardware patte=
+rn sequencer to independent per-LED operations, causing destructive interfe=
+rence between channels.
+- [High] `st1202_led_pattern_set` does not clear trailing unused pattern sl=
+ots, potentially executing stale delay steps if not preceded by `pattern_cl=
+ear`.
 --
 
-commit 9126a03ff29680e83b737c78e164f544294aa400
+commit b7d0b63932c36211ff0c19e9d1915d909b53394b
 Author: Manuel Fombuena <fombuena@outlook.com>
 
-leds: st1202: validate pattern input before stopping the sequence
+leds: st1202: fix pattern duration prescaler and pattern_clear skip marker
 
-This commit moves input validation for pattern duration before taking the
-mutex and interacting with the hardware. This prevents the chip from being
-left in a stopped and partially written state if validation fails mid-loop.
+This commit fixes the formula used to calculate the pattern duration
+prescaler by removing an erroneous subtraction, updating the maximum
+duration constant accordingly. It also explicitly writes 0 to the duration
+registers in st1202_led_pattern_clear() so that unused slots are correctly
+marked as skipped.
 
 > diff --git a/drivers/leds/leds-st1202.c b/drivers/leds/leds-st1202.c
-> index 316ed8eb054f9..a750c95ef3f89 100644
+> index a750c95ef3f89..b4adade49898e 100644
 > --- a/drivers/leds/leds-st1202.c
 > +++ b/drivers/leds/leds-st1202.c
 [ ... ]
-> @@ -235,10 +241,6 @@ static int st1202_led_pattern_set(struct led_classde=
-v *ldev,
->  		return ret;
-> =20
->  	for (int patt =3D 0; patt < len; patt++) {
-> -		if (pattern[patt].delta_t < ST1202_MILLIS_PATTERN_DUR_MIN ||
-> -				pattern[patt].delta_t > ST1202_MILLIS_PATTERN_DUR_MAX)
-> -			return -EINVAL;
-> -
->  		ret =3D st1202_pwm_pattern_write(chip, led->led_num, patt, pattern[pat=
-t].brightness);
+> @@ -209,7 +209,7 @@ static int st1202_led_pattern_clear(struct led_classd=
+ev *ldev)
 >  		if (ret !=3D 0)
 >  			return ret;
+> =20
+> -		ret =3D st1202_duration_pattern_write(chip, patt, ST1202_MILLIS_PATTER=
+N_DUR_MIN);
+> +		ret =3D st1202_write_reg(chip, ST1202_PATTERN_DUR + patt, 0);
 
 [Severity: High]
-This is a pre-existing issue, but does st1202_led_pattern_set() fail to cle=
-ar
-or mark the remaining pattern slots as skipped when len < ST1202_MAX_PATTER=
-NS?
+This isn't a bug introduced by this patch, but could zeroing out the durati=
+on
+registers here freeze the sequence for other LEDs?
 
-If a user writes a pattern of length L (where L < 8) to the sysfs pattern
-attribute, this loop only iterates up to len, leaving the hardware duration
-registers for slots len through 7 unmodified.
+The ST1202 hardware uses a single, globally shared pattern sequencer with
+shared step duration registers (ST1202_PATTERN_DUR). When
+st1202_led_pattern_clear() is called for one LED, zeroing out these shared
+duration registers would stop or corrupt the active pattern on any other LE=
+Ds
+that are relying on the global sequencer.
 
-The ST1202 executes a fixed 8-slot sequence unless unused slots are explici=
-tly
-marked to skip by setting duration to 0.
-
-Because the driver only programs the first L slots and abandons the remaini=
-ng
-slots without zeroing their duration registers, will the hardware sequencer
-continue playing the stale durations and PWM values for the remaining steps
-instead of truncating the pattern?
+Could this cause cross-channel interference, and should the driver manage t=
+he
+sequencer state globally rather than on a per-LED basis?
 
 [Severity: High]
-This isn't a bug introduced by this patch, but does st1202_led_pattern_clea=
-r()
-unconditionally zero the shared global duration registers?
+This is also a pre-existing issue. Is st1202_led_pattern_set() leaving
+trailing unused pattern slots active?
 
-drivers/leds/leds-st1202.c:st1202_led_pattern_clear() {
-    ...
-    for (int patt =3D 0; patt < ST1202_MAX_PATTERNS; patt++) {
-        ...
-        ret =3D st1202_write_reg(chip, ST1202_PATTERN_DUR + patt, 0);
-    }
-    ...
-}
+While st1202_led_pattern_clear() explicitly writes 0 to all 8 slots to mark
+them as skipped, st1202_led_pattern_set() only updates the duration registe=
+rs
+up to the provided len.=20
 
-If a user sets a pattern on LED A, then clears the pattern on LED B using s=
-ysfs,
-this unconditional write to the global duration registers might destroy the=
- timing
-of active sequences on all other LEDs.
+If a previous pattern was longer, won't the trailing duration registers sti=
+ll
+contain non-zero values? This might cause the hardware sequencer to execute
+those stale delay steps instead of skipping them, artificially lengthening
+the new pattern's cycle time.
 
-The ST1202 uses a single global sequencer with chip-wide duration registers.
-When a pattern is cleared on a single LED, writing 0 to all ST1202_PATTERN_=
-DUR
-registers marks the slots as skipped globally.
-
-This instantly freezes or destroys the running pattern on all other LEDs sh=
-aring
-the chip. Should the driver only modify the target LED's PWM registers to v=
-isually
-clear it, without touching the shared timing?
+>  		if (ret !=3D 0)
+>  			return ret;
+>  	}
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/GV1PR08MB8497C0B898=
-789BB73ACE6EE3C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com?part=3D2
+789BB73ACE6EE3C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com?part=3D3
 
