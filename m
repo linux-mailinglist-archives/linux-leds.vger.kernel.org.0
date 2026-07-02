@@ -1,64 +1,64 @@
-Return-Path: <linux-leds+bounces-8893-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8894-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id pfqMJULrRmoGfgsAu9opvQ
-	(envelope-from <linux-leds+bounces-8893-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 03 Jul 2026 00:50:42 +0200
+	id ZUqsKW3rRmoOfgsAu9opvQ
+	(envelope-from <linux-leds+bounces-8894-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 03 Jul 2026 00:51:25 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35CF96FD4E1
-	for <lists+linux-leds@lfdr.de>; Fri, 03 Jul 2026 00:50:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F272D6FD4F2
+	for <lists+linux-leds@lfdr.de>; Fri, 03 Jul 2026 00:51:24 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=YAKuYoo7;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8893-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8893-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Qy3kRaYz;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8894-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8894-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2BDFF3010BB9
-	for <lists+linux-leds@lfdr.de>; Thu,  2 Jul 2026 22:49:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9046C301E6FB
+	for <lists+linux-leds@lfdr.de>; Thu,  2 Jul 2026 22:50:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D657B3C3C01;
-	Thu,  2 Jul 2026 22:49:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E95D346E60;
+	Thu,  2 Jul 2026 22:50:08 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67C2433E8F
-	for <linux-leds@vger.kernel.org>; Thu,  2 Jul 2026 22:49:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A0F3C73EC
+	for <linux-leds@vger.kernel.org>; Thu,  2 Jul 2026 22:50:07 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783032566; cv=none; b=hCiXs2f5LBZgHqSgI95BWbCJvrqPPYcjIFSM0Wv29ced+4SvNAia0ASG+uaj//KxyENUmHlS3/EFPOc235hqrzqI0ytTzs2readKAXwVrwyJMYE/RCq5laxaayB8cdxCxKxAmL6xJjP0pZgWb6pM+Yo87mqCbNW6ff+xInNc5L0=
+	t=1783032608; cv=none; b=aJGl6OxKMmg82RJtcLshWBdNSjP++fTfaZ9LwMR36M7p/QoWkTWqDJ1H2spVUy3jXLQqhCpBHBYJEL6DN2pyTGd/5BzuvWp9XCRtfYl0USq3zmb5YcobjYiU4MloBuA4GGGTgDBx0n/FYa6qfWUsscvlIFU5mXaUc6d1qdgMArA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783032566; c=relaxed/simple;
-	bh=iK6PiL2fUhAWlitsv+DiMXQgnMkjnyAKzVnYoJ7IfR8=;
+	s=arc-20240116; t=1783032608; c=relaxed/simple;
+	bh=DBMXdQRpZqJDjrwDQy3R3Luit4cKqPoCa9oW2ACZIXU=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=kwiZbTBlrZpaXeqmvTPhRKIAVSoJi5aVBvrWfHG4osf/8gkd5WBCwrHFol5CujlorIVx3hd+PJxBkL/ngzvINyoF63cg0YLn4YabnoGhP3uypYJfmnylOaqkWMpthjr3JAK+nWEsKzYDlnmPo9Zrb0GKifdYFwDldVNr75cFq0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YAKuYoo7; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BEBA1F00A3A;
-	Thu,  2 Jul 2026 22:49:25 +0000 (UTC)
+	 Message-Id; b=QqfBhPb4ALHa8mlbvL/HhOzSfPxbsQFEAJzNxYl9wSvQWv8mIuOq0RtS6nxI5Til5oSycmDpy0otNRK3wAqL79NgCN190Nc+WfWges7pO0ArIliKKJYU08lXKJ9/db3yERWSevdWaQWt/HIh4cQQkqQjKD1Pr6TK1uF05xEnZEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qy3kRaYz; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E20411F000E9;
+	Thu,  2 Jul 2026 22:50:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783032565;
-	bh=PigX67YYlYWkpsiA489Z4ancLSOZqzGFd14Ji/zd3gQ=;
+	s=k20260515; t=1783032607;
+	bh=R/SNBarhgEsrVG0ibRYX8zxrgI3IhJMP+4aOio3y2u8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=YAKuYoo7fDIUIozw4BNXXDipmutVRTBfb13/YRAGeMFqC499xEVIdjfqzRo4xL6lh
-	 HOmFj/Ku7MbcHjmnQ+Xz/ld+9gB8tVaShwax+Gcj+gC+RMh8esfxmk7RtaFl7DPfJb
-	 4HIA50y/q0rS2CGTW8/WiHYhtJhR5tWAttr34MrOyI060D7ElJuMkekKc1tEYcsFfk
-	 SM0kkUGXtUJXb3opfGAmyf8moK1pq5pVKfbD72tv8FlGi38cTidMpPRTbpf3QoFJnE
-	 AsTsjp4y7GQlvjQ0H8ebX0wW4+QpiYefIUBi3+ymP/bkKQkq8Z6BWaCLcEBDn4apIo
-	 K8M34nqCIk2MA==
+	b=Qy3kRaYzL2LrKLATSJUfn55RPImrlqZ5q7voePBFLLuQXuKr5pFEvIRjocKHtW0s2
+	 O7/zIXb0twn2AIUy3ZpR9+XMCWlv1fDzd9Khb8KQUoe5c3pCKlRu5DZwgHbGQfuXLw
+	 WW+zENhAzjsaFYOIU/Tp6qbbpcIgkdzxyrgXCabWzXuRcsYZdmsT926rUZq7DbExRs
+	 Rh5rHkcf4hrYHPH2HxdYpeKIdU5btGGfINF5xu1xs44MoVVoLFCcNI/1EstS3yHj3i
+	 O8z4ks2+PyIUyYs2Xx0z5TPidRFpSvRx3cJPhWzmYpkZrvEpvoLmpDHC8dIrQ2XwGw
+	 56vc/oRTW6hSA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 6/9] leds: st1202: fix brightness having no effect
- while pattern mode is active
+Subject: Re: [PATCH v7 2/9] leds: st1202: validate pattern input before
+ stopping the sequence
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Manuel Fombuena" <fombuena@outlook.com>
-Cc: linux-leds@vger.kernel.org, lee@kernel.org
-In-Reply-To: <GV1PR08MB8497570FD162D0D42A9864E3C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
+Cc: lee@kernel.org, linux-leds@vger.kernel.org
+In-Reply-To: <GV1PR08MB84975929B6ED7CDFBCEB7D76C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
 References: <GV1PR08MB8497C0B898789BB73ACE6EE3C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
- <GV1PR08MB8497570FD162D0D42A9864E3C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
+ <GV1PR08MB84975929B6ED7CDFBCEB7D76C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 02 Jul 2026 22:49:24 +0000
-Message-Id: <20260702224925.2BEBA1F00A3A@smtp.kernel.org>
+Date: Thu, 02 Jul 2026 22:50:06 +0000
+Message-Id: <20260702225006.E20411F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -79,12 +79,12 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	FORWARDED(0.00)[lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8893-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8894-lists,linux-leds=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FREEMAIL_TO(0.00)[outlook.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:fombuena@outlook.com,m:linux-leds@vger.kernel.org,m:lee@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:fombuena@outlook.com,m:lee@kernel.org,m:linux-leds@vger.kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-leds@vger.kernel.org];
@@ -103,138 +103,101 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	RCPT_COUNT_THREE(0.00)[3];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.linux.dev:replyto,vger.kernel.org:from_smtp,smtp.kernel.org:mid,sashiko.dev:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,outlook.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,lists.linux.dev:replyto,outlook.com:email,smtp.kernel.org:mid,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 35CF96FD4E1
+X-Rspamd-Queue-Id: F272D6FD4F2
 
-Thank you for your contribution! Sashiko AI review found 5 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
 
-New issues:
-- [Medium] The return value of `st1202_pwm_pattern_write` is ignored, resul=
-ting in missing error handling and I2C error log spam.
-
 Pre-existing issues:
-- [High] The driver assigns a sleeping function to the LED classdev `.brigh=
-tness_set` callback, violating the atomic context constraint and exacerbati=
-ng schedule-while-atomic bugs.
-- [High] Per-channel pattern operations incorrectly overwrite global hardwa=
-re state, breaking independent channel operation for all other active LEDs.
-- [High] `st1202_led_pattern_set` does not scale the 8-bit brightness value=
-s to the 12-bit PWM register scale, resulting in extremely dim patterns.
-- [High] Device node references fetched during `for_each_available_child_of=
-_node_scoped` are not properly acquired, resulting in Use-After-Free when t=
-hey are accessed later during LED registration.
+- [High] st1202_led_pattern_set() fails to clear or mark the remaining patt=
+ern slots as skipped when len < ST1202_MAX_PATTERNS.
+- [High] st1202_led_pattern_clear() unconditionally zeroes the shared globa=
+l duration registers, destroying the timing of active sequences on all othe=
+r LEDs.
 --
 
-commit c4f0635e8d1cc229cdb504a2e19927bd1b7b1d3d
+commit 9126a03ff29680e83b737c78e164f544294aa400
 Author: Manuel Fombuena <fombuena@outlook.com>
 
-leds: st1202: fix brightness having no effect while pattern mode is active
+leds: st1202: validate pattern input before stopping the sequence
 
-Once a hardware pattern is running (PATS=3D1), writing to the brightness
-sysfs attribute only updates the ILED register. The visible output is
-ILED x Pattern_PWM / 4095, so the change has little effect and the LED
-never returns to steady static operation as the user expects.
+This commit moves input validation for pattern duration before taking the
+mutex and interacting with the hardware. This prevents the chip from being
+left in a stopped and partially written state if validation fails mid-loop.
 
 > diff --git a/drivers/leds/leds-st1202.c b/drivers/leds/leds-st1202.c
-> index b8a5712829009..4909985ade04b 100644
+> index 316ed8eb054f9..a750c95ef3f89 100644
 > --- a/drivers/leds/leds-st1202.c
 > +++ b/drivers/leds/leds-st1202.c
-> @@ -136,6 +136,8 @@ static void st1202_brightness_set(struct led_classdev=
- *led_cdev,
+[ ... ]
+> @@ -235,10 +241,6 @@ static int st1202_led_pattern_set(struct led_classde=
+v *ldev,
+>  		return ret;
 > =20
->  	guard(mutex)(&chip->lock);
-> =20
-> +	for (int patt =3D 0; patt < ST1202_MAX_PATTERNS; patt++)
-> +		st1202_pwm_pattern_write(chip, led->led_num, patt, ST1202_PATTERN_PWM_=
-FULL);
-
-[Severity: Medium]
-Does this loop need to handle errors from st1202_pwm_pattern_write()?=20
-
-If the underlying I2C transaction fails, the function returns an error code,
-but it is ignored here. This could result in multiple unnecessary writes and
-I2C error log spam upon a hardware bus failure.
+>  	for (int patt =3D 0; patt < len; patt++) {
+> -		if (pattern[patt].delta_t < ST1202_MILLIS_PATTERN_DUR_MIN ||
+> -				pattern[patt].delta_t > ST1202_MILLIS_PATTERN_DUR_MAX)
+> -			return -EINVAL;
+> -
+>  		ret =3D st1202_pwm_pattern_write(chip, led->led_num, patt, pattern[pat=
+t].brightness);
+>  		if (ret !=3D 0)
+>  			return ret;
 
 [Severity: High]
-This is a pre-existing issue, but does assigning this function to the=20
-brightness_set callback cause schedule-while-atomic panics?
+This is a pre-existing issue, but does st1202_led_pattern_set() fail to cle=
+ar
+or mark the remaining pattern slots as skipped when len < ST1202_MAX_PATTER=
+NS?
 
-The LED core expects brightness_set to be safe to call from atomic context
-(like the timer trigger for software blinking), but st1202_brightness_set()
-acquires a mutex and performs sleeping I2C writes. Adding this loop of up
-to 16 additional I2C writes inside the callback exacerbates the blocking
-behavior.
+If a user writes a pattern of length L (where L < 8) to the sysfs pattern
+attribute, this loop only iterates up to len, leaving the hardware duration
+registers for slots len through 7 unmodified.
 
-Should this driver use brightness_set_blocking instead?
+The ST1202 executes a fixed 8-slot sequence unless unused slots are explici=
+tly
+marked to skip by setting duration to 0.
 
->  	st1202_write_reg(chip, ST1202_ILED_REG0 + led->led_num, value);
->  }
+Because the driver only programs the first L slots and abandons the remaini=
+ng
+slots without zeroing their duration registers, will the hardware sequencer
+continue playing the stale durations and PWM values for the remaining steps
+instead of truncating the pattern?
 
 [Severity: High]
-This is a pre-existing issue, but does st1202_led_pattern_clear() break
-patterns for all other active LEDs?
+This isn't a bug introduced by this patch, but does st1202_led_pattern_clea=
+r()
+unconditionally zero the shared global duration registers?
 
-When clearing a pattern on a single channel, the code overwrites the global
-config register and zeroes out the shared pattern duration array:
-
-st1202_led_pattern_clear() {
-        ...
-        ret =3D st1202_write_reg(chip, ST1202_CONFIG_REG, ST1202_CONFIG_REG=
-_SHFT);
+drivers/leds/leds-st1202.c:st1202_led_pattern_clear() {
+    ...
+    for (int patt =3D 0; patt < ST1202_MAX_PATTERNS; patt++) {
         ...
         ret =3D st1202_write_reg(chip, ST1202_PATTERN_DUR + patt, 0);
+    }
+    ...
 }
 
-Since the LED1202 uses a single global sequencer and shared pattern duratio=
-n=20
-registers, it seems this halts and corrupts running patterns on all other
-channels.
+If a user sets a pattern on LED A, then clears the pattern on LED B using s=
+ysfs,
+this unconditional write to the global duration registers might destroy the=
+ timing
+of active sequences on all other LEDs.
 
-[Severity: High]
-This isn't a bug introduced by this patch, but does st1202_led_pattern_set()
-fail to scale 8-bit brightness values?
+The ST1202 uses a single global sequencer with chip-wide duration registers.
+When a pattern is cleared on a single LED, writing 0 to all ST1202_PATTERN_=
+DUR
+registers marks the slots as skipped globally.
 
-The driver initializes led_cdev.max_brightness =3D U8_MAX, meaning the patt=
-ern
-trigger passes brightness values in the range [0, 255]. However, these are
-written directly to 12-bit PATTERN_PWM hardware registers:
-
-st1202_led_pattern_set() {
-        ...
-        ret =3D st1202_pwm_pattern_write(chip, led->led_num, patt, pattern[=
-patt].brightness);
-}
-
-Would this result in the patterns being visually very dim, as the maximum=20
-brightness of 255 only scales to roughly 6% duty cycle on the hardware?
-
-[Severity: High]
-This is a pre-existing issue, but does st1202_dt_init() cause a use-after-f=
-ree
-during LED registration?
-
-The device node references fetched during the scoped iterator loop do not s=
-eem
-to be properly acquired:
-
-st1202_dt_init() {
-        ...
-        for_each_available_child_of_node_scoped(...) {
-                led->fwnode =3D of_fwnode_handle(child);
-        }
-}
-
-Because the scoped iterator drops its reference at the end of each iteratio=
-n,
-the raw pointer assigned to led->fwnode might drop to a zero refcount befor=
-e=20
-devm_led_classdev_register_ext() is called later in probe.
-
-Should this be using fwnode_handle_get() to safely increment the refcount?
+This instantly freezes or destroys the running pattern on all other LEDs sh=
+aring
+the chip. Should the driver only modify the target LED's PWM registers to v=
+isually
+clear it, without touching the shared timing?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/GV1PR08MB8497C0B898=
-789BB73ACE6EE3C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com?part=3D6
+789BB73ACE6EE3C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com?part=3D2
 
