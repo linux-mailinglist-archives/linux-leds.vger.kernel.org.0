@@ -1,230 +1,246 @@
-Return-Path: <linux-leds+bounces-8867-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8868-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id UbAQAYyvRmpebgsAu9opvQ
-	(envelope-from <linux-leds+bounces-8867-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 02 Jul 2026 20:35:56 +0200
+	id PQJfHJ+lRmrCawsAu9opvQ
+	(envelope-from <linux-leds+bounces-8868-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 02 Jul 2026 19:53:35 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE28F6FC20B
-	for <lists+linux-leds@lfdr.de>; Thu, 02 Jul 2026 20:35:54 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA7EF6FBB0A
+	for <lists+linux-leds@lfdr.de>; Thu, 02 Jul 2026 19:53:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=outlook.com header.s=selector1 header.b=Foc2Krfj;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8867-lists+linux-leds=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-leds+bounces-8867-lists+linux-leds=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=outlook.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="btOd/dw/";
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8868-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-leds+bounces-8868-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 3A15531172A5
-	for <lists+linux-leds@lfdr.de>; Thu,  2 Jul 2026 17:51:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B4F4C3007888
+	for <lists+linux-leds@lfdr.de>; Thu,  2 Jul 2026 17:53:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3A4A381EBC;
-	Thu,  2 Jul 2026 17:51:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 234D737A83C;
+	Thu,  2 Jul 2026 17:53:33 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazolkn19010001.outbound.protection.outlook.com [52.103.32.1])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEDE39657B;
-	Thu,  2 Jul 2026 17:51:39 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783014701; cv=fail; b=Jw6/G2rP37qs7UF7G/WzpNGOm7v9nC/lRyEKIArL36cW70OpzIpwnysOulxnwOPfqrXqeXw266r4x+9DmFZRdDnE3fAZYkCw62itDhAXwJ8YUHk0EyQPMfb5FOYcfkZy15k9mX80w4SdznF296Yj3Z7/5Syg5FhGU+nnvsogAXc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783014701; c=relaxed/simple;
-	bh=pJM4g3b0pKnX+KBK8RPVB7hy3NqfVVS5TyxkY9jtht8=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 Content-Type:MIME-Version; b=cEmFqcUdLaf4Frg2VqLuzEk8E1hXzx8d3xUnL2LB/tapSQIT8mGdxBP8MOn375ji3zpbXqjHWilLpMahFx8R0uwQhQnN9BavjENifCrKwQzsoQo+hHcNV4ycipbvEtRHaAcILr247QKgAAacQYDtmVTa6ffS9U4RPuAo/QeCdzM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=Foc2Krfj; arc=fail smtp.client-ip=52.103.32.1
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cVBS0Wi4Q4F56Cm0viLs/490EuBfpzXuDUxRuvKTHf0MnVjbm+KvUpb2eyc8elcG1kkBkTNGx3EOED5sWYd1u5VVXr5IYBHfWeGKIQehu9fp7cM7vyPL3foYtUMc5l1BDeb5fBPLP/h8zs8K26ovCfAUhjj88Qr5lVfV4WnGUlq/Z88LuqC1UjpoAvX8M0De7NgENBbH3Y2fBxqAmr0sykluw9RC84QGrisJvxtiJ5EkJwuwtINlAIluCeaklevJ7ci7lRpjwmOEM8PLV4KWTV1p5CXv3yKIUEUzFz//Yoqqgxe7DLzmI5uuSVv7Xu206c6Qn2yyIb+t4v5x0ziQcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZqPwqR0OTNHr5L5XAKkMfk5pHx5UeJCMPf8ng3vAG0I=;
- b=adHlYcy/opmU8rGGKGWpQhWX/F5RWId9fAGN/HPoaJhoZ/8ItX+3VOlw9xva6FHOHHlggHrdf8cUKM6Z79DlkZZBsUx/7SU1sokZlPp1ru0ANPMYBG93szhDnEzfdI2BMzicTr29wl/5uZtqkw2uQrtdupl14vtXgnSY26Kb4qtUXcpIjoTmDC/EVaJhWHoI0odZx0GiOUZ9dvs0WmDOwu0q0LWQgIqp4XIVOgQOYxw1sKMPKLQeRggTF215BvvhIzb6VItCx1dPWKvsfKMWeTsYmGKD9JQLGGBh3hmgGzF9ZKG6zwxA1GO6TRGdAYfoakBVL8hZ66iV8SRG1rR/cQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZqPwqR0OTNHr5L5XAKkMfk5pHx5UeJCMPf8ng3vAG0I=;
- b=Foc2Krfjne4GygkkIAxJVmNBCTQvvcJb1MLZZZlWMEj/b8zwFK19icQPqCp43BF2EcNAPneRy1IrVTl2ANSZco9rWCLjdNWGr/hlalWIpuc9izfgZRIMgYXhSswfFRLaQqB1CyO6kq9WoW/7sE4dWzHV56P0RLV8UxUyAJC35yUdEgZDrPF9DoNZUo/+zvGecEza56YTNfdTaYVOfVra9RSPZ7T83/enWkNri0ntPPDDAjaJfO7iasmFKImdyGCjN+P03uZErewWlMC0auc2wzv3nb6ZL6IJW+krFJMDVffUK0Hl/2t/TLlZsAZvca/s6uSLzmvhl4s9ZdnVZxlrPQ==
-Received: from GV1PR08MB8497.eurprd08.prod.outlook.com (2603:10a6:150:81::22)
- by GV2PR08MB8121.eurprd08.prod.outlook.com (2603:10a6:150:7d::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.9; Thu, 2 Jul 2026
- 17:51:36 +0000
-Received: from GV1PR08MB8497.eurprd08.prod.outlook.com
- ([fe80::705b:d4a3:1c1f:b9a2]) by GV1PR08MB8497.eurprd08.prod.outlook.com
- ([fe80::705b:d4a3:1c1f:b9a2%5]) with mapi id 15.21.0181.009; Thu, 2 Jul 2026
- 17:51:36 +0000
-Date: Thu, 2 Jul 2026 18:51:29 +0100 (BST)
-From: Manuel Fombuena <fombuena@outlook.com>
-To: Lee Jones <lee@kernel.org>
-cc: pavel@kernel.org, vicentiu.galanopulo@remote-tech.co.uk, 
-    linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/9] leds: st1202: fix multiple bugs in pattern engine
- and brightness handling
-In-Reply-To: <20260702135603.GP2108533@google.com>
-Message-ID:
- <GV1PR08MB8497A2A52ECED19DE611337BC5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
-References: <GV1PR08MB8497ABC8E6AEFF8AAA1AF883C5E32@GV1PR08MB8497.eurprd08.prod.outlook.com> <20260702135603.GP2108533@google.com>
-Content-Type: text/plain; charset=US-ASCII
-X-ClientProxiedBy: LO4P265CA0115.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2c3::19) To GV1PR08MB8497.eurprd08.prod.outlook.com
- (2603:10a6:150:81::22)
-X-Microsoft-Original-Message-ID:
- <fe22b0da-15aa-4077-f329-6c5d96edd664@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0AD4320A37
+	for <linux-leds@vger.kernel.org>; Thu,  2 Jul 2026 17:53:31 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783014813; cv=none; b=qJbdbj6FcLc2TDMDO9ewXu1DfxO4doyFOdIN4GWC/Q5cuSh03A+PT5SnYbTDNpFWlQN9UlnzhcoLjzyvxbH5MyV4SnaxTVvCJsTgjxdMhRT9T47gVp5LbOQT0P4msOp+X1bFOee70W45YqB2bz6hJ4wUztPmkKVu0va61ILuPgE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783014813; c=relaxed/simple;
+	bh=zA5ocuY0iuUcYUPmjumM+MRC6O+th0xq8T4H5VjyrOs=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=QCEbtc8mTZp0zC1CAYvQmIYBdbRLwHWb+sRoG/NCR3DN9jfbQ7HqK8gJz2RBWmv5YEAzHxegQf5SL78L5NHX/YbTaDaS0yeuU9OAiRWdSE8CH7mGUdCLzqaAgZsa9IjtJ3Xp4hNs4cprH4X1MxUsr0A2nbPIRn7IISbOu5fuibE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=btOd/dw/; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C9081F000E9;
+	Thu,  2 Jul 2026 17:53:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783014811;
+	bh=rkmUk2k5MQPKpdq8wtHSBISdZq0xmpIMyZomutCG+64=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=btOd/dw/G58Tmbn1bTAt0uAEgy54/nTj7VO9TTxBMYOngFyhg4iwtAQDWNLv5S22x
+	 E4ppQeE+0QTE0Zu1xwzry8mURL3bvOC/EWvwAbgA9nNXhC0TXpj+p+WegZkxDPFPmr
+	 ayIDIchElVmIhmlrqMB+GjbdTuLJPXFS0sstcQaIgSATEY0W6oSnH4B9dZB4yDxQ8H
+	 t6Qvuu7WXlPqOb14jIymZTcGDE/oOnhL0xxAGPgsFhylRndZscqz1VFPjZbKFJ974a
+	 kchJXUEGU4esAGbFaf0M+GPhedWzygbgdQd84hlVCyU7snxqjIFwSYD2kD6mTPPXoO
+	 xPdPbhDspg+jQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 5/9] leds: st1202: fix spurious pattern sequence
+ start in setup
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Manuel Fombuena" <fombuena@outlook.com>
+Cc: lee@kernel.org, linux-leds@vger.kernel.org
+In-Reply-To: <GV1PR08MB8497ECDF070E9D82D0D2E983C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
+References: <GV1PR08MB84972A16ED557BFB96D63F57C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
+ <GV1PR08MB8497ECDF070E9D82D0D2E983C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 02 Jul 2026 17:53:31 +0000
+Message-Id: <20260702175331.8C9081F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1PR08MB8497:EE_|GV2PR08MB8121:EE_
-X-MS-Office365-Filtering-Correlation-Id: 30d7d6e4-5c68-4ab8-896b-08ded8628f89
-X-MS-Exchange-SLBlob-MailProps:
-	+b2+gf+2pHS9TYwzDM9SHHeXDGMmYsJh76w37/R9fUXD3uVzB4P8MSbx6fNthZpERoHwg9pWbXf0PYCwNF6Vf9rQYffpp4hvGBGnU2QjyLK6iemyWseDpfZlV76NcqtIwZQckO08MOZK8Ezj/I3Ris3ZuYBaDwMLOtrT5EiYZ42a0y9vO/izAzFuIcuEM/R5zjen2i5J2/1KY1RrpZUwR6zT9Y4pMHTjYfsDgiNpvR5jx87pfN1NlS7/x5Oxs5jx5xOB1k/qSJ5rL7tRR58JEiEimfrLMqwKrqN5lhjDWcXgThrDRRGGyL85il+2WrsRjzhMhshM+9lPzcBSd4IRe2bh69QrxcPxSoh9qUJiXgv0ne8ZFvN0vtQJKTibPoZlKXp9Th0phdyHYMVLV0EDu/T3fTjytmTS9SZxRSugJ2NBAHyqWQ13LhGEinBsT/gpYmlmCuglqC9yHvTqNuuDSvB7UzBJwLhIbxhk4/kkSWsYjAhhW7sNB/JZot8a/4PdX6bvQ/oaDW8qzj/tCSAQVpDHIpF7ALu2yQ2T6iK0aeALisiOdSMRNp7ytM2AiGpPGuRGyGVytoCAg98iOf8aOSyPFVVUq41PLDSadyWV1M+60mcoNCUM4CiHztgYZSF4hixRqjBuPz34Dq3mPwTFr+p97azwaw0Co+ObvnNbOKu/u5hkg3BL3wcGrQOoUcmc9cRdCYFWfo/gUQXIE5XEOtoNStyP8NHK5zyo+EV7Ear44Vyv/BeD1PgkrQn8dJm4fmiqjvBTPs+i5e8RBUC/UtN/wS8rDm4WBGZ34WUusjnz8XM3Hf6Gv3TWhvglOldC7YH23IA/bsXJwkboqvBJmFwLz6+ervNQu1j9YnP+c0fYP2th/DWySQ==
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|8060799015|19110799012|51005399006|24021099003|15080799012|16051099003|25010399006|6090799003|37011999003|23021999003|5072599009|40105399003|10035399007|1602099012|3412199025|440099028|4302099013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?5rVacsK5R5YUdWmk+oAitgBymD7GCzia7KO6ivqnbd1hU+wY72wKXvtcP5QD?=
- =?us-ascii?Q?cuk3zd7GiiIfKXOaVGslz8PkNFIgZrchZqFjQC1S5MiK0vb7ervAOzV5v7wj?=
- =?us-ascii?Q?cngf9L1lkV7QYGg0eMMpEuCfRfzHRJepYh13RhEfIGg8oxoOjhDH/51OFbCN?=
- =?us-ascii?Q?AdSWIrmz68r5n7v4u+emN7ZuY9MLC7pFbPlTZG1ATjIx/wI4E9qCikV38Enr?=
- =?us-ascii?Q?JH1gl+1nvhQtx+25fCGKKQOwrPlL6WuGUj0AyKncm9qv8IUz9ttdGcBqedd0?=
- =?us-ascii?Q?4Vxgl0lmw3qmFWS+FR7cKAcOtW+cZTPQrEPrGwpaZQV3yyOy98vYi9aiad2c?=
- =?us-ascii?Q?LQgXIYU6YapPBQgpSNjvBgeh6ZcosEn23y6DdBjs31q0v5Q+ZMpIPaBdE7Cp?=
- =?us-ascii?Q?O6Zaz0WmBwz3kWNUuBA4cyZL4APDtNcXtPBiasxJx11pP5ezhcews2M8r2E2?=
- =?us-ascii?Q?wbLdG1+9NeY9W0/zc/jkHRONsubloH/1CxkpXQINZnduMHbteByoxtg4bUfr?=
- =?us-ascii?Q?V6pmCV8/VZ/p8CIFazjxpYAixf0pT3+1uuSFWhY+SojjIBsCvVBh4EFMMr3f?=
- =?us-ascii?Q?tVzr4cgeN33/Fa3dBTX1CO15ohj06QowXB+/yr7/SJmHGGKCHcsFoJt8PIoU?=
- =?us-ascii?Q?4FUDxJI383VGMwNPA4XTZGBn1OG5vyi9M9fpG5Efjmh6A+oAicAl4UlTQoZE?=
- =?us-ascii?Q?qTCuOoWN9DdKm/gfpE82qn/oIQM9SicFk3J22AEjxgYXqH9neQDxwa+TiWwA?=
- =?us-ascii?Q?C2Ck1g+ummLSwzS58kcAEMhaaEo7+X8GqwdxTVWCbKkDZ5m7XE9S7yCEfbfx?=
- =?us-ascii?Q?NiTl4vm7pidxKIVrKvSopx5kBqhsmJ1TLeTFoF17nNA8IyRXS7t23CsX1HVH?=
- =?us-ascii?Q?5uhQjDDIykEBt0bYB6TpCP84redomRb7uqdc0aw6fxDuWWYMKTbJ2xPLltuL?=
- =?us-ascii?Q?+ZoQsHrmWyOYnCkiBCcS7nRCDdfepLTVhMDxrelGIo83bdHzdpHmK+6ysaOw?=
- =?us-ascii?Q?+WqmrvflcoJqQGVKbgu/UYVhdhVSNPRh31RWP4wlARSv2q+pntmiOBOAph4R?=
- =?us-ascii?Q?rBohGuSu?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?zFRgr0Nbp5l2Q2mV7/AIeT3gCFCikRU1H6IZVuhIv420GigpOX1Qh/OtDeeo?=
- =?us-ascii?Q?PaF3Sb2c3mjQbgDJD09UYVYLoykzH/SdILUFdh61DXCkIr1A3AIPHAeRjUkp?=
- =?us-ascii?Q?I1p3b5K4+7g+O2GpcVkHwNgW4vZQyX1kvR87+WAhz3HtCnwbjw8FVPBno/NF?=
- =?us-ascii?Q?sWLtUHuQNXmc6NqTS9JI1QZYWiT7aFac0zJbSVAPNecdEHOkrJid27nZxXP/?=
- =?us-ascii?Q?XjFN7Cr2DZ91929iDtjn376tzSbMpqpV5JmuB2NEpqa7ut/SWEPM/O7mzE9t?=
- =?us-ascii?Q?x0SjzsXyUqrHwd6yeFCD8ERpJdlWN/bjbvazkU0MJMWYVtVXTFxPfTqorOyM?=
- =?us-ascii?Q?QU84bR9Pnd2zFVR8B5kisuD5zUKP6UfcrBVTfHsrWPbQVM1zdyvlKI0gf3ze?=
- =?us-ascii?Q?8SURhsrPfyK4jcsqBglOlsNN71nu264cmvMPbsxXKJ3r2J2J/iVwU4wbqKnU?=
- =?us-ascii?Q?Fk4vyv4sVS8yQnkqqDSUA7jGfbXOuINOHzjoAplOn3ptj8EDYrWWXaPxZi5D?=
- =?us-ascii?Q?6jhohn3nirNna51BRFiOWQUPaVilPQLbsjISZkUB6VNdmPiD3VarWn0l3B/p?=
- =?us-ascii?Q?9sjQ5o7VUv/m+sSfSjBIP4unCVKuQw7aQ+ZTCxioGG92GqYA7oH19vVmr6+A?=
- =?us-ascii?Q?M3hSRYXiXE95pdYJ8ovpBieMzAr7H0UGyCH+zKzExtzK/DJwsdNwYEwiSBJT?=
- =?us-ascii?Q?oYoeNMhv1XVa0nVKy8oaNSK7p6EawvzaKfLSJF7ZsEWjWk1VpJVoy6y9IDJV?=
- =?us-ascii?Q?+RaebY85EywlpE5LdD7MgF2psmrCwsycKod1HlOIt6D/QXsCKdlncdp4DbVA?=
- =?us-ascii?Q?nHZLzd5nmkYeL/7pM7tMhl/poeJdTFCAweyVX82vuvbhzsIrCbIAfBeAfm9Z?=
- =?us-ascii?Q?CrM4+AozP1YlpJM5CtytWU6JFnfg3NhZlPQNLqjLTSkTyKxHuV4UeJtDUOhO?=
- =?us-ascii?Q?ndPMeerEPWuT2srDlrmq+FGR9Ozlhxpi9kvr6uERj54/YOqYuU6xmqDBrxKw?=
- =?us-ascii?Q?GLaJwDCp6napuCxfTFnwII+rMLOoD9I1kbZgbWPiYBeTsQ1ykIfWLB7K65gX?=
- =?us-ascii?Q?nCVO/rYI2hgT2bTlLhOl7b2gM9PWJs2FkP7mxapAyAMihnJXzI4hLHBmtt4p?=
- =?us-ascii?Q?/VJgwUFQ/jTBaWVyRNj+d495QgakjAPnJgYjot0nfqrc4Hs1AsC8Tu6sY0p1?=
- =?us-ascii?Q?BqH1w7HqQP/3bC1yoD10c5HWOZsmB4cCn53GaH1/jTfH0iOtNv0Z0FV2gGnR?=
- =?us-ascii?Q?FbLizS8BGy6RZ33rhoO66kEvzhDRGSUROhipOHYGqGHlBT3DEssrg4zuDJVW?=
- =?us-ascii?Q?FSBW3++Hchb3dwDA+VF3P2fE4wiJGujgMqmVMfr+cOGdOcrAgnqijCU50kf1?=
- =?us-ascii?Q?NqJrOWYPzEF8ORgryhVIQBVtCpZ1x4pVGE/Q0fRGkLfHS2ONJvlobrNBC0fr?=
- =?us-ascii?Q?BKNLLK/khg++e/zwWUOup+gksQF9xBbZ?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30d7d6e4-5c68-4ab8-896b-08ded8628f89
-X-MS-Exchange-CrossTenant-AuthSource: GV1PR08MB8497.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2026 17:51:36.3217
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8121
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[outlook.com,none];
-	R_DKIM_ALLOW(-0.20)[outlook.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+X-Spamd-Result: default: False [-3.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	MISSING_MIME_VERSION(2.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8867-lists,linux-leds=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:vicentiu.galanopulo@remote-tech.co.uk,m:linux-leds@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[outlook.com];
-	FORGED_SENDER(0.00)[fombuena@outlook.com,linux-leds@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	REPLYTO_DN_EQ_FROM_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-8868-lists,linux-leds=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[outlook.com];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[outlook.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[fombuena@outlook.com,linux-leds@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:fombuena@outlook.com,m:lee@kernel.org,m:linux-leds@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-leds@vger.kernel.org];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RWL_MAILSPIKE_POSSIBLE(0.00)[104.64.211.4:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[GV1PR08MB8497.eurprd08.prod.outlook.com:mid,sashiko.dev:url,outlook.com:dkim,outlook.com:from_mime,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-leds];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NO_DN(0.00)[];
+	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCPT_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[outlook.com:email,sashiko.dev:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,lists.linux.dev:replyto]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: EE28F6FC20B
+X-Rspamd-Queue-Id: AA7EF6FBB0A
 
-On Thu, 2 Jul 2026, Lee Jones wrote:
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
 
-> 
-> Still a few potential issues highlighted - are they yours?
-> 
-> https://sashiko.dev/#/patchset/GV1PR08MB8497ABC8E6AEFF8AAA1AF883C5E32@GV1PR08MB8497.eurprd08.prod.outlook.com
-> 
-
-Thank you for looking into this.
-
-I have sent a v6 addressing the Sashiko feedback on patch 4 and 6:
-
-https://lore.kernel.org/all/GV1PR08MB84972A16ED557BFB96D63F57C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com/
-
-For the sake of clarity, these are the responses to the non-pre-existing 
-issues.
-
-Patch 1 comment: stopping the global sequencer in pattern_clear()
-does halt all channels simultaneously, not just the one being cleared.
-
-Response: this is an inherent hardware constraint. The LED1202 has a
-single shared sequencer and, per section 4.8 of the datasheet, register
-writes are silently ignored while it is running. There is no way to stop
-it selectively per channel. This limitation is noted in the commit 
-message.
-
-Patch 4 comment: pattern_clear() set Pattern0 PWM to FULL but left
-Patterns 1-7 at LED_OFF. If another channel subsequently starts the
-global sequencer, this channel cycles through its uneven PWM slots
-and blinks.
-
-Response: fix in v6. Set all 8 slots to ST1202_PATTERN_PWM_FULL,
-simplifying to a single loop from 0.
-
-Patch 6 comment: brightness_set() stops the global sequencer via
-CONFIG_REG, disrupting patterns on all other channels.
-
-Response: fix in v6. Set all 8 PWM slots for the channel to
-ST1202_PATTERN_PWM_FULL instead, so the channel outputs steady ILED
-regardless of which sequencer step is active, without touching
-CONFIG_REG.
-
+Pre-existing issues:
+- [High] The non-blocking `brightness_set` callback is assigned to a sleepi=
+ng function, and `brightness_set_blocking` improperly discards brightness v=
+alues.
+- [High] Per-LED pattern callbacks inappropriately modify global chip seque=
+ncer registers, corrupting state for other channels.
+- [High] Device tree node `fwnode` pointer is saved without incrementing it=
+s reference count, resulting in a dangling pointer.
 --
-Manuel Fombuena
+
+commit 0028567786c848c91c978540c9eaefe27ea93565
+Author: Manuel Fombuena <fombuena@outlook.com>
+
+leds: st1202: fix spurious pattern sequence start in setup
+
+This patch removes a final write to the configuration register in
+st1202_setup(). The removal prevents the hardware pattern sequencer from
+starting prematurely during device probe before any patterns have been
+programmed.
+
+> diff --git a/drivers/leds/leds-st1202.c b/drivers/leds/leds-st1202.c
+> index 3203b3768ec52..b8a5712829009 100644
+> --- a/drivers/leds/leds-st1202.c
+> +++ b/drivers/leds/leds-st1202.c
+> @@ -333,11 +333,6 @@ static int st1202_setup(struct st1202_chip *chip)
+>  	if (ret < 0)
+>  		return ret;
+> =20
+> -	ret =3D st1202_write_reg(chip, ST1202_CONFIG_REG,
+> -				ST1202_CONFIG_REG_PATS | ST1202_CONFIG_REG_PATSR);
+> -	if (ret < 0)
+> -		return ret;
+> -
+>  	return 0;
+>  }
+
+[Severity: High]
+This isn't a bug introduced by this patch, but does st1202_dt_init() create=
+ a
+dangling fwnode pointer?
+
+When retrieving the child nodes via for_each_available_child_of_node_scoped=
+(),
+the node reference is dropped automatically at the end of the loop:
+
+st1202_dt_init() {
+    ...
+    for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
+        ...
+        led->fwnode =3D of_fwnode_handle(child);
+    }
+    ...
+}
+
+Because fwnode_handle_get() is not used before assigning to led->fwnode, th=
+is
+pointer becomes dangling after the loop ends and is later dereferenced in
+st1202_probe() when calling devm_led_classdev_register_ext().
+
+Can this lead to a use-after-free, especially if dynamic device trees or
+overlays are used?
+
+[Severity: High]
+This is a pre-existing issue, but are the blocking and non-blocking brightn=
+ess
+callbacks swapped in st1202_dt_init()?
+
+st1202_dt_init() {
+    ...
+    led->led_cdev.brightness_set_blocking =3D st1202_led_set;
+    ...
+    led->led_cdev.brightness_set =3D st1202_brightness_set;
+    ...
+}
+
+The non-blocking brightness_set callback is assigned to
+st1202_brightness_set(), which takes a mutex and performs I2C transactions
+that can sleep:
+
+st1202_brightness_set() {
+    ...
+    guard(mutex)(&chip->lock);
+    st1202_write_reg(chip, ST1202_ILED_REG0 + led->led_num, value);
+}
+
+Could this cause a scheduling while atomic bug if triggered from an atomic
+context like a software timer?
+
+At the same time, the blocking callback is assigned to st1202_led_set(),
+which completely discards intermediate brightness values and only toggles
+the channel on or off:
+
+st1202_led_set() {
+    ...
+    return st1202_channel_set(led->chip, led->led_num, !!value);
+}
+
+[Severity: High]
+This isn't a bug introduced by this patch, but do the per-LED pattern
+callbacks corrupt global sequencer registers for other LEDs?
+
+In st1202_led_pattern_clear(), the function unconditionally zeroes out the
+global pattern duration registers:
+
+st1202_led_pattern_clear() {
+    ...
+    for (int patt =3D 0; patt < ST1202_MAX_PATTERNS; patt++) {
+        ...
+        ret =3D st1202_write_reg(chip, ST1202_PATTERN_DUR + patt, 0);
+    }
+    ...
+}
+
+Similarly, st1202_led_pattern_set() resets the global sequence enable bits
+for the whole chip:
+
+st1202_led_pattern_set() {
+    ...
+    ret =3D st1202_write_reg(chip, ST1202_CONFIG_REG, (ST1202_CONFIG_REG_PA=
+TSR |
+                            ST1202_CONFIG_REG_PATS | ST1202_CONFIG_REG_SHFT=
+));
+    ...
+}
+
+Since these registers are shared across all channels on the chip, will clea=
+ring
+or setting a pattern on one LED arbitrarily destroy the pattern state of
+another LED running simultaneously?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/GV1PR08MB84972A16ED=
+557BFB96D63F57C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com?part=3D5
 
