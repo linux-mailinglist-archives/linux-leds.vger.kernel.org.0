@@ -1,215 +1,255 @@
-Return-Path: <linux-leds+bounces-8927-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8928-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 1IcpGaWbR2qFcAAAu9opvQ
-	(envelope-from <linux-leds+bounces-8927-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 03 Jul 2026 13:23:17 +0200
+	id qPuEBernR2qbhQAAu9opvQ
+	(envelope-from <linux-leds+bounces-8928-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Fri, 03 Jul 2026 18:48:42 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17C7701CC1
-	for <lists+linux-leds@lfdr.de>; Fri, 03 Jul 2026 13:23:16 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F86704688
+	for <lists+linux-leds@lfdr.de>; Fri, 03 Jul 2026 18:48:41 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=outlook.com header.s=selector1 header.b=d4XwEznh;
-	dmarc=pass (policy=none) header.from=outlook.com;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8927-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-leds+bounces-8927-lists+linux-leds=lfdr.de@vger.kernel.org";
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=kemnade.info header.s=20220719 header.b=8MHUe8mI;
+	dmarc=pass (policy=none) header.from=kemnade.info;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8928-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-leds+bounces-8928-lists+linux-leds=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 9AFAB3012552
-	for <lists+linux-leds@lfdr.de>; Fri,  3 Jul 2026 11:21:46 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AC0073010279
+	for <lists+linux-leds@lfdr.de>; Fri,  3 Jul 2026 16:46:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 114DB3C4175;
-	Fri,  3 Jul 2026 11:21:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 131CC2475D0;
+	Fri,  3 Jul 2026 16:46:46 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazolkn19011034.outbound.protection.outlook.com [52.103.33.34])
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720BD3C37A5;
-	Fri,  3 Jul 2026 11:21:30 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783077701; cv=fail; b=Lew8ztMGZsl9DjuXMnXIahaB4NBLHlQA4SX8kY2c0EOx6yY69oErW5MpX0gj+LapgenCITGw/CuUlfnGUbXUG7GCW1poWMXkz3+vCagoAgueMiXfzfzxH5qxKm/taRo9qZ+HTMAXKB/H8MsY4klL1/JTY2xZOTNB3deWwyjO5+U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783077701; c=relaxed/simple;
-	bh=S21QlN/zFk2ysdJ5J6hWdsJrgqeopsmPxKIvibIo8Uo=;
-	h=Date:From:To:Subject:In-Reply-To:Message-ID:References:
-	 Content-Type:MIME-Version; b=hipycxGKu2O0Qx3C5OP51M/uHSAPOjg20F94yjFgC5PYjRVu8q1jiHv3axbKInY0EvPkdb5QoKb9QEr3krsHi9IcLzuFTurqVcPcqd/Fwn19vclDW/ZN2Adxt2t/XzHHj+GoAN0RT6cbuH5MjGJ7Mn8IuIBReGVclmGDS0UcJKE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=d4XwEznh; arc=fail smtp.client-ip=52.103.33.34
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=I9HBCILv9q/ydbUh6Mx+9b1+72eqn1aDACYE5KoP2GlsULT0FDNHjn18UEzDlRuUXH6peImwZwQ/vSYRMcEQMwAoLMVBdRs80C1rBkznGDbBrH9q2tKQmG1oqyjE7RJIY5C3JeaebkC4uYf38rGN1lgmyyPnabFAOmLv0XPg/GzG8RDQ1v9TDfWGKM3KFZ1rjQhTP1zdfbgttJUf/Xhk2YWAGZH0fQ9nED5AaMIFc5QLjz4FTKVNZWlm6e+qVjJtOTLPNaurWPqL9OH5qQqlUc2TYK8UpkVSkiFjUmoVwNAqWl5rzyrOAykiXFnONmPmKUww0mJle5LtHmE7lU/yMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kp3mAo/yZgZ3jXZf7iMkga+VZNMciinDjkdwDmkGwL0=;
- b=c0jayeEKaaa7NqeBF2GMm+jJJJCKaIXUZtCaoEpgJU3tDqFw89KVRJEOtdsRcaUmHhdOF7hwzDAYWEniHZlfeq0yGkkO8jQnn+QpEg5voJmdsc/3/IU2FNQP2JOnT3rwoa4rb+IqB/QyrnMo4uNCEAKflXIt8RaHv4hGA+xO2m8175i7c0Rza/u87JjbPMqPEL4ciWt4q4j0rJNUd+iWrO8t5LCsh6nlFbxjN6Zu/UT/G9XJe+DCiHg94Z0Oz9v3ikomAaCg+x58Ta7ieY2NAzzr+3pviCL/8S2SGTTs0Yx2QXRFOaMoqs5thYRx/OctDE8xMHvXD/raDdE0EjQU0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kp3mAo/yZgZ3jXZf7iMkga+VZNMciinDjkdwDmkGwL0=;
- b=d4XwEznhbAsQ0Utb37RvJkp83ybNrz3VlS8tp9/LuVjHF+jsx/1L98Zf1kblJ6DWYdEhrctTZK/n1Sl9kXxdhDR90Igb7/awPzsqnowwl1qjClaUKR44vkwMgNfIHpsyAf06XjySg44jeoOo990klvAUJYBfl1zxhvuhDFASbg72UH0PTcYNuYaN8gOkLfF35Qq0OXMdDZjjLZcouw9YZE4XETARr0R/In+4vhfheg80XqF+Wj8u5M+ow6QcTjYJFNDWCpJK3Gs7+Dc1P9zBJ6Rtu9DA3tC7lT6ySMbLEGPkwV/ZV6/jx/kgj35g/HnNWVDx6FleCOufkJgVhBPbUg==
-Received: from GV1PR08MB8497.eurprd08.prod.outlook.com (2603:10a6:150:81::22)
- by AM7PR08MB5463.eurprd08.prod.outlook.com (2603:10a6:20b:106::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Fri, 3 Jul
- 2026 11:21:26 +0000
-Received: from GV1PR08MB8497.eurprd08.prod.outlook.com
- ([fe80::705b:d4a3:1c1f:b9a2]) by GV1PR08MB8497.eurprd08.prod.outlook.com
- ([fe80::705b:d4a3:1c1f:b9a2%5]) with mapi id 15.21.0181.010; Fri, 3 Jul 2026
- 11:21:26 +0000
-Date: Fri, 3 Jul 2026 12:21:18 +0100 (BST)
-From: Manuel Fombuena <fombuena@outlook.com>
-To: lee@kernel.org, pavel@kernel.org, vicentiu.galanopulo@remote-tech.co.uk, 
-    linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 0/9] leds: st1202: fix multiple bugs in pattern engine
- and brightness handling
-In-Reply-To: <GV1PR08MB8497C0B898789BB73ACE6EE3C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
-Message-ID:
- <GV1PR08MB8497CC42E6B4C8F7A5545209C5F42@GV1PR08MB8497.eurprd08.prod.outlook.com>
-References: <GV1PR08MB8497C0B898789BB73ACE6EE3C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com>
-Content-Type: text/plain; charset=US-ASCII
-X-ClientProxiedBy: LO4P265CA0313.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:390::15) To GV1PR08MB8497.eurprd08.prod.outlook.com
- (2603:10a6:150:81::22)
-X-Microsoft-Original-Message-ID:
- <970a5894-77c1-2dee-029f-11fc10aa48c3@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6792D220687;
+	Fri,  3 Jul 2026 16:46:44 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783097206; cv=none; b=asK57T8tVB3mCj0MjvH2QkNhWlCrigUDQKgFeJlhy69XobcOOu9PIr/rSh/1oIgx2JZS+dKYlL0zzhuA0SSZyTDDHlzCIJlH2/B/iyKBwoR0rqlO/NizX8SyIAlzxjf1dKLOcjSnlYXP3iQWRHSmD3LxNEUrtiDrIX60mWak66o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783097206; c=relaxed/simple;
+	bh=P7Jgz9bR3PqXxOoEs7Z4oOcuduhG0uOu6PRaaeUTmqA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=a1c/PaDkMRjjQZTwYbKwxtBeVk3n/xpTsrRrAjAtDZvEL1LlQctrWeye0J0hdL8jL8CX5PX9aae+xkynMFYJCp8XD4SoxE36uSZVGuDQ9GU0GDDvqSDK4C5kwx3qWjD+91x0I1d60RmYRBLryEhyAXmjNQsK6TaLpl3Bulkd+kY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=8MHUe8mI; arc=none smtp.client-ip=178.238.236.174
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=Cc:To:Subject:From:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=VEjtVBzHbD8gmyJooTII5qsVjoKcL0rVu0zJQeJ57+0=; t=1783097204; x=1784306804; 
+	b=8MHUe8mIPuHTXJHCSmsx/L3xVH6rqtYlwF4CDWXmyYtSc5n5DvSXz+G9rvzEVt4ceSHNwrcLtif
+	7GexuCAPlfSPahX7NWAUSvNbEFVr/K3mUW/3ULwQ8waQom/8LRX+edP/HoMV5cEA/MkQ+urT8I8xA
+	yVY/NO+0fOV60qNVumwnsYoHVDE3pZP91bdHtLEwIZFvLEb4AXyxou6/mdujajHf/GoDX4pa3rpKx
+	PItaDD2X9k284pxDN1DtvFiYRYoY4Np8bKN4bwnAqTDs5oeEyoM3a2eDdhhEzs2o8yh91SCVizyFA
+	irwxtvQO8NbjxBKg7DMOTgeYxAthH3L1WM7Q==;
+From: Andreas Kemnade <andreas@kemnade.info>
+Date: Fri, 03 Jul 2026 18:46:28 +0200
+Subject: [PATCH v2] leds: is31fl319x: modernize registration
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1PR08MB8497:EE_|AM7PR08MB5463:EE_
-X-MS-Office365-Filtering-Correlation-Id: f3d6dfa8-62a8-490e-dbcd-08ded8f53868
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|8060799015|6090799003|51005399006|19110799012|41001999006|23021999003|37011999003|15080799012|24021099003|5072599009|25010399006|2604032031799003|40105399003|440099028|3412199025;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?SGXTUdVkYOa9GFwbHfSjiMyScfUKItr1lxFTXzgk5ItAGBkciiBLKGrzYoIp?=
- =?us-ascii?Q?JwOAVZKx5WEGB+jDvWQKidkPhE5VL7jQ3jn1AHnJM7Tt3dOPV/AQ6y/U62G9?=
- =?us-ascii?Q?xgwxsFZ33TL6vq//fqYF/3m0Qb6en0lGG2g/a6U8yCdKUmRhois2o6m8uo30?=
- =?us-ascii?Q?t28an61ibPsygQiC82A4kKbg3VonEwojcED1hQeDn4wQToCo2zLjYz7IKu+9?=
- =?us-ascii?Q?T/u+zcIKjsal2Ofhc9/c3MzxvxHkG9IkSJQVC+kgsEP5wgUvZYcTP8jbGVfy?=
- =?us-ascii?Q?nidl9a/MHEpAtqbPz7k4/iOguI3zQ+b5RbdFWNO0AH2+Spel56rl8eSeAqIa?=
- =?us-ascii?Q?MGnq+y6yIEQ75EE4gLaWA5qQlCDGmNWEYSDHVdjPDkYh3Ha45TU9LQfX6J0S?=
- =?us-ascii?Q?6VFkffGv1IM737bP/wDiNME+5BKQYhSxyyDAqGiIl+qFi1HOBK7BsJjr2Fho?=
- =?us-ascii?Q?mK6PmjwuopuoBIb+LMB+jP6pwj8Ltw6PF/3EIBm9Kd7P14ywzpM2en5m/BzS?=
- =?us-ascii?Q?686YLEuYNj0sdWJIEEfjcCHyfEqX6TptR/6OyzczPUC28Nv9XKp1TJXJYFtw?=
- =?us-ascii?Q?ULsT7jsXLqPt+mMnRzekpxkNhx1yqIMMFo6fO+6jxsYa4qhr7ggDRpoLcMa7?=
- =?us-ascii?Q?LfJ/ALIyXptCZOlmyAkE1yJG7i4Xsgjkxu7yfFv9osfgnPU4IEPLbrnZDOpw?=
- =?us-ascii?Q?1htTWahNyJAwyzZKlsqspBpd2C7CjWqxpzaFiWRx5PKb2NYL9MdqXtagib69?=
- =?us-ascii?Q?S79rv3RGh9qe3Qv/K0V4Y/PVqR8OgEA4Fg1wB8q8EFnmQ7G5X4n54OoRQ/yH?=
- =?us-ascii?Q?R8HHhJIuKJ4MYIJT76wti5DW4CTTmVym0EAUa2FiAIKvZNhat8QKXc3bf8HP?=
- =?us-ascii?Q?uQuIyqPgrJ/2/Pvf7bl5iguPL/mwYtSeP4nDLwR54bt4N/lN9V6d7K8IHHlX?=
- =?us-ascii?Q?b4WfbAkWDwB9stbEEWU9wIbuyDwxLl13VWYRr3ZnOLJiiJsWif65eo5Si5N7?=
- =?us-ascii?Q?9VTbMdKDbPrrsNs/Uhfllzq5IPVbVpAdQfQ2Eu1jplbdlPWMnS1qqNQ3NAZy?=
- =?us-ascii?Q?o/bzQolHcXLqQOeTjZWqXxb3tPHglw=3D=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?iMORVjrvMHGjr/0ge7ttvBTY+rC4BdbcVR27gevGnH9h2JwVNuj6eUm+x7of?=
- =?us-ascii?Q?oqELiPafxkF8Y2tH5kXaCjQDArslD6PBipiNAFCiNOjSbio71beoBvSBKhqF?=
- =?us-ascii?Q?A5WKx5vuosS/yJ0oTwMeAP9rFPwnEYDV3YYDtHSnlNiCHNDEMkAQ88EV0jMW?=
- =?us-ascii?Q?v8r0Dmp4o0NI/axqaT2EvMklDQiVRmu0l3vaHup2l+R/2dJfdXLSwTbcJiFO?=
- =?us-ascii?Q?FQgLDJEKdohM60UDdCQNT+dsIoSCM46Y0YyAsMQHxY3X5jNwvNI46aKUAsK7?=
- =?us-ascii?Q?ICEaNViSULWHlbxdC8DJorkAmGiSZxW2HnwurTi9I7ecFqqmREL3Hf6agy78?=
- =?us-ascii?Q?zVplw3a7Mj7Mu3DbQyHqSsf7DMZ5sBTiHPbuUY97Wf/Wt4NgH/yzUOdhBY5v?=
- =?us-ascii?Q?xSn8oPkEbCV+2mdtX9y26bQnwawTBKerY8m/UFwZ7ZICWg8cTNN2W3Bi4cIy?=
- =?us-ascii?Q?nVpSNmD7V3cIBR1jCYDN9wVkM7Lb7jjx2V08kzbGvU71WeixEELYZLYRrelb?=
- =?us-ascii?Q?UAXhL+tHsdUdqJb16ZyOo15QnqJba4lgetPM/gzY1zM+MbbOZQqiVC8w46ZF?=
- =?us-ascii?Q?I7pgCRRZBAtj9xcV2RVpG/7Dw8wj/0CrWeMmTOJ3KOfL0BQ05qYzK6fU64Gr?=
- =?us-ascii?Q?4vuoQB3F1IeZScNl6Gvix6nSRq23x4pEpd/LBfCWkWF6mMzOQPRRoivQIWop?=
- =?us-ascii?Q?lr3MINQXi3WVJc5fW99xmyhIm8tryGXOv5bdgTN6ems+xc6IxOtDwyYXHY6k?=
- =?us-ascii?Q?O5RXQljAzEIesI8GrfGAEHCPm+ejB+nZw+9F0v4narsQYaLJ/AxXWhORJnME?=
- =?us-ascii?Q?HeX6HEabIwWWp0VUzKXvXZT+pG5zvhh6/LGeGQOUxmQm+OVSZZuZ7YqP8Jmy?=
- =?us-ascii?Q?oibOjo9W5JI/Tmh/q0axojTquyi79GhJnoFytl3VsB6iUHTWgFZuyiiYnJvz?=
- =?us-ascii?Q?v8Lew63hDVFoW2oZlfodYNqroNxZxODuu4nt4gaImdldzlj3D+Sp3+6uHAkk?=
- =?us-ascii?Q?78hFKLKIMGvoS73ZswSR/DiPfGqNH1Qt4syjWcKqFVWajLyW1f0WXBSwLadW?=
- =?us-ascii?Q?tFCbMEEfrtv3VJ2TCon9Wzh8HoWda+hTok8PU/UCuqiB+arZzTn7wtmwOfCY?=
- =?us-ascii?Q?DIHyKf23wfUHN6y3AtDzrp6hBj5GkYj6NtespktnRNw3b+Or10QOTi1Mk3o4?=
- =?us-ascii?Q?hVNVD/creBzr7/1w0pwm9jTUDBOAazXXAK3CvH/smjX/ULxlUJjgC8jbUTcP?=
- =?us-ascii?Q?GLbqB/FWlbvekmv4qbkP1kbuboAnqTGuWNVAapPMS4xfFuf6RgJS916gaeku?=
- =?us-ascii?Q?zpQ35uRBwTxyr4oFw6TJ2NgiKBJpya2SVy19xFZlBMrITmr+SdxV8BycmNeV?=
- =?us-ascii?Q?NVSZQ5Ykl5LJLiJBsBKjTHweSZYWqQpa0396H1Bf9hOgl76r1rzXZymIi1/W?=
- =?us-ascii?Q?iYGELGtlKpLjqZjMy9ZdkRHKG7/yMYky?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3d6dfa8-62a8-490e-dbcd-08ded8f53868
-X-MS-Exchange-CrossTenant-AuthSource: GV1PR08MB8497.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 11:21:26.2630
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5463
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260703-led-modern-v2-1-d07dd0d6ec6f@kemnade.info>
+X-B4-Tracking: v=1; b=H4sIAGPnR2oC/22NQQ7CIBBFr9LMWgxg06or72G6wM5gRy0YqETTc
+ HdL3bp8yfvvzxApMEU4VjMEShzZuwX0poJ+MO5KgnFh0FI3spVaPAjF6JGCE1jrllAqZfc7WAb
+ PQJbfa+zc/Ti+Ljfqp1IoxsBx8uGzviVVvL/hpIQSpjZW08EYbOTpTqMzSFt21kOXc/4CMl4F8
+ 7kAAAA=
+X-Change-ID: 20260702-led-modern-d427ed011f83
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>
+Cc: linux-leds@vger.kernel.org, hns@goldelico.com, 
+ linux-kernel@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4976; i=andreas@kemnade.info;
+ h=from:subject:message-id; bh=P7Jgz9bR3PqXxOoEs7Z4oOcuduhG0uOu6PRaaeUTmqA=;
+ b=owGbwMvMwCUm/rzkS6lq2x3G02pJDFnuz3NP7ePnk9fb0Pbgs8oJrkxzvVSp5usuv2bcKn6kp
+ zhZtPBuRykLgxgXg6yYIssvawW3TyrPcoOnRtjDzGFlAhnCwMUpABPxtmNkOKk9Z/NahpAZYi3m
+ T6Z6ftXnuWN94yY/e+TyiJ1nuYNVZzH809Fqrrqddn+ZDqfhxcd8bB8igk+c8N977LejRKGb2bw
+ qJgA=
+X-Developer-Key: i=andreas@kemnade.info; a=openpgp;
+ fpr=EEC0DB858E66C0DA70620AC07DBD6AC74DE29324
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[outlook.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[outlook.com:s=selector1];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kemnade.info,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[kemnade.info:s=20220719];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8927-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:vicentiu.galanopulo@remote-tech.co.uk,m:linux-leds@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:linux-leds@vger.kernel.org,m:hns@goldelico.com,m:linux-kernel@vger.kernel.org,m:andreas@kemnade.info,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[andreas@kemnade.info,linux-leds@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[outlook.com];
-	FORGED_SENDER(0.00)[fombuena@outlook.com,linux-leds@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-8928-lists,linux-leds=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[outlook.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[fombuena@outlook.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andreas@kemnade.info,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[kemnade.info:+];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-leds];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,outlook.com:from_mime,outlook.com:dkim,GV1PR08MB8497.eurprd08.prod.outlook.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F17C7701CC1
+X-Rspamd-Queue-Id: 69F86704688
 
+Use _ext version to have properties parsed to avoid needing to parse
+them in the driver itself. More modern properties are recognized and
+the leds can be referenced via phandle.
+Due to the maximum current mechanics, leds are not registered right
+in the first iteration over the nodes.
 
-All Sashiko's comments on v7 are pre-existing issues outside the scope of 
-this series, with the exception of one comment each on Patch 4 and Patch 
-6. Unless there are any other reviewer comments, there will not be a v8.
-The pre-existing issues will be addressed in a follow-up submission.
+Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+---
+Changes in v2:
+- put node free action after cdef is initialized (Sashiko)
+- Link to v1: https://patch.msgid.link/20260702-led-modern-v1-1-a4af2e9aad60@kemnade.info
 
-For the sake of clarity, these are the responses to the non-pre-existing
-issues.
+To: Lee Jones <lee@kernel.org>
+To: Pavel Machek <pavel@kernel.org>
+Cc: linux-leds@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ drivers/leds/leds-is31fl319x.c | 59 +++++++++++++++++++++---------------------
+ 1 file changed, 29 insertions(+), 30 deletions(-)
 
-Patch 4 comment: after pattern_clear() sets all 8 PWM slots to FULL, a
-shorter pattern programmed with len < 8 leaves the trailing slots at
-100% duty cycle. If another channel runs an 8-step sequence, the
-cleared channel flashes at maximum brightness during its unused steps.
+diff --git a/drivers/leds/leds-is31fl319x.c b/drivers/leds/leds-is31fl319x.c
+index 80f38dba0fba..a912adf2c7d3 100644
+--- a/drivers/leds/leds-is31fl319x.c
++++ b/drivers/leds/leds-is31fl319x.c
+@@ -98,7 +98,7 @@ struct is31fl319x_chip {
+ 		struct is31fl319x_chip  *chip;
+ 		struct led_classdev     cdev;
+ 		u32                     max_microamp;
+-		bool                    configured;
++		struct fwnode_handle *fwnode;
+ 	} leds[IS31FL319X_MAX_LEDS];
+ };
+ 
+@@ -363,31 +363,17 @@ static const struct of_device_id of_is31fl319x_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, of_is31fl319x_match);
+ 
+-static int is31fl319x_parse_child_fw(const struct device *dev,
+-				     const struct fwnode_handle *child,
+-				     struct is31fl319x_led *led,
+-				     struct is31fl319x_chip *is31)
++static void is31_free_fwnode(void *data)
+ {
+-	struct led_classdev *cdev = &led->cdev;
+-	int ret;
+-
+-	if (fwnode_property_read_string(child, "label", &cdev->name))
+-		cdev->name = fwnode_get_name(child);
++	struct is31fl319x_chip *is31 = data;
++	int i;
+ 
+-	ret = fwnode_property_read_string(child, "linux,default-trigger", &cdev->default_trigger);
+-	if (ret < 0 && ret != -EINVAL) /* is optional */
+-		return ret;
++	for (i = 0; i < is31->cdef->num_leds; i++) {
++		if (is31->leds[i].fwnode)
++			fwnode_handle_put(is31->leds[i].fwnode);
+ 
+-	led->max_microamp = is31->cdef->current_default;
+-	ret = fwnode_property_read_u32(child, "led-max-microamp", &led->max_microamp);
+-	if (!ret) {
+-		if (led->max_microamp < is31->cdef->current_min)
+-			return -EINVAL;	/* not supported */
+-		led->max_microamp = min(led->max_microamp,
+-					is31->cdef->current_max);
++		is31->leds[i].fwnode = NULL;
+ 	}
+-
+-	return 0;
+ }
+ 
+ static int is31fl319x_parse_fw(struct device *dev, struct is31fl319x_chip *is31)
+@@ -403,6 +389,10 @@ static int is31fl319x_parse_fw(struct device *dev, struct is31fl319x_chip *is31)
+ 
+ 	is31->cdef = device_get_match_data(dev);
+ 
++	ret = devm_add_action_or_reset(dev, is31_free_fwnode, is31);
++	if (ret)
++		return ret;
++
+ 	count = 0;
+ 	device_for_each_child_node_scoped(dev, child)
+ 		count++;
+@@ -427,14 +417,20 @@ static int is31fl319x_parse_fw(struct device *dev, struct is31fl319x_chip *is31)
+ 
+ 		led = &is31->leds[reg - 1];
+ 
+-		if (led->configured)
++		if (led->fwnode)
+ 			return dev_err_probe(dev, -EINVAL, "led %u is already configured\n", reg);
+ 
+-		ret = is31fl319x_parse_child_fw(dev, child, led, is31);
+-		if (ret)
+-			return dev_err_probe(dev, ret, "led %u DT parsing failed\n", reg);
++		led->max_microamp = is31->cdef->current_default;
++		ret = fwnode_property_read_u32(child, "led-max-microamp", &led->max_microamp);
++		if (!ret) {
++			if (led->max_microamp < is31->cdef->current_min)
++				return dev_err_probe(dev, -EINVAL, "invalid maximum corrunt\n");
++
++			led->max_microamp = min(led->max_microamp,
++						is31->cdef->current_max);
++		}
+ 
+-		led->configured = true;
++		led->fwnode = fwnode_handle_get(child);
+ 	}
+ 
+ 	is31->audio_gain_db = 0;
+@@ -531,7 +527,7 @@ static int is31fl319x_probe(struct i2c_client *client)
+ 	 */
+ 	aggregated_led_microamp = is31->cdef->current_max;
+ 	for (i = 0; i < is31->cdef->num_leds; i++)
+-		if (is31->leds[i].configured &&
++		if (is31->leds[i].fwnode &&
+ 		    is31->leds[i].max_microamp < aggregated_led_microamp)
+ 			aggregated_led_microamp = is31->leds[i].max_microamp;
+ 
+@@ -545,14 +541,17 @@ static int is31fl319x_probe(struct i2c_client *client)
+ 
+ 	for (i = 0; i < is31->cdef->num_leds; i++) {
+ 		struct is31fl319x_led *led = &is31->leds[i];
++		struct led_init_data init_data = {};
+ 
+-		if (!led->configured)
++		if (!led->fwnode)
+ 			continue;
+ 
++		init_data.fwnode = led->fwnode;
++
+ 		led->chip = is31;
+ 		led->cdev.brightness_set_blocking = is31->cdef->brightness_set;
+ 
+-		err = devm_led_classdev_register(&client->dev, &led->cdev);
++		err = devm_led_classdev_register_ext(&client->dev, &led->cdev, &init_data);
+ 		if (err < 0)
+ 			return err;
+ 	}
 
-Response: this is a consequence of the pre-existing issue where
-st1202_led_pattern_set() does not zero trailing slots when
-len < ST1202_MAX_PATTERNS. The root fix is outside the scope of this
-series and will be addressed in a follow-up submission.
+---
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+change-id: 20260702-led-modern-d427ed011f83
 
-Patch 6 comment: the loop in st1202_brightness_set() ignores the
-return value of st1202_pwm_pattern_write(), potentially continuing
-writes after a bus failure.
+Best regards,
+--  
+Andreas Kemnade <andreas@kemnade.info>
 
-Response: as noted in the response to the v6 review, this is
-intentional. A transient I2C error on one slot does not guarantee
-subsequent writes will also fail. Breaking early would leave remaining
-PWM slots unwritten unnecessarily, putting the channel in a partially
-updated state. brightness_set() is a void callback and cannot propagate
-errors regardless, and st1202_write_reg() already logs each individual
-failure via dev_err().
-
---
-Manuel Fombuena
 
