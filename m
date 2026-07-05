@@ -1,226 +1,142 @@
-Return-Path: <linux-leds+bounces-8929-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8930-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id pYQXLfnqR2o1hgAAu9opvQ
-	(envelope-from <linux-leds+bounces-8929-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Fri, 03 Jul 2026 19:01:45 +0200
+	id rM+UCIvGSmrlHQEAu9opvQ
+	(envelope-from <linux-leds+bounces-8930-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sun, 05 Jul 2026 23:03:07 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BED070477F
-	for <lists+linux-leds@lfdr.de>; Fri, 03 Jul 2026 19:01:45 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C50D870B671
+	for <lists+linux-leds@lfdr.de>; Sun, 05 Jul 2026 23:03:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=HERQRtUA;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=LRi1Owkn;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8929-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8929-lists+linux-leds=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8930-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8930-lists+linux-leds=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D18073007353
-	for <lists+linux-leds@lfdr.de>; Fri,  3 Jul 2026 16:59:31 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5D6CA302812B
+	for <lists+linux-leds@lfdr.de>; Sun,  5 Jul 2026 20:59:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 289242E62B4;
-	Fri,  3 Jul 2026 16:59:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FA483A75B6;
+	Sun,  5 Jul 2026 20:58:13 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E6F433E99
-	for <linux-leds@vger.kernel.org>; Fri,  3 Jul 2026 16:59:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1112C3A6EEC;
+	Sun,  5 Jul 2026 20:58:11 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783097971; cv=none; b=j60PuuocsNMsfUHHXvDbb69Y169Z4XYX9DNQFwJfJ5pGPoVQBQpF1eWC3/qiV3fxgktCEUs4z0KOKLjiLA38DMPxsrj3wgSaIuEjcuoeQnYAYRuoYPGT+dKLZvJisSWtwt06slT8zSNw+lQkYowypF+O/s1KCY24JpqTEmq8Y8k=
+	t=1783285093; cv=none; b=dqwoMGxL5FFYQ1rjaRMTUqju6TcxOW9mwhgTABBd1i+E25qu4+9xAQnT5SgJUHGfTKC0KqDMdn83nJdVZKVosKh2VvKtyqV5FVfIvejB/UQOYVRWJRHCYrwnesvVkH/mwsA4ld4t975wwyHvlhJ4eD/c1q9KR0Ivhb08L2mADJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783097971; c=relaxed/simple;
-	bh=XpRc/FccewU3OVF/4YDW2d5DYrYBJ7JkAONx7ZE+dK4=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=fpoK33t88EJHs4+ZEuia6WJuySZzK04dr80pHDzImfs9+Wi6tcRTuLGhLfW1V0lbp3SbrSIeGcAx98UQJpy7nXYBPlKXLmnNNjVi92bJxfsvDnxGH5uEFguUdowWwL0Io/BJ43Xa2AczQzlbxTDZaryWuGzaKywqkWd5+XI6XYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HERQRtUA; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61A161F000E9;
-	Fri,  3 Jul 2026 16:59:29 +0000 (UTC)
+	s=arc-20240116; t=1783285093; c=relaxed/simple;
+	bh=fPLjtqTdfUwvKv45UkaXvC5ZiYor7iKNrdtWIDVWnaE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TFl0GjLQZ5tUFQinBjV6/6u/GR/r7gxyp6uS9Uq8jNnOmR78JMe/B2ahTsRZg2CZNDaT8lNptrJLGO6NT1H8aqYULLHUm20U5ybz6cTPsvU290TcuVAwhvny0rvf6oxieA3QywNLUMGdVjw7E0e8RVSj55kjZ94pgALNpzwGG5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LRi1Owkn; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 968E81F00A3A;
+	Sun,  5 Jul 2026 20:58:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783097969;
-	bh=p5pSgTKtlsZtJ1ooe8XOeXX9JsHWuC4BSx84bn1URD4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=HERQRtUAe6QAPnVu9HkoI0QmGY2hjSrw2/tUL48TIRgAQoj2h9uOWm1B7YPm4Am2K
-	 7yJYwbsgql/A3/1fbicTTkiQYQhJ1cJrltbKFHA3BOVYezK9aARHeOCcOw3jC2OsSY
-	 5ckftmItliMJS0mNEwe1xec2CxSlpO5wvpQdbxiRpzazY8jXexmNSjqaGphcH354x+
-	 LnNwBsLlNhgVqHcYZR5KlcIZrKjaff9049EPEcpowG7nY58nNa6441vsm7zPGZiCw9
-	 K0SF2Q7HtaGGo+3jq7A2JUvQC6C8i0VQh1Jkoc5G92+K1l0geG6BTJK4UdGFJkvbJ1
-	 VsQSMq/KUOcvg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] leds: is31fl319x: modernize registration
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Andreas Kemnade" <andreas@kemnade.info>
-Cc: linux-leds@vger.kernel.org, lee@kernel.org
-In-Reply-To: <20260703-led-modern-v2-1-d07dd0d6ec6f@kemnade.info>
-References: <20260703-led-modern-v2-1-d07dd0d6ec6f@kemnade.info>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 03 Jul 2026 16:59:28 +0000
-Message-Id: <20260703165929.61A161F000E9@smtp.kernel.org>
+	s=k20260515; t=1783285091;
+	bh=bt3Qq+H8uaYIqm5V40DzeXFpBOHpi7xmdNGZHdJuHUg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=LRi1Owkn0mw/4PFM1S+RyPv8Wm+vBTfqw3RKki6DMEMhcdMNeh8bb6cabdQRlmPw9
+	 R12FDSJvUOKg+LmrVGs/5cx3CnGMdKWGUqdLvgIytkNR80GdmhcPl01JG7AwUHtmPj
+	 0fqRmaip9/2R2iR5g4gwG+o/IXovdZPV8p8nWRAJojFksOT8QaCEEkBnWJSkf03Q+j
+	 zftgYbiOOdYfoy77CQPnD24qx+wk+YPWaY+8xR+aMixgT0B/gzKdhcbIoEI2Kxbu0t
+	 VNdOkbNcLFFqtII0RW7fhgp1wVxfE7EsyKoWMZOO4MX1cTnQvFj/KgQSTonYv1UOC2
+	 ZTa3FzfXFwR2Q==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Messier <alex@me.ssier.org>
+Cc: Luca Weiss <luca@lucaweiss.eu>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	~postmarketos/upstreaming@lists.sr.ht,
+	phone-devel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	linux-leds@vger.kernel.org,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v2 0/4] Describe more hardware of the HTC One (M8)
+Date: Sun,  5 Jul 2026 15:57:50 -0500
+Message-ID: <178328508264.1157743.6203884354809743670.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260406-m8-dts-additions-v2-0-c4c4bd50af48@me.ssier.org>
+References: <20260406-m8-dts-additions-v2-0-c4c4bd50af48@me.ssier.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	MISSING_MIME_VERSION(2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8929-lists,linux-leds=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:andreas@kemnade.info,m:linux-leds@vger.kernel.org,m:lee@kernel.org,s:lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-8930-lists,linux-leds=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:alex@me.ssier.org,m:luca@lucaweiss.eu,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:~postmarketos/upstreaming@lists.sr.ht,m:phone-devel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:lee@kernel.org,m:pavel@kernel.org,m:linux-leds@vger.kernel.org,m:konrad.dybcio@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[andersson@kernel.org,linux-leds@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-leds@vger.kernel.org];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NO_DN(0.00)[];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCPT_COUNT_THREE(0.00)[3];
+	FROM_NEQ_ENVFROM(0.00)[andersson@kernel.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,smtp.kernel.org:mid,kemnade.info:email,sashiko.dev:url]
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0BED070477F
+X-Rspamd-Queue-Id: C50D870B671
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
 
-New issues:
-- [Low] Typo in error message string: 'corrunt' instead of 'current'.
+On Mon, 06 Apr 2026 01:16:56 -0400, Alexandre Messier wrote:
+> Add hardware description for these parts of the HTC One (M8):
+> 
+>  - Notification LEDs
+>  - Bluetooth
+>  - NFC
+>  - Touchscreen
+> 
+> [...]
 
-Pre-existing issues:
-- [High] Pre-existing NULL pointer dereference of `is31->cdef` when instant=
-iating the driver via I2C sysfs (legacy matching).
---
+Applied, thanks!
 
-commit c7085457e861bc7b7298902d300df66d0cbd367a
-Author: Andreas Kemnade <andreas@kemnade.info>
+[1/4] ARM: dts: qcom: msm8974pro-htc-m8: add status LEDs
+      commit: c11865aa07e8a1b1b3c50b995f7175312a4045a8
+[2/4] ARM: dts: qcom: msm8974pro-htc-m8: add NFC support
+      commit: 858e8a50ba0c0c9caa45f25dfbbb8b6bb26154b0
+[3/4] ARM: dts: qcom: msm8974pro-htc-m8: add Bluetooth pins
+      commit: 132a69d4092737d35470adc0f9c89fc68caf6288
+[4/4] ARM: dts: qcom: msm8974pro-htc-m8: add touchscreen
+      commit: 811a24b0ec0c3ec74dbe324c390b75a2b92571ea
 
-leds: is31fl319x: modernize registration
-
-This patch updates the driver to use the _ext version of LED registration
-so properties can be parsed automatically and LEDs can be referenced via
-phandle. It also defers LED registration until after iterating over the
-nodes to determine the maximum current configuration.
-
-> diff --git a/drivers/leds/leds-is31fl319x.c b/drivers/leds/leds-is31fl319=
-x.c
-> index 80f38dba0fba4..a912adf2c7d31 100644
-> --- a/drivers/leds/leds-is31fl319x.c
-> +++ b/drivers/leds/leds-is31fl319x.c
-> @@ -363,31 +363,17 @@ static const struct of_device_id of_is31fl319x_matc=
-h[] =3D {
-[ ... ]
-> -static int is31fl319x_parse_child_fw(const struct device *dev,
-> -				     const struct fwnode_handle *child,
-> -				     struct is31fl319x_led *led,
-> -				     struct is31fl319x_chip *is31)
-> +static void is31_free_fwnode(void *data)
->  {
-> -	struct led_classdev *cdev =3D &led->cdev;
-> -	int ret;
-> -
-> -	if (fwnode_property_read_string(child, "label", &cdev->name))
-> -		cdev->name =3D fwnode_get_name(child);
-> +	struct is31fl319x_chip *is31 =3D data;
-> +	int i;
-> =20
-> -	ret =3D fwnode_property_read_string(child, "linux,default-trigger", &cd=
-ev->default_trigger);
-> -	if (ret < 0 && ret !=3D -EINVAL) /* is optional */
-> -		return ret;
-> +	for (i =3D 0; i < is31->cdef->num_leds; i++) {
-
-[Severity: High]
-This isn't a bug introduced by this patch, but does this dereference of
-is31->cdef in is31_free_fwnode() cause a kernel panic if the driver is
-instantiated via I2C sysfs?
-
-If the driver is bound manually via legacy I2C matching (for example, by
-writing to /sys/bus/i2c/devices/i2c-0/new_device), device_get_match_data()
-will return NULL because the driver's i2c_device_id array does not provide
-.driver_data.
-
-The driver already unconditionally dereferences is31->cdef later in
-is31fl319x_parse_fw(), but this patch introduces an additional vector
-where the new cleanup function runs and crashes on the same NULL pointer
-dereference.
-
-> +		if (is31->leds[i].fwnode)
-> +			fwnode_handle_put(is31->leds[i].fwnode);
-> =20
-> -	led->max_microamp =3D is31->cdef->current_default;
-> -	ret =3D fwnode_property_read_u32(child, "led-max-microamp", &led->max_m=
-icroamp);
-> -	if (!ret) {
-> -		if (led->max_microamp < is31->cdef->current_min)
-> -			return -EINVAL;	/* not supported */
-> -		led->max_microamp =3D min(led->max_microamp,
-> -					is31->cdef->current_max);
-> +		is31->leds[i].fwnode =3D NULL;
->  	}
-> -
-> -	return 0;
->  }
-[ ... ]
-> @@ -427,14 +417,20 @@ static int is31fl319x_parse_fw(struct device *dev, =
-struct is31fl319x_chip *is31)
-> =20
->  		led =3D &is31->leds[reg - 1];
-> =20
-> -		if (led->configured)
-> +		if (led->fwnode)
->  			return dev_err_probe(dev, -EINVAL, "led %u is already configured\n", =
-reg);
-> =20
-> -		ret =3D is31fl319x_parse_child_fw(dev, child, led, is31);
-> -		if (ret)
-> -			return dev_err_probe(dev, ret, "led %u DT parsing failed\n", reg);
-> +		led->max_microamp =3D is31->cdef->current_default;
-> +		ret =3D fwnode_property_read_u32(child, "led-max-microamp", &led->max_=
-microamp);
-> +		if (!ret) {
-> +			if (led->max_microamp < is31->cdef->current_min)
-> +				return dev_err_probe(dev, -EINVAL, "invalid maximum corrunt\n");
-
-[Severity: Low]
-Is there a typo in this error message? It looks like "corrunt" should be
-"current".
-
-> +
-> +			led->max_microamp =3D min(led->max_microamp,
-> +						is31->cdef->current_max);
-> +		}
-> =20
-> -		led->configured =3D true;
-> +		led->fwnode =3D fwnode_handle_get(child);
->  	}
-> =20
->  	is31->audio_gain_db =3D 0;
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260703-led-modern=
--v2-1-d07dd0d6ec6f@kemnade.info?part=3D1
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
 
