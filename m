@@ -1,208 +1,176 @@
-Return-Path: <linux-leds+bounces-8950-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8951-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id keefOfr5TGqhswEAu9opvQ
-	(envelope-from <linux-leds+bounces-8950-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 07 Jul 2026 15:07:06 +0200
+	id 0mLbHaQZTWpuvAEAu9opvQ
+	(envelope-from <linux-leds+bounces-8951-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 07 Jul 2026 17:22:12 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC2D71BAF6
-	for <lists+linux-leds@lfdr.de>; Tue, 07 Jul 2026 15:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB55371D360
+	for <lists+linux-leds@lfdr.de>; Tue, 07 Jul 2026 17:22:11 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=JGUU9pe7;
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8950-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8950-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=arndb.de header.s=fm1 header.b=Gq9ljCrB;
+	dkim=pass header.d=messagingengine.com header.s=fm2 header.b="V nOMufr";
+	dmarc=pass (policy=none) header.from=arndb.de;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8951-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-8951-lists+linux-leds=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 13CF130F5805
-	for <lists+linux-leds@lfdr.de>; Tue,  7 Jul 2026 13:00:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5AAEA3213B86
+	for <lists+linux-leds@lfdr.de>; Tue,  7 Jul 2026 14:56:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C436F380FFB;
-	Tue,  7 Jul 2026 13:00:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5C2B36B076;
+	Tue,  7 Jul 2026 14:56:10 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7509B3E7BB6
-	for <linux-leds@vger.kernel.org>; Tue,  7 Jul 2026 13:00:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6A03161A1;
+	Tue,  7 Jul 2026 14:56:09 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783429239; cv=none; b=mPTIIRdDc9uIPmnn2mtSbC2OyaxGlIugVpi9vfreROn+aLy51ttahJ5sf03Sma/Od+DVlUqVC59l5Ai9R86Vx94TnWMa3U+iN8TOH2D+0Nlawov2Bu5YA1KlAGnf9nccIxOo0818KI9ndg7fSj1eEW9pItI3ZDE/IWuSZDKj2L0=
+	t=1783436170; cv=none; b=J9ii+r8/G0fGBgzcvWQI/CDpgJDtrBYiJjvm3OfBmNEyg5l4W3nJZSF3XcHN7NP2i7OBkyr+380DTtuWRjt+m1BKZpYC0iqABp5Y7StT/Y6h0COGlthSAdB5Ler9kl67P/tguSV287HmX0TJiRxuvkHsxVhDz2rI8wJEl/eXkzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783429239; c=relaxed/simple;
-	bh=Uf5wdHbvLT8glBukS87Z5XtjDjsk3W7uGIPm/Abkx0M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rtz7Pcgzunizxq8taU+MmBbwqwzRoL0qNQ2+1EmHEbz9yY5f8IwhV76X6ueRQKK0WV197HryFb4f1iaBFoJtbMIlfhWSqG2C+b9peEJgo4l3B+gcQdzWMvz9CTqMJc4FgZs2Fe9ktZ6iJdbPaMMBoL84UxLd4nnarkZUggIXoNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JGUU9pe7; arc=none smtp.client-ip=209.85.210.179
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-84830c774a0so556556b3a.1
-        for <linux-leds@vger.kernel.org>; Tue, 07 Jul 2026 06:00:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783429238; x=1784034038; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EjSN27vhCfpwDogooT1C63qE/61HtdzQ904BFc54Umw=;
-        b=JGUU9pe7tqmFu4bKpDaWEkgiuI0RaTjOWtHk/Ssufm38R3INQd40UrzrA9EhX9DL9w
-         QPrqm6/Ghqt5tb88+mCXgpD+EjPoitLBeWnZT4XMaNblrSyL5cmDB2PtjzMRzqFzK9cS
-         uj+1SfZIOOBXmsk4g1q6ebHW83FmCSsh8Zq/5Hz0OShYP8GnW6WSWkS7tuNrzn87+82H
-         H67NZoSR97DI+A8JgX8HhYvdmRNJxAwkcNaJMSmWtotT9Wh3gknSlY2D9b3cN9AoaVCG
-         zdURVkHYKNS9PhJrfM0ze82Si50/ZCUeRCByOHSsWH0tOxzptZolmTP672fKP4i3UTfo
-         DOMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783429238; x=1784034038;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=EjSN27vhCfpwDogooT1C63qE/61HtdzQ904BFc54Umw=;
-        b=gmjahVQBvaG7PyidRZIiC0OohwSOYyl1Aah7bHBcxAwISnN+yWaXPA/1LzVO/bKr5O
-         qQL152qqDTltKtYF6cdkdrNWddCsiuxZFgiJJBBWNfvmmszlIO7HZIlQqQnv/gTCkTuw
-         CABl5ct6RndnBwJ9vqWtjSj2G1gX7qsalY1iI2pelQF+aTbZrWcv2zUuxHDqc0YJKDxx
-         3lXkQ4y9HgnAL9gBv1+uQ6ncMU15L0rK6k9tYXrMnm5E0L9FvZlLfZMSEyad2R0xtKwW
-         U/5qw61Qe2yCDxrm3EjswNGIGyyYoBcW29X5YGwZrsItSyqVedDts/uQSirfEVyVRQK9
-         A5kA==
-X-Forwarded-Encrypted: i=1; AHgh+RrApKjUt0V5FSsdG7cz0tVMFErv814HmiFj5yUmjJM55pDX+6JMxiZs+Lyvnyl/gopz7Iqo1VvwuDlG@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2VjhvXNY+pbkt5edFAMT+oVDyBypBBkDramTcIR++/br3aDm4
-	Hf08Zc6w/W/U/biykXP6B1RiGKdYFCBjka96dALYGTMkFtanlwYwCB0P
-X-Gm-Gg: AfdE7cl0xa/1iwSzP1t8iHKSBDheST//VV3SNqFlmlTaFb1KDNzf7Dtam22KlgVNVT2
-	3QjeLz+37Yz/7W0JqxlDlQmshQdvjofV6A2ANhujklFZtquYdLMXrMS+WMMBZEjtlRk6vDQiABu
-	82lp4ti5de9UhCtuGDw0P3XvVI0hcWbkruaQpIS2zpjjZaYtseW3N/bHRsm8z8u4kutqtX3yOGM
-	tLZhlT5IIqjJivstTdDCZOn13KvpDPcmDPRAEOgnjwgJdugp2phbX6v9e0LG1S+nqAAl2dc4nUA
-	kBG5tQqHIsXSYVZchV6nnvpjERGS4kpxOn8vau8JmZiwNNSwCrNBqxXvwq0HS60pV9FjQAOo0WJ
-	r75hAR3qr0BGTZC8a5zFHmktjKpPNi0h6reX81VgY2Hn4xRaIHOUQ12NanR7A5PsA/bECVQBGLa
-	LoKlN3A9CUH6n3YabRFE171YhPDZrGrj9plY4++j94s+4Bo7cZ9KRctMA9SjVW5zZFnsYo6j4IQ
-	0y4AolSHUmaJL30vqXm6Fk=
-X-Received: by 2002:a05:6a00:2195:b0:848:2f74:d8d3 with SMTP id d2e1a72fcca58-8482f74dc06mr2504483b3a.68.1783429237597;
-        Tue, 07 Jul 2026 06:00:37 -0700 (PDT)
-Received: from [192.168.0.101] ([202.179.95.46])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5af7d5b95sm1010719a12.3.2026.07.07.06.00.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jul 2026 06:00:37 -0700 (PDT)
-Message-ID: <1b5ff53e-53fd-4600-97d8-7ba34d139e5e@gmail.com>
-Date: Tue, 7 Jul 2026 18:30:31 +0530
+	s=arc-20240116; t=1783436170; c=relaxed/simple;
+	bh=ZOXYlp0jM4yRQtB0bkcG1hg7jnlZbj+tfWaD/aCHUlo=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Ry9SyIiXscPnAwrIGjDIOz38gVHxCDREX4JZwDQsMKvvS6Vbky9FVzEJzMckRUjkvWHns3QFo1XncwRGVYW8VefSaT87vIAffcBBoUBQZkET/BxqzlLIn1g83yykaR+V1tSUhelT5uJ9IJ9baSKLioT2e4Vpg9jzWv5DTRERreY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Gq9ljCrB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VnOMufr6; arc=none smtp.client-ip=103.168.172.146
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 89ADFEC021E;
+	Tue,  7 Jul 2026 10:56:08 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-04.internal (MEProxy); Tue, 07 Jul 2026 10:56:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1783436168;
+	 x=1783522568; bh=VRSzkiO75jHk1CVYNukpjqr9eHc0JnAAWEpWm+VODRg=; b=
+	Gq9ljCrBpBKGz1vzhzn8yD/AEd4gEcbANHDqCwCQt0a122rulFDUR/gkTO6sAY8T
+	TtaatWq+OnmrKa59IrgOjGgaoFjNEm1sk8nnbuOn5B2Vz+tfmkL4KbA1bTk0Kg9T
+	5yYOXho8j89IyrFu8SkGnVkibOXakS5QW9Brs33Qt657oxC9PqB+LVYOSVkOFUcm
+	q3cMr8Ta+35401RvPzO9E8hjE/iqhv69//cmVdJkEyQ6Srf7T7IYd1wAux+07iga
+	lUfum2zxk65t3kJFnL83uh7u+n4u7YxAAP9pW4ksYnkKbEgkEfXXWX8ejXrhEiY/
+	PUzbjBQ4QixpXIXaq1AflA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783436168; x=
+	1783522568; bh=VRSzkiO75jHk1CVYNukpjqr9eHc0JnAAWEpWm+VODRg=; b=V
+	nOMufr6TFJRtLUsMHArzIvJHvh38Acd/lCBYABn/rxUJlvnvcwr6kC73iRIIDKuC
+	eFMNwtCraSuQycSbVoZVM4LfR0024rA64Onh0EGNTvCPbSNHPdlCPwYI9ybNtfpZ
+	O7sEQumDIB/7nk9AS4Qg9bE5txY1XF2YcVhZNbTC86Y91grfL4rnovSmFDSbJzMB
+	XMzoWM6iQhejKuXRld/bK5bxLHTrWijfonyLaSlvEef2Z37rEZryMNXr0Mhmr8ri
+	ZBsCBdbV8HPQwEPyHuU5g1qYrT8EBpGUkJiomb+lIVq42gthCU/sjqJdkBHDRjPA
+	a8qnWnEqM4l6IjEYxG2fQ==
+X-ME-Sender: <xms:hxNNaqUibPlQj5adz_qbtt7clM4Z1cU7v_jrAVJ1fw7jCyV-zrjv3g>
+    <xme:hxNNahbS1TvwT8PX3HlkdQgSwRaeal2wo1kAoABqDXfhbHGKUk5ydUJeRGpu1FdUe
+    ebUAOHXK8xxumZ62EEBO8Bnl032fm2I28Vg2-wb52kBw3TDyMTOJ3kY>
+X-ME-Proxy-Cause: dmFkZTGzJDFyzooW5HxT05/lmH0C2SnjFp3hXK73hgm4N4JAp8ZYGIoTCbbZKv6mSVLC6G
+    H/nVzJlUCXzZfy3XIcIF3zGaEQJSCNU2j0ZIeQ+l8uRrmPScvW87lZ8+5ZkJ8WrUGhebcE
+    +cflaaMiWJ4bzpWxO8W6ia8sRfJcvpamwCjK2X4i9ahdIPbl6wsVkXdz6uI7lhUtbLjejF
+    az3pxue182Ql22u3qr/axy6yyLAUQ4d84yyPnvr25jF8RS8qvIJ2Bj5IYL5XJOk17mmpgU
+    qutJTwdrxwLOo6bcyYK8xrROG5A3wEbUG/BFPO3r5rOkHMaaz595cXHyr195zXmrv5qKNg
+    oDc6fnKp1pEcXCnf4ANiUlTaZhGdEMBe3atX0fGk+ttZlMDm79PBB7l0n0FRQ+1jjVFfcH
+    Yyezh2MTIuX4yT0GVdGprLq1sPQtPrmK521ps06ZaZ9DHnnmKwyxRIBR5Rp9nFJ6YLkaa3
+    jRRrv+rti/rHpXnL4jdJ38PUEsJzWaeSoIPKuPr3UpvAO8p+Gey7P+RgXzPilcRltRv6E3
+    ZcXYRQLay8YLdPOBN1KwlbjzqcqK+UXqCeyJKzgK+7n2kwgSPWc7I/bawUZoS5fp97wuKb
+    bfqA5cZvz8A8bDO15kOc9zqejqBWR31OoQRj/43pFihfkDl4ksqSEOoF/5Tg
+X-ME-Proxy: <xmx:hxNNas071d8d51LzdckyilQ3fY5-DygAey2GGbCSti1xc_IgLR0H0Q>
+    <xmx:hxNNasOY3-I6Nb5BA0DszkEsV7QXy8C-XplmUBVNWR-v9r04_-mdSw>
+    <xmx:hxNNan0UCecf-2X6lg4ZS7Eo7FnMtcyGA5rdu-rCewmdnlnpCphqTg>
+    <xmx:hxNNar1PzgMQ-maUB3D_EeRtFWYtinDdLLd9FEeS8cE0vbGmiF-F0A>
+    <xmx:iBNNarnYVpU_-wsqBXc7O3HJJ5b487skRjyjf6UNI8gnNg-5QCkdIEba>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id CBD8F182007E; Tue,  7 Jul 2026 10:56:07 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] dt-bindings: leds: bcm6358: Convert to DT schema
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: lee@kernel.org, pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, jonas.gorski@gmail.com, noltari@gmail.com,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, me@brighamcampbell.com,
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-References: <20260609181731.1379846-1-ninadnaik07@gmail.com>
- <20260610-gifted-zebra-of-reward-2ab6c7@quoll>
-Content-Language: en-US
-From: Ninad Naik <ninadnaik07@gmail.com>
-In-Reply-To: <20260610-gifted-zebra-of-reward-2ab6c7@quoll>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AUKPAdC25nmJ
+Date: Tue, 07 Jul 2026 16:55:37 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ "Arnd Bergmann" <arnd@kernel.org>
+Cc: "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, "Linus Walleij" <linusw@kernel.org>,
+ "Bartosz Golaszewski" <brgl@kernel.org>, "Lee Jones" <lee@kernel.org>,
+ "Pavel Machek" <pavel@kernel.org>, linux-sh@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-leds@vger.kernel.org
+Message-Id: <6dd3e87f-44a4-4740-a81a-c4e459e3921e@app.fastmail.com>
+In-Reply-To: <akxjQtCTcx2TOQMk@google.com>
+References: <20260629130329.1291953-1-arnd@kernel.org>
+ <akxjQtCTcx2TOQMk@google.com>
+Subject: Re: [PATCH v5 0/6] gpiolib: fence off legacy interfaces
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.65 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[arndb.de,none];
+	R_DKIM_ALLOW(-0.20)[arndb.de:s=fm1,messagingengine.com:s=fm2];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-8950-lists,linux-leds=lfdr.de];
+	XM_UA_NO_VERSION(0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:lee@kernel.org,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jonas.gorski@gmail.com,m:noltari@gmail.com,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:me@brighamcampbell.com,m:linux-kernel-mentees@lists.linux.dev,m:skhan@linuxfoundation.org,m:conor@kernel.org,m:jonasgorski@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[ninadnaik07@gmail.com,linux-leds@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org,brighamcampbell.com,lists.linux.dev,linuxfoundation.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORWARDED(0.00)[lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
+	FORGED_SENDER(0.00)[arnd@arndb.de,linux-leds@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FORGED_RECIPIENTS(0.00)[m:dmitry.torokhov@gmail.com,m:arnd@kernel.org,m:linux-gpio@vger.kernel.org,m:glaubitz@physik.fu-berlin.de,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:x86@kernel.org,m:hpa@zytor.com,m:linusw@kernel.org,m:brgl@kernel.org,m:lee@kernel.org,m:pavel@kernel.org,m:linux-sh@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-leds@vger.kernel.org,m:dmitrytorokhov@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-8951-lists,linux-leds=lfdr.de];
+	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ninadnaik07@gmail.com,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ALIAS_RESOLVED(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[arnd@arndb.de,linux-leds@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-leds];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,messagingengine.com:dkim,app.fastmail.com:mid,arndb.de:from_mime,arndb.de:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3BC2D71BAF6
+X-Rspamd-Queue-Id: EB55371D360
 
-
-On 10/06/26 2:09 pm, Krzysztof Kozlowski wrote:
-> On Tue, Jun 09, 2026 at 11:47:01PM +0530, Ninad Naik wrote:
->> +maintainers:
->> +  - Álvaro Fernández Rojas <noltari@gmail.com>
->> +
->> +properties:
->> +  compatible:
->> +    const: brcm,bcm6358-leds
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  "#address-cells":
->> +    const: 1
->> +
->> +  "#size-cells":
->> +    const: 0
->> +
->> +  brcm,clk-div:
->> +    description: SCK signal divider.
->> +    default: 1
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    enum: [1, 2, 4, 8]
->> +
->> +  brcm,clk-dat-low:
->> +    description: Makes clock and data signals active low.
->> +    type: boolean
->> +
->> +patternProperties:
->> +  "^led@(0|1?[0-9a-f])$":
-> "0" is already in "[0-9a-f]".
-Thanks for pointing out. I will remove the redundant 0.
+On Tue, Jul 7, 2026, at 04:25, Dmitry Torokhov wrote:
+> On Mon, Jun 29, 2026 at 03:03:23PM +0200, Arnd Bergmann wrote:
+>> 
+>> I hope that all that remains now can just get merged through the
+>> gpio tree. The gpio-keys patch needs a bit coordination with
+>> another patch addressing the same issue that is already in
+>> flight, so I expect that I'll rebase my series once more when
+>> that is in a stable branch, but the state I have here should
+>> just work as-is on top of v7.2-rc1.
 >
->> +    type: object
->> +    $ref: common.yaml#
->> +    description: Each LED is represented as a sub-node of
->> +      this device.
->> +
->> +    properties:
->> +      reg:
->> +        description: LED pin number (0 to 31).
->> +        maxItems: 1
->> +
->> +      label: true
->> +
->> +      default-state: true
->> +
->> +      linux,default-trigger: true
->> +
->> +      active-low: true
-> Drop all four above and switch to unevaluatedProperties: false.
-> unevaluatedProperties should be also placed after $ref: common.yaml for
-> example.
+> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com> # for input
 
-I explicitly listed those properties and used additionalProperties: 
-false based on Conor's feedback in v1, but now I agree that relying on 
-common.yaml with unevaluatedProperties: false is a cleaner and more 
-modern approach. I will drop the explicit properties in v3.
+Thanks
 
+> Could this be done as an immutable branch?
 
-Thanks,
+Probably, yes. How about I send v6 now, with the two input
+patches moved to the front of the series? Then all six of my
+patches can go into the gpio tree, while Lee merges the bottom
+two into the mfd tree as an immutable branch to resolve the
+conflict with your rohm patches.
 
-Ninad Naik
-
+      Arnd
 
