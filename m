@@ -1,164 +1,417 @@
-Return-Path: <linux-leds+bounces-8952-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8953-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id TwxcDScoTWrTvwEAu9opvQ
-	(envelope-from <linux-leds+bounces-8952-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Tue, 07 Jul 2026 18:24:07 +0200
+	id qNupKFZKTWoAxwEAu9opvQ
+	(envelope-from <linux-leds+bounces-8953-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Tue, 07 Jul 2026 20:49:58 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9641671DD3F
-	for <lists+linux-leds@lfdr.de>; Tue, 07 Jul 2026 18:24:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3775571EBD1
+	for <lists+linux-leds@lfdr.de>; Tue, 07 Jul 2026 20:49:58 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=WErHPRd4;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8952-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-leds+bounces-8952-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=dXPfZrVO;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8953-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-leds+bounces-8953-lists+linux-leds=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9F3483095F1F
-	for <lists+linux-leds@lfdr.de>; Tue,  7 Jul 2026 16:19:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4DD20300F783
+	for <lists+linux-leds@lfdr.de>; Tue,  7 Jul 2026 18:47:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9461434E3D;
-	Tue,  7 Jul 2026 16:19:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1F7838B7A2;
+	Tue,  7 Jul 2026 18:47:25 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A06434E2C;
-	Tue,  7 Jul 2026 16:19:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376DF23909F
+	for <linux-leds@vger.kernel.org>; Tue,  7 Jul 2026 18:47:23 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783441164; cv=none; b=KBxiK0ZErtuDJygPbTAAui+A6EaZDIeUKhNj3TTHI+AgPltz7mRydGTEH9MDM+cpZvQeDEtW8WiEfXHQSpVy9rJPMntpupUkfEL3UDuX960fQCrO+sYXP5DoocVmvXJQV1/YWU5CfCSNxqCZqf/27l+mwShveuxUMSzDTM2Vj74=
+	t=1783450045; cv=none; b=EZJBHBENytSviRU1ADvl0xS7qlLIR5xKWDKaml9UYPb1O5Tt+uu8sAGCoztl0NvlWVhIWXkgk51+YN/UdC+oPP/wJJbkPDpqArwyn2mRfojdZYNPsVLEUDlPZie7iqBCAWpiT3h/CMl2kHNvJlKUjeBaxDLbsoohb2IeZLQGbqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783441164; c=relaxed/simple;
-	bh=r/WV+1AM9CAJd99NwXYSLV+fuIJbi7qrwMD2d2330Os=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ShhbAqrl7EnTuS9GZPnzO7aLvWW22/G9w1Cs/qrwLNmNhCsuN5V4cEAkmMOaZZ3c+kIJNovb6pOd8wK+NJBU7+ZQvNPXzSSwhUZWSSAu6L08AIMFcKV6XAEjAF3sMvj+06qplmWXR/azosRBiylFZB+vtB0PpxLcKnftO8YaMxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WErHPRd4; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCE7E1F01558;
-	Tue,  7 Jul 2026 16:19:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783441163;
-	bh=Pe5c0lRRYuehiikG2q/D86iz7XJppM5GvK+gT5FGJ6Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WErHPRd4NVutyTsOu/YGaANkh7LNzzdntLiXzo4T+7OKglJ+aCD3wRS3BuKVSnP3f
-	 9o0OTrY1YBAjFgEpF23wthcqVYvc74eK58wqf7AF1nF0SZj/LpSZ4B7sWP6bdpNW5C
-	 R1ZA+pesnMVHABwcsGr6AwUT5JzuT9LPGoA7Mf9M7rjr4qF3I6yO2wHCuHsJMM4a4y
-	 wGF2no8lKK5gw7usIk+Cfw5pe3raWpMHjSSCj1b/9gfCvWZUy8Pxo/ZCIy15qVB9g9
-	 iquse/r9vyR6Oal5vdmMws7m0pRCRzP+igAMzFu+jA6ycjCJgPDcv79MlE0NkpKPsE
-	 14RHIuw0HncuQ==
-Date: Tue, 7 Jul 2026 17:19:18 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] dt-bindings: leds: nxp,pca963x: add multicolor
- LED support
-Message-ID: <20260707-spoken-anemia-68fb54a6ab34@spud>
-References: <20260706-monza-leds-v3-0-37ea8c988363@oss.qualcomm.com>
- <20260706-monza-leds-v3-2-37ea8c988363@oss.qualcomm.com>
- <20260706-account-harsh-093c6354bca5@spud>
- <CAFEp6-2k1O80iY9f8WeoHHRZPMdKGcOTYuEsDvpZmZZXTz3xbw@mail.gmail.com>
+	s=arc-20240116; t=1783450045; c=relaxed/simple;
+	bh=BA/fghVmq2tfFUvLItu4KduZ/+X/2tYFWOuW/Mblvic=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PxtaBBsYz1MjPSBRpV/IL+x8KN+bPwfKoDiXDKz7uGXewhz2PCwF3MchidxRa2a1d9qFQhlTw3+UtfkW5YaBjQ6PBpH3LdTZQQJvwdZ8GHgVNSfKWl3KeBN4LWfZqLHpMSDihCXQx7rQMAziR60hYeCRZtKXnIt5ewNGuKN25zM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dXPfZrVO; arc=none smtp.client-ip=209.85.215.175
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c981c2c37cbso2925729a12.0
+        for <linux-leds@vger.kernel.org>; Tue, 07 Jul 2026 11:47:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783450043; x=1784054843; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=O6UH9Aze3YH0zmdyRaXrvdeWnQAlPkh9QAc9PSlvO20=;
+        b=dXPfZrVO9LFRiA8OqOn5HupEz+4y3CpVqkpeEtimXtNNT/UxhdFFEA5+/lPJwcI4Pp
+         kJDu6S+lGi0SW5HIw/Zha6LxTftYVjQPIr7R+zAOUQJNxqDEvJ34KaPiF1LqimnVOJDW
+         88soaxKjM0n5JpmthUQ9S3OcTqyibEtwE453r35aSoYo6kGZNtwr4VIEBzXywf1w8h/k
+         3Ls4ubrU4ifElk7/RnG0g0nlMaICeI17WkQT2AmPNJ7hmqYAiq6zgLo1R3/WK+CcsrH1
+         fAUViTBbmONsh/m97154jtufpbJNDG2vzpwA/bx0bvyHxNnEGUVybLO1F0Igbszc8MAD
+         ZCsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783450043; x=1784054843;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O6UH9Aze3YH0zmdyRaXrvdeWnQAlPkh9QAc9PSlvO20=;
+        b=HZdJJth2k3LyRIB3fIKiS/o+gPHxbxjVtUFnZh16aLBktqZrgZQGDQn0yqHyMnT3TM
+         7kgbQXVOAwrJtAzxAULZs1w4qmoT5nlQO9ocXxBlHSo/9ZR+XNw6/emKKjIioYu1KF/a
+         GaptbtqRTf/s6F23D5Udz3rUALmjxGctLyqbCNIso6EBNayjGGPNJC1Bgjodv4i5Czur
+         xkn62rlK0QzLP0rMkO1Cnrvnut6dsc7y1mXVlGyUE13L7ForBwmFhuDeWwdG1EvYXzyp
+         0oVWePUX4AE20qFMvM6tTFQ7Zxmam23+8sRkpiPml7+HSW0+i6FHZ0iKaihj3r/Bm3zQ
+         XWjQ==
+X-Gm-Message-State: AOJu0YxC1Dp8L8oLn+7WhV6phCfhoEfM6uRY6zQPfVHAjn48k1gpaU3c
+	0VNgVDJ7S7STejqk78drFyklgpJZQOXl69NWqYFvimEqaj4y00KupGku
+X-Gm-Gg: AfdE7cnFS9R67N9D7lKVIbaZHYFJTQrSvF8D7otfFyXzoEzUfSH/HlLIvEk2+fzPAXZ
+	c/nT2LwxjcIbkHm+FvaMtEJKrC7ZiaOOZudXs4jUQ4jTAbJmqpLK5Oz3k+FTXRvPLAyTGJa6s16
+	bhbAMO6/ymIBrQNDJMEijT5hc8hMkC6rTZDbHJwxXbQ9pCk7peDNe2GT/zFMphv4bg4U3axVm49
+	F7nD1Ba0V7zhj1HOyAR3K8lxsb1Ww9CMRUHKOLpY+LNnlhbfbx7IZjt6o02DX5peED0tSieIAgS
+	C76J9s0YsaJia/qRfn+iaghLptnMeCatbTMkEK9G8B24T1ITC0AQRsIDJgOMtH02dUdg8cq+1zN
+	LVYjGVmYPphEtkkgvzFhQryRY+TejZKLJNv0PiJDH3f1h61VWPtSt2c0tJieZacROcyDUSUzWdU
+	ufnekR4UsottmRXRMgJW+RqQgnyoL8bKEexNDgDJWaIZZ/nm55/1AS32Iq1Kp1KWx2vppU
+X-Received: by 2002:a05:6a21:71c5:b0:3c0:b3f7:e5c9 with SMTP id adf61e73a8af0-3c0b3f821a9mr167859637.36.1783450043279;
+        Tue, 07 Jul 2026 11:47:23 -0700 (PDT)
+Received: from fedora ([202.179.95.46])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b6593c4ddsm12364507c88.1.2026.07.07.11.47.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 11:47:22 -0700 (PDT)
+From: Ninad Naik <ninadnaik07@gmail.com>
+To: lee@kernel.org,
+	pavel@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	noltari@gmail.com
+Cc: linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com,
+	Ninad Naik <ninadnaik07@gmail.com>
+Subject: [PATCH v3] dt-bindings: leds: bcm6358: Convert to DT schema
+Date: Wed,  8 Jul 2026 00:14:28 +0530
+Message-ID: <20260707184437.500278-1-ninadnaik07@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6c5OipnhGJoLhAAx"
-Content-Disposition: inline
-In-Reply-To: <CAFEp6-2k1O80iY9f8WeoHHRZPMdKGcOTYuEsDvpZmZZXTz3xbw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.26 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[conor@kernel.org,linux-leds@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_RECIPIENTS(0.00)[m:loic.poulain@oss.qualcomm.com,m:lee@kernel.org,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:laurent.pinchart@ideasonboard.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TAGGED_FROM(0.00)[bounces-8953-lists,linux-leds=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:noltari@gmail.com,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-kernel-mentees@lists.linux.dev,m:skhan@linuxfoundation.org,m:me@brighamcampbell.com,m:ninadnaik07@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[ninadnaik07@gmail.com,linux-leds@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-8952-lists,linux-leds=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ninadnaik07@gmail.com,linux-leds@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,linuxfoundation.org,brighamcampbell.com,gmail.com];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,spud:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,devicetree.org:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9641671DD3F
+X-Rspamd-Queue-Id: 3775571EBD1
 
---6c5OipnhGJoLhAAx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Convert the brcm,bcm6358 to DT schema.
 
-On Tue, Jul 07, 2026 at 11:03:44AM +0200, Loic Poulain wrote:
-> > > +        "^multi-led@[0-9a-f]+$":
-> > > +          patternProperties:
-> > > +            "^led@[0-9a-f]+$":
-> > > +              properties:
-> > > +                reg:
-> > > +                  maximum: 15
-> >
-> > Is this 15 the maximum for all devices?
->=20
-> 15 is the hardware max for pca9635, and serves as the default for any
-> future/unlisted compatible via the else branch. Per your comment
-> above, I'll move it into the non-conditional block so it's enforced
-> unconditionally instead of only through else.
->=20
-> > If so, why does your regex permit values greater than 15?
->=20
-> The unit-address regex only validates that the name is well-formed
-> hex, and not the numeric bound. DT convention requires the unit
-> address to equal the node's reg value in hex, so in practice this is
-> limited to 15.
-> This is again a copy of what the yaml already describes for other
-> device's constraints. However, I can tighten the regex itself instead
-> if you'd prefer that approach, but that would make the yaml a bit
-> inconsistent.
+Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+---
+Changes in v3:
+- Revert to unevaluatedProperties: false and drop explicitly listed
+standard LED properties.
+- Simplify regex by removing redundant 0| condition.
 
-I don't see any value in the regexes permitting things that are not
-possible with the hardware. The + should probably be trimmed from the
-existing regexes IMO.
+Changes in v2:
+- Modify the maintainers list.
+- Add maxItems: 1 and removed minimum and maximum in reg property.
+- Explicitly list the properties: label, default-state, linux,default-trigger
+and active-low
+- Change unevaluatedProperties: false to additionalProperties: false
 
---6c5OipnhGJoLhAAx
-Content-Type: application/pgp-signature; name=signature.asc
+ .../bindings/leds/brcm,bcm6358-leds.yaml      |  96 ++++++++++++
+ .../devicetree/bindings/leds/leds-bcm6358.txt | 143 ------------------
+ 2 files changed, 96 insertions(+), 143 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-bcm6358.txt
 
------BEGIN PGP SIGNATURE-----
+diff --git a/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
+new file mode 100644
+index 000000000000..95fa311fddb5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
+@@ -0,0 +1,96 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/brcm,bcm6358-leds.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: LEDs connected to Broadcom BCM6358 controller
++
++description: |
++  This controller is present on BCM6358 and BCM6368.
++  In these SoCs there are Serial LEDs (LEDs connected to a 74x164 controller),
++  which can either be controlled by software (exporting the 74x164 as spi-gpio.
++  See Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml), or
++  by hardware using this driver.
++
++maintainers:
++  - Álvaro Fernández Rojas <noltari@gmail.com>
++
++properties:
++  compatible:
++    const: brcm,bcm6358-leds
++
++  reg:
++    maxItems: 1
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++  brcm,clk-div:
++    description: SCK signal divider.
++    default: 1
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [1, 2, 4, 8]
++
++  brcm,clk-dat-low:
++    description: Makes clock and data signals active low.
++    type: boolean
++
++patternProperties:
++  "^led@1?[0-9a-f]$":
++    type: object
++    $ref: common.yaml#
++    unevaluatedProperties: false
++    description: Each LED is represented as a sub-node of
++      this device.
++
++    properties:
++      reg:
++        description: LED pin number (0 to 31).
++        maxItems: 1
++
++    required:
++      - reg
++
++required:
++  - compatible
++  - reg
++  - "#address-cells"
++  - "#size-cells"
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/leds/common.h>
++    led-controller@fffe00d0 {
++        compatible = "brcm,bcm6358-leds";
++        #address-cells = <1>;
++        #size-cells = <0>;
++        reg = <0xfffe00d0 0x8>;
++
++        led@0 {
++            reg = <0>;
++            active-low;
++            label = "white:alarm";
++        };
++        led@2 {
++            reg = <2>;
++            active-low;
++            label = "white:tv";
++        };
++        led@3 {
++            reg = <3>;
++            active-low;
++            label = "white:tel";
++        };
++        led@4 {
++            reg = <4>;
++            active-low;
++            label = "white:adsl";
++        };
++    };
++...
+diff --git a/Documentation/devicetree/bindings/leds/leds-bcm6358.txt b/Documentation/devicetree/bindings/leds/leds-bcm6358.txt
+deleted file mode 100644
+index 211ffc3c4a20..000000000000
+--- a/Documentation/devicetree/bindings/leds/leds-bcm6358.txt
++++ /dev/null
+@@ -1,143 +0,0 @@
+-LEDs connected to Broadcom BCM6358 controller
+-
+-This controller is present on BCM6358 and BCM6368.
+-In these SoCs there are Serial LEDs (LEDs connected to a 74x164 controller),
+-which can either be controlled by software (exporting the 74x164 as spi-gpio.
+-See Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml), or
+-by hardware using this driver.
+-
+-Required properties:
+-  - compatible : should be "brcm,bcm6358-leds".
+-  - #address-cells : must be 1.
+-  - #size-cells : must be 0.
+-  - reg : BCM6358 LED controller address and size.
+-
+-Optional properties:
+-  - brcm,clk-div : SCK signal divider. Possible values are 1, 2, 4 and 8.
+-    Default : 1
+-  - brcm,clk-dat-low : Boolean, makes clock and data signals active low.
+-    Default : false
+-
+-Each LED is represented as a sub-node of the brcm,bcm6358-leds device.
+-
+-LED sub-node required properties:
+-  - reg : LED pin number (only LEDs 0 to 31 are valid).
+-
+-LED sub-node optional properties:
+-  - label : see Documentation/devicetree/bindings/leds/common.txt
+-  - default-state : see
+-    Documentation/devicetree/bindings/leds/common.txt
+-  - linux,default-trigger : see
+-    Documentation/devicetree/bindings/leds/common.txt
+-
+-Examples:
+-Scenario 1 : BCM6358
+-	leds0: led-controller@fffe00d0 {
+-		compatible = "brcm,bcm6358-leds";
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		reg = <0xfffe00d0 0x8>;
+-
+-		alarm_white {
+-			reg = <0>;
+-			active-low;
+-			label = "white:alarm";
+-		};
+-		tv_white {
+-			reg = <2>;
+-			active-low;
+-			label = "white:tv";
+-		};
+-		tel_white {
+-			reg = <3>;
+-			active-low;
+-			label = "white:tel";
+-		};
+-		adsl_white {
+-			reg = <4>;
+-			active-low;
+-			label = "white:adsl";
+-		};
+-	};
+-
+-Scenario 2 : BCM6368
+-	leds0: led-controller@100000d0 {
+-		compatible = "brcm,bcm6358-leds";
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		reg = <0x100000d0 0x8>;
+-		brcm,pol-low;
+-		brcm,clk-div = <4>;
+-
+-		power_red {
+-			reg = <0>;
+-			active-low;
+-			label = "red:power";
+-		};
+-		power_green {
+-			reg = <1>;
+-			active-low;
+-			label = "green:power";
+-			default-state = "on";
+-		};
+-		power_blue {
+-			reg = <2>;
+-			label = "blue:power";
+-		};
+-		broadband_red {
+-			reg = <3>;
+-			active-low;
+-			label = "red:broadband";
+-		};
+-		broadband_green {
+-			reg = <4>;
+-			label = "green:broadband";
+-		};
+-		broadband_blue {
+-			reg = <5>;
+-			active-low;
+-			label = "blue:broadband";
+-		};
+-		wireless_red {
+-			reg = <6>;
+-			active-low;
+-			label = "red:wireless";
+-		};
+-		wireless_green {
+-			reg = <7>;
+-			active-low;
+-			label = "green:wireless";
+-		};
+-		wireless_blue {
+-			reg = <8>;
+-			label = "blue:wireless";
+-		};
+-		phone_red {
+-			reg = <9>;
+-			active-low;
+-			label = "red:phone";
+-		};
+-		phone_green {
+-			reg = <10>;
+-			active-low;
+-			label = "green:phone";
+-		};
+-		phone_blue {
+-			reg = <11>;
+-			label = "blue:phone";
+-		};
+-		upgrading_red {
+-			reg = <12>;
+-			active-low;
+-			label = "red:upgrading";
+-		};
+-		upgrading_green {
+-			reg = <13>;
+-			active-low;
+-			label = "green:upgrading";
+-		};
+-		upgrading_blue {
+-			reg = <14>;
+-			label = "blue:upgrading";
+-		};
+-	};
+-- 
+2.54.0
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCak0nBgAKCRB4tDGHoIJi
-0oGuAPwIlUU6nZvmDo3hOAwp6hWklBGrOjVFR3rsxGvoK3GMvwD+P6VMD80XnmH9
-dgvz6wHIaSdmzAIz9sNj2yqz4sdzMAE=
-=j/LD
------END PGP SIGNATURE-----
-
---6c5OipnhGJoLhAAx--
 
