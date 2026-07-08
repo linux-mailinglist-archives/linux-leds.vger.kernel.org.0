@@ -1,55 +1,55 @@
-Return-Path: <linux-leds+bounces-8978-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8977-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 2BDMKW3TTmp/UwIAu9opvQ
-	(envelope-from <linux-leds+bounces-8978-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 09 Jul 2026 00:47:09 +0200
+	id jG89EcDTTmqZUwIAu9opvQ
+	(envelope-from <linux-leds+bounces-8977-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 09 Jul 2026 00:48:32 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id A585772AF08
-	for <lists+linux-leds@lfdr.de>; Thu, 09 Jul 2026 00:47:08 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB5472AF32
+	for <lists+linux-leds@lfdr.de>; Thu, 09 Jul 2026 00:48:31 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmx.net header.s=s31663417 header.b=sus+gBk6;
+	dkim=pass header.d=gmx.net header.s=s31663417 header.b=B6nZK3Vm;
 	dmarc=pass (policy=quarantine) header.from=gmx.net;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8978-lists+linux-leds=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-leds+bounces-8978-lists+linux-leds=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8977-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8977-lists+linux-leds=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E4F963014257
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0ED2C30CC337
 	for <lists+linux-leds@lfdr.de>; Wed,  8 Jul 2026 22:47:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81BF6393DE2;
-	Wed,  8 Jul 2026 22:47:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 949FA3909AC;
+	Wed,  8 Jul 2026 22:47:00 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133B427A907;
-	Wed,  8 Jul 2026 22:46:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879132DEA68;
+	Wed,  8 Jul 2026 22:46:58 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783550821; cv=none; b=PVjHPNWIJiqZVi1fj+Hog7twZ5tqryiHThwEHl8ZyutEhR9up7FtiVbbNfpjKIzIKgDbrbkRwuFQCaAOasqD/5aqdnMsfSR54XPIeETwjnKyDCcdJOogwKJEu3pTV0TeDhEs386AT8RfKEgqWUCeZa2UN7ER97dSq0OC70YttLg=
+	t=1783550820; cv=none; b=WxlLTVmd3uhdEmE7S9FgFaCo0kU+wZ+rGbw+O9sZ7eRYvwHczyE78ON+/ixtfTetpfvMqrVCz86nq/T2dxg9D/LJl5DB1roUuDCUDuih7xcB24HfcftVWv474NZ/qxoNNoiQ892uEZP1xVw4CAdPPlGnYhQrvQa6ex1UrAHhg4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783550821; c=relaxed/simple;
-	bh=kex10PjN+79SXqA11pcXmhWqDRI0YVDKDmNnwKAgYDQ=;
+	s=arc-20240116; t=1783550820; c=relaxed/simple;
+	bh=wzSgZWBYeboWQTU00UiNXKeUGwKDCsTsxdmnpzk1KHI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ul/953L3wBqssjA/piR34H0TjT/e/syRvnV+Sasa6IAB2tnBlGsYDAuP3jOV5/vkt+OtTnmiUotfCOphN8rDIRxlbJhPJb4yaUR7KCufzsr2LWHiEj1PuuBvmioK1A+zdnImMAhZaj4ZeDl7SqCmpnWACbWoRfyxPw1RzgEx1Lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=sus+gBk6; arc=none smtp.client-ip=212.227.17.20
+	 MIME-Version; b=QHXAk2JXiC6SUt1juN3djpN2f4MJrWi4bSFfe+Ik7I9Y5fsTDEfeHSgVzGLPdNpJFcGDYBm8pe1Sm8mIM9OgrmFSbfqJxBAu3Mh/P6Wd6C2ZSCGs19p8R7JloeiwPBXmo1ta9ycjnpY4DiBvb436zhkV85bQPL8o5cZ7AkyTkoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=B6nZK3Vm; arc=none smtp.client-ip=212.227.17.21
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
 	s=s31663417; t=1783550816; x=1784155616; i=wahrenst@gmx.net;
-	bh=nNZvHaim9j98bnngEBk54lS2lI2e5PsCzVa6DnGsY1g=;
+	bh=ylvl1jSQN7pWKK/cSYYP26/PJlYp9bmD37/8S6w3YQA=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=sus+gBk6YNas9BL9VRKeNZWuePQOuRByfmKlV4cc62fOa2NYC4GkQuVyDRdvKK4y
-	 i8KgxE0HDzW2IF3RN6+v5T33qccQo4kUuLYmNeoXWQpRKlw8SiWwJu3jWIYfjHxyC
-	 3CiC+CDN+IwyFcDIRnscuHucKPHWlwRmf60AOA47shrVDR5LjRFdv32tSAvmaZz/1
-	 KPQAFvmrc3lzWTB39Y72Dh95x3w17QiD2AIzZGoIW7/TMX8FeJHABAHTR+hzoaIiq
-	 fasJv8IidnlQt8sZKBsx2MAXlWA+U7STDKleA6rlxnQgF1dIL9qRrLhFvM0CuihWL
-	 SI23tpD+HHg1WSKkAQ==
+	b=B6nZK3VmV+K1YlfGgkhB7q1g++MRoa0b5s64W3fbErHjUNjNve9s1G7c/2k/bqP6
+	 orh1njBPte+idR41LgoveUeiICSVEh8I/yu67dTLOEXCsk+iGYyFHlKEiDZwW1i4O
+	 mHn5oZtpuVf5K772fxiVfvX6stJr36Km/SnSfXwbcNK9/X+t4P7u02ZdraLPzlXwC
+	 /Dx992SK089TdqAiHhDDA3kPOZ3G5Dv2TzeF8pAA7w7c9rsD/Naw7LRHqfew34gIb
+	 yj9nyflNOPv/KL0eZXlIb23ftB1tx9wIVXC1N0Q4I0th22E3VxgJW61jAouBv4Vdt
+	 jSTfAJuHrz7xmjjN7w==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mqs0X-1xU9Cb17ZZ-00lnUs; Thu, 09
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MKsj7-1wMupZ2bW9-00MK2U; Thu, 09
  Jul 2026 00:46:56 +0200
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Lee Jones <lee@kernel.org>,
@@ -61,9 +61,9 @@ Cc: Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
 	linux-leds@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH RFC 1/2] dt-bindings: leds-group-multicolor: Introduce default-intensity
-Date: Thu,  9 Jul 2026 00:46:51 +0200
-Message-ID: <20260708224652.106632-2-wahrenst@gmx.net>
+Subject: [PATCH RFC 2/2] leds: rgb: leds-group-multicolor: Implement default-intensity
+Date: Thu,  9 Jul 2026 00:46:52 +0200
+Message-ID: <20260708224652.106632-3-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260708224652.106632-1-wahrenst@gmx.net>
 References: <20260708224652.106632-1-wahrenst@gmx.net>
@@ -74,92 +74,91 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:lqdWkk+TIWwd4Zg65Ya/y8C2f3wRIlm+8lApyszYyhI9q+xQB4S
- F2wnuHuHt0JFy51TDxHEJQDz8Do3I2NV/tUogGQB6SiPB2nj7T3cheP2tpIk6RbjblWM5dG
- cvZsKqUSCjmYE6efDRCi/iEC+8TM1phibuweGmuts3pnvZb0eNIwN6Jvq5YC3Iig77lRTTW
- 7+wvMVqsuDcuUhr3lDPSw==
+X-Provags-ID: V03:K1:o83T2hSY4bfW8jded5ob/2obED0xcolOeDwNKNQWt8fM+lsPmeH
+ W7EHANvmLvCZSM+D1L24t0fS3F4EvTdw35RJBdT10WpPnyFR5nJLu7IoJdHvkA6pNrnCHFn
+ ZYRQGWlm6f+2OSGqhACFyB3rWDV7w8dsa5Qv0KmDyJDPfH/3aCa+6ToiU+NAWxzmEU7xOnh
+ qJCi+edMSp3nsw9dNYlbg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:nWDksJ+ZYEQ=;fuV2GUbrnKBO14zuo+0lN/z5AH3
- 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
- mUjexBgjg=
+UI-OutboundReport: notjunk:1;M01:P0:BFQfqV46Ie4=;jInaBzl/BVxjb0Jfyw6y8CrjSQo
+ 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
+ fHYcfaRf0QQHPoEQRFrLhv8wLXs1lVZ0bLDdVTq
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -168,16 +167,16 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmx.net,quarantine];
 	R_DKIM_ALLOW(-0.20)[gmx.net:s=s31663417];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8978-lists,linux-leds=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-8977-lists,linux-leds=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jjhiblot@traphandler.com,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:wahrenst@gmx.net,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[wahrenst@gmx.net,linux-leds@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jjhiblot@traphandler.com,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:wahrenst@gmx.net,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -192,48 +191,72 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A585772AF08
+X-Rspamd-Queue-Id: DCB5472AF32
 
-Currently it's not possible to specify the initial color of a LED group
-during boot. So introduce a new property similar to default-brightness,
-which specifies the intensity of each LED in the group.
+Until now the driver initialized all LEDs with maximum intensity.
+This isn't useful for LEDs, which needs to be initialized via DT.
+So introduce a new DT property to define the default intensity of all
+indiviual LEDs. In case the property is missing, the old behavior
+is kept.
+
+Additionally this also works with triggers. So it should be possible
+to blink with a specific RGB color.
 
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 =2D--
- .../devicetree/bindings/leds/leds-group-multicolor.yaml    | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/leds/rgb/leds-group-multicolor.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-group-multicolor.=
-yaml b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
-index 5c9cfa39396b..18b722b807ba 100644
-=2D-- a/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
-+++ b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
-@@ -19,6 +19,12 @@ properties:
+diff --git a/drivers/leds/rgb/leds-group-multicolor.c b/drivers/leds/rgb/l=
+eds-group-multicolor.c
+index 548c7dd63ba1..19913a43b8a1 100644
+=2D-- a/drivers/leds/rgb/leds-group-multicolor.c
++++ b/drivers/leds/rgb/leds-group-multicolor.c
+@@ -17,6 +17,7 @@
+ #include <linux/math.h>
+ #include <linux/module.h>
+ #include <linux/mod_devicetable.h>
++#include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/property.h>
 =20
-   leds: true
+@@ -106,11 +107,27 @@ static int leds_gmc_probe(struct platform_device *pd=
+ev)
 =20
-+  default-intensity:
-+    description:
-+      Intensity to be set for each individual LED. Used only during
-+      initialization. If the property is not set then max intensity is us=
-ed.
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
+ 	for (i =3D 0; i < count; i++) {
+ 		struct led_classdev *led_cdev =3D priv->monochromatics[i];
++		u32 intensity;
+=20
+ 		subled[i].color_index =3D led_cdev->color;
+=20
+-		/* Configure the LED intensity to its maximum */
+-		subled[i].intensity =3D max_brightness;
++		ret =3D of_property_read_u32_index(pdev->dev.of_node, "default-intensit=
+y",
++						 i, &intensity);
++		if (ret) {
++			if (ret !=3D -EINVAL && ret !=3D -ENOSYS) {
++				return dev_err_probe(dev, ret,
++						     "Unable to get default-intensity[%d]\n", i);
++			}
++			subled[i].intensity =3D max_brightness;
++		} else if (intensity > max_brightness) {
++			return dev_err_probe(dev, -EINVAL, "default-intensity[%d] is invalid\n=
+",
++					     i);
++		} else {
++			subled[i].intensity =3D intensity;
++		}
 +
- required:
-   - leds
++		dev_dbg(dev, "subled[%d]: color_index: %u, intensity: %u\n",
++			i, subled[i].color_index, subled[i].intensity);
+ 	}
 =20
-@@ -56,6 +62,7 @@ examples:
-         color =3D <LED_COLOR_ID_RGB>;
-         function =3D LED_FUNCTION_INDICATOR;
-         leds =3D <&led0>, <&led1>, <&led2>;
-+        default-intensity =3D <1 0 0>;
-     };
-=20
- ...
+ 	/* Initialise the multicolor's LED class device */
 =2D-=20
 2.43.0
 
