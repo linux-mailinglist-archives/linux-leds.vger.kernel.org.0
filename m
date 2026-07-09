@@ -1,263 +1,326 @@
-Return-Path: <linux-leds+bounces-8977-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-8979-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id jG89EcDTTmqZUwIAu9opvQ
-	(envelope-from <linux-leds+bounces-8977-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Thu, 09 Jul 2026 00:48:32 +0200
+	id +DJsIIDuTmrZWwIAu9opvQ
+	(envelope-from <linux-leds+bounces-8979-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Thu, 09 Jul 2026 02:42:40 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB5472AF32
-	for <lists+linux-leds@lfdr.de>; Thu, 09 Jul 2026 00:48:31 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBC7D72B5C1
+	for <lists+linux-leds@lfdr.de>; Thu, 09 Jul 2026 02:42:39 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmx.net header.s=s31663417 header.b=B6nZK3Vm;
-	dmarc=pass (policy=quarantine) header.from=gmx.net;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8977-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-8977-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=analog.com header.s=DKIM header.b=mjv4niTK;
+	dmarc=pass (policy=quarantine) header.from=analog.com;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-8979-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-leds+bounces-8979-lists+linux-leds=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0ED2C30CC337
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Jul 2026 22:47:02 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D61EA3021D1A
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Jul 2026 00:42:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 949FA3909AC;
-	Wed,  8 Jul 2026 22:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32F9838F62F;
+	Thu,  9 Jul 2026 00:42:36 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879132DEA68;
-	Wed,  8 Jul 2026 22:46:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793422ED872;
+	Thu,  9 Jul 2026 00:42:34 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783550820; cv=none; b=WxlLTVmd3uhdEmE7S9FgFaCo0kU+wZ+rGbw+O9sZ7eRYvwHczyE78ON+/ixtfTetpfvMqrVCz86nq/T2dxg9D/LJl5DB1roUuDCUDuih7xcB24HfcftVWv474NZ/qxoNNoiQ892uEZP1xVw4CAdPPlGnYhQrvQa6ex1UrAHhg4E=
+	t=1783557756; cv=none; b=kUeLurZrQ2QUFQUZR+9lgQiLgS+VdVRgk4ZYAJFMI+icFCxZOKH4iTp7GAkZxqJC09UUnSy8VaKsjN/IXZ5jeLbrXHX6bA8z+xapo7B5TSvgFR80nxUVyqbLbdJOoOPLjL4yDJ2aMb3eIazL7lyp34Cis/IcMRGDULCLHwQCkHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783550820; c=relaxed/simple;
-	bh=wzSgZWBYeboWQTU00UiNXKeUGwKDCsTsxdmnpzk1KHI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QHXAk2JXiC6SUt1juN3djpN2f4MJrWi4bSFfe+Ik7I9Y5fsTDEfeHSgVzGLPdNpJFcGDYBm8pe1Sm8mIM9OgrmFSbfqJxBAu3Mh/P6Wd6C2ZSCGs19p8R7JloeiwPBXmo1ta9ycjnpY4DiBvb436zhkV85bQPL8o5cZ7AkyTkoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=B6nZK3Vm; arc=none smtp.client-ip=212.227.17.21
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1783550816; x=1784155616; i=wahrenst@gmx.net;
-	bh=ylvl1jSQN7pWKK/cSYYP26/PJlYp9bmD37/8S6w3YQA=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=B6nZK3VmV+K1YlfGgkhB7q1g++MRoa0b5s64W3fbErHjUNjNve9s1G7c/2k/bqP6
-	 orh1njBPte+idR41LgoveUeiICSVEh8I/yu67dTLOEXCsk+iGYyFHlKEiDZwW1i4O
-	 mHn5oZtpuVf5K772fxiVfvX6stJr36Km/SnSfXwbcNK9/X+t4P7u02ZdraLPzlXwC
-	 /Dx992SK089TdqAiHhDDA3kPOZ3G5Dv2TzeF8pAA7w7c9rsD/Naw7LRHqfew34gIb
-	 yj9nyflNOPv/KL0eZXlIb23ftB1tx9wIVXC1N0Q4I0th22E3VxgJW61jAouBv4Vdt
-	 jSTfAJuHrz7xmjjN7w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MKsj7-1wMupZ2bW9-00MK2U; Thu, 09
- Jul 2026 00:46:56 +0200
-From: Stefan Wahren <wahrenst@gmx.net>
-To: Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH RFC 2/2] leds: rgb: leds-group-multicolor: Implement default-intensity
-Date: Thu,  9 Jul 2026 00:46:52 +0200
-Message-ID: <20260708224652.106632-3-wahrenst@gmx.net>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260708224652.106632-1-wahrenst@gmx.net>
-References: <20260708224652.106632-1-wahrenst@gmx.net>
+	s=arc-20240116; t=1783557756; c=relaxed/simple;
+	bh=qMEwOjhIqqSuBcthHW0P4U5WFdqGUYGS6CW1uuNpSGM=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=iinqVwOSuAjpx96iS3TMnnoI7Vn/6LROpGYxB5IBrnQdyKhJH2dPYhRMY1NWodLewY5F+8mDaM64WVa6dv/v1ccSst0vgpNiCT9I9TCIADzvjIrNCTa3NgI422lWGrjDWVFQt8rY/5oJwZfiLZjURTXIqlrqrFR/EObz/ALoD/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=mjv4niTK; arc=none smtp.client-ip=148.163.135.77
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668N5VSj3645907;
+	Wed, 8 Jul 2026 20:42:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=N5SLDJzrITXK9tcpZaqiIbPUpEG
+	RYdtvYgTegwPDZtk=; b=mjv4niTKeG/ogcYVVPA7kkZcG150/xsi0LueWqmWa8l
+	cu7ncfkMWxcLfLRFAOpYEwKvx5xyltN8X7173ThWyGVwSBB2AaDTD37iW+v2bP/k
+	koi7L3qsTGhWfMjuLrQid330T0U2cZydCVpBb+PMC8V/6MequZFIRz3YUM96A9+V
+	v98Py8fB2zI6Y6RTBDAOXb8KfIi6jjueh9+RXJuhekj8BNqYBuE9I5Fd+njvFnH7
+	QI1ucXh+IA8CsyQXV2J7UMVQ97FvWrGVaxzMIsxfaVwrkQh12WS7P2tFjr9V6dKa
+	aivvRq4x1BwFj3N1fkoVDpnFOToow7f7yROvenYwD/A==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4f9mybu4ut-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jul 2026 20:42:26 -0400 (EDT)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 6690gPOm021380
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 8 Jul 2026 20:42:25 -0400
+Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
+ ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Wed, 8 Jul 2026 20:42:25 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Wed, 8 Jul 2026 20:42:25 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Wed, 8 Jul 2026 20:42:25 -0400
+Received: from HYB-7P5GeKnsiiX.ad.analog.com (HYB-7P5GeKnsiiX.ad.analog.com [10.118.4.24])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 6690gAet017538;
+	Wed, 8 Jul 2026 20:42:13 -0400
+From: Edelweise Escala <edelweise.escala@analog.com>
+Subject: [PATCH v13 0/2] Add Support for LTC3220 18 Channel LED Driver
+Date: Thu, 9 Jul 2026 08:41:18 +0800
+Message-ID: <20260709-ltc3220-driver-v13-0-9b53237642eb@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:o83T2hSY4bfW8jded5ob/2obED0xcolOeDwNKNQWt8fM+lsPmeH
- W7EHANvmLvCZSM+D1L24t0fS3F4EvTdw35RJBdT10WpPnyFR5nJLu7IoJdHvkA6pNrnCHFn
- ZYRQGWlm6f+2OSGqhACFyB3rWDV7w8dsa5Qv0KmDyJDPfH/3aCa+6ToiU+NAWxzmEU7xOnh
- qJCi+edMSp3nsw9dNYlbg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:BFQfqV46Ie4=;jInaBzl/BVxjb0Jfyw6y8CrjSQo
- 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
- fHYcfaRf0QQHPoEQRFrLhv8wLXs1lVZ0bLDdVTq
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC7uTmoC/33Sz07DMAwG8FeZcqbIdhIn4cR7IA5p/myVxoraq
+ QJNe3fSXVYwcIyj32cfvouayzSUWT3tLmoqyzAP46k9UD/sVDrE0750Q24DRUAMCNwdz0kTQZe
+ nYSlTV0PsOaWQsRjV0PtU6vBxS3x5be/DMJ/H6fO2YMF1+mfUgh10Tre/zBXZhOd4isdx/5jGN
+ 7VmLbTxSMJT8xmMButrMrkKrze+uZ9eN19LZaSSTI1ReLP18n7TfLLBoiPgREZ4+7+3zaOlqKE
+ EH3snPN+9QSc8r96jdd5hyTkL7+7eghfeNQ8VAvXRmkpaeL/xGIT3zRd0DhM6rau8P2w8yf2he
+ Q7GQk2EOvXCI9wDGK0sULu/C8iWKXlvg5cJuE34pYJrB7lYzDm4VDLLhE0JHWiZcGuhqZAjBW8
+ LfUu4Xq9fYi9bRHQDAAA=
+X-Change-ID: 20260106-ltc3220-driver-f9ab6cc9d1e4
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>
+CC: <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Edelweise Escala
+	<edelweise.escala@analog.com>,
+        Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783557730; l=6447;
+ i=edelweise.escala@analog.com; s=20260106; h=from:subject:message-id;
+ bh=qMEwOjhIqqSuBcthHW0P4U5WFdqGUYGS6CW1uuNpSGM=;
+ b=Dm11rLrl6PkGnzkHjS2mcsh8hm1LWnPKpu6ygjYz1v+LesN9l0TvmfzWve2dCO7exEDg+wV16
+ /Wya3VsTIWuDk3NsNpyw7KSVo96aWvL8GaVbBdZq/wwOJvdDPS4rYfU
+X-Developer-Key: i=edelweise.escala@analog.com; a=ed25519;
+ pk=lf5HLFe8ZeQjXZgkBkFMK+u9qH5/tqZhCIushTKduNQ=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDAwNCBTYWx0ZWRfX5/ipTKoZoI4K
+ qNtK4tpZ5VuAh/0/4sP6E1g8IhL+NKXUE/xM7JBNFpZ/K+ZvViu5UduCPthRpoYT/uH5qaAnT+S
+ G2w7QbzX3XYJkhjp/Gr0LY010WCE2Lylp2Yj0j/lpywJG/ywTU9p
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDAwNCBTYWx0ZWRfX+5EvvsZJB0Ml
+ cRpxg3z6Ll8mtI43uCPnun8tvFp4/v9sW0IHxwGSpMe65hUxWKPYvOk7uB7TbpurCI5HIEac2RF
+ TbFzbyLngKOiVqIMX1rDypk7L5qt0yXCQYQ9RKysvZtyIBZtR/wL5nrw//TUAmAAgaJy6lWM7xC
+ wH93j8d6KvTsCyApy18G32GMBrAb4r8NoMZyExQxSLLqgUyIPzUfLbWx9LW0qd417ur1r17u7aZ
+ evgIH7jY6eCjeTX9vsXBXLXTn7O2kqoXDnemG4s4xgLODWp1RsgDdcIs2Y6UB5IE7ZloIVfgFLF
+ dYsBm2K0hT+3rZVl2YdmNBS5huz/aX6fCMmR2rcMVvYu8MQA3K8HKcY2ao/r5BrGFn33kN3ciVz
+ g+U+XfDzVsN6q3uWsUGdw4Vo3ra9Rj2rx5qxAdPLnAlf7h+rCLPqWJwUQQCfSk1d/ofGG312h3E
+ +ifVyBc5iWUVinQ3Ung==
+X-Proofpoint-GUID: f8Syn8hQ1u_tHUxB17qIzAX73dkFEcX7
+X-Proofpoint-ORIG-GUID: f8Syn8hQ1u_tHUxB17qIzAX73dkFEcX7
+X-Authority-Analysis: v=2.4 cv=FP8rAeos c=1 sm=1 tr=0 ts=6a4eee72 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=0sLvza09kfJOxVLZPwjg:22 a=uXIjobp8t2wMuQ0fPvqm:22 a=VwQbUJbxAAAA:8
+ a=gAnH3GRIAAAA:8 a=XYAwZIGsAAAA:8 a=508kg2rLO1A2RsMjdRQA:9 a=QEXdDO2ut3YA:10
+ a=E8ToXWR_bxluHZ7gmE-Z:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-08_05,2026-07-08_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 spamscore=0 phishscore=0 priorityscore=1501 clxscore=1015
+ impostorscore=0 bulkscore=0 malwarescore=0 suspectscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607090004
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmx.net,quarantine];
-	R_DKIM_ALLOW(-0.20)[gmx.net:s=s31663417];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[analog.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[analog.com:s=DKIM];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-8977-lists,linux-leds=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jjhiblot@traphandler.com,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:wahrenst@gmx.net,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[wahrenst@gmx.net,linux-leds@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-8979-lists,linux-leds=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[analog.com:from_mime,analog.com:email,analog.com:mid,analog.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp];
+	FORGED_SENDER(0.00)[edelweise.escala@analog.com,linux-leds@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:edelweise.escala@analog.com,m:conor.dooley@microchip.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[traphandler.com,vger.kernel.org,gmx.net];
-	DKIM_TRACE(0.00)[gmx.net:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wahrenst@gmx.net,linux-leds@vger.kernel.org];
-	FREEMAIL_FROM(0.00)[gmx.net];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TAGGED_RCPT(0.00)[linux-leds,dt];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[analog.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[]
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[edelweise.escala@analog.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	RCVD_COUNT_SEVEN(0.00)[10]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DCB5472AF32
+X-Rspamd-Queue-Id: EBC7D72B5C1
 
-Until now the driver initialized all LEDs with maximum intensity.
-This isn't useful for LEDs, which needs to be initialized via DT.
-So introduce a new DT property to define the default intensity of all
-indiviual LEDs. In case the property is missing, the old behavior
-is kept.
+The LTC3220/LTC3220-1 is a multi-display LED driver, which contains a
+high-efficiency, low-noise charge pump to provide power to up to
+18 LED current sources. The LEDs are individually configurable to
+64-step linear brightness control, blinking and gradation control
+via 2-wire I2C interface. The blinking and gradation configuration
+is shared across all LED.
 
-Additionally this also works with triggers. So it should be possible
-to blink with a specific RGB color.
+LTC3220 has a quick write function which allows changing the brightness
+on all LEDS simultaneously when the brightness is changed on led 1.
+For this leds are aggregated in the device tree and on probe we check
+if led-sources exist to enable quick write.
+We would like to know if this approach is alright?
+Another way we might want to know is, is it alright to just make a
+virtual led for the quick write function. Changing brightness on
+the virtual led will change the brightness for all.
 
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-=2D--
- drivers/leds/rgb/leds-group-multicolor.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+Signed-off-by: Edelweise Escala <edelweise.escala@analog.com>
+---
+Changes in v13:
+- Fixed regcache_sync() broadcast issue in aggregated LED mode resume path
+- Removed LED_CORE_SUSPENDRESUME flag
+- Added bounds validation in second LED registration pass
+- Fixed devicetree binding reg property validation
+- Remove unused Headers
+- Link to v12: https://lore.kernel.org/r/20260703-ltc3220-driver-v12-0-d4f0da2985e2@analog.com
 
-diff --git a/drivers/leds/rgb/leds-group-multicolor.c b/drivers/leds/rgb/l=
-eds-group-multicolor.c
-index 548c7dd63ba1..19913a43b8a1 100644
-=2D-- a/drivers/leds/rgb/leds-group-multicolor.c
-+++ b/drivers/leds/rgb/leds-group-multicolor.c
-@@ -17,6 +17,7 @@
- #include <linux/math.h>
- #include <linux/module.h>
- #include <linux/mod_devicetable.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/property.h>
-=20
-@@ -106,11 +107,27 @@ static int leds_gmc_probe(struct platform_device *pd=
-ev)
-=20
- 	for (i =3D 0; i < count; i++) {
- 		struct led_classdev *led_cdev =3D priv->monochromatics[i];
-+		u32 intensity;
-=20
- 		subled[i].color_index =3D led_cdev->color;
-=20
--		/* Configure the LED intensity to its maximum */
--		subled[i].intensity =3D max_brightness;
-+		ret =3D of_property_read_u32_index(pdev->dev.of_node, "default-intensit=
-y",
-+						 i, &intensity);
-+		if (ret) {
-+			if (ret !=3D -EINVAL && ret !=3D -ENOSYS) {
-+				return dev_err_probe(dev, ret,
-+						     "Unable to get default-intensity[%d]\n", i);
-+			}
-+			subled[i].intensity =3D max_brightness;
-+		} else if (intensity > max_brightness) {
-+			return dev_err_probe(dev, -EINVAL, "default-intensity[%d] is invalid\n=
-",
-+					     i);
-+		} else {
-+			subled[i].intensity =3D intensity;
-+		}
-+
-+		dev_dbg(dev, "subled[%d]: color_index: %u, intensity: %u\n",
-+			i, subled[i].color_index, subled[i].intensity);
- 	}
-=20
- 	/* Initialise the multicolor's LED class device */
-=2D-=20
-2.43.0
+Changes in v12:
+- Add mutex when changing brightness
+- Add regcache_mark_dirty on suspend
+- Move aggreagted led moe hardware setting after validations
+- Add clamps when changing brightness on various modes
+- Link to v11: https://lore.kernel.org/linux-leds/20260616-ltc3220-driver-v11-0-6e51dd97ced6@analog.com
+
+Changes in v11:
+- Add guards to check for double reg
+- Add led_classdev_suspend/resume
+- Return -EOPNOTSUPP for repeat request not 1
+- Single write instead of write+read for blink
+- Link to v10: https://lore.kernel.org/r/20260615-ltc3220-driver-v10-0-916562c88598@analog.com
+
+Changes in v10:
+- Remove volatile reg
+- Add regacache_sync on resume
+- Add delays on reset
+- Remove early return and let software rset even if there is reset
+- Set to max brightness before blink
+- Two pass validation approach to avoid premature sysfs exposure
+- Use pointer arithmetic for container_of
+- Remove unused macros
+- Add missing property header
+- Link to v9: https://lore.kernel.org/r/20260528-ltc3220-driver-v9-0-69450fc213cb@analog.com
+
+Changes in v9:
+- Add address-cells and size-cells in required
+- Restrict to reg 1 if led-sources is present
+- Make set brightness only change brighntess for nomal mode,
+  blink and gradation is now handled only in its respective triggers.
+- Fix blink to change mode on blink set
+- Make pattern clear only change brightness and not change gradation
+  mode so it won't affect other leds.
+- Add checks if ever there is duplicate reg in the bindings.
+- Add REGMAP_I2C on Kconfig
+- Rebase on Latest next
+- Link to v8: https://lore.kernel.org/r/20260519-ltc3220-driver-v8-0-e1771c1733f7@analog.com
+
+Changes in v8:
+- Add '>' on descriptions with multiple paragraph
+- Change led registers to hex
+- Change cache type to REGCACHE_FLAT_S
+- Link to v7: https://lore.kernel.org/r/20260508-ltc3220-driver-v7-0-0f092ba54f23@analog.com
+
+Changes in v7:
+- Add cahcetype on regmap
+- Dropped struct ltc3220_state *ltc3220_state and use container_of()
+- Rename ltc3220_state to ltc3220
+- Dropped functions only used once and used inline instead.
+- Loop variable changes
+- Consistent decalaration for container_of
+- Tabbing fixes
+- Link to v6: https://lore.kernel.org/r/20260417-ltc3220-driver-v6-0-18157871eddd@analog.com
+
+Changes in v6:
+- Fix commit message
+- Add manufacturer on Kconfig and improve description
+- Rearrange register map and bitmask and improve naming
+- Use regmap, also use update bits of regmap to avoid unnecessary
+  structs
+- Alignment and spacing fixes
+- Use Define for magic naumbers
+- Fix blink calculation
+- Add comments on aggregated LED
+- Fix variable name to something more understandable like i to led_index
+- Link to v5: https://lore.kernel.org/r/20260126-ltc3220-driver-v5-0-152a30e98ab7@analog.com
+
+Changes in v5:
+- Missed rename on bindings filename in MAINTAINERS file
+- Link to v4: https://lore.kernel.org/linux-leds/20260126-ltc3220-driver-v4-0-c59517206c24@analog.com
+
+Changes in v4:
+- Rename leds-ltc3220.yaml to adi,ltc3220.yaml
+- Add Reviewed-by: Conor Dooley <conor.dooley@microchip.com> on
+  adi,ltc3220.yaml
+Other V1 comments I think already addressed
+- Subject commit message was already changed to match hardware
+- Fixed wrapping after description
+- Dropped "Bindings for" in descriptions and improved description to match hardware
+- Dropped adi,ltc3220-1
+- Dropped redundant description on reset-gpios
+- Dropped adi,force-cpo-level
+- Dropped adi,quick-write in favor of aggregated LED
+- Used consistent quotes ^led@([1-9]|1[0-8])$
+- Fixed wrapping on error messages
+
+- Link to v3: https://lore.kernel.org/r/20260120-ltc3220-driver-v3-0-fef612ec4faa@analog.com
+
+Changes in v3:
+- Dropped quick-write on bindings and added aggregated led instead.
+- Add aggregated led example.
+- Modify quick write to check if there is aggregated led, if there is
+  aggregated led enable quick write.
+- Use DEFINE_SIMPLE_DEV_PM_OPS instead of SIMPLE_DEV_PM_OPS.
+- Link to v2: https://lore.kernel.org/r/20260112-ltc3220-driver-v2-0-d043058fc4df@analog.com
+
+Changes in v2:
+leds-ltc3220.yaml changes
+- Fix wrapping on description
+- Improve description and commit messge to describe hardware
+- Drop ltc3220-1
+- Drop charge pump
+ltc3220.c changes
+- Fix wrapping
+- Drop ltc3220-1
+- Drop devname_mandatory
+- Link to v1: https://lore.kernel.org/r/20260106-ltc3220-driver-v1-0-73601d6f1649@analog.com
+
+---
+Edelweise Escala (2):
+      dt-bindings: leds: Add LTC3220 18 channel LED Driver
+      leds: ltc3220: Add Support for LTC3220 18 channel LED Driver
+
+ .../devicetree/bindings/leds/adi,ltc3220.yaml      | 133 +++++
+ MAINTAINERS                                        |   8 +
+ drivers/leds/Kconfig                               |  13 +
+ drivers/leds/Makefile                              |   1 +
+ drivers/leds/leds-ltc3220.c                        | 586 +++++++++++++++++++++
+ 5 files changed, 741 insertions(+)
+---
+base-commit: 25025253476a64c186592d952c27f24bc3490e42
+change-id: 20260106-ltc3220-driver-f9ab6cc9d1e4
+
+Best regards,
+-- 
+Edelweise Escala <edelweise.escala@analog.com>
 
 
