@@ -1,91 +1,91 @@
-Return-Path: <linux-leds+bounces-9035-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-9036-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id F1BTAIiZUmqIRQMAu9opvQ
-	(envelope-from <linux-leds+bounces-9035-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Sat, 11 Jul 2026 21:29:12 +0200
+	id M4cBL56ZUmqNRQMAu9opvQ
+	(envelope-from <linux-leds+bounces-9036-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Sat, 11 Jul 2026 21:29:34 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C24742AFB
-	for <lists+linux-leds@lfdr.de>; Sat, 11 Jul 2026 21:29:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E100742B10
+	for <lists+linux-leds@lfdr.de>; Sat, 11 Jul 2026 21:29:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=sholland.org header.s=fm3 header.b="H csimUW";
-	dkim=pass header.d=messagingengine.com header.s=fm2 header.b=lZv+ahcQ;
+	dkim=pass header.d=sholland.org header.s=fm3 header.b="a steMCw";
+	dkim=pass header.d=messagingengine.com header.s=fm2 header.b=RqvAlEds;
 	dmarc=pass (policy=none) header.from=sholland.org;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9035-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-9035-lists+linux-leds=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9036-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-9036-lists+linux-leds=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 11ADE301952A
-	for <lists+linux-leds@lfdr.de>; Sat, 11 Jul 2026 19:28:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7A8ED302EEB5
+	for <lists+linux-leds@lfdr.de>; Sat, 11 Jul 2026 19:28:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E461225B08E;
-	Sat, 11 Jul 2026 19:28:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55D7825B08E;
+	Sat, 11 Jul 2026 19:28:54 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EBB2D73A1;
-	Sat, 11 Jul 2026 19:28:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E741231A3B;
+	Sat, 11 Jul 2026 19:28:52 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783798130; cv=none; b=q/vwCGYYRCYx7f34toep7UuJWTcTPBUz/yC5hATJy8YRid0Xd8PL295GJ/TM4CBFWfbivcbybZV7xBfkLOsLnvZouWmHRu/GSB5W4MkAE3AAEoGLSnEhlflB0UUNIkLoPxA/4R6SGSmbmGjrSHVylhNaQcVcu/5PxBKuK8b1mTQ=
+	t=1783798134; cv=none; b=kZmMK4mqoVsM+tF+1EoDzTqtRDhjHYRgAamEHqV/T8VF9XXRdF88GbOFoR9Ns0iCvK70cOvzHB5OmWdFt9dSzAtznOLmH2X7D1mKoN80CFPkbFwyFnpOnz+hvzW+8fLzy3vKfABMyPMoJ35me1YF2G01T52g1dIsvC/O4fo6lSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783798130; c=relaxed/simple;
-	bh=EQTNLptar0VHhCDNfY3xT+XenNlunEzw9mRKleJwQw8=;
+	s=arc-20240116; t=1783798134; c=relaxed/simple;
+	bh=8jEtP3AM3KENYmLwM01pz3MY/SieJRh+HP4PPNUiRXY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DZk/Equ4mLZ0StDW+H4lWNkzuZ1T7WE03lFoTGCgKL2zG2gyM/IdehBEhQXo1Lsb776VsOeww2UoV+uBT+E0aY/TnJuAx1LvhP0t6ymuHNvL56bzNyPyFvVg/E762eL8T/m/NKDaGbHPempxyDQ5Y7uWml33B0SsczG3CHhT6y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sholland.org; spf=pass smtp.mailfrom=sholland.org; dkim=pass (2048-bit key) header.d=sholland.org header.i=@sholland.org header.b=HcsimUW5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lZv+ahcQ; arc=none smtp.client-ip=202.12.124.144
+	 MIME-Version; b=L3js04W7gZQMkLznsPUYJbh88jNlEBImhjn2PSMS4INerUY98QEYLWEylgzx0aoQR1r6WIMvK8435iRHuwZElPX4JUeKL30gvrAHXHR1vGTF585Fr6c8Bw3VW/aaBFE8g/8CdZ61Q5SHYx8YKEUMdyXeTHFeDPQ4EK/o7RMkRX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sholland.org; spf=pass smtp.mailfrom=sholland.org; dkim=pass (2048-bit key) header.d=sholland.org header.i=@sholland.org header.b=asteMCwk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RqvAlEds; arc=none smtp.client-ip=202.12.124.158
 Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id 8846C1D00081;
-	Sat, 11 Jul 2026 15:28:48 -0400 (EDT)
+	by mailfhigh.stl.internal (Postfix) with ESMTP id B1AED7A007B;
+	Sat, 11 Jul 2026 15:28:51 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Sat, 11 Jul 2026 15:28:48 -0400
+  by phl-compute-02.internal (MEProxy); Sat, 11 Jul 2026 15:28:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1783798128; x=
-	1783884528; bh=M4BS+cyiMRjg3qMYNzdPwvmaaM5ATYcZInIZ1L1twsA=; b=H
-	csimUW5bBqJiOuUKQrOV/dsPMRByP++d1dPN2j3Esawbs/W1JHNGQexOwFjQtfDD
-	LxJokBKVu8Ld2QNevAppCSTLGce/hIdkhTHG/6AHNEFT7AL2BUMlRg1DzORC4bRy
-	bF31GI7agPrOOgp7urbpV4f9uKAGrBeDyiu2yunFM5wyIvRjPAihPAQK0lOzBZon
-	rnndzqCOFM+Qu9JcvMz90168BRJ9gum4rmS0R+mRvyA/Hhdwh9RrQ0HWru7a7/Ds
-	1s6NsdhmTou5ATYw+YIaidq3pRmeK+EFO3POS+9UMdj7HmRvWbqxYb+xtrkJBaq3
-	kBYSZQ+ZhP6DQ2WeY1Mcg==
+	:reply-to:subject:subject:to:to; s=fm3; t=1783798131; x=
+	1783884531; bh=12wpZl1AXXNIx4mO1A7JN/Th+0erz6iENBmhe4EqJP0=; b=a
+	steMCwk3RVu2mvkfeYa22H2irY7KRdx8lcFLiz5/1iydVl1wFnbhAPr+jUbdonty
+	Bu7YPx1emxa7OyqjG94vAJh59saHUue+3neB98gNhUPFzUkTZHYI6fWGNsaQOIHu
+	uu7FxH5B+X198b0jBCs08GQfYkt/PrseriCBycWUf048CZLUeqgDcWmEZ00me1zi
+	h3Y6jg7FQUOGgD9aJh6dp++qM+5nuxJn0lADZgeTbWArXolJKSJSx8llNMvIlVau
+	PNT1Y92YvqLWRnZ6gYeFxwQFPsK8XPxtcymsqC9RpjkY5IxV/6QlPIJk4GvTgigP
+	FXqqtmjAY1pkuQ6sWxJ1A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1783798128; x=1783884528; bh=M
-	4BS+cyiMRjg3qMYNzdPwvmaaM5ATYcZInIZ1L1twsA=; b=lZv+ahcQBeilXjDHR
-	NO2PAv2f9pYeUknHwJcH66M57OGly0/Y1O75XDMZe7LDkB6Qecxbz49GN3mpZTbV
-	QLLhJgNuM1kgei+pwi6Rzt7aMIa4+WUSMiFU6lhioM2Hbdv7Ty+KXz1PTtGgwd5f
-	TZYpfiXMaZ1Y2O5pEVDNG66r1QYWVvBfyQcf0v2qPyX08XvvvuvRFIp/qu/3JQV6
-	wX0LTwBrIuT4JZFokOPpKS5HzU73qXt77gS6d5kMcbRDBSzAdk+55BvXwJrtLpzu
-	XBVL3/aHZf+fAPffcrTp1ddjEi2Dfq+RXhBqvnS6WtP/19IOHA/UI36YBcWa6ia+
-	fyM9A==
-X-ME-Sender: <xms:cJlSahjNd9xHpGjJfAZ4Saj0RtI_gX9O1BJydrw1lPcs7geiEi_w5Q>
-    <xme:cJlSasiC08iNaKXeiiYQX-yKnr9UUqKlZ9lYU6erpIqGi3uNR5Hs-SdpV53zT2WSA
-    r83HJvTuQVAWWQPEhHYdFwFSWjfFZnmgF6qbMFXSL6Mzijsz_6p8g>
-X-ME-Received: <xmr:cJlSavFp2CJ48LQEHov_sfnDG6HrPjfU2eDvkQfpaX8SRtlR-9-wBXP0D4d5ikYXPnLyzfTvxMIrJmOTNvV3GwxpfMnZSgubX1ZutMPAWc2iunD3wBQ>
-X-ME-Proxy-Cause: dmFkZTE2lBvkgiNL2ATTdX5mmuQMIgkvxqRNJsz/O/t4BhtsCbPdToHsQEtNg5auet71r6
-    BC9ee8ERIpoud5AtONR+1p2Eucn/fF2mL8F4kd97QKfKSv+19Yq/C2Ri8wtXyErVvh9K9W
-    18tm3uUeG9jt2a1njHO+xDjGuIJgwt6eMxH9YcoqpsOhAVG281rLYLINgEul13ETYY7dG1
-    LRzck7QkFrTBGRF8OXeCxfpEh2m6G5Rjj73JH8Mafn/lvX8g62o3Z9M3a0J0/AosAWje8s
-    LN6G+Ft7Ea/WCNdR7+Eh9qUSgmMU9sGTtB0o+x9jtkvNDElODMSQjlUS8rzObNdc489nCH
-    iaBm8IigPPKpsh5Zu0426DaQN5yauvUGVBviIhFxWN+CmcBzX9hM+3eP9hOcxjoEvQ8s7V
-    8DFB6fKBbnH+W1130c496SFPH2e+Bwq00LWqAZLVsyP6oKm1xuRu/WijAGfn6bci9qhIFz
-    CtC/gpkyaFMIq2v0aMQPbjEBtcd74NGDaSJFu0CSNS8gaAyFY2ICdb7iUGxNeKotbprr0N
-    uPmxu144LrejXf/K8MxY6cBMbfTn2bALVpuhG//6hFu2A/a5U0HijHALiGfTGlAXSMJEVx
-    GvbuhHDIVf7auwkNR+2Jw/ZeBxitHrkTPbqzM1ZZ90nKQq4DAEFwVek+Sfhw
-X-ME-Proxy: <xmx:cJlSapDtKfsCeYSyW5rqJe9OqxFV-G2EeVbOGzmKskDO5rvTagRfXg>
-    <xmx:cJlSalBp9_Yjn2iLdbdwpW_Y7lhKxtgyh2SX3tfXfGJrQR8e6m1DFA>
-    <xmx:cJlSanOqe4Nr5qdSR05egwyLDcBjI9UEGUhHyrWqq-z7FrPDmK0jqA>
-    <xmx:cJlSapMyRrpdYeBpDj0NCzKxqKrNi3kY43ddeSLavpSJlC25hF4irQ>
-    <xmx:cJlSasEWT2Ex_U5x0iYnMSWIiSNCmkyX_ESgQFBL1_KdTuUzA7v_hfkw>
+	:x-me-sender:x-sasl-enc; s=fm2; t=1783798131; x=1783884531; bh=1
+	2wpZl1AXXNIx4mO1A7JN/Th+0erz6iENBmhe4EqJP0=; b=RqvAlEds1RdmoVAym
+	IpyON/zEzLm97IlMAOL7i5YE4Q+uQ4eeMeO+zIT3EsXhCByB9av3T3KmxwbQFl3/
+	XPoq9a8oMESBfFZW1BmiO/PizpieYe5dC9ZrAaSeNHMJH+PIBnOdAvaJEeWkd6//
+	J4mxrIubWVAXUb5myPVlDf3+s2Q/gnIu9OARcKJDEHNRq+zQbadT46JqUumXQCxU
+	NKJZbFWecEPibVZjZ2Oxk/QTq0OlXwluw42WuPKn/mliVT5dfSvW1CCW/NrSq1yM
+	kzwfv7wjDM9q/4UmOSC1yPDsJr2N1OVtx4VIUVmOKz1ZAXyVVgg4faelpJLghghD
+	XXHSA==
+X-ME-Sender: <xms:c5lSaivfet8VYgEYo0jVA3LopcKvdyxf0NlXY7lvrFnlpaiTRDmm3w>
+    <xme:c5lSat9G4_YOfBXm8mcIF740iRDNLV1EVVGECeiexkcUrjDc2DorjELwj5qfe8eTk
+    h2DoGC3IV6gVWUChjzk_KG0S8UKl_RSTzOQ-3wj0GJkNJ94HvsHk10>
+X-ME-Received: <xmr:c5lSaryR76BF93Y_TDaWtlQArMAVeulzwMR8ikZpwvSU3xxifIdJWh0v0wZXUJHI7H06s3A8_Eo5y6x2M2aOxmWkFgnF90KZ1eYOHIwqZygVQer_BPo>
+X-ME-Proxy-Cause: dmFkZTGNC6QRiLt7NIXGg/qRZFC50QRTSBR3yiaGReXgL5tZ2XlJTNiWr3BlX+yWFvtiEh
+    Ggej3m67BiHZnymEek9+m7eb7JhFvSNDZOw2VpzbZP+y2ihrRLZktQ7TFj1OiYwlII60o3
+    nMm0gEXKwTtMkDkq80F6u7EgSH1gePGOjT088S6G0+wT1AB9J2YyC1i3z/MvO9areKVgqL
+    9u9cbFjUkl+VWHTB81UWMX49asMiBkqlCXH0uuBkxGnZLjhFj/OKygDD9fHX3diD+j3nQR
+    zQb8q3Yn8gOSXWwYzJANkCGoIHYRI/L+gcLFFMBmmuntf87Ebfbtm82YBPpiUvbYcM8mJN
+    3wwqQDpzFLn+OVXxPZy/NV4rl6zQIt4718N2CODdFML3QkgkPafpOV9lZU+CCogC34oM0R
+    0IrhyhBFWPZo4H5WKBPtp04SVo2BGR4xDhzIsIuB/mpQIG/zxbVe9c+j8kVv/F8DUuxUM5
+    5jyM39HNupkaA0If6WhKtdtemSP+VNer5gZFS/88ViyxKIlVgYCoX2ksLylP9mHM39xEAI
+    YXHJJowSJKwXH4M0c1wS7gfis5cw+gifEkVFlVsnn29DQKgPc/ffGK/w7NOp+To/yWvVpA
+    sMX7FL5f/Ss2xbRaRq2Rkt3RJ/OeS0scmK9ruaiGOzW55wxv540yYS+5TuSA
+X-ME-Proxy: <xmx:c5lSav9A6jEWpOTr718d-6bDaJcOJT3VaMDffL0i4rK1KWlPVin-Zw>
+    <xmx:c5lSapOpJD4G330GxNNtbg_uW5mrg4swZBNKyWJLJXJwaHf6cQiR-A>
+    <xmx:c5lSavo4QNE95LV72yqrMDC8n2DP-CBl_KhnEGlhxS58BWZsRudMEA>
+    <xmx:c5lSag4seOVAp4PTQ82cE--QkswmeK67AM-iSg1TGvkrR3u0lnyAiQ>
+    <xmx:c5lSaqvabtEQmrssTanLTS8KWwB4fBh70xKmGjpYGgpW19RBX20eCLlL>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 11 Jul 2026 15:28:47 -0400 (EDT)
+ 11 Jul 2026 15:28:50 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Heiko Stuebner <heiko@sntech.de>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -99,9 +99,9 @@ Cc: linux-rockchip@lists.infradead.org,
 	Pavel Machek <pavel@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
 	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH 1/4] dt-bindings: leds: Document "gpio" trigger
-Date: Sat, 11 Jul 2026 14:28:25 -0500
-Message-ID: <20260711192842.845048-2-samuel@sholland.org>
+Subject: [PATCH 2/4] dt-bindings: vendor-prefixes: Add techvision
+Date: Sat, 11 Jul 2026 14:28:26 -0500
+Message-ID: <20260711192842.845048-3-samuel@sholland.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260711192842.845048-1-samuel@sholland.org>
 References: <20260711192842.845048-1-samuel@sholland.org>
@@ -127,7 +127,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER(0.00)[samuel@sholland.org,linux-leds@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	TAGGED_FROM(0.00)[bounces-9035-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-9036-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -147,33 +147,33 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-leds,dt];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,sholland.org:from_mime,sholland.org:email,sholland.org:mid,sholland.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 29C24742AFB
+X-Rspamd-Queue-Id: 2E100742B10
 
-The "gpio" trigger is used to control LEDs by the level of a GPIO input
-referenced by the trigger-sources property. This is already documented
-in the trigger-sources property description and is used in at least one
-devicetree (am335x-regor.dtsi). Document it so validation of those and
-future DTs will pass.
+Techvision Intelligent Technology Co., Ltd[1] aka Shenzhen Huiwei
+Intelligent Technology Co., Ltd[2] is a manufacturer of single-board
+computers.
 
+Link: https://cn.techvision.com.cn/ [1]
+Link: https://www.techvision.com.cn/ [2]
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
- Documentation/devicetree/bindings/leds/common.yaml | 2 ++
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-index f4e44b33f56d..e148b4277a6f 100644
---- a/Documentation/devicetree/bindings/leds/common.yaml
-+++ b/Documentation/devicetree/bindings/leds/common.yaml
-@@ -106,6 +106,8 @@ properties:
-           - bluetooth-power
-             # LED indicates camera flash state
-           - flash
-+            # LED indicates level of GPIO input referenced by trigger-sources
-+          - gpio
-             # LED indicated keyboard capslock
-           - kbd-capslock
-             # LED indicates MTD memory activity
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 396044f368e7..2355505013a0 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1662,6 +1662,8 @@ patternProperties:
+     description: Technologic Systems
+   "^techstar,.*":
+     description: Shenzhen Techstar Electronics Co., Ltd.
++  "^techvision,.*":
++    description: Techvision Intelligent Technology Co., Ltd
+   "^techwell,.*":
+     description: Techwell, Inc.
+   "^teejet,.*":
 -- 
 2.54.0
 
