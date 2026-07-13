@@ -1,172 +1,185 @@
-Return-Path: <linux-leds+bounces-9072-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-9073-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id +rb9ItdFVWpbmQAAu9opvQ
-	(envelope-from <linux-leds+bounces-9072-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 22:08:55 +0200
+	id m2BcAlNHVWqdmQAAu9opvQ
+	(envelope-from <linux-leds+bounces-9073-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 22:15:15 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3DE74EF62
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 22:08:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48CF474F008
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 22:15:14 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="AHPK/yWp";
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9072-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-9072-lists+linux-leds=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=koVlrFMI;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9073-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-9073-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 96A2F30393BD
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 20:08:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F1D17303FFFD
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 20:15:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0D7E34888F;
-	Mon, 13 Jul 2026 20:08:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0B7935CB61;
+	Mon, 13 Jul 2026 20:15:11 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37823382F4
-	for <linux-leds@vger.kernel.org>; Mon, 13 Jul 2026 20:08:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F953446B9
+	for <linux-leds@vger.kernel.org>; Mon, 13 Jul 2026 20:15:08 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783973332; cv=none; b=Tka1juvzgM2irW6ttMGKxZrsz1INRaX+QO3HSg0oC7cIIEzq1tQD6kgFL2e1PgtJZ46uC0cGB03OGk3X2Ih/YcHtOxWyPxoYfpTGy2T3POTRl7QCOwrVHFSl1Ljnb0yPWBAR8aEjuy+LX00aaTsIMERzMfFSoxaNS0zizeNNYeY=
+	t=1783973711; cv=none; b=AshG68kJqBH0+GcOIBsKkNt6PAwtOBKflUcQawNsvBxWNzerhAZwEoC/tS0XwFdklccXUTW9tFQ/zuh4mU19TnpotZr5+Vs4hxedmJY1dsKvuRCYTA6pYXlRSbsFok2nIM8RAe9AMGXi1EYFkYs2qoLWed2BSPmWbrbU/xJOfEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783973332; c=relaxed/simple;
-	bh=LJE3g8X7w+egYkCP2rXaOfca3XP81M04fwSuY2MnR3E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oDUM9ALuuDWIP9RSjQzVmOJbNEjJ2PoC19IyQVhYr9+5uNNB/QXpAR3S2Xgv3RSbalmWHnv2ArHpF+MGt2i5mYBnBGftFBJ5iig3ayY9IzqCJsGstNkNcNqqVFBgV1ATsX7PMG9MhCiG1fbcOM3AnbXiSFAINMGGhrpnwff4Ifs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AHPK/yWp; arc=none smtp.client-ip=209.85.216.43
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-38e071ed6aeso879418a91.0
-        for <linux-leds@vger.kernel.org>; Mon, 13 Jul 2026 13:08:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783973331; x=1784578131; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=svkyQVAUK9Tk0TyurgUHC7rUmk29GdL4jMQcYPSE8LA=;
-        b=AHPK/yWp4ZEFraQ4SMN4Jls+qSC7knAOmh8myQfVyk7DuMnnZ3HXNJtrPy80y46OFM
-         viDnxPv9GaR8Yl7VNSQTrMAEnsY9EOuye8bao1J3rhTUu5cYmwJrYtQvSyY7YBMiNyEI
-         TSM3723W9MdSdAPP0uthSF6hEy20Qh+rmZhR3uA4DQHocyUw5otWXH6MCjJww0DJLVqX
-         DVTJQI52RER2Z6NGk7aLnc/JGWhBwUQYCvoPsZYag4Z93EGo3IQXL3jnkFUKPJAzztas
-         KdhahToxE5bik7Yvpnvu/0cuUhEm5BzraIO303z6RV7RPNt0Vde++V5Ho43oY4yZ4URv
-         XRoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783973331; x=1784578131;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=svkyQVAUK9Tk0TyurgUHC7rUmk29GdL4jMQcYPSE8LA=;
-        b=D5TKl0GOGbeJEcQP+Uop1Igk0sFnjbeGsZlFy4sJl1YOl5t0JVvYBYkOKKKlQ1LKHh
-         KtUma9T8wL72hot1E8UqndcuJGpEGPStGSGkgim8P0NPE66w8XG3VOAzOCQg93Vo5Kiw
-         Y7VajtnnNUyaOZE7rq9+UGcfy/eYhGjtQ7MuTNH3/GMJ619oEWNCiNHR6py6xIjqMD6N
-         AOeUhRy0KRq3viA1+rDsfWHAWc9RpXp9VytkI0KqjXi/a12wG2Hevh3XpqNqTEcBKxWS
-         ZHPH2kYG0Cx+CcKKHF2t4lZTcrTTp0maRN4W7BrfaN0tXT9i+phISzuZyRzj/FIlzxj2
-         FD/g==
-X-Forwarded-Encrypted: i=1; AHgh+Rppp3OYWN3kmGlSQgKErsZIna5Rj6cONW8AgFY0SIgGKZuRZcjq2wgEn7tIS9Py8RjyvSyC3gGiWl1h@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7ulayv05PsH44CKovTRDbCiQb82zppOu3/KfSJnvYhqonwVaO
-	s7KflvwKvlGiJ2in2oYv4Ts6N8ocrPDL321NC596WcftaXOr5nmDJexP
-X-Gm-Gg: AfdE7ckHiRs90bC5t5pB7aHpyR0V+v9Y67ZtJQxVflb2QA4WIpBCCL7xwgVMUOPQ3+2
-	sioeMjBEbQvwk+S2Qpdmnp4/AMAcpK51yTwfyDqpaGcS6qYMe+DRhYJWmd/MhnAcVCgXyDwSQZD
-	pY2BSRcvuutX09XSEp+xBHlkbKzHkVIV0TpUaOSrtS5DNeIYrgBQDYAoBoZxU3qTcix3KtoE0ra
-	oG+lu7XaGgZHv0n710OeH2A/2eddnfT1gUwMgEocpBrX/OF1Ys700jzF1FRLwJ21ZaIMCnSYlbX
-	FHGYwOQDVqfSLpObMdN6JUkSqR/yx/0BBYoGjkn7vfHYPiOZjl10/xpwQzmWnE0QWjed+ajmsEz
-	q9y9a17IvgabHdp2n/ogkKmL+Mb9d4NsBDOLc0CbiLNlTVrPrwYNNEyP/QCLsds3yWvJ5IEmEvt
-	iJLHtc++uXpcVLdXg1NXVVN1ObP2YSGFokcaStInx+fxWymziZ88jZ1yc+gZIrH/azGAtdLMUPz
-	6wqQBVmqYrOYvL+rJ5J3YDeuZ19
-X-Received: by 2002:a17:90b:4c4c:b0:38e:dc4:3f64 with SMTP id 98e67ed59e1d1-38e0dc4412fmr2193622a91.38.1783973331046;
-        Mon, 13 Jul 2026 13:08:51 -0700 (PDT)
-Received: from fedora ([202.179.95.46])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311747f5975sm68238202eec.4.2026.07.13.13.08.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 13:08:50 -0700 (PDT)
-From: Ninad Naik <ninadnaik07@gmail.com>
-To: lee@kernel.org,
-	pavel@kernel.org,
-	william.zhang@broadcom.com,
-	anand.gore@broadcom.com,
-	kursad.oney@broadcom.com,
-	florian.fainelli@broadcom.com,
-	rafal@milecki.pl,
-	linux@weissschuh.net,
-	krzysztof.kozlowski@oss.qualcomm.com,
-	tzungbi@kernel.org
-Cc: bcm-kernel-feedback-list@broadcom.com,
-	linux-leds@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	me@brighamcampbell.com,
-	Ninad Naik <ninadnaik07@gmail.com>
-Subject: [PATCH] leds: bcm63138: Use %pe to print pinctrl error instead of %ld
-Date: Tue, 14 Jul 2026 01:37:32 +0530
-Message-ID: <20260713200732.2470666-1-ninadnaik07@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	s=arc-20240116; t=1783973711; c=relaxed/simple;
+	bh=mI0v/YNMJ+i+xqr84E9wXFrovpAD/GMIIfQd94M9kak=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=LiG2cXeRkJvFBWWVtOydLd1gHG8EL6wKT8V8sVjIcfev2FIPrqIxdiOAyVD6Cz4FcZ98j/DNXrOOPQqYyvH2Pr07HQ/K/gPBvJrC2RN48xx2PlZ7e0E0tU6S0vy1grCg8P6Xx1kprVKoKZN4NrkFAgThe+r1P7m514EhoSTwAzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=koVlrFMI; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 426191F000E9;
+	Mon, 13 Jul 2026 20:15:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783973708;
+	bh=r5eDDMNCrObAduanMoLu5mAEjAb9pdjhyH0ilehmNZc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=koVlrFMIWm6kdrhzGCl0TNmvJihzE7BH9DbQbwgJXCgoeG7CvCpxrdjh2xxVP9epO
+	 YhEnMLRTOQFYaucy2OQYa8Ee7XX0YjIi70u24ndwK3AErdp086u6PGk1htvRVVoO7a
+	 pAiXk3kvRfVwnqiB+pUAZYOAwWcw5RMl8yidsjR6VOoXV9r5wZF8DC39n65Zu1ShAB
+	 ha7NvbKQ6Mw2it2aXNvLZbdXBp1znK5bGb9Yg8oFiS2ebqsDQVgozuyboN5w4ts1Ze
+	 aARnDZLOBCwY8U+vmMFIAEM63gHXUyu1gXJJDykYNC2zjXDJroWKaUBz2hbYFhy5/v
+	 r9Mr1GoWs5WVg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] leds: bcm63138: Use %pe to print pinctrl error instead
+ of %ld
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Ninad Naik" <ninadnaik07@gmail.com>
+Cc: linux-leds@vger.kernel.org, lee@kernel.org
+In-Reply-To: <20260713200732.2470666-1-ninadnaik07@gmail.com>
+References: <20260713200732.2470666-1-ninadnaik07@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 13 Jul 2026 20:15:07 +0000
+Message-Id: <20260713201508.426191F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-3.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	MISSING_MIME_VERSION(2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[broadcom.com,vger.kernel.org,lists.infradead.org,linuxfoundation.org,brighamcampbell.com,gmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-9072-lists,linux-leds=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:william.zhang@broadcom.com,m:anand.gore@broadcom.com,m:kursad.oney@broadcom.com,m:florian.fainelli@broadcom.com,m:rafal@milecki.pl,m:linux@weissschuh.net,m:krzysztof.kozlowski@oss.qualcomm.com,m:tzungbi@kernel.org,m:bcm-kernel-feedback-list@broadcom.com,m:linux-leds@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:skhan@linuxfoundation.org,m:me@brighamcampbell.com,m:ninadnaik07@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[ninadnaik07@gmail.com,linux-leds@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-9073-lists,linux-leds=lfdr.de];
+	REPLYTO_DN_EQ_FROM_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:ninadnaik07@gmail.com,m:linux-leds@vger.kernel.org,m:lee@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-leds];
+	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ninadnaik07@gmail.com,linux-leds@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	ALIAS_RESOLVED(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp]
+	FROM_NO_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCPT_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DA3DE74EF62
+X-Rspamd-Queue-Id: 48CF474F008
+
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+
+Pre-existing issues:
+- [High] The driver ignores `-EPROBE_DEFER` from `devm_pinctrl_get_select_d=
+efault()`, failing to properly defer probe when the pinctrl driver is not y=
+et ready.
+- [High] Hardware initialization occurs without holding the required spinlo=
+ck after the LED is exposed to user space, causing a data race on shared ha=
+rdware registers.
+--
+
+--- Patch [1]: [PATCH] leds: bcm63138: Use %pe to print pinctrl error inste=
+ad of %ld ---
+commit 11674fcbe14b4d4811e6f7f83c90fb13ea7bf5ac
+Author: Ninad Naik <ninadnaik07@gmail.com>
+
+leds: bcm63138: Use %pe to print pinctrl error instead of %ld
 
 Pass the pinctrl error pointer directly to %pe to print the
-symbolic error name.
-Detected by Coccinelle. Tested by compiling.
+symbolic error name. Detected by Coccinelle. Tested by compiling.
 
-Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
----
- drivers/leds/blink/leds-bcm63138.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> diff --git a/drivers/leds/blink/leds-bcm63138.c b/drivers/leds/blink/leds=
+-bcm63138.c
+> index 2cf2761e49145..78a87e1df4d7c 100644
+> --- a/drivers/leds/blink/leds-bcm63138.c
+> +++ b/drivers/leds/blink/leds-bcm63138.c
+> @@ -237,8 +237,8 @@ static void bcm63138_leds_create_led(struct bcm63138_=
+leds *leds,
+> =20
+>  	pinctrl =3D devm_pinctrl_get_select_default(led->cdev.dev);
+>  	if (IS_ERR(pinctrl) && PTR_ERR(pinctrl) !=3D -ENODEV) {
+> -		dev_warn(led->cdev.dev, "Failed to select %pOF pinctrl: %ld\n",
+> -			 np, PTR_ERR(pinctrl));
+> +		dev_warn(led->cdev.dev, "Failed to select %pOF pinctrl: %pe\n",
+> +			 np, pinctrl);
+>  	}
 
-diff --git a/drivers/leds/blink/leds-bcm63138.c b/drivers/leds/blink/leds-bcm63138.c
-index 45c0662df933..12b70ee31b9a 100644
---- a/drivers/leds/blink/leds-bcm63138.c
-+++ b/drivers/leds/blink/leds-bcm63138.c
-@@ -236,8 +236,8 @@ static void bcm63138_leds_create_led(struct bcm63138_leds *leds,
- 
- 	pinctrl = devm_pinctrl_get_select_default(led->cdev.dev);
- 	if (IS_ERR(pinctrl) && PTR_ERR(pinctrl) != -ENODEV) {
--		dev_warn(led->cdev.dev, "Failed to select %pOF pinctrl: %ld\n",
--			 np, PTR_ERR(pinctrl));
-+		dev_warn(led->cdev.dev, "Failed to select %pOF pinctrl: %pe\n",
-+			 np, pinctrl);
- 	}
- 
- 	bit = BIT(led->pin);
--- 
-2.55.0
+[Severity: High]
+This is a pre-existing issue, but does this code ignore -EPROBE_DEFER from
+devm_pinctrl_get_select_default()?
 
+If the pinctrl provider is probed after this LED driver, it would return
+-EPROBE_DEFER. Because the driver merely logs a warning and continues inste=
+ad
+of returning the error (e.g. via dev_err_probe), the LED device registers
+successfully but remains physically non-functional since its pins are never
+multiplexed.
+
+> =20
+>  	bit =3D BIT(led->pin);
+>  	bcm63138_leds_update_bits(leds, BCM63138_PARALLEL_LED_POLARITY, bit,
+>  				  led->active_low ? 0 : bit);
+>  	bcm63138_leds_update_bits(leds, BCM63138_HW_LED_EN, bit, 0);
+>  	bcm63138_leds_set_flash_rate(leds, led, 0);
+>  	bcm63138_leds_enable_led(leds, led, led->cdev.brightness);
+
+[Severity: High]
+This is also a pre-existing issue, but is it safe to initialize the hardware
+without holding the required spinlock after the LED is exposed to user spac=
+e?
+
+bcm63138_leds_update_bits() performs a non-atomic read-modify-write on shar=
+ed
+hardware registers. Calling it locklessly here can race with
+bcm63138_leds_brightness_set() from another CPU, which locks leds->lock and
+performs its own read-modify-write on the same registers, corrupting the
+hardware state of previously registered LEDs.
+
+User space can concurrently write to sysfs attributes of this or other LEDs
+during this lockless initialization sequence because
+devm_led_classdev_register_ext() was already called earlier in this functio=
+n.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260713200732.2470=
+666-1-ninadnaik07@gmail.com?part=3D1
 
