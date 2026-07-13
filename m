@@ -1,221 +1,172 @@
-Return-Path: <linux-leds+bounces-9071-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-9072-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ZG2NINpBVWqomAAAu9opvQ
-	(envelope-from <linux-leds+bounces-9071-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 21:51:54 +0200
+	id +rb9ItdFVWpbmQAAu9opvQ
+	(envelope-from <linux-leds+bounces-9072-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 22:08:55 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0CBC74EE56
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 21:51:53 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3DE74EF62
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 22:08:54 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=outlook.com header.s=selector1 header.b=cWbgQGux;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9071-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-leds+bounces-9071-lists+linux-leds=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=outlook.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b="AHPK/yWp";
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9072-lists+linux-leds=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-leds+bounces-9072-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E5E4830205F7
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 19:51:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 96A2F30393BD
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 20:08:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 331234499A4;
-	Mon, 13 Jul 2026 19:51:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0D7E34888F;
+	Mon, 13 Jul 2026 20:08:52 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazolkn19011025.outbound.protection.outlook.com [52.103.33.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13832DC32C
-	for <linux-leds@vger.kernel.org>; Mon, 13 Jul 2026 19:51:50 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783972312; cv=fail; b=OekV5Y5W6Wgrc0mdZM9KAAJmCNJEHDSVvyJqNe39X7YnP3NUHd3cDmzX8VEEluC8xOME3QW3Fi82e10trtzFq/Lhh1tJUb3p+dC9EvuR6fbwE5CCJpUQrlTP6Dt8uDzFrH3G7f05Ktkn9NoCyMkNi/iDDpa5Yx5MxypFfC2WccA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783972312; c=relaxed/simple;
-	bh=8vVXV757Ihr3uf4lKKq5WCnRJz5NuHDFTg2CxmTmQ5Q=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 Content-Type:MIME-Version; b=mhmVmIHhtXkmy31EV9+7F/hLW0c/+3reVgFw/NnZiSiam8xJ77Z10ILvkwOr0vX+4jN3/+jdS/xoOxiISY5trx72B3n6dRLKcblhpd0NgZCTLqxQLTpiqMNC2jkGK4bZ/U0/KIl6Ra84feWP0qXPFDNkI4CUSMVX2vvW9/63Yjc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=cWbgQGux; arc=fail smtp.client-ip=52.103.33.25
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XLFOsrykkmjhhrQmH6Dks8/4vHYkcYihcfL4eJooU9s0j4Qv0QzOd8ixkMB7QeLT8bHESlOio0AgVdcsYQvf/Dxq3KJ67ksl/AANEWvpD2Bmm26Q6o2nF9jmh1rouzBC0/h9c36rcnq5AcZaoeB+9Drq7GQu2SKjzyvHkig4oBuSL3rMbadOXZ2DwT9fj8IWDcv0Q35GvQTYc/QzcLeTIBNxodkXfYAeXmlVVPccamN30fQf+PIaV12FWoG5fFWlVpLmbrjrwiX5rTlIutymWgRVGCgu0RqQ0dGtjN7SCmdfyHXsKL4rXuGSHnoK7N7/cg7C2ZAm/gyF2W2Qol0gng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Sz7zL3bIwsPntLrICKuwxg0AyUymej2pJo+CbLeqgOo=;
- b=P3gg5AHvyAuFaqyIyP0C7iQskCkaEFjLJiqPR7QMCfxJR6qbyWSdpN1CsZWl29R7ZaRKZge3DNibWPbidVXntRr8N5HgAbrQ9dFs9BRWGSDRMVIAn9wChUzMZzfXGs7txcSHyu5YQjjvN4X+yKhA8idn5liYetr6yLUQvpKwT8GcGJFhTPD6QIPj9MfLXBoHSQUMOQg/Zytu7my0jIZbP/F2AlVz6Jf3DnPche52ArLw9DSYdG9Y+qIJ784mXW2CSK9/42CLScTCd2FEw5mdRWAPhWoQ+9L9ynDV5Pok+kXLSTlWiX/E6mRCjTVdgjOnGNWP3u8pGPnQw/OVhEM5Hw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Sz7zL3bIwsPntLrICKuwxg0AyUymej2pJo+CbLeqgOo=;
- b=cWbgQGuxde13kAAEXj6dF85Ut/28uRmxLMwb6tHChFgwbeH5km8IQLACcJNIaxGohNuDqwK64h/pS9vs59V5dM1bOL3ht5pK0wzQX7lQwwwiWqQVEcNZChVJoMH9Of5EnKqeLPM/kXhA+YYq+skEfBVKwSBSt6IWVkNlPVr4zYE5pu053DCgN2jrQTxtg5G1wzVErVnAja/AgmehDxlxbF5MRKY+KtCz3UFTwqBZq+b9dV/jEWfnsnHKzs4FNkwN4o0kun1RtaSYDrg2iaGwvme6TrtxBAWa6Md6x3U3vvDQQTwSE840ko+LdGLKrtLySHJIR606Vo27I4gwox1GaQ==
-Received: from GV1PR08MB8497.eurprd08.prod.outlook.com (2603:10a6:150:81::22)
- by VI1PR08MB5424.eurprd08.prod.outlook.com (2603:10a6:803:136::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Mon, 13 Jul
- 2026 19:51:48 +0000
-Received: from GV1PR08MB8497.eurprd08.prod.outlook.com
- ([fe80::705b:d4a3:1c1f:b9a2]) by GV1PR08MB8497.eurprd08.prod.outlook.com
- ([fe80::705b:d4a3:1c1f:b9a2%5]) with mapi id 15.21.0202.014; Mon, 13 Jul 2026
- 19:51:48 +0000
-Date: Mon, 13 Jul 2026 20:51:40 +0100 (BST)
-From: Manuel Fombuena <fombuena@outlook.com>
-To: sashiko-reviews@lists.linux.dev
-cc: linux-leds@vger.kernel.org, lee@kernel.org
-Subject: Re: [PATCH 1/1] leds: st1202: add hardware-accelerated blink
- support
-In-Reply-To: <20260713153713.962DC1F00A3A@smtp.kernel.org>
-Message-ID:
- <GV1PR08MB8497264D9FF91843D6F2FE8AC5FA2@GV1PR08MB8497.eurprd08.prod.outlook.com>
-References: <GV1PR08MB8497C5B8CEB2CE19743DFCFFC5FA2@GV1PR08MB8497.eurprd08.prod.outlook.com> <GV1PR08MB84973ADB74B084B108FFE389C5FA2@GV1PR08MB8497.eurprd08.prod.outlook.com> <20260713153713.962DC1F00A3A@smtp.kernel.org>
-Content-Type: text/plain; charset=US-ASCII
-X-ClientProxiedBy: LO4P265CA0012.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ad::7) To GV1PR08MB8497.eurprd08.prod.outlook.com
- (2603:10a6:150:81::22)
-X-Microsoft-Original-Message-ID:
- <4aed7752-6ce4-75b0-574d-a3a0bf64f532@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37823382F4
+	for <linux-leds@vger.kernel.org>; Mon, 13 Jul 2026 20:08:51 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783973332; cv=none; b=Tka1juvzgM2irW6ttMGKxZrsz1INRaX+QO3HSg0oC7cIIEzq1tQD6kgFL2e1PgtJZ46uC0cGB03OGk3X2Ih/YcHtOxWyPxoYfpTGy2T3POTRl7QCOwrVHFSl1Ljnb0yPWBAR8aEjuy+LX00aaTsIMERzMfFSoxaNS0zizeNNYeY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783973332; c=relaxed/simple;
+	bh=LJE3g8X7w+egYkCP2rXaOfca3XP81M04fwSuY2MnR3E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oDUM9ALuuDWIP9RSjQzVmOJbNEjJ2PoC19IyQVhYr9+5uNNB/QXpAR3S2Xgv3RSbalmWHnv2ArHpF+MGt2i5mYBnBGftFBJ5iig3ayY9IzqCJsGstNkNcNqqVFBgV1ATsX7PMG9MhCiG1fbcOM3AnbXiSFAINMGGhrpnwff4Ifs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AHPK/yWp; arc=none smtp.client-ip=209.85.216.43
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-38e071ed6aeso879418a91.0
+        for <linux-leds@vger.kernel.org>; Mon, 13 Jul 2026 13:08:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783973331; x=1784578131; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=svkyQVAUK9Tk0TyurgUHC7rUmk29GdL4jMQcYPSE8LA=;
+        b=AHPK/yWp4ZEFraQ4SMN4Jls+qSC7knAOmh8myQfVyk7DuMnnZ3HXNJtrPy80y46OFM
+         viDnxPv9GaR8Yl7VNSQTrMAEnsY9EOuye8bao1J3rhTUu5cYmwJrYtQvSyY7YBMiNyEI
+         TSM3723W9MdSdAPP0uthSF6hEy20Qh+rmZhR3uA4DQHocyUw5otWXH6MCjJww0DJLVqX
+         DVTJQI52RER2Z6NGk7aLnc/JGWhBwUQYCvoPsZYag4Z93EGo3IQXL3jnkFUKPJAzztas
+         KdhahToxE5bik7Yvpnvu/0cuUhEm5BzraIO303z6RV7RPNt0Vde++V5Ho43oY4yZ4URv
+         XRoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783973331; x=1784578131;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=svkyQVAUK9Tk0TyurgUHC7rUmk29GdL4jMQcYPSE8LA=;
+        b=D5TKl0GOGbeJEcQP+Uop1Igk0sFnjbeGsZlFy4sJl1YOl5t0JVvYBYkOKKKlQ1LKHh
+         KtUma9T8wL72hot1E8UqndcuJGpEGPStGSGkgim8P0NPE66w8XG3VOAzOCQg93Vo5Kiw
+         Y7VajtnnNUyaOZE7rq9+UGcfy/eYhGjtQ7MuTNH3/GMJ619oEWNCiNHR6py6xIjqMD6N
+         AOeUhRy0KRq3viA1+rDsfWHAWc9RpXp9VytkI0KqjXi/a12wG2Hevh3XpqNqTEcBKxWS
+         ZHPH2kYG0Cx+CcKKHF2t4lZTcrTTp0maRN4W7BrfaN0tXT9i+phISzuZyRzj/FIlzxj2
+         FD/g==
+X-Forwarded-Encrypted: i=1; AHgh+Rppp3OYWN3kmGlSQgKErsZIna5Rj6cONW8AgFY0SIgGKZuRZcjq2wgEn7tIS9Py8RjyvSyC3gGiWl1h@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7ulayv05PsH44CKovTRDbCiQb82zppOu3/KfSJnvYhqonwVaO
+	s7KflvwKvlGiJ2in2oYv4Ts6N8ocrPDL321NC596WcftaXOr5nmDJexP
+X-Gm-Gg: AfdE7ckHiRs90bC5t5pB7aHpyR0V+v9Y67ZtJQxVflb2QA4WIpBCCL7xwgVMUOPQ3+2
+	sioeMjBEbQvwk+S2Qpdmnp4/AMAcpK51yTwfyDqpaGcS6qYMe+DRhYJWmd/MhnAcVCgXyDwSQZD
+	pY2BSRcvuutX09XSEp+xBHlkbKzHkVIV0TpUaOSrtS5DNeIYrgBQDYAoBoZxU3qTcix3KtoE0ra
+	oG+lu7XaGgZHv0n710OeH2A/2eddnfT1gUwMgEocpBrX/OF1Ys700jzF1FRLwJ21ZaIMCnSYlbX
+	FHGYwOQDVqfSLpObMdN6JUkSqR/yx/0BBYoGjkn7vfHYPiOZjl10/xpwQzmWnE0QWjed+ajmsEz
+	q9y9a17IvgabHdp2n/ogkKmL+Mb9d4NsBDOLc0CbiLNlTVrPrwYNNEyP/QCLsds3yWvJ5IEmEvt
+	iJLHtc++uXpcVLdXg1NXVVN1ObP2YSGFokcaStInx+fxWymziZ88jZ1yc+gZIrH/azGAtdLMUPz
+	6wqQBVmqYrOYvL+rJ5J3YDeuZ19
+X-Received: by 2002:a17:90b:4c4c:b0:38e:dc4:3f64 with SMTP id 98e67ed59e1d1-38e0dc4412fmr2193622a91.38.1783973331046;
+        Mon, 13 Jul 2026 13:08:51 -0700 (PDT)
+Received: from fedora ([202.179.95.46])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311747f5975sm68238202eec.4.2026.07.13.13.08.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2026 13:08:50 -0700 (PDT)
+From: Ninad Naik <ninadnaik07@gmail.com>
+To: lee@kernel.org,
+	pavel@kernel.org,
+	william.zhang@broadcom.com,
+	anand.gore@broadcom.com,
+	kursad.oney@broadcom.com,
+	florian.fainelli@broadcom.com,
+	rafal@milecki.pl,
+	linux@weissschuh.net,
+	krzysztof.kozlowski@oss.qualcomm.com,
+	tzungbi@kernel.org
+Cc: bcm-kernel-feedback-list@broadcom.com,
+	linux-leds@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com,
+	Ninad Naik <ninadnaik07@gmail.com>
+Subject: [PATCH] leds: bcm63138: Use %pe to print pinctrl error instead of %ld
+Date: Tue, 14 Jul 2026 01:37:32 +0530
+Message-ID: <20260713200732.2470666-1-ninadnaik07@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1PR08MB8497:EE_|VI1PR08MB5424:EE_
-X-MS-Office365-Filtering-Correlation-Id: 27183037-9740-4081-5fa4-08dee1182c8e
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|23021999003|5072599009|25010399006|37011999003|6090799003|24021099003|51005399006|15080799012|19110799012|8060799015|440099028|3412199025|40105399003;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Bmszdo7SOmMvZj6GjstRrZKoFXzR1yO6FMZ0pW/UxJhtEhB0UC3qbBO2jmze?=
- =?us-ascii?Q?ay3y3ZdJOISBWdZ1TsADPI/mJyDhKzxOZv6wOHdxj8/BrdkRF9tAd8lE45rj?=
- =?us-ascii?Q?0bZLIidW9aKqXiIp4bZq0bEjzweMqMXnpyDn0VB1N0mwQVCZPIRl97Ktb8fF?=
- =?us-ascii?Q?RXJD/QjfKNQ5clX9MdVGhEX3ODMTpb3cyfHYBe+B0d/SjLtMyjlZNNfgwhY3?=
- =?us-ascii?Q?qDlpm/GCViSUzRsROqIBix+jrBZm4Hmo1UDIRbUxNKMtmCJDU/r4xMV+3KMv?=
- =?us-ascii?Q?HYU46/E+cR8P+yfAWlrl5csXa1bddJ1SODi7jk8abSZW6nF2va52xi6AAlsd?=
- =?us-ascii?Q?NS0TNGNykCQvhjh4Ss+hC47VBkTbpW0MC3Unh5Pqm5Z3tGuFQZ+mMy6X0It9?=
- =?us-ascii?Q?zJp1TEe28xDKc2v4gI5Z28rdzmlEfmbX+nbp9axuwp7VKtBr1mFflNfay/yp?=
- =?us-ascii?Q?MjzHlosDAOw4mdS2sCPE548ENTRE+jPRiLx2jAsZxZ0dred8dpBPbuzQL0hX?=
- =?us-ascii?Q?CmH6EF7O6ZusM4pdXplWQkCVSv/EnJ3EA0ctGI9GvpS6QFjUB0G8TD5YbgDv?=
- =?us-ascii?Q?29yoAbioO6fJ2Ph2oTdMLeYHjMi/4idW2XeluJ5+T5gq6Y6AwiT3i56ys1fn?=
- =?us-ascii?Q?JuuXqqKvW/mmbrp+WA2C6kS1NoCRKWvCqdkaHB1q7zijJW2MV0tOIR74pJkp?=
- =?us-ascii?Q?aiamsBbeoU6WdRq29I6h13TXmwt9UEjWHNgDULuJXg6Fn7oq3KiFvJ2RkuoF?=
- =?us-ascii?Q?rgvNLaRLurFKISo/tIyAShGptPQz+c2JeABTiVua1m48n1j6djnlYqoQzbuQ?=
- =?us-ascii?Q?llumWlJWnKqTn2QPNswSnjINDTDjwXe9kF81AFaIvQgWU0DEeq4UChz6eLzw?=
- =?us-ascii?Q?wUx5g+qHaaD49HWulmmt9qXHyRlbu8iuu72C0oUOq7/6kmIw818h9VvEnDV7?=
- =?us-ascii?Q?u0KNoe31rY3KtdUYiLZMLkpY4Mg+M19/pMMI8JEJErf6v9JDdB8QAtggahG0?=
- =?us-ascii?Q?RTZC?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?hlZKl3vzTd27CoO8xFyBBCmz7wy21aiyIR3WKUfb8vOXroxH8TDBtHq20Mnp?=
- =?us-ascii?Q?yG5gGiZrEIP+gv9lcqDHVW4UQrUp200IPVbRVL//5YSA93XQbHsHGlbyoICk?=
- =?us-ascii?Q?SExgk1F5R78LBe56m0Cnmmq3J90zwe1L3nBWyTFfbhm1+Hv2Nal2XSDyHvrf?=
- =?us-ascii?Q?wSYQmcDJS0IziVyPopd94wDC2oC3FYtUQqLPtoUrV6Q2eWp5yO4YgELtpv+D?=
- =?us-ascii?Q?kEbccottpQ6BEDh6Zc7tcEcZcCYLg6y9WiFCZ11rWHTkgVaHucjvSBTLzQFd?=
- =?us-ascii?Q?yPrIjB/9gvUX/NeMtcrwy/qkr54kHNbDksO9yHTYjfW1p8xVlQbczj9vzGfB?=
- =?us-ascii?Q?NI7LvDNDAmxsXzplN8wTxIDm4Vym+yzR//bHhQhJu6YgRU0Gs9tD0Nl4ykHs?=
- =?us-ascii?Q?lj6np6OPhGfkjs9nEaNF0Dy3IzO94qXshW5Y51Aux7OSjyWiN9rbMDgw+BJn?=
- =?us-ascii?Q?sdg8jO83VQE7s8ywCMuOAcj6Wq+8ZXqYdr1xZtRy+2Revdc2G9Kh6XTpKmZx?=
- =?us-ascii?Q?Qbm3BFsnPIq6MgV0odk5yVpgDjUmEamOZ9/L71vUJ+Dnc0NjS7jefW/v3F9e?=
- =?us-ascii?Q?52s5XucSs+uwTRaYLN1/rX1t3Gb1568m3/7JlL+3yArNSmw4AnbkgraosnST?=
- =?us-ascii?Q?0X6azPhUAcMVD8v3Bt4Gu8MHKoqDi3I9UgLowxPLpZu5YAuuoYzgGe2c1Z81?=
- =?us-ascii?Q?LGNYC/06sUa7Mbpc41Jncq4t6Vrd25SkNDrFO3QwIAq5f0PHRXc2GFTyFtLr?=
- =?us-ascii?Q?pciHe9x+aZCtAtR1z/qMd6MbhHjZh3mHMxP0wtI2dsdHhIoqgdRiJVdWLqRV?=
- =?us-ascii?Q?aVyvHLKikQFJpWWdbK0dLFdvhlU8DRj+QB44m5+hv8c1I6G5hbZ5dS1xjGDo?=
- =?us-ascii?Q?Pxz5CpRjN1xfPGKZha8q4sOABdpn1eb44Tfi3LN4f4FYZK8QzKWZezMu+kiK?=
- =?us-ascii?Q?W644wwY9QU4RmRKXILY2vTPULanA8EjBdjNxTnWx4b8SIPVBf8OOZfncKFe7?=
- =?us-ascii?Q?ANblI0CgzKzOSQPimB+lkjcLC7f/kIu0UPOhf6CFagL3lejiEUza1skQHede?=
- =?us-ascii?Q?cezjtheZOxriDYvyNj2C3Qo8BhMTKhJgNds72AHfzNGEtW84hMxWpqW2a1CA?=
- =?us-ascii?Q?+WbA+oRXrJQ97xtkR7+l5FI+vstEwoVZKcwvS1bRkrWIjubGNpq6Kg2Hh7cZ?=
- =?us-ascii?Q?JyXg6b8EouqDNGeVsrQqcZDN/dwiwWWgNh5meyiUFYuJaHMG2ME4RTcuXM21?=
- =?us-ascii?Q?1FT2CGyu4QdWQVZxqaig8sf7OGNi8f9i9iTxjTiRDAcgJzRrgm0t6gi9Wn2P?=
- =?us-ascii?Q?3GXMEi8BJkKOVaiquGkX38w9VINjZJX4NgXI02fZI2kuG1uN1aCNaYMkbF1F?=
- =?us-ascii?Q?nwpmgKnwjbhYHt54THOZyv/FkW6g4Ua0sPdjMJlLp/Q6mEVS3+fggkztBpRj?=
- =?us-ascii?Q?RX3FOOjKYW0SPt5oFXnesjIeUSWPPtnt?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27183037-9740-4081-5fa4-08dee1182c8e
-X-MS-Exchange-CrossTenant-AuthSource: GV1PR08MB8497.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2026 19:51:48.0934
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB5424
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[outlook.com,none];
-	R_DKIM_ALLOW(-0.20)[outlook.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-9071-lists,linux-leds=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[fombuena@outlook.com,linux-leds@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:sashiko-reviews@lists.linux.dev,m:linux-leds@vger.kernel.org,m:lee@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[broadcom.com,vger.kernel.org,lists.infradead.org,linuxfoundation.org,brighamcampbell.com,gmail.com];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-9072-lists,linux-leds=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[outlook.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FREEMAIL_FROM(0.00)[outlook.com];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:william.zhang@broadcom.com,m:anand.gore@broadcom.com,m:kursad.oney@broadcom.com,m:florian.fainelli@broadcom.com,m:rafal@milecki.pl,m:linux@weissschuh.net,m:krzysztof.kozlowski@oss.qualcomm.com,m:tzungbi@kernel.org,m:bcm-kernel-feedback-list@broadcom.com,m:linux-leds@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:skhan@linuxfoundation.org,m:me@brighamcampbell.com,m:ninadnaik07@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[ninadnaik07@gmail.com,linux-leds@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[fombuena@outlook.com,linux-leds@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[3];
-	TO_DN_NONE(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ninadnaik07@gmail.com,linux-leds@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,outlook.com:from_mime,outlook.com:dkim,vger.kernel.org:from_smtp,GV1PR08MB8497.eurprd08.prod.outlook.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E0CBC74EE56
+X-Rspamd-Queue-Id: DA3DE74EF62
 
+Pass the pinctrl error pointer directly to %pe to print the
+symbolic error name.
+Detected by Coccinelle. Tested by compiling.
 
-> New issues:
-> - [High] st1202_blink_set() destructively zeroes the PWM pattern 
-registers for all other active LED channels, forcing them dark and 
-breaking their steady states.
+Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+---
+ drivers/leds/blink/leds-bcm63138.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This is an inherent hardware constraint. The LED1202 uses a single global
-pattern sequencer with shared timing registers, making it impossible for
-two channels to run independent blink configurations simultaneously. When
-blink_set() is called, the shared timing is reconfigured for the requested
-delays and other channels' PWM slots are set to LED_OFF so they remain
-dark rather than outputting unintended values. This behaviour is described
-in the commit message.
-
-> - [Medium] Blink brightness is hardcoded to maximum (`U8_MAX`), ignoring 
-user-configured levels.
-
-led_cdev->blink_brightness is set inside led_set_software_blink(), which
-is the fallback path taken when blink_set() is absent or returns non-zero.
-Since st1202_blink_set() returns 0 on success, led_set_software_blink() is
-never reached and blink_brightness is not updated by the core before our
-callback is invoked. Using it would risk reading 0 or a stale value from
-a previous software blink, causing the LED to blink invisibly. U8_MAX is
-intentional.
-
-> - [Low] The commit message description is not capitalized, violating LED 
-subsystem naming conventions.
-
-Noted, it would be fixed in v2 if it was necessary to send it because of
-code changes.
+diff --git a/drivers/leds/blink/leds-bcm63138.c b/drivers/leds/blink/leds-bcm63138.c
+index 45c0662df933..12b70ee31b9a 100644
+--- a/drivers/leds/blink/leds-bcm63138.c
++++ b/drivers/leds/blink/leds-bcm63138.c
+@@ -236,8 +236,8 @@ static void bcm63138_leds_create_led(struct bcm63138_leds *leds,
  
-> Pre-existing issues:
-> - [High] The sleepable st1202_brightness_set() function is incorrectly 
-assigned to the non-blocking brightness_set callback.
+ 	pinctrl = devm_pinctrl_get_select_default(led->cdev.dev);
+ 	if (IS_ERR(pinctrl) && PTR_ERR(pinctrl) != -ENODEV) {
+-		dev_warn(led->cdev.dev, "Failed to select %pOF pinctrl: %ld\n",
+-			 np, PTR_ERR(pinctrl));
++		dev_warn(led->cdev.dev, "Failed to select %pOF pinctrl: %pe\n",
++			 np, pinctrl);
+ 	}
+ 
+ 	bit = BIT(led->pin);
+-- 
+2.55.0
 
-This is a pre-existing issue outside the scope of this patch and will be
-addressed in a follow-up submission.
-
---
-Manuel Fombuena
 
