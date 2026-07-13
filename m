@@ -1,248 +1,233 @@
-Return-Path: <linux-leds+bounces-9062-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-9063-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id sgZnArnTVGqifQAAu9opvQ
-	(envelope-from <linux-leds+bounces-9062-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 14:02:01 +0200
+	id vlGFGbYFVWoVjAAAu9opvQ
+	(envelope-from <linux-leds+bounces-9063-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 17:35:18 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3689B74AA99
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 14:01:55 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A871074D1A3
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 17:35:17 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=lysator.liu.se header.s=2026 header.b=eP0SQK4N;
-	dkim=pass header.d=lysator.liu.se header.s=2026 header.b=eP0SQK4N;
-	dkim=pass header.d=lysator.liu.se header.s=2026 header.b=tBP9qD8X;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9062-lists+linux-leds=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-leds+bounces-9062-lists+linux-leds=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=lysator.liu.se;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=outlook.com header.s=selector1 header.b=OD77y6bI;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9063-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-9063-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=outlook.com;
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B8F09300F4D9
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 11:57:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 919CE304420B
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 15:18:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B7493F54A7;
-	Mon, 13 Jul 2026 11:57:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 333843546EA;
+	Mon, 13 Jul 2026 15:18:53 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.lysator.liu.se (mail.lysator.liu.se [130.236.254.3])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazolkn19013086.outbound.protection.outlook.com [52.103.35.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6EA83EB7E5;
-	Mon, 13 Jul 2026 11:57:29 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783943855; cv=none; b=CQxzqnA0NqP24I8VhGS+zg9VHnnUFnqe5vvfYtN5QCQ2j5eAKCPW+ZD9+PXQPG59uvdJei527ZBr70vcz3KiS7ItGLhGURZ2z8LnzFR+ZILMhw3XvP6dOJ1KqRdT53YHhm87r4W7mV2j3KuHNEviuBzz2GaPRNy7GKqt52O03oc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783943855; c=relaxed/simple;
-	bh=ZU9f5XQcfOha9tsafysQKKY+BbVKCPTIcqlTdjCJdHc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=S2xHn+O7AySIgt7Wd13DqhtuZrjBWIr4NAmnotJYWx0Ioa+3rW/oduaDdEu2Pg58ogwS8dH+YMiW55PZsDcJtUJGJq334uNmvCWZkQ1dJKxOO1gd9jeKAIkorPpQxj9I33LdsZfiggrJQL31udIEGl4e62zn1gbNgsmmXg+l+8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lysator.liu.se; spf=pass smtp.mailfrom=lysator.liu.se; dkim=pass (2048-bit key) header.d=lysator.liu.se header.i=@lysator.liu.se header.b=eP0SQK4N; dkim=pass (2048-bit key) header.d=lysator.liu.se header.i=@lysator.liu.se header.b=eP0SQK4N; dkim=pass (2048-bit key) header.d=lysator.liu.se header.i=@lysator.liu.se header.b=tBP9qD8X; arc=none smtp.client-ip=130.236.254.3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lysator.liu.se;
-	s=2026; t=1783943841;
-	bh=ZU9f5XQcfOha9tsafysQKKY+BbVKCPTIcqlTdjCJdHc=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=eP0SQK4NrY74ZX5zlx/KwwdYyE2G/8poMBqqsYoS9tPi1RKxIjtnrjPUoiCA+Q5iA
-	 vFznL+nZ+wGAZrfHeEU4m4hA9UTu4pEx6ilGNnP+VnZ59gDhiWmGBIA261Ua29NkNs
-	 tgEmKcKTX2hMe/bXGsqXOOwzi2IN0e6i+1nE7deJUbZmfhon0rwEtoTXkioudsbNPw
-	 4qbCOy+5rK9Gpzmo6c7JXmf9ndxNv6o2xkPeOYviDTyIeXuDz5Cs1ioZHWWwBlnHHG
-	 /w7C2LqUyxwgwXiI/kLetGmJh/AWvZsS7XKNvLKy7WFkn1P0OE/dG5n8kjFROxB7TJ
-	 UYtZ16Ajcz0Xw==
-Received: from mail.lysator.liu.se (localhost [127.0.0.1])
-	by mail.lysator.liu.se (Postfix) with ESMTP id 5BD8145D0;
-	Mon, 13 Jul 2026 13:57:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lysator.liu.se;
-	s=2026; t=1783943841;
-	bh=ZU9f5XQcfOha9tsafysQKKY+BbVKCPTIcqlTdjCJdHc=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=eP0SQK4NrY74ZX5zlx/KwwdYyE2G/8poMBqqsYoS9tPi1RKxIjtnrjPUoiCA+Q5iA
-	 vFznL+nZ+wGAZrfHeEU4m4hA9UTu4pEx6ilGNnP+VnZ59gDhiWmGBIA261Ua29NkNs
-	 tgEmKcKTX2hMe/bXGsqXOOwzi2IN0e6i+1nE7deJUbZmfhon0rwEtoTXkioudsbNPw
-	 4qbCOy+5rK9Gpzmo6c7JXmf9ndxNv6o2xkPeOYviDTyIeXuDz5Cs1ioZHWWwBlnHHG
-	 /w7C2LqUyxwgwXiI/kLetGmJh/AWvZsS7XKNvLKy7WFkn1P0OE/dG5n8kjFROxB7TJ
-	 UYtZ16Ajcz0Xw==
-Received: by mail.lysator.liu.se (Postfix, from userid 1004)
-	id 3EC074698; Mon, 13 Jul 2026 13:57:21 +0200 (CEST)
-X-Spam-Level: 
-X-Spam-Score: -1.1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lysator.liu.se;
-	s=2026; t=1783943829;
-	bh=ZU9f5XQcfOha9tsafysQKKY+BbVKCPTIcqlTdjCJdHc=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=tBP9qD8X/xsXZ7egKwzKFvcjlUpLAIm1KgxB8b2b/QLhFDWGuOsaaNyA9AaX0h4EP
-	 UT2xTKBrUdwJ/uHPjdWfTqK0UgegGwGKDuLWoa8qiMNmxxKHEMA9HhBig1pp5ohAjX
-	 ZI/fDbfZ/PXP7cP49ifkTiFpUxlBKg38sdJlmDSBipXM++nfWkFQRfFkeqkLQyc7bx
-	 m+f1FvpSIm0o1JV9aJcwLQX8dUa/Xdwqevi/LKyHPDmfPXQ0CFyn7k19/mxEZu9W/X
-	 A9NB0oaVGN8c5fFzWE1e2YV54kMlbioLeCyOmyKxNO/NUCXCFkQTvjQuhFWkI4UuLv
-	 L4FRdHuEGTiAw==
-Received: from [192.168.2.172] (81-225-28-11-no2391.tbcn.telia.com [81.225.28.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by mail.lysator.liu.se (Postfix) with ESMTPSA id B019F45B4;
-	Mon, 13 Jul 2026 13:57:02 +0200 (CEST)
-Message-ID: <744e6181-ad21-4632-b293-5bf6c1e9fc2e@lysator.liu.se>
-Date: Mon, 13 Jul 2026 13:57:01 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20A025FA29;
+	Mon, 13 Jul 2026 15:18:51 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783955933; cv=fail; b=fEwJ6vmmLTcNYjqJ6szvhM1Lxc/j6W0p2BI04BxBPNabKQUbw1CdD10GbuMQM2VxGSjrbghK1Pu//q5a7bnjbuQ2vl/pvgD2jN4tDHkkXmHXX2Q8rY1ijLk6IwWx9QkND/pj+cErYlp+POEw8SI02T5iyqjAJ4+3I7q7qLmCZc0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783955933; c=relaxed/simple;
+	bh=ZNN0J8YCX8PPXtUQ8TtTeLdlz/Fc6EfHlaTUZHuW92g=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=aaIkoqHV6QBxyQRfZ/P4JdRjmW6HY3VZkvLmpGb60XOlcXj2Gahuos8WEYYAHTRW5kn7MZC34u6IYD1g6YRZdbjJKPH/Q53YJLSKj7oO/a3+FlfuDISUTVQCMISB2pS1n/2LbJ3qx20mJnYPfPy2LdqcCXbZnOGsyGVdrfQcZEA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=OD77y6bI; arc=fail smtp.client-ip=52.103.35.86
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=m8dZc5jVvUX+k1js81lqfM507ZJE4PrbThzKmY4c5e/JIRpp1YKJ5TvzzkjoKCqqUGd5dTBmy6CyAhpaOkJqcnBQOJv2WslcZb/4dNbk0WP98BLoxzDWoO+Ue7URnqV58JXpRCL2Dw7p3ILTXveuKvP2k0c7Q02bn6CFmJizr3oJ4UZT3OoTv/vdtgEzpAdgjVKwe+hKU+UPECCaSFu2BrSq6SY61XkX2TQtaTCqntjReSvyWKniFTq5zyjoEQncUI4vM9shEWc+XePPX1Of+jslvI2wsbL4MdldyXrqFT3vr4SlptFSVWOOdlgwJpukZ4LwBWAOHJC4Gqd5z9ERHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JjiTxuel3+8hFv2DiBuw2T9C0cmqdXd7/6ckxRYdjSk=;
+ b=a/NKF6ZReuZhws3pinjYjNjnL8Vw71AjGI6J0oMR4APzGEAzRihbWemvKHkOGcWkvA74xuk23SjYwDSQgwZtpiDBkxc6IxTWUfemw75e/+HekTnWgJgnK9MOq35/pQCeVfwyOA9rQrjy4nSYBopUWgz6gG6H9uEvj4lYk8785AzhyAM6JdneK0hbLoKiqX5aZDiDErK26SMTBAanov2YGG0/FOP4OlvQfAAkV6chdLBYNnNujVn08DNussGDRZakU4WZpBmlrFvHAAEvPIA2y2G35eyiuc2K04K3GA6pCaKcWY5Af9QhLX0rKxj8jPVYOWN4mqzDX3CO2GbRJ2DzQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JjiTxuel3+8hFv2DiBuw2T9C0cmqdXd7/6ckxRYdjSk=;
+ b=OD77y6bIw/snaj3sikIuYuLX9KvzLUWF9ypyePiEcpzOHXWuBZDjx4su8tDW4OE4aBMpy884xEKNyKjGVYhOJfgjQVkYWofkY5XKaAg9NVWZCpYkNoRGj1M52Fg5HSyujDoLMMfS92TPp5Rjt6xi778olRjAymuw/wknfTCVTPkiZGNvEOM9x2yzh8a/VK8LxxMopt8qUZvclYKqk2/EoZd2ytarvIcmS3LyZXQI8b8LpHPQ4i6zH9s22Gu2iBggk6vJbQt055zSZ1NoXlAYUR0zKl7pE8n0VO4Y0PaAPZR7IIoC2D8sQ2yYJzN0LxZsZLu6H0G8KHQ/T3H7DQe/rQ==
+Received: from GV1PR08MB8497.eurprd08.prod.outlook.com (2603:10a6:150:81::22)
+ by AS8PR08MB6406.eurprd08.prod.outlook.com (2603:10a6:20b:33c::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Mon, 13 Jul
+ 2026 15:18:48 +0000
+Received: from GV1PR08MB8497.eurprd08.prod.outlook.com
+ ([fe80::705b:d4a3:1c1f:b9a2]) by GV1PR08MB8497.eurprd08.prod.outlook.com
+ ([fe80::705b:d4a3:1c1f:b9a2%5]) with mapi id 15.21.0202.014; Mon, 13 Jul 2026
+ 15:18:48 +0000
+From: Manuel Fombuena <fombuena@outlook.com>
+To: lee@kernel.org,
+	pavel@kernel.org,
+	vicentiu.galanopulo@remote-tech.co.uk,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/1] leds: st1202: add hardware-accelerated blink support
+Date: Mon, 13 Jul 2026 16:18:17 +0100
+Message-ID:
+ <GV1PR08MB8497C5B8CEB2CE19743DFCFFC5FA2@GV1PR08MB8497.eurprd08.prod.outlook.com>
+X-Mailer: git-send-email 2.55.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P123CA0350.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18d::13) To GV1PR08MB8497.eurprd08.prod.outlook.com
+ (2603:10a6:150:81::22)
+X-Microsoft-Original-Message-ID:
+ <20260713151835.635908-1-fombuena@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dt-bindings: Drop incorrect usage of double '::'
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Peter Griffin <peter.griffin@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Sam Protsenko <semen.protsenko@linaro.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Andi Shyti
- <andi.shyti@kernel.org>, Georgi Djakov <djakov@kernel.org>,
- Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Hans Verkuil <hverkuil@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Linus Walleij <linusw@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Sebastian Reichel <sre@kernel.org>,
- Javier Martinez Canillas <javier@dowhile0.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
- Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>, Jonathan Marek <jonathan@marek.ca>,
- Taniya Das <quic_tdas@quicinc.com>, Robert Marko <robimarko@gmail.com>,
- Christian Marangi <ansuelsmth@gmail.com>,
- Stephan Gerhold <stephan@gerhold.net>,
- Adam Skladowski <a_skl39@protonmail.com>,
- Sireesh Kodali <sireeshkodali@protonmail.com>,
- Barnabas Czeman <barnabas.czeman@mainlining.org>,
- Imran Shaik <quic_imrashai@quicinc.com>,
- Sricharan Ramabadhran <quic_srichara@quicinc.com>,
- Anusha Rao <quic_anusha@quicinc.com>, Luo Jie <quic_luoj@quicinc.com>,
- Tomasz Figa <tomasz.figa@gmail.com>, Chanho Park
- <chanho61.park@samsung.com>, Sunyeal Hong <sunyeal.hong@samsung.com>,
- Shin Son <shin.son@samsung.com>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Jaehoon Chung <jh80.chung@samsung.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Alina Yu
- <alina_yu@richtek.com>, Andy Gross <agross@kernel.org>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Wesley Cheng <quic_wcheng@quicinc.com>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-i2c@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20260622101606.485961-3-krzysztof.kozlowski@oss.qualcomm.com>
- <20260622101606.485961-4-krzysztof.kozlowski@oss.qualcomm.com>
-Content-Language: en-US, sv-SE
-From: Peter Rosin <peda@lysator.liu.se>
-In-Reply-To: <20260622101606.485961-4-krzysztof.kozlowski@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: ClamAV using ClamSMTP
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV1PR08MB8497:EE_|AS8PR08MB6406:EE_
+X-MS-Office365-Filtering-Correlation-Id: bcaaab4e-cf97-45b4-4160-08dee0f209bd
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|23021999003|5062599005|25010399006|5072599009|37011999003|6090799003|24021099003|51005399006|15080799012|8060799015|19110799012|4302099013|440099028|3412199025|40105399003|10035399007|1602099012;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?V0E1UXc3VlF4NTFLNHRTYkNYRW05bnhnVkJ5dlREMW1oVG5LbTdRNmFiSEln?=
+ =?utf-8?B?eFNheHRwOWp2TGhvTXFqc21ta0NHRG5GdWtRU0wyMW1jNEhHcUxCdS9QeWNy?=
+ =?utf-8?B?QXBBRTFRWFBjQ2I4NFZuelN5azg0RDlENW5JSmRTL1VlaEF4VGdGcFJSL1JD?=
+ =?utf-8?B?WHNzNnhpRjhNbWFCNi95UmNCMytvTFFvemJNdEF2Y29sZlpqOERRUHhSSGVT?=
+ =?utf-8?B?czNpTmYrZmxyNGlncG5ZUldyWG5sMmF5NWhEOEZhazFKZkFDR2FvdDJycjEx?=
+ =?utf-8?B?dEVYeVg4bFBqNjlkZ2NzL1duUy8vSmswVXI4amdlWkdyVzRqU2dzeExzOGNl?=
+ =?utf-8?B?Rk1HV1ZnWHk4SUNTNzZFaVNORGJLbmsvV3diMklhUnlZMGcvbkYwOXBXYm16?=
+ =?utf-8?B?WnZiV0VIcWZqUWtQdnJ2b0FYWlgyWjlTVEZhb0Vya2RGNjR5UGVWNHl2TU0x?=
+ =?utf-8?B?aUkzUDBnMDZwZThzT0VaZFBpc1B4SWhrT1pXS3A5Q0k0TDJLY3FtZEplclNP?=
+ =?utf-8?B?OFBmekVrTjYycE5YNzJINHdidWVYYmMvQjdKeWgzcnVoVm9PWDNQRjhMRzA2?=
+ =?utf-8?B?ZUhQa3VSWFg2UTlGWk04dWhNbTNZODFzS2NQR0VJcVZ2aE5JRTJqSC9ib0pQ?=
+ =?utf-8?B?OU5IdE1ETXJzOVRPNFZIUXBNNy80bkhIT2drdW5sTWRwR3RaVjBnN2F1dTcv?=
+ =?utf-8?B?MGs4UlVzb29hR0ljOWNuNjBjRWRMMjh2bHVJMnNhRUovQXozSlBBVkgrUHRo?=
+ =?utf-8?B?REdpamdndHkvL1BrNUc0UUl0RW45bkdla2dEbHM5bW5IMmt3RGhZK1VkTzd5?=
+ =?utf-8?B?U0tXaWh1UFllWDl2SFBYSzc1WTViTmNUeWF3ZU9JQm1xRUMzUzBjaHFjalZK?=
+ =?utf-8?B?TTQ4NU1DUUFvSTk0NlMyaEFLQ21QVTliclNGMm9VNlJGY0hJMjZyQWlhVWty?=
+ =?utf-8?B?ZVRBWVowYnZlOU1MQy9sbzh0ckloQ1ZWMmNRTDJTR1dsQ0lHQm04ZzVWcTFx?=
+ =?utf-8?B?MTN1by9yUG96a3Qvd0RXR2FSOEhYVjhja1VjK21JK21yeDl6VVFLTWVITWRQ?=
+ =?utf-8?B?WGoyOGNHUlc1NkFXQmltdlBvL09lQWVUT0RqY2RtdUxyU2dYQXBGWDYwOWIy?=
+ =?utf-8?B?bTJXejUrNzlzL2k4VzJ3aWl5cnRjR3lRaWU5c250bXkwVFNEWVBjSjBERWIy?=
+ =?utf-8?B?SmRCc3hBaWl6M09CL2llZDZvZ09zNWVJVDBIblBDWHB1K1JodXloblJQYi9Q?=
+ =?utf-8?B?WGN6L3dTaDhzRkJqMTBqVkhZYVlxKzhXQnRpL09lNDFxellzdEMvQ0JPSVdu?=
+ =?utf-8?B?ZkwveTRQTHF3T3hNSXlHeTRRUkxMMzhIallzYTdycENOV3FjekZGWC9iWjBK?=
+ =?utf-8?B?UjlHdHJ6YWZPOTF3cXExYUxLb1RFTnN6T2drU0tTcWJrUmplbFFCYkhvYkJQ?=
+ =?utf-8?B?QlJQMzBJWjJDa3BEazNlQTQvdjNsYmZaRXZsNWt4R3BEUUxhYTVjSm9RYk5O?=
+ =?utf-8?Q?3xgXyD3v1/dp5FTmeMw4XiykDVu?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZnpVdWxJSkplbWpyeWNCcWd0NGsybkF2YnBsOG5veDV5OW5WTHNMc0J6SG5m?=
+ =?utf-8?B?bHN3SHE3dWtZZm1vZk55LzFzTnVUbHdBQnpQd0prRFozZmxzYTZhRm5XSWhl?=
+ =?utf-8?B?YlYrQ2FUcXB4enoxUDBxYzJhdFRhWE1MUE1CelRLOUc2Q2pZSW9RcGVCRDh4?=
+ =?utf-8?B?R1Uydk9CL2xGa09JcnRQdmJMdXdzRVJqZVFUVnF5YlRPRUllNzVDUFVDVDBa?=
+ =?utf-8?B?VVBxSUlXOUEzM1lGTXBTVmxOYTlqN1Fod1E2RmRLR3A4eFdBbEJlTmpQcy80?=
+ =?utf-8?B?MVhKd3crLzJtUStTU1FHV2Z5c3V3YzhZbzN2bldHOTlQTFBsSUJhMTVkcm04?=
+ =?utf-8?B?eDBnOTVIRG15cFFDNmgra09yZEZLMWdReDloblFOK3JyaXY2VlRKU2tMRVVL?=
+ =?utf-8?B?cTFkVWREQy81Y2xxRXFIbVJnbUVNMDhKTlFtNFIzbERBbGpDVGhwSFdmTTAw?=
+ =?utf-8?B?M0FtUUd5Zk5rRFB1TmdZRHF5MUFFUUZsbE1kK0RiOWM1UVgzZlJZWTU4S2ln?=
+ =?utf-8?B?SW1FT3pPSHo1QS8veVVkdHZ4dm9jTjRzZlduTDhGTE5hcUQvV2tmOXB0Qm4r?=
+ =?utf-8?B?enp3eXlyZjhPcy9BZkxGQllOK016KzdEd252U1dSYlNNQXREN2pkcHBnaGh2?=
+ =?utf-8?B?TjRNam5ZdTkwdzVMS0JpL3VyaVR3b2NndmxpREpTekhQVjNmNzlUTmwwSkhr?=
+ =?utf-8?B?LzZhamEvSmhPSThuaXBnMkdCTmhpWUJITkN5bU5pVHVNSll3UEJsU2tRUWxB?=
+ =?utf-8?B?SEpBVzlUMjYvZXpOdkhqdzRtdzR0N1p4VmwyNUU3ZWhKQzZqMTl5QzZ6cUI5?=
+ =?utf-8?B?c01pMEJEbCtYWXZod0RESHI3R01jRXA5dVpkekFTc0IyQmx4dkRUSG9zRHNS?=
+ =?utf-8?B?Y2d2MjBYVUpJRmVoK0hpWHBySXNnN3AxL1BTTTVmZEhIWVJjMkVtWXByVksr?=
+ =?utf-8?B?SG9wZ3ZRQ05WYVlFeEJVRHpadDhYYjlRK25TVjRVTDdtSDZOV2s0ZkYzZ3JB?=
+ =?utf-8?B?b1JOYzNaMEtLS2VNbmd6YzB5Njh4VlRjOUg1TWxoemZmOU93T2ZaTGhUbE0r?=
+ =?utf-8?B?RmxZVzRPMnZIVVhmT3AySnk3WXZzSGdhaHhhUWxpYVljLzFzeUV4Slk2VThJ?=
+ =?utf-8?B?bVE1cXJpbDI2TFcyR2tKY0JVd3E5RXpMb05BWHNEa0h3elJXakl2elF3bHIw?=
+ =?utf-8?B?UERoTGY1NFdiWlhWdlN0cllZRGlPbmpqT3BTeXZmRTFCKytYeVl6aU5oaXM3?=
+ =?utf-8?B?N21WMEVzQnpBU0lIQk0wQWQrQ3hYU2l3VllWWW1Bb1JDcmJVdnVLbTNlRVBT?=
+ =?utf-8?B?UmxUcHMrV1R6clZGSHRkbjBXVmRDOGNscjRKUmZ6aythWHg1ZVhSOTZoS1h5?=
+ =?utf-8?B?S1B1L3JzL01zL016ZldNNHpFUmpTZXd2dURPbmxYWDVVbVJFY1VUQVBkYzY0?=
+ =?utf-8?B?TmE2Y3UweUlEOGdpWGZTNFJaYWJldWk1RTYwMC9QNFMzVEpKcmh1WkIyWWRw?=
+ =?utf-8?B?SEJwTHpjUENxTEJKVTRIVW0rWTBEY3FLY2NwMFFmcHFNSWVUakh6YWowSXIw?=
+ =?utf-8?B?aHdLWGxlQmdpTjZpNVdjOC9xUm5PQzhsbE5jbEZQcDBBbkRCNmVJRHE2ZTlO?=
+ =?utf-8?B?Q2VPRExUaWg4TlYvTkpUKzh1N0F5cy9xSlp4aDZxbDNCYWlHK1U1ZWZJYmg3?=
+ =?utf-8?B?K2lMaWdlNE44TVJtM1M2UnpKQ0FpZXlVdUlmakZrN3c4NFdBbmZyOCtNVmpG?=
+ =?utf-8?B?ZVRkRVBqK0ZiNWNzcmR5SWRBOGZUQ25TQnE1TVJVbTZoVVRVQzNJQ1JMMUxU?=
+ =?utf-8?B?NjZ0OGcyRVhKeVBZYThCWHJ4ZFQrTzdqUGd0MjBicU1lRU5tUFFsL0ttU1JY?=
+ =?utf-8?B?dVhxdyttNlpaQktRWGo4bWJvQW5RSDRCdjh4c2ZvbHJibU5HMmdiek13RUlt?=
+ =?utf-8?Q?0vEpS54WIkuoCXeT0INTsLd4IlE79EbN?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bcaaab4e-cf97-45b4-4160-08dee0f209bd
+X-MS-Exchange-CrossTenant-AuthSource: GV1PR08MB8497.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2026 15:18:48.8384
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6406
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[lysator.liu.se,none];
-	R_DKIM_ALLOW(-0.20)[lysator.liu.se:s=2026];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[outlook.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[outlook.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-9062-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:krzysztof.kozlowski@oss.qualcomm.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:peter.griffin@linaro.org,m:alim.akhtar@samsung.com,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:s.nawrocki@samsung.com,m:cw00.choi@samsung.com,m:semen.protsenko@linaro.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:inki.dae@samsung.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,m:andi.shyti@kernel.org,m:djakov@kernel.org,m:lee@kernel.org,m:pavel@kernel.org,m:hverkuil@kernel.org,m:mchehab@kernel.org,m:ulfh@kernel.org,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:linusw@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:sre@kernel.org,m:javier@
- dowhile0.org,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:srini@kernel.org,m:bzolnier@gmail.com,m:rafael@kernel.org,m:daniel.lezcano@kernel.org,m:rui.zhang@intel.com,m:lukasz.luba@arm.com,m:jonathan@marek.ca,m:quic_tdas@quicinc.com,m:robimarko@gmail.com,m:ansuelsmth@gmail.com,m:stephan@gerhold.net,m:a_skl39@protonmail.com,m:sireeshkodali@protonmail.com,m:barnabas.czeman@mainlining.org,m:quic_imrashai@quicinc.com,m:quic_srichara@quicinc.com,m:quic_anusha@quicinc.com,m:quic_luoj@quicinc.com,m:tomasz.figa@gmail.com,m:chanho61.park@samsung.com,m:sunyeal.hong@samsung.com,m:shin.son@samsung.com,m:quic_mkrishn@quicinc.com,m:jacek.anaszewski@gmail.com,m:jh80.chung@samsung.com,m:m.szyprowski@samsung.com,m:alina_yu@richtek.com,m:agross@kernel.org,m:niklas.soderlund@ragnatech.se,m:quic_wcheng@quicinc.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-s
- amsung-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:freedreno@lists.freedesktop.org,m:linux-i2c@vger.kernel.org,m:linux-pm@vger.kernel.org,m:linux-leds@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-mmc@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-gpio@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-serial@vger.kernel.org,m:linux-sound@vger.kernel.org,m:linux-usb@vger.kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-9063-lists,linux-leds=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RSPAMD_URIBL_FAIL(0.00)[yaml.org:query timed out];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linaro.org,samsung.com,baylibre.com,redhat.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linux.intel.com,suse.de,glider.be,dowhile0.org,linuxfoundation.org,intel.com,arm.com,marek.ca,quicinc.com,gerhold.net,protonmail.com,mainlining.org,richtek.com,ragnatech.se,vger.kernel.org,lists.infradead.org,lists.freedesktop.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[peda@lysator.liu.se,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:pavel@kernel.org,m:vicentiu.galanopulo@remote-tech.co.uk,m:linux-leds@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[lysator.liu.se:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[peda@lysator.liu.se,linux-leds@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[95];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds,dt,renesas];
+	FREEMAIL_FROM(0.00)[outlook.com];
+	FORGED_SENDER(0.00)[fombuena@outlook.com,linux-leds@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[outlook.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,lysator.liu.se:from_mime,lysator.liu.se:dkim,lysator.liu.se:mid,yaml.org:url,qualcomm.com:email,vger.kernel.org:from_smtp]
+	RCPT_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[fombuena@outlook.com,linux-leds@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-leds];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,outlook.com:from_mime,outlook.com:dkim,GV1PR08MB8497.eurprd08.prod.outlook.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3689B74AA99
+X-Rspamd-Queue-Id: A871074D1A3
 
-On 2026-06-22 12:16, Krzysztof Kozlowski wrote:
-> There is no use of double colon '::' in YAML. OTOH, the literal style
-> block, e.g. using '|' treats all characters as content [1] therefore
-> single use of ':' in descriptions is perfectly fine, whenever '|' is
-> used.
-> 
-> Cleanup existing code, so the confusing style won't be re-used in new
-> contributions.
-> 
-> Link: https://yaml.org/spec/1.2.2/#literal-style [1]
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> 
-> ---
-> 
-> Intention for this patch is to go via Rob's tree.
-> ---
+This patch adds blink_set() to the ST1202 LED driver, enabling
+hardware-accelerated blinking via the timer trigger.
 
+A series of nine fixes to the pattern engine and brightness handling
+was recently applied to for-leds-next:
 
+https://lore.kernel.org/all/GV1PR08MB8497C0B898789BB73ACE6EE3C5F52@GV1PR08MB8497.eurprd08.prod.outlook.com/
 
-> diff --git a/Documentation/devicetree/bindings/mux/mux-consumer.yaml b/Documentation/devicetree/bindings/mux/mux-consumer.yaml
-> index 9e2d78a78e40..769243a2bf04 100644
-> --- a/Documentation/devicetree/bindings/mux/mux-consumer.yaml
-> +++ b/Documentation/devicetree/bindings/mux/mux-consumer.yaml
-> @@ -13,8 +13,8 @@ description: |
->     Mux controller consumers should specify a list of mux controllers that they
->     want to use with a property containing a 'mux-ctrl-list':
->   
-> -    mux-ctrl-list ::= <single-mux-ctrl> [mux-ctrl-list]
-> -    single-mux-ctrl ::= <mux-ctrl-phandle> [mux-ctrl-specifier]
-> +    mux-ctrl-list := <single-mux-ctrl> [mux-ctrl-list]
-> +    single-mux-ctrl := <mux-ctrl-phandle> [mux-ctrl-specifier]
->       mux-ctrl-phandle : phandle to mux controller node
->       mux-ctrl-specifier : array of #mux-control-cells specifying the
->                            given mux controller (controller specific)
-This change does not match the others? I do not think ::= is some kind
-of malformed YAML that has crept into a literal block. Instead, I think
-it is syntax inspired from BNF or something such. IIRC, it was once
-adapted from
-Documentation/devicetree/bindings/pwm/pwm.txt
+With those fixes in place, the pattern engine can be used reliably to
+implement blink_set(): a two-step pattern (full brightness for delay_on,
+off for delay_off) is programmed and started in infinite repeat mode.
+Requested delays are clamped to the hardware range and rounded up to
+the nearest 22ms step.
 
-Or, I am missing something...
+During review of the fix series, several pre-existing issues were
+identified in the driver — including brightness_set() being assigned to
+a non-blocking callback, the global sequencer affecting all channels on
+pattern operations, and missing brightness scaling in pattern_set().
+These do not affect blink_set(): the callback is not invoked from atomic
+context, the function explicitly programs all other channels' PWM slots
+to zero before starting the sequencer, and channel brightness is set
+directly via the ILED register. The pre-existing issues will be
+addressed in a follow-up submission.
 
-Cheers,
-Peter
+Tested on LED1202 hardware via I2C on a Linksys MX4200v2 router running
+OpenWrt. Hardware blinking confirmed functional with the timer trigger.
+
+Manuel Fombuena (1):
+  leds: st1202: add hardware-accelerated blink support
+
+ drivers/leds/leds-st1202.c | 82 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+
+-- 
+2.55.0
+
 
