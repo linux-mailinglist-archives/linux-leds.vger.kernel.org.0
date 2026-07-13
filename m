@@ -1,53 +1,59 @@
-Return-Path: <linux-leds+bounces-9057-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-9058-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id KNYmCyCAVGrCmgMAu9opvQ
-	(envelope-from <linux-leds+bounces-9057-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 08:05:20 +0200
+	id ka0aFpOjVGqGogMAu9opvQ
+	(envelope-from <linux-leds+bounces-9058-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 10:36:35 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1DA7476CF
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 08:05:19 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82917748C67
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 10:36:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=my62gzNZ;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9057-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-9057-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmx.net header.s=s31663417 header.b="GD3q8gD/";
+	dmarc=pass (policy=quarantine) header.from=gmx.net;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9058-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-9058-lists+linux-leds=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7E8123014C6A
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 06:05:18 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 14B773018CC4
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 08:23:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE48C2D9ECD;
-	Mon, 13 Jul 2026 06:05:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 134913ACA40;
+	Mon, 13 Jul 2026 08:23:12 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A481719C54E
-	for <linux-leds@vger.kernel.org>; Mon, 13 Jul 2026 06:05:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9444E5695;
+	Mon, 13 Jul 2026 08:23:09 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783922717; cv=none; b=kSmeug/gZswpC69meCfS8TH2A6G6bFeYyy/rdG3JT7W4k7M6M73sJonZ+dWzuWBzxxUcNQ3SJjWWLR0xJ6Y7MThgjriGKoggjf890faQuZro6xIkPsMPvJjIYlSuvlfWoP/0leCtc69XaESkEHosh7Kar3IgJG46zxqkroPgUCA=
+	t=1783930992; cv=none; b=IASGet7EQEa935JCPePQoWUQE2VVqoigEOoM3Z5xylUxgB6HWE7dGgudvgcy3O2qET3cTRW+T7qnWoSrwP4V3RTKIwUvbHFiI+WyQXiEwyIrjUjQfbe93qJRDXxLwIT+/00zERYilzLfceOd/JBo5OxRHmQ/ht7CYwoNmfpuqwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783922717; c=relaxed/simple;
-	bh=flEC5Ib+ShYRRZAKyDmkHSQa6rdc8AN5rChY3nfWyBY=;
+	s=arc-20240116; t=1783930992; c=relaxed/simple;
+	bh=0ro1Q6uKoaV1AqgVKQo/JBWntyyV4TUCd8+LqPrfzwc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=arAkL5ttjusA7y3Ko2mpdG/JtQUZlMX1U8NcV/2lX5+J2IZFx2S5OWOyJn969MtW7Z31ItSKt8iZB6rfbRtKph7sATSa5swHXNqAX/w3H2zyUiHkDoFXx1FxLmXc5mFFQZS8BiV/rhJscCZ2xUJPTLJ1iWsKcrgnRrs4XTaVeMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=my62gzNZ; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D5F21F000E9;
-	Mon, 13 Jul 2026 06:05:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783922716;
-	bh=0VkWRSlZs2iDfuZBauVtbOAkMjb/rfAyvrzBNMOcoMo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=my62gzNZItqM2dGEJK+9NEYx9LldUyu5whiu6+IZ8o8sBjoNd59zt75vQ1Fh/5AEX
-	 yoqnkapsFPuRwGTDcQcxFS0O96ZOtVDf+KGidXtQQdpbuCoGu6kjFJNK/cNRj5xMVB
-	 VDjQShHGwq/2EqbuyAvootkL2l23Cg2r/dnOguGTMNJ5mbm4812OZzoPETznipqxDg
-	 xyRgrJsc2XfukjdXrlraxTGvOk9fEXWOru+oe4Ze6p+8RdX6VSCIzs42teMAVsP2OG
-	 Eas9apho5UGtDRTI3FyUOwnuctWopvS4EAS7i4WnPOo+2mbKp0nqhVGdVE380WEr6t
-	 uCXcswIbdR6mA==
-Message-ID: <20b639b7-ba2a-4c06-bfef-970ab2ad3f9b@kernel.org>
-Date: Mon, 13 Jul 2026 08:05:12 +0200
+	 In-Reply-To:Content-Type; b=Z5OSe/CiNxD/a8f43o1Ty2fLWs+SbhIUM/iR7ilysOVpQ4V0ghPaLyVuKOwXFubhyJ3k6VKKDK35dSv/8GdnCJH1EkKrgBGoWkMfL0NiQCCQAxg18IjfSnaInL/zkjhjykzJ0+pBEie+X3X5pVa89XGCrkeThtXIrF51Z727Efs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=GD3q8gD/; arc=none smtp.client-ip=212.227.15.19
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1783930983; x=1784535783; i=wahrenst@gmx.net;
+	bh=dEeMfNb7Cv9xmhJFzIpLa33FVfduvqtVRU1ZZEDXiaE=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=GD3q8gD/GQTDut6EXNx91CpBFEx2nuVQyDuYk/UzvWZEXcTZeLz3rg+kUGTvkOej
+	 sRMt20o6BIXmx0WB3X5QXk35ugOgAr6oWz0qhVI9MLNOpJy1jN1F9eGDf73vq0XQZ
+	 2LtUe3w0RbsixVUk1hu4uwXnr3cGlJQSQ/73nqX6p3FqsEOzPzGiuMfjSZv6wsCOg
+	 MkbF2Gf7k1bD3/i03ZFGwFADrfek/WCK+ZpeXir5dxftolzaQURNFLyLLRHVErZX1
+	 TgLaubc0UurdTuj/sBl78Q+ouGZDe2GOcj1K6jYzJGokzmTHVZ00hfneExfOHyZi5
+	 Y+MGovQ28A7Ec6/lKQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MacSe-1xL0rk3xJS-00o2DZ; Mon, 13
+ Jul 2026 10:23:03 +0200
+Message-ID: <cacecf1f-3074-4768-825b-bf143fd36ce2@gmx.net>
+Date: Mon, 13 Jul 2026 10:23:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -55,211 +61,222 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] leds: Texas Instruments LP5816 driver
-To: Alistair Bell <dev@alistairbell.org>, linux-leds@vger.kernel.org
-Cc: lee@kernel.org, pavel@kernel.org
-References: <20260712184318.78852-1-dev@alistairbell.org>
- <20260712184318.78852-2-dev@alistairbell.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH RFC 1/2] dt-bindings: leds-group-multicolor: Introduce
+ default-intensity
+To: Conor Dooley <conor@kernel.org>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Jean-Jacques Hiblot <jjhiblot@traphandler.com>, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, Jonas Rebmann <jre@pengutronix.de>
+References: <20260708224652.106632-1-wahrenst@gmx.net>
+ <20260708224652.106632-2-wahrenst@gmx.net>
+ <20260709-outsell-undamaged-6c8045d6115f@spud>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260712184318.78852-2-dev@alistairbell.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Stefan Wahren <wahrenst@gmx.net>
+Autocrypt: addr=wahrenst@gmx.net; keydata=
+ xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
+ IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
+ NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
+ JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
+ TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
+ f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
+ V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
+ aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
+In-Reply-To: <20260709-outsell-undamaged-6c8045d6115f@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:G8p4x0y6KRHcJ/DOBqhSoHCP9ZkodN5A2Ytcv7RBM/1P8Dd1V38
+ 84TNF4oH2UmvAZBlW2R+AsmXbK9CU6zh9H2gClt/Vgi7T1K94Xqsu8iO4+5S3+hAiM9eX7o
+ FVwcWBXeL/qTi5ABODlT3sevpsjc2dHw169kKLl1wqAoiYlRPeywU52X9Wh0wV9XNo4goLV
+ Iz77I0Ftl47EiLgKi2cmA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:ju/Sk2E5WKo=;xYLlzcn7AdcyHFHBcOH41yKNogo
+ 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
+ =
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[gmx.net,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmx.net:s=s31663417];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-9057-lists,linux-leds=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-9058-lists,linux-leds=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:conor@kernel.org,m:lee@kernel.org,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jjhiblot@traphandler.com,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:jre@pengutronix.de,m:krzk@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[wahrenst@gmx.net,linux-leds@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:dev@alistairbell.org,m:linux-leds@vger.kernel.org,m:lee@kernel.org,m:pavel@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[krzk@kernel.org,linux-leds@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[wahrenst@gmx.net,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmx.net:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TAGGED_RCPT(0.00)[linux-leds,dt];
+	FREEMAIL_FROM(0.00)[gmx.net];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-leds];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,siemens.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9A1DA7476CF
+X-Rspamd-Queue-Id: 82917748C67
 
-On 12/07/2026 20:43, Alistair Bell wrote:
-> Add support for Texas Instruments LP5816 4-channel I2C device,
-> the driver provides:
-> 
-> - Independent 4-channel control via the multicolor sysfs class
-> - Configurable fade effects, duration, fade profile and maximum
->   operating current via sysfs
-> 
-> Signed-off-by: Alistair Bell <dev@alistairbell.org>
-> ---
->  MAINTAINERS                |   8 +
->  drivers/leds/Kconfig       |  12 +
->  drivers/leds/Makefile      |   1 +
->  drivers/leds/leds-lp5816.c | 443 +++++++++++++++++++++++++++++++++++++
->  4 files changed, 464 insertions(+)
->  create mode 100644 drivers/leds/leds-lp5816.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f37a81950..b6a8c812a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -26761,6 +26761,14 @@ F:	drivers/leds/rgb/Makefile
->  F:	drivers/leds/rgb/leds-lp5812.c
->  F:	drivers/leds/rgb/leds-lp5812.h
->  
-> +TEXAS INSTRUMENTS' LP5816 RGBW LED DRIVER
-> +M:	Alistair Bell <dev@alistairbell.org>
-> +L:	linux-leds@vger.kernel.org
-> +S:	Maintained
-> +F:	drivers/leds/Kconfig
-> +F:	drivers/leds/Makefile
-> +F:	drivers/leds/leds-lp5816.c
-> +
->  TEXAS INSTRUMENTS' LB8864 LED BACKLIGHT DRIVER
->  M:	Alexander Sverdlin <alexander.sverdlin@siemens.com>
->  L:	linux-leds@vger.kernel.org
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index f4a0a3c8c..ce3776adf 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -541,6 +541,18 @@ config LEDS_LP8864
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called leds-lp8864.
->  
-> +config LEDS_LP5816
-> +    tristate "LED driver for LP5816 chip"
-> +    depends on I2C
-> +    depends on LEDS_CLASS && LEDS_CLASS_MULTICOLOR
-> +	select REGMAP_I2C
-> +    help
-> +      Say Y to enable support for the Texas Instruments LP5816
-> +      RGBW LED connected via I2C.
-> +
-> +      To compile this driver as a module, choose M here:
-> +      the module will be called lp5816.
+Hi all,
 
-Messed indentation. Please be sure you are sending consistent code, not
-something written completely different than the rest.
+Am 09.07.26 um 20:03 schrieb Conor Dooley:
+> On Thu, Jul 09, 2026 at 12:46:51AM +0200, Stefan Wahren wrote:
+>> Currently it's not possible to specify the initial color of a LED group
+>> during boot. So introduce a new property similar to default-brightness,
+>> which specifies the intensity of each LED in the group.
+>>
+>> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+>> ---
+>>   .../devicetree/bindings/leds/leds-group-multicolor.yaml    | 7 ++++++=
++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/leds/leds-group-multicol=
+or.yaml b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yam=
+l
+>> index 5c9cfa39396b..18b722b807ba 100644
+>> --- a/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+>> +++ b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+>> @@ -19,6 +19,12 @@ properties:
+>>  =20
+>>     leds: true
+>>  =20
+>> +  default-intensity:
+>> +    description:
+>> +      Intensity to be set for each individual LED. Used only during
+>> +      initialization. If the property is not set then max intensity is=
+ used.
+>> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> Hmm, there's already a property proposed and applied for this:
+> https://lore.kernel.org/linux-leds/20260605-multicolor-default-v2-1-ed07=
+271df6b0@pengutronix.de/
+sorry, I missed this. Thanks for pointing to this patch. In general i'm=20
+fine with this approach, but there is something which confuses me.
+Looking at the description, there is the statement: [default-intensity]=20
+"Defaults to 0".
+This seems to be correct for the Linux implementation of=20
+leds-pwm-multicolor, but is this really an expectation along all (multi=20
+color) LEDs (at least for Linux)?
 
-> +
->  config LEDS_CLEVO_MAIL
->  	tristate "Mail LED on Clevo notebook"
->  	depends on LEDS_CLASS && BROKEN
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index 7db376891..5ba7de099 100644
-> --- a/drivers/leds/Makefile
+E.g. leds-group-multicolor init the intensity with the maximum. So all=20
+users of leds-group-multicolor should specify default-intensity for each=
+=20
+sub LED to achieve a defined behavior without breaking existing behavior.
 
+Best regards
 
-...
+> It only supports a single value, I suspect you'll have to rework this so
+> as not to conflict with existing property?
+> leds-group-multicolour imports the common leds properties after all.
+> Probably the one in common.yaml needs to become an array?
+>
+>> +
+>>   required:
+>>     - leds
+>>  =20
+>> @@ -56,6 +62,7 @@ examples:
+>>           color =3D <LED_COLOR_ID_RGB>;
+>>           function =3D LED_FUNCTION_INDICATOR;
+>>           leds =3D <&led0>, <&led1>, <&led2>;
+>> +        default-intensity =3D <1 0 0>;
+>>       };
+>>  =20
+>>   ...
+>> --=20
+>> 2.43.0
+>>
 
-> +
-> +static ssize_t max_current_store(struct device *dev,
-> +				 struct device_attribute *attr,
-> +								const char *buf, size_t count)
-> +{
-> +	struct led_classdev *cdev;
-> +	struct lp5816 *chip;
-> +	int res, val;
-> +
-> +	cdev = dev_get_drvdata(dev);
-> +	chip = container_of(cdev, struct lp5816, mcdev.led_cdev);
-> +
-> +	res = kstrtoint(buf, 0, &val);
-> +	if (res < 0)
-> +		return res;
-> +	if (val < 0 || val > 1)
-> +		return -EINVAL;
-> +
-> +	res = lp5816_multi_lock_write(chip, (const struct reg_sequence[]) {
-> +		{ .reg = REG_DEV_CONFIG0, .def = val },
-> +		{ .reg = REG_UPDATE_CMD, .def = UPDATE_CMD } }, 2);
-> +	return (res < 0) ? res : count;
-> +}
-
-
-You cannot introduce own ABI duplicating existing sysfs interface.
-
-
-> +
-> +static int lp5816_probe(struct i2c_client *client)
-> +{
-> +	struct lp5816 *chip;
-> +	char *name;
-> +	int res;
-> +
-> +	chip = devm_kzalloc(&client->dev, sizeof(*chip), GFP_KERNEL);
-> +	if (!chip)
-> +		return dev_err_probe(&client->dev, -ENOMEM,
-> +			"failed to allocate lp5816 internal structure\n");
-
-Since when any driver has such error message?
-
-Please look at most recently addedd and reviewed drivers and learn from
-them how typical code looks like.
-
-
-Best regards,
-Krzysztof
 
