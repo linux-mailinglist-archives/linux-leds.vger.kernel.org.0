@@ -1,169 +1,192 @@
-Return-Path: <linux-leds+bounces-9055-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-9056-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id tbhACz0SVGq2hgMAu9opvQ
-	(envelope-from <linux-leds+bounces-9055-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 00:16:29 +0200
+	id y/ebKEh/VGqnmgMAu9opvQ
+	(envelope-from <linux-leds+bounces-9056-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 08:01:44 +0200
 X-Original-To: lists+linux-leds@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C457461F3
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 00:16:28 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 239ED74768D
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 08:01:44 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=baylibre.com header.s=google header.b=apefZ22M;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9055-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-9055-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="msSrchR/";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9056-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-9056-lists+linux-leds=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 2EDAB300147A
-	for <lists+linux-leds@lfdr.de>; Sun, 12 Jul 2026 22:16:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E77233022DCB
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 06:01:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BCFE2EA754;
-	Sun, 12 Jul 2026 22:16:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A4F32DCC05;
+	Mon, 13 Jul 2026 06:01:22 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA162417D9
-	for <linux-leds@vger.kernel.org>; Sun, 12 Jul 2026 22:16:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5631DED5B
+	for <linux-leds@vger.kernel.org>; Mon, 13 Jul 2026 06:01:20 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783894586; cv=none; b=YEmdk0vMYGMQI+szOcjK1TDDaKCeRuwRBnvGnRuRb2kbmK2S+Hu5SJc18TOpxMsZglsOhZUIamM3afOnSfRQOInDUlGX6Dak7nK1PqBgjNlh9Pm3xUjHK5aC4hnX/B2jcDcPy0tcslxA8SOrv29Q9blaZeR3ipTuQhdzHC9eeC4=
+	t=1783922482; cv=none; b=Xlp9Tw/HHPwZMuqibTJKA+pCnHzr/APj0rl60iTG1B6ARJSoT9HoCAaeOoIYu7/5QmH3DSxq44llMVBP/BsEsr4Rmp5w1/7/OaS2Wze31R1p5QIf0olHtS8jnGxQhcQz5PGLZ6ws7KmA9LvZXYs74U1nn6vE6lC0NW6LmreFVTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783894586; c=relaxed/simple;
-	bh=xjQhMzCbcE/Hi6RQV0p4Aml/qju1nJoCTa+HYVyF/Bk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J7gNRSeVolx+/heCx887Y9vEJ/xUOvAAo3SoS75PfT7UcS8LTQ9Chfj/v1zaSUogQoMiAHkGdQSpM3DHtcmf6s/pZDhnV3D6xOJRHkNZQv41METKrs6zfHAiAhbgPd5BGk2A7N817ZGHp8r5NGNV4YTw1FfMHtYs+LU7OktyU0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=apefZ22M; arc=none smtp.client-ip=209.85.128.43
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493e8d4f4dcso19557255e9.0
-        for <linux-leds@vger.kernel.org>; Sun, 12 Jul 2026 15:16:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783894582; x=1784499382; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xjQhMzCbcE/Hi6RQV0p4Aml/qju1nJoCTa+HYVyF/Bk=;
-        b=apefZ22MS7GluiXu8FQPfGaRqdF7VKwM/FLj6OZktW6Kp9NlR8PoeOO5viZr/FzJ61
-         fny/kWnVJ8FGSEsaUbziP4A4ZdYlv1DL2v5+PaWGnIVQoPTDgtmgXOJcnCdEYu+rbQCC
-         5rYskuxg+TgorQbwbjRW2DDBAjscafwceUxcZAPNZVijGwkGAO7b60+/TVssZQvDlQy2
-         g5NATtEfcPk+STIg6Wpo1ZxIB6C3K6QNyjSyWgaZ3kxQQG0pn2CCeUsQ4KwZXVV1FRUD
-         yvgFxyQrv4044cx5OKkZRobN04ZCflLdCIks+k4pbp7754nXJVnl3olaWjou4RJMoZZd
-         dR7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783894582; x=1784499382;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xjQhMzCbcE/Hi6RQV0p4Aml/qju1nJoCTa+HYVyF/Bk=;
-        b=ln1oO61Cvfi5xaiRaBmDq76xQfIMg4uDVoAZHsknZQqwif/82OAAAJmICMLdRjIlna
-         1X34cYqdw7ATiIuwSnEUGgDcIGxKFjJipSql6cWmE2q2P/40sZWrjIFeATu/3EH6T/6Z
-         s5XISvlWJc57lh/Mqr+jfqfn6v5XgZehZzdinfva4i0Y5djPIG/ipmw2OKnNqumHyI9d
-         rq0tYp8F1wpfbb7jD/0r/p4ATkzF6Boqc5rFHMBqS8GyzExlL4D8tcuDMAAAjylONgwL
-         7Q6amY+kMo40HOBbKu3iVy9hnwZJbGZtkORroP5vvO8HzUfVFjyF0UylK8A0yB8Foym6
-         N3Rw==
-X-Gm-Message-State: AOJu0YyUCn8H+yiFVXmXyKYIUEaLdEzlsStP/IrV/ZMvnXu5eobub0FF
-	n2PMT93LlDddMLpVGDM6dbZVg8RJ689zkSSzNZysQ8T8cH4kadfHY13f2qIWh3ht00MtBzu+6jU
-	TlECe
-X-Gm-Gg: AfdE7ckGHrMvLixPfnaXMvQ2BWzg+IgWFriWl5dLWDYAAUfE4nkPTKjK9iM/zo79bFH
-	z9R3a6RLKcoQrP19Vt+s4XTud6FWsMkH+JIii24bQgMdHlH4gC9t16UaLiu258O3hi53+dBrEk5
-	trRyCnFIPnU9Of2aXmhOxsp5IysJlw8bmk2/z510JLHrdDD0Wt8/uIVjbbn8vD679s+1R2jV+PT
-	3yv08LApx+iTyQDDpvMH1XjyLn29E5Yu814cFrPLGzfF9YxWHwxgKwvYt/YguEP4dU6C/hRB5Jk
-	sk5cVOIhUPAZ2AfukwTRR6VDZTY9K1AjlGDdu8ml9/uck+D2iYREpxDdSt+8cfo44+YSsvjz+ZM
-	WZPfhlgQhWyjuG5cKDlu/P9S7OpU91Nl2zIKnkRx1JR+WjQTsGKn4lzHK0LT4vElv9mLjXwd3pf
-	WxkCfmcXv8olj2s416eQ==
-X-Received: by 2002:a05:600c:1394:b0:493:bb45:d54d with SMTP id 5b1f17b1804b1-493f883c8f2mr62174225e9.37.1783894582332;
-        Sun, 12 Jul 2026 15:16:22 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493eb6ea082sm340884155e9.11.2026.07.12.15.16.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 15:16:21 -0700 (PDT)
-Date: Mon, 13 Jul 2026 00:16:20 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Alistair Bell <dev@alistairbell.org>
-Cc: linux-leds@vger.kernel.org, lee@kernel.org, pavel@kernel.org
-Subject: Re: [PATCH 1/2] leds: Texas Instruments LP5816 driver
-Message-ID: <alQSAYiSGnis0Wl6@monoceros>
-References: <20260712184318.78852-1-dev@alistairbell.org>
- <20260712184318.78852-2-dev@alistairbell.org>
+	s=arc-20240116; t=1783922482; c=relaxed/simple;
+	bh=KkDFrYNhL3YZo+xxJteMcEK+E1etznY2wgwBtnuyXLM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AFOF7eCGHl3FtG/H7jEw0IVI5Kao4VvPql5Yw0x5vZw0uRPUp0SasBXPuOm9AjbiKGTjcbMJpe2UJFswUu+Of5cwK17WtSCfX/cPudB29JWJBRVKlLd68l5jOXEME6o7tOuoMvDn9yJKdtiR+/HaZE1rhxvN7yvUxeFNO+TWjb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=msSrchR/; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E7091F00A3A;
+	Mon, 13 Jul 2026 06:01:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783922480;
+	bh=/X7JnAmrYNPwVNy3a6USOYj+PfIzWAR5OArjguJ6yps=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=msSrchR/6+6G++89VG0Nxq1Eq+JNvcKkak0VHT/MLeSqfElsu0Io46bfmxvmuhzF1
+	 eminB71ea1kPV9AiNhZBviI3JQYP/YsHRAcn5aUezLD8w0D2ujx1p3neuZBmAQzmfx
+	 B6V8PogsdJ+TigitxU/OC8JnyuDmjXT1r8FBr9dDpUfyaP6JJoxPe1BzDfBJWL0jgY
+	 egFDmi+CVLVe72MZmCkBrre/YWOIdHjqtwn7+wDOczBBXhvrzFve1+PeivsX2rJWkc
+	 czMYxB/la/v80J9yhkFNNrvKH+z3MEoQwuVL56pS1IK3ZmeMgAJQo3YdDrqBJVIKa+
+	 M4pjczBViaywQ==
+Message-ID: <3d2d8a18-e291-4c6d-96ba-b635a4106d59@kernel.org>
+Date: Mon, 13 Jul 2026 08:01:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fbneh3rmvwaynszu"
-Content-Disposition: inline
-In-Reply-To: <20260712184318.78852-2-dev@alistairbell.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] dt-bindings: leds: Add binding for ti,lp5816
+To: Alistair Bell <dev@alistairbell.org>, linux-leds@vger.kernel.org
+Cc: lee@kernel.org, pavel@kernel.org
+References: <20260712184318.78852-1-dev@alistairbell.org>
+ <20260712184318.78852-3-dev@alistairbell.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260712184318.78852-3-dev@alistairbell.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[baylibre.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-9056-lists,linux-leds=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:dev@alistairbell.org,m:linux-leds@vger.kernel.org,m:lee@kernel.org,m:pavel@kernel.org,s:lists@lfdr.de];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[baylibre.com];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	TAGGED_FROM(0.00)[bounces-9055-lists,linux-leds=lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,linux-leds@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dev@alistairbell.org,m:linux-leds@vger.kernel.org,m:lee@kernel.org,m:pavel@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[krzk@kernel.org,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,linux-leds@vger.kernel.org];
-	DKIM_TRACE(0.00)[baylibre.com:+];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-leds@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-leds];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp,baylibre.com:from_mime,baylibre.com:dkim,monoceros:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,bootlin.com:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B4C457461F3
+X-Rspamd-Queue-Id: 239ED74768D
+
+On 12/07/2026 20:43, Alistair Bell wrote:
+> Add devicetree binding for Texas Instruments LP5816
+> 4-channel I2C LED device.
+> 
+> Signed-off-by: Alistair Bell <dev@alistairbell.org>
+
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC. It might happen, that command when run on an older
+kernel, gives you outdated entries. Therefore please be sure you base
+your patches on recent Linux kernel.
+
+Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+people, so fix your workflow. Tools might also fail if you work on some
+ancient tree (don't, instead use mainline) or work on fork of kernel
+(don't, instead use mainline). Just use b4 and everything should be
+fine, although remember about `b4 prep --auto-to-cc` if you added new
+patches to the patchset.
+
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time.
+
+Please kindly resend and include all necessary To/Cc entries.
 
 
---fbneh3rmvwaynszu
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH 1/2] leds: Texas Instruments LP5816 driver
-MIME-Version: 1.0
+Please run scripts/checkpatch.pl on the patches and fix reported
+warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
+patches and (probably) fix more warnings. Some warnings can be ignored,
+especially from --strict run, but the code here looks like it needs a
+fix. Feel free to get in touch if the warning is not clear.
 
-Hello Alistair,
 
-On Sun, Jul 12, 2026 at 07:43:17PM +0100, Alistair Bell wrote:
-> +#include <linux/mod_devicetable.h>
+A nit, subject: drop second/last, redundant "bindings for". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v7.1-rc7/source/Documentation/devicetree/bindings/submitting-patches.rst#L23
 
-Please don't add new users for this header file. Only use those
-<linux/device-id/*.h> that you actually need (if any).
+Please organize the patch documenting the compatible (DT bindings)
+before the patch using that compatible.
+See also:
+https://elixir.bootlin.com/linux/v6.14-rc6/source/Documentation/devicetree/bindings/submitting-patches.rst#L46
 
-Thanks
-Uwe
 
---fbneh3rmvwaynszu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpUEjEACgkQj4D7WH0S
-/k4p9QgAghowlnq1fs/cvRNnQBPuIPYyLqCatQ9uOOZRcm14MNWc7uf5nB76Phqj
-cWhdr7OrD708pZ7CorDyWmigKOmIAJ533IMT0cmKpfQTwTZQWxfAJNioOGIijCVt
-+ba0YVFkaQ1lYhJY8JeAhkCP/nMAqxc5/c+KZ+oDtBzg3h6tTAGGYGqlhymqidvb
-s4OSc/Rj19OrYq1qzYhjLFb24kMyRnhK/PfWoZHatQczdghFrQteodnamvpAnX3K
-1jDkHl7P/idn/sIZ/C1GfnrouYC7Hb8t66YGHmqdoE8OCEBs9eosmTc+74ZdaULk
-5DATAAgXdjbDH2OBtVBUSkc9NTC57Q==
-=EGfB
------END PGP SIGNATURE-----
-
---fbneh3rmvwaynszu--
+Best regards,
+Krzysztof
 
