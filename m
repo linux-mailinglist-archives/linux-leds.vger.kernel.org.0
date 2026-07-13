@@ -1,53 +1,53 @@
-Return-Path: <linux-leds+bounces-9056-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-9057-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id y/ebKEh/VGqnmgMAu9opvQ
-	(envelope-from <linux-leds+bounces-9056-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 08:01:44 +0200
+	id KNYmCyCAVGrCmgMAu9opvQ
+	(envelope-from <linux-leds+bounces-9057-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 08:05:20 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239ED74768D
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 08:01:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1DA7476CF
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 08:05:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="msSrchR/";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=my62gzNZ;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9056-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-9056-lists+linux-leds=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9057-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-9057-lists+linux-leds=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E77233022DCB
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 06:01:22 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7E8123014C6A
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2026 06:05:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A4F32DCC05;
-	Mon, 13 Jul 2026 06:01:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE48C2D9ECD;
+	Mon, 13 Jul 2026 06:05:17 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5631DED5B
-	for <linux-leds@vger.kernel.org>; Mon, 13 Jul 2026 06:01:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A481719C54E
+	for <linux-leds@vger.kernel.org>; Mon, 13 Jul 2026 06:05:16 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783922482; cv=none; b=Xlp9Tw/HHPwZMuqibTJKA+pCnHzr/APj0rl60iTG1B6ARJSoT9HoCAaeOoIYu7/5QmH3DSxq44llMVBP/BsEsr4Rmp5w1/7/OaS2Wze31R1p5QIf0olHtS8jnGxQhcQz5PGLZ6ws7KmA9LvZXYs74U1nn6vE6lC0NW6LmreFVTY=
+	t=1783922717; cv=none; b=kSmeug/gZswpC69meCfS8TH2A6G6bFeYyy/rdG3JT7W4k7M6M73sJonZ+dWzuWBzxxUcNQ3SJjWWLR0xJ6Y7MThgjriGKoggjf890faQuZro6xIkPsMPvJjIYlSuvlfWoP/0leCtc69XaESkEHosh7Kar3IgJG46zxqkroPgUCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783922482; c=relaxed/simple;
-	bh=KkDFrYNhL3YZo+xxJteMcEK+E1etznY2wgwBtnuyXLM=;
+	s=arc-20240116; t=1783922717; c=relaxed/simple;
+	bh=flEC5Ib+ShYRRZAKyDmkHSQa6rdc8AN5rChY3nfWyBY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AFOF7eCGHl3FtG/H7jEw0IVI5Kao4VvPql5Yw0x5vZw0uRPUp0SasBXPuOm9AjbiKGTjcbMJpe2UJFswUu+Of5cwK17WtSCfX/cPudB29JWJBRVKlLd68l5jOXEME6o7tOuoMvDn9yJKdtiR+/HaZE1rhxvN7yvUxeFNO+TWjb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=msSrchR/; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E7091F00A3A;
-	Mon, 13 Jul 2026 06:01:18 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=arAkL5ttjusA7y3Ko2mpdG/JtQUZlMX1U8NcV/2lX5+J2IZFx2S5OWOyJn969MtW7Z31ItSKt8iZB6rfbRtKph7sATSa5swHXNqAX/w3H2zyUiHkDoFXx1FxLmXc5mFFQZS8BiV/rhJscCZ2xUJPTLJ1iWsKcrgnRrs4XTaVeMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=my62gzNZ; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D5F21F000E9;
+	Mon, 13 Jul 2026 06:05:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783922480;
-	bh=/X7JnAmrYNPwVNy3a6USOYj+PfIzWAR5OArjguJ6yps=;
+	s=k20260515; t=1783922716;
+	bh=0VkWRSlZs2iDfuZBauVtbOAkMjb/rfAyvrzBNMOcoMo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=msSrchR/6+6G++89VG0Nxq1Eq+JNvcKkak0VHT/MLeSqfElsu0Io46bfmxvmuhzF1
-	 eminB71ea1kPV9AiNhZBviI3JQYP/YsHRAcn5aUezLD8w0D2ujx1p3neuZBmAQzmfx
-	 B6V8PogsdJ+TigitxU/OC8JnyuDmjXT1r8FBr9dDpUfyaP6JJoxPe1BzDfBJWL0jgY
-	 egFDmi+CVLVe72MZmCkBrre/YWOIdHjqtwn7+wDOczBBXhvrzFve1+PeivsX2rJWkc
-	 czMYxB/la/v80J9yhkFNNrvKH+z3MEoQwuVL56pS1IK3ZmeMgAJQo3YdDrqBJVIKa+
-	 M4pjczBViaywQ==
-Message-ID: <3d2d8a18-e291-4c6d-96ba-b635a4106d59@kernel.org>
-Date: Mon, 13 Jul 2026 08:01:16 +0200
+	b=my62gzNZItqM2dGEJK+9NEYx9LldUyu5whiu6+IZ8o8sBjoNd59zt75vQ1Fh/5AEX
+	 yoqnkapsFPuRwGTDcQcxFS0O96ZOtVDf+KGidXtQQdpbuCoGu6kjFJNK/cNRj5xMVB
+	 VDjQShHGwq/2EqbuyAvootkL2l23Cg2r/dnOguGTMNJ5mbm4812OZzoPETznipqxDg
+	 xyRgrJsc2XfukjdXrlraxTGvOk9fEXWOru+oe4Ze6p+8RdX6VSCIzs42teMAVsP2OG
+	 Eas9apho5UGtDRTI3FyUOwnuctWopvS4EAS7i4WnPOo+2mbKp0nqhVGdVE380WEr6t
+	 uCXcswIbdR6mA==
+Message-ID: <20b639b7-ba2a-4c06-bfef-970ab2ad3f9b@kernel.org>
+Date: Mon, 13 Jul 2026 08:05:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -55,11 +55,11 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dt-bindings: leds: Add binding for ti,lp5816
+Subject: Re: [PATCH 1/2] leds: Texas Instruments LP5816 driver
 To: Alistair Bell <dev@alistairbell.org>, linux-leds@vger.kernel.org
 Cc: lee@kernel.org, pavel@kernel.org
 References: <20260712184318.78852-1-dev@alistairbell.org>
- <20260712184318.78852-3-dev@alistairbell.org>
+ <20260712184318.78852-2-dev@alistairbell.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -105,7 +105,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260712184318.78852-3-dev@alistairbell.org>
+In-Reply-To: <20260712184318.78852-2-dev@alistairbell.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
@@ -118,12 +118,12 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-9056-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-9057-lists,linux-leds=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:dev@alistairbell.org,m:linux-leds@vger.kernel.org,m:lee@kernel.org,m:pavel@kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:dev@alistairbell.org,m:linux-leds@vger.kernel.org,m:lee@kernel.org,m:pavel@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER(0.00)[krzk@kernel.org,linux-leds@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -140,51 +140,124 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,bootlin.com:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,siemens.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 239ED74768D
+X-Rspamd-Queue-Id: 9A1DA7476CF
 
 On 12/07/2026 20:43, Alistair Bell wrote:
-> Add devicetree binding for Texas Instruments LP5816
-> 4-channel I2C LED device.
+> Add support for Texas Instruments LP5816 4-channel I2C device,
+> the driver provides:
+> 
+> - Independent 4-channel control via the multicolor sysfs class
+> - Configurable fade effects, duration, fade profile and maximum
+>   operating current via sysfs
 > 
 > Signed-off-by: Alistair Bell <dev@alistairbell.org>
+> ---
+>  MAINTAINERS                |   8 +
+>  drivers/leds/Kconfig       |  12 +
+>  drivers/leds/Makefile      |   1 +
+>  drivers/leds/leds-lp5816.c | 443 +++++++++++++++++++++++++++++++++++++
+>  4 files changed, 464 insertions(+)
+>  create mode 100644 drivers/leds/leds-lp5816.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f37a81950..b6a8c812a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -26761,6 +26761,14 @@ F:	drivers/leds/rgb/Makefile
+>  F:	drivers/leds/rgb/leds-lp5812.c
+>  F:	drivers/leds/rgb/leds-lp5812.h
+>  
+> +TEXAS INSTRUMENTS' LP5816 RGBW LED DRIVER
+> +M:	Alistair Bell <dev@alistairbell.org>
+> +L:	linux-leds@vger.kernel.org
+> +S:	Maintained
+> +F:	drivers/leds/Kconfig
+> +F:	drivers/leds/Makefile
+> +F:	drivers/leds/leds-lp5816.c
+> +
+>  TEXAS INSTRUMENTS' LB8864 LED BACKLIGHT DRIVER
+>  M:	Alexander Sverdlin <alexander.sverdlin@siemens.com>
+>  L:	linux-leds@vger.kernel.org
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index f4a0a3c8c..ce3776adf 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -541,6 +541,18 @@ config LEDS_LP8864
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called leds-lp8864.
+>  
+> +config LEDS_LP5816
+> +    tristate "LED driver for LP5816 chip"
+> +    depends on I2C
+> +    depends on LEDS_CLASS && LEDS_CLASS_MULTICOLOR
+> +	select REGMAP_I2C
+> +    help
+> +      Say Y to enable support for the Texas Instruments LP5816
+> +      RGBW LED connected via I2C.
+> +
+> +      To compile this driver as a module, choose M here:
+> +      the module will be called lp5816.
 
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
+Messed indentation. Please be sure you are sending consistent code, not
+something written completely different than the rest.
 
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline) or work on fork of kernel
-(don't, instead use mainline). Just use b4 and everything should be
-fine, although remember about `b4 prep --auto-to-cc` if you added new
-patches to the patchset.
-
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time.
-
-Please kindly resend and include all necessary To/Cc entries.
+> +
+>  config LEDS_CLEVO_MAIL
+>  	tristate "Mail LED on Clevo notebook"
+>  	depends on LEDS_CLASS && BROKEN
+> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+> index 7db376891..5ba7de099 100644
+> --- a/drivers/leds/Makefile
 
 
-Please run scripts/checkpatch.pl on the patches and fix reported
-warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
-patches and (probably) fix more warnings. Some warnings can be ignored,
-especially from --strict run, but the code here looks like it needs a
-fix. Feel free to get in touch if the warning is not clear.
+...
+
+> +
+> +static ssize_t max_current_store(struct device *dev,
+> +				 struct device_attribute *attr,
+> +								const char *buf, size_t count)
+> +{
+> +	struct led_classdev *cdev;
+> +	struct lp5816 *chip;
+> +	int res, val;
+> +
+> +	cdev = dev_get_drvdata(dev);
+> +	chip = container_of(cdev, struct lp5816, mcdev.led_cdev);
+> +
+> +	res = kstrtoint(buf, 0, &val);
+> +	if (res < 0)
+> +		return res;
+> +	if (val < 0 || val > 1)
+> +		return -EINVAL;
+> +
+> +	res = lp5816_multi_lock_write(chip, (const struct reg_sequence[]) {
+> +		{ .reg = REG_DEV_CONFIG0, .def = val },
+> +		{ .reg = REG_UPDATE_CMD, .def = UPDATE_CMD } }, 2);
+> +	return (res < 0) ? res : count;
+> +}
 
 
-A nit, subject: drop second/last, redundant "bindings for". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v7.1-rc7/source/Documentation/devicetree/bindings/submitting-patches.rst#L23
+You cannot introduce own ABI duplicating existing sysfs interface.
 
-Please organize the patch documenting the compatible (DT bindings)
-before the patch using that compatible.
-See also:
-https://elixir.bootlin.com/linux/v6.14-rc6/source/Documentation/devicetree/bindings/submitting-patches.rst#L46
+
+> +
+> +static int lp5816_probe(struct i2c_client *client)
+> +{
+> +	struct lp5816 *chip;
+> +	char *name;
+> +	int res;
+> +
+> +	chip = devm_kzalloc(&client->dev, sizeof(*chip), GFP_KERNEL);
+> +	if (!chip)
+> +		return dev_err_probe(&client->dev, -ENOMEM,
+> +			"failed to allocate lp5816 internal structure\n");
+
+Since when any driver has such error message?
+
+Please look at most recently addedd and reviewed drivers and learn from
+them how typical code looks like.
 
 
 Best regards,
