@@ -1,64 +1,63 @@
-Return-Path: <linux-leds+bounces-9099-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-9100-lists+linux-leds=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ed0OLCyWV2oTXgAAu9opvQ
-	(envelope-from <linux-leds+bounces-9099-lists+linux-leds=lfdr.de@vger.kernel.org>)
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Jul 2026 16:16:12 +0200
+	id mlBGMrWVV2r0XQAAu9opvQ
+	(envelope-from <linux-leds+bounces-9100-lists+linux-leds=lfdr.de@vger.kernel.org>)
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Jul 2026 16:14:13 +0200
 X-Original-To: lists+linux-leds@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC35A75F3FC
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Jul 2026 16:16:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A4175F39A
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Jul 2026 16:14:12 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=YGArcA0K;
-	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9099-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-9099-lists+linux-leds=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=gwhlxTvM;
+	spf=pass (mail.lfdr.de: domain of "linux-leds+bounces-9100-lists+linux-leds=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-leds+bounces-9100-lists+linux-leds=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 39013311ACB4
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Jul 2026 13:55:41 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 5F7F83093777
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Jul 2026 13:59:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0AC42FF657;
-	Wed, 15 Jul 2026 13:55:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6822937C913;
+	Wed, 15 Jul 2026 13:57:27 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D25D2F619D;
-	Wed, 15 Jul 2026 13:55:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1792BEC5F;
+	Wed, 15 Jul 2026 13:57:25 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784123701; cv=none; b=F00LKVaaCrvA4UNHvnIXqlBV1e3jRgoUp4KDw1X9N81fwfLbwyoBw/iuJqppJFkFZCMj0XcGNHtTfJsms44KJcgZb8lfzz2f5VHhAFLtQ2uWpjCNkrWX1iLIR+8ZtsZBK8s4KmtrndDN+Qz//kah4r+GKxXIFCST1P/6lCohAms=
+	t=1784123847; cv=none; b=BCkacedNCGGtPa/NN+1yC23OTOnH4bvZ7Mss7VwEtgHuYAaRn+xH/1Socc6YnjDM+6bmCRd2bK51RqPTumoNAyoElVNNy0ZzhLeJ2Y3kCeO5EZJskcwd6FlON6TbkhETR2FfeWWic30tcly53LNdOvnC7D1luPUZU6CF6SeyZIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784123701; c=relaxed/simple;
-	bh=aanqpJ/US5gd7xyYkyNNDmy19JA5TJJl/yLFQjbdT70=;
+	s=arc-20240116; t=1784123847; c=relaxed/simple;
+	bh=NO6jAPgSPzytuPFQfw/23MBWm+u5gYaS/UaApL6Kyzo=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=d4Tw3s9KPU5MGsdUfjMAavLWwiWvibO4lOoJId2G+yRA2UX0NVXE4h/OJseKiPjRSiAuRl/8/E6rqd28HtTs1cYv2c3lIepLQRoTF7p0G6WTvZDAQWV+HFtT+PhbXn9Sl46QMhYKg/BArWPRPBBsyI4I1DDbr19VXK4s3Ry/x0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YGArcA0K; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F19A41F00A3A;
-	Wed, 15 Jul 2026 13:54:59 +0000 (UTC)
+	 Message-Id; b=Mf5wzs3efnWm7Xl5GgV+3tvkiAbaHTStAN8gNx9tNBH+j4kbownkjwaJJbGxgGtpIM8jpGT3Bx9+aKXDE/UEqwBSbD7yuNlFlBkdqATGfkb35sPWnjsUEoglQMrUrRhoKitTRDybX7eimSxeb6iTlWgHobHDfsHHHDCMuL5V2ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gwhlxTvM; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A4A91F01560;
+	Wed, 15 Jul 2026 13:57:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784123700;
-	bh=aanqpJ/US5gd7xyYkyNNDmy19JA5TJJl/yLFQjbdT70=;
+	s=k20260515; t=1784123845;
+	bh=jYhzCVwkxqSGQogNfEYnNikHr+RklnA3l0xAFUg8sKQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=YGArcA0KzV+LmAzIFMD/tyb4PdEi9DN3xSqSWnV4XQynuyzadVJevCh75OhCgtllx
-	 1ekHwz3F5LTUX8nadL/7Z1df8aeN9pwKB270wDUbM5e+y/jy/WcWPyC/sUS+RumQDn
-	 zIF76FRxP9X0cBh43+ttIckEffEwLoFkFT+0TNwJbSwxOshduIowSuG23Xrfc7cvtF
-	 yw9DTD3DowT/Mhq9Op531jspHrBUiMsdBV24e71sxzNmRXN0sS5AcqExw+n41GwkNy
-	 +c8sMBGIyeAqLQy5vjE6nLfVks/SBA1bAIMHXn8YL4LNTh6bIgiBDXOAZogF+T3V/i
-	 uC//zukswWRdw==
+	b=gwhlxTvMxgjNLWV1s18zNjItdCL6eTNAB9Jgi5ftrjXV3+gmxC3wl83HJuZ5/EKoC
+	 q/f4FCAvB0lXyQ/+C+JVWXQScDaGbPuswySkr6RzN5ePDI92dG86P9VXYeJ1TpIOAI
+	 91RckZrxb5gxKAWTmwsjbRNaVqLbrAe6dV+NXbt9ybBvwg/3gO/VoOe502EahJyukH
+	 xmkdKvrBCVgKosiMNtIn9L3ipuQokPDwOzUgK2YNQm6OnvB/XjwXynxoyc5E3uq0Tk
+	 czVV5YwseV4ALUWAYAmVJ+zOypdpcJ5R8PB5szdkz5iNWeL+gaw4WZQ+atwEgJWqqe
+	 IJcENzHj6L1qg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 4/4] arm64: dts: monaco-arduino-monza:
- microcontroller LEDs
+Subject: Re: [PATCH v6 3/4] leds: pca963x: add multicolor LED class support
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Loic Poulain" <loic.poulain@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, lee@kernel.org, robh@kernel.org, conor+dt@kernel.org, linux-leds@vger.kernel.org
-In-Reply-To: <20260715-monza-leds-v6-4-d1724bb7fe3d@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-leds@vger.kernel.org, lee@kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20260715-monza-leds-v6-3-d1724bb7fe3d@oss.qualcomm.com>
 References: <20260715-monza-leds-v6-0-d1724bb7fe3d@oss.qualcomm.com>
- <20260715-monza-leds-v6-4-d1724bb7fe3d@oss.qualcomm.com>
+ <20260715-monza-leds-v6-3-d1724bb7fe3d@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 15 Jul 2026 13:54:59 +0000
-Message-Id: <20260715135459.F19A41F00A3A@smtp.kernel.org>
+Date: Wed, 15 Jul 2026 13:57:25 +0000
+Message-Id: <20260715135725.8A4A91F01560@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -74,14 +73,14 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-9099-lists,linux-leds=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-9100-lists,linux-leds=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,lists.linux.dev:replyto,sashiko.dev:url];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,lists.linux.dev:replyto,vger.kernel.org:from_smtp,qualcomm.com:email,sashiko.dev:url,smtp.kernel.org:mid];
 	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-leds@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:loic.poulain@oss.qualcomm.com,m:devicetree@vger.kernel.org,m:lee@kernel.org,m:robh@kernel.org,m:conor+dt@kernel.org,m:linux-leds@vger.kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:loic.poulain@oss.qualcomm.com,m:devicetree@vger.kernel.org,m:linux-leds@vger.kernel.org,m:lee@kernel.org,m:robh@kernel.org,m:conor+dt@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -103,20 +102,110 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: BC35A75F3FC
+X-Rspamd-Queue-Id: 96A4175F39A
 X-Rspamd-Action: no action
 
-> Onboard MCU/STM32 implements a led controller compatible with PCA9635.
-> There are four RGB LEDs controlled via channels 0-2, 3-5, 6-8 and 9-11.
->=20
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+New issues:
+- [Low] Commit Message Capitalization Violation
+
+Pre-existing issues:
+- [High] Silent truncation of negative error codes from I2C reads leads to =
+hardware register corruption.
+- [High] Unprotected I2C writes to shared global hardware blinking register=
+s.
+--
+
+--- Patch [3]: [PATCH v6 3/4] leds: pca963x: add multicolor LED class suppo=
+rt ---
+commit 9035bb6a1e69dbc8b0e467061aaa0b06a70a0f89
+Author: Loic Poulain <loic.poulain@oss.qualcomm.com>
+
+leds: pca963x: add multicolor LED class support
+
+Allow grouping of individual PCA963x PWM channels into a single
+multicolor LED device by adding support for the LED multicolor class.
+A child node with sub-children is treated as a multicolor group,
+others are treated as single leds, keeping full backwards compatibility.
+
+> leds: pca963x: add multicolor LED class support
+
+[Severity: Low]
+This isn't a bug, but the subsystem prefix description should be capitalize=
+d.
+Should it be "leds: pca963x: Add multicolor LED class support"?
+
+> diff --git a/drivers/leds/leds-pca963x.c b/drivers/leds/leds-pca963x.c
+> index e3a81c60ee27c..f3e4d65e48b4c 100644
+> --- a/drivers/leds/leds-pca963x.c
+> +++ b/drivers/leds/leds-pca963x.c
+> @@ -199,20 +203,24 @@ static void pca963x_blink(struct pca963x_led *led)
+>  	led->blinking =3D true;
+>  }
+
+[Severity: High]
+This is a pre-existing issue, but are global chip registers modified without
+acquiring the chip mutex here?
+
+drivers/leds/leds-pca963x.c:pca963x_blink() {
+        ...
+        i2c_smbus_write_byte_data(client, chipdef->grppwm, led->gdc);
+        i2c_smbus_write_byte_data(client, chipdef->grpfreq, led->gfrq);
+       =20
+        if (!(mode2 & PCA963X_MODE2_DMBLNK))
+                i2c_smbus_write_byte_data(client, PCA963X_MODE2,
+                                          mode2 | PCA963X_MODE2_DMBLNK);
+       =20
+        mutex_lock(&led->chip->mutex);
+        ...
+}
+
+If user-space initiates hardware blinking for two different LEDs concurrent=
+ly,
+could their writes to these global frequency and duty cycle registers
+interleave and corrupt the hardware blink state for the entire chip?
+
+[ ... ]
+
+> @@ -221,22 +229,54 @@ static int pca963x_led_set(struct led_classdev *led=
+_cdev,
+>  			   enum led_brightness value)
+>  {
+>  	struct pca963x_led *led;
+> +	unsigned long cached_leds;
+>  	int ret;
+> =20
+>  	led =3D container_of(led_cdev, struct pca963x_led, led_cdev);
+> =20
+>  	mutex_lock(&led->chip->mutex);
+> =20
+> +	cached_leds =3D led->chip->leds_on;
+>  	ret =3D pca963x_brightness(led, value);
+
+[Severity: High]
+This is a pre-existing issue, but does assigning the result of
+i2c_smbus_read_byte_data() directly to a u8 silently truncate negative error
+codes?
+
+If the read fails and returns -EIO, this would truncate the negative error
+code into a garbage unsigned 8-bit integer, and we then write it back to the
+chip in pca963x_brightness():
+
+drivers/leds/leds-pca963x.c:pca963x_brightness() {
+        ...
+        ledout =3D i2c_smbus_read_byte_data(client, ledout_addr);
+        ...
+        val =3D (ledout & ~mask) | (PCA963X_LED_ON << shift);
+        ret =3D i2c_smbus_write_byte_data(client, ledout_addr, val);
+        ...
+}
+
+The same pattern appears in pca963x_blink() with the mode2 variable. Could
+this cause hardware register corruption during a transient I2C failure?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260715-monza-leds=
--v6-0-d1724bb7fe3d@oss.qualcomm.com?part=3D4
-
+-v6-0-d1724bb7fe3d@oss.qualcomm.com?part=3D3
 
